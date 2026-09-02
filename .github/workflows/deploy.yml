@@ -1,0 +1,38 @@
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Fetch the exact source revision that triggered this teaching workflow.
+      - uses: actions/checkout@v4
+
+      # Build a deployable archive containing the application source.
+      - name: Package application
+        shell: bash
+        run: cd src && zip -r ../app.zip .
+
+      # Exchange GitHub's short-lived OIDC token for Azure access; no stored credential is used.
+      - name: Sign in to Azure with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Publish the source archive to the pre-provisioned team App Service.
+      - name: Deploy application
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_APP_SERVICE_NAME }}
+          package: app.zip
