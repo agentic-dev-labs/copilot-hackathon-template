@@ -8,7 +8,7 @@
 
 ## Steps
 
-1. Run the vendor analyst against the synthetic report and save its structured JSON.
+1. Run the vendor analyst against `src/vendor_assurance/samples/synthetic_soc2_meridian_outreach.md` and save its structured JSON. That sample scores 2 out of 10, so there is plenty for the agents to disagree about.
 2. In parallel, assign one agent to validate metadata and another to inspect checklist evidence.
 3. Give each agent separate output files; never assign two agents to edit the same file.
 4. Compare results and resolve factual disagreement against direct source quotations.

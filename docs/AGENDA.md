@@ -12,7 +12,7 @@
 | 10:45-11:00 | Break |
 | 11:00-12:15 | Lab 02: Copilot CLI |
 | 12:15-13:00 | Lunch |
-| 13:00-14:15 | Put your name in `config.json` and deploy - your app goes live |
+| 13:00-14:15 | Lab 08: name it and ship it - your app goes live |
 | 14:15-15:00 | Team playback: every attendee's URL on screen |
 
 ## Day 2 - Tuesday, 6 hours - Line of Business

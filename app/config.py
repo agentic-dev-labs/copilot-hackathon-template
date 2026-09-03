@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.json"
@@ -39,6 +40,11 @@ def load(path: Path | None = None) -> dict[str, str]:
 
 
 if __name__ == "__main__":
-    settings = load()
+    # A traceback here would read as broken materials, so fail with a plain sentence.
+    try:
+        settings = load()
+    except (OSError, ValueError) as error:
+        print(f"config.json needs attention: {error}", file=sys.stderr)
+        raise SystemExit(1) from None
     print(f"displayName={settings['displayName']}")
     print(f"appName={settings['appName']}")
