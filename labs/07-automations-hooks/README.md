@@ -13,7 +13,19 @@ unattended*, and *can we show an auditor what happened*.
 ## Part A: Automations (30 minutes)
 
 An automation defines a task once and runs it whenever a trigger fires, instead of you
-starting a session each time.
+starting a session each time. You are no longer designing a conversation. You are designing
+four things:
+
+| You design | In an automation, that is |
+|---|---|
+| A **trigger** | a schedule, or an issue opened, or a pull request opened or updated |
+| An **instruction set** | the automation prompt, plus the repository custom instructions |
+| A **tool surface** | the tools you grant it, and nothing more |
+| An **escalation policy** | a draft pull request, human review, and required workflow approval |
+
+Start with the trigger, not the model. Old automation runs the same path every time; an
+agent chooses a path each time, which is exactly why the tool surface and the escalation
+policy matter more than the prompt.
 
 1. Open the **Agents** tab in the repository and select the **Automations** pane.
 2. Create an automation with a clear name, such as `Triage incoming vendor reviews`.

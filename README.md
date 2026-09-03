@@ -24,3 +24,16 @@ Only a browser is required on the attendee laptop. Python, Node.js, Azure CLI, G
 | [07](labs/07-automations-hooks/README.md) | Automations and hooks |
 
 See the [prerequisites](docs/PREREQS.md), [agenda](docs/AGENDA.md), and [facilitator runbook](docs/FACILITATOR.md).
+
+## Sample reports
+
+Three synthetic vendor reports are provided so you can compare outcomes from the same
+checklist. All are fabricated and describe no real organization.
+
+| Sample | Outcome |
+|---|---|
+| `synthetic_soc2_harborline_congress.md` | Strong report, scores 10/10 |
+| `synthetic_soc2_report.md` | Mixed report with one failure and one unclear result |
+| `synthetic_soc2_meridian_outreach.md` | Weak report, scores 2/10 despite strong encryption |
+
+They live in `src/vendor_assurance/samples/`.
