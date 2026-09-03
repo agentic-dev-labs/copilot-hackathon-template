@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import asdict, dataclass
-from datetime import date
+from datetime import UTC, date, datetime
 from typing import Literal
 
 Status = Literal["Pass", "Fail", "Unclear"]
@@ -180,7 +180,7 @@ def evaluate_document(chunks: list[str], *, today: date | None = None) -> Evalua
     text = "\n".join(chunks)
     findings = [_find(rule, chunks) for rule in CONTROL_RULES]
     findings.append(_subprocessor_disclosure(text))
-    findings.append(_soc2_currency(text, today or date.today()))
+    findings.append(_soc2_currency(text, today or datetime.now(tz=UTC).date()))
     findings.append(_data_residency(text))
     findings.append(_find(DATA_SUBJECT_RIGHTS_RULE, chunks))
     raw_types = _field(text, "Data types", "none")

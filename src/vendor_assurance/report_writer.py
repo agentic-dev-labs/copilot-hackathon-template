@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from datetime import date
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 from .evaluator import Evaluation
@@ -52,7 +52,7 @@ def write_report(
 ) -> Path:
     """Write a dated report and return its path."""
     rendered = render_report(evaluation, template_path.read_text(encoding="utf-8"))
-    stamp = (review_date or date.today()).strftime("%Y_%m_%d")
+    stamp = (review_date or datetime.now(tz=UTC).date()).strftime("%Y_%m_%d")
     output = output_directory / f"PrivacyReview_{_safe_name(evaluation.vendor)}_{stamp}.md"
     output.write_text(rendered, encoding="utf-8")
     return output
