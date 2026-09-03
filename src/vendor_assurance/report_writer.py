@@ -53,6 +53,7 @@ def write_report(
     """Write a dated report and return its path."""
     rendered = render_report(evaluation, template_path.read_text(encoding="utf-8"))
     stamp = (review_date or datetime.now(tz=UTC).date()).strftime("%Y_%m_%d")
+    output_directory.mkdir(parents=True, exist_ok=True)
     output = output_directory / f"PrivacyReview_{_safe_name(evaluation.vendor)}_{stamp}.md"
     output.write_text(rendered, encoding="utf-8")
     return output

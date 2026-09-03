@@ -28,19 +28,33 @@ agent chooses a path each time, which is exactly why the tool surface and the es
 policy matter more than the prompt.
 
 1. Open the **Agents** tab in the repository and select the **Automations** pane.
-2. Create an automation with a clear name, such as `Triage incoming vendor reviews`.
-3. Write a prompt describing one task. Keep it narrow and testable.
-4. Choose a trigger:
+2. Create an automation named `Review a vendor report`.
+3. Give it a prompt narrow enough to test. This one is the whole task in four lines:
+
+   > Read the SOC 2 report named in the issue body, from `src/vendor_assurance/samples/`.
+   > Run `vendor-assurance <that path> --output-directory reports/`.
+   > Commit the generated report on a new branch.
+   > Open a draft pull request quoting the score and the gaps list in its description.
+
+4. Choose a trigger. Use **when an issue is created** for this one:
    - on a schedule (hourly, daily, or weekly)
    - when an issue is created
+   - when an issue or pull request comment is created
    - when a pull request is opened
    - when a pull request is synchronized
-5. Add a search query filter so the automation only fires on issues you intend.
+5. Add a search query filter so the automation only fires on issues you intend, such as
+   `label:vendor-review`.
 6. Select tools. Use **Suggest tools**, then remove everything the task does not need.
-7. Open a matching issue, watch the session run, and review what the automation changed.
+7. Open an issue naming one of the three sample reports, then watch the session run.
+8. Open the draft pull request it produced. The committed report is the deliverable; the draft
+   pull request is the review gate. Nobody started this, and nobody can merge it unreviewed.
 
 ### What to notice
 
+- The report has to land somewhere Git will keep. `PrivacyReview_*.md` is ignored at the
+  repository root so that ad-hoc local runs stay out of your commits, which is exactly why the
+  automation writes into `reports/` instead. An agent that produces a deliverable Git discards has
+  done nothing.
 - Automations only work in **private or internal** repositories, never public ones.
 - Any user with **write** access can create one.
 - Automations are **not stored in Git**. They are not versioned with your code and not
