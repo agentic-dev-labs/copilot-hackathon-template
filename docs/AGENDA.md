@@ -9,7 +9,7 @@
 |---|---|
 | 09:00-09:30 | Welcome, synthetic-data rules, and a live build in Codespaces |
 | 09:30-10:00 | Lab 00: Codespace, access, and the organization agent |
-| 10:00-10:30 | Demonstration: VS Code agent mode and browser automation with Playwright |
+| 10:00-10:30 | Demonstration: VS Code agent mode, the integrated browser, and Playwright |
 | 10:30-10:45 | Break |
 | 10:45-11:45 | Lab 01: VS Code agent mode - build your vendor review page |
 | 11:45-12:15 | Demonstration: Copilot CLI |
@@ -58,5 +58,5 @@
 | 09:00-09:30 | Demonstration: multiple agents in parallel, and how agents are distributed to a whole organization |
 | 09:30-11:00 | Lab 06: Multi-agent workflow |
 | 11:00-11:15 | Break |
-| 11:15-11:45 | Evaluations and evidence quality |
+| 11:15-11:45 | Evaluations, a second-model check, and evidence quality |
 | 11:45-12:30 | Final demonstrations and close |
