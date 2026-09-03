@@ -25,4 +25,13 @@ As an optional local alternative for an approved developer workstation, install 
 
 You can use a consistent development environment and Copilot without installing a runtime on the laptop.
 
-**Stretch goal:** Inspect `.devcontainer/devcontainer.json` and identify which tools it supplies.
+## Optional extras
+
+Pick any of these if you finish early. None of them are required.
+
+1. **Read the recipe.** Open `.devcontainer/devcontainer.json` and work out which tools it installed
+   for you, and where the `vendor-analyst` agent came from.
+2. **Ask the same question twice.** Ask Copilot Chat on github.com what this repository does, then
+   ask the agent in your Codespace. Notice which one can actually open the files.
+3. **Skim the commands.** Run `copilot`, type `/help`, and note three slash commands you want to come
+   back to later in the week.

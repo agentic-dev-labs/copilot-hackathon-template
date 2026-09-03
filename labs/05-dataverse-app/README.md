@@ -74,5 +74,14 @@ into a work queue.
 A code app can read *and* write governed Dataverse data through the Web API, while Power Automate
 and connectors coordinate the low-code side of the same tables. Neither one replaces the other.
 
-**Stretch goal:** Run the evaluator over one of the sample reports and write its real score and gaps
-back as a row, instead of typing one in by hand.
+## Optional extras
+
+Pick any of these if you finish early. None of them are required.
+
+1. **Let the evaluator fill the row.** Run the evaluator over a sample report and write its real
+   score and gaps back, instead of typing a row by hand.
+2. **Make it a queue.** Add a status column to your rows and let the page mark a review as handled.
+3. **Explain your own diff.** Open a pull request for today's change and have Copilot write the
+   summary, then check whether it describes what you actually did.
+4. **Break it deliberately.** Put an apostrophe in a vendor name and watch the OData filter fail,
+   then fix the escaping.

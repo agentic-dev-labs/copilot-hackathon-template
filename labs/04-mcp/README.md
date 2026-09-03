@@ -29,4 +29,15 @@ planning a dependency on one.
 
 MCP gives agents governed access to external capabilities, and read-only mode reduces risk during exploration.
 
-**Stretch goal:** Ask for the same repository fact via MCP and `gh`, then compare the grounding.
+## Optional extras
+
+Pick any of these if you finish early. None of them are required.
+
+1. **Trim the tool list.** Configure toolsets so only the tools you need are loaded, then notice the
+   effect on how the agent behaves.
+2. **Drive a browser.** Point Playwright MCP at your deployed app and ask the agent to describe what
+   it sees on the page.
+3. **Ground it deliberately.** Create a Copilot Space holding the ten controls and the sample
+   reports, then ask the same question with and without it.
+4. **Two routes, one fact.** Ask for the same repository fact through MCP and through `gh`, and
+   compare how each answer is grounded.

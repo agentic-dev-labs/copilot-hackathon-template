@@ -2,7 +2,7 @@
 
 **Objective:** Put your name in one file and get your own application running on a public URL.
 
-**Time-box:** 75 minutes
+**Time-box:** 45 minutes, plus optional extras if you finish early
 
 **Prerequisites:** Completed Lab 00, and something of your own in the app from Lab 01.
 
@@ -55,3 +55,16 @@ something that happens on every push.
 
 **Stretch goal:** Change something visible in `app/main.py`, push, and run the workflow again.
 Watch the same URL update rather than a new app appearing.
+
+## Optional extras
+
+Pick any of these if you finish early. None of them are required.
+
+1. **Get reviewed.** Open a pull request for your change and request a Copilot code review. Run it
+   once at Lite and once at Balanced, and compare what each one caught.
+2. **Let it write the summary.** Have Copilot generate the pull request description, then check it
+   against your actual diff.
+3. **Read the audit trail.** Open the deployment run log and work out who triggered it, what was
+   built, and when. That log is the evidence a regulated process needs.
+4. **Break the guard on purpose.** Put `Your Name` back in `config.json`, run the workflow, and watch
+   it stop before it deploys anything.

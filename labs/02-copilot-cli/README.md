@@ -2,7 +2,7 @@
 
 **Objective:** Use interactive and non-interactive CLI workflows and delegate bounded work.
 
-**Time-box:** 75 minutes
+**Time-box:** 60 minutes, plus optional extras if you finish early
 
 **Prerequisites:** Completed Lab 00; use the Codespace terminal.
 
@@ -22,4 +22,14 @@ The approval model keeps the operator in control: inspect proposed reads, edits,
 
 Interactive mode supports iterative work, `copilot -p` supports scripted prompts, approvals bound tool use, and `/delegate` moves a task to the cloud agent.
 
-**Stretch goal:** Compare results from an ambiguous prompt and one with explicit acceptance criteria.
+## Optional extras
+
+Pick any of these if you finish early. None of them are required.
+
+1. **Split the work.** Use `/fleet` to break one request into independent subtasks and run them in
+   parallel.
+2. **Ask it to go and read.** Use `/research` on a topic in this repository and see how the answer
+   differs from a plain question.
+3. **Look at the walls.** Run `/sandbox` and read which directories the session may actually touch.
+4. **Schedule something.** Use `/after` or `/every` to submit a prompt on a delay or a repeat.
+5. **Vague against precise.** Compare an ambiguous prompt with one that states acceptance criteria.

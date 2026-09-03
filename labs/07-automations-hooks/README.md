@@ -134,5 +134,16 @@ Copilot CLI. Copilot CLI also reads personal hooks from `~/.copilot/hooks/*.json
 Automations remove the human trigger while keeping human review, and hooks turn agent
 activity into evidence you can hand to an auditor.
 
-**Stretch goal:** Design a `preToolUse` hook that denies any command touching a path outside
-the repository, and describe how you would test it safely.
+## Optional extras
+
+Pick any of these if you finish early. None of them are required.
+
+1. **Write the blocking hook.** A `preToolUse` hook that denies any command touching a path outside
+   the repository. Describe how you would test it safely before trusting it.
+2. **Trigger from a comment.** Add a second automation that fires when somebody comments on a pull
+   request, for example to draft release notes.
+3. **Automate in Actions instead.** Look at GitHub Agentic Workflows, where the automation lives in
+   your repository as a versioned file and is reviewed through a pull request - the opposite
+   trade-off to the automations you just built.
+4. **Read your own audit trail.** From `logs/agent-audit.jsonl` alone, reconstruct what the agent
+   did and decide whether it would satisfy an auditor.
