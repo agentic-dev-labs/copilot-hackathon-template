@@ -45,10 +45,12 @@ def _dataverse_token() -> str:
 
 
 def _from_dataverse(attendee: str) -> list[dict]:
+    # A single quote inside a name must be doubled or the OData filter is malformed.
+    escaped = attendee.replace("'", "''")
     params = urllib.parse.urlencode(
         {
             "$select": f"{PREFIX}_vendor,{PREFIX}_score,{PREFIX}_sensitivity,{PREFIX}_attendee",
-            "$filter": f"{PREFIX}_attendee eq '{attendee}'",
+            "$filter": f"{PREFIX}_attendee eq '{escaped}'",
         }
     )
     request = urllib.request.Request(f"{DATAVERSE_URL}/api/data/v9.2/{PREFIX}_vendorreviews?{params}")
@@ -96,13 +98,15 @@ def index() -> str:
     source = "Dataverse"
     try:
         if not (DATAVERSE_URL and CLIENT_ID and CLIENT_SECRET and TENANT_ID):
-            raise RuntimeError("Dataverse is not configured")
+            raise RuntimeError("Dataverse is not configured, showing local samples")
         reviews = _from_dataverse(settings["displayName"])
         if not reviews:
-            source = "Dataverse (no rows yet for you)"
-    except Exception:  # noqa: BLE001 - the fallback must work for any failure
+            source = f"Dataverse - no rows tagged '{settings['displayName']}' yet"
+    except Exception as error:  # noqa: BLE001 - the page must render whatever fails
+        # Showing the reason keeps lab 05 debuggable; a 403 means the identity is not a
+        # user inside the Dataverse environment.
         reviews = _from_samples()
-        source = "local synthetic samples"
+        source = f"local synthetic samples ({type(error).__name__}: {error})"
 
     rows = "\n".join(
         f"<tr><td>{html.escape(str(item['vendor']))}</td>"

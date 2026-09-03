@@ -25,6 +25,10 @@ def chunk_document(text: str, max_tokens: int = 500, overlap_tokens: int = 50) -
     for start in range(0, len(token_matches), step):
         end = min(start + max_tokens, len(token_matches))
         chunks.append(text[token_matches[start].start() : token_matches[end - 1].end()])
+        # Stop once a chunk reaches the end, otherwise the overlap emits a trailing
+        # fragment that the previous chunk already covers.
+        if end == len(token_matches):
+            break
     return chunks
 
 
