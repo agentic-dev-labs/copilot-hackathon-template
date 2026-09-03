@@ -48,12 +48,22 @@ Order matters, and one prerequisite fails silently.
 
 ## Create team repositories
 
-1. Mark this private repository as a template after the owner pushes it.
-2. Create ten private repositories from the template on the default branch.
-3. Replace `<TEAM_NAME>` only where a team identifier is required.
-4. Add the corresponding team with write access.
-5. Apply branch rules and confirm the Copilot bypass actor.
-6. Run CI once and create a Codespace in each repository.
+Repository secrets are **not** copied when a repository is created from a template, and
+setting organization secrets requires the `admin:org` scope. `scripts/create_attendee_repos.py`
+solves both by creating each repository and applying its secrets in the same pass:
+
+```shell
+python scripts/create_attendee_repos.py nn-na-2026-10-team-01 nn-na-2026-10-team-02
+```
+
+It creates one deployment credential and one Dataverse secret per run, applies them to every
+repository named, and never prints either value. Re-running skips repositories that exist.
+
+1. Confirm this repository is flagged as a template.
+2. Run the script with the repository names you need.
+3. Add the corresponding team with write access.
+4. Apply branch rules and confirm the Copilot bypass actor.
+5. Run CI once and create a Codespace in each repository.
 
 ## Dry run
 

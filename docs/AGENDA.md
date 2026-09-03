@@ -7,20 +7,20 @@
 
 | Time | Activity |
 |---|---|
-| 09:00-09:30 | Welcome, synthetic-data rules, and Lab 00 |
-| 09:30-10:45 | Lab 01: VS Code agent mode |
+| 09:00-09:30 | Welcome, synthetic-data rules, and Lab 00: Codespace and the organization agent |
+| 09:30-10:45 | Lab 01: VS Code agent mode - build your vendor review page |
 | 10:45-11:00 | Break |
 | 11:00-12:15 | Lab 02: Copilot CLI |
 | 12:15-13:00 | Lunch |
-| 13:00-14:15 | Guided vendor-assurance build |
-| 14:15-15:00 | Team playback and questions |
+| 13:00-14:15 | Put your name in `config.json` and deploy - your app goes live |
+| 14:15-15:00 | Team playback: every attendee's URL on screen |
 
 ## Day 2 - Tuesday, 6 hours - Line of Business
 
 | Time | Activity |
 |---|---|
 | 09:00-10:00 | **Guest session: Power Platform connectors, Dataverse, and Power Automate connected to code apps** |
-| 10:00-11:00 | Lab 05: Dataverse-backed app continuation |
+| 10:00-11:00 | Lab 05: connect your deployed app to your own Dataverse rows |
 | 11:00-11:15 | Break |
 | 11:15-12:15 | Prompt and evidence refinement |
 | 12:15-13:00 | Lunch |
