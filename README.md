@@ -6,9 +6,30 @@ This private template supports a five-day, browser-first GitHub Copilot hackatho
 
 1. Select **Code > Codespaces > Create codespace on main**.
 2. Wait for the container setup to finish.
-3. Open [Lab 00](labs/00-setup/README.md).
+3. Edit `config.json` and replace `Your Name` with your own name.
+4. Open [Lab 00](labs/00-setup/README.md).
+
+Your name in `config.json` is the only thing you configure. It becomes the title of your app,
+the name of your Container App, and the filter for your rows in Dataverse. You never handle a
+secret and never open the Azure portal.
 
 Only a browser is required on the attendee laptop. Python, Node.js, Azure CLI, GitHub CLI, and project dependencies run in the Codespace.
+
+## Run the app locally
+
+```shell
+uv sync --extra dev --extra web
+uvicorn app.main:app --reload
+```
+
+With no Dataverse configured the app evaluates the synthetic samples directly, so it works in a
+fresh Codespace with no credentials.
+
+## Deploy it
+
+Run the **Deploy my app** workflow from the Actions tab. It reads `config.json`, derives a valid
+Container App name, builds the image, and deploys to the shared environment. The run summary
+prints your public URL.
 
 ## Labs
 

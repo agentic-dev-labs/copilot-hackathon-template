@@ -29,13 +29,13 @@ Every record is generated from the synthetic sample reports in
 
 ## Steps
 
-1. Read the environment values above. Set `DATAVERSE_API_URL` in your Codespace rather than hard-coding the host.
-2. Get an access token for the environment. In the Codespace terminal, `az account get-access-token --resource https://org0ef69385.crm.dynamics.com/` returns one; the facilitator will confirm how you sign in.
-3. Ask Copilot to write a small client that reads the base URL from the environment and lists vendor reviews.
-4. Query the three seeded rows and sort them by `cr522_score`. Expect scores of 10, 8, and 2.
-5. Handle non-success responses explicitly. A 403 almost always means the signed-in identity is not a user in the Dataverse environment.
-6. Add a filter, for example `?$filter=cr522_score lt 5`, to list only the vendors you would reject.
-7. Add a test with a mocked API response and review the diff.
+1. Confirm `config.json` holds your name. Everything below filters on it.
+2. Run `python scripts/dataverse_seed.py` to load your own three vendor rows. It only touches rows tagged with your name.
+3. Open your deployed app and confirm the source line still says local samples.
+4. Ask Copilot to make the app read from Dataverse instead, using `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_CLIENT_SECRET`, and `DATAVERSE_TENANT_ID` from the environment.
+5. Query with a filter so you only see your rows: `?$filter=cr522_attendee eq 'Your Name'`.
+6. Handle non-success responses explicitly. A 403 means the identity is not a user inside the Dataverse environment.
+7. Add a filter for the vendors you would reject, for example `cr522_score lt 5`.
 
 ## What you just learned
 

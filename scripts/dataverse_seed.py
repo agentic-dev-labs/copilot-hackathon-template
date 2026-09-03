@@ -8,12 +8,14 @@ import shutil
 import subprocess
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from app.config import load  # noqa: E402
 from src.vendor_assurance.chunker import chunk_document  # noqa: E402
 from src.vendor_assurance.evaluator import evaluate_document  # noqa: E402
 
@@ -57,8 +59,13 @@ def call(method: str, path: str, body: dict | None = None) -> tuple[int, str]:
 
 
 def main() -> None:
-    """Replace the seeded rows with one row per synthetic sample, then list what is stored."""
-    _, existing = call("GET", f"{PREFIX}_vendorreviews?$select={PREFIX}_vendorreviewid")
+    """Replace only this attendee's rows, so seeding never touches anyone else's data."""
+    attendee = load()["displayName"]
+    escaped = attendee.replace("'", "''")
+    mine = urllib.parse.urlencode(
+        {"$select": f"{PREFIX}_vendorreviewid", "$filter": f"{PREFIX}_attendee eq '{escaped}'"}
+    )
+    _, existing = call("GET", f"{PREFIX}_vendorreviews?{mine}")
     for row in json.loads(existing).get("value", []):
         call("DELETE", f"{PREFIX}_vendorreviews({row[f'{PREFIX}_vendorreviewid']})")
 
@@ -76,13 +83,19 @@ def main() -> None:
             f"{PREFIX}_score": evaluation.score,
             f"{PREFIX}_sensitivity": evaluation.sensitivity,
             f"{PREFIX}_gaps": "\n".join(evaluation.gaps) or "No gaps identified.",
+            f"{PREFIX}_attendee": attendee,
         }
         status, text = call("POST", f"{PREFIX}_vendorreviews", record)
         print(f"{evaluation.vendor}: {status} score={evaluation.score} {'ok' if status < 300 else text}")
 
-    query = f"{PREFIX}_vendorreviews?$select={PREFIX}_vendor,{PREFIX}_score,{PREFIX}_sensitivity"
-    _, text = call("GET", query)
-    print("\nRows in Dataverse:")
+    query = urllib.parse.urlencode(
+        {
+            "$select": f"{PREFIX}_vendor,{PREFIX}_score,{PREFIX}_sensitivity",
+            "$filter": f"{PREFIX}_attendee eq '{escaped}'",
+        }
+    )
+    _, text = call("GET", f"{PREFIX}_vendorreviews?{query}")
+    print(f"\nRows in Dataverse for {attendee}:")
     for row in json.loads(text).get("value", []):
         print(f"  {row[f'{PREFIX}_vendor']:<32} {row[f'{PREFIX}_score']}/10  {row[f'{PREFIX}_sensitivity']}")
 

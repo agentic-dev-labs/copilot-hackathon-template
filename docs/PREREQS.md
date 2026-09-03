@@ -18,6 +18,19 @@ Complete and dry-run these items before Monday 26 October 2026.
 - [ ] Assign ten team names and memberships: `[Confirm with facilitator]`.
 - [ ] Provide organization-level Azure OIDC configuration and App Service names without exposing values in repositories.
 
+## Azure (provisioned)
+
+| | |
+|---|---|
+| Subscription | `ME-MngEnvMCAP566671-alfarahn-2` |
+| Resource group | `rg-nn-hackathon-2026-10` (East US) |
+| Container Apps environment | `cae-hackathon` — all attendee apps share it |
+| Registry | `acrnnhackathon2026.azurecr.io` |
+| Deploy identity | `nn-hackathon-deploy`, Contributor on the resource group |
+
+- [ ] Set `AZURE_CREDENTIALS` as an **organization** secret so repositories created from this template inherit it. Repository secrets are not copied by the template.
+- [ ] `gh auth refresh -h github.com -s admin:org` is required before organization secrets can be set from the CLI.
+
 ## Dataverse (provisioned)
 
 | | |
@@ -25,6 +38,8 @@ Complete and dry-run these items before Monday 26 October 2026.
 | Environment | Hackathon Dataverse (Developer SKU) |
 | Web API | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
 | Tables | `cr522_vendorreviews`, `cr522_controlfindings` |
+| Ownership | Rows carry `cr522_attendee`; each attendee filters by their own name |
+| App identity | `nn-hackathon-dataverse`, added as a Dataverse application user with System Administrator |
 | Seeded rows | Three, generated from the synthetic samples (scores 10, 8, 2) |
 
 - [ ] Confirm each attendee identity can reach the Dataverse Web API. A 403 means the identity exists in Entra but is not a user in the Dataverse environment.
