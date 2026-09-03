@@ -40,16 +40,16 @@
 
 | Time | Activity |
 |---|---|
-| 09:00-10:30 | Lab 06: Multi-agent workflow |
-| 10:30-10:45 | Break |
-| 10:45-11:30 | CI/CD and Azure App Service OIDC walkthrough |
-| 11:30-12:30 | Production-readiness review |
+| 09:00-10:15 | Lab 07: Automations and hooks |
+| 10:15-10:30 | Break |
+| 10:30-11:15 | CI/CD, Azure App Service OIDC, and Copilot code review |
+| 11:15-12:30 | Production-readiness review |
 
 ## Day 5 - Friday, half-day - Low-coders and pro-coders
 
 | Time | Activity |
 |---|---|
-| 09:00-10:00 | Evaluations, scoring, and evidence quality |
-| 10:00-10:15 | Break |
-| 10:15-11:15 | Team hardening and dry runs |
-| 11:15-12:30 | Final demonstrations and close |
+| 09:00-10:45 | Lab 06: Multi-agent workflow |
+| 10:45-11:00 | Break |
+| 11:00-11:45 | Evaluations, evidence quality, and demo dry runs |
+| 11:45-12:30 | Final demonstrations and close |

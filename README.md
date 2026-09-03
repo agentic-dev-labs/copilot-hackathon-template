@@ -21,5 +21,6 @@ Only a browser is required on the attendee laptop. Python, Node.js, Azure CLI, G
 | [04](labs/04-mcp/README.md) | Remote GitHub MCP server |
 | [05](labs/05-dataverse-app/README.md) | Dataverse-backed application |
 | [06](labs/06-multi-agent/README.md) | Multi-agent workflows |
+| [07](labs/07-automations-hooks/README.md) | Automations and hooks |
 
 See the [prerequisites](docs/PREREQS.md), [agenda](docs/AGENDA.md), and [facilitator runbook](docs/FACILITATOR.md).

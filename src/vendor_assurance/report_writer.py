@@ -33,6 +33,7 @@ def render_report(evaluation: Evaluation, template: str) -> str:
         "SCORE": str(evaluation.score),
         "SENSITIVITY": evaluation.sensitivity,
         "FINDINGS": rows,
+        "GAPS": "\n".join(f"- {gap}" for gap in evaluation.gaps) or "- No gaps identified.",
     }
     rendered = template
     for key, value in values.items():

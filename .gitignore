@@ -6,4 +6,7 @@ __pycache__/
 dist/
 build/
 PrivacyReview_*.md
+logs/
+NN-NA-Hackathon-2026-10-Engagement-Brief.md
+*.private.md
 .env

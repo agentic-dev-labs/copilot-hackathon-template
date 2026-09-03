@@ -7,6 +7,9 @@ Complete and dry-run these items before Monday 26 October 2026.
 - [ ] Assign a GitHub Copilot seat to every attendee.
 - [ ] Grant every attendee **write** access to the team repository; write access is required to trigger the cloud agent.
 - [ ] Enable the Copilot cloud agent at organization level; it is off by default for Business and Enterprise organizations.
+- [ ] Keep every team repository **private or internal**; Copilot automations are unavailable in public repositories.
+- [ ] Confirm the organization allows Copilot automations as well as the cloud agent.
+- [ ] Confirm the remote GitHub MCP server is permitted by any enterprise MCP allowlist.
 - [ ] Add Copilot as a bypass actor for applicable branch protection or rulesets.
 - [ ] Allowlist required corporate/internal package registries through the firewall.
 - [ ] Confirm `github.com` is reachable from the corporate network.

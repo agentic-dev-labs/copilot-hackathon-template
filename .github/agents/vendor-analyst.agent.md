@@ -21,12 +21,15 @@ Then assess:
 3. AES-256 at rest
 4. Defined retention schedule
 5. Documented disposal
-6. Incident response
-7. Vulnerability management
-8. Business continuity
-9. Sub-processor oversight
+6. Incident response SLA within 72 hours
+7. Sub-processor disclosure
+8. SOC 2 Type II within 12 months
+9. Data residency stated and consistent
 10. Data subject rights
 
 Return JSON only. Each finding must contain `control`, `status` (`Pass`, `Fail`, or
 `Unclear`), `evidence` (an exact direct quote), and `reasoning` (one sentence). Use an empty
 evidence string for `Unclear`; never manufacture a quotation.
+
+Also return `gaps`: one entry for every control that is not `Pass`, each naming a
+recommended next step.

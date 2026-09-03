@@ -16,6 +16,10 @@
 6. Wait for the agent update, review the new diff, and run checks in the Codespace.
 7. Merge only when acceptance criteria are met and facilitator branch rules allow it.
 
+The cloud agent can also research a repository, propose a plan, and iterate on a branch
+*before* any pull request exists. Start that from the agents panel on GitHub when you want to
+agree an approach first, and mention `@copilot` on an existing pull request to request changes.
+
 The cloud agent operates in one repository, on one branch, opens exactly one pull request,
 and has a 59-minute session cap. Split larger work into independent issues rather than
 expanding a running task.

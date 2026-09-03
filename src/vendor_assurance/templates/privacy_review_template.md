@@ -18,3 +18,7 @@
 | Control | Result | Direct evidence | Reasoning |
 |---|---|---|---|
 {{FINDINGS}}
+
+## Gaps and recommended next steps
+
+{{GAPS}}

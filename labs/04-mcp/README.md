@@ -16,8 +16,14 @@
 6. Inspect the listed MCP tools and verify write tools are unavailable or disabled.
 7. Remove or disable the connection after the exercise if required by facilitator policy.
 
-The remote server needs no local runtime. By contrast, `npx`-based community MCP servers
-would need Node.js; they are not laptop prerequisites and should run only in an approved container.
+The remote server needs no local runtime. The GitHub MCP server and the Playwright MCP server
+are enabled by default for Copilot cloud agent and Copilot code review, and repository MCP
+settings apply to both. By contrast, `npx`-based community MCP servers would need Node.js;
+they are not laptop prerequisites and should run only in an approved container.
+
+Enterprises can approve or block individual MCP servers by URL, command, or name through
+enterprise managed settings. Ask your administrator which servers are on the allowlist before
+planning a dependency on one.
 
 ## What you just learned
 

@@ -6,7 +6,7 @@ Vendor: Northstar Training Services
 System: Vendor Document Exchange
 Data types: PII, employee
 Hosting region: US East training region
-Data residency: Synthetic records remain in the stated US training region
+Data residency: Synthetic records remain in the US East training region
 Sub-processors: Example Hosting Cooperative, Sample Messaging Laboratory
 SOC 2 type: Type II
 Report date: 2026-08-31
@@ -29,7 +29,7 @@ There is no defined retention schedule for uploaded assessment documents. Produc
 
 ## Security operations
 
-The incident response plan defines triage, communications, containment, recovery, and retrospective activities. A tabletop exercise is simulated annually. Vulnerability scanning runs weekly and the vulnerability management program assigns remediation targets by severity. The report does not state whether every target was met during the period. Monitoring examples use generated events rather than production telemetry.
+The incident response plan commits to notifying affected customers within 72 hours of confirming an incident. It defines triage, communications, containment, recovery, and retrospective activities. A tabletop exercise is simulated annually. Vulnerability scanning runs weekly and the vulnerability management program assigns remediation targets by severity. The report does not state whether every target was met during the period. Monitoring examples use generated events rather than production telemetry.
 
 ## Availability
 
