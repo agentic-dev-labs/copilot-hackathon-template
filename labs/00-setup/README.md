@@ -1,14 +1,14 @@
 # Lab 00: Browser-only setup
 
-**Objective:** Open the team repository in a Codespace and confirm Copilot and GitHub access.
+**Objective:** Open your repository in a Codespace and confirm Copilot and GitHub access.
 
 **Time-box:** 30 minutes
 
-**Prerequisites:** A browser, assigned GitHub account, Copilot seat, and write access to the team repository.
+**Prerequisites:** A browser, assigned GitHub account, Copilot seat, and write access to your repository.
 
 ## Steps
 
-1. Open the team repository, select **Code > Codespaces > Create codespace on main**, and wait for setup.
+1. Open your repository, select **Code > Codespaces > Create codespace on main**, and wait for setup.
 2. Confirm the Copilot icon is visible in VS Code and open Copilot Chat.
 3. In the Codespace terminal, run `python --version`, `node --version`, `gh --version`, and `copilot --version`. All four are installed by the container.
 4. Run `gh auth status`. If prompted, follow the browser sign-in flow using the assigned account.

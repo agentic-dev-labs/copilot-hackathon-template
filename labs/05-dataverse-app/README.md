@@ -1,6 +1,6 @@
 # Lab 05: Dataverse-backed app
 
-**Objective:** Connect a small code application to a facilitator-provided Dataverse-backed API.
+**Objective:** Connect your deployed app to your own rows in Dataverse.
 
 **Time-box:** 2 hours, including the guest session
 

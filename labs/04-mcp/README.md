@@ -4,7 +4,7 @@
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Active Codespace, Copilot access, and permission to read the team repository.
+**Prerequisites:** Active Codespace, Copilot access, and permission to read your repository.
 
 ## Steps
 

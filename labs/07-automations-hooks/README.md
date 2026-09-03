@@ -4,7 +4,7 @@
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Completed Lab 03, write access to the team repository, and a private or internal repository.
+**Prerequisites:** Completed Lab 03, write access to your repository, and a private or internal repository.
 
 Automations are how a review runs itself. Hooks are how you prove what it did. Together
 they answer the two questions a regulated organization always asks: *can this run
