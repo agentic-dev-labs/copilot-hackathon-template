@@ -1,9 +1,8 @@
 name: Deploy to Azure App Service
 
+# Deployment is manual. It requires the Azure OIDC values described in docs/FACILITATOR.md,
+# and is exercised as a deliberate step on day 4 rather than on every push.
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
