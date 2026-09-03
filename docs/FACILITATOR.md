@@ -84,6 +84,8 @@ repository named, and never prints either value. Re-running skips repositories t
 |---|---|---|
 | Codespace creation fails | Network and Codespaces policy | Allow required GitHub endpoints and enable Codespaces. |
 | Copilot icon or agent missing | Seat and organization policy | Assign the seat, enable the feature, then reload the Codespace. |
+| `copilot` command not found | Container setup step failed | The container installs it from `https://gh.io/copilot-install`. Re-run that command in the terminal, or use `npm install -g @github/copilot`, which needs Node 22 or later. |
+| Organization agent missing from the list | Discovery setting | `github.copilot.chat.organizationCustomAgents.enabled` must be true; the devcontainer sets it. |
 | Cloud task cannot start | Access level or agent policy | Grant write access and enable the cloud agent at organization level. |
 | Automations pane missing | Repository visibility or organization policy | Automations require a private or internal repository and an organization that allows them. |
 | Hook appears to hang the agent | Hook runtime | Hooks block execution; keep them under five seconds and set `timeoutSec`. |
