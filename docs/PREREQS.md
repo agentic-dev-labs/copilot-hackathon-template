@@ -17,3 +17,16 @@ Complete and dry-run these items before Monday 26 October 2026.
 - [ ] Confirm browser authentication flows for GitHub CLI and remote MCP are allowed.
 - [ ] Assign ten team names and memberships: `[Confirm with facilitator]`.
 - [ ] Provide organization-level Azure OIDC configuration and App Service names without exposing values in repositories.
+
+## Dataverse (provisioned)
+
+| | |
+|---|---|
+| Environment | Hackathon Dataverse (Developer SKU) |
+| Web API | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
+| Tables | `cr522_vendorreviews`, `cr522_controlfindings` |
+| Seeded rows | Three, generated from the synthetic samples (scores 10, 8, 2) |
+
+- [ ] Confirm each attendee identity can reach the Dataverse Web API. A 403 means the identity exists in Entra but is not a user in the Dataverse environment.
+- [ ] Re-run `scripts/dataverse_provision.py` only if the tables need rebuilding; it is safe to re-run.
+- [ ] Developer environments cap at 2 GB of database capacity, which is far beyond what synthetic data needs.
