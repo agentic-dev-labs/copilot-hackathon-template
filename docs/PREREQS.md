@@ -16,7 +16,7 @@ Complete and dry-run these items before Monday 26 October 2026.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
 - [ ] Confirm browser authentication flows for GitHub CLI and remote MCP are allowed.
 - [ ] Assign ten team names and memberships: `[Confirm with facilitator]`.
-- [ ] Provide organization-level Azure OIDC configuration and App Service names without exposing values in repositories.
+- [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
 
 ## Azure (provisioned)
 

@@ -42,7 +42,7 @@
 |---|---|
 | 09:00-10:15 | Lab 07: Automations and hooks |
 | 10:15-10:30 | Break |
-| 10:30-11:15 | CI/CD, Azure App Service OIDC, and Copilot code review |
+| 10:30-11:15 | CI/CD, Azure Container Apps, and Copilot code review |
 | 11:15-12:30 | Production-readiness review |
 
 ## Day 5 - Friday, half-day - Low-coders and pro-coders

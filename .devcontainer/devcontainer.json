@@ -9,14 +9,14 @@
     "ghcr.io/devcontainers/features/github-cli:1": {}
   },
   "onCreateCommand": "curl -LsSf https://astral.sh/uv/install.sh | sh",
-  "postCreateCommand": "$HOME/.local/bin/uv sync --extra dev",
+  "postCreateCommand": "$HOME/.local/bin/uv sync --extra dev --extra web",
   "customizations": {
     "vscode": {
       "extensions": [
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "ms-python.python",
-        "ms-azuretools.vscode-azureappservice"
+        "ms-azuretools.vscode-azurecontainerapps"
       ]
     }
   },
