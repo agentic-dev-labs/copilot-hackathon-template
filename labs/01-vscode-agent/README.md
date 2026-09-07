@@ -8,17 +8,40 @@
 
 ## Steps
 
-1. Read `.github/copilot-instructions.md` and identify the evidence and data rules. Everything the agent does is shaped by that file. Then open `AGENTS.md` in the root and notice the same rules stated again - that one is the portable version, read by agents that are not Copilot.
+1. Read `.github/copilot-instructions.md` and `AGENTS.md`. The first is Copilot-specific; the second is shared repository guidance supported by several agents, including Copilot. Instruction-file support varies by client, and instructions guide behavior rather than enforce access permissions.
 2. Start the app with `uvicorn app.main:app --reload` and open the forwarded port 8000. This is your page.
-3. Open Copilot Chat, select **Agent**, and ask it to add a **Gaps** column to the table in `app/main.py`.
-4. Review the proposed plan and the list of files before approving any edit. Reject anything that touches files you did not expect.
+3. Use **Ask** to understand the page, then **Plan** to propose a Gaps column. Include the relevant files as context. In **Agent**, request the implementation: show evaluator-generated gaps for each sample, show `No gaps identified` for the strongest sample, and escape displayed text.
+4. Review the plan, tool requests and diff. Stop or reject changes outside the task; do not assume every edit will ask for approval under every permission mode.
 5. Reload the page and confirm your change is visible.
-6. Ask the agent to add a test covering a document with no text, then run the targeted test and explain the result.
-7. Create `.github/prompts/explain-evidence.prompt.md` with a reusable prompt that asks for direct evidence and one-sentence reasoning.
-8. Invoke that prompt on a synthetic sample and check that every claim carries a quotation.
-9. Create `.github/instructions/tests.instructions.md` beginning with `applyTo: "tests/**"`, saying
-   that every test must assert on a quoted string from the source document. Ask the agent for another
-   test and watch it obey a rule that applies only inside `tests/`.
+6. Ask for a test of the new column and an evaluator test for an empty document: zero passes, ten `Unclear` results, no invented evidence. Reuse existing tests where appropriate. Run the targeted checks, then the full test suite and lint.
+7. Create `.github/prompts/explain-evidence.prompt.md`:
+
+   ```markdown
+   ---
+   description: Explain one synthetic report's evidence without changing its score.
+   agent: ask
+   ---
+   Read ${input:report:Path to the synthetic report} and the attached evaluator result.
+   Explain one finding using its exact source quotation and one sentence of reasoning.
+   If the report is silent, say so. Do not invent evidence or change the calculated status.
+   ```
+
+8. Invoke `/explain-evidence` in a new chat, supply a sample path and its CLI result, and compare the answer with the source.
+9. Create `.github/instructions/tests.instructions.md`:
+
+   ```markdown
+   ---
+   description: Keep workshop tests reproducible and evidence-backed.
+   applyTo: "tests/**/*.py"
+   ---
+   Use synthetic fixtures and pass a fixed review date for time-dependent scoring tests.
+   For evidence tests, assert that nonempty quotations occur exactly in the source.
+   Mock cloud calls; do not depend on credentials or live services in unit tests.
+   ```
+
+   Ask for another test, inspect which instructions were loaded, and verify the resulting assertions.
+
+**Done when:** your page change and tests work, both customization files are committed on your working branch, and the prompt runs in a fresh chat.
 
 ## What you just learned
 
@@ -30,11 +53,9 @@ can edit, run and test across files while you stay in control of the diff.
 
 Pick any of these if you finish early. None of them are required.
 
-1. **Argue with it in the browser.** In the integrated browser, select two or three elements on your
-   page and comment on each, then let the agent fix them in one batch.
+1. **Improve the page (5-10 min).** Use element comments if available in your VS Code build, or attach a screenshot. Ask for one small change and inspect the result.
 2. **Ask a side question.** Type `/btw` to open a side conversation that borrows the current context
    while the main one keeps running.
-3. **Personal versus repository instructions.** Add a personal instruction in VS Code settings that
-   contradicts `.github/copilot-instructions.md`, and work out which one wins.
+3. **Keep context focused (5 min).** Start a new chat with only the relevant source file and a harmless response preference. Compare it with a long chat. Do not create contradictory safety or evidence rules.
 4. **Vague against precise.** Ask for the table to be sorted by score twice, once vaguely and once
    with acceptance criteria. Keep both answers side by side.

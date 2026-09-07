@@ -7,9 +7,9 @@ from collections.abc import Iterator
 def chunk_document(text: str, max_tokens: int = 500, overlap_tokens: int = 50) -> list[str]:
     """Return whitespace-tokenized chunks with a stable overlap.
 
-    Chunking removes the single-upload bottleneck that affected the earlier low-code
-    approach: callers can process each bounded section independently, then merge findings.
-    The overlap preserves evidence that crosses a chunk boundary.
+    These tokens are whitespace-delimited words, not a model-specific token count.
+    Overlap helps retain evidence across adjacent chunks; it cannot guarantee that
+    every complete sentence fits inside a chunk.
     """
     if max_tokens <= 0:
         raise ValueError("max_tokens must be positive")
@@ -33,5 +33,5 @@ def chunk_document(text: str, max_tokens: int = 500, overlap_tokens: int = 50) -
 
 
 def iter_chunks(text: str, max_tokens: int = 500, overlap_tokens: int = 50) -> Iterator[str]:
-    """Yield chunks for callers that do not want to retain a large report in memory."""
+    """Yield the same materialized chunks as chunk_document, without streaming I/O."""
     yield from chunk_document(text, max_tokens, overlap_tokens)

@@ -14,6 +14,7 @@ assignees: []
 
 - [ ] [Observable behavior]
 - [ ] Tests cover the change.
+- [ ] Tests and lint pass on the pull request branch.
 - [ ] Synthetic data only; no credentials or private data.
 
 ## Files in scope
@@ -22,4 +23,5 @@ assignees: []
 
 ## Agent boundary
 
-Work in this repository on one branch and open exactly one pull request. Do not expand scope without documenting the reason in the pull request.
+Keep this task in one repository and one pull request. Ask before expanding the agreed scope.
+Use the Python evaluator for calculated findings; do not invent a different score or source quote.

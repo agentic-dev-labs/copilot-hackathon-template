@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import re
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -12,13 +13,22 @@ PLACEHOLDER = re.compile(r"\{\{[A-Z0-9_]+\}\}")
 
 
 def _safe_name(value: str) -> str:
-    return re.sub(r"[^A-Za-z0-9_-]+", "_", value).strip("_") or "Vendor"
+    return re.sub(r"[^A-Za-z0-9_-]+", "_", value).strip("_")[:100] or "Vendor"
+
+
+def _markdown_cell(value: str) -> str:
+    """Encode a table cell without modifying the stored quotation."""
+    escaped = html.escape(value, quote=False).replace("|", "&#124;")
+    return escaped.replace("\r\n", "\n").replace("\r", "\n").replace("\n", "<br>")
 
 
 def render_report(evaluation: Evaluation, template: str) -> str:
     """Fill the report template and reject incomplete output."""
     rows = "\n".join(
-        f"| {item.control} | {item.status} | {item.evidence} | {item.reasoning} |"
+        "| " + " | ".join(
+            _markdown_cell(value)
+            for value in (item.control, item.status, item.evidence, item.reasoning)
+        ) + " |"
         for item in evaluation.findings
     )
     values = {
@@ -33,15 +43,19 @@ def render_report(evaluation: Evaluation, template: str) -> str:
         "SCORE": str(evaluation.score),
         "SENSITIVITY": evaluation.sensitivity,
         "FINDINGS": rows,
-        "GAPS": "\n".join(f"- {gap}" for gap in evaluation.gaps) or "- No gaps identified.",
+        "GAPS": "\n".join(f"- {_markdown_cell(gap)}" for gap in evaluation.gaps) or "- No gaps identified.",
     }
-    rendered = template
-    for key, value in values.items():
-        rendered = rendered.replace(f"{{{{{key}}}}}", value)
-    remaining = PLACEHOLDER.findall(rendered)
-    if remaining:
-        raise ValueError(f"Unfilled template placeholders: {', '.join(sorted(set(remaining)))}")
-    return rendered
+    rendered_values = {
+        key: value if key in {"FINDINGS", "GAPS"} else _markdown_cell(value)
+        for key, value in values.items()
+    }
+    unknown = {
+        placeholder for placeholder in PLACEHOLDER.findall(template)
+        if placeholder[2:-2] not in values
+    }
+    if unknown:
+        raise ValueError(f"Unfilled template placeholders: {', '.join(sorted(unknown))}")
+    return PLACEHOLDER.sub(lambda match: rendered_values[match.group()[2:-2]], template)
 
 
 def write_report(

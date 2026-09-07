@@ -14,30 +14,17 @@
     "storage": "32gb"
   },
   "onCreateCommand": {
-    "uv": "curl -LsSf https://astral.sh/uv/install.sh | sh",
-    "copilot-cli": "curl -fsSL https://gh.io/copilot-install | bash || echo 'Copilot CLI install failed; see docs/FACILITATOR.md'"
+    "uv": "bash -o pipefail -c 'curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh'",
+    "copilot-cli": "bash -o pipefail -c 'curl -fsSL https://gh.io/copilot-install | bash'"
   },
-  "updateContentCommand": "$HOME/.local/bin/uv sync --extra dev --extra web",
+  "updateContentCommand": "bash .devcontainer/setup.sh",
   "postAttachCommand": {
-    "welcome": "echo '\\nReady. Run: python -m pytest   then open labs/00-setup/README.md\\n'"
+    "welcome": "printf '\\nStart with: python -m pytest\\nThen open labs/00-setup/README.md\\n'"
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {
-    "PATH": "${containerEnv:PATH}:/home/vscode/.local/bin"
-  },
-  "secrets": {
-    "DATAVERSE_URL": {
-      "description": "Dataverse Web API base URL. Needed only for Lab 05."
-    },
-    "DATAVERSE_TENANT_ID": {
-      "description": "Entra tenant ID for the Dataverse environment. Needed only for Lab 05."
-    },
-    "DATAVERSE_CLIENT_ID": {
-      "description": "Application ID of the Dataverse app user. Needed only for Lab 05."
-    },
-    "DATAVERSE_CLIENT_SECRET": {
-      "description": "Client secret for the Dataverse app user. Supplied as an organization secret; never commit it."
-    }
+    "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:/home/vscode/.local/bin:${containerEnv:PATH}"
   },
   "forwardPorts": [8000],
   "portsAttributes": {
@@ -64,24 +51,22 @@
         "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
         "python.testing.pytestEnabled": true,
         "python.testing.pytestArgs": ["tests"],
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-          "source.organizeImports.ruff": "explicit"
-        },
         "[python]": {
-          "editor.defaultFormatter": "charliermarsh.ruff"
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports.ruff": "explicit"
+          }
         },
-        "files.trimTrailingWhitespace": true,
-        "files.insertFinalNewline": true,
         "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
   },
   "//": [
-    "Everything an attendee needs is here, so no laptop install is required and every person gets",
-    "an identical environment. Node and the Copilot CLI live in the container.",
-    "organizationCustomAgents is what makes the shared vendor-analyst agent appear.",
-    "Dependencies install in updateContentCommand so a prebuild can cache them, and waitFor holds",
-    "the editor until that finishes: otherwise the first pytest run fails on a half-built venv."
+    "Tools run in the container; Python dependencies use the checked-in uv.lock file.",
+    "Browser demos use Copilot's built-in browser tools; no separate browser MCP server is installed.",
+    "Host requirements are minimums, not a fixed machine size. Extension IDs do not pin versions.",
+    "Copilot authentication and organization-agent access still depend on the signed-in account.",
+    "Setup completes before normal attachment. Day 2 service configuration is optional."
   ]
 }

@@ -4,29 +4,30 @@
 
 **Time-box:** 90 minutes
 
-**Prerequisites:** Active Codespace, your app deployed in Lab 08, and the training Dataverse environment below.
+**Prerequisites:** Active Codespace, your app deployed in Lab 08, and the facilitator's prepared Dataverse connection. See [the prerequisites](../../docs/PREREQS.md).
 
 > **This is a to-do list.** The items happen to be vendors, and the to-dos are the gaps in their
 > security controls. If you have ever kept a list of things with a status against each one, you have
-> already built this. The only difference is where the list lives: in Dataverse, where your
-> organisation decides who may read it and who may change it.
+> already used this pattern. The list now lives in Dataverse. The attendee label separates
+> the exercise's rows for display; it is not a row-level authorization boundary.
 
 ## The training environment
 
-A Dataverse environment is already provisioned and seeded with synthetic vendor reviews.
+The facilitator provisions the training environment; you seed your own sample rows below.
 
 | | |
 |---|---|
-| Web API base | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
+| Environment origin (`DATAVERSE_URL`) | `https://org0ef69385.crm.dynamics.com` |
+| Web API base (derived by the code) | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
 | Vendor reviews | `cr522_vendorreviews` |
-| Control findings | `cr522_controlfindings` |
+| Optional extension table (not seeded by this lab) | `cr522_controlfindings` |
 
 Columns on a vendor review: `cr522_vendor`, `cr522_system`, `cr522_datatypes`,
 `cr522_hostingregion`, `cr522_dataresidency`, `cr522_subprocessors`, `cr522_soc2type`,
-`cr522_reportdate`, `cr522_score`, `cr522_sensitivity`, `cr522_gaps`.
+`cr522_reportdate`, `cr522_score`, `cr522_sensitivity`, `cr522_gaps`, `cr522_attendee`.
 
-Every record is generated from the synthetic sample reports in
-`src/vendor_assurance/samples/`. There is no real vendor, customer, or patient data here.
+Seed records come from the synthetic sample reports in `src/vendor_assurance/samples/`.
+Any rows you add must also be fictional. Do not use real vendor, customer, or patient data.
 
 The Power Platform session earlier this morning covered connectors, Dataverse and Power Automate.
 This lab is the same data approached from the other side: a code app talking to the Web API directly.
@@ -35,39 +36,58 @@ This lab is the same data approached from the other side: a code app talking to 
 
 ### 1. Claim your rows
 
-Put your name in `config.json`, then run `python scripts/dataverse_seed.py`. It loads three vendor
-reviews tagged with your name and leaves everybody else's rows alone.
+Use your assigned, unique workshop label in `config.json`. The facilitator supplies all four
+Dataverse environment variables as Codespaces secrets: `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`,
+`DATAVERSE_CLIENT_SECRET`, and `DATAVERSE_TENANT_ID`. Never paste credentials into code or chat.
+Rebuild or restart the Codespace after secrets are supplied, as directed by the facilitator.
+
+Run `python scripts/dataverse_seed.py`. It updates or creates the three sample vendors tagged
+with your label, without deleting custom rows or modifying another label's rows. The optional
+Azure CLI authentication fallback is for facilitator scripts; the web app uses environment credentials.
 
 ### 2. Read them from your app
 
-Your deployed app still says it is reading local samples. Ask Copilot to read from Dataverse
-instead, using `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_CLIENT_SECRET` and
-`DATAVERSE_TENANT_ID` from the environment, filtered to your own rows:
+The starter already contains a read-only Dataverse path. Ask Copilot to explain
+`app/main.py` and `src/vendor_assurance/dataverse.py`, then run the app locally and confirm
+the source changes from local samples to **Dataverse**. The existing query filters by label:
 
-```
-?$filter=cr522_attendee eq 'Your Name'
+```text
+?$filter=cr522_attendee eq 'Your Workshop Label'
 ```
 
-Reload your public URL. Your rows, your name, your app. Stop and look at it before moving on.
+Codespaces secrets do not automatically reach your deployed app. Commit and push your
+configuration, then run **Deploy my app** with **connect_dataverse** checked. This uses the
+facilitator's Actions variables and secret to configure the Container App. Open your public
+URL and confirm **Source: Dataverse**. A page showing fallback samples is not a successful connection.
 
 ### 3. Add a row
 
-Add a form that writes a new vendor review back to Dataverse. Submit it, reload, and watch it appear
-next to the seeded three. That is the whole trick: the list you read from is the list you write to.
+Use Agent mode to add a small form and server-side POST handler for a fictional vendor and
+system name. Reuse `DataverseClient`; validate input and set the attendee label on the server
+from `config.json`, not from a browser-supplied identity. Keep credentials on the server.
+
+Leave score and sensitivity unset: a new row is **Not assessed** until the evaluator runs.
+Add a test with a mocked client, submit a fictional row, reload, and see it beside the seeded
+three. Commit, push, and redeploy to make the form available at your public URL.
 
 ### 4. Filter to the ones you would reject
 
-Show only the vendors that failed, for example `cr522_score lt 5`. One line of OData turns a report
-into a work queue.
+Add a filter for scored vendors needing follow-up, for example `cr522_score lt 5`, combined
+with the existing attendee filter. Unassessed rows should remain distinguishable from a
+calculated failure. This is a training work queue, not an automated risk-acceptance decision.
+
+**Done when:** your deployed page shows Dataverse as its source, your new fictional row
+survives a reload, your filter stays scoped to your label, and the mocked write test passes.
 
 ## When it does not work
 
 | Response | What it means |
 |---|---|
-| `401` | The token was rejected. Check all four environment variables are set in your Codespace. |
-| `403` | Authentication worked, authorisation did not. The identity is not a user inside the Dataverse environment. |
+| `401` or sign-in failed | Check all four environment variables in the failing environment, without printing their values. |
+| `403` | Check the Dataverse application user and its security role; either may be missing or insufficient. |
 | `400`, syntax error at position | An apostrophe in a name broke the filter. Escape it by doubling it. |
 | Empty list, no error | The filter matched nothing. Check the name in `config.json` against what the seed script wrote. |
+| Local app works, public app shows samples | Configure Actions variables/secrets and rerun deployment with **connect_dataverse** checked. |
 
 ## What you just learned
 
@@ -78,10 +98,10 @@ and connectors coordinate the low-code side of the same tables. Neither one repl
 
 Pick any of these if you finish early. None of them are required.
 
-1. **Let the evaluator fill the row.** Run the evaluator over a sample report and write its real
-   score and gaps back, instead of typing a row by hand.
-2. **Make it a queue.** Add a status column to your rows and let the page mark a review as handled.
+1. **Let the evaluator fill the row (10 min).** Run a sample through the evaluator and persist
+   its calculated score and gaps, without asking the model to invent them.
+2. **Count your rows (5 min).** Add visible totals for assessed and unassessed rows without changing the shared table schema.
 3. **Explain your own diff.** Open a pull request for today's change and have Copilot write the
    summary, then check whether it describes what you actually did.
-4. **Break it deliberately.** Put an apostrophe in a vendor name and watch the OData filter fail,
-   then fix the escaping.
+4. **Check an apostrophe (5 min).** Add a mocked test using `Synthetic O'Brien` and confirm
+   query escaping works. Do not deliberately break the shared environment.

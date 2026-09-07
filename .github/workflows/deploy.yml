@@ -1,11 +1,19 @@
 name: Deploy my app
 
-# Everything is derived from config.json, so the only thing you edit is your name.
 on:
   workflow_dispatch:
+    inputs:
+      connect_dataverse:
+        description: Configure the prepared Dataverse connection for Lab 05
+        type: boolean
+        default: false
 
 permissions:
   contents: read
+
+concurrency:
+  group: deploy-${{ github.repository }}
+  cancel-in-progress: false
 
 env:
   RESOURCE_GROUP: rg-nn-hackathon-2026-10
@@ -15,6 +23,7 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +31,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Fails early with a readable message rather than letting Azure reject the name.
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.7"
+
+      - name: Test before deployment
+        run: |
+          uv sync --locked --extra dev --extra web
+          uv run ruff check .
+          uv run pytest
+
       - name: Read config.json
         id: config
         run: |
@@ -58,9 +76,42 @@ jobs:
               --min-replicas 0 --max-replicas 1
           fi
 
+      - name: Configure Dataverse for Lab 05
+        if: ${{ inputs.connect_dataverse }}
+        env:
+          APP: ${{ steps.config.outputs.appName }}
+          DATAVERSE_URL: ${{ vars.DATAVERSE_URL }}
+          DATAVERSE_CLIENT_ID: ${{ vars.DATAVERSE_CLIENT_ID }}
+          DATAVERSE_TENANT_ID: ${{ vars.DATAVERSE_TENANT_ID }}
+          DATAVERSE_CLIENT_SECRET: ${{ secrets.DATAVERSE_CLIENT_SECRET }}
+        run: |
+          : "${DATAVERSE_URL:?Set the DATAVERSE_URL Actions variable}"
+          : "${DATAVERSE_CLIENT_ID:?Set the DATAVERSE_CLIENT_ID Actions variable}"
+          : "${DATAVERSE_TENANT_ID:?Set the DATAVERSE_TENANT_ID Actions variable}"
+          : "${DATAVERSE_CLIENT_SECRET:?Set the DATAVERSE_CLIENT_SECRET Actions secret}"
+          az containerapp secret set -n "$APP" -g "$RESOURCE_GROUP" \
+            --secrets "dataverse-client-secret=$DATAVERSE_CLIENT_SECRET" --output none
+          az containerapp update -n "$APP" -g "$RESOURCE_GROUP" \
+            --set-env-vars "DATAVERSE_URL=$DATAVERSE_URL" \
+              "DATAVERSE_CLIENT_ID=$DATAVERSE_CLIENT_ID" \
+              "DATAVERSE_TENANT_ID=$DATAVERSE_TENANT_ID" \
+              "DATAVERSE_CLIENT_SECRET=secretref:dataverse-client-secret" --output none
+
       - name: Show the URL
+        env:
+          CONNECT_DATAVERSE: ${{ inputs.connect_dataverse }}
         run: |
           FQDN=$(az containerapp show -n "${{ steps.config.outputs.appName }}" \
             -g "$RESOURCE_GROUP" --query properties.configuration.ingress.fqdn -o tsv)
+          test -n "$FQDN"
+          curl --fail --silent --show-error --retry 6 --retry-delay 5 \
+            --max-time 30 "https://$FQDN/healthz"
+          if [ "$CONNECT_DATAVERSE" = "true" ]; then
+            PAGE=$(curl --fail --silent --show-error --max-time 60 "https://$FQDN/")
+            if ! grep -q 'Source: Dataverse' <<< "$PAGE"; then
+              echo "::error::The app is running but Dataverse did not connect. Check the identity and table permissions."
+              exit 1
+            fi
+          fi
           echo "### Your app is live" >> "$GITHUB_STEP_SUMMARY"
           echo "https://$FQDN" >> "$GITHUB_STEP_SUMMARY"

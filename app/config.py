@@ -31,9 +31,15 @@ def load(path: Path | None = None) -> dict[str, str]:
     """Load config.json and return the display name with its derived app name."""
     config_path = path or CONFIG_PATH
     data = json.loads(config_path.read_text(encoding="utf-8"))
-    display_name = str(data.get("displayName", "")).strip()
+    if not isinstance(data, dict) or not isinstance(data.get("displayName"), str):
+        raise ValueError("config.json must contain a string displayName")
+    display_name = data["displayName"].strip()
     if not display_name:
         raise ValueError("config.json is missing displayName")
+    if any(ord(character) < 32 for character in display_name):
+        raise ValueError("displayName must be a single line without control characters")
+    if len(display_name) > 100:
+        raise ValueError("displayName must be at most 100 characters")
     if display_name.lower() == PLACEHOLDER:
         raise ValueError("Edit config.json and replace 'Your Name' with your own name")
     return {"displayName": display_name, "appName": slugify(display_name)}

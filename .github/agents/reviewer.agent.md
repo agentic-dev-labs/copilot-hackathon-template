@@ -6,8 +6,16 @@ tools:
   - search
 ---
 
-Compare every evidence quote in the completed review with the synthetic source report.
-Flag a finding when the quote is absent, altered, too vague, or does not support the
-status. Also flag inferred facts and unsupported certainty. Report findings by control,
-quote, issue, and recommended correction. Do not rewrite the source and do not approve a
-review containing real vendor, patient, or customer data.
+Require the completed review, original synthetic source, and evaluator JSON. Compare
+each raw JSON quotation with the source; account for HTML entities and `<br>` presentation
+when checking the Markdown table. Do not mistake display encoding for changed evidence.
+
+An empty quote is valid for `Unclear` when the source is silent. When the source explicitly
+leaves a question unsettled, preserve its quotation. Flag missing evidence for `Pass` or
+`Fail`, altered quotations, inferred facts, or differences from the evaluator's results.
+
+Report issues by control, exact source quotation (empty for silence), and recommended
+correction. Do not rewrite source documents or calculated results. Suspected scoring
+defects need an evaluator regression test, not a different model-generated status.
+This is a training review, not a compliance approval. Never use real vendor, patient,
+customer, or employee data.

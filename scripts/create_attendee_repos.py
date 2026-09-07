@@ -1,8 +1,7 @@
 """Create attendee repositories from the template and grant the attendee team access.
 
-`AZURE_CREDENTIALS` and `DATAVERSE_CLIENT_SECRET` are organization secrets visible to all
-repositories, so nothing needs to be copied per repository. Organization base permission is
-`none`, so each repository still needs an explicit team grant.
+The facilitator must configure organization secret access separately. Each repository needs
+an explicit team grant when organization base permission is `none`.
 """
 
 from __future__ import annotations
@@ -21,7 +20,7 @@ GH = shutil.which("gh") or "gh"
 
 def run(command: list[str]) -> subprocess.CompletedProcess[str]:
     """Run a command and capture its output."""
-    return subprocess.run(command, capture_output=True, text=True, check=False)
+    return subprocess.run(command, capture_output=True, text=True, check=False, timeout=120)
 
 
 def create_repo(name: str) -> bool:
@@ -38,7 +37,7 @@ def create_repo(name: str) -> bool:
     return True
 
 
-def grant_team(name: str) -> None:
+def grant_team(name: str) -> bool:
     """Give the attendee team write access to the repository."""
     result = run([
         GH, "api", "-X", "PUT",
@@ -46,19 +45,22 @@ def grant_team(name: str) -> None:
         "-f", "permission=push",
     ])
     print(f"  team access: {'ok' if result.returncode == 0 else result.stderr.strip()[:160]}")
+    return result.returncode == 0
 
 
-def main() -> None:
+def main() -> int:
     """Create every requested repository and grant the attendee team access."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("names", nargs="+", help="repository names, for example nn-na-2026-10-team-01")
     args = parser.parse_args()
 
+    failures = 0
     for name in args.names:
-        if create_repo(name):
-            grant_team(name)
+        if not create_repo(name) or not grant_team(name):
+            failures += 1
 
-    print("\nOrganization secrets apply automatically; nothing is copied per repository.")
+    print("\nCheck Actions and Codespaces secret access separately for each repository.")
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .venv/
+node_modules/
 dist/
 build/
 # Root only, so an agent can commit its reports under reports/
@@ -11,3 +12,5 @@ logs/
 NN-NA-Hackathon-2026-10-Engagement-Brief.md
 *.private.md
 .env
+.env.*
+!.env.example

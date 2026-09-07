@@ -1,14 +1,17 @@
 FROM python:3.12-slim
 
+COPY --from=ghcr.io/astral-sh/uv:0.9.7 /uv /uvx /usr/local/bin/
+
 WORKDIR /app
 
-COPY pyproject.toml ./
+COPY pyproject.toml uv.lock ./
 COPY app ./app
 COPY src ./src
 COPY config.json ./
 
-# Bounds match the web extra in pyproject.toml so a new release cannot change the image.
-RUN pip install --no-cache-dir "fastapi>=0.115,<1" "uvicorn>=0.32,<1"
+RUN uv sync --locked --no-dev --extra web
+
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8000
 

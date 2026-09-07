@@ -55,11 +55,11 @@ class ControlRule:
 # Controls 1-6 and 10 are decided from narrative text; 7-9 are decided from the
 # metadata header, so they are evaluated separately in evaluate_document.
 CONTROL_RULES = (
-    ControlRule("MFA on privileged access", r"\bMFA\b.{0,80}\b(privileged|administrator)", r"\bMFA\b.{0,80}\bnot (required|enforced)"),
-    ControlRule("TLS 1.2+ in transit", r"\bTLS (1\.[2-9]|[2-9])\b", r"\bTLS 1\.[01]\b"),
+    ControlRule("MFA on privileged access", r"\bMFA\b[^.!?]{0,40}\b(required|enforced)\b[^.!?]{0,60}\b(privileged|administrator)", r"\bMFA\b[^.!?]{0,80}\bnot\s+(required|enforced)"),
+    ControlRule("TLS 1.2+ in transit", r"\bTLS\s+(1\.[2-9]|[2-9])\b", r"\bTLS\s+1\.[01]\b"),
     ControlRule("AES-256 at rest", r"\bAES-256\b", r"\b(AES-128|unencrypted at rest)\b"),
-    ControlRule("Defined retention schedule", r"\b(retention schedule|retained for \d+ (days|years|months))\b", r"\bno defined retention schedule\b"),
-    ControlRule("Documented disposal", r"\b(documented disposal|secure disposal|cryptographic erasure)\b", r"\bdisposal (is )?not documented\b"),
+    ControlRule("Defined retention schedule", r"\b(retention\s+schedule|retained\s+for\s+\d+\s+(days|years|months))\b", r"\bno\s+defined\s+retention\s+schedule\b"),
+    ControlRule("Documented disposal", r"\b(documented\s+disposal|secure\s+disposal|cryptographic\s+erasure)\b", r"\bdisposal\s+(is\s+)?not\s+documented\b"),
     ControlRule(
         "Incident response SLA within 72 hours",
         r"\bincident[^.]{0,160}\b(?:[1-9]|[1-6][0-9]|7[0-2])\s*hours?\b",
@@ -69,9 +69,9 @@ CONTROL_RULES = (
 
 DATA_SUBJECT_RIGHTS_RULE = ControlRule(
     "Data subject rights",
-    r"\b(data subject rights process|process for access, correction, and deletion requests)\b",
-    r"\bno process for data subject rights\b",
-    r"\bno direct statement about a process for data subject rights\b",
+    r"\b(data\s+subject\s+rights\s+process|process\s+for\s+access,\s+correction,\s+and\s+deletion\s+requests)\b",
+    r"\bno\s+process\s+for\s+data\s+subject\s+rights\b",
+    r"\bno\s+direct\s+statement\s+about\s+a\s+process\s+for\s+data\s+subject\s+rights\b",
 )
 
 REMEDIATION = {
@@ -89,18 +89,19 @@ REMEDIATION = {
 
 
 def _sentence_for_match(text: str, match: re.Match[str]) -> str:
+    """Return source text without treating a wrapped line as a new sentence."""
     before = text[: match.start()]
-    # Line starts are found without a lookahead: `before` ends at the match, so a
-    # trailing newline has no following character to look ahead at.
     starts = [0]
-    starts += [m.end() for m in re.finditer(r"\n+", before)]
-    starts += [m.end() for m in re.finditer(r"[.!?]\s+", before)]
+    starts.extend(boundary.end() for boundary in re.finditer(r"\n[ \t]*\n|[.!?]\s+", before))
+    starts.extend(
+        boundary.end()
+        for boundary in re.finditer(r"(?m)^[A-Za-z][\w /-]*:[^\n]*\n", before)
+    )
     start = max(starts)
     after = text[match.end() :]
-    boundary = re.search(r"[.!?](?=\s+(?:[A-Z#]|\Z))|\n", after)
+    boundary = re.search(r"[.!?](?=\s|\Z)|\n[ \t]*\n", after)
     end = match.end() + boundary.end() if boundary else len(text)
-    # Reflow to one line: a wrapped quote would otherwise break the report table.
-    return " ".join(text[start:end].strip(" \n#*-").split())
+    return text[start:end].strip()
 
 
 def _find(rule: ControlRule, chunks: list[str]) -> Finding:
@@ -132,17 +133,12 @@ def _find(rule: ControlRule, chunks: list[str]) -> Finding:
     )
 
 
-# A metadata value may wrap onto continuation lines once a report has been
-# converted from PDF. A continuation starts mid-sentence and so begins in
-# lower case; a new field, a blank line or new prose ends the value.
-# The case test is scoped with (?-i:) because IGNORECASE would make [^a-z]
-# exclude capitals too, which is the opposite of what it needs to match.
-_FIELD_END = r"(?=\n[A-Za-z][\w /-]*:\s|\n\s*\n|(?-i:\n[^a-z])|\Z)"
+_FIELD_END = r"(?=\r?\n[A-Za-z][\w /-]*:|\r?\n[ \t]*\r?\n|\r?\n#|\r?\n[^\r\n]*[.!?][ \t]*(?:\r?\n|\Z)|\Z)"
 
 
 def _field_match(text: str, label: str) -> re.Match[str] | None:
     return re.search(
-        rf"^{re.escape(label)}:\s*(.+?){_FIELD_END}",
+        rf"^{re.escape(label)}:[ \t]*(.*?){_FIELD_END}",
         text,
         re.IGNORECASE | re.MULTILINE | re.DOTALL,
     )
@@ -150,13 +146,13 @@ def _field_match(text: str, label: str) -> re.Match[str] | None:
 
 def _field(text: str, label: str, default: str = "Not stated") -> str:
     match = _field_match(text, label)
-    return " ".join(match.group(1).split()) if match else default
+    return (" ".join(match.group(1).split()) or default) if match else default
 
 
 def _field_line(text: str, label: str) -> str:
-    """Return the whole source line so evidence stays an exact quotation."""
+    """Return the original metadata field, including any line wrapping."""
     match = _field_match(text, label)
-    return " ".join(match.group(0).split()) if match else ""
+    return match.group(0).strip() if match else ""
 
 
 def _subprocessor_disclosure(text: str) -> Finding:
@@ -164,8 +160,11 @@ def _subprocessor_disclosure(text: str) -> Finding:
     line = _field_line(text, "Sub-processors")
     if not line:
         return Finding(control, "Unclear", "", "The report does not state a sub-processor list.")
-    if _field(text, "Sub-processors", "").lower() in {"none", "none stated", "not stated"}:
-        return Finding(control, "Fail", line, "The report states that no sub-processor list is provided.")
+    value = _field(text, "Sub-processors", "").lower()
+    if value in {"", "none stated", "not stated"}:
+        return Finding(control, "Unclear", line, "The report does not provide a sub-processor disclosure.")
+    if value in {"none", "none used"}:
+        return Finding(control, "Pass", line, "The report explicitly states that no sub-processors are used.")
     return Finding(control, "Pass", line, "The report provides a named sub-processor list.")
 
 
@@ -175,12 +174,14 @@ def _soc2_currency(text: str, today: date) -> Finding:
     date_line = _field_line(text, "Report date")
     if not type_line:
         return Finding(control, "Unclear", "", "The report does not state a SOC 2 report type.")
-    if "type ii" not in _field(text, "SOC 2 type", "").lower():
+    if not re.fullmatch(r"(?:SOC\s+2\s+)?Type\s+(?:II|2)", _field(text, "SOC 2 type", ""), re.IGNORECASE):
         return Finding(control, "Fail", type_line, "The stated report type is not SOC 2 Type II.")
     try:
         reported = date.fromisoformat(_field(text, "Report date", ""))
     except ValueError:
         return Finding(control, "Unclear", date_line, "The report date is missing or not a valid date.")
+    if reported > today:
+        return Finding(control, "Unclear", date_line, "The report date is in the future and needs clarification.")
     if (today - reported).days > 365:
         return Finding(control, "Fail", date_line, "The Type II report is older than twelve months.")
     return Finding(control, "Pass", date_line, "The Type II report is dated within the last twelve months.")
@@ -200,7 +201,7 @@ def _data_residency(text: str) -> Finding:
 
 def evaluate_document(chunks: list[str], *, today: date | None = None) -> Evaluation:
     """Evaluate all chunks and merge each control into one evidence-backed result."""
-    text = "\n".join(chunks)
+    text = "\n\n".join(chunks)
     findings = [_find(rule, chunks) for rule in CONTROL_RULES]
     findings.append(_subprocessor_disclosure(text))
     findings.append(_soc2_currency(text, today or datetime.now(tz=UTC).date()))

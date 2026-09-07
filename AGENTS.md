@@ -1,7 +1,8 @@
 # AGENTS.md
 
-Portable instructions for any coding agent working in this repository. GitHub Copilot also reads
-`.github/copilot-instructions.md`; agents that do not, such as Claude and Codex, read this file.
+Portable guidance for coding agents working in this repository. Copilot supports this file in
+relevant clients alongside `.github/copilot-instructions.md`. Other agents have their own file
+discovery rules; verify the client rather than assuming every agent reads the same files.
 
 ## What this is
 
@@ -24,14 +25,18 @@ a direct quotation behind every finding.
 ## Working in this repository
 
 ```bash
-uv sync --extra dev --extra web     # install
-python -m pytest                    # test
-python -m ruff check .              # lint
-uvicorn app.main:app --reload       # run the app on port 8000
-vendor-assurance <report.md> --output-directory reports/
+uv sync --locked --extra dev --extra web
+uv run pytest
+uv run ruff check .
+uv run uvicorn app.main:app --reload
+uv run vendor-assurance <report.md> --as-of 2026-10-26 --output-directory reports/
 ```
 
 Tests and lint must both pass before opening a pull request.
+
+Browser demos use Copilot's built-in browser tools where available. Do not install a separate
+browser automation server. Keep private notes and service credentials out of commits and Docker
+build contexts. A green offline suite is not a live Codespaces or Dataverse dry run.
 
 ## Layout
 

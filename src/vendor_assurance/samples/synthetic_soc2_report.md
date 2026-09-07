@@ -47,7 +47,7 @@ The service description mentions privacy support but gives no direct statement a
 
 Fictional assessors sampled access reviews, change records, backup jobs, and response exercises. Samples were generated for the workshop and have no relationship to a customer environment. Exceptions in this report are deliberately mixed so teams can compare deterministic checks with agent reasoning. Conclusions must remain grounded in direct quotations.
 
-The chunking exercise treats words as an explainable approximation of model tokens. Overlap repeats the end of one section at the beginning of the next so an evidence sentence near a boundary is not lost. A production implementation could replace this approximation with a model-specific tokenizer while retaining the same bounded-processing and merge design.
+The chunking exercise counts whitespace-delimited words rather than model tokens. Overlap repeats the end of one chunk at the beginning of the next to help retain nearby evidence, but long sentences can still be split. A production implementation would need suitable tokenization, provenance, and boundary handling validated on its real input formats.
 
 ## Management statement
 

@@ -6,93 +6,62 @@ from every Dataverse call, because it is not a user inside the environment.
 
 from __future__ import annotations
 
-import json
 import os
-import shutil
-import subprocess
-import urllib.error
-import urllib.parse
-import urllib.request
+import sys
+from pathlib import Path
+from uuid import UUID
 
-ORG = os.environ.get("DATAVERSE_URL", "https://org0ef69385.crm.dynamics.com").rstrip("/")
-API = f"{ORG}/api/data/v9.2"
-APP_ID = os.environ.get("DATAVERSE_APP_ID", "10c9f0ab-08ad-449d-a0e6-5fdcaf3cddaa")
-ROLE_NAME = os.environ.get("DATAVERSE_ROLE", "System Administrator")
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-
-def _token() -> str:
-    az = shutil.which("az") or "az"
-    result = subprocess.run(
-        [az, "account", "get-access-token", "--resource", f"{ORG}/", "--query", "accessToken", "-o", "tsv"],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    return result.stdout.strip()
-
-
-ACCESS = _token()
-
-
-def call(method: str, path: str, body: dict | None = None) -> tuple[int, str]:
-    """Send one Dataverse Web API request and return the status and body."""
-    data = json.dumps(body).encode() if body is not None else None
-    request = urllib.request.Request(f"{API}/{path}", data=data, method=method)
-    for key, value in {
-        "Authorization": f"Bearer {ACCESS}",
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "OData-MaxVersion": "4.0",
-        "OData-Version": "4.0",
-    }.items():
-        request.add_header(key, value)
-    try:
-        with urllib.request.urlopen(request) as response:
-            return response.status, response.read().decode()
-    except urllib.error.HTTPError as error:
-        return error.code, error.read().decode()[:500]
-
-
-def query(path: str, **params: str) -> dict:
-    """Run a GET with URL-encoded OData parameters."""
-    _, text = call("GET", f"{path}?{urllib.parse.urlencode(params)}")
-    return json.loads(text)
+from src.vendor_assurance.dataverse import DataverseClient, DataverseError  # noqa: E402
 
 
 def main() -> None:
     """Create the application user if needed and grant it a security role."""
-    existing = query("systemusers", **{"$select": "systemuserid,applicationid", "$filter": f"applicationid eq {APP_ID}"})
-    if existing.get("value"):
-        user_id = existing["value"][0]["systemuserid"]
-        print(f"application user exists: {user_id}")
-    else:
-        unit = query("businessunits", **{"$select": "businessunitid", "$filter": "parentbusinessunitid eq null"})
-        unit_id = unit["value"][0]["businessunitid"]
-        status, text = call(
+    app_id = str(UUID(os.environ.get("DATAVERSE_APP_ID", "")))
+    role_name = os.environ.get("DATAVERSE_ROLE", "").strip()
+    if not role_name:
+        raise ValueError("Set DATAVERSE_ROLE to an approved role; no administrator role is assumed")
+    client = DataverseClient.from_environment(allow_cli=True)
+    params = {"$select": "systemuserid,_businessunitid_value", "$filter": f"applicationid eq {app_id}"}
+    existing = client.rows("systemusers", **params)
+    if not existing:
+        units = client.rows("businessunits", **{"$select": "businessunitid", "$filter": "parentbusinessunitid eq null"})
+        if len(units) != 1:
+            raise DataverseError("Could not identify the root business unit")
+        unit_id = units[0]["businessunitid"]
+        client.request(
             "POST",
             "systemusers",
-            {"applicationid": APP_ID, "businessunitid@odata.bind": f"/businessunits({unit_id})"},
+            {"applicationid": app_id, "businessunitid@odata.bind": f"/businessunits({unit_id})"},
         )
-        print(f"create application user: {status} {'ok' if status < 300 else text}")
-        created = query("systemusers", **{"$select": "systemuserid", "$filter": f"applicationid eq {APP_ID}"})
-        if not created.get("value"):
-            print("application user was not created; stopping")
-            return
-        user_id = created["value"][0]["systemuserid"]
-
-    roles = query("roles", **{"$select": "roleid,name", "$filter": f"name eq '{ROLE_NAME}'"})
-    if not roles.get("value"):
-        print(f"role not found: {ROLE_NAME}")
+        existing = client.rows("systemusers", **params)
+    if len(existing) != 1:
+        raise DataverseError("Expected one application user; verify the application ID")
+    user_id = existing[0]["systemuserid"]
+    unit_id = existing[0]["_businessunitid_value"]
+    escaped_role = role_name.replace("'", "''")
+    roles = client.rows("roles", **{
+        "$select": "roleid,name",
+        "$filter": f"name eq '{escaped_role}' and _businessunitid_value eq {unit_id}",
+    })
+    if len(roles) != 1:
+        raise DataverseError("Expected one matching role in the application user's business unit")
+    role_id = roles[0]["roleid"]
+    association = f"systemusers({user_id})/systemuserroles_association"
+    if client.rows(association, **{"$select": "roleid", "$filter": f"roleid eq {role_id}"}):
+        print(f"role {role_name}: already assigned")
         return
-    role_id = roles["value"][0]["roleid"]
-
-    status, text = call(
+    client.request(
         "POST",
-        f"systemusers({user_id})/systemuserroles_association/$ref",
-        {"@odata.id": f"{API}/roles({role_id})"},
+        f"{association}/$ref",
+        {"@odata.id": f"{client.url}/api/data/v9.2/roles({role_id})"},
     )
-    print(f"assign role {ROLE_NAME}: {status} {'ok' if status < 300 else text}")
+    print(f"role {role_name}: assigned")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (DataverseError, OSError, ValueError) as error:
+        sys.exit(str(error))

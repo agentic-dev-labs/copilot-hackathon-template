@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Copilot sessions have a 59-minute cap. Only steps, permissions, runs-on,
-  # services, snapshot, and timeout-minutes are honoured for this job.
   copilot-setup-steps:
     runs-on: ubuntu-latest
     timeout-minutes: 59
@@ -17,4 +15,7 @@ jobs:
         with:
           python-version: "3.12"
       - uses: astral-sh/setup-uv@v5
-      - run: uv sync --extra dev --extra web
+        with:
+          version: "0.9.7"
+      - run: uv sync --locked --extra dev --extra web
+      - run: echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"

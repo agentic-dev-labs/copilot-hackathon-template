@@ -1,53 +1,19 @@
 """Create the synthetic vendor-assurance tables in the training Dataverse environment.
 
-Safe to re-run: existing tables and columns return an error that is reported and skipped.
+Existing tables and columns are checked before writes; other failures stop the script.
 """
 
 from __future__ import annotations
 
-import json
 import os
-import shutil
-import subprocess
-import urllib.error
-import urllib.request
+import sys
+from pathlib import Path
 
-ORG = os.environ.get("DATAVERSE_URL", "https://org0ef69385.crm.dynamics.com").rstrip("/")
-API = f"{ORG}/api/data/v9.2"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from src.vendor_assurance.dataverse import DataverseClient, DataverseError  # noqa: E402
+
 PREFIX = os.environ.get("DATAVERSE_PREFIX", "cr522")
-
-
-def _token() -> str:
-    az = shutil.which("az") or "az"
-    result = subprocess.run(
-        [az, "account", "get-access-token", "--resource", f"{ORG}/", "--query", "accessToken", "-o", "tsv"],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    return result.stdout.strip()
-
-
-ACCESS = _token()
-
-
-def call(method: str, path: str, body: dict | None = None) -> tuple[int, str]:
-    """Send one Dataverse Web API request and return the status and truncated body."""
-    data = json.dumps(body).encode() if body is not None else None
-    request = urllib.request.Request(f"{API}/{path}", data=data, method=method)
-    for key, value in {
-        "Authorization": f"Bearer {ACCESS}",
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "OData-MaxVersion": "4.0",
-        "OData-Version": "4.0",
-    }.items():
-        request.add_header(key, value)
-    try:
-        with urllib.request.urlopen(request) as response:
-            return response.status, response.read().decode()[:400]
-    except urllib.error.HTTPError as error:
-        return error.code, error.read().decode()[:400]
 
 
 def label(text: str) -> dict:
@@ -110,11 +76,15 @@ def date_column(name: str, display: str) -> dict:
     }
 
 
-def create_table(name: str, display: str, plural: str, primary: str) -> None:
+def create_table(client: DataverseClient, name: str, display: str, plural: str, primary: str) -> None:
     """Create a user-owned table with a primary name column."""
+    if client.exists(f"EntityDefinitions(LogicalName='{PREFIX}_{name}')?$select=MetadataId"):
+        print(f"table {PREFIX}_{name}: already exists")
+        return
     body = {
         "@odata.type": "Microsoft.Dynamics.CRM.EntityMetadata",
         "SchemaName": f"{PREFIX}_{name}",
+        "EntitySetName": f"{PREFIX}_{name}s",
         "DisplayName": label(display),
         "DisplayCollectionName": label(plural),
         "OwnershipType": "UserOwned",
@@ -132,20 +102,26 @@ def create_table(name: str, display: str, plural: str, primary: str) -> None:
             }
         ],
     }
-    status, text = call("POST", "EntityDefinitions", body)
-    print(f"table {PREFIX}_{name}: {status} {'ok' if status < 300 else text}")
+    client.request("POST", "EntityDefinitions", body)
+    print(f"table {PREFIX}_{name}: created")
 
 
-def add_column(table: str, column: dict) -> None:
+def add_column(client: DataverseClient, table: str, column: dict) -> None:
     """Add one column to an existing table."""
-    status, text = call("POST", f"EntityDefinitions(LogicalName='{PREFIX}_{table}')/Attributes", column)
-    print(f"  column {column['SchemaName']}: {status} {'ok' if status < 300 else text}")
+    path = f"EntityDefinitions(LogicalName='{PREFIX}_{table}')/Attributes"
+    if client.exists(f"{path}(LogicalName='{column['SchemaName'].lower()}')?$select=MetadataId"):
+        print(f"  column {column['SchemaName']}: already exists")
+        return
+    client.request("POST", path, column)
+    print(f"  column {column['SchemaName']}: created")
 
 
 def main() -> None:
     """Provision both training tables."""
-    create_table("vendorreview", "Vendor Review", "Vendor Reviews", "Vendor")
+    client = DataverseClient.from_environment(allow_cli=True)
+    create_table(client, "vendorreview", "Vendor Review", "Vendor Reviews", "Vendor")
     for column in (
+        string_column("Attendee", "Attendee", 100),
         string_column("System", "System", 200),
         string_column("DataTypes", "Data types", 200),
         string_column("HostingRegion", "Hosting region", 200),
@@ -157,16 +133,19 @@ def main() -> None:
         string_column("Sensitivity", "Sensitivity", 20),
         memo_column("Gaps", "Gaps"),
     ):
-        add_column("vendorreview", column)
+        add_column(client, "vendorreview", column)
 
-    create_table("controlfinding", "Control Finding", "Control Findings", "Control")
+    create_table(client, "controlfinding", "Control Finding", "Control Findings", "Control")
     for column in (
         string_column("Status", "Status", 20),
         memo_column("Evidence", "Evidence"),
         string_column("Reasoning", "Reasoning", 500),
     ):
-        add_column("controlfinding", column)
+        add_column(client, "controlfinding", column)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (DataverseError, OSError, ValueError) as error:
+        sys.exit(str(error))
