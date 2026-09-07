@@ -13,9 +13,10 @@ a direct quotation behind every finding.
 
 - **Synthetic data only.** Never write or invent real vendor, patient, customer or employee data.
   Every sample is fictional and must stay that way.
-- **Quote, never paraphrase.** Every finding carries an exact sentence from the source document. If
-  the document does not state something, the status is `Unclear` with an empty quotation. Never
-  manufacture evidence to fill a gap.
+- **Quote, never paraphrase.** Every finding carries an exact sentence from the source document.
+  A finding is `Unclear` when the report does not settle the question: with a quotation when the
+  report explicitly acknowledges the gap, and with an empty quotation when it is simply silent.
+  Never manufacture evidence to fill a gap.
 - **The code decides the score, not the model.** Control status is calculated in
   `src/vendor_assurance/evaluator.py`. Explain the result; do not overrule it.
 - **No secrets in code.** Read configuration from environment variables.
