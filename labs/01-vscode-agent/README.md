@@ -8,7 +8,7 @@
 
 ## Steps
 
-1. Read `.github/copilot-instructions.md` and identify the evidence and data rules. Everything the agent does is shaped by that file.
+1. Read `.github/copilot-instructions.md` and identify the evidence and data rules. Everything the agent does is shaped by that file. Then open `AGENTS.md` in the root and notice the same rules stated again - that one is the portable version, read by agents that are not Copilot.
 2. Start the app with `uvicorn app.main:app --reload` and open the forwarded port 8000. This is your page.
 3. Open Copilot Chat, select **Agent**, and ask it to add a **Gaps** column to the table in `app/main.py`.
 4. Review the proposed plan and the list of files before approving any edit. Reject anything that touches files you did not expect.

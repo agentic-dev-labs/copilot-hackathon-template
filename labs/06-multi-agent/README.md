@@ -88,4 +88,7 @@ Pick any of these if you finish early. None of them are required.
    usefully do. This is the fastest way to understand what `tools` really controls.
 4. **Write the schema checker.** A fourth agent that validates only the shape of the analyst's JSON
    and owns no file any other agent touches.
+5. **Read the portable rules.** Open `AGENTS.md` in the repository root. Copilot reads
+   `.github/copilot-instructions.md`; Claude, Codex and other agents read this one instead. Ask
+   yourself which of your rules would survive if the tool changed.
 
