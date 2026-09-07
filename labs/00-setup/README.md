@@ -30,7 +30,8 @@ You can use a consistent development environment and Copilot without installing 
 Pick any of these if you finish early. None of them are required.
 
 1. **Read the recipe.** Open `.devcontainer/devcontainer.json` and work out which tools it installed
-   for you, and where the `vendor-analyst` agent came from.
+   for you, which extensions you did not choose, and where the `vendor-analyst` agent came from.
+   Everyone in the room is running what that one file says.
 2. **Ask the same question twice.** Ask Copilot Chat on github.com what this repository does, then
    ask the agent in your Codespace. Notice which one can actually open the files.
 3. **Skim the commands.** Run `copilot`, type `/help`, and note three slash commands you want to come
