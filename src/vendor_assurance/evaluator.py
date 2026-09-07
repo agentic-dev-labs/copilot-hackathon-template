@@ -90,12 +90,17 @@ REMEDIATION = {
 
 def _sentence_for_match(text: str, match: re.Match[str]) -> str:
     before = text[: match.start()]
-    boundaries = list(re.finditer(r"(?:^|\n+|[.!?]\s+)(?=[A-Z])", before))
-    start = boundaries[-1].end() if boundaries else 0
+    # Line starts are found without a lookahead: `before` ends at the match, so a
+    # trailing newline has no following character to look ahead at.
+    starts = [0]
+    starts += [m.end() for m in re.finditer(r"\n+", before)]
+    starts += [m.end() for m in re.finditer(r"[.!?]\s+", before)]
+    start = max(starts)
     after = text[match.end() :]
     boundary = re.search(r"[.!?](?=\s+(?:[A-Z#]|\Z))|\n", after)
     end = match.end() + boundary.end() if boundary else len(text)
-    return text[start:end].strip(" \n#*-")
+    # Reflow to one line: a wrapped quote would otherwise break the report table.
+    return " ".join(text[start:end].strip(" \n#*-").split())
 
 
 def _find(rule: ControlRule, chunks: list[str]) -> Finding:
@@ -107,7 +112,9 @@ def _find(rule: ControlRule, chunks: list[str]) -> Finding:
         if not pattern:
             continue
         for chunk in chunks:
-            match = re.search(pattern, chunk, re.IGNORECASE)
+            # DOTALL so a wrapped line cannot hide a control: text extracted from a
+            # PDF breaks sentences that the source document kept on one line.
+            match = re.search(pattern, chunk, re.IGNORECASE | re.DOTALL)
             if match:
                 evidence = _sentence_for_match(chunk, match)
                 reasons = {
@@ -125,15 +132,31 @@ def _find(rule: ControlRule, chunks: list[str]) -> Finding:
     )
 
 
+# A metadata value may wrap onto continuation lines once a report has been
+# converted from PDF. A continuation starts mid-sentence and so begins in
+# lower case; a new field, a blank line or new prose ends the value.
+# The case test is scoped with (?-i:) because IGNORECASE would make [^a-z]
+# exclude capitals too, which is the opposite of what it needs to match.
+_FIELD_END = r"(?=\n[A-Za-z][\w /-]*:\s|\n\s*\n|(?-i:\n[^a-z])|\Z)"
+
+
+def _field_match(text: str, label: str) -> re.Match[str] | None:
+    return re.search(
+        rf"^{re.escape(label)}:\s*(.+?){_FIELD_END}",
+        text,
+        re.IGNORECASE | re.MULTILINE | re.DOTALL,
+    )
+
+
 def _field(text: str, label: str, default: str = "Not stated") -> str:
-    match = re.search(rf"^{re.escape(label)}:\s*(.+)$", text, re.IGNORECASE | re.MULTILINE)
-    return match.group(1).strip() if match else default
+    match = _field_match(text, label)
+    return " ".join(match.group(1).split()) if match else default
 
 
 def _field_line(text: str, label: str) -> str:
     """Return the whole source line so evidence stays an exact quotation."""
-    match = re.search(rf"^{re.escape(label)}:\s*(.+)$", text, re.IGNORECASE | re.MULTILINE)
-    return match.group(0).strip() if match else ""
+    match = _field_match(text, label)
+    return " ".join(match.group(0).split()) if match else ""
 
 
 def _subprocessor_disclosure(text: str) -> Finding:
