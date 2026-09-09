@@ -4,6 +4,15 @@ import json
 from pathlib import Path
 
 
+def test_machine_requirements_and_notes() -> None:
+    """Keep machine minimums explicit and documentation out of schema properties."""
+    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
+
+    assert config["hostRequirements"] == {"cpus": 4, "memory": "16gb", "storage": "32gb"}
+    assert "//" not in config
+    assert Path(".devcontainer/README.md").is_file()
+
+
 def test_terminal_uses_the_installed_virtual_environment() -> None:
     """Bare Python and CLI commands must resolve to the project environment."""
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
