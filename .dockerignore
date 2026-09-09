@@ -13,6 +13,7 @@ reports
 logs
 tests
 rehearsal
+/travel/
 labs
 docs
 .github

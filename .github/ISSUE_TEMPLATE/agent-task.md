@@ -25,7 +25,10 @@ assignees: []
 ## Agent boundary
 
 Keep this task in one repository and one pull request. Ask before expanding the agreed scope.
-Use the Python evaluator for calculated findings; do not invent a different score or source quote.
+For vendor-assurance tasks, use the Python evaluator for calculated findings; do not invent a
+different score or source quote. For travel tasks, preserve source labels and unknowns, never
+book or submit personal details, and keep generated research under ignored `travel/output/`.
+Do not prebuild the learner's solution in the template or copy the managed AttractionsAgent locally.
 Do not read or change facilitator preparation notes unless explicitly included in scope.
 
 ## Official References

@@ -16,6 +16,10 @@
 - Maintain the topic map in [docs/REFERENCES.md](../docs/REFERENCES.md) and direct official links in
   every lab. Do not add product reference prose to synthetic evidence fixtures or the report template.
 - Keep CLI baselines and agent-authored reports in separate paths; test results do not prove live readiness.
+- Day 1 is learner-created TravelPlannerAgent and flight/hotel skills, then managed AttractionsAgent
+  consumption, trip completion, and an Awesome Copilot example. Do not prebuild learner files or
+  duplicate the shared agent locally. Keep generated travel output under ignored `travel/output/`.
+- Lab 08 deploys the provided vendor app, not a hosted Copilot agent; Days 2-5 retain the business case.
 
 For instruction-file maintenance, use the official
 [customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).

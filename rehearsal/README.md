@@ -15,6 +15,11 @@ Agent Host sessions do not use prompt files. In those clients, invoke the compan
 same task. Inspect the customization list rather than assuming discovery. Keep a supported
 built-in browser surface available; a CLI-only session cannot prove every editor interaction.
 
+Day 1 is travel authoring and reuse: create TravelPlannerAgent plus FindFlight/FindHotel,
+consume the managed AttractionsAgent, and finish the fictional itinerary. Only then show the
+Awesome Copilot example and deploy the provided vendor app. Days 2-5 retain the vendor/Dataverse
+case. Do not prebuild the learner solution or copy the shared specialist into this template.
+
 These changes must exist in the rehearsal repository before its Codespace can use them.
 Copy the updated template through your normal reviewed Git workflow, then create a dedicated
 private/internal rehearsal repository. Updating this template does not update existing copies.
@@ -46,13 +51,13 @@ to clear failures. Use a new directory for an intentionally new rehearsal.
 
 ## What Is Automated
 
-| Component | What it proves | What it does not prove |
-|---|---|---|
-| [Network doctor](network.py) | Real PyPI/NuGet downloads, locked wheel hash, fresh temporary environment and cache | All hosts/packages, a full .NET restore, or private-feed authentication |
-| [Evidence runner](evidence.py) | Actual pytest/Ruff exits, revision, timestamp, and explicit status for every required condition | That an agent's recorded observation is independently correct |
-| [Lab manifest](labs.json) | All nine labs and their live finish conditions remain visible | That an unavailable feature was exercised |
-| [Deployment helper](deploy.py) | Clean pushed commit, confirmed rehearsal repository, unique Actions run, matching artifact and fresh endpoint requests | Form submission, browser layout, or human PR review |
-| Prompt and skill | Drive implementation, real product calls, browser journeys, reviews, and fixes in the rehearsal copy | Bypass of missing seats, tools, service credentials, or required human approval |
+| Component                      | What it proves                                                                                                         | What it does not prove                                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| [Network doctor](network.py)   | Real PyPI/NuGet downloads, locked wheel hash, fresh temporary environment and cache                                    | All hosts/packages, a full .NET restore, or private-feed authentication         |
+| [Evidence runner](evidence.py) | Actual pytest/Ruff exits, revision, timestamp, and explicit status for every required condition                        | That an agent's recorded observation is independently correct                   |
+| [Lab manifest](labs.json)      | All nine labs and their live finish conditions remain visible                                                          | That an unavailable feature was exercised                                       |
+| [Deployment helper](deploy.py) | Clean pushed commit, confirmed rehearsal repository, unique Actions run, matching artifact and fresh endpoint requests | Form submission, browser layout, or human PR review                             |
+| Prompt and skill               | Drive implementation, real product calls, browser journeys, reviews, and fixes in the rehearsal copy                   | Bypass of missing seats, tools, service credentials, or required human approval |
 
 ## Python, NuGet, and TLS
 
@@ -81,19 +86,41 @@ Check the actual **Codespace** network and Linux trust store. A successful Windo
 transfer certificates or prove Codespaces reachability. Container/CLI bootstrap access to GitHub,
 `ghcr.io`, `mcr.microsoft.com`, and installer endpoints must also work before this Python check can run.
 
-| Failure | Next action |
-|---|---|
-| DNS | Check host resolution in the Codespace and its permitted network path |
-| TLS trust/handshake | Check approved proxy/CA configuration in that environment; keep verification on |
-| Index works, artifact fails | Check the separate artifact host, not just the package index |
-| Fresh install fails, existing tests pass | Inspect install/build/network diagnostics; `--no-sync` is not an installation test |
-| Missing uv or container build failure | Inspect Codespaces creation logs and bootstrap endpoint policy |
-| Private feed is required | Have its owner supply approved configuration separately; do not rewrite the shared public lockfile |
+| Failure                                  | Next action                                                                                        |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| DNS                                      | Check host resolution in the Codespace and its permitted network path                              |
+| TLS trust/handshake                      | Check approved proxy/CA configuration in that environment; keep verification on                    |
+| Index works, artifact fails              | Check the separate artifact host, not just the package index                                       |
+| Fresh install fails, existing tests pass | Inspect install/build/network diagnostics; `--no-sync` is not an installation test                 |
+| Missing uv or container build failure    | Inspect Codespaces creation logs and bootstrap endpoint policy                                     |
+| Private feed is required                 | Have its owner supply approved configuration separately; do not rewrite the shared public lockfile |
+
+### When Locked Sync Requests a New Lock
+
+If `--locked` asks for a new lock despite unchanged project metadata, check inherited uv
+configuration before regenerating anything. Compare this explicit public-index command:
+
+```bash
+uv --no-config sync --locked --extra dev --extra web --default-index https://pypi.org/simple
+```
+
+If it succeeds while ordinary locked sync fails, investigate the inherited configuration
+without printing credential-bearing settings or replacing the shared lock with a private mirror.
+Keep approved proxy and certificate trust in place. This checks the existing environment/lock;
+use the fresh-install helper above to test new downloads and an empty cache.
 
 ## What Must Already Be Prepared
 
 - GitHub repository access, Copilot entitlement, and an authenticated GitHub/Copilot session.
 - Codespaces and network access; a preinstalled environment is not a successful fresh install.
+- Effective managed delivery of `attractions@agentic-dev-labs` and read access to its private
+  source. Inspect origin/version and invoke the discovered agent ID. A presenter-only manual
+  install is not managed delivery; no local duplicate may stand in for the shared specialist.
+- Lab 01's [KAYAK UK and Booking.com starting links](../labs/01-vscode-agent/README.md#public-search-starting-points)
+  checked in the target browser/client. September's Windows checks reached dated GBP results,
+  but some clicks timed out; they do not prove Codespaces access or reliable form automation.
+- CLI sandbox/local-network prerequisites verified independently of package-download TLS.
+  Do not install another browser server or bypass an enforced sandbox when a tool is unavailable.
 - The existing training Azure resources and the `AZURE_CREDENTIALS` **Actions secret**, accessible
   to the rehearsal repository. Template copies do not automatically receive secret access.
 - For Lab 05: `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, and
@@ -116,13 +143,18 @@ in chat, source, screenshots, evidence, or downloaded artifacts.
    and deployment cost in the existing training resource group. Normal tool approvals still apply.
 3. Test clean installation and artifact connectivity before completing labs. Keep TLS verification
    enabled. A NuGet probe diagnoses optional .NET access; it does not make .NET a Python-lab dependency.
-4. Complete and test each exercise rather than merely reading its instructions. Preserve CLI
+4. Complete and test each exercise rather than merely reading its instructions. Keep travel
+   observations and unknowns truthful, with no real bookings. Preserve later business CLI
    baselines, original sources, and the deterministic scoring contract.
 5. Deploy the exact tested commit through Actions and verify the actual endpoint and page behavior.
 6. Report every lab, including failures and blocked live features. Unit tests cannot stand in for
-   a browser journey, MCP invocation, cloud session, live hook, or event-triggered automation.
+   a browser journey, managed-plugin delivery/invocation, MCP call, cloud session, live hook,
+   or event-triggered automation. Cloud delegation in Lab 02 is an optional preview.
 
 ## Deploy and Retrieve the Endpoint
+
+This deployment publishes the provided vendor app, not TravelPlannerAgent or a Copilot SDK
+runtime. Generated public research remains under ignored `travel/output/`, excluded from the image.
 
 Use a label such as **Synthetic Rehearsal 9f72a1** in the rehearsal copy. Put the unique suffix
 early enough that the derived 32-character app name remains unique. Never reuse an attendee's label.
@@ -167,12 +199,12 @@ Container Apps environment, credentials, or other teams' rows. Record cleanup ow
 ## Record, Resume, and Finish
 
 The agent records the required checks in [labs.json](labs.json). For example, after observing a
-real browser journey, attach a credential-free screenshot or transcript under this run directory:
+real flight and hotel search, attach credential-free screenshots or a transcript under this run directory:
 
 ```bash
-python -m rehearsal.evidence --output "$RUN" record --lab 01 --check browser \
-  --status passed --observed --evidence "$RUN/lab-01-browser.png" \
-  --note "Expected the updated table; verified the rendered page and captured it."
+python -m rehearsal.evidence --output "$RUN" record --lab 01 --check flight-hotel-browser \
+  --status passed --observed --evidence "$RUN/lab-01-browser.md" \
+  --note "Verified both dated search pages, airports/occupancy, currency and price units; recorded unknown terms."
 python -m rehearsal.evidence --output "$RUN" record --lab 03 --check human-review \
   --status blocked --note "PR checks pass; the repository still requires an independent reviewer."
 python -m rehearsal.evidence --output "$RUN" summary --require-complete
@@ -184,6 +216,11 @@ Record expected versus observed behavior in the note. `SUMMARY.md` and `ledger.j
 under the ignored run directory. The summary fails while any core condition is pending, failed,
 or blocked. These are **attested observations**, not a tamper-proof audit or independent evaluator.
 The agent still must inspect their substance and verify the final deployed commit.
+
+The travel curriculum uses new Lab 01 check IDs. Old page-edit evidence cannot complete it;
+resume with the missing travel observations rather than renaming old passes. Lab 02 records
+managed origin, specialist invocation, and the completed itinerary separately. A fixture-only
+result cannot pass `flight-hotel-browser`, even if its date/price reasoning is correct.
 
 Run one lab's deterministic checks with `checks --lab 05`, or omit `--lab` for the full suite.
 The test runner never updates live statuses automatically. The known encryption, retention,

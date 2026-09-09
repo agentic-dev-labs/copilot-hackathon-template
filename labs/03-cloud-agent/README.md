@@ -10,10 +10,18 @@ Day 1 showed a prepared issue-to-PR result. Here you run the workflow yourself a
 the issue specification, agent session, code changes, review, and merge. Model choice is separate
 from choosing the agent or its execution environment. Official procedures are linked below.
 
+Reusing the installed AttractionsAgent on Day 1 was a specialist invocation. This lab is
+different: a remote development agent changes the business app in a branch and proposes a PR.
+The travel agent/plugin is not needed for the task and should not be changed by it.
+
 ## Steps
 
 1. Create an issue using **Copilot agent task**.
 2. Set one goal, measurable acceptance criteria, and explicit files in scope.
+   A suggested task is adding an escaped **Gaps** column to the vendor-review table for both
+   local samples and Dataverse rows. Reuse the evaluator's gaps, do not recompute risk with a
+   model, and add focused mocked tests. Scope app changes to `app/` and its existing tests;
+   the source reports, evaluator rules, and travel customizations remain unchanged.
 3. Assign the issue to Copilot and watch the cloud session log.
 4. Open the draft pull request and review code, tests, and the agent summary.
 5. Leave a precise pull request comment mentioning `@copilot` and requesting one correction.
@@ -21,7 +29,7 @@ from choosing the agent or its execution environment. Official procedures are li
 7. Merge only when acceptance criteria are met and facilitator branch rules allow it.
 
 The cloud agent can also research a repository, propose a plan, and iterate on a branch
-*before* any pull request exists. Start that from the agents panel on GitHub when you want to
+_before_ any pull request exists. Start that from the agents panel on GitHub when you want to
 agree an approach first, and mention `@copilot` on an existing pull request to request changes.
 
 Keep this exercise to one repository and one small PR. Session limits and supported entrypoints

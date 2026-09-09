@@ -1,13 +1,19 @@
 # GitHub Copilot Workshop and Hackathon
 
-This template supports five days of demonstrations, guided labs, and team building. Line-of-business
-teams, low-coders, and professional developers extend a synthetic vendor review app and learn to
-create their own Copilot instructions, prompts, agents, skills, and hooks.
+This template supports five days of demonstrations, guided labs, and team building. Day 1 uses
+a fictional travel plan to teach creating instructions, a coordinator agent, and flight/hotel
+skills, then reusing the facilitator's enterprise-managed AttractionsAgent. Days 2-5 transfer
+those patterns to a synthetic vendor-review app, Dataverse, cloud work, hooks, and evaluations.
 
 **See the breadth on Day 1; practise in depth across the week.** The opening demos cover inline
 help, chat and planning, context/models, built-in browser tools, CLI, shared knowledge, cloud work,
 and reusable plugins. Longer-running and preview features use prepared examples. Start with the
 [coverage and official references](docs/REFERENCES.md) to find every topic and its documentation.
+
+The sequence is **introduction -> create your planner -> reuse the managed specialist ->
+finish the trip -> inspect Awesome Copilot -> deploy the provided training app**. TravelPlannerAgent
+is an attendee-authored customization, not a hosted booking service. Skills are the core task
+definitions; optional prompt-file entry points depend on the current client's support.
 
 ## Start here
 
@@ -22,6 +28,16 @@ not an identity or access boundary. The facilitator prepares service access; att
 need to put secrets in code or sign in to the Azure portal.
 
 Only a browser is required on the attendee laptop. Python, Node.js, Azure CLI, GitHub CLI, and project dependencies run in the Codespace.
+
+## What This Repository Provides
+
+- [Travel practice](travel/README.md): a fictional brief and source fixtures, not prebuilt learner agents.
+- Nine labs, official references, tests, and a [rehearsal package](rehearsal/README.md).
+- A ready-to-run vendor-review app for the separate deployment exercise and Day 2 business case.
+
+AttractionsAgent comes from the facilitator's private enterprise marketplace. Do not copy it
+here. [Awesome Copilot](https://github.com/github/awesome-copilot/) is a community example
+collection to inspect and adapt, not this workshop or an enterprise approval policy.
 
 ## Rehearse the Complete Workshop
 
@@ -52,22 +68,24 @@ Run the **Deploy my app** workflow from the Actions tab. It reads `config.json`,
 Container App name, builds the image, and deploys to the shared environment. The run summary
 prints your public URL. Leave **connect_dataverse** unchecked on Day 1. Lab 05 explains how to
 enable it after the facilitator has configured the separate Actions variables and secrets.
+This publishes the vendor-review app, not the travel customizations or a Copilot SDK runtime.
+Generated trip research stays under ignored `travel/output/` and out of the deployment image.
 
 ## Labs
 
 Lab numbers group topics; the **Day** column is the order of the week.
 
-| Lab | Topic | Day |
-|---|---|---|
-| [00](labs/00-setup/README.md) | Codespace and access setup | 1 |
-| [01](labs/01-vscode-agent/README.md) | VS Code agent mode | 1 |
-| [02](labs/02-copilot-cli/README.md) | Copilot CLI and delegation | 1 |
-| [08](labs/08-deploy/README.md) | **Name it and ship it** | 1 |
-| [05](labs/05-dataverse-app/README.md) | Dataverse-backed application | 2 |
-| [03](labs/03-cloud-agent/README.md) | Copilot cloud agent | 3 |
-| [04](labs/04-mcp/README.md) | Remote GitHub MCP server | 3 |
-| [07](labs/07-automations-hooks/README.md) | Automations and hooks | 4 |
-| [06](labs/06-multi-agent/README.md) | Author an agent and a skill, then hand off work | 5 |
+| Lab                                       | Topic                                                 | Day |
+| ----------------------------------------- | ----------------------------------------------------- | --- |
+| [00](labs/00-setup/README.md)             | Codespace and access setup                            | 1   |
+| [01](labs/01-vscode-agent/README.md)      | Create TravelPlannerAgent, FindFlight, and FindHotel  | 1   |
+| [02](labs/02-copilot-cli/README.md)       | CLI and managed AttractionsAgent: finalize the trip   | 1   |
+| [08](labs/08-deploy/README.md)            | Awesome Copilot example, then deploy the provided app | 1   |
+| [05](labs/05-dataverse-app/README.md)     | Dataverse-backed application                          | 2   |
+| [03](labs/03-cloud-agent/README.md)       | Copilot cloud agent                                   | 3   |
+| [04](labs/04-mcp/README.md)               | Remote GitHub MCP server                              | 3   |
+| [07](labs/07-automations-hooks/README.md) | Automations and hooks                                 | 4   |
+| [06](labs/06-multi-agent/README.md)       | Deeper agent/skill authoring and evidence handoffs    | 5   |
 
 See the [prerequisites](docs/PREREQS.md), [agenda](docs/AGENDA.md), and [facilitator runbook](docs/FACILITATOR.md).
 
@@ -79,11 +97,11 @@ Every lab ends with official references and optional tasks. Use the
 Three synthetic vendor reports are provided so you can compare outcomes from the same
 checklist. All are fabricated and describe no real organization.
 
-| Sample | Outcome |
-|---|---|
-| `synthetic_soc2_harborline_congress.md` | Strong report, scores 10/10 |
-| `synthetic_soc2_report.md` | Mixed report, 8/10 with one failure and one unclear result |
-| `synthetic_soc2_meridian_outreach.md` | Weak report, scores 2/10 despite strong encryption |
+| Sample                                  | Outcome                                                    |
+| --------------------------------------- | ---------------------------------------------------------- |
+| `synthetic_soc2_harborline_congress.md` | Strong report, scores 10/10                                |
+| `synthetic_soc2_report.md`              | Mixed report, 8/10 with one failure and one unclear result |
+| `synthetic_soc2_meridian_outreach.md`   | Weak report, scores 2/10 despite strong encryption         |
 
 They live in `src/vendor_assurance/samples/`. These outcomes use review date **2026-10-26**;
 date-sensitive results change as reports age. Use a fixed date for repeatable demonstrations:

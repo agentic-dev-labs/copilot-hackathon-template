@@ -3,7 +3,7 @@
 Complete and dry-run these items before Monday 26 October 2026.
 
 Attendees need the browser-based core path, not every capability shown in the opening tour.
-The presenter prepares Spaces, plugin, cloud-agent, and automation examples separately.
+The presenter prepares Spaces, the managed AttractionsAgent, cloud-agent, and automation examples separately.
 Use the [coverage guide](REFERENCES.md) to see required labs versus optional demonstrations.
 GitHub Copilot access does not automatically provide Microsoft 365 Copilot or Power Platform access.
 
@@ -27,13 +27,26 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm Copilot CLI sign-in separately from GitHub CLI sign-in; a preinstalled command is not an authenticated session.
 - [ ] Rehearse inline suggestions, next-edit suggestions, inline chat, Ask/Plan/Agent, the model picker, and session recovery in the presenter client.
 - [ ] Verify Copilot built-in browser tools in the presenter client; attendees can follow the demo if their client does not expose them.
+- [ ] Verify `attractions@agentic-dev-labs` is delivered as a managed plugin to attendee
+      identities with read access to its private source. Test a real AttractionsAgent invocation;
+      a copied local file or presenter-only install does not demonstrate managed delivery.
+- [ ] Rehearse permitted public flight/hotel pages and the supplied fictional fallback.
+      No payment, booking, real employee details, login, or CAPTCHA bypass belongs in the exercise.
+- [ ] Check skill discovery separately in VS Code/Codespaces and CLI. Agent Host does not
+      load prompt files, and the CLI does not inherit VS Code's conversation or browser state.
+- [ ] Check CLI sandbox/local-network prerequisites in the exact Codespace. Successful
+      package downloads do not prove agent access to localhost; do not bypass enforced policy.
 - [ ] Assign team repositories and unique workshop labels/app names: `[Confirm with facilitator]`.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
 
 ## Presenter-only capabilities
 
 - [ ] Prepare a Space containing only synthetic training sources, a non-code summary/table/diagram, a reviewed PR, and a completed automation.
-- [ ] Install and invoke the prepared plugin before delivery; verify source access, discovery, effective settings, and tool permissions separately.
+- [ ] Prepare the AttractionsAgent reveal after the first flight/hotel build; verify source,
+      version, Managed label, tools, and actual invocation. The tested CLI ID is `attractions:AttractionsAgent`.
+- [ ] Prepare a built-in-browser-only adaptation of Awesome Copilot's web-design-reviewer on
+      the provided app. Show it after trip completion, with no extra browser server installation.
+- [ ] Explain that Lab 08 deploys the provided vendor app, not a hosted travel or Copilot SDK agent.
 - [ ] Inspect the available model/Auto and usage controls. Do not pin the lesson to a particular model or promise identical reasoning options in every client.
 - [ ] Test stop/steer/resume and checkpoint restoration on disposable changes. Keep a Git baseline for recovery.
 - [ ] Keep specialist SDK/BYOK, other IDEs, integrations, and administration as reference-only unless separately rehearsed and approved.
@@ -44,13 +57,13 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 
 These are the prepared training resource names, not a live health check. Verify them during rehearsal.
 
-| | |
-|---|---|
-| Subscription | `ME-MngEnvMCAP566671-alfarahn-2` |
-| Resource group | `rg-nn-hackathon-2026-10` (East US) |
-| Container Apps environment | `cae-hackathon` — all attendee apps share it |
-| Registry | `acrnnhackathon2026.azurecr.io` |
-| Deploy identity | `nn-hackathon-deploy`, Contributor on the resource group |
+|                            |                                                          |
+| -------------------------- | -------------------------------------------------------- |
+| Subscription               | `ME-MngEnvMCAP566671-alfarahn-2`                         |
+| Resource group             | `rg-nn-hackathon-2026-10` (East US)                      |
+| Container Apps environment | `cae-hackathon` — all attendee apps share it             |
+| Registry                   | `acrnnhackathon2026.azurecr.io`                          |
+| Deploy identity            | `nn-hackathon-deploy`, Contributor on the resource group |
 
 - [ ] Grant each generated repository access to the organization **Actions** secret `AZURE_CREDENTIALS`. New repositories only receive access when the secret's visibility policy includes them.
 - [ ] Verify the deployment identity can build in the registry and create/update apps, and that Container Apps can pull the private image. Do not expose registry credentials to attendees.
@@ -58,15 +71,15 @@ These are the prepared training resource names, not a live health check. Verify 
 
 ## Dataverse training target
 
-| | |
-|---|---|
-| Environment | Hackathon Dataverse (Developer SKU) |
-| `DATAVERSE_URL` value | `https://org0ef69385.crm.dynamics.com` (origin only) |
-| Web API | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
-| Tables | `cr522_vendorreviews`, `cr522_controlfindings` |
-| Exercise grouping | `cr522_attendee` filters by label; this is not row-level authorization |
-| App identity | `nn-hackathon-dataverse`; verify its application user and approved security role |
-| Seed data | Three sample vendor rows per label; `controlfindings` is an unpopulated extension table |
+|                       |                                                                                         |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| Environment           | Hackathon Dataverse (Developer SKU)                                                     |
+| `DATAVERSE_URL` value | `https://org0ef69385.crm.dynamics.com` (origin only)                                    |
+| Web API               | `https://org0ef69385.crm.dynamics.com/api/data/v9.2`                                    |
+| Tables                | `cr522_vendorreviews`, `cr522_controlfindings`                                          |
+| Exercise grouping     | `cr522_attendee` filters by label; this is not row-level authorization                  |
+| App identity          | `nn-hackathon-dataverse`; verify its application user and approved security role        |
+| Seed data             | Three sample vendor rows per label; `controlfindings` is an unpopulated extension table |
 
 - [ ] Supply `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, and `DATAVERSE_CLIENT_SECRET` as **Codespaces** secrets for Lab 05. Names alone in a devcontainer do not provision values.
 - [ ] Separately configure **Actions variables** `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, plus the **Actions secret** `DATAVERSE_CLIENT_SECRET`. The deployment workflow does not read Codespaces secrets.

@@ -18,12 +18,12 @@
 
 Every block follows the same four beats:
 
-| Beat | Who | Length | Purpose |
-|---|---|---|---|
-| **SHOW** | Ali | 30 min | One theme, demonstrated properly. Latest GitHub Enterprise / agentic engineering. No slides. |
-| **HAND OVER** | Ali | 2 min | State the goal, the acceptance criteria, and the time-box. Then stop talking. |
-| **BUILD** | Attendees | 30-90 min | The lab. Ali and Jackie help people at their tables. |
-| **PLAYBACK** | 2–3 teams | 15 min | A team drives their own screen. Ali narrates the lesson, not the fix. |
+| Beat          | Who       | Length    | Purpose                                                                                      |
+| ------------- | --------- | --------- | -------------------------------------------------------------------------------------------- |
+| **SHOW**      | Ali       | 30 min    | One theme, demonstrated properly. Latest GitHub Enterprise / agentic engineering. No slides. |
+| **HAND OVER** | Ali       | 2 min     | State the goal, the acceptance criteria, and the time-box. Then stop talking.                |
+| **BUILD**     | Attendees | 30-90 min | The lab. Ali and Jackie help people at their tables.                                         |
+| **PLAYBACK**  | 2–3 teams | 15 min    | A team drives their own screen. Ali narrates the lesson, not the fix.                        |
 
 Handovers are included inside the existing blocks, not added to the timetable.
 
@@ -38,6 +38,7 @@ A 30-minute demo is enough to show a tool properly. Two in a row is a lecture, a
 failure mode to avoid — not the length of any single one.
 
 ### Why this shape
+
 David's ask was explicitly hands-on ("not slideware", v3 outcome slide). Demonstrations teach
 the features, guided labs establish the fundamentals, and the team build and showcase let
 attendees apply them. The wider building population is potential reach, not an attendance count.
@@ -63,16 +64,16 @@ Lab time-boxes match the agenda. This validates arithmetic, not how long a new a
 measure the core path during rehearsal. Optional extras are separate from the required work.
 
 | Lab | Time-box | This sheet |
-|---|---|---|
-| 00 | 30 min | 30 min |
-| 01 | 60 min | 60 min |
-| 02 | 60 min | 60 min |
-| 08 | 45 min | 45 min |
-| 05 | 90 min | 90 min |
-| 03 | 60 min | 60 min |
-| 04 | 60 min | 60 min |
-| 07 | 60 min | 60 min |
-| 06 | 90 min | 90 min |
+| --- | -------- | ---------- |
+| 00  | 30 min   | 30 min     |
+| 01  | 60 min   | 60 min     |
+| 02  | 60 min   | 60 min     |
+| 08  | 45 min   | 45 min     |
+| 05  | 90 min   | 90 min     |
+| 03  | 60 min   | 60 min     |
+| 04  | 60 min   | 60 min     |
+| 07  | 60 min   | 60 min     |
+| 06  | 90 min   | 90 min     |
 
 > ✅ **Day-mapping conflict resolved (2 Sep).** Engagement brief §11 and `docs/AGENDA.md`
 > disagreed about where Lab 06 sat. `docs/AGENDA.md` is now authoritative and matches the brief:
@@ -85,19 +86,19 @@ measure the core path during rehearsal. Optional extras are separate from the re
 
 Have these open as tabs **before** each day starts. Switching context live kills the energy.
 
-| # | Tab | Used on |
-|---|---|---|
-| 1 | Team repo in **Codespaces** (browser only — make the point loudly) | Every day |
-| 2 | The repo **Issues** tab, filtered to Copilot-assigned | Days 1, 3, 5 |
-| 3 | A prepared cloud-agent issue, session, and **reviewed PR** | Days 1, 3, 4 |
-| 4 | Current agent/session list; prepared independent sessions if supported | Days 1, 5 |
-| 5 | Customizations editor and the three repository agent files | Days 1, 5 |
-| 6 | Actions run history (`ci.yml`, `deploy.yml`) and a completed automation | Days 1, 4 |
-| 7 | A terminal with `copilot` ready | Days 1, 2 |
-| 8 | The **integrated browser and Copilot built-in browser tools** in the presenter VS Code session, showing the app | Days 1, 3 |
-| 9 | GitHub Chat and a prepared Space containing only synthetic training sources | Days 1, 3 |
-| 10 | A verified installed plugin, its component list, source, and successful synthetic result | Days 1, 5 |
-| 11 | [Official references](../docs/REFERENCES.md) and today's lab | Every day |
+| #   | Tab                                                                                                                       | Used on      |
+| --- | ------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 1   | Team repo in **Codespaces** (browser only — make the point loudly)                                                        | Every day    |
+| 2   | The repo **Issues** tab, filtered to Copilot-assigned                                                                     | Days 1, 3, 5 |
+| 3   | A prepared cloud-agent issue, session, and **reviewed PR**                                                                | Days 1, 3, 4 |
+| 4   | Current agent/session list; prepared independent sessions if supported                                                    | Days 1, 5    |
+| 5   | Customizations editor; learner travel authoring in a disposable demo branch, local vendor roles for Friday                | Days 1, 5    |
+| 6   | Actions run history (`ci.yml`, `deploy.yml`) and a completed automation                                                   | Days 1, 4    |
+| 7   | A terminal with `copilot` ready                                                                                           | Days 1, 2    |
+| 8   | **Built-in browser tools**, Lab 01's KAYAK UK/Booking.com searches, then the provided app                                 | Days 1, 3    |
+| 9   | GitHub Chat and a prepared Space containing only synthetic training sources                                               | Days 1, 3    |
+| 10  | Managed `attractions@agentic-dev-labs`, origin/version, actual invocation; Awesome Copilot kept for after trip completion | Days 1, 5    |
+| 11  | [Official references](../docs/REFERENCES.md) and today's lab                                                              | Every day    |
 
 **Browser demo pre-flight:** confirm the built-in tools are available in the presenter session
 and can reach the app's forwarded or deployed URL. Attendees can follow along if their client
@@ -111,30 +112,31 @@ name in any repo/org name that appears on screen.
 
 ## 4. Day 1 — Monday · 6h · Line of Business
 
-**Theme: "You can build software today."** No local developer installation is a core prerequisite.
+**Theme: "Create an agent, then reuse a shared specialist."** No local developer installation
+is a core prerequisite. The provided vendor app is a separate deployment and next-day bridge.
 
-| Time | Beat | Content |
-|---|---|---|
-| 09:00–09:30 | **SHOW** | **Possibilities tour.** Start with the working app and Codespaces/devcontainer. Use GitHub Chat and a prepared Space for a synthetic explanation, table, or diagram. Open a prepared issue, cloud-agent session, reviewed PR, and automation result. Identify the main surfaces and preview later-day depth; do not wait for a new cloud run. |
-| 09:30–10:00 | **BUILD** | **Lab 00.** Attendees open their assigned repository, check tools and sign-in, run tests, set a unique label, and inspect the repository-local `vendor-analyst` definition. Its presence does not prove organization sharing; that is a separate demonstration. |
-| 10:00–10:30 | **SHOW** | **Everyday assistance through agent work.** Inline and next-edit suggestions, inline chat/smart actions, then Ask/Plan/Agent for one scoped change. Add context, inspect models/Auto, run a test, verify the page with built-in browser tools, and show stop/steer, diffs, and recovery. Open the Customizations editor. Use the presenter client when attendee tools differ. |
-| 10:30–10:45 | Break | |
-| 10:45–11:45 | **BUILD** | **Lab 01 — VS Code agent mode.** |
-| 11:45–12:15 | **SHOW** | **CLI and reusable capabilities.** Interactive plan, bounded `copilot -p` task, tool permissions, context/model/usage, stop/resume, and a prepared delegated task. Invoke an already-installed plugin agent or skill and inspect its source. Point to research/fleet/scheduling as optional CLI capabilities, and SDK/BYOK as specialist follow-ups. No policy changes or installation wait. |
-| 12:15–13:00 | Lunch | |
-| 13:00–14:00 | **BUILD** | **Lab 02 — Copilot CLI.** |
-| 14:00–14:45 | **BUILD** | **Lab 08 - name it and ship it.** Use the assigned unique label in `config.json`, commit/merge, then run **Deploy my app** with **connect_dataverse** off. Tests run before deployment. Read the actual URL from the workflow summary rather than constructing one. One team repository has one app; service credentials are prepared by the facilitator. |
-| 14:45–15:00 | **PLAYBACK** | Show each repository's actual deployment URL and hear one builder lesson. Keep a failed deployment visible as unfinished rather than presenting a prepared URL as that team's result. |
+| Time        | Beat         | Content                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ----------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 09:00–09:30 | **SHOW**     | **Possibilities tour.** Start with a prepared fictional trip outcome and VS Code/Codespaces plus CLI. Map models, roles, context, tools, and environments. Show prepared Space/cloud-PR/automation results and point to later-day depth. Save the shared specialist reveal for after the first build.                                                                                                                     |
+| 09:30–10:00 | **BUILD**    | **Lab 00.** Open the assigned repository, check tools and sign-in, run tests, set the unique label, and inspect the fictional travel brief. Explain that the provided vendor app is used separately for deployment and Day 2.                                                                                                                                                                                             |
+| 10:00–10:30 | **SHOW**     | **Create the travel workflow.** Author an instruction, TravelPlannerAgent, and flight/hotel skills in a disposable demonstration branch. Inspect discovery and actual invocation. Show context/models, brief inline help, public browser research, and stop/review/recovery. Keep the learner starter free of completed customizations.                                                                                   |
+| 10:30–10:45 | Break        |                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 10:45–11:45 | **BUILD**    | **Lab 01 - create TravelPlannerAgent, FindFlight, and FindHotel.** Choose transport and accommodation with dates, currency, sources, and unknowns; activities stay pending.                                                                                                                                                                                                                                               |
+| 11:45–12:15 | **SHOW**     | **Reveal the shared specialist.** Inspect the Managed source/version of `attractions@agentic-dev-labs` and invoke AttractionsAgent. Demonstrate the real CLI ID, context transfer, and resume/usage controls. The planner consumes this shared role rather than creating another copy. Cloud delegation is only an optional prepared preview.                                                                             |
+| 12:15–13:00 | Lunch        |                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 13:00–14:00 | **BUILD**    | **Lab 02 - CLI and shared-agent reuse.** Invoke the learner's workflow and the managed specialist, then finalize the itinerary with in-range activities. No local AttractionsAgent, real booking, or required cloud delegation.                                                                                                                                                                                           |
+| 14:00–14:45 | **BUILD**    | **Lab 08 - discover reusable skills and ship the starter.** First 10 minutes: Awesome Copilot and a prepared built-in-browser-only web-design-reviewer adaptation, after trip completion. Remaining 35: unique label, reviewed commit, and **Deploy my app** with **connect_dataverse** off. Publish the provided vendor app, not a hosted travel agent. Read the actual workflow URL; attendees do not sign in to Azure. |
+| 14:45–15:00 | **PLAYBACK** | Show the completed trip, distinguish authored versus managed skills/agents, and show the separate app URL. Keep any unverified browser stage or failed deployment visible.                                                                                                                                                                                                                                                |
 
 ### The three 30-minute demo budgets
 
 These are durations within the existing slots, not new timetable blocks. Handovers are included.
 
-| Block | Sequence and minutes | Fallback |
-|---|---|---|
-| Opening tour | 5 app; 6 Codespaces/devcontainer; 6 GitHub Chat/Space with a synthetic table or diagram; 7 prepared issue/session/PR/automation; 4 capability map; 2 Lab 00 handover | Open the prepared result when a request is slow; name what is recorded versus live |
-| VS Code | 4 inline/NES; 3 inline chat/smart action; 5 Ask/Plan/context/models; 8 Agent/test/browser loop; 4 stop/steer/diff/checkpoint; 4 Customizations editor; 2 Lab 01 handover | Use the prepared diff, test, and browser result if generation exceeds the budget |
-| CLI | 6 interactive plan/tool request; 4 bounded `-p`; 4 context/model/usage; 4 stop/resume/delegation; 6 prepared plugin invocation; 4 optional capability map; 2 Lab 02 handover | Inspect the verified task/plugin result if the live client does not expose it |
+| Block          | Sequence and minutes                                                                                                                                      | Fallback                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Opening tour   | 6 fictional trip; 5 VS Code/Codespaces and CLI; 6 capability map; 5 models/roles/tools; 6 prepared Space/cloud/automation; 2 Lab 00 handover              | Name prepared results clearly; do not reveal the managed specialist before the first build         |
+| Creation       | 4 inline/context; 4 Ask/Plan/models; 5 instruction/coordinator; 7 flight/hotel skills; 4 public browser research; 4 discovery/recovery; 2 Lab 01 handover | Use labelled practice excerpts for authoring; retain a separate live-browser blocker if sites fail |
+| Managed reveal | 4 CLI invocation; 8 Managed source/version/ID; 6 attraction result; 4 context transfer; 4 resume/usage; 2 cloud preview pointer; 2 Lab 02 handover        | Show a verified transcript if needed, but do not count it as attendee managed delivery             |
 
 Say explicitly: Codespaces is the environment, GitHub Copilot is the assistant, and Microsoft 365
 Copilot is another product. A model is not an agent role; instructions, tools, and execution location
@@ -146,9 +148,21 @@ an explicitly shared tab can carry signed-in state. Share only the training page
 Agent edits may already be applied: demonstrate the actual diff and restore flow, not a universal
 "accept every edit" dialog. No separately installed browser server belongs in this workshop.
 
-**Day 1 wins to bank:** attendees can name the main capabilities and choose a next step; each team
-has an environment, a tested change, a reviewed commit, a CLI task, and its actual deployment result.
+**Day 1 wins to bank:** attendees author a coordinator and two skills, reuse the managed specialist,
+finish a source-backed fictional trip, and explain community versus enterprise distribution.
+Their separate vendor app URL is the Day 2 starting point, not evidence of a hosted travel runtime.
 Use the [small optional tasks](../docs/REFERENCES.md#small-tasks-for-early-finishers) during lab slack.
+
+**Travel browser preflight:** use [Lab 01's dated starting links](../labs/01-vscode-agent/README.md#public-search-starting-points).
+KAYAK UK and Booking.com returned readable GBP results on 9 September in Windows VS Code.
+Google consent clicks timed out; Expedia returned partial results and HTTP 429 errors. Recheck
+in the target Codespace/network before delivery. Do not promise a site will never block an agent.
+Preserve price units, room types, membership conditions, and live versus `provided_only` labels.
+
+**Attractions preflight:** inspect the actual discovered ID (CLI test: `attractions:AttractionsAgent`).
+Use the practice trip to verify E1 on 27 October, E2 excluded on 30 October, A1 not on Monday,
+unknown prices retained, and no bookings. Managed delivery and live source access are separate
+checks; neither the fixture result nor a local plugin-directory test proves both.
 
 ---
 
@@ -156,15 +170,18 @@ Use the [small optional tasks](../docs/REFERENCES.md#small-tasks-for-early-finis
 
 **Theme: "Your Power Platform skills transfer."** This is Jackie's bridge day.
 
-| Time | Beat | Content |
-|---|---|---|
-| 09:00–10:00 | **GUEST** | **Jackie — Power Platform connectors, Dataverse, Power Automate → code apps.** Hand the room over completely. Ali floats and takes notes for the Day 3–5 audience split. |
-| 10:00–10:30 | **SHOW** | **The teaching version of the assurance problem.** Run `vendor-assurance src/vendor_assurance/samples/synthetic_soc2_meridian_outreach.md --as-of 2026-10-26 --output-directory reports/`: ten controls, 2/10, exact evidence, and gaps. Show the same results in Dataverse. Explain that this is a small text-based training evaluator, not a demonstrated 200-page OCR pipeline or a full implementation of the customer's assessment system. |
-| 10:30–10:45 | Break | |
-| 10:45–12:15 | **BUILD** | **Lab 05 — connect your app to your own Dataverse rows.** 90 minutes; this is the hardest lab of the LOB days. |
-| 12:15–13:00 | Lunch | |
-| 13:00–14:00 | **BUILD** | Team build on a chosen small improvement using synthetic data. Agree one observable outcome; Ali and Jackie coach at tables. No new production integrations or infrastructure are required. |
-| 14:00–15:00 | **PLAYBACK** | **Showcase.** Every team demos. Photograph the board. Invite David and Susan in for this hour. |
+Start by connecting Monday's instruction/skill/source patterns to the vendor case. The local
+vendor-analyst validates evaluator JSON later in Lab 06; it is not the Monday travel specialist.
+
+| Time        | Beat         | Content                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 09:00–10:00 | **GUEST**    | **Jackie — Power Platform connectors, Dataverse, Power Automate → code apps.** Hand the room over completely. Ali floats and takes notes for the Day 3–5 audience split.                                                                                                                                                                                                                                                                        |
+| 10:00–10:30 | **SHOW**     | **The teaching version of the assurance problem.** Run `vendor-assurance src/vendor_assurance/samples/synthetic_soc2_meridian_outreach.md --as-of 2026-10-26 --output-directory reports/`: ten controls, 2/10, exact evidence, and gaps. Show the same results in Dataverse. Explain that this is a small text-based training evaluator, not a demonstrated 200-page OCR pipeline or a full implementation of the customer's assessment system. |
+| 10:30–10:45 | Break        |                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 10:45–12:15 | **BUILD**    | **Lab 05 — connect your app to your own Dataverse rows.** 90 minutes; this is the hardest lab of the LOB days.                                                                                                                                                                                                                                                                                                                                  |
+| 12:15–13:00 | Lunch        |                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 13:00–14:00 | **BUILD**    | Team build on a chosen small improvement using synthetic data. Agree one observable outcome; Ali and Jackie coach at tables. No new production integrations or infrastructure are required.                                                                                                                                                                                                                                                     |
+| 14:00–15:00 | **PLAYBACK** | **Showcase.** Every team demos. Photograph the board. Invite David and Susan in for this hour.                                                                                                                                                                                                                                                                                                                                                  |
 
 **Recruit here:** during the showcase, identify who should come back for Days 3–5. Ask explicitly.
 
@@ -174,14 +191,14 @@ Use the [small optional tasks](../docs/REFERENCES.md#small-tasks-for-early-finis
 
 **Theme: "The agent works without you."**
 
-| Time | Beat | Content |
-|---|---|---|
-| 09:00–09:30 | **SHOW** | **Issue to pull request.** Write one goal, acceptance criteria, and files in scope; assign the task and inspect the session log. Show model/reasoning choices where supported, then the actual workflow approval and branch-review rules. Scope this exercise to one PR; don't present a historical session limit as universal. A draft PR exposes work for review but is not itself a required-human-approval policy. |
-| 09:30–10:30 | **BUILD** | **Lab 03 — cloud agent.** |
-| 10:30–10:45 | Break | |
-| 10:45–11:15 | **SHOW** | **Remote MCP and built-in browser tools.** Connect remote GitHub MCP at `https://api.githubcopilot.com/mcp/`; show a read-only query and toolsets. Then use **Copilot's built-in browser tools** in the presenter session to open the deployed app, inspect it, and capture the result. Explain the distinction: GitHub MCP is an external integration; the browser tools come from the Copilot client and need no separately installed server. |
-| 11:15–12:15 | **BUILD** | **Lab 04 — remote GitHub MCP.** |
-| 12:15–12:30 | **PLAYBACK** | Review the morning's agent PR together as the closer. |
+| Time        | Beat         | Content                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 09:00–09:30 | **SHOW**     | **Issue to pull request.** Write one goal, acceptance criteria, and files in scope; assign the task and inspect the session log. Show model/reasoning choices where supported, then the actual workflow approval and branch-review rules. Scope this exercise to one PR; don't present a historical session limit as universal. A draft PR exposes work for review but is not itself a required-human-approval policy.                          |
+| 09:30–10:30 | **BUILD**    | **Lab 03 — cloud agent.**                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 10:30–10:45 | Break        |                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 10:45–11:15 | **SHOW**     | **Remote MCP and built-in browser tools.** Connect remote GitHub MCP at `https://api.githubcopilot.com/mcp/`; show a read-only query and toolsets. Then use **Copilot's built-in browser tools** in the presenter session to open the deployed app, inspect it, and capture the result. Explain the distinction: GitHub MCP is an external integration; the browser tools come from the Copilot client and need no separately installed server. |
+| 11:15–12:15 | **BUILD**    | **Lab 04 — remote GitHub MCP.**                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 12:15–12:30 | **PLAYBACK** | Review the morning's agent PR together as the closer.                                                                                                                                                                                                                                                                                                                                                                                           |
 
 ---
 
@@ -190,13 +207,13 @@ Use the [small optional tasks](../docs/REFERENCES.md#small-tasks-for-early-finis
 **Theme: "Repeat it, test it, and review it."** Show practical engineering habits. The workshop
 does not certify the resulting application or its audit trail for a regulated production use.
 
-| Time | Beat | Content |
-|---|---|---|
-| 09:00–09:30 | **SHOW** | **The agent runs from a trigger.** Revisit Monday's prepared automation, then configure a narrow issue-created task with the tools needed to read, execute, write, and open a PR. Inspect one real generated result. Show a harmless exact-tool denial and metadata-only hook log. Connect the pattern to David's requested workflow without implying a general document-processing system is complete. |
-| 09:30–10:30 | **BUILD** | **Lab 07 — automations and hooks.** |
-| 10:30–10:45 | Break | |
-| 10:45–11:15 | **SHOW** | **Review and deploy.** Reuse yesterday's PR, request Copilot code review, inspect any effort-level selector, and evaluate one finding against code and tests. Approval capability is a policy-dependent preview, off by default; an assessment comment is not a required approval. Finish with the tested Container Apps workflow and its run log. Do not promise that a model catches a deliberately inserted bug every time. |
-| 11:15–12:30 | **BUILD** | Production-readiness review: tests, ruff, deploy, audit trail. |
+| Time        | Beat      | Content                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ----------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 09:00–09:30 | **SHOW**  | **The agent runs from a trigger.** Revisit Monday's prepared automation, then configure a narrow issue-created task with the tools needed to read, execute, write, and open a PR. Inspect one real generated result. Show a harmless exact-tool denial and metadata-only hook log. Connect the pattern to David's requested workflow without implying a general document-processing system is complete.                        |
+| 09:30–10:30 | **BUILD** | **Lab 07 — automations and hooks.**                                                                                                                                                                                                                                                                                                                                                                                            |
+| 10:30–10:45 | Break     |                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 10:45–11:15 | **SHOW**  | **Review and deploy.** Reuse yesterday's PR, request Copilot code review, inspect any effort-level selector, and evaluate one finding against code and tests. Approval capability is a policy-dependent preview, off by default; an assessment comment is not a required approval. Finish with the tested Container Apps workflow and its run log. Do not promise that a model catches a deliberately inserted bug every time. |
+| 11:15–12:30 | **BUILD** | Produce a reviewed PR, passing tests/lint, a checked deployment result, and a short remaining-gap list. Explain what the training logs do and do not prove.                                                                                                                                                                                                                                                                    |
 
 **Message to land:** the issue, diff, tests, reviewer, and run log make the exercise inspectable.
 Lab 07 records selected event metadata, not full arguments or results. Logs are mutable and cloud
@@ -208,7 +225,7 @@ every client or every tool path. Never use a real confidential file to demonstra
 
 ### Use David's own framing — and credit him out loud
 
-David publishes a series on LinkedIn called *Putting Agents to Work*. His most-engaged post
+David publishes a series on LinkedIn called _Putting Agents to Work_. His most-engaged post
 gives you the exact spine for this day:
 
 > "An agent is not something you talk to. It is something that acts when something happens.
@@ -220,17 +237,17 @@ gives you the exact spine for this day:
 > "Old automation runs the same path every time. An agentic workflow chooses the path each
 > time." … "Do not start with the model. **Start with the trigger.**"
 
-Lab 07 is now built on those four words, deliberately. Say so from the front: *"This is David's
-framing, not mine - and those questions help us design the automation and its review controls."* Naming him is the
+Lab 07 is now built on those four words, deliberately. Say so from the front: _"This is David's
+framing, not mine - and those questions help us design the automation and its review controls."_ Naming him is the
 point; do not let the lab quietly absorb his thinking without attribution.
 
 Two more of his lines worth holding:
 
-- *"The better question is not whether an agent can act on its own, it is whether it should."*
+- _"The better question is not whether an agent can act on its own, it is whether it should."_
   Use this when someone asks why the agent opens a **draft** PR instead of merging.
-- *"Three of every five decisions are not agent food."* This is exactly why the evaluator
+- _"Three of every five decisions are not agent food."_ This is exactly why the evaluator
   returns **Unclear** instead of guessing: an empty quote for silence, or an exact quote for an explicit gap. Unclear is the agent saying
-  *this one is not mine* — his thesis, running in code.
+  _this one is not mine_ — his thesis, running in code.
 
 Careful: reference the published framework, not his career history. Flattering, not creepy.
 
@@ -240,13 +257,13 @@ Careful: reference the published framework, not his career history. Flattering, 
 
 **Theme: "Many agents, and how you know they are right."**
 
-| Time | Beat | Content |
-|---|---|---|
-| 09:00–09:30 | **SHOW** | **Author and distribute what Monday previewed.** Compare instructions, prompts, agents, skills, hooks, MCP, and plugins. Inspect the repository and organization sources, marketplace, and effective `extraKnownMarketplaces`/`enabledPlugins`. Revisit the installed toolkit and its verified tool result; do not change enterprise policy live. Use prepared independent sessions for optional parallel-work, worktree, or Agent Merge discussion. |
-| 09:30–11:00 | **BUILD** | **Lab 06 - build your own agent and skill.** Author both under `.github`, test present and missing evidence, generate evaluator JSON plus a separate `reports/baseline/`, then hand off to analyst, writer, and reviewer. Compare artifacts without overwriting the baseline. Dependent handoffs differ from independent parallel sessions. |
-| 11:00–11:15 | Break | |
-| 11:15–11:45 | **BUILD** | **Evaluate evidence quality.** Compare results with fixed-date sample expectations, inspect exact quotations, and test silence and explicit gaps. Use a second-model check only where available; it is another opinion, not an oracle. Optionally show usage/impact metrics with synthetic assumptions: PR volume and modeled ROI are directional measures, not proof of correctness or productivity. |
-| 11:45–12:30 | **PLAYBACK** | Final demonstrations and close. Handoff: what runs Monday without me. |
+| Time        | Beat         | Content                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 09:00–09:30 | **SHOW**     | **Deepen Monday's authoring and reuse.** Compare the local vendor roles with plugin-packaged AttractionsAgent, marketplace, and effective managed settings. The old shared vendor duplicate is retired; organization-agent location is reference only. Optionally inspect the document toolkit and a verified tool result. Do not change enterprise policy live. Use prepared independent sessions for optional worktree/Agent Merge discussion. |
+| 09:30–11:00 | **BUILD**    | **Lab 06 - evidence handoffs.** Author a business agent and skill, test present/missing evidence, generate evaluator JSON plus a separate `reports/baseline/`, then hand off to local analyst, writer, and reviewer. Preserve scores and exact quotations; compare without overwriting the baseline. Ordered handoffs differ from independent parallel sessions.                                                                                 |
+| 11:00–11:15 | Break        |                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| 11:15–11:45 | **BUILD**    | **Evaluate evidence quality.** Compare results with fixed-date sample expectations, inspect exact quotations, and test silence and explicit gaps. Use a second-model check only where available; it is another opinion, not an oracle. Optionally show usage/impact metrics with synthetic assumptions: PR volume and modeled ROI are directional measures, not proof of correctness or productivity.                                            |
+| 11:45–12:30 | **PLAYBACK** | Final demonstrations and close. Handoff: what runs Monday without me.                                                                                                                                                                                                                                                                                                                                                                            |
 
 **Close with the ask, not a thank-you:** name the next step — their own org, their own repos, the
 17 Nov Ignite session at Lyngby, and who owns the vendor-assurance PoC internally.
@@ -255,27 +272,29 @@ Careful: reference the published framework, not his career history. Flattering, 
 
 ## 9. Excitement devices
 
-| Device | When | How |
-|---|---|---|
-| **Cold open** | Day 1, 09:00 | Build before you introduce yourself. Kills the "another vendor deck" reflex instantly. |
-| **The wall of PRs** | All week | Project the repo PR list on a second screen. It fills up visibly. |
-| **Compare agent approaches** | Day 5 | Inspect prepared independent results for the same task; compare correctness and effort as well as elapsed time. |
-| **Name the problem** | Every SHOW | Use the synthetic assurance work queue as the through-line. The list analogy helps beginners; the short text examples do not demonstrate a 200-page production pipeline. |
-| **Team playback** | Daily | They drive their own screen. Their colleague succeeding beats me succeeding. |
-| **Sponsor in the room** | Day 2, 14:00 | David and Susan see the showcase, not a status report. |
+| Device                       | When         | How                                                                                                                                                                                   |
+| ---------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Cold open**                | Day 1, 09:00 | Build before you introduce yourself. Kills the "another vendor deck" reflex instantly.                                                                                                |
+| **The wall of PRs**          | All week     | Project the repo PR list on a second screen. It fills up visibly.                                                                                                                     |
+| **Compare agent approaches** | Day 5        | Inspect prepared independent results for the same task; compare correctness and effort as well as elapsed time.                                                                       |
+| **Name the problem**         | Every SHOW   | Monday: complete the fictional trip with your own and shared workflows. Later: transfer those patterns to the synthetic assurance work queue. Neither example is a production system. |
+| **Team playback**            | Daily        | They drive their own screen. Their colleague succeeding beats me succeeding.                                                                                                          |
+| **Sponsor in the room**      | Day 2, 14:00 | David and Susan see the showcase, not a status report.                                                                                                                                |
 
 ---
 
 ## 10. Fallbacks — decide these in September, not in the room
 
-| If this breaks | Fallback |
-|---|---|
-| Attendees cannot join the external org | Deliver everything in Novo's own org; David does admin pre-work |
-| Codespaces blocked on the network | Use a prepared presenter environment and screenshots; identify an approved attendee environment before promising a hands-on fallback |
-| Cloud agent disabled or blocked by a ruleset | Use local CLI work and a pre-run PR. `/delegate` also requires cloud-agent access and is not a bypass |
-| Copilot seats missing on Day 1 | Seats funded in `agentic-dev-labs`; verify the week before |
-| Preview features changed | **Re-verify Agent HQ, Claude/Codex week of 19 Oct.** Keep a Copilot-only version of every Day 5 demo |
-| Jackie unavailable Day 2 | Use an agreed substitute presentation in the same slot; any timing change requires explicit agreement |
+| If this breaks                                  | Fallback                                                                                                                                                                    |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Attendees cannot join the external org          | Deliver everything in Novo's own org; David does admin pre-work                                                                                                             |
+| Codespaces blocked on the network               | Use a prepared presenter environment and screenshots; identify an approved attendee environment before promising a hands-on fallback                                        |
+| Public travel site or browser interaction fails | Try the tested direct search links, then use labelled practice excerpts. Do not count fixtures as live research or bypass a CAPTCHA                                         |
+| Managed AttractionsAgent unavailable            | Check private-source access, effective policy, origin, and actual ID. A presenter transcript is a fallback, not a passed attendee invocation; do not make a local duplicate |
+| Cloud agent disabled or blocked by a ruleset    | Use local CLI work and a pre-run PR. `/delegate` also requires cloud-agent access and is not a bypass                                                                       |
+| Copilot seats missing on Day 1                  | Seats funded in `agentic-dev-labs`; verify the week before                                                                                                                  |
+| Preview features changed                        | **Re-verify Agent HQ, Claude/Codex week of 19 Oct.** Keep a Copilot-only version of every Day 5 demo                                                                        |
+| Jackie unavailable Day 2                        | Use an agreed substitute presentation in the same slot; any timing change requires explicit agreement                                                                       |
 
 Do not depend on retired products. The August 4 announcement stopped new Spark apps;
 the existing workbench's export window ended August 31. Recheck current availability before delivery.
@@ -285,13 +304,15 @@ the existing workbench's export window ended August 31. Recheck current availabi
 ## 11. Morning pre-flight — 20 minutes before each day
 
 - [ ] Codespace created and warm from the venue network
-- [ ] `python -m pytest` green
+- [ ] `uv run pytest` and `uv run ruff check .` green
 - [ ] `copilot` authenticated; `gh auth status` clean
 - [ ] One issue ready to assign live; one draft PR already open as a backup
-- [ ] Reference guide, synthetic Space, and verified plugin result ready for the opening tour
+- [ ] Reference guide and prepared Space/cloud results ready; managed specialist saved for the post-build reveal
+- [ ] KAYAK UK/Booking.com direct searches checked; fixture fallback clearly separate from live observations
+- [ ] Managed AttractionsAgent discovered and invoked; Awesome Copilot example ready for after the trip
 - [ ] Browser tools, model controls, and recovery exercised in the actual presenter client
 - [ ] Projector at 150% zoom, notifications off
-- [ ] Synthetic sample is the only data on screen
+- [ ] Fictional briefs and permitted public research only; no personal itineraries, private tabs, or credentials
 - [ ] Today's fallback identified out loud to Jackie
 
 ---
@@ -316,8 +337,8 @@ Blocking items from the engagement brief that gate this run sheet:
 3. Tools and network access work inside Codespaces for all core labs; no local Node prerequisite
 4. Deck v4 — 6h Days 1–2, half-day Days 3–5, Jackie's hour, no Spark, corrected invite hours
 5. Control labels and sample expectations were aligned on 2 Sep; this was not full semantic
-  validation. The later review reproduced negation, retention, residency, and unstated-SOC-2
-  defects. The Northstar sample is 8/10 at the fixed review date, not proof those cases are solved.
+   validation. The later review reproduced negation, retention, residency, and unstated-SOC-2
+   defects. The Northstar sample is 8/10 at the fixed review date, not proof those cases are solved.
 6. Dry run with David and one participant on the loaner laptop (late Sep)
 7. **New:** confirm team repos stay **private or internal** — Lab 07 automations do not exist in
    public repositories.
@@ -331,24 +352,24 @@ Blocking items from the engagement brief that gate this run sheet:
 Half-days are tight, so none of these have a fixed slot. Keep them loaded and use one when a
 build block finishes early or the energy dips. Each is under ten minutes.
 
-| Demo | Why it lands at Novo | Watch out |
-|---|---|---|
-| **GitHub Copilot in Microsoft Teams** — `@GitHub` in a channel starts a cloud agent session everyone can see and steer | They live in Teams, Work IQ and Cowork. This is the bridge: a Teams discussion becomes a pull request without leaving the conversation. Repo admins can require an **extra approval** for PRs from the Teams identity, which is the compliance answer built in | Public preview. Needs the GitHub app for Teams installed and cloud sandboxes enabled. Consumes AI credits; sandbox billed separately |
-| **Agent Plugins 1.0** - inspect an installed capability package | Use `copilot plugin install assurance-toolkit@agentic-dev-labs`, inspect the discovered agent, skills and MCP tools, then ask a narrow question about a synthetic document and verify the source quotation | Installation, tool permissions and conversion quality must all be rehearsed. Do not promise a before-install failure or after-install success. The toolkit remains an optional presenter install, not a Lab 00 dependency |
-| **Generate synthetic test data** | Ask for a fictional report with a stated residency contradiction, run the deterministic evaluator, then inspect the quoted result together | Silence should produce Unclear, not Fail. Also test explicit negative evidence; do not claim real reports never acknowledge deficiencies |
-| **The distribution ladder** — repo → org → enterprise | The answer to David's scale problem. Repo level works today with no admin; org level is one file in `.github-private/agents/`; enterprise is `copilot/managed-settings.json`. Show it as a ladder so nobody hears "you need admin before this is useful" | David is not a GitHub enterprise admin at Novo. The rungs he can act on are repo and org. Enterprise is a conversation for Martin's onboarding workstream and 17 Nov |
-| **Enterprise team specialization** — `copilot/teams/*.json` + `team-mappings.json` | The best answer to "central IT will never move fast enough for us." An enterprise marks individual keys `overridable`; a named team then layers its own values on top while every unmarked key stays locked. Novo could give a pilot team a wider model list and looser permissions without weakening the floor for everyone else. And because the source repo is `.github-private` set to **internal**, a team proposes a governance change by opening a **pull request** — policy with a review gate, which is the language a GxP shop already speaks | Enterprise-admin territory, so this is a conversation for Martin, not a click for David. Multi-team users get the *least restrictive* value per key — say that out loud, it surprises people |
-| **`strictKnownMarketplaces`** — restrict installs to named marketplaces only | The sharpest answer to "how do we stop people wiring random tools into our estate?" Policy lives in Git, so every change is reviewable through a pull request | **Show it, do not set it.** It is enterprise-wide with no org scope, and locking it to `agentic-dev-labs` would break your own `ali/*` and `work-iq/*` plugins — Joker, observability, presentation, WorkIQ, ATK. An empty array is total lockdown |
-| **MCP allowlists in enterprise managed settings** | Inspect supported server restrictions and effective client policy | Show, do not change. User-assigned names are not a strong security boundary; service authorization still matters |
-| **Copilot Memory** | Show a possible source of retained repository context, distinct from a curated Space | Availability and controls vary. Remembered information is not guaranteed correct or complete |
-| **Actions quarantines suspicious workflows** (28 Jul) | One line on Day 3 or 4 that costs nothing: it is not only that a human must approve a workflow run, GitHub actively holds workflows it judges potentially malicious. Free credibility in a security-conscious room | Do not oversell it as a security product; it is a guardrail, not GHAS |
-| **`vulnerability-alerts` permission for `GITHUB_TOKEN`** (3 Sep) | A concrete least-privilege example for Day 4: grant a workflow read access to Dependabot alerts without handing it a broad scope. Pairs with the hooks story — both are about narrowing what an automated actor may touch | Only worth showing if somebody asks about workflow permissions |
-| **Media in issues and pull requests from `gh`** (1 Sep) | Small delight: the agent attaches a screenshot to its own pull request | Ten seconds, no more |
-| **Spec Kit** | Optional specification-to-task workflow | Rehearse current installation and commands. Do not promise offline model access or regulatory compliance from a template |
-| **`/btw`** or other side-question controls | Show the available way to ask without replacing the active task | Client-specific; inspect the current command list before promising it |
-| **Token spend, visible** — hover a response in VS Code for per-model token usage; the same indicator now sits in Copilot Chat on github.com | The room will ask what this costs. Showing the number per turn is far more convincing than quoting a price list, and it sets up the ROI dashboard on Day 5 | Do not editorialise about credits. Show the number, move on |
-| **Copilot app and integrations** | A prepared view of another surface and its customization/integration options | Separate setup and policies. Preview in Monday's map; use official references for follow-up rather than installing during a lab |
-| **Dictation** | Optional short spoken prompt | Verify the actual client's processing and data-handling settings before making on-device or no-audio-upload claims |
+| Demo                                                                                                                                        | Why it lands at Novo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Watch out                                                                                                                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **GitHub Copilot in Microsoft Teams** — `@GitHub` in a channel starts a cloud agent session everyone can see and steer                      | They live in Teams, Work IQ and Cowork. This is the bridge: a Teams discussion becomes a pull request without leaving the conversation. Repo admins can require an **extra approval** for PRs from the Teams identity, which is the compliance answer built in                                                                                                                                                                                                                                                                                          | Public preview. Needs the GitHub app for Teams installed and cloud sandboxes enabled. Consumes AI credits; sandbox billed separately                                                                                                               |
+| **Agent Plugins 1.0** - inspect an installed capability package                                                                             | Use `copilot plugin install assurance-toolkit@agentic-dev-labs`, inspect the discovered agent, skills and MCP tools, then ask a narrow question about a synthetic document and verify the source quotation                                                                                                                                                                                                                                                                                                                                              | Installation, tool permissions and conversion quality must all be rehearsed. Do not promise a before-install failure or after-install success. The toolkit remains an optional presenter install, not a Lab 00 dependency                          |
+| **Generate synthetic test data**                                                                                                            | Ask for a fictional report with a stated residency contradiction, run the deterministic evaluator, then inspect the quoted result together                                                                                                                                                                                                                                                                                                                                                                                                              | Silence should produce Unclear, not Fail. Also test explicit negative evidence; do not claim real reports never acknowledge deficiencies                                                                                                           |
+| **The distribution ladder** — repo → org → enterprise                                                                                       | The answer to David's scale problem. Repo level works today with no admin; org level is one file in `.github-private/agents/`; enterprise is `copilot/managed-settings.json`. Show it as a ladder so nobody hears "you need admin before this is useful"                                                                                                                                                                                                                                                                                                | David is not a GitHub enterprise admin at Novo. The rungs he can act on are repo and org. Enterprise is a conversation for Martin's onboarding workstream and 17 Nov                                                                               |
+| **Enterprise team specialization** — `copilot/teams/*.json` + `team-mappings.json`                                                          | The best answer to "central IT will never move fast enough for us." An enterprise marks individual keys `overridable`; a named team then layers its own values on top while every unmarked key stays locked. Novo could give a pilot team a wider model list and looser permissions without weakening the floor for everyone else. And because the source repo is `.github-private` set to **internal**, a team proposes a governance change by opening a **pull request** — policy with a review gate, which is the language a GxP shop already speaks | Enterprise-admin territory, so this is a conversation for Martin, not a click for David. Multi-team users get the _least restrictive_ value per key — say that out loud, it surprises people                                                       |
+| **`strictKnownMarketplaces`** — restrict installs to named marketplaces only                                                                | The sharpest answer to "how do we stop people wiring random tools into our estate?" Policy lives in Git, so every change is reviewable through a pull request                                                                                                                                                                                                                                                                                                                                                                                           | **Show it, do not set it.** It is enterprise-wide with no org scope, and locking it to `agentic-dev-labs` would break your own `ali/*` and `work-iq/*` plugins — Joker, observability, presentation, WorkIQ, ATK. An empty array is total lockdown |
+| **MCP allowlists in enterprise managed settings**                                                                                           | Inspect supported server restrictions and effective client policy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Show, do not change. User-assigned names are not a strong security boundary; service authorization still matters                                                                                                                                   |
+| **Copilot Memory**                                                                                                                          | Show a possible source of retained repository context, distinct from a curated Space                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Availability and controls vary. Remembered information is not guaranteed correct or complete                                                                                                                                                       |
+| **Actions quarantines suspicious workflows** (28 Jul)                                                                                       | One line on Day 3 or 4 that costs nothing: it is not only that a human must approve a workflow run, GitHub actively holds workflows it judges potentially malicious. Free credibility in a security-conscious room                                                                                                                                                                                                                                                                                                                                      | Do not oversell it as a security product; it is a guardrail, not GHAS                                                                                                                                                                              |
+| **`vulnerability-alerts` permission for `GITHUB_TOKEN`** (3 Sep)                                                                            | A concrete least-privilege example for Day 4: grant a workflow read access to Dependabot alerts without handing it a broad scope. Pairs with the hooks story — both are about narrowing what an automated actor may touch                                                                                                                                                                                                                                                                                                                               | Only worth showing if somebody asks about workflow permissions                                                                                                                                                                                     |
+| **Media in issues and pull requests from `gh`** (1 Sep)                                                                                     | Small delight: the agent attaches a screenshot to its own pull request                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Ten seconds, no more                                                                                                                                                                                                                               |
+| **Spec Kit**                                                                                                                                | Optional specification-to-task workflow                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Rehearse current installation and commands. Do not promise offline model access or regulatory compliance from a template                                                                                                                           |
+| **`/btw`** or other side-question controls                                                                                                  | Show the available way to ask without replacing the active task                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Client-specific; inspect the current command list before promising it                                                                                                                                                                              |
+| **Token spend, visible** — hover a response in VS Code for per-model token usage; the same indicator now sits in Copilot Chat on github.com | The room will ask what this costs. Showing the number per turn is far more convincing than quoting a price list, and it sets up the ROI dashboard on Day 5                                                                                                                                                                                                                                                                                                                                                                                              | Do not editorialise about credits. Show the number, move on                                                                                                                                                                                        |
+| **Copilot app and integrations**                                                                                                            | A prepared view of another surface and its customization/integration options                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Separate setup and policies. Preview in Monday's map; use official references for follow-up rather than installing during a lab                                                                                                                    |
+| **Dictation**                                                                                                                               | Optional short spoken prompt                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Verify the actual client's processing and data-handling settings before making on-device or no-audio-upload claims                                                                                                                                 |
 
 ---
 
@@ -362,10 +383,10 @@ the rehearsal checklist above take precedence over older talk tracks.
   "an agent that can automatically run … read a SOC 2 report, and populate a vendor output
   report." Automations do exactly that: schedule, issue-created, PR-opened or PR-synchronized
   triggers, with per-automation tool scoping. Now Lab 07. **Private or internal repos only.**
-- **Hooks are new to this plan** — `.github/hooks/*.json`, with `preToolUse` able to *approve or
-  deny* a tool call. This is the GxP audit story made concrete. Also Lab 07.
+- **Hooks are new to this plan** — `.github/hooks/*.json`, with `preToolUse` able to _approve or
+  deny_ a tool call. This is the GxP audit story made concrete. Also Lab 07.
 - **The cloud agent is no longer just "issue → draft PR."** It can research, plan and iterate on
-  a branch *before* a PR exists, from the agents panel. Lab 03 updated.
+  a branch _before_ a PR exists, from the agents panel. Lab 03 updated.
 - **Copilot code review can approve pull requests** (1 Sep 2026) and has effort levels (7 Aug).
 - **Browser demo choice updated 7 Sep:** use Copilot's built-in browser tools, with no additional
   browser MCP server. Lab 04 separately teaches remote GitHub MCP; verify built-in tool availability

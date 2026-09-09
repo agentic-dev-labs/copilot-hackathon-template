@@ -10,6 +10,10 @@ Day 1 introduced MCP as one way to connect an agent to tools or data. This lab m
 connection explicit: discover a tool, inspect what it can do, authenticate, call it, and verify
 the result. MCP configuration, a skill's instructions, and the built-in browser tools are different things.
 
+The managed AttractionsAgent reused on Monday installed no MCP server. Here you explicitly
+connect one: GitHub MCP exposes GitHub data and actions, not flight/hotel inventory. This
+distinction is the learning goal, even when both appear as tools in the same chat.
+
 ## Steps
 
 1. Open the Command Palette in the Codespace and choose **MCP: Add Server**, then **HTTP**.

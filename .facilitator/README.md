@@ -11,9 +11,11 @@ No passwords, tokens, or service credentials belong here.
 - [ENGAGEMENT-BRIEF.md](ENGAGEMENT-BRIEF.md): stakeholder context and internal planning history.
 - [Coverage and official references](../docs/REFERENCES.md): attendee-safe lookup guide for every feature family and daily optional tasks.
 
-The run sheet now previews the main families on Day 1 and deepens them in later labs. Use its
-prepared-result fallbacks without changing the published clock times. The brief retains historical
-quotations; current product procedures belong in the linked guide and labs.
+The run sheet introduces the main families on Day 1 through learner-created TravelPlannerAgent
+and flight/hotel skills, then managed AttractionsAgent reuse and trip completion. Awesome Copilot
+comes afterward; the separate deployment publishes the provided vendor app for Days 2-5.
+Use labelled prepared-result fallbacks without changing the published times. The brief retains
+historical quotations; current procedures and browser-test limits belong in the linked guides.
 
 Existing confidentiality labels remain applicable; do not redistribute the material
 outside the approved repository audience. Docker builds exclude this entire folder.

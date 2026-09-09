@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 /rehearsal/results/
+/travel/output/
 .venv/
 node_modules/
 dist/

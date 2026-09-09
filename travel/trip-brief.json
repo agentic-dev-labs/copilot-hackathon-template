@@ -1,0 +1,21 @@
+{
+  "synthetic": true,
+  "traveler": "Synthetic Traveler",
+  "origin": { "city": "Copenhagen", "country": "Denmark", "airport": "CPH" },
+  "destination": {
+    "city": "London",
+    "country": "United Kingdom",
+    "airport": "LHR",
+    "time_zone": "Europe/London"
+  },
+  "dates": { "start": "2026-10-26", "end": "2026-10-28" },
+  "adults": 1,
+  "rooms": 1,
+  "budget": { "amount": 1000, "currency": "GBP" },
+  "interests": ["history", "museums", "walking"],
+  "requirements": [
+    "No real bookings or payments",
+    "Verify dates and currencies",
+    "Keep unknown costs visible"
+  ]
+}

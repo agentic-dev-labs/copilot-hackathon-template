@@ -35,10 +35,38 @@ def test_every_live_condition_starts_pending(ledger: dict) -> None:
 def test_passing_requires_observation_and_evidence(ledger: dict) -> None:
     """A green unit suite must not automatically pass the browser journey."""
     with pytest.raises(ValueError, match="Passing requires"):
-        evidence.record(ledger, "01", "browser", "passed", [], "Tests passed")
+        evidence.record(ledger, "01", "flight-hotel-browser", "passed", [], "Tests passed")
     with pytest.raises(ValueError, match="Passing requires"):
-        evidence.record(ledger, "01", "browser", "passed",
+        evidence.record(ledger, "01", "flight-hotel-browser", "passed",
                         ["https://github.com/synthetic/rehearsal/issues/1"], "Tests passed")
+
+
+def test_old_page_checks_cannot_complete_the_travel_lab(ledger: dict) -> None:
+    """Previous curriculum evidence must not silently satisfy the new travel work."""
+    lab = next(lab for lab in evidence.manifest() if lab["id"] == "01")
+    ledger["labs"]["01"] = {
+        check: {"status": "passed"}
+        for check in ("implementation", "customizations", "browser", "review")
+    }
+    assert evidence.lab_status(ledger, lab) == "pending"
+
+
+@pytest.mark.parametrize("required_check", ["managed-origin", "specialist", "itinerary"])
+def test_shared_travel_work_requires_each_observation(ledger: dict, required_check: str) -> None:
+    """Delivery, invocation, and the final trip are separate live requirements."""
+    lab = next(lab for lab in evidence.manifest() if lab["id"] == "02")
+    assert required_check in lab["checks"]
+    assert "delegation" not in lab["checks"]
+    for check in lab["checks"]:
+        if check != required_check:
+            evidence.record(
+                ledger, "02", check, "passed",
+                ["https://github.com/synthetic/rehearsal/issues/1"],
+                "Synthetic observation for this test", observed=True,
+            )
+    assert evidence.lab_status(ledger, lab) == "pending"
+    evidence.record(ledger, "02", required_check, "blocked", [], "Live stage unavailable")
+    assert evidence.lab_status(ledger, lab) == "blocked"
 
 
 def test_missing_entries_never_pass(ledger: dict) -> None:

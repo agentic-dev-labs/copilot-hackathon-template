@@ -11,22 +11,36 @@ the same project in GitHub Chat/Spaces, VS Code, CLI, and a prepared cloud-agent
 supplies the development environment; Copilot supplies assistance. This lab only sets up the
 core environment, not every feature shown in the tour.
 
+The first build task is [TravelPlannerAgent](../01-vscode-agent/README.md): you create its
+flight/hotel skills, then consume the facilitator's shared AttractionsAgent in Lab 02.
+The vendor-review application is already provided for the later deployment and business labs.
+
 ## Steps
 
 1. Open your repository, select **Code > Codespaces > Create codespace on main**, and wait for setup.
 2. Confirm the Copilot icon is visible in VS Code and open Copilot Chat.
 3. In the Codespace terminal, run `python --version`, `node --version`, `gh --version`, and `copilot --version`. All four are installed by the container.
 4. Run `gh auth status`. Start `copilot` separately and follow its sign-in flow if requested. Installation does not guarantee authentication; use the assigned account for both.
-5. Run `python -m pytest` and confirm the starter tests pass.
-6. Open Copilot Chat and select `vendor-analyst`. Inspect its definition in `.github/agents/vendor-analyst.agent.md`. This copy comes from the template; its presence alone does not prove organization sharing or plugin installation.
-7. Switch back to the built-in **Ask** or **Agent** role and ask it to explain `src/vendor_assurance/chunker.py`. The specialist `vendor-analyst` expects a report and evaluator JSON, not a general coding question.
+5. Run `uv run pytest` and confirm the starter tests pass.
+6. In the built-in **Ask** or **Agent** role, open [the fictional trip brief](../../travel/trip-brief.json)
+   and ask what inputs a travel planner needs. Do not ask the vendor-analyst role to plan a trip.
+7. Open the Customizations editor and identify repository-provided examples versus built-in
+   roles. The three vendor-review agents are for the business case later in the week;
+   their presence does not prove managed plugin delivery. You will create your own travel role.
 8. Open `config.json` and replace `Your Name` with your assigned unique workshop label, such as `Workshop Team 01`. One repository has one configuration and one deployed app, even when two people share it.
+9. Run `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000` in a terminal. Open port 8000
+   from the Codespaces **Ports** view and confirm your label and the three synthetic vendors.
+   Keep that terminal running while using the app; use another terminal for lab commands.
 
-**Done when:** the tools run, tests pass, the selected agent's source is identified, and your label is set.
+**Done when:** the tools and sign-in work, starter tests pass, the fictional brief is understood,
+you can identify a customization's source, and the provided app shows your unique label and
+synthetic sample rows.
 
 No local Node.js is required as a prerequisite; Node runs inside the Codespace.
 As an optional local alternative for an approved developer workstation, install the CLI with
-`winget install GitHub.Copilot`. All labs remain supported in the browser.
+`winget install GitHub.Copilot`. Codespaces is the intended attendee environment; verify
+the actual client features instead of assuming desktop and browser parity. Missing browser
+tools or managed-plugin access go to the facilitator, not a new installation exercise.
 
 ## What you just learned
 

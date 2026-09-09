@@ -3,7 +3,7 @@
 import json
 import re
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
 import yaml
 
@@ -80,6 +80,18 @@ def test_agent_frontmatter_and_handoff_targets() -> None:
             assert handoff.get("label") and handoff.get("prompt")
 
 
+def test_authoring_labs_do_not_embed_finished_customizations() -> None:
+    """Give learners requirements rather than complete agent, skill, or hook files."""
+    for number in ("01", "06", "07"):
+        path = next(Path("labs").glob(f"{number}-*/README.md"))
+        text = path.read_text(encoding="utf-8")
+        for body in re.findall(r"```markdown\n(.*?)\n[ \t]*```", text, re.DOTALL):
+            parts = body.strip().split("---", 2)
+            assert len(parts) != 3 or not parts[2].strip(), path
+        for body in re.findall(r"```json\n(.*?)\n[ \t]*```", text, re.DOTALL):
+            assert "hooks" not in json.loads(body), path
+
+
 def test_labs_have_completion_checks_and_optional_work() -> None:
     """Attendees need an observable finish and a separate early-finisher path."""
     for path in Path("labs").glob("*/README.md"):
@@ -107,11 +119,49 @@ def test_labs_link_official_references_and_coverage_guide() -> None:
 def test_local_document_links_resolve() -> None:
     """Check the simple relative links used by the workshop documentation."""
     files = [Path("README.md"), Path("AGENTS.md")]
-    for directory in ("docs", "labs", ".github", "src", ".facilitator", "rehearsal"):
-        files.extend(path for path in Path(directory).rglob("*.md") if "results" not in path.parts)
+    for directory in ("docs", "labs", ".github", "src", ".facilitator", "rehearsal", "travel"):
+        files.extend(
+            path for path in Path(directory).rglob("*.md")
+            if not {"results", "output"}.intersection(path.parts)
+        )
     for path in files:
         for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
             link = urlsplit(target)
             if link.scheme or link.netloc or not link.path:
                 continue
             assert (path.parent / unquote(link.path)).exists(), f"{path}: {target}"
+
+
+def test_travel_search_links_match_the_brief() -> None:
+    """Keep preset search parameters correct without claiming a live browser test."""
+    brief = json.loads(Path("travel/trip-brief.json").read_text(encoding="utf-8"))
+    lab = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
+    links = [urlsplit(target) for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", lab)]
+    flight = next(link for link in links if link.hostname == "www.kayak.co.uk")
+    assert flight.scheme == "https"
+    assert flight.path == (
+        f"/flights/{brief['origin']['airport']}-{brief['destination']['airport']}"
+        f"/{brief['dates']['start']}/{brief['dates']['end']}"
+    )
+    hotel = next(link for link in links if link.hostname == "www.booking.com")
+    assert hotel.scheme == "https"
+    assert hotel.path == "/searchresults.html"
+    query = parse_qs(hotel.query)
+    expected = {
+        "ss": f"{brief['destination']['city']}, {brief['destination']['country']}",
+        "checkin": brief["dates"]["start"],
+        "checkout": brief["dates"]["end"],
+        "group_adults": str(brief["adults"]),
+        "no_rooms": str(brief["rooms"]),
+        "group_children": "0",
+        "selected_currency": brief["budget"]["currency"],
+        "nflt": "ht_id=204",
+    }
+    for parameter, value in expected.items():
+        assert query[parameter] == [value]
+
+
+def test_travel_output_is_not_published() -> None:
+    """Keep collected research out of source control and the vendor app image."""
+    assert "/travel/output/" in Path(".gitignore").read_text(encoding="utf-8").splitlines()
+    assert "/travel/" in Path(".dockerignore").read_text(encoding="utf-8").splitlines()

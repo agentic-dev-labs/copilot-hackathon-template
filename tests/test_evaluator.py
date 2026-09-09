@@ -140,6 +140,10 @@ def test_future_soc2_report_needs_clarification() -> None:
     ("TLS 1.2 is pending for connections.", "TLS 1.2+ in transit", "Unclear"),
     ("A retention schedule is planned but no period is defined.", "Defined retention schedule", "Unclear"),
     ("The retention period is 18 months.", "Defined retention schedule", "Pass"),
+    ("No documented disposal process is in place.", "Documented disposal", "Fail"),
+    ("The disposal process is not documented.", "Documented disposal", "Fail"),
+    ("No data subject rights process is in place.", "Data subject rights", "Fail"),
+    ("The data subject rights process is not documented.", "Data subject rights", "Fail"),
 ])
 def test_negative_and_unresolved_narratives_are_not_positive_evidence(
     text: str, control: str, status: str,
@@ -200,13 +204,50 @@ def test_repeated_region_does_not_override_a_residency_contradiction(
     assert finding.evidence == f"Data residency: {residency}"
 
 
-@pytest.mark.parametrize("value,status", [("none", "Pass"), ("not stated", "Unclear"), ("", "Unclear")])
+@pytest.mark.parametrize("value,status", [
+    ("none", "Pass"),
+    ("Example Hosting Cooperative", "Pass"),
+    ("not stated", "Unclear"),
+    ("unknown", "Unclear"),
+    ("not provided", "Unclear"),
+    ("pending", "Unclear"),
+    ("", "Unclear"),
+])
 def test_subprocessor_disclosure(value: str, status: str) -> None:
     """Explicitly using no sub-processors differs from a missing disclosure."""
     result = evaluate_document([f"Sub-processors: {value}"])
     finding = next(item for item in result.findings if item.control == "Sub-processor disclosure")
 
     assert finding.status == status
+    assert finding.evidence == f"Sub-processors: {value}".strip()
+
+
+@pytest.mark.parametrize("region,residency", [
+    ("unknown", "unknown"),
+    ("not provided", "Records remain in EU West."),
+    ("EU West", "pending"),
+])
+def test_unresolved_residency_metadata_is_not_a_decision(region: str, residency: str) -> None:
+    """Matching unknown labels do not establish consistent residency."""
+    source = f"Hosting region: {region}\nData residency: {residency}"
+    result = evaluate_document([source])
+    finding = next(item for item in result.findings if item.control == "Data residency stated and consistent")
+    assert finding.status == "Unclear"
+    assert finding.evidence == f"Data residency: {residency}"
+
+
+@pytest.mark.parametrize("reported,today,status", [
+    ("2023-03-01", date(2024, 3, 1), "Pass"),
+    ("2023-02-28", date(2024, 3, 1), "Fail"),
+    ("2023-02-28", date(2024, 2, 29), "Pass"),
+    ("2023-02-27", date(2024, 2, 29), "Fail"),
+])
+def test_soc2_uses_twelve_calendar_months(reported: str, today: date, status: str) -> None:
+    """A leap day does not shorten the promised twelve-month validity window."""
+    result = evaluate_document([f"SOC 2 type: Type II\nReport date: {reported}"], today=today)
+    finding = next(item for item in result.findings if item.control == "SOC 2 Type II within 12 months")
+    assert finding.status == status
+    assert finding.evidence == f"Report date: {reported}"
 
 
 @pytest.mark.parametrize("sample,score,sensitivity", [

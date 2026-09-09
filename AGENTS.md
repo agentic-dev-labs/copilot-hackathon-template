@@ -43,6 +43,13 @@ its README cleanup reminder. A green offline suite is not a live Codespaces or D
 
 ## Maintaining workshop content
 
+Day 1 learners create TravelPlannerAgent plus FindFlight/FindHotel skills, then consume the
+managed AttractionsAgent and finalize the trip. Introduce Awesome Copilot only afterward.
+Do not pre-create the learner solution or duplicate the managed specialist in this repository.
+Lab 08 separately deploys the provided vendor app; Days 2-5 retain the vendor/Dataverse case.
+The correct vendor-analyst is repository-local for Lab 06; its old organization duplicate is retired.
+Travel outputs stay in ignored `travel/output/`; public research is not synthetic fixture data.
+
 Use [docs/REFERENCES.md](docs/REFERENCES.md) for feature coverage and official product links.
 Day 1 introduces the main families; later labs supply depth. Keep clock times and core lab
 durations unchanged unless the owner approves a change. Distinguish live work, prepared results,
@@ -59,13 +66,13 @@ Consult it when changing instruction files, not as evidence for an assurance fin
 
 ## Layout
 
-| Path | Purpose |
-|---|---|
-| `src/vendor_assurance/` | Chunker, evaluator, report writer, CLI |
-| `src/vendor_assurance/samples/` | Synthetic SOC 2 reports |
-| `app/` | The web application attendees deploy |
-| `labs/` | Workshop instructions |
-| `.github/agents/` | Custom agents |
+| Path                            | Purpose                                |
+| ------------------------------- | -------------------------------------- |
+| `src/vendor_assurance/`         | Chunker, evaluator, report writer, CLI |
+| `src/vendor_assurance/samples/` | Synthetic SOC 2 reports                |
+| `app/`                          | The web application attendees deploy   |
+| `labs/`                         | Workshop instructions                  |
+| `.github/agents/`               | Custom agents                          |
 
 ## Style
 

@@ -8,14 +8,16 @@ workflows; Days 2-5 provide depth. Keep the reference guide open for attendee qu
 
 Prepare these results before Day 1 so network waits and preview setup do not consume lab time:
 
-| Block | Live core | Prepared result or fallback |
-|---|---|---|
-| Opening tour | Working app, Codespaces/devcontainer, GitHub Chat, and one synthetic summary or diagram | A curated Space with only synthetic sources; an issue, cloud-agent session, reviewed PR, and completed automation |
-| VS Code tour | Inline/next-edit suggestions, inline chat or smart actions, Ask/Plan/Agent, context, model/Auto picker, test and diff | A small page change for built-in browser inspection; checkpoint/recovery example; Customizations editor |
-| CLI tour | Interactive plan, bounded programmatic task, permission request, context/usage, stop/resume | Delegated task and installed plugin with a verified agent/skill invocation; no policy change or installation wait |
-| Deployment lab handover | Branch, commit, PR/checks, workflow trigger, and where to find the resulting URL | A completed deployment run; review the actual diff before accepting a generated summary |
+| Block                  | Live core                                                                                  | Prepared result or fallback                                                            |
+| ---------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| Opening tour           | Completed fictional trip, VS Code/Codespaces and CLI, main capability map                  | Prepared Space, cloud PR, automation, and later SDK/MCP pointers                       |
+| Creation demonstration | Instructions, TravelPlannerAgent, FindFlight/FindHotel skills, discovery and invocation    | Small inline/context/model/recovery examples; prompt variant only in supported clients |
+| Managed-plugin reveal  | `attractions@agentic-dev-labs`, Managed source/version, actual AttractionsAgent invocation | Verified missing-date and supplied-source results; live research rehearsed separately  |
+| After trip completion  | Awesome Copilot and a prepared web-design-reviewer adaptation on the provided app          | Built-in-browser-only before/after result; no browser-server installation              |
+| Deployment handover    | Review config, trigger workflow, inspect exact-commit URL                                  | Provided vendor app for Day 2; this does not host the travel agent                     |
 
-Use one synthetic app as the thread. Name the model, agent role, tools, context, and execution
+Use the fictional trip for authoring/reuse, then the provided vendor app for the business case.
+Name the model, agent role, tools, context, and execution
 environment as different choices. GitHub Copilot is the focus; Microsoft 365 Copilot and
 Power Platform are related products, not interchangeable entitlements or tool surfaces.
 
@@ -39,20 +41,20 @@ administration do not add prerequisites to Monday. Use the
 
 ## Governance repository
 
-One repository, `agentic-dev-labs/.github-private`, does three jobs from three paths:
+The private repository `agentic-dev-labs/.github-private` now supplies managed settings and
+the plugin marketplace. The outdated organization vendor-analyst was removed with owner
+approval on 2026-09-09. Keep the correct local analyst/writer/reviewer for Friday's Lab 06.
 
-| Path | Job | Reaches |
-|---|---|---|
-| `agents/` | Organization-level custom agents | Eligible users in supported clients after the organization source is configured |
-| `copilot/managed-settings.json` | Enterprise managed settings | Licensed users covered by the configured enterprise policy |
-| `.github/plugin/marketplace.json` and `plugins/` | Plugin marketplace | Users whose clients can read the marketplace and plugin files |
+| Path                                             | Job                         | Reaches                                                       |
+| ------------------------------------------------ | --------------------------- | ------------------------------------------------------------- |
+| `copilot/managed-settings.json`                  | Enterprise managed settings | Licensed users covered by the configured enterprise policy    |
+| `.github/plugin/marketplace.json` and `plugins/` | Plugin marketplace          | Users whose clients can read the marketplace and plugin files |
 
 Custom agents and plugins have different scope ladders. Agents have an organization level;
 plugins do not use that same directory-based discovery mechanism.
 
-- Organization agents must sit in a **root `agents/` directory**, not `.github/agents/`,
-  which is the single-repository location. Members can use them without access to the
-   repository under the supported organization-agent sharing model. Verify discovery in the actual client.
+- If organization agents are added later, their location is root `agents/`, not workspace
+  `.github/agents/`. This is a reference concept, not an active second vendor analyst here.
 - Repository-level agents stay in `.github/agents` and apply only to that repository.
 - Plugins have no organization scope. Distribute them per repository through
   `.github/copilot/settings.json`, or enterprise-wide through `managed-settings.json`.
@@ -73,40 +75,81 @@ mid-demonstration or assume repository agents and plugins are the same thing.
 2. Select the organization as the enterprise source of governance so
    `copilot/managed-settings.json` takes effect. Check the effective settings in the client;
    refresh or restart as its documentation requires rather than assuming immediate propagation.
-3. Verify discovery and an actual invocation in the presenter client before delivery. When a manual
-   rehearsal install is needed, use `copilot plugin marketplace add agentic-dev-labs/.github-private`,
-   then `copilot plugin install vendor-assurance@agentic-dev-labs`. Do not present a manual install
+3. Verify discovery and a real invocation in both target clients. For an approved presenter install,
+   use `copilot plugin marketplace add agentic-dev-labs/.github-private`, refresh the catalog,
+   then `copilot plugin install attractions@agentic-dev-labs`. Do not present a manual install
    as proof that enterprise auto-install worked; inspect the effective settings and origin separately.
-4. Optionally add `.github/copilot/settings.json` to this template so repositories generated
-   from it enable the plugin without any enterprise change.
+4. Verify the effective Managed entry for `attractions@agentic-dev-labs`. Do not copy a local
+   AttractionsAgent or silently substitute repository-level installation. Missing managed access
+   is a blocker for that learning outcome, even if a presenter fallback can be shown.
 5. Never point the template at a marketplace repository that does not resolve; it fails for
    every team at once.
 6. Leave `strictKnownMarketplaces` alone. It is enterprise-wide with no organization scope,
    and restricting it blocks plugins installed from every other marketplace.
 
-For the presenter demo, use `copilot plugin install assurance-toolkit@agentic-dev-labs`
+**Day 1 specialist:** [attractions plugin](https://github.com/agentic-dev-labs/.github-private/tree/main/plugins/attractions).
+The tested CLI ID is `attractions:AttractionsAgent`. Inspect the current identifier in each
+client. The plugin installs neither an MCP server nor a browser package. It returns dated
+activity suggestions and never makes reservations. The owner approved adding it to the
+existing managed-plugin list; other enterprise settings stay unchanged.
+
+**After trip completion:** open [Awesome Copilot](https://github.com/github/awesome-copilot/)
+and [web-design-reviewer](https://github.com/github/awesome-copilot/tree/main/skills/web-design-reviewer).
+Prepare an adaptation before the workshop, retaining attribution and references. Use only
+the existing built-in browser tools; do not copy its example browser-server setup. Demonstrate
+one small visual check/fix on the provided app without changing the heading, source indicator,
+or health contract. Ten minutes of Lab 08 covers this segment; the remaining 35 cover deployment.
+
+Use this prepared request after opening the collection and explaining its provenance. This is
+our bounded adaptation of that review workflow, not an unmodified installed upstream skill:
+
+```text
+Review the provided workshop vendor app at the presenter-supplied URL using only Copilot's
+built-in browser tools. Inspect its rendered layout and accessible controls at desktop and
+narrow widths where supported. Report at most one concrete problem with an element reference
+and a screenshot or page observation. If there is no supported finding, say so.
+
+Propose the smallest fix, then implement it only after presenter review. Keep the page heading,
+source indicator, sample rows, escaping, and health/deployment contracts unchanged. Use the
+existing app styles and tests, with no framework, browser server, or package installation.
+Re-run the relevant tests and inspect the changed element with the same browser tools.
+Separate actual observations from assumptions; do not invent a defect to make the demo work.
+```
+
+Time budget: two minutes for the collection/source distinction, five for the prepared
+before/after observation, and three for the deployment handover. If live generation would
+overrun, show the already verified result and label it prepared. Do not ship the presenter's
+demo customization as a learner-created travel agent or imply the community item is managed.
+
+For an optional Day 5 document-tool demo, use `copilot plugin install assurance-toolkit@agentic-dev-labs`
 after confirming it appears in the marketplace. Inspect its agent, skills, and document-conversion
 MCP configuration. Use a synthetic document and verify a quotation; do not promise that every
 PDF failed before installation or that every converted file has reliable page provenance.
 The toolkit is an optional presenter install, separate from the core labs. Verify its actual
 tool permissions, runtime dependencies, and client support in the governance repository.
-Introduce an already-installed capability on Day 1; inspect packaging and distribution in depth
-on Day 5. Keep a verified transcript/result available if discovery is unavailable in the live client.
+Keep the document toolkit separate from Monday's required AttractionsAgent. A verified transcript
+is a presenter fallback, not evidence that the attendee's plugin actually worked.
 
 ## Create team repositories
 
 Repository secrets are **not** copied from a template. The script creates private repositories
-and grants the configured attendee team write access:
+and grants the configured attendee team write access. It first inspects the selected template
+and stops if facilitator preparation files are present or the inspection fails.
+
+The current source temporarily tracks `.facilitator/`. Its disclosure approval applies only
+to this repository, so the owner must prepare an approved template snapshot excluding that
+folder before making attendee copies. Do not copy the notes and remove them afterward.
+Pass the approved template's actual `owner/repository` to `--template`:
 
 ```shell
-python scripts/create_attendee_repos.py nn-na-2026-10-team-01 nn-na-2026-10-team-02
+python scripts/create_attendee_repos.py nn-na-2026-10-team-01 nn-na-2026-10-team-02 --template OWNER/APPROVED-TEMPLATE
 ```
 
 Re-running reuses existing repositories and reapplies the team grant. It does not create
 identities, issue credentials, buy seats, or configure secret access. Template changes also do
 not automatically update team repositories that already exist.
 
-1. Confirm this repository is flagged as a template.
+1. Confirm the approved, note-free source is flagged as a template.
 2. Run the script with the repository names you need.
 3. Verify the team grant and assign one unique workshop label/app name per deployed repository.
 4. Apply and test review rules. Configure Actions secret access and Day 2 Codespaces secrets separately.
@@ -125,6 +168,17 @@ is required; repository access to the prepared Actions identity must already exi
 - Run tests and the sample CLI end to end.
 - Use `--as-of 2026-10-26` to confirm sample scores 10, 8, and 2, plus exact source quotations.
 - Rehearse inline assistance, context attachments, model/usage controls, and checkpoint recovery on a disposable change.
+- Create the learner's travel instruction, coordinator, and two skills from the lab, rather than
+  shipping the completed solution in the template. Verify skill discovery and actual use.
+- Check flight/hotel browser access separately from synthetic-source analysis: dates, two nights,
+  price units, unknowns, source labels, and no purchases or personal data.
+- Start with [Lab 01's KAYAK UK and Booking.com links](../labs/01-vscode-agent/README.md#public-search-starting-points).
+  Dated GBP results were readable on 9 September in Windows VS Code. This is not a Codespaces
+  pass: some cookie/filter clicks timed out, Google consent interaction failed, and Expedia
+  returned partial results with HTTP 429 errors. Recheck in the actual workshop environment.
+- Check CLI sandbox/local-network support in the exact Codespace. Current Linux versions may
+  require networking helpers and `/dev/net/tun`; inspect effective `/sandbox` settings and the
+  official CLI release notes. Package downloads alone do not prove agent access. Do not bypass policy.
 - Check the synthetic Space's sources and permissions; do not attach the whole repository or facilitator notes.
 - Assign a test issue to Copilot and verify one reviewed result within the lab time-box. Check current limits instead of relying on a historical session cap.
 - Create an automation triggered by issue creation, open a matching issue, and confirm exactly one session starts.
@@ -134,39 +188,60 @@ is required; repository access to the prepared Actions identity must already exi
 - Exercise the Dataverse-backed training API using synthetic records.
 - Set a name in `config.json`, dispatch **Deploy my app**, and confirm the app answers on its public URL.
 - Run the Day 2 opt-in connection and confirm **Source: Dataverse**, not fallback samples.
-- Follow Lab 01's JSON-generation step and Lab 06's separate baseline/report comparison with a fresh session.
-- Verify the prepared plugin's agent/skill actually runs with its intended tools, not just that its manifest is listed.
+- Invoke managed AttractionsAgent with the trip: E1 fits, E2 is excluded, A1 is not scheduled on
+  Monday, and unknown prices remain unknown. Then verify a permitted live source separately.
+- Finish the itinerary before the Awesome Copilot segment; distinguish authored, managed,
+  community, and deployed artifacts. Lab 08 deploys the business starter, not a hosted travel agent.
+- Follow Lab 06's JSON generation and separate baseline/report comparison with a fresh session.
 - Disable test automations and stop unused Codespaces at the end of the rehearsal.
 
 Unit tests, lint, JSON/YAML parsing, and a valid lockfile are offline checks, not evidence that
 these live steps have passed. Record rehearsal results before promising end-to-end readiness.
 
-**Regression coverage added for rehearsal:** the reproduced encryption-negation, planned-retention,
-residency-contradiction, and unstated-SOC-2 cases are fixed and tested. Authenticated Dataverse and
-token requests now reject redirects. This remains a small keyword-based teaching evaluator;
+**Regression coverage added for rehearsal:** the reproduced encryption/disposal/rights negations,
+planned retention, unresolved sub-processor/residency metadata, residency contradiction, unstated
+SOC 2 type, and twelve-calendar-month date boundary are tested. Authenticated Dataverse and
+token requests reject redirects. This remains a small keyword-based teaching evaluator;
 those counterexamples and the three sample scores do not establish general document correctness.
 The live Codespaces, product-feature, Dataverse, and deployment gates must still be observed.
 
+## Container Image Readiness
+
+A read-only Trivy 0.74.0 scan on 2026-09-09 of the Linux AMD64 base in
+[Dockerfile](../Dockerfile), `python:3.12-slim`, reported 51 High and 3 Critical package
+findings across 18 CVEs, with no fixed versions listed. The compatible Bookworm variant
+reported 55 High and 5 Critical findings and did not resolve this issue; the base was not changed.
+
+These are scanner-reported dependency findings, not proof that this application exposes every
+vulnerability. The owner must triage them and approve the final image. Record the image digest,
+scan date, and results under ignored `rehearsal/results/`; recheck the final built app image,
+including its installed dependencies. Passing Python tests or a base-only scan is not a full
+container build, application security review, or live deployment check.
+
 ## Common failure modes
 
-| Symptom | Check | Resolution |
-|---|---|---|
-| Codespace creation fails | Network and Codespaces policy | Allow required GitHub endpoints and enable Codespaces. |
-| Copilot icon or agent missing | Seat and organization policy | Assign the seat, enable the feature, then reload the Codespace. |
-| `copilot` command not found | Container setup step failed | The container installs it from `https://gh.io/copilot-install`. Re-run that command in the terminal, or use `npm install -g @github/copilot`, which needs Node 22 or later. |
-| Organization agent missing from the list | Discovery setting | `github.copilot.chat.organizationCustomAgents.enabled` must be true; the devcontainer sets it. |
-| Inline suggestion or model option missing | Client, language, seat, model and settings | Use a prepared example and the current support documentation; do not turn a missing preview into an installation task. |
-| Browser tools missing | Presenter client and effective browser policy | Use the prepared demo or inspect the page manually; do not install another browser server. |
-| Plugin listed but its task fails | Component discovery, tool access and runtime | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test. |
-| Cloud task cannot start | Access level or agent policy | Grant write access and enable the cloud agent at organization level. |
-| Automations pane missing | Repository visibility or organization policy | Automations require a private or internal repository and an organization that allows them. |
-| Hook appears to hang the agent | Hook runtime | Hooks block execution; keep them under five seconds and set `timeoutSec`. |
-| Agent cannot update protected branch | Target branch and ruleset | Verify that the task uses its permitted branch. Have the owner approve only the documented exception needed; do not weaken protection during the session. |
-| Dependency setup fails | Registry firewall path | Allowlist the approved registry endpoints and rebuild the container. |
-| MCP authentication fails | Remote URL and browser auth | Use the documented remote URL and confirm the login flow is allowed. |
-| Azure login fails | Actions secret and deployment identity | This workflow uses `AZURE_CREDENTIALS`, not OIDC. Verify its access and validity without printing its value. |
-| App deploys but does not start | Container port or start command | The container listens on 8000; confirm `--target-port 8000` and check revision logs. |
-| Deployment rejected on the name | `config.json` still says `Your Name`, or the derived name is invalid | Container App names are lowercase, alphanumeric with hyphens, and 32 characters at most. |
+| Symptom                                        | Check                                                                    | Resolution                                                                                                                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Codespace creation fails                       | Network and Codespaces policy                                            | Allow required GitHub endpoints and enable Codespaces.                                                                                                                      |
+| Copilot icon or agent missing                  | Seat and organization policy                                             | Assign the seat, enable the feature, then reload the Codespace.                                                                                                             |
+| `copilot` command not found                    | Container setup step failed                                              | The container installs it from `https://gh.io/copilot-install`. Re-run that command in the terminal, or use `npm install -g @github/copilot`, which needs Node 22 or later. |
+| Old duplicate vendor-analyst still appears     | Cached organization discovery                                            | The shared copy is retired; refresh/reload the client. Keep the local workshop analyst used by Lab 06.                                                                      |
+| Learner agent or skill missing                 | File location, frontmatter, client                                       | Inspect discovery diagnostics; use skills for Agent Host, not unsupported prompt files.                                                                                     |
+| Inline suggestion or model option missing      | Client, language, seat, model and settings                               | Use a prepared example and the current support documentation; do not turn a missing preview into an installation task.                                                      |
+| Browser tools missing                          | Presenter client and effective browser policy                            | Use the prepared demo or inspect the page manually; do not install another browser server.                                                                                  |
+| Plugin listed but its task fails               | Component discovery, tool access and runtime                             | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test.                                                                      |
+| AttractionsAgent absent or not Managed         | Entitlement, private-source read access, policy refresh, local shadowing | Inspect source and the actual agent ID. Do not copy it into the learner repo or change enterprise settings live.                                                            |
+| Travel site blocks the agent                   | Site access or bot controls                                              | Use another permitted source or clearly labelled fixture; never call the fallback live browsing.                                                                            |
+| Packages work but agent cannot reach localhost | Sandbox and runtime prerequisites                                        | Inspect local-network controls and CLI release notes; do not disable enforced boundaries.                                                                                   |
+| Cloud task cannot start                        | Access level or agent policy                                             | Grant write access and enable the cloud agent at organization level.                                                                                                        |
+| Automations pane missing                       | Repository visibility or organization policy                             | Automations require a private or internal repository and an organization that allows them.                                                                                  |
+| Hook appears to hang the agent                 | Hook runtime                                                             | Hooks block execution; keep them under five seconds and set `timeoutSec`.                                                                                                   |
+| Agent cannot update protected branch           | Target branch and ruleset                                                | Verify that the task uses its permitted branch. Have the owner approve only the documented exception needed; do not weaken protection during the session.                   |
+| Dependency setup fails                         | Registry firewall path                                                   | Allowlist the approved registry endpoints and rebuild the container.                                                                                                        |
+| MCP authentication fails                       | Remote URL and browser auth                                              | Use the documented remote URL and confirm the login flow is allowed.                                                                                                        |
+| Azure login fails                              | Actions secret and deployment identity                                   | This workflow uses `AZURE_CREDENTIALS`, not OIDC. Verify its access and validity without printing its value.                                                                |
+| App deploys but does not start                 | Container port or start command                                          | The container listens on 8000; confirm `--target-port 8000` and check revision logs.                                                                                        |
+| Deployment rejected on the name                | `config.json` still says `Your Name`, or the derived name is invalid     | Container App names are lowercase, alphanumeric with hyphens, and 32 characters at most.                                                                                    |
 
 Do not disable certificate verification to work around corporate package restrictions. The
 lockfile uses public PyPI URLs; a locally approved mirror belongs in local tooling configuration,

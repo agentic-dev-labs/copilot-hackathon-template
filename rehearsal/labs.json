@@ -9,41 +9,46 @@
       "checks": {
         "fresh-install": "Codespaces network report includes a successful fresh-cache locked installation",
         "access": "GitHub, Copilot CLI, and editor are authenticated with the intended account",
-        "workspace": "Unique synthetic label, passing tests, running page, and discovered repository agent"
+        "workspace": "Unique synthetic label, passing tests, and running provided vendor app",
+        "travel-brief": "Fictional trip brief inspected and travel authoring distinguished from the later vendor business case"
       }
     },
     {
       "id": "01",
-      "title": "VS Code Agent and customizations",
+      "title": "Create TravelPlannerAgent and flight/hotel skills",
       "guide": "labs/01-vscode-agent/README.md",
-      "tests": ["tests/test_app_main.py", "tests/test_lab_contracts.py"],
+      "tests": ["tests/test_lab_contracts.py"],
       "checks": {
-        "implementation": "Page improvement implemented and covered by a focused passing test",
-        "customizations": "Path-scoped instructions and prompt created, discovered, and invoked with evaluator JSON",
-        "browser": "Completed page inspected using built-in browser tools and compared with the intended change",
-        "review": "Diff and staged files reviewed; code and customization files committed"
+        "travel-authoring": "Learner created a path-scoped travel instruction, TravelPlannerAgent, FindFlight, and FindHotel without a prebuilt solution",
+        "travel-invocation": "Learner planner and both named skills discovered and actually invoked with the fictional brief",
+        "date-price-checks": "Missing input, two hotel nights, currencies/price units, room types, sign-in-only rates, and unknown costs checked without booking",
+        "flight-hotel-browser": "Actual built-in browser observations of dated flight and hotel results recorded separately from provided_only fixtures; unsupported terms stay unknown",
+        "travel-review": "Four customization files reviewed and committed; generated research stays in ignored travel/output/; no local AttractionsAgent"
       }
     },
     {
       "id": "02",
-      "title": "Copilot CLI",
+      "title": "CLI and managed AttractionsAgent trip completion",
       "guide": "labs/02-copilot-cli/README.md",
       "tests": ["tests/test_cli.py"],
       "checks": {
-        "session": "Real interactive CLI task, context/session controls, and scoped tool request observed",
+        "session": "Real CLI task using the learner travel workflow, with context/session controls and supported tool boundaries observed",
         "programmatic": "Bounded programmatic task actually executed and its output checked",
-        "delegation": "Delegation produced a real remote task with an inspected session reference"
+        "managed-origin": "Managed attractions@agentic-dev-labs delivery, private source, version, and discovered agent ID verified in the target client; manual install is not managed proof",
+        "specialist": "Shared AttractionsAgent actually invoked with the trip, without a same-name local substitute",
+        "itinerary": "Selected flight/hotel integrated with in-range activities, E2 excluded, A1 not on Monday, time conflicts avoided, unknown prices preserved, and nothing booked"
       }
     },
     {
       "id": "08",
-      "title": "Deploy the sample-backed app",
+      "title": "Awesome Copilot example and separate vendor-app deployment",
       "guide": "labs/08-deploy/README.md",
       "tests": ["tests/test_workflows.py", "tests/test_app_config.py"],
       "checks": {
+        "community-example": "After trip completion, inspected Awesome Copilot and a prepared built-in-browser-only web-design-reviewer adaptation; community and managed origins distinguished",
         "reviewed-commit": "Exact tested commit was reviewed and pushed to the rehearsal repository",
         "actions": "Deploy workflow succeeded for that commit using the prepared runner identity",
-        "endpoint": "Downloaded deployment result and fresh requests verify health, label, and local samples",
+        "endpoint": "Downloaded deployment result and fresh requests verify the provided vendor app health, label, and local samples; this does not host the travel agent",
         "no-azure-login": "No attendee Azure login or credential creation was used"
       }
     },
@@ -51,7 +56,11 @@
       "id": "05",
       "title": "Dataverse read and write app",
       "guide": "labs/05-dataverse-app/README.md",
-      "tests": ["tests/test_dataverse.py", "tests/test_dataverse_scripts.py", "tests/test_app_main.py"],
+      "tests": [
+        "tests/test_dataverse.py",
+        "tests/test_dataverse_scripts.py",
+        "tests/test_app_main.py"
+      ],
       "checks": {
         "seed": "Three synthetic source vendors seeded under the unique rehearsal label without deleting custom rows",
         "implementation": "Form, validated server-side POST, scoped filter, unassessed state, and mocked failure tests implemented",
@@ -98,14 +107,18 @@
     },
     {
       "id": "06",
-      "title": "Agent and skill authoring",
+      "title": "Deeper agent authoring and evidence handoffs",
       "guide": "labs/06-multi-agent/README.md",
-      "tests": ["tests/test_evaluator.py", "tests/test_report_writer.py", "tests/test_cli.py"],
+      "tests": [
+        "tests/test_evaluator.py",
+        "tests/test_report_writer.py",
+        "tests/test_cli.py"
+      ],
       "checks": {
         "discovery": "Authored agent and skill discovered and actually invoked",
         "missing-evidence": "Missing input and silent-source cases do not invent facts or evaluator JSON",
         "semantics": "Negative encryption, undefined retention, residency contradiction, and unstated SOC 2 counterexamples pass",
-        "handoffs": "Actual analyst, writer, and reviewer invocations used original source and unchanged evaluator JSON",
+        "handoffs": "Actual repository-local analyst, writer, and reviewer invocations used original source and unchanged evaluator JSON; retired organization duplicate not used",
         "baseline": "Agent-authored report compared against untouched separate CLI baseline and source quotes",
         "commit": "Authored customization files reviewed and committed"
       }

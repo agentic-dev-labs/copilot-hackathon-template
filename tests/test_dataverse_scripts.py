@@ -8,14 +8,17 @@ from scripts import dataverse_app_user, dataverse_provision, dataverse_seed
 from src.vendor_assurance.dataverse import DataverseError
 
 
-def test_seed_updates_samples_without_deleting_attendee_work(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_seed_updates_samples_without_deleting_attendee_work(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
+) -> None:
     """Re-running the seed command preserves custom rows and scopes updates."""
     client = Mock()
     client.rows.side_effect = [[
         {"cr522_vendor": "Harborline Congress Services", "cr522_vendorreviewid": "synthetic-id"},
         {"cr522_vendor": "My fictional lab row", "cr522_vendorreviewid": "keep-me"},
-    ], []]
-    monkeypatch.setattr(dataverse_seed.DataverseClient, "from_environment", lambda **kwargs: client)
+    ], [{"cr522_vendor": "My fictional lab row"}]]
+    factory = Mock(return_value=client)
+    monkeypatch.setattr(dataverse_seed.DataverseClient, "from_environment", factory)
     monkeypatch.setattr(dataverse_seed, "load", lambda: {"displayName": "Synthetic O'Brien"})
 
     dataverse_seed.main()
@@ -27,6 +30,8 @@ def test_seed_updates_samples_without_deleting_attendee_work(monkeypatch: pytest
         assert "keep-me" not in call.args[1]
         assert call.args[2]["cr522_attendee"] == "Synthetic O'Brien"
     assert client.rows.call_args_list[0].kwargs["$filter"] == "cr522_attendee eq 'Synthetic O''Brien'"
+    factory.assert_called_once_with(allow_cli=False)
+    assert "Not assessed" in capsys.readouterr().out
 
 
 def test_failed_seed_read_stops_before_writes(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -21,7 +21,7 @@ SAMPLES = ROOT / "src" / "vendor_assurance" / "samples"
 def main() -> None:
     """Upsert this attendee's samples, preserving rows created during the lab."""
     attendee = load()["displayName"]
-    client = DataverseClient.from_environment(allow_cli=True)
+    client = DataverseClient.from_environment(allow_cli=False)
     escaped = attendee.replace("'", "''")
     existing = client.rows(
         f"{PREFIX}_vendorreviews",
@@ -60,7 +60,10 @@ def main() -> None:
     )
     print(f"\nRows in Dataverse for {attendee}:")
     for row in rows:
-        print(f"  {row[f'{PREFIX}_vendor']:<32} {row[f'{PREFIX}_score']}/10  {row[f'{PREFIX}_sensitivity']}")
+        score = row.get(f"{PREFIX}_score")
+        display_score = "Not assessed" if score is None else f"{score}/10"
+        sensitivity = row.get(f"{PREFIX}_sensitivity") or "Not assessed"
+        print(f"  {row[f'{PREFIX}_vendor']:<32} {display_score}  {sensitivity}")
 
 
 if __name__ == "__main__":

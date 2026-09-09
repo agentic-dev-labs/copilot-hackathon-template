@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import calendar
 import json
 import re
 from dataclasses import asdict, dataclass
@@ -79,7 +80,12 @@ CONTROL_RULES = (
         r"\bretention\s+(?:schedule|period)\b[^.!?]{0,100}\b(?:planned|pending|not\s+(?:defined|stated)|no\s+period)\b",
         r"\bretention\s+(?:schedule|period)\b|\bretained\s+for\b",
     ),
-    ControlRule("Documented disposal", r"\b(documented\s+disposal|secure\s+disposal|cryptographic\s+erasure)\b", r"\bdisposal\s+(is\s+)?not\s+documented\b"),
+    ControlRule(
+        "Documented disposal",
+        r"\b(documented\s+disposal|secure\s+disposal|cryptographic\s+erasure)\b",
+        r"\bdisposal\s+(?:process\s+)?(?:is\s+)?not\s+documented\b"
+        r"|\bno\s+(?:documented\s+disposal|secure\s+disposal|cryptographic\s+erasure)\b",
+    ),
     ControlRule(
         "Incident response SLA within 72 hours",
         r"\bincident[^.]{0,160}\b(?:[1-9]|[1-6][0-9]|7[0-2])\s*hours?\b",
@@ -90,7 +96,8 @@ CONTROL_RULES = (
 DATA_SUBJECT_RIGHTS_RULE = ControlRule(
     "Data subject rights",
     r"\b(data\s+subject\s+rights\s+process|process\s+for\s+access,\s+correction,\s+and\s+deletion\s+requests)\b",
-    r"\bno\s+process\s+for\s+data\s+subject\s+rights\b",
+    r"\bno\s+(?:process\s+for\s+data\s+subject\s+rights|data\s+subject\s+rights\s+process)\b"
+    r"|\bdata\s+subject\s+rights\s+process\s+(?:is\s+)?not\s+(?:documented|implemented|defined)\b",
     r"\bno\s+direct\s+statement\s+about\s+a\s+process\s+for\s+data\s+subject\s+rights\b",
 )
 
@@ -189,7 +196,7 @@ def _subprocessor_disclosure(text: str) -> Finding:
     if not line:
         return Finding(control, "Unclear", "", "The report does not state a sub-processor list.")
     value = _field(text, "Sub-processors", "").lower()
-    if value in {"", "none stated", "not stated"}:
+    if value in {"", "none stated", "not stated", "unknown", "not provided", "pending"}:
         return Finding(control, "Unclear", line, "The report does not provide a sub-processor disclosure.")
     if value in {"none", "none used"}:
         return Finding(control, "Pass", line, "The report explicitly states that no sub-processors are used.")
@@ -213,7 +220,11 @@ def _soc2_currency(text: str, today: date) -> Finding:
         return Finding(control, "Unclear", date_line, "The report date is missing or not a valid date.")
     if reported > today:
         return Finding(control, "Unclear", date_line, "The report date is in the future and needs clarification.")
-    if (today - reported).days > 365:
+    cutoff = date.min if today.year == 1 else date(
+        today.year - 1, today.month,
+        min(today.day, calendar.monthrange(today.year - 1, today.month)[1]),
+    )
+    if reported < cutoff:
         return Finding(control, "Fail", date_line, "The Type II report is older than twelve months.")
     return Finding(control, "Pass", date_line, "The Type II report is dated within the last twelve months.")
 
@@ -223,7 +234,11 @@ def _data_residency(text: str) -> Finding:
     region = _field(text, "Hosting region", "")
     residency = _field(text, "Data residency", "")
     evidence = _field_line(text, "Data residency") or _field_line(text, "Hosting region")
-    if not region or not residency or "not stated" in f"{region} {residency}".lower():
+    unresolved = {"", "not stated", "none stated", "unknown", "not provided", "pending"}
+    if (
+        region.lower() in unresolved or residency.lower() in unresolved
+        or "not stated" in f"{region} {residency}".lower()
+    ):
         return Finding(control, "Unclear", evidence, "The report does not state both a hosting region and a residency commitment.")
     region_pattern = re.escape(region)
     contradiction = (

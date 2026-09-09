@@ -6,6 +6,11 @@
 
 **Prerequisites:** Active Codespace, your app deployed in Lab 08, and the facilitator's prepared Dataverse connection. See [the prerequisites](../../docs/PREREQS.md).
 
+Day 1 used travel to teach authoring and reuse. Today applies those habits to a business app:
+explicit inputs, source-backed output, selected tools, and verification. Switch back to the
+built-in coding Agent to modify the provided app; the travel specialists do not own this code.
+No travel-plan import, travel website, or SDK integration is a prerequisite.
+
 > **This is a to-do list.** The items happen to be vendors, and the to-dos are the gaps in their
 > security controls. If you have ever kept a list of things with a status against each one, you have
 > already used this pattern. The list now lives in Dataverse. The attendee label separates
@@ -15,12 +20,12 @@
 
 The facilitator provisions the training environment; you seed your own sample rows below.
 
-| | |
-|---|---|
-| Environment origin (`DATAVERSE_URL`) | `https://org0ef69385.crm.dynamics.com` |
-| Web API base (derived by the code) | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
-| Vendor reviews | `cr522_vendorreviews` |
-| Optional extension table (not seeded by this lab) | `cr522_controlfindings` |
+|                                                   |                                                      |
+| ------------------------------------------------- | ---------------------------------------------------- |
+| Environment origin (`DATAVERSE_URL`)              | `https://org0ef69385.crm.dynamics.com`               |
+| Web API base (derived by the code)                | `https://org0ef69385.crm.dynamics.com/api/data/v9.2` |
+| Vendor reviews                                    | `cr522_vendorreviews`                                |
+| Optional extension table (not seeded by this lab) | `cr522_controlfindings`                              |
 
 Columns on a vendor review: `cr522_vendor`, `cr522_system`, `cr522_datatypes`,
 `cr522_hostingregion`, `cr522_dataresidency`, `cr522_subprocessors`, `cr522_soc2type`,
@@ -45,9 +50,10 @@ Dataverse environment variables as Codespaces secrets: `DATAVERSE_URL`, `DATAVER
 `DATAVERSE_CLIENT_SECRET`, and `DATAVERSE_TENANT_ID`. Never paste credentials into code or chat.
 Rebuild or restart the Codespace after secrets are supplied, as directed by the facilitator.
 
-Run `python scripts/dataverse_seed.py`. It updates or creates the three sample vendors tagged
-with your label, without deleting custom rows or modifying another label's rows. The optional
-Azure CLI authentication fallback is for facilitator scripts; the web app uses environment credentials.
+Run `uv run python scripts/dataverse_seed.py`. It updates or creates the three sample vendors tagged
+with your label, without deleting custom rows or modifying another label's rows. Both this attendee
+command and the web app require environment credentials, with no Azure CLI login fallback.
+Only the separate facilitator provisioning scripts can explicitly permit an existing CLI login.
 
 ### 2. Read them from your app
 
@@ -76,7 +82,7 @@ three. If built-in browser tools are available, ask Copilot to repeat that exact
 report the observed result; manual verification remains valid. Commit, push, and redeploy to
 make the form available at your public URL.
 
-### 4. Filter to the ones you would reject
+### 4. Filter the follow-up work queue
 
 Add a filter for scored vendors needing follow-up, for example `cr522_score lt 5`, combined
 with the existing attendee filter. Unassessed rows should remain distinguishable from a
@@ -87,17 +93,17 @@ survives a reload, your filter stays scoped to your label, and the mocked write 
 
 ## When it does not work
 
-| Response | What it means |
-|---|---|
-| `401` or sign-in failed | Check all four environment variables in the failing environment, without printing their values. |
-| `403` | Check the Dataverse application user and its security role; either may be missing or insufficient. |
-| `400`, syntax error at position | An apostrophe in a name broke the filter. Escape it by doubling it. |
-| Empty list, no error | The filter matched nothing. Check the name in `config.json` against what the seed script wrote. |
-| Local app works, public app shows samples | Configure Actions variables/secrets and rerun deployment with **connect_dataverse** checked. |
+| Response                                  | What it means                                                                                      |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `401` or sign-in failed                   | Check all four environment variables in the failing environment, without printing their values.    |
+| `403`                                     | Check the Dataverse application user and its security role; either may be missing or insufficient. |
+| `400`, syntax error at position           | An apostrophe in a name broke the filter. Escape it by doubling it.                                |
+| Empty list, no error                      | The filter matched nothing. Check the name in `config.json` against what the seed script wrote.    |
+| Local app works, public app shows samples | Configure Actions variables/secrets and rerun deployment with **connect_dataverse** checked.       |
 
 ## What you just learned
 
-A code app can read *and* write governed Dataverse data through the Web API, while Power Automate
+A code app can read _and_ write governed Dataverse data through the Web API, while Power Automate
 and connectors coordinate the low-code side of the same tables. Neither one replaces the other.
 
 ## Optional extras

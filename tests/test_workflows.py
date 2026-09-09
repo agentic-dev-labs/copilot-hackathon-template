@@ -1,10 +1,62 @@
 """Validate checked-in workflow contracts; these are not live Azure tests."""
 
+import json
 from pathlib import Path
+import subprocess
 import tomllib
+from unittest.mock import Mock
 from urllib.parse import urlsplit
 
+import pytest
 import yaml
+
+from scripts import create_attendee_repos
+
+
+@pytest.mark.parametrize("entries,returncode", [
+    ([{"name": ".facilitator"}], 0),
+    ([{"name": "RUN-OF-SHOW.private.md"}], 0),
+    ([{"name": "NN-NA-Hackathon-2026-10-Engagement-Brief.md"}], 0),
+    ({"message": "Not Found"}, 1),
+    ({"message": "Unexpected shape"}, 0),
+])
+def test_attendee_repo_creation_fails_closed(
+    entries: object, returncode: int, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Private templates and failed inspections cannot reach repository or team writes."""
+    command = Mock(return_value=subprocess.CompletedProcess([], returncode, json.dumps(entries), ""))
+    create = Mock()
+    grant = Mock()
+    monkeypatch.setattr(create_attendee_repos, "run", command)
+    monkeypatch.setattr(create_attendee_repos, "create_repo", create)
+    monkeypatch.setattr(create_attendee_repos, "grant_team", grant)
+    monkeypatch.setattr("sys.argv", ["create_attendee_repos.py", "synthetic-team-01"])
+
+    with pytest.raises(SystemExit):
+        create_attendee_repos.main()
+
+    create.assert_not_called()
+    grant.assert_not_called()
+    assert command.call_count == 1
+    assert command.call_args.args[0][1] == "api"
+
+
+def test_attendee_repos_use_the_explicit_clean_template(monkeypatch: pytest.MonkeyPatch) -> None:
+    """An approved clean template is inspected before any copy or team grant."""
+    command = Mock(return_value=subprocess.CompletedProcess([], 0, '[{"name":"README.md"}]', ""))
+    create = Mock(return_value=True)
+    grant = Mock(return_value=True)
+    monkeypatch.setattr(create_attendee_repos, "run", command)
+    monkeypatch.setattr(create_attendee_repos, "create_repo", create)
+    monkeypatch.setattr(create_attendee_repos, "grant_team", grant)
+    monkeypatch.setattr("sys.argv", [
+        "create_attendee_repos.py", "synthetic-team-01", "--template", "synthetic/clean-template",
+    ])
+
+    assert create_attendee_repos.main() == 0
+    assert command.call_args.args[0][-1] == "repos/synthetic/clean-template/contents"
+    create.assert_called_once_with("synthetic-team-01", template="synthetic/clean-template")
+    grant.assert_called_once_with("synthetic-team-01")
 
 
 def test_python_environments_use_the_lockfile() -> None:
