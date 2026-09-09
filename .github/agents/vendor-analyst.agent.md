@@ -29,3 +29,10 @@ Do not change calculated statuses, score, sensitivity, or gaps. If you find a mi
 report the control and the supporting source quotation, and stop the handoff. Recommend
 a focused evaluator test instead of overruling the code. Otherwise return the evaluator
 JSON unchanged and hand it, with the source reference, to the report writer.
+
+## Authoring References
+
+When maintaining this agent, use [custom-agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
+and the [workshop coverage guide](../../docs/REFERENCES.md). These describe configuration;
+do not fetch or cite them as evidence during a vendor review. A configured role does not
+guarantee identical tool names or handoff controls across clients.

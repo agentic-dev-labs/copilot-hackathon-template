@@ -65,7 +65,10 @@ def _from_samples() -> list[dict]:
 @app.get("/healthz")
 def healthz() -> dict[str, str]:
     """Liveness probe for the container platform."""
-    return {"status": "ok"}
+    result = {"status": "ok"}
+    if commit := os.environ.get("WORKSHOP_COMMIT"):
+        result["commit"] = commit
+    return result
 
 
 @app.get("/", response_class=HTMLResponse)

@@ -1,6 +1,7 @@
 """Exercise CLI output and errors using only synthetic source files."""
 
 import json
+import shlex
 from pathlib import Path
 
 import pytest
@@ -23,6 +24,37 @@ def test_cli_stdout_is_json_and_report_is_written(
     assert json.loads(captured.out)["score"] == 8
     assert "Wrote" in captured.err
     assert len(list((tmp_path / "reports").glob("*_2026_10_26.md"))) == 1
+
+
+def test_lab_06_command_preserves_the_agent_report(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
+) -> None:
+    """Run the documented baseline command and keep its comparison artifact separate."""
+    lab = Path("labs/06-multi-agent/README.md").read_text(encoding="utf-8")
+    command = next(
+        line.strip() for line in lab.splitlines()
+        if line.strip().startswith("uv run vendor-assurance ")
+    )
+    arguments = shlex.split(command)
+    redirect = arguments.index(">")
+    assert arguments[redirect + 1:] == ["reports/evaluation.json"]
+    argv = arguments[2:redirect]
+    directory_index = argv.index("--output-directory") + 1
+    assert Path(argv[directory_index]) == Path("reports/baseline")
+    argv[directory_index] = str(tmp_path / "reports" / "baseline")
+
+    filename = "PrivacyReview_Meridian_Patient_Outreach_2026_10_26.md"
+    assert f"reports/baseline/{filename}" in lab
+    agent_report = tmp_path / "reports" / filename
+    agent_report.parent.mkdir()
+    agent_report.write_text("Separate synthetic agent report.", encoding="utf-8")
+    monkeypatch.setattr("sys.argv", argv)
+
+    main()
+
+    assert json.loads(capsys.readouterr().out)["score"] == 2
+    assert (tmp_path / "reports" / "baseline" / filename).is_file()
+    assert agent_report.read_text(encoding="utf-8") == "Separate synthetic agent report."
 
 
 @pytest.mark.parametrize("path", ["missing.md", "unsupported.pdf"])

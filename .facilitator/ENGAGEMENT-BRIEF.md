@@ -1,5 +1,5 @@
 # Novo Nordisk North America — GitHub Copilot Hackathon
-## Engagement Brief & Decision Log - historical snapshot, engineering notes updated 7 September 2026
+## Engagement Brief & Decision Log - historical snapshot, curriculum notes updated 9 September 2026
 
 > **Classification: MICROSOFT INTERNAL — CONFIDENTIAL.**
 > Contains commercial terms, dispatch references, compete positioning and candid internal discussion.
@@ -15,9 +15,23 @@
 
 **Reading this record:** quoted discussions and proposed decisions below are historical, not a
 live access, billing, calendar, or product-support check. Current implementation instructions are
-in `README.md`, `docs/FACILITATOR.md`, and the labs. The working agenda is unchanged; invitations
+in [README.md](../README.md), [docs/FACILITATOR.md](../docs/FACILITATOR.md), and the labs. The working agenda is unchanged; invitations
 and time changes are outside the current repository cleanup. Preserve customer quotations rather
 than treating the training implementation as a complete delivery of every requested feature.
+
+**Curriculum update, 9 September:** Day 1 now introduces the main Copilot feature families:
+inline and next-edit suggestions, inline chat/smart actions, Ask/Plan/Agent, context/models,
+session recovery, built-in browser tools, CLI, GitHub Chat/Spaces, PRs/code review, prepared
+cloud work/automations, and managed plugins. Later days deepen those topics. SDK/BYOK,
+other IDEs, migrations, integrations, parallel work, and administration are explicitly optional
+or reference-only. The [coverage guide](../docs/REFERENCES.md) supplies official links for the
+whole week; [RUN-OF-SHOW.md](RUN-OF-SHOW.md) supplies the unchanged demo budgets.
+
+**Verification boundary:** the Lab 01 JSON prerequisite and Lab 06 baseline-overwrite problem
+are addressed in the current instructions. The subsequent rehearsal package adds regression
+fixes for the reproduced evaluator cases and disables authenticated Dataverse redirects.
+Full live Codespaces, plugin, cloud-agent, automation, and Dataverse rehearsal remains separate
+work; use [the dedicated rehearsal package](../rehearsal/README.md) to record it explicitly.
 
 ---
 
@@ -214,6 +228,14 @@ watermark or imply real vendor material has been tested here. Real reports requi
 Do not use historical version, billing, or support claims below as current prerequisites.
 Recheck product documentation and the actual presenter client during rehearsal.
 
+Current official entrypoints: [Copilot features](https://docs.github.com/en/copilot/get-started/features),
+[CLI](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli),
+[VS Code agents](https://code.visualstudio.com/docs/agents/overview),
+[built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools), and
+[the full workshop reference map](../docs/REFERENCES.md).
+The historical claims about universal session caps, mandatory review from draft status, offline
+model access, and regulation-ready templates below must not be repeated as current guarantees.
+
 | Capability | Status | Node on laptop? | Key facts |
 |---|---|---|---|
 | **Copilot cloud agent** (docs renamed from "coding agent") — issue → draft PR | GA. **Off by default** on Business/Enterprise (admin enables). **Unavailable on repos owned by managed user accounts (EMU)** — verify scope for org-owned repos inside EMU. | **No** — browser/mobile only | Ephemeral GitHub Actions environment, customised via `.github/workflows/copilot-setup-steps.yml` (job must be named exactly `copilot-setup-steps`; only honoured on the default branch; keys: steps, permissions, runs-on, services, snapshot, timeout-minutes ≤59). Limits: one repo, one branch, **exactly one PR per task**, **59-minute hard cap**. Only **write-access** users can trigger; pushes only to `copilot/` branches; draft PRs must be human-reviewed; workflows need "Approve and run". Incompatible rulesets **block it** → add Copilot as **bypass actor**. Firewall on by default (recommended allowlist) but **does not cover MCP servers or setup steps**; not compatible with self-hosted/Windows runners. Built-in first-line code review. |
@@ -234,7 +256,17 @@ Recheck product documentation and the actual presenter client during rehearsal.
 > Verify availability in the presenter client; do not assume the same tools exist on every surface.
 > Several models were deprecated 31 Aug — do not pin a model name. Full write-up in section 15 of `.facilitator/RUN-OF-SHOW.md`.
 
-**Primary sources:** docs.github.com — About cloud agent; Enable coding agent (access management); Customize the agent environment; Firewall; Risks & mitigations; Install Copilot CLI; Configure Copilot CLI; Run CLI programmatically; Content exclusion; About third-party coding agents · code.visualstudio.com — Custom agents; MCP servers; Chat overview · github.blog — "Welcome home, agents" (Agent HQ); "Pick your agent" (Claude/Codex, 4 Feb 2026); Mission control how-to (1 Dec 2025); Spark deprecation changelog (4 Aug 2026) · github.com/github/github-mcp-server (README, docs/remote-server.md) · github.com/github/spec-kit. Full 25-source report: *github-agentic-coding-2026-report.md* (available from the 31 Aug session).
+**Official lookup sources:** [cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent),
+[agent environment](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/customize-the-agent-environment),
+[policy support](https://docs.github.com/en/copilot/reference/supported-surfaces-for-policies),
+[third-party agents](https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents),
+[custom agents](https://code.visualstudio.com/docs/agent-customization/custom-agents),
+[MCP](https://code.visualstudio.com/docs/agent-customization/mcp-servers),
+[chat](https://code.visualstudio.com/docs/chat/chat-overview),
+[Copilot changelog](https://github.blog/changelog/label/copilot/),
+[GitHub MCP server](https://github.com/github/github-mcp-server), and
+[Spec Kit](https://github.com/github/spec-kit). The earlier research report remains a historical
+session artifact, not the source of current workshop prerequisites.
 
 ### Node.js vs frontend frameworks — clarified
 Node is a **runtime** for developer tooling (`npm install`, Vite dev server, bundlers). Vue / React / Angular are **frameworks**; their built output is HTML/CSS/JS the browser runs with its own engine — no Node. "No Node on the laptop" means **no local build loop**, not "no frontend." Routes: (1) Node in Codespaces or the Actions runner; (2) **buildless** frontends — Vue, Alpine.js, htmx, Tailwind via CDN `<script>`; (3) non-JS stacks — Python (Streamlit, Gradio, FastAPI), Blazor (.NET → WebAssembly), Power Apps. Mapping: Days 1–2 (non-IT laptops) → zero local install; Days 3–5 (likely IT laptops) → full toolchain, **confirm first**.
@@ -275,8 +307,10 @@ network access, concurrency, prebuild behavior, and costs in a fresh Codespace b
    present calculated results. PDF OCR, 200-page throughput, Word output, SharePoint delivery,
    executive-summary generation, and automatic risk clearance are not implemented by this template.
 2. **Dataverse-backed app, agent-built** — file an issue → assign to Copilot → review the draft PR live. Serves David's "business owns apps / my team owns the data model" split; hooks into Jackie's Day 2 hour.
-3. **Copilot CLI on a locked-down laptop** — `winget`, no admin, no Node. The trust-builder.
-4. **Multi-agent split** — one issue to Copilot and Claude in parallel, compare the PRs; teaches partitioning.
+3. **Copilot CLI through the browser** - run it in the Codespace. A native installer is an optional,
+  separately approved route; it is not a way around device policy.
+4. **Multi-agent split** - compare prepared independent tasks or read-only checks. Keep dependent
+  handoffs ordered and avoid competing edits. Third-party clients are optional and separately configured.
 
 ---
 
@@ -315,6 +349,11 @@ live checks. No invitations, purchases, or enterprise policy changes are perform
 **Day mapping:** D1 = labs 00-02 and 08; D2 = Jackie's hour, Lab 05, team build and showcase;
 D3 = labs 03-04; D4 = Lab 07, code review and Container Apps; D5 = author agents and skills in
 Lab 06, evaluations and final demos. `docs/AGENDA.md` is the working timetable.
+
+**Current documentation:** [agenda](../docs/AGENDA.md), [official references](../docs/REFERENCES.md),
+[prerequisites](../docs/PREREQS.md), and [facilitator runbook](../docs/FACILITATOR.md).
+Synthetic source reports and the privacy review template intentionally contain no Copilot reference
+appendix; product links are teaching material, not documentary evidence or generated findings.
 
 ---
 

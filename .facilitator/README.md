@@ -9,6 +9,11 @@ No passwords, tokens, or service credentials belong here.
 
 - [RUN-OF-SHOW.md](RUN-OF-SHOW.md): presenter script, demos, timing, and fallbacks.
 - [ENGAGEMENT-BRIEF.md](ENGAGEMENT-BRIEF.md): stakeholder context and internal planning history.
+- [Coverage and official references](../docs/REFERENCES.md): attendee-safe lookup guide for every feature family and daily optional tasks.
+
+The run sheet now previews the main families on Day 1 and deepens them in later labs. Use its
+prepared-result fallbacks without changing the published clock times. The brief retains historical
+quotations; current product procedures belong in the linked guide and labs.
 
 Existing confidentiality labels remain applicable; do not redistribute the material
 outside the approved repository audience. Docker builds exclude this entire folder.
@@ -36,3 +41,8 @@ access/history-removal plan; the steps above only remove it from the current che
 
 After untracking, fresh Codespaces will not receive these documents. Keep an approved
 backup before relying on their removal from the workshop repository.
+
+## Official References
+
+- [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files): why ignore rules do not untrack files already in Git.
+- [Copilot features](https://docs.github.com/en/copilot/get-started/features) and [VS Code releases](https://code.visualstudio.com/updates): recheck product coverage before delivery.

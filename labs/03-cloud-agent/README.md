@@ -6,6 +6,10 @@
 
 **Prerequisites:** Repository write access, cloud agent enabled by the organization, and completed Lab 02.
 
+Day 1 showed a prepared issue-to-PR result. Here you run the workflow yourself and distinguish
+the issue specification, agent session, code changes, review, and merge. Model choice is separate
+from choosing the agent or its execution environment. Official procedures are linked below.
+
 ## Steps
 
 1. Create an issue using **Copilot agent task**.
@@ -35,11 +39,21 @@ Pick any of these if you finish early. None of them are required.
 
 1. **Plan before any pull request exists.** Start a session from the agents panel and have it
    research and propose an approach on a branch first.
-2. **Change the dial.** Rerun the same issue with a different model and reasoning level, then compare
-   the diffs and what each one cost.
+2. **Compare prepared results (5-10 min).** Inspect two results from the same bounded task with
+   different models or reasoning settings. Compare evidence, tests, and usage. A new run is optional
+   and requires the normal permission and budget checks.
 3. **Let Copilot write the issue.** Describe the problem in prose and let it produce the structured
    issue, then judge whether its acceptance criteria are testable.
-4. **Start one from somewhere else.** Launch a task from the GitHub CLI, or from your phone, and
-   watch it appear in the same session list.
+4. **Inspect another entrypoint (5 min).** Find an existing session through GitHub or the CLI.
+   Mobile is an optional presenter tour, not an attendee installation requirement.
 5. **Narrow a bad result.** Take an issue whose first attempt was too broad and tighten it without
    adding scope.
+
+## Official References
+
+- [About the cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent) and [kick off a task](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/kick-off-a-task).
+- [Research, plan, and iterate](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/research-plan-iterate) and [manage sessions](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/manage-and-track-agents).
+- [Review Copilot output](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output) and [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow).
+- [Configure the agent environment](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/customize-the-agent-environment): distinct from an attendee's Codespace.
+- [Third-party agents](https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents): optional later comparison, with its own support and access requirements.
+- [Whole-week coverage and extras](../../docs/REFERENCES.md).

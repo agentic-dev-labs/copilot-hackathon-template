@@ -19,3 +19,13 @@ correction. Do not rewrite source documents or calculated results. Suspected sco
 defects need an evaluator regression test, not a different model-generated status.
 This is a training review, not a compliance approval. Never use real vendor, patient,
 customer, or employee data.
+
+When a CLI baseline is supplied, compare it without changing either artifact. Lab 06 keeps
+the baseline in `reports/baseline/` and the agent-authored report directly in `reports/`.
+Repository tests passing does not establish that a newly generated report is accurate.
+
+## Authoring References
+
+When maintaining this agent, use [custom-agent configuration](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
+and the [workshop coverage guide](../../docs/REFERENCES.md). Do not use product documentation
+as evidence for an assurance finding or fetch it as part of reviewing the synthetic source.

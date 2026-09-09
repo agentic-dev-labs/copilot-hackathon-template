@@ -50,15 +50,35 @@ class ControlRule:
     pass_pattern: str
     fail_pattern: str
     unclear_pattern: str = ""
+    mention_pattern: str = ""
 
 
 # Controls 1-6 and 10 are decided from narrative text; 7-9 are decided from the
 # metadata header, so they are evaluated separately in evaluate_document.
 CONTROL_RULES = (
     ControlRule("MFA on privileged access", r"\bMFA\b[^.!?]{0,40}\b(required|enforced)\b[^.!?]{0,60}\b(privileged|administrator)", r"\bMFA\b[^.!?]{0,80}\bnot\s+(required|enforced)"),
-    ControlRule("TLS 1.2+ in transit", r"\bTLS\s+(1\.[2-9]|[2-9])\b", r"\bTLS\s+1\.[01]\b"),
-    ControlRule("AES-256 at rest", r"\bAES-256\b", r"\b(AES-128|unencrypted at rest)\b"),
-    ControlRule("Defined retention schedule", r"\b(retention\s+schedule|retained\s+for\s+\d+\s+(days|years|months))\b", r"\bno\s+defined\s+retention\s+schedule\b"),
+    ControlRule(
+        "TLS 1.2+ in transit",
+        r"\bTLS\s+(1\.[2-9]|[2-9])\b",
+        r"\bTLS\s+1\.[01]\b|\b(?:not|never)\s+(?:use|require|enforce|support)\s+TLS\s+(?:1\.[2-9]|[2-9])\b"
+        r"|\bTLS\s+(?:1\.[2-9]|[2-9])\s+(?:is\s+)?(?:not\s+(?:used|required|enforced|supported)|disabled)\b",
+        r"\bTLS\s+(?:1\.[2-9]|[2-9])\s+(?:is\s+)?(?:planned|pending|not\s+confirmed)\b",
+    ),
+    ControlRule(
+        "AES-256 at rest",
+        r"\bAES-256\b",
+        r"\b(AES-128|unencrypted at rest)\b|\b(?:not|never)\s+(?:use|require|enforce)\s+AES-256\b"
+        r"|\bAES-256\s+(?:is\s+)?(?:not\s+(?:used|required|enforced)|disabled)\b",
+        r"\bAES-256\s+(?:is\s+)?(?:planned|pending|not\s+confirmed)\b",
+    ),
+    ControlRule(
+        "Defined retention schedule",
+        r"\b(?:retained\s+for|retention\s+(?:schedule|period))[^.!?]{0,100}"
+        r"\b(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s+(?:days?|years?|months?)\b",
+        r"\bno\s+defined\s+retention\s+schedule\b",
+        r"\bretention\s+(?:schedule|period)\b[^.!?]{0,100}\b(?:planned|pending|not\s+(?:defined|stated)|no\s+period)\b",
+        r"\bretention\s+(?:schedule|period)\b|\bretained\s+for\b",
+    ),
     ControlRule("Documented disposal", r"\b(documented\s+disposal|secure\s+disposal|cryptographic\s+erasure)\b", r"\bdisposal\s+(is\s+)?not\s+documented\b"),
     ControlRule(
         "Incident response SLA within 72 hours",
@@ -125,6 +145,14 @@ def _find(rule: ControlRule, chunks: list[str]) -> Finding:
                 }
                 reason = reasons[status]
                 return Finding(rule.name, status, evidence, reason)
+    if rule.mention_pattern:
+        for chunk in chunks:
+            match = re.search(rule.mention_pattern, chunk, re.IGNORECASE | re.DOTALL)
+            if match:
+                return Finding(
+                    rule.name, "Unclear", _sentence_for_match(chunk, match),
+                    "The source mentions the control but does not establish the required details.",
+                )
     return Finding(
         rule.name,
         "Unclear",
@@ -174,7 +202,10 @@ def _soc2_currency(text: str, today: date) -> Finding:
     date_line = _field_line(text, "Report date")
     if not type_line:
         return Finding(control, "Unclear", "", "The report does not state a SOC 2 report type.")
-    if not re.fullmatch(r"(?:SOC\s+2\s+)?Type\s+(?:II|2)", _field(text, "SOC 2 type", ""), re.IGNORECASE):
+    report_type = _field(text, "SOC 2 type", "")
+    if report_type.lower() in {"", "not stated", "none stated", "unknown", "not provided"}:
+        return Finding(control, "Unclear", type_line, "The source leaves the SOC 2 report type unresolved.")
+    if not re.fullmatch(r"(?:SOC\s+2\s+)?Type\s+(?:II|2)", report_type, re.IGNORECASE):
         return Finding(control, "Fail", type_line, "The stated report type is not SOC 2 Type II.")
     try:
         reported = date.fromisoformat(_field(text, "Report date", ""))
@@ -194,6 +225,14 @@ def _data_residency(text: str) -> Finding:
     evidence = _field_line(text, "Data residency") or _field_line(text, "Hosting region")
     if not region or not residency or "not stated" in f"{region} {residency}".lower():
         return Finding(control, "Unclear", evidence, "The report does not state both a hosting region and a residency commitment.")
+    region_pattern = re.escape(region)
+    contradiction = (
+        r"\bnot\s+(?:remain|stay|reside|be\s+(?:stored|hosted|kept))\s+"
+        rf"(?:in|within)\s+(?:the\s+)?{region_pattern}\b"
+        rf"|\b(?:stored|hosted|kept)\s+outside\s+(?:the\s+)?{region_pattern}\b"
+    )
+    if re.search(contradiction, residency, re.IGNORECASE):
+        return Finding(control, "Fail", evidence, "The source explicitly contradicts residency in the stated hosting region.")
     if region.lower() in residency.lower():
         return Finding(control, "Pass", evidence, "The residency statement repeats the stated hosting region.")
     return Finding(control, "Fail", evidence, "The residency statement does not match the stated hosting region.")

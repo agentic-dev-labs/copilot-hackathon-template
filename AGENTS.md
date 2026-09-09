@@ -41,6 +41,22 @@ The owner approved temporary versioning of the two existing preparation document
 to add real data to examples or tests. Keep that folder out of Docker build contexts and follow
 its README cleanup reminder. A green offline suite is not a live Codespaces or Dataverse dry run.
 
+## Maintaining workshop content
+
+Use [docs/REFERENCES.md](docs/REFERENCES.md) for feature coverage and official product links.
+Day 1 introduces the main families; later labs supply depth. Keep clock times and core lab
+durations unchanged unless the owner approves a change. Distinguish live work, prepared results,
+optional previews, and reference-only topics; do not turn every feature into an attendee prerequisite.
+Every lab needs direct official references, an observable finish, and separate optional work.
+
+Do not append product documentation to synthetic reports or the privacy review template:
+they are evaluator inputs and output structure, not teaching guides. Keep generated baselines
+separate from agent-authored reports. A green test suite is not proof that all scoring semantics
+or live integrations are correct.
+
+Official authoring reference: [custom-instruction support by client](https://docs.github.com/en/copilot/reference/custom-instructions-support).
+Consult it when changing instruction files, not as evidence for an assurance finding.
+
 ## Layout
 
 | Path | Purpose |

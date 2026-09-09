@@ -6,6 +6,10 @@
 
 **Prerequisites:** Active Codespace, Copilot access, and permission to read your repository.
 
+Day 1 introduced MCP as one way to connect an agent to tools or data. This lab makes the
+connection explicit: discover a tool, inspect what it can do, authenticate, call it, and verify
+the result. MCP configuration, a skill's instructions, and the built-in browser tools are different things.
+
 ## Steps
 
 1. Open the Command Palette in the Codespace and choose **MCP: Add Server**, then **HTTP**.
@@ -22,9 +26,9 @@ VS Code client exposes; follow the facilitator demo if they are unavailable in y
 Cloud-agent MCP configuration is separate from `.vscode/mcp.json`; do not assume local servers
 or authentication carry over.
 
-Enterprises can approve or block individual MCP servers by URL, command, or name through
-enterprise managed settings. Ask your administrator which servers are on the allowlist before
-planning a dependency on one.
+Enterprise controls can restrict MCP servers in supported clients. Check the current supported
+properties and effective policy. Matching a user-assigned server name alone is not a strong
+security boundary; URL/command controls and service authorization are separate concerns.
 
 **Done when:** a tool call retrieves a real issue from your training repository, its answer matches GitHub, and write tools are unavailable in the selected configuration.
 
@@ -36,10 +40,20 @@ MCP gives agents governed access to external capabilities, and read-only mode re
 
 Pick any of these if you finish early. None of them are required.
 
-1. **Trim the tool list.** Configure toolsets so only the tools you need are loaded, then notice the
+1. **Trim the tool list (5 min).** Configure toolsets so only the tools you need are loaded, then notice the
    effect on how the agent behaves.
 2. **Drive a browser (5-10 min).** If your Copilot session exposes built-in browser tools, ask it to open your app's forwarded or deployed URL, inspect the table, and capture a screenshot. Verify the result against the page. No separate server installation is needed; otherwise inspect the page manually or follow the facilitator demo.
-3. **Ground it deliberately.** Create a Copilot Space holding the ten controls and the sample
-   reports, then ask the same question with and without it.
+3. **Ground it deliberately (5-10 min).** Query the prepared training Space with the ten controls
+   and synthetic samples. Compare the answer with a normal chat and identify its sources. If you
+   create your own Space, include only synthetic files; do not attach the whole repository or `.facilitator/`.
 4. **Two routes, one fact.** Ask for the same repository fact through MCP and through `gh`, and
    compare how each answer is grounded.
+
+## Official References
+
+- [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and [MCP in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
+- [Set up GitHub MCP](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server), [configure toolsets](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/configure-toolsets), and [use it in an IDE](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/use-the-github-mcp-server).
+- [Repository MCP for cloud agent and review](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers).
+- [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools): no extra browser server is required.
+- [Copilot Spaces](https://docs.github.com/en/copilot/concepts/context/spaces) and [enterprise-managed settings](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings).
+- [Whole-week coverage and extras](../../docs/REFERENCES.md).

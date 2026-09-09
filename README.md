@@ -4,6 +4,11 @@ This template supports five days of demonstrations, guided labs, and team buildi
 teams, low-coders, and professional developers extend a synthetic vendor review app and learn to
 create their own Copilot instructions, prompts, agents, skills, and hooks.
 
+**See the breadth on Day 1; practise in depth across the week.** The opening demos cover inline
+help, chat and planning, context/models, built-in browser tools, CLI, shared knowledge, cloud work,
+and reusable plugins. Longer-running and preview features use prepared examples. Start with the
+[coverage and official references](docs/REFERENCES.md) to find every topic and its documentation.
+
 ## Start here
 
 1. Select **Code > Codespaces > Create codespace on main**.
@@ -17,6 +22,15 @@ not an identity or access boundary. The facilitator prepares service access; att
 need to put secrets in code or sign in to the Azure portal.
 
 Only a browser is required on the attendee laptop. Python, Node.js, Azure CLI, GitHub CLI, and project dependencies run in the Codespace.
+
+## Rehearse the Complete Workshop
+
+In a dedicated Codespaces rehearsal copy, run **`/rehearse-workshop`** in Copilot's local Agent
+mode, or **`/workshop-rehearsal`** through the companion skill in Agent Host. The
+[rehearsal package](rehearsal/README.md) drives completion of all nine labs, diagnoses fresh
+package installs, runs tests, tracks live evidence, and retrieves verified deployment endpoints.
+Attendees do not sign into Azure: the existing Actions workflow uses the prepared deployment identity.
+Missing access or required human review stays a blocker, not a simulated pass.
 
 ## Run the app locally
 
@@ -57,6 +71,9 @@ Lab numbers group topics; the **Day** column is the order of the week.
 
 See the [prerequisites](docs/PREREQS.md), [agenda](docs/AGENDA.md), and [facilitator runbook](docs/FACILITATOR.md).
 
+Every lab ends with official references and optional tasks. Use the
+[daily early-finisher list](docs/REFERENCES.md#small-tasks-for-early-finishers) while the group catches up.
+
 ## Sample reports
 
 Three synthetic vendor reports are provided so you can compare outcomes from the same
@@ -89,3 +106,10 @@ The starter app reads rows. Attendees add the write form in Lab 05 and create cu
 in Labs 01, 06, and 07. Local unit tests mock external services; a green run does not prove live
 Codespaces, deployment, Dataverse, cloud-agent, or plugin availability. Use the facilitator's
 dry-run checklist before delivery.
+
+## Official References
+
+- [Copilot features](https://docs.github.com/en/copilot/get-started/features): the overall capability map.
+- [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): branch, commit, PR, review, and merge.
+- [VS Code agents](https://code.visualstudio.com/docs/agents/overview): how context, models, tools, and sessions work together.
+- [Workshop coverage and references](docs/REFERENCES.md): topic-by-topic official links, later-day practice, and optional extensions.

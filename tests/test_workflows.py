@@ -55,3 +55,23 @@ def test_ci_builds_both_deliverables() -> None:
 
     assert "uv build --wheel" in commands
     assert "docker build --tag workshop-check ." in commands
+
+
+def test_deployment_publishes_exact_revision_evidence_without_attendee_login() -> None:
+    """A successful run must yield a verified artifact, not only a printed hostname."""
+    text = Path(".github/workflows/deploy.yml").read_text(encoding="utf-8")
+    workflow = yaml.load(text, Loader=yaml.BaseLoader)
+    inputs = workflow["on"]["workflow_dispatch"]["inputs"]
+    assert inputs["expected_sha"]["default"] == ""
+    assert inputs["rehearsal_id"]["default"] == ""
+    assert "inputs.rehearsal_id" in workflow["run-name"]
+    steps = workflow["jobs"]["deploy"]["steps"]
+    upload = next(step for step in steps if step.get("uses") == "actions/upload-artifact@v4")
+    assert upload["with"]["path"] == "deployment-result.json"
+    assert upload["with"]["if-no-files-found"] == "error"
+    assert "github.run_id" in upload["with"]["name"]
+    assert "github.run_attempt" in upload["with"]["name"]
+    assert "--remove-env-vars DATAVERSE_URL" in text
+    assert "WORKSHOP_COMMIT=$GITHUB_SHA" in text
+    assert "python -m scripts.deployment_result" in text
+    assert "az login" not in text

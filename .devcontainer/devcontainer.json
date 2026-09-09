@@ -23,6 +23,7 @@
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {
+    "UV_NATIVE_TLS": "true",
     "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
     "PATH": "${containerWorkspaceFolder}/.venv/bin:/home/vscode/.local/bin:${containerEnv:PATH}"
   },

@@ -12,13 +12,16 @@
 The facilitator prepares deployment access. You change the app's label and trigger a workflow;
 you do not copy credentials into code or need an Azure portal login.
 
+The Day 1 tour shows a prepared PR and review. Here you complete the GitHub flow for your own
+change. An AI-generated commit message or PR summary is a draft: compare it with the diff.
+
 ## Steps
 
 1. Open `config.json`. Use your assigned, unique workshop label, for example:
 
    ```json
    {
-   "displayName": "Synthetic Team Seven"
+       "displayName": "Synthetic Team Seven"
    }
    ```
 
@@ -65,11 +68,20 @@ Watch the same URL update rather than a new app appearing.
 
 Pick any of these if you finish early. None of them are required.
 
-1. **Get reviewed.** Open a pull request for your change and request a Copilot code review. Run it
-   once at Lite and once at Balanced, and compare what each one caught.
+1. **Get reviewed (5-10 min).** Open a PR for a small change and request Copilot code review if
+   enabled. Inspect one finding against code and tests. If effort levels are offered, identify
+   their purpose; a second review is optional and consumes additional usage.
 2. **Let it write the summary.** Have Copilot generate the pull request description, then check it
    against your actual diff.
 3. **Read the run log (5 min).** Identify the triggering user, commit, image tag, and time. Discuss
    retention requirements before treating it as a long-term record.
 4. **Test the guard locally (5 min).** Run `python -m pytest tests/test_app_config.py -q` to see
    placeholder validation tested without changing the shared app or triggering a failed deployment.
+
+## Official References
+
+- [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): branch, commit, PR, review, and merge.
+- [Commit and PR smart actions](https://code.visualstudio.com/docs/editing/copilot-smart-actions) and [PR summaries](https://docs.github.com/en/copilot/how-tos/copilot-on-github/copilot-for-github-tasks/create-a-pr-summary).
+- [GitHub Actions quickstart](https://docs.github.com/en/actions/writing-workflows/quickstart) and [using Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions).
+- [Container Apps with GitHub Actions](https://learn.microsoft.com/azure/container-apps/github-actions): deployment and registry authentication. The workshop uses its checked-in workflow, not every option in the guide.
+- [Copilot code review](https://docs.github.com/en/copilot/concepts/agents/code-review) and [whole-week coverage](../../docs/REFERENCES.md).

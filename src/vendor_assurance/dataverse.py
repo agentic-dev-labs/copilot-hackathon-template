@@ -21,6 +21,19 @@ class DataverseError(RuntimeError):
         self.status = status
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Never forward bearer tokens or client-secret POST bodies through redirects."""
+
+    def redirect_request(self, *args: Any, **kwargs: Any) -> None:
+        """Treat all redirects as service errors, including same-origin redirects."""
+        return None
+
+
+def _open(request: urllib.request.Request, *, timeout: int) -> Any:
+    """Use the normal verified HTTPS handler with redirects explicitly disabled."""
+    return urllib.request.build_opener(_NoRedirect()).open(request, timeout=timeout)
+
+
 @dataclass
 class DataverseClient:
     """Use environment credentials, or explicitly permit an Azure CLI login."""
@@ -64,7 +77,7 @@ class DataverseClient:
             )
             request.add_header("Content-Type", "application/x-www-form-urlencoded")
             try:
-                with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                with _open(request, timeout=self.timeout) as response:
                     token_response = json.load(response)
                 if not isinstance(token_response, dict):
                     raise ValueError("Expected a token response object")
@@ -99,7 +112,7 @@ class DataverseClient:
             "Accept": "application/json", "OData-MaxVersion": "4.0", "OData-Version": "4.0",
         })
         try:
-            with urllib.request.urlopen(request, timeout=self.timeout) as response:
+            with _open(request, timeout=self.timeout) as response:
                 raw = response.read()
             result = json.loads(raw) if raw else {}
             if not isinstance(result, dict):

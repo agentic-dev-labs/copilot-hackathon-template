@@ -131,6 +131,75 @@ def test_future_soc2_report_needs_clarification() -> None:
     assert finding.evidence == "Report date: 2027-01-01"
 
 
+@pytest.mark.parametrize("text,control,status", [
+    ("Stored records do not use AES-256 at rest.", "AES-256 at rest", "Fail"),
+    ("Connections do not use TLS 1.2 in transit.", "TLS 1.2+ in transit", "Fail"),
+    ("TLS 1.2 is not used in transit.", "TLS 1.2+ in transit", "Fail"),
+    ("AES-256 is not used for stored records.", "AES-256 at rest", "Fail"),
+    ("AES-256 is planned for stored records.", "AES-256 at rest", "Unclear"),
+    ("TLS 1.2 is pending for connections.", "TLS 1.2+ in transit", "Unclear"),
+    ("A retention schedule is planned but no period is defined.", "Defined retention schedule", "Unclear"),
+    ("The retention period is 18 months.", "Defined retention schedule", "Pass"),
+])
+def test_negative_and_unresolved_narratives_are_not_positive_evidence(
+    text: str, control: str, status: str,
+) -> None:
+    """Retain the exact counterexample quote when refusing a keyword-only Pass."""
+    finding = next(item for item in evaluate_document([text]).findings if item.control == control)
+    assert finding.status == status
+    assert finding.evidence == text
+
+
+def test_retention_requires_a_period() -> None:
+    """Mentioning a schedule does not establish a defined retention duration."""
+    result = evaluate_document(["A retention schedule exists."])
+    finding = next(item for item in result.findings if item.control == "Defined retention schedule")
+    assert finding.status == "Unclear"
+    assert finding.evidence == "A retention schedule exists."
+
+
+def test_partial_retention_evidence_does_not_override_a_defined_period() -> None:
+    """Only use a partial mention after searching the whole report for a decision."""
+    result = evaluate_document(["A retention schedule exists.", "Records are retained for 18 months."])
+    finding = next(item for item in result.findings if item.control == "Defined retention schedule")
+    assert finding.status == "Pass"
+    assert finding.evidence == "Records are retained for 18 months."
+
+
+def test_silent_retention_has_no_invented_evidence() -> None:
+    """An unrelated statement cannot become evidence for a missing control."""
+    result = evaluate_document(["This is a synthetic training report."])
+    finding = next(item for item in result.findings if item.control == "Defined retention schedule")
+    assert finding.status == "Unclear"
+    assert finding.evidence == ""
+
+
+@pytest.mark.parametrize("value", ["Not stated", "unknown", ""])
+def test_unstated_soc2_type_is_not_a_confirmed_failure(value: str) -> None:
+    """Explicit absence of evidence differs from an explicitly non-Type-II report."""
+    result = evaluate_document([f"SOC 2 type: {value}\nReport date: 2026-06-30"], today=date(2026, 10, 26))
+    finding = next(item for item in result.findings if item.control == "SOC 2 Type II within 12 months")
+    assert finding.status == "Unclear"
+    assert finding.evidence == f"SOC 2 type: {value}".strip()
+
+
+@pytest.mark.parametrize("residency,status", [
+    ("Records do not remain in EU West; they are stored in US East.", "Fail"),
+    ("Records are stored outside EU West.", "Fail"),
+    ("Records do not leave EU West.", "Pass"),
+    ("Records remain in EU West.", "Pass"),
+])
+def test_repeated_region_does_not_override_a_residency_contradiction(
+    residency: str, status: str,
+) -> None:
+    """Distinguish not staying in a region from not leaving the region."""
+    text = f"Hosting region: EU West\nData residency: {residency}"
+    result = evaluate_document([text])
+    finding = next(item for item in result.findings if item.control == "Data residency stated and consistent")
+    assert finding.status == status
+    assert finding.evidence == f"Data residency: {residency}"
+
+
 @pytest.mark.parametrize("value,status", [("none", "Pass"), ("not stated", "Unclear"), ("", "Unclear")])
 def test_subprocessor_disclosure(value: str, status: str) -> None:
     """Explicitly using no sub-processors differs from a missing disclosure."""

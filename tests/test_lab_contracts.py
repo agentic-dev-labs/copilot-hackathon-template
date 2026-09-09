@@ -88,11 +88,27 @@ def test_labs_have_completion_checks_and_optional_work() -> None:
         assert "## Optional extras" in text, path
 
 
+def test_labs_link_official_references_and_coverage_guide() -> None:
+    """Each lab needs usable lookup links alongside its required and optional tasks."""
+    official_hosts = {"docs.github.com", "code.visualstudio.com", "learn.microsoft.com"}
+    guide = Path("docs/REFERENCES.md").resolve()
+    for path in Path("labs").glob("*/README.md"):
+        text = path.read_text(encoding="utf-8")
+        assert "## Official References\n" in text, path
+        section = text.split("## Official References\n", 1)[1]
+        links = [urlsplit(target) for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", section)]
+        assert any(link.scheme == "https" and link.hostname in official_hosts for link in links), path
+        assert any(
+            not link.scheme and (path.parent / unquote(link.path)).resolve() == guide
+            for link in links
+        ), path
+
+
 def test_local_document_links_resolve() -> None:
     """Check the simple relative links used by the workshop documentation."""
     files = [Path("README.md"), Path("AGENTS.md")]
-    for directory in ("docs", "labs", ".github", "src", ".facilitator"):
-        files.extend(Path(directory).rglob("*.md"))
+    for directory in ("docs", "labs", ".github", "src", ".facilitator", "rehearsal"):
+        files.extend(path for path in Path(directory).rglob("*.md") if "results" not in path.parts)
     for path in files:
         for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
             link = urlsplit(target)

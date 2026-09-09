@@ -2,6 +2,15 @@
 
 Complete and dry-run these items before Monday 26 October 2026.
 
+Attendees need the browser-based core path, not every capability shown in the opening tour.
+The presenter prepares Spaces, plugin, cloud-agent, and automation examples separately.
+Use the [coverage guide](REFERENCES.md) to see required labs versus optional demonstrations.
+GitHub Copilot access does not automatically provide Microsoft 365 Copilot or Power Platform access.
+
+The facilitator can run the [automated rehearsal](../rehearsal/README.md) in a dedicated Codespace
+before delivery. Its network doctor checks artifact downloads and a fresh locked installation;
+its deployment helper uses GitHub Actions, not attendee Azure sign-in.
+
 - [ ] Collect attendee GitHub usernames: `[Confirm with facilitator]`.
 - [ ] Confirm those accounts may join an external GitHub organization.
 - [ ] Assign a GitHub Copilot seat to every attendee.
@@ -15,9 +24,21 @@ Complete and dry-run these items before Monday 26 October 2026.
 - [ ] Confirm `github.com` is reachable from the corporate network.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
 - [ ] Confirm browser authentication flows for GitHub CLI and remote MCP are allowed.
+- [ ] Confirm Copilot CLI sign-in separately from GitHub CLI sign-in; a preinstalled command is not an authenticated session.
+- [ ] Rehearse inline suggestions, next-edit suggestions, inline chat, Ask/Plan/Agent, the model picker, and session recovery in the presenter client.
 - [ ] Verify Copilot built-in browser tools in the presenter client; attendees can follow the demo if their client does not expose them.
 - [ ] Assign team repositories and unique workshop labels/app names: `[Confirm with facilitator]`.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
+
+## Presenter-only capabilities
+
+- [ ] Prepare a Space containing only synthetic training sources, a non-code summary/table/diagram, a reviewed PR, and a completed automation.
+- [ ] Install and invoke the prepared plugin before delivery; verify source access, discovery, effective settings, and tool permissions separately.
+- [ ] Inspect the available model/Auto and usage controls. Do not pin the lesson to a particular model or promise identical reasoning options in every client.
+- [ ] Test stop/steer/resume and checkpoint restoration on disposable changes. Keep a Git baseline for recovery.
+- [ ] Keep specialist SDK/BYOK, other IDEs, integrations, and administration as reference-only unless separately rehearsed and approved.
+- [ ] Keep a prepared result for policy-dependent or preview features. No attendee installation of a separate browser automation server is required.
+- [ ] Agree Power Platform environment and connector access with the guest presenter before Day 2.
 
 ## Azure training target
 
@@ -54,3 +75,12 @@ These are the prepared training resource names, not a live health check. Verify 
 - [ ] Set `DATAVERSE_APP_ID` and an explicit approved `DATAVERSE_ROLE` before running `scripts/dataverse_app_user.py`. The helper never assumes an administrator role.
 - [ ] Run `python scripts/dataverse_seed.py` using the assigned label, then deploy with **connect_dataverse** enabled and verify the page source.
 - [ ] Keep access scoped to the synthetic training environment. A shared application identity and public demo URLs are not the design for real vendor material.
+
+## Official References
+
+- [Copilot getting started](https://docs.github.com/en/copilot/get-started), [administration](https://docs.github.com/en/copilot/how-tos/administer-copilot), and [client feature matrix](https://docs.github.com/en/copilot/reference/copilot-feature-matrix).
+- [Codespaces](https://docs.github.com/en/codespaces/overview), [devcontainers](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/introduction-to-dev-containers), and [Codespaces secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces).
+- [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools), [GitHub MCP setup](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server), and [enterprise-managed settings](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings).
+- [Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) and [Container Apps deployment](https://learn.microsoft.com/azure/container-apps/github-actions).
+- [Dataverse Web API](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/perform-operations-web-api) and [Power Automate connectors](https://learn.microsoft.com/power-automate/dataverse/overview).
+- [Whole-week coverage and extras](REFERENCES.md).

@@ -31,6 +31,10 @@ Any rows you add must also be fictional. Do not use real vendor, customer, or pa
 
 The Power Platform session earlier this morning covered connectors, Dataverse and Power Automate.
 This lab is the same data approached from the other side: a code app talking to the Web API directly.
+The official [connector overview](https://learn.microsoft.com/power-automate/dataverse/overview)
+and [Web API operations](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/perform-operations-web-api)
+are the two reference entrypoints. The entity set, authentication, and permissions still matter
+whether a flow, an MCP tool, or your own code sends the request.
 
 ## Steps
 
@@ -68,7 +72,9 @@ from `config.json`, not from a browser-supplied identity. Keep credentials on th
 
 Leave score and sensitivity unset: a new row is **Not assessed** until the evaluator runs.
 Add a test with a mocked client, submit a fictional row, reload, and see it beside the seeded
-three. Commit, push, and redeploy to make the form available at your public URL.
+three. If built-in browser tools are available, ask Copilot to repeat that exact journey and
+report the observed result; manual verification remains valid. Commit, push, and redeploy to
+make the form available at your public URL.
 
 ### 4. Filter to the ones you would reject
 
@@ -105,3 +111,12 @@ Pick any of these if you finish early. None of them are required.
    summary, then check whether it describes what you actually did.
 4. **Check an apostrophe (5 min).** Add a mocked test using `Synthetic O'Brien` and confirm
    query escaping works. Do not deliberately break the shared environment.
+
+## Official References
+
+- [Dataverse Web API operations](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/perform-operations-web-api) and [types and operations](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/web-api-types-operations).
+- [Query data](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/query/overview), [select columns](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/query/select-columns), and [create a row](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/create-entity-web-api).
+- [Power Automate and Dataverse](https://learn.microsoft.com/power-automate/dataverse/overview): connectors and event-driven flows, covered by the guest session.
+- [Codespaces secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces) and [Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions): different execution environments, not automatic credential copying.
+- [Container Apps deployment](https://learn.microsoft.com/azure/container-apps/github-actions) and [built-in browser verification](https://code.visualstudio.com/docs/agents/run/browser-tools).
+- [Whole-week coverage and extras](../../docs/REFERENCES.md).

@@ -13,6 +13,10 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
     assert "uv sync --locked --extra dev --extra web" in setup
     assert "npm" not in setup
+    assert config["remoteEnv"]["UV_NATIVE_TLS"] == "true"
+    assert 'export UV_NATIVE_TLS="${UV_NATIVE_TLS:-true}"' in setup
+    assert "python -m rehearsal.network" in setup
+    assert "exit 1" in setup
     assert config["remoteEnv"]["VIRTUAL_ENV"] == "${containerWorkspaceFolder}/.venv"
     assert config["remoteEnv"]["PATH"].startswith("${containerWorkspaceFolder}/.venv/bin:")
 

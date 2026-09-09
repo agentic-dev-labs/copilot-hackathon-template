@@ -3,10 +3,14 @@
 import io
 import json
 import urllib.error
+import urllib.request
+import urllib.response
+from email.message import Message
 from unittest.mock import Mock
 
 import pytest
 
+from src.vendor_assurance import dataverse
 from src.vendor_assurance.dataverse import DataverseClient, DataverseError
 
 
@@ -26,7 +30,7 @@ def test_requests_have_timeouts_and_keep_errors_private(monkeypatch: pytest.Monk
     opening = Mock(side_effect=urllib.error.HTTPError(
         "https://synthetic.example", 403, "Forbidden", {}, io.BytesIO(b"private details"),
     ))
-    monkeypatch.setattr("urllib.request.urlopen", opening)
+    monkeypatch.setattr(dataverse, "_open", opening)
 
     with pytest.raises(DataverseError, match="HTTP 403") as caught:
         client.request("GET", "reviews")
@@ -64,7 +68,7 @@ def test_client_credentials_do_not_require_an_azure_login(monkeypatch: pytest.Mo
         monkeypatch.setenv(f"DATAVERSE_{key}", "synthetic")
     response = io.BytesIO(json.dumps({"access_token": "synthetic-token"}).encode())
     opening = Mock(return_value=response)
-    monkeypatch.setattr("urllib.request.urlopen", opening)
+    monkeypatch.setattr(dataverse, "_open", opening)
     client = DataverseClient("https://synthetic.example", allow_cli=True)
 
     assert client._token() == "synthetic-token"
@@ -80,7 +84,7 @@ def test_malformed_token_responses_are_readable_errors(
     for key in ("CLIENT_ID", "CLIENT_SECRET", "TENANT_ID"):
         monkeypatch.setenv(f"DATAVERSE_{key}", "synthetic")
     response = io.BytesIO(json.dumps(payload).encode())
-    monkeypatch.setattr("urllib.request.urlopen", Mock(return_value=response))
+    monkeypatch.setattr(dataverse, "_open", Mock(return_value=response))
 
     with pytest.raises(DataverseError):
         DataverseClient("https://synthetic.example")._token()
@@ -111,3 +115,53 @@ def test_only_not_found_is_treated_as_absent(
             client.exists("EntityDefinitions")
     else:
         assert client.exists("EntityDefinitions") is exists
+
+
+@pytest.mark.parametrize("code", [301, 302, 303, 307, 308])
+@pytest.mark.parametrize("location", [
+    "https://other.example/api/data/v9.2/reviews",
+    "https://synthetic.example/api/data/v9.2/other",
+])
+def test_authenticated_requests_never_follow_redirects(
+    code: int, location: str, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Exercise urllib's real redirect machinery with an offline HTTPS transport."""
+    attempts = []
+
+    class RedirectTransport(urllib.request.HTTPSHandler):
+        """Return a synthetic redirect without opening a socket."""
+
+        def https_open(self, request: urllib.request.Request) -> urllib.response.addinfourl:
+            """Record every attempted send, including any unsafe follow-up."""
+            attempts.append(request)
+            headers = Message()
+            headers["Location"] = location
+            response = urllib.response.addinfourl(io.BytesIO(b""), headers, request.full_url, code)
+            response.msg = "Synthetic redirect"
+            return response
+
+    original_builder = urllib.request.build_opener
+    monkeypatch.setattr(urllib.request, "build_opener", lambda *handlers: original_builder(
+        *handlers, RedirectTransport(),
+    ))
+    client = DataverseClient("https://synthetic.example")
+    monkeypatch.setattr(client, "_token", lambda: "synthetic-token")
+    with pytest.raises(DataverseError) as caught:
+        client.request("GET", "reviews")
+    assert caught.value.status == code
+    assert len(attempts) == 1
+    assert attempts[0].get_header("Authorization") == "Bearer synthetic-token"
+
+
+def test_token_exchange_uses_the_same_no_redirect_transport(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Client credentials must not be forwarded by token-endpoint redirects either."""
+    for key in ("CLIENT_ID", "CLIENT_SECRET", "TENANT_ID"):
+        monkeypatch.setenv(f"DATAVERSE_{key}", "synthetic")
+    opening = Mock(side_effect=urllib.error.HTTPError(
+        "https://login.microsoftonline.com/synthetic", 307, "Redirect", {}, io.BytesIO(b""),
+    ))
+    monkeypatch.setattr(dataverse, "_open", opening)
+    with pytest.raises(DataverseError, match="sign-in failed"):
+        DataverseClient("https://synthetic.example")._token()
+    assert opening.call_count == 1
+    assert opening.call_args.args[0].get_method() == "POST"

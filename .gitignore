@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+/rehearsal/results/
 .venv/
 node_modules/
 dist/
