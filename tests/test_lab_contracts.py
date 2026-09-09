@@ -36,8 +36,8 @@ def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
 
 
 def test_private_run_sheet_matches_when_present() -> None:
-    """Validate local presenter notes without requiring private files in CI."""
-    private_path = Path("RUN-OF-SHOW.private.md")
+    """Validate the presenter notes while allowing their planned later removal."""
+    private_path = Path(".facilitator/RUN-OF-SHOW.md")
     if not private_path.exists():
         return
     pattern = r"\| (\d\d:\d\d)[-\u2013](\d\d:\d\d) \|"
@@ -91,7 +91,7 @@ def test_labs_have_completion_checks_and_optional_work() -> None:
 def test_local_document_links_resolve() -> None:
     """Check the simple relative links used by the workshop documentation."""
     files = [Path("README.md"), Path("AGENTS.md")]
-    for directory in ("docs", "labs", ".github", "src"):
+    for directory in ("docs", "labs", ".github", "src", ".facilitator"):
         files.extend(Path(directory).rglob("*.md"))
     for path in files:
         for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", path.read_text(encoding="utf-8")):

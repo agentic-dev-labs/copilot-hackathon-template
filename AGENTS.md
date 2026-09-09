@@ -35,8 +35,11 @@ uv run vendor-assurance <report.md> --as-of 2026-10-26 --output-directory report
 Tests and lint must both pass before opening a pull request.
 
 Browser demos use Copilot's built-in browser tools where available. Do not install a separate
-browser automation server. Keep private notes and service credentials out of commits and Docker
-build contexts. A green offline suite is not a live Codespaces or Dataverse dry run.
+browser automation server. Keep service credentials and other private notes out of commits.
+The owner approved temporary versioning of the two existing preparation documents under
+`.facilitator/` on 2026-09-09. This is a limited exception for those documents, not permission
+to add real data to examples or tests. Keep that folder out of Docker build contexts and follow
+its README cleanup reminder. A green offline suite is not a live Codespaces or Dataverse dry run.
 
 ## Layout
 

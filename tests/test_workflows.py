@@ -43,6 +43,7 @@ def test_docker_context_excludes_private_material() -> None:
 
     assert "*.private.md" in patterns
     assert "NN-NA-Hackathon-2026-10-Engagement-Brief.md" in patterns
+    assert "/.facilitator/" in patterns
     assert ".env*" in patterns
     assert ".git" in patterns
 

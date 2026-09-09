@@ -7,6 +7,7 @@
 .env*
 *.private.md
 NN-NA-Hackathon-2026-10-Engagement-Brief.md
+/.facilitator/
 PrivacyReview_*.md
 reports
 logs
