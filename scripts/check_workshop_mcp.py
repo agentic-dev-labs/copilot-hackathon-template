@@ -1,8 +1,8 @@
 """Exercise the prepared MCP processes with synthetic inputs, not attendee credentials."""
 
 import asyncio
-import importlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from importlib import import_module
 from pathlib import Path
 from threading import Thread
 
@@ -27,8 +27,8 @@ class SyntheticPage(BaseHTTPRequestHandler):
 
 async def invoke(server: str, tool: str, arguments: dict, expected: str) -> None:
     """Use the installed official Python MCP client for a genuine stdio invocation."""
-    mcp = importlib.import_module("mcp")
-    stdio = importlib.import_module("mcp.client.stdio")
+    mcp = import_module("mcp")
+    stdio = import_module("mcp.client.stdio")
     parameters = mcp.StdioServerParameters(
         command="bash", args=[str(ROOT / ".devcontainer/mcp.sh"), server], cwd=str(ROOT),
     )
@@ -41,7 +41,7 @@ async def invoke(server: str, tool: str, arguments: dict, expected: str) -> None
                     raise RuntimeError(f"{server} did not expose the required tool")
                 result = await session.call_tool(tool, arguments)
                 text = "\n".join(getattr(item, "text", "") for item in result.content)
-                if result.isError or expected not in text:
+                if result.is_error or expected not in text:
                     raise RuntimeError(f"{server} did not return the expected synthetic content")
     print(f"{server}: initialized, discovered {tool}, and verified synthetic content")
 

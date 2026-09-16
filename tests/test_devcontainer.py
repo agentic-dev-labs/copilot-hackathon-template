@@ -2,6 +2,14 @@
 
 import json
 from pathlib import Path
+import asyncio
+from contextlib import asynccontextmanager
+from types import SimpleNamespace
+from unittest.mock import AsyncMock
+
+import pytest
+
+from scripts import check_workshop_mcp
 
 
 def test_machine_requirements_and_notes() -> None:
@@ -73,3 +81,36 @@ def test_research_stays_out_of_git_and_container_builds() -> None:
         text = Path(name).read_text(encoding="utf-8")
         assert "/research/" in text.splitlines()
         assert ".venv-research" in text
+
+
+@pytest.mark.parametrize("is_error,text", [(False, "Synthetic check"), (True, "Synthetic check"), (False, "Wrong")])
+def test_mcp_smoke_checks_sdk_two_result_fields(monkeypatch, is_error: bool, text: str) -> None:
+    """Use SDK 2's Python field names and reject both tool errors and wrong content."""
+    client = SimpleNamespace(
+        initialize=AsyncMock(),
+        list_tools=AsyncMock(return_value=SimpleNamespace(tools=[SimpleNamespace(name="convert_to_markdown")])),
+        call_tool=AsyncMock(return_value=SimpleNamespace(is_error=is_error, content=[SimpleNamespace(text=text)])),
+    )
+
+    @asynccontextmanager
+    async def transport(parameters):
+        assert parameters.command == "bash"
+        yield None, None
+
+    @asynccontextmanager
+    async def session(reader, writer):
+        yield client
+
+    modules = {
+        "mcp": SimpleNamespace(StdioServerParameters=SimpleNamespace, ClientSession=session),
+        "mcp.client.stdio": SimpleNamespace(stdio_client=transport),
+    }
+    monkeypatch.setattr(check_workshop_mcp, "import_module", modules.__getitem__)
+    operation = check_workshop_mcp.invoke("markitdown", "convert_to_markdown", {}, "Synthetic check")
+    if is_error or text != "Synthetic check":
+        with pytest.raises(RuntimeError, match="expected synthetic content"):
+            asyncio.run(operation)
+    else:
+        asyncio.run(operation)
+    client.initialize.assert_awaited_once()
+    client.call_tool.assert_awaited_once_with("convert_to_markdown", {})
