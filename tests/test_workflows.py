@@ -109,6 +109,7 @@ def test_ci_builds_both_deliverables() -> None:
     assert "docker build --tag workshop-check ." in commands
     assert "docker build --file Dockerfile.website --tag workshop-website-check ." in commands
     tool_commands = [step.get("run", "") for step in workflow["jobs"]["research-tools"]["steps"]]
+    assert workflow["jobs"]["research-tools"]["runs-on"] == "ubuntu-22.04"
     assert "bash .devcontainer/setup.sh" in tool_commands
     assert ".venv-research/bin/python scripts/check_workshop_mcp.py" in tool_commands
 

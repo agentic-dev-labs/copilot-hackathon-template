@@ -62,6 +62,7 @@ def test_mcp_examples_are_private_and_use_pinned_tools() -> None:
         }
     launcher = Path(".devcontainer/mcp.sh").read_text(encoding="utf-8")
     assert "--headless --isolated --executable-path" in launcher
+    assert "chromiumSandbox: true, executablePath: chromium.executablePath()" in launcher
     assert "--no-sandbox" not in launcher
     assert "--ignore-https-errors" not in launcher
     assert "--port" not in launcher

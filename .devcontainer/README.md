@@ -42,6 +42,12 @@ server, discovers its tool, and checks a synthetic conversion/browser navigation
 Linux. It is not a VS Code Web trust/discovery check, a corporate-network report download, or a
 complete attendee rehearsal; those live checks remain in the rehearsal ledger.
 
+The research-tools CI job uses Ubuntu 22.04: the default Ubuntu runner rejected Chromium's
+sandbox startup during verification. Neither the test nor the launcher disables the sandbox;
+the startup check explicitly matches MCP's sandboxed browser configuration. The actual Debian
+Codespace must also pass this launch and the MCP smoke check. Escalate an unsupported host
+configuration to the facilitator instead of adding `--no-sandbox` or disabling a host policy.
+
 In Copilot CLI, use `/mcp` and configure command `bash` with the **absolute Codespace path** to
 the launcher and the desired server name. Derive the path with `pwd` in Bash. Do not copy
 `${workspaceFolder}` into CLI configuration or assume the editor's chat/auth/browser session is shared.

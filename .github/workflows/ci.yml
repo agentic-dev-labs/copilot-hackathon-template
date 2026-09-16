@@ -39,7 +39,7 @@ jobs:
         run: docker run --rm --entrypoint python workshop-website-check -c 'from app.site import site_manifest; assert site_manifest()["index_sha256"]'
 
   research-tools:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
