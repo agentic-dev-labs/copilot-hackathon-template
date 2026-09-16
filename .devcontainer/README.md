@@ -38,7 +38,9 @@ The `check` command verifies imports and a real Chromium launch, not VS Code/CLI
 MCP protocol invocation. Headless automation provides results/screenshots, not a laptop browser.
 
 After setup, `.venv-research/bin/python scripts/check_workshop_mcp.py` initializes each stdio
-server, discovers its tool, and checks a synthetic conversion/browser navigation. CI runs this on
+server, discovers its tools, and checks a synthetic conversion plus browser navigation and a
+separate heading read. Playwright can return a saved snapshot path rather than inline content;
+the checker verifies page text, not the presence of that path. CI runs this on
 Linux. It is not a VS Code Web trust/discovery check, a corporate-network report download, or a
 complete attendee rehearsal; those live checks remain in the rehearsal ledger.
 

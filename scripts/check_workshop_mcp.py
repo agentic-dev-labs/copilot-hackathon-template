@@ -37,9 +37,14 @@ async def invoke(server: str, tool: str, arguments: dict, expected: str) -> None
             async with mcp.ClientSession(reader, writer) as session:
                 await session.initialize()
                 tools = await session.list_tools()
-                if tool not in {item.name for item in tools.tools}:
+                required = {tool, "browser_evaluate"} if tool == "browser_navigate" else {tool}
+                if not required.issubset({item.name for item in tools.tools}):
                     raise RuntimeError(f"{server} did not expose the required tool")
                 result = await session.call_tool(tool, arguments)
+                if tool == "browser_navigate" and not result.is_error:
+                    result = await session.call_tool("browser_evaluate", {
+                        "function": "() => document.querySelector('h1')?.textContent",
+                    })
                 text = "\n".join(getattr(item, "text", "") for item in result.content)
                 if result.is_error or expected not in text:
                     raise RuntimeError(

@@ -85,12 +85,19 @@ def test_research_stays_out_of_git_and_container_builds() -> None:
 
 
 @pytest.mark.parametrize("is_error,text", [(False, "Synthetic check"), (True, "Synthetic check"), (False, "Wrong")])
-def test_mcp_smoke_checks_sdk_two_result_fields(monkeypatch, is_error: bool, text: str) -> None:
-    """Use SDK 2's Python field names and reject both tool errors and wrong content."""
+@pytest.mark.parametrize("server", ["markitdown", "playwright"])
+def test_mcp_smoke_checks_sdk_two_result_fields(monkeypatch, is_error: bool, text: str, server: str) -> None:
+    """Check actual converted/evaluated text, not a navigation snapshot's filename."""
+    tool = "convert_to_markdown" if server == "markitdown" else "browser_navigate"
+    results = [SimpleNamespace(is_error=is_error, content=[SimpleNamespace(text=text)])]
+    if server == "playwright":
+        results.insert(0, SimpleNamespace(is_error=False, content=[SimpleNamespace(text="Snapshot saved to file")]))
     client = SimpleNamespace(
         initialize=AsyncMock(),
-        list_tools=AsyncMock(return_value=SimpleNamespace(tools=[SimpleNamespace(name="convert_to_markdown")])),
-        call_tool=AsyncMock(return_value=SimpleNamespace(is_error=is_error, content=[SimpleNamespace(text=text)])),
+        list_tools=AsyncMock(return_value=SimpleNamespace(
+            tools=[SimpleNamespace(name=name) for name in (tool, "browser_evaluate")],
+        )),
+        call_tool=AsyncMock(side_effect=results),
     )
 
     @asynccontextmanager
@@ -107,11 +114,18 @@ def test_mcp_smoke_checks_sdk_two_result_fields(monkeypatch, is_error: bool, tex
         "mcp.client.stdio": SimpleNamespace(stdio_client=transport),
     }
     monkeypatch.setattr(check_workshop_mcp, "import_module", modules.__getitem__)
-    operation = check_workshop_mcp.invoke("markitdown", "convert_to_markdown", {}, "Synthetic check")
+    operation = check_workshop_mcp.invoke(server, tool, {}, "Synthetic check")
     if is_error or text != "Synthetic check":
         with pytest.raises(RuntimeError, match="expected synthetic content"):
             asyncio.run(operation)
     else:
         asyncio.run(operation)
     client.initialize.assert_awaited_once()
-    client.call_tool.assert_awaited_once_with("convert_to_markdown", {})
+    assert client.call_tool.await_args_list[0].args == (tool, {})
+    if server == "playwright":
+        assert client.call_tool.await_count == 2
+        client.call_tool.assert_awaited_with("browser_evaluate", {
+            "function": "() => document.querySelector('h1')?.textContent",
+        })
+    else:
+        client.call_tool.assert_awaited_once_with(tool, {})
