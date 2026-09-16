@@ -1,119 +1,108 @@
-# Lab 02: Complete the trip with a shared agent
+# Lab 02: Make It Yours and Make It Remember
 
-**Objective:** Use your travel customizations from Copilot CLI, consume the enterprise-managed
-AttractionsAgent, and finish the trip without recreating the shared specialist.
+**Objective:** Create a useful interactive feature, save its state in the browser, and verify
+what actually happens. You can extend the morning presentation or make a small website of your own.
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Completed Lab 01, Copilot CLI sign-in, and the facilitator's prepared
-`attractions@agentic-dev-labs` plugin. Plugin access and enterprise configuration are prework,
-not attendee setup. The actual client still needs permitted research tools.
+**Prerequisites:** Lab 00, the morning research/HTML block, and prepared Playwright MCP.
+Use browser-based VS Code in Codespaces. All terminal commands below run in the Codespace's Bash
+terminal. The folder name is retained for existing links; the short CLI introduction is now Lab 00.
 
-## Presenter Demonstration
+## Show, Try, Personalise
 
-After you have planned flights and a hotel, the presenter reveals **AttractionsAgent** from
-the managed `attractions` plugin. Inspect its source, version, Managed entry, and tools; then
-invoke it with the destination and exact travel dates. A same-named repository agent would
-not prove central distribution. Do not create or copy one into your project.
+The presenter alternates small demonstrations with your practice. Work on **one** website.
+Choose the morning brief plus saved notes/favourites, or a fictional holiday planner, reading
+tracker, recipe collection, or event planner. No login, external database, API keys, paid maps,
+or live booking integration is needed. Website code is a means to your useful outcome.
 
-The presenter also shows CLI context/model/usage, stop/resume, and a prepared cloud delegation.
-MCP is a separate tools/data connection. This plugin uses the client's research tools and does
-not install an MCP server or host your planner. Deeper cloud work is in Lab 03.
+### 1. Agree one feature (10 minutes)
 
-## Steps
+Tell Copilot your idea and audience. Limit the first version to one list, form, or selection.
+Use a request like this, changing the subject to your idea:
 
-### 1. Continue in the CLI (15 minutes)
+> Extend my site/index.html with a list of questions to explore. Let me add a question, mark it
+> complete, and remove it. Keep my verified figures and source links unchanged. Use semantic
+> HTML, CSS, and JavaScript. Propose the smallest change before editing; no new framework.
 
-Run `copilot` from the repository root. Select your `TravelPlannerAgent` using the actual
-agent picker and inspect `/skills`, `/instructions`, `/model`, and `/context` where available.
-Attach [the trip brief](../../travel/trip-brief.json) and your saved flight/hotel choices.
-Shared files do not imply the CLI has the VS Code conversation or browser session.
+If starting another idea, keep the reviewed morning presentation as `site/presentation.html`
+and use `site/index.html` for the new entry point. Ask before replacing files. Watch the proposed
+change, stop an overbroad request, and inspect the actual diff in **Source Control**.
 
-Invoke one of your travel skills and verify its source-labelled result. Approve only the
-task's required tools. Practise stopping a response and finding the same session again.
-Try this bounded programmatic task after exiting the interactive session:
+### 2. Build and open it (15 minutes)
 
-```shell
-copilot -p "For a fictional trip with hotel check-in 2026-10-26 and check-out 2026-10-28, state the number of hotel nights and explain the date arithmetic. Do not use tools."
+Approve the small plan and let Copilot implement it. Review the form labels, empty state, and
+buttons. Use fictional entries and render entered text safely, not as raw HTML.
+
+If the morning server is still running, reuse it; saving static assets and refreshing is enough.
+Otherwise run in the Codespace terminal:
+
+```bash
+uv run uvicorn app.site:app --host 0.0.0.0 --port 8000
 ```
 
-Expect two nights. This proves a real CLI turn, not live hotel availability. `--allow-all`
-is not a prerequisite. Inspect the effective sandbox if localhost or web access fails;
-never bypass an enforced policy or install an alternative browser server.
+Keep it running; use another terminal for commands. Open **Ports > 8000 > Open in Browser**.
+If the port belongs to another process, use 8001 and forward it. Do not stop someone else's
+server. Keep visibility **Private**. A preview depends on a running Codespace; it is not deployed.
 
-### 2. Use the centrally supplied specialist (20 minutes)
+### 3. Remember information (15 minutes)
 
-Find `AttractionsAgent` in the plugin's actual discovered agent list. Select it directly,
-or let your planner delegate where supported. For delegation, explicitly enable the supported
-agent tool and allow the discovered specialist identifier in your planner. Do not guess a
-namespace or assume that a VS Code handoff button works identically in the CLI.
+> Save this list in localStorage under a unique key for this app. After a refresh, restore it.
+> Reject empty input, handle invalid saved JSON and unavailable storage, and show a useful
+> error without breaking the page. Never clear storage belonging to other sites or applications.
 
-Supply the city/country, inclusive ISO dates, interests, selected travel times, activity budget,
-and free-time windows. For the fixture trip, preserve Flight F1 and Hotel H1. You can use:
+Manually add a fictional item, refresh, confirm it remains, remove it, and refresh again.
+Then change one thing about the appearance to suit your idea. Do not add real work notes or
+confidential data. localStorage is not encrypted secret storage or a shared team database.
 
-> Find things to do in London, United Kingdom, during 2026-10-26 through 2026-10-28.
-> Interests: history, museums, walking. Keep the supplied flights and hotel unchanged.
-> Do not schedule anything before arrival or after departure. Distinguish event occurrence
-> dates from attraction opening hours. Return sourced options and JSON; do not reserve anything.
+### 4. Verify with a browser (15 minutes)
 
-Use permitted official pages for live research. For a repeatable supplied-source check, attach
-[the synthetic sources](../../travel/practice-sources.md) and explicitly prohibit browsing.
-The latter must return `provided_only` evidence, not pretend its fictional URLs are live sites.
+Use Playwright MCP in the same Codespace with this request:
 
-### 3. Finalize and verify the trip (20 minutes)
+> Open http://localhost:8000 in your browser. Add a unique fictional item, refresh, and verify
+> it persists. Remove that item, refresh, and verify it is gone. Check keyboard access and a
+> narrow screen. Save screenshots under research/browser/. If a check fails, explain it, fix
+> the smallest problem, and repeat that check. Do not invent a defect to demonstrate a fix.
 
-Return the specialist's summary/JSON to your TravelPlannerAgent. Explicit selection and
-context transfer are valid when automatic delegation is unavailable. Ask it to combine
-transport, hotel, and chosen activities into a day-by-day plan, with costs and open questions.
+Use your actual port. The automation browser has **separate** storage from your preview tab.
+An item entered by you will not automatically appear in Playwright. Its isolated session loses
+storage when closed; verify reload persistence within the same session. Screenshots and tool
+observations are not a saved CI test. If MCP is blocked, record that and perform the manual
+journey; do not call it an automated pass or make the MCP port public.
 
-| Check                     | Expected result                                                                |
-| ------------------------- | ------------------------------------------------------------------------------ |
-| Flight and hotel choice   | Preserved unless you explicitly request a change                               |
-| Event E1                  | 27 October fits the supplied trip; availability remains unconfirmed            |
-| Event E2                  | 30 October is excluded, not moved to make it fit                               |
-| Museum A1                 | Not scheduled on Monday when its supplied schedule says closed                 |
-| Unknown museum/hotel cost | Still unknown; no invented zero or final guaranteed total                      |
-| Source mode               | Live sources have real links/check dates; fixture sources remain provided_only |
-| Booking state             | Nothing purchased, reserved, or submitted                                      |
+### 5. Explain your result (5 minutes)
 
-Save the reviewed itinerary and source limitations under `travel/output/` using the built-in
-editing agent when needed. Commit changes to your own coordinator/skills, not generated listings
-or the shared agent. The trip is the completed artifact; a website is not required to finish it.
+Show a neighbour what it does and one request that improved it. In `site/brief.md`, record
+what you checked, any limitations, and how this could help your work. Ask Copilot to review
+its own claims against the diff and observed browser results.
 
-### 4. Explain the boundary (5 minutes)
+**Done when:** your own HTML experience works, one meaningful interaction survives a refresh
+in the same browser, removal works after another refresh, and desktop/narrow-screen checks
+are recorded truthfully. You can explain why the preview and automation browser have different data.
 
-Show your own agent/skill files and the separately installed AttractionsAgent's source.
-Identify the plugin's version and the observed distribution path. If enterprise access is
-missing, follow the presenter result but record **managed-plugin consumption blocked**.
-A manually copied agent or synthetic response does not pass that check.
+## When It Does Not Work
 
-**Done when:** your own customizations run in the CLI, a real invocation of the managed
-AttractionsAgent supplies date-relevant options, and your verified itinerary preserves the
-chosen flights/hotel with sources, costs, and limitations. Missing client features or live
-research access must stay visible rather than becoming a claimed success.
-
-## What you just learned
-
-You authored a role and workflows, then reused a centrally distributed specialist. Plugin
-installation, agent invocation, web/MCP access, and response correctness are separate checks.
-The next segment introduces Awesome Copilot only after this trip-completion stage.
+| Symptom | Action |
+| --- | --- |
+| Blank or missing page | Confirm `site/index.html`, server terminal, and port; ask Copilot to inspect the exact error |
+| Data disappears after deployment | Different origin means different localStorage; repeat the check at the deployed URL |
+| Playwright cannot see your item | Its browser context is separate; create a fictional test item there |
+| Chart looks plausible but differs from facts | Stop and reconcile the source values before publishing |
+| Preview works but asset check fails | Keep only allowed website assets under `site/`; move PDFs/extracts to `research/` |
 
 ## Optional extras
 
-1. **Independent checks (5-10 min).** Use available subagents for separate date and budget
-   reviews of the supplied plan, without competing file edits or real bookings.
-2. **Cloud preview (5 min).** Inspect the presenter's delegated task. `/delegate` starts remote
-   development work; it is not required to invoke the locally installed AttractionsAgent.
-3. **Session hygiene (5 min).** Compare new, resume, and compaction controls. Explain what
-   context must be supplied again; compaction does not preserve every detail.
-4. **Research/automation preview (5 min).** Inspect `/research`, `/after`, and `/every` help.
-   Any test schedule must be read-only and removed before leaving the lab.
+1. Add JSON export/import with input validation so fictional browser data can move to the deployed origin.
+2. Add a theme switch, sorting, or favourites without replacing verified content.
+3. Ask Copilot to turn the observed journey into a repeatable Playwright test. Running it once
+   does not automatically wire it into CI. Keep automation screenshots out of the published site.
+4. Try a bounded CLI request in the **Codespace terminal**, such as
+   `copilot -p "Read site/brief.md and suggest one usability question. Do not change files."`.
+   Do not enable blanket tool permissions; editor and CLI sessions are separate.
 
 ## Official References
 
-- [CLI overview](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli) and [CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference).
-- [CLI for Beginners](https://github.com/github/copilot-cli-for-beginners): context, custom agents, skills, and MCP.
-- [Plugins and discovery](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference) and [enterprise-managed settings](https://docs.github.com/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/configure-enterprise-managed-settings).
-- [Custom-agent tool controls](https://docs.github.com/en/copilot/reference/custom-agents-configuration), [built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools), and [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp).
-- [CLI release notes and sandbox prerequisites](https://github.com/github/copilot-cli/blob/main/changelog.md).
-- [Whole-week coverage and extras](../../docs/REFERENCES.md).
+- [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices) and [CLI reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference).
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp) and [browser testing](https://playwright.dev/docs/intro).
+- [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and [storage errors](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
+- [Forwarded ports](https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace), [reviewing changes](https://code.visualstudio.com/docs/agents/run/review-code-edits), and [whole-week topic map](../../docs/REFERENCES.md).

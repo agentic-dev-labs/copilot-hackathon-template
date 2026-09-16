@@ -10,7 +10,8 @@ import uuid
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
-from app.config import load
+from app.config import deployment_name, load
+from app.site import site_manifest
 from rehearsal.evidence import ROOT, git_state, now
 from scripts.deployment_result import validate_origin, verify
 
@@ -45,11 +46,16 @@ def repository_name(value: str) -> str:
     return value
 
 
-def dispatch(repository: str, ref: str, target: Path, *, dataverse: bool, approved: bool) -> dict:
+def dispatch(
+    repository: str, ref: str, target: Path, *, dataverse: bool, approved: bool,
+    deployment_target: str = "vendor",
+) -> dict:
     """Refuse the source template, dirty work, unpushed commits, or unapproved cost."""
     repository_name(repository)
     if not approved:
         raise ValueError("Confirm the target and deployment usage, then supply --approve-deploy")
+    if deployment_target not in {"website", "vendor"} or (deployment_target == "website" and dataverse):
+        raise ValueError("Choose website without Dataverse, or the separate vendor target")
     if target.exists():
         raise ValueError("This request already exists. Collect it instead of dispatching a duplicate")
     if not ref or ref.startswith("-") or any(ord(character) < 32 for character in ref):
@@ -81,16 +87,21 @@ def dispatch(repository: str, ref: str, target: Path, *, dataverse: bool, approv
     correlation = uuid.uuid4().hex
     request = {
         "schema_version": 1, "repository": repository, "ref": ref, "commit": revision["commit"],
-        "display_name": settings["displayName"], "app_name": settings["appName"],
+        "display_name": settings["displayName"],
+        "app_name": deployment_name(settings["displayName"], deployment_target),
+        "target": deployment_target,
         "connect_dataverse": dataverse, "rehearsal_id": correlation,
         "run_title": f"Deploy my app [{correlation}]", "requested_at": now(),
         "dispatch_state": "attempted",
     }
+    if deployment_target == "website":
+        request["expected_site"] = site_manifest()
     target.parent.mkdir(parents=True, exist_ok=True)
     with target.open("x", encoding="utf-8") as stream:
         stream.write(json.dumps(request, indent=2) + "\n")
     invoke([
         "gh", "workflow", "run", "deploy.yml", "--repo", repository, "--ref", ref,
+        "-f", f"target={deployment_target}",
         "-f", f"connect_dataverse={str(dataverse).lower()}",
         "-f", f"rehearsal_id={correlation}", "-f", f"expected_sha={revision['commit']}",
     ])
@@ -118,12 +129,20 @@ def validate_result(result: dict, request: dict, run: dict) -> None:
         "schema_version": 1, "repository": request["repository"], "commit": request["commit"],
         "display_name": request["display_name"], "app_name": request["app_name"],
         "connect_dataverse": request["connect_dataverse"], "run_id": str(run["databaseId"]),
-        "run_attempt": str(run["attempt"]), "source": "Dataverse" if request["connect_dataverse"] else "samples",
+        "run_attempt": str(run["attempt"]), "source": "website" if request.get("target") == "website"
+        else "Dataverse" if request["connect_dataverse"] else "samples",
         "health_status": 200, "page_status": 200,
         "run_url": f"https://github.com/{request['repository']}/actions/runs/{run['databaseId']}",
     }
     if type(result.get("connect_dataverse")) is not bool:
         raise ValueError("Deployment result must state its data source as a boolean")
+    if result.get("target", "vendor") != request.get("target", "vendor"):
+        raise ValueError("Deployment result has the wrong website/vendor target")
+    if request.get("target") == "website":
+        if request["connect_dataverse"]:
+            raise ValueError("A website request cannot enable Dataverse")
+        expected["site_digest"] = request["expected_site"]["digest"]
+        expected["index_sha256"] = request["expected_site"]["index_sha256"]
     if any(result.get(key) != value for key, value in expected.items()):
         raise ValueError("Downloaded deployment evidence does not match the requested run and commit")
     origin = validate_origin(result.get("url", ""))
@@ -171,8 +190,11 @@ def collect(request_path: Path, *, wait: bool) -> int:
                 "--name", artifact, "--dir", temporary], timeout=120)
         result = json.loads((Path(temporary) / "deployment-result.json").read_text(encoding="utf-8"))
     validate_result(result, request, run)
+    options = {}
+    if request.get("target") == "website":
+        options = {"target": "website", "expected_site": request["expected_site"]}
     current = verify(result["url"], label=request["display_name"], commit=request["commit"],
-                     dataverse=request["connect_dataverse"])
+                     dataverse=request["connect_dataverse"], **options)
     destination = request_path.parent / f"{artifact}.json"
     destination.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     (request_path.parent / f"endpoint-{run_id}-{run['attempt']}.json").write_text(
@@ -193,6 +215,7 @@ def main() -> int:
     start.add_argument("--ref", required=True)
     start.add_argument("--request", type=Path, required=True)
     start.add_argument("--dataverse", action="store_true")
+    start.add_argument("--target", choices=("website", "vendor"), default="vendor")
     start.add_argument("--approve-deploy", action="store_true")
     finish = commands.add_parser("collect")
     finish.add_argument("--request", type=Path, required=True)
@@ -204,7 +227,8 @@ def main() -> int:
         if arguments.command == "collect":
             return collect(arguments.request, wait=arguments.wait)
         request = dispatch(arguments.repository, arguments.ref, arguments.request,
-                           dataverse=arguments.dataverse, approved=arguments.approve_deploy)
+                           dataverse=arguments.dataverse, approved=arguments.approve_deploy,
+                           deployment_target=arguments.target)
         print(f"Dispatch accepted for {request['commit']}; request saved to {arguments.request}.")
         print("Run the collect command for this request, with --wait if supported.")
         return 0

@@ -4,12 +4,19 @@
 
 **Time-box:** 90 minutes
 
-**Prerequisites:** Active Codespace, your app deployed in Lab 08, and the facilitator's prepared Dataverse connection. See [the prerequisites](../../docs/PREREQS.md).
+**Prerequisites:** An active browser-based Codespace and the facilitator's separately prepared
+vendor app, seeded synthetic rows, and Dataverse connection. See [the prerequisites](../../docs/PREREQS.md).
+Lab 08 published your website, not this app. The facilitator prepares the **vendor** target
+independently before Day 2; your website and its browser storage remain separate.
 
-Day 1 used travel to teach authoring and reuse. Today applies those habits to a business app:
-explicit inputs, source-backed output, selected tools, and verification. Switch back to the
-built-in coding Agent to modify the provided app; the travel specialists do not own this code.
-No travel-plan import, travel website, or SDK integration is a prerequisite.
+Yesterday one browser remembered your information. Today a team needs shared, governed data.
+The interface, data store, and automation are different parts. You describe and improve the
+experience; the facilitator prepares the data model and access. All commands still run in the
+**Codespaces Bash terminal**. No local VS Code, corporate-account switch, or Azure login is needed.
+
+The presenter alternates demonstrations and practice: read (20 minutes), add (35), filter (20),
+and verify (15). Use the built-in coding Agent on the vendor app. Advanced schema/authentication
+details below are reference material, not a vocabulary test. Stay with one small change.
 
 > **This is a to-do list.** The items happen to be vendors, and the to-dos are the gaps in their
 > security controls. If you have ever kept a list of things with a status against each one, you have
@@ -18,7 +25,9 @@ No travel-plan import, travel website, or SDK integration is a prerequisite.
 
 ## The training environment
 
-The facilitator provisions the training environment; you seed your own sample rows below.
+The facilitator provisions the training environment and seeds the assigned label's rows before
+the lab. Do not create tables or supply secrets yourself. Stop the Day 1 research MCP servers
+when they are not needed; their processes can read files/environment available to their user.
 
 |                                                   |                                                      |
 | ------------------------------------------------- | ---------------------------------------------------- |
@@ -43,19 +52,28 @@ whether a flow, an MCP tool, or your own code sends the request.
 
 ## Steps
 
-### 1. Claim your rows
+### 1. Read your work queue (20 minutes)
 
 Use your assigned, unique workshop label in `config.json`. The facilitator supplies all four
 Dataverse environment variables as Codespaces secrets: `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`,
 `DATAVERSE_CLIENT_SECRET`, and `DATAVERSE_TENANT_ID`. Never paste credentials into code or chat.
 Rebuild or restart the Codespace after secrets are supplied, as directed by the facilitator.
 
-Run `uv run python scripts/dataverse_seed.py`. It updates or creates the three sample vendors tagged
-with your label, without deleting custom rows or modifying another label's rows. Both this attendee
-command and the web app require environment credentials, with no Azure CLI login fallback.
-Only the separate facilitator provisioning scripts can explicitly permit an existing CLI login.
+The facilitator runs `uv run python scripts/dataverse_seed.py` with your label and prepared
+environment credentials. It updates or creates the three sample vendors without deleting custom
+rows. An empty queue goes to the helper; it is not a request to print secrets or grant new roles.
 
-### 2. Read them from your app
+Stop your own Day 1 preview with **Ctrl+C** in its server terminal, then run:
+
+```bash
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Open **Ports > 8000 > Open in Browser**. Keep it private. Ask Copilot: "Explain this work queue
+in plain English. Which records need follow-up, and what evidence supports that? Do not change
+anything yet." Compare its answer with the page. The records are fictional, not customer data.
+
+### Reference: where the data comes from
 
 The starter already contains a read-only Dataverse path. Ask Copilot to explain
 `app/main.py` and `src/vendor_assurance/dataverse.py`, then run the app locally and confirm
@@ -66,11 +84,18 @@ the source changes from local samples to **Dataverse**. The existing query filte
 ```
 
 Codespaces secrets do not automatically reach your deployed app. Commit and push your
-configuration, then run **Deploy my app** with **connect_dataverse** checked. This uses the
+configuration, then run **Deploy my app** with **target: vendor** and **connect_dataverse** checked. This uses the
 facilitator's Actions variables and secret to configure the Container App. Open your public
 URL and confirm **Source: Dataverse**. A page showing fallback samples is not a successful connection.
 
-### 3. Add a row
+### 2. Add a fictional item (35 minutes)
+
+Watch the presenter add a small form, then ask:
+
+> Let me add a fictional vendor and system to this work queue. Reject blank values, keep
+> credentials on the server, and use the existing Dataverse client and configured workshop
+> label. Show a useful error if saving fails. A new row must be Not assessed, not a made-up score.
+> Add a mocked test, then let me try the form and reload the page.
 
 Use Agent mode to add a small form and server-side POST handler for a fictional vendor and
 system name. Reuse `DataverseClient`; validate input and set the attendee label on the server
@@ -78,11 +103,14 @@ from `config.json`, not from a browser-supplied identity. Keep credentials on th
 
 Leave score and sensitivity unset: a new row is **Not assessed** until the evaluator runs.
 Add a test with a mocked client, submit a fictional row, reload, and see it beside the seeded
-three. If built-in browser tools are available, ask Copilot to repeat that exact journey and
-report the observed result; manual verification remains valid. Commit, push, and redeploy to
+three. Ask the prepared Playwright MCP to repeat that exact synthetic journey at Codespace
+localhost, or verify manually and label the route. Commit, push, and redeploy the **vendor** target to
 make the form available at your public URL.
 
-### 4. Filter the follow-up work queue
+### 3. Make it useful (20 minutes)
+
+Choose your own wording and layout for a small follow-up filter, with the same data model.
+For example: "Show only assessed records needing follow-up, with a count and a way to reset."
 
 Add a filter for scored vendors needing follow-up, for example `cr522_score lt 5`, combined
 with the existing attendee filter. Unassessed rows should remain distinguishable from a
@@ -90,6 +118,13 @@ calculated failure. This is a training work queue, not an automated risk-accepta
 
 **Done when:** your deployed page shows Dataverse as its source, your new fictional row
 survives a reload, your filter stays scoped to your label, and the mocked write test passes.
+
+### 4. Verify and explain (15 minutes)
+
+Repeat add -> reload -> filter -> reset at the **vendor** deployment URL. Ensure another
+label was not substituted, and note that a display filter is not row-level authorization.
+Show a neighbour the improvement and explain what a real business rollout would still need.
+Use the 13:00 supported build block for further personalisation, not a new mandatory schema.
 
 ## When it does not work
 

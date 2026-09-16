@@ -1,4 +1,11 @@
-# Run of Show — Facilitator Only
+# Historical Run of Show — Facilitator Only
+
+> **Superseded delivery script, 16 September 2026.** Retained as historical preparation, not
+> current attendee instructions. Use [the current facilitator guide](../docs/FACILITATOR.md),
+> [agenda](../docs/AGENDA.md), and labs. Day 1 now uses public annual-report research, reviewed
+> skills, an HTML brief, and a learner-selected website with localStorage and its own deployment.
+> All five days are Codespaces-only. The travel-first/built-in-browser-only talk tracks below
+> are not current requirements. The historical clock times still match the unchanged timetable.
 
 > **Facilitator preparation material.** Temporarily versioned in `.facilitator/` with the
 > repository owner's explicit disclosure approval on 2026-09-09. The folder name does not

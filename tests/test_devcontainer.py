@@ -21,7 +21,10 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     assert config["updateContentCommand"] == "bash .devcontainer/setup.sh"
     setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
     assert "uv sync --locked --extra dev --extra web" in setup
-    assert "npm" not in setup
+    assert "npm ci --prefix .devcontainer/browser --ignore-scripts" in setup
+    assert "--requirement .devcontainer/research-requirements.txt" in setup
+    assert "install --with-deps chromium" in setup
+    assert "bash .devcontainer/mcp.sh check" in setup
     assert config["remoteEnv"]["UV_NATIVE_TLS"] == "true"
     assert 'export UV_NATIVE_TLS="${UV_NATIVE_TLS:-true}"' in setup
     assert "python -m rehearsal.network" in setup
@@ -38,3 +41,34 @@ def test_setup_does_not_hide_failures_or_request_day_two_secrets() -> None:
         assert "pipefail" in command
         assert "||" not in command
     assert "secrets" not in config
+
+
+def test_mcp_examples_are_private_and_use_pinned_tools() -> None:
+    """Learners add trusted remote-workspace connections, not a public MCP endpoint."""
+    example = json.loads(Path(".devcontainer/mcp.example.json").read_text(encoding="utf-8"))
+    assert set(example["servers"]) == {"playwright", "markitdown"}
+    for name, server in example["servers"].items():
+        assert server == {
+            "type": "stdio", "command": "bash",
+            "args": ["${workspaceFolder}/.devcontainer/mcp.sh", name],
+        }
+    launcher = Path(".devcontainer/mcp.sh").read_text(encoding="utf-8")
+    assert "--headless --isolated --executable-path" in launcher
+    assert "--no-sandbox" not in launcher
+    assert "--ignore-https-errors" not in launcher
+    assert "--port" not in launcher
+    package = json.loads(Path(".devcontainer/browser/package.json").read_text(encoding="utf-8"))
+    lock = json.loads(Path(".devcontainer/browser/package-lock.json").read_text(encoding="utf-8"))
+    assert package["dependencies"]["@playwright/mcp"] == "0.0.81"
+    assert lock["packages"]["node_modules/@playwright/mcp"]["version"] == "0.0.81"
+    requirements = Path(".devcontainer/research-requirements.txt").read_text(encoding="utf-8")
+    assert "markitdown-mcp==0.0.1a7" in requirements
+    assert "markitdown==0.1.7" in requirements
+
+
+def test_research_stays_out_of_git_and_container_builds() -> None:
+    """Public research does not become synthetic fixture data or a deployed document archive."""
+    for name in (".gitignore", ".dockerignore"):
+        text = Path(name).read_text(encoding="utf-8")
+        assert "/research/" in text.splitlines()
+        assert ".venv-research" in text

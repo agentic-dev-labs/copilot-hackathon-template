@@ -107,6 +107,10 @@ def test_ci_builds_both_deliverables() -> None:
 
     assert "uv build --wheel" in commands
     assert "docker build --tag workshop-check ." in commands
+    assert "docker build --file Dockerfile.website --tag workshop-website-check ." in commands
+    tool_commands = [step.get("run", "") for step in workflow["jobs"]["research-tools"]["steps"]]
+    assert "bash .devcontainer/setup.sh" in tool_commands
+    assert ".venv-research/bin/python scripts/check_workshop_mcp.py" in tool_commands
 
 
 def test_deployment_publishes_exact_revision_evidence_without_attendee_login() -> None:
@@ -127,3 +131,19 @@ def test_deployment_publishes_exact_revision_evidence_without_attendee_login() -
     assert "WORKSHOP_COMMIT=$GITHUB_SHA" in text
     assert "python -m scripts.deployment_result" in text
     assert "az login" not in text
+
+
+def test_website_target_is_separate_and_validated_before_build() -> None:
+    """Only an intentional site folder can enter the Day 1 image."""
+    text = Path(".github/workflows/deploy.yml").read_text(encoding="utf-8")
+    workflow = yaml.load(text, Loader=yaml.BaseLoader)
+    target = workflow["on"]["workflow_dispatch"]["inputs"]["target"]
+    assert target["options"] == ["website", "vendor"]
+    assert target["default"] == "website"
+    assert text.index("python -m app.site --check") < text.index("az acr build")
+    dockerfile = Path("Dockerfile.website").read_text(encoding="utf-8")
+    assert "COPY site ./site" in dockerfile
+    assert "COPY . " not in dockerfile
+    assert "app.site:app" in dockerfile
+    assert "research" not in dockerfile
+    assert "site/**/*.md" in Path(".dockerignore").read_text(encoding="utf-8")

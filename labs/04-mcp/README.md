@@ -10,9 +10,10 @@ Day 1 introduced MCP as one way to connect an agent to tools or data. This lab m
 connection explicit: discover a tool, inspect what it can do, authenticate, call it, and verify
 the result. MCP configuration, a skill's instructions, and the built-in browser tools are different things.
 
-The managed AttractionsAgent reused on Monday installed no MCP server. Here you explicitly
-connect one: GitHub MCP exposes GitHub data and actions, not flight/hotel inventory. This
-distinction is the learning goal, even when both appear as tools in the same chat.
+Monday's Playwright and MarkItDown connections supplied browser and document tools. This is
+another connection: GitHub MCP exposes repository data and actions. The learning goal is the
+same: inspect permissions, call the intended tool, and verify its result. All local configuration
+and terminal work remains inside Codespaces; the GitHub service itself is remote.
 
 ## Steps
 
@@ -24,9 +25,8 @@ distinction is the learning goal, even when both appear as tools in the same cha
 6. Inspect the listed MCP tools and verify write tools are unavailable or disabled.
 7. Remove or disable the connection after the exercise if required by facilitator policy.
 
-The remote GitHub server needs no local runtime. Browser automation is a separate demonstration
-using **Copilot's built-in browser tools**, not an additional MCP server. Check which tools your
-VS Code client exposes; follow the facilitator demo if they are unavailable in your Codespace.
+The remote GitHub server needs no local runtime. Browser automation uses the prepared headless
+Playwright MCP inside the Codespace. GitHub tools and browser tools are different capabilities.
 Cloud-agent MCP configuration is separate from `.vscode/mcp.json`; do not assume local servers
 or authentication carry over.
 
@@ -46,7 +46,7 @@ Pick any of these if you finish early. None of them are required.
 
 1. **Trim the tool list (5 min).** Configure toolsets so only the tools you need are loaded, then notice the
    effect on how the agent behaves.
-2. **Drive a browser (5-10 min).** If your Copilot session exposes built-in browser tools, ask it to open your app's forwarded or deployed URL, inspect the table, and capture a screenshot. Verify the result against the page. No separate server installation is needed; otherwise inspect the page manually or follow the facilitator demo.
+2. **Drive a browser (5-10 min).** Ask the prepared Playwright MCP to open the app at Codespace localhost or its deployment URL, inspect the table, and capture a screenshot. Its context is separate from the learner preview; otherwise inspect manually and record the limitation.
 3. **Ground it deliberately (5-10 min).** Query the prepared training Space with the ten controls
    and synthetic samples. Compare the answer with a normal chat and identify its sources. If you
    create your own Space, include only synthetic files; do not attach the whole repository or `.facilitator/`.
@@ -58,6 +58,6 @@ Pick any of these if you finish early. None of them are required.
 - [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and [MCP in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
 - [Set up GitHub MCP](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server), [configure toolsets](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/configure-toolsets), and [use it in an IDE](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/use-the-github-mcp-server).
 - [Repository MCP for cloud agent and review](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers).
-- [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools): no extra browser server is required.
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp): the prepared Codespaces browser path. [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools) are optional where supported.
 - [Copilot Spaces](https://docs.github.com/en/copilot/concepts/context/spaces) and [enterprise-managed settings](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings).
 - [Whole-week coverage and extras](../../docs/REFERENCES.md).

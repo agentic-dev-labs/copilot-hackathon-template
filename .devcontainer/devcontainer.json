@@ -19,7 +19,7 @@
   },
   "updateContentCommand": "bash .devcontainer/setup.sh",
   "postAttachCommand": {
-    "welcome": "printf '\\nStart with: python -m pytest\\nThen open labs/00-setup/README.md\\n'"
+    "welcome": "printf '\\nOpen labs/00-setup/README.md: all commands run in this Codespace.\\nMCP connections are added and trusted during the guided exercise.\\n'"
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {
@@ -30,7 +30,7 @@
   "forwardPorts": [8000],
   "portsAttributes": {
     "8000": {
-      "label": "Vendor review app",
+      "label": "Workshop preview",
       "onAutoForward": "notify"
     }
   },

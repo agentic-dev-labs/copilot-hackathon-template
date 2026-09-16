@@ -1,8 +1,10 @@
 # Facilitator runbook
 
 Use the [agenda](AGENDA.md) for timing and the [coverage guide](REFERENCES.md) for official
-links to every feature family. Day 1 establishes breadth, including prepared examples of later
-workflows; Days 2-5 provide depth. Keep the reference guide open for attendee questions.
+links to every feature family. The priority is business-user AI enablement. Day 1 establishes
+a useful research/presentation/site loop; Day 2 connects it to shared data; Days 3-5 add depth.
+All attendee steps use browser-based Codespaces and its Bash terminal, never a laptop runtime.
+Use 8-minute demonstrations followed by practice and personalisation, not long feature tours.
 
 ## Demonstration preparation
 
@@ -10,13 +12,14 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 
 | Block                  | Live core                                                                                  | Prepared result or fallback                                                            |
 | ---------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| Opening tour           | Completed fictional trip, VS Code/Codespaces and CLI, main capability map                  | Prepared Space, cloud PR, automation, and later SDK/MCP pointers                       |
-| Creation demonstration | Instructions, TravelPlannerAgent, FindFlight/FindHotel skills, discovery and invocation    | Small inline/context/model/recovery examples; prompt variant only in supported clients |
-| Managed-plugin reveal  | `attractions@agentic-dev-labs`, Managed source/version, actual AttractionsAgent invocation | Verified missing-date and supplied-source results; live research rehearsed separately  |
-| After trip completion  | Awesome Copilot and a prepared web-design-reviewer adaptation on the provided app          | Built-in-browser-only before/after result; no browser-server installation              |
-| Deployment handover    | Review config, trigger workflow, inspect exact-commit URL                                  | Provided vendor app for Day 2; this does not host the travel agent                     |
+| Opening | A useful visual brief, a small interactive site, and a short CLI turn | Prepared advanced results; no mandatory feature-by-feature tour |
+| Tool connection | Learners add/trust Playwright and MarkItDown MCP in the Codespace | Prepared dependencies; actual invocation still required |
+| Research | One report first, verified facts, then bounded five-year collection | [Prepared public facts](annual-report-facts.json), labelled as prepared |
+| Skill discovery | Awesome Copilot shortlist and the prepared visual-brief skill | Complete folders, attribution, dependencies, and client checks |
+| Personal build | One interaction, localStorage, and browser verification | Extend the morning HTML instead of starting another project |
+| Deployment | Website target, reviewed assets, exact commit, actual URL | Vendor target prepared separately before Day 2 |
 
-Use the fictional trip for authoring/reuse, then the provided vendor app for the business case.
+Use public reports for Day 1 research and the synthetic vendor app for the later business case.
 Name the model, agent role, tools, context, and execution
 environment as different choices. GitHub Copilot is the focus; Microsoft 365 Copilot and
 Power Platform are related products, not interchangeable entitlements or tool surfaces.
@@ -64,12 +67,12 @@ Consult [custom-agent configuration](https://docs.github.com/en/copilot/referenc
 [enterprise-managed settings](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings).
 Supported components and policy keys vary by client; a marketplace does not itself grant access to private files.
 
-## Plugin distribution
+## Optional Later Plugin Distribution
 
 Check access and client behavior before relying on distribution. Do not alter global policies
 mid-demonstration or assume repository agents and plugins are the same thing.
 
-1. **Grant every attendee read access to the governance repository.** When `enabledPlugins`
+1. **For participants in this optional demo, verify read access to the governance repository.** When `enabledPlugins`
    installs a plugin, the client fetches plugin files as the signed-in user. The repository
    is private, so users need access to fetch it. Inspect plugin diagnostics if it does not load.
 2. Select the organization as the enterprise source of governance so
@@ -87,25 +90,25 @@ mid-demonstration or assume repository agents and plugins are the same thing.
 6. Leave `strictKnownMarketplaces` alone. It is enterprise-wide with no organization scope,
    and restricting it blocks plugins installed from every other marketplace.
 
-**Day 1 specialist:** [attractions plugin](https://github.com/agentic-dev-labs/.github-private/tree/main/plugins/attractions).
+**Optional Day 5 specialist:** [attractions plugin](https://github.com/agentic-dev-labs/.github-private/tree/main/plugins/attractions).
 The tested CLI ID is `attractions:AttractionsAgent`. Inspect the current identifier in each
 client. The plugin installs neither an MCP server nor a browser package. It returns dated
 activity suggestions and never makes reservations. The owner approved adding it to the
 existing managed-plugin list; other enterprise settings stay unchanged.
 
-**After trip completion:** open [Awesome Copilot](https://github.com/github/awesome-copilot/)
+**Optional later design-review example:** open [Awesome Copilot](https://github.com/github/awesome-copilot/)
 and [web-design-reviewer](https://github.com/github/awesome-copilot/tree/main/skills/web-design-reviewer).
-Prepare an adaptation before the workshop, retaining attribution and references. Use only
-the existing built-in browser tools; do not copy its example browser-server setup. Demonstrate
+Prepare an adaptation before the workshop, retaining attribution and references. Reuse the
+prepared Playwright MCP; do not install unreviewed browser servers. Demonstrate
 one small visual check/fix on the provided app without changing the heading, source indicator,
-or health contract. Ten minutes of Lab 08 covers this segment; the remaining 35 cover deployment.
+or health contract. This is optional later material, not part of Lab 08's deployment time.
 
 Use this prepared request after opening the collection and explaining its provenance. This is
 our bounded adaptation of that review workflow, not an unmodified installed upstream skill:
 
 ```text
-Review the provided workshop vendor app at the presenter-supplied URL using only Copilot's
-built-in browser tools. Inspect its rendered layout and accessible controls at desktop and
+Review the provided workshop vendor app at the presenter-supplied URL using the prepared
+Playwright MCP in Codespaces. Inspect its rendered layout and accessible controls at desktop and
 narrow widths where supported. Report at most one concrete problem with an element reference
 and a screenshot or page observation. If there is no supported finding, say so.
 
@@ -116,10 +119,10 @@ Re-run the relevant tests and inspect the changed element with the same browser 
 Separate actual observations from assumptions; do not invent a defect to make the demo work.
 ```
 
-Time budget: two minutes for the collection/source distinction, five for the prepared
-before/after observation, and three for the deployment handover. If live generation would
+Optional time budget: two minutes for the source distinction, five for the prepared
+before/after observation, and three for verification. If live generation would
 overrun, show the already verified result and label it prepared. Do not ship the presenter's
-demo customization as a learner-created travel agent or imply the community item is managed.
+demo customization as a learner-authored skill or imply the community item is managed.
 
 For an optional Day 5 document-tool demo, use `copilot plugin install assurance-toolkit@agentic-dev-labs`
 after confirming it appears in the marketplace. Inspect its agent, skills, and document-conversion
@@ -127,7 +130,7 @@ MCP configuration. Use a synthetic document and verify a quotation; do not promi
 PDF failed before installation or that every converted file has reliable page provenance.
 The toolkit is an optional presenter install, separate from the core labs. Verify its actual
 tool permissions, runtime dependencies, and client support in the governance repository.
-Keep the document toolkit separate from Monday's required AttractionsAgent. A verified transcript
+Keep this optional toolkit separate from Monday's core tools and visual-brief skill. A verified transcript
 is a presenter fallback, not evidence that the attendee's plugin actually worked.
 
 ## Create team repositories
@@ -168,14 +171,14 @@ is required; repository access to the prepared Actions identity must already exi
 - Run tests and the sample CLI end to end.
 - Use `--as-of 2026-10-26` to confirm sample scores 10, 8, and 2, plus exact source quotations.
 - Rehearse inline assistance, context attachments, model/usage controls, and checkpoint recovery on a disposable change.
-- Create the learner's travel instruction, coordinator, and two skills from the lab, rather than
-  shipping the completed solution in the template. Verify skill discovery and actual use.
-- Check flight/hotel browser access separately from synthetic-source analysis: dates, two nights,
-  price units, unknowns, source labels, and no purchases or personal data.
-- Start with [Lab 01's KAYAK UK and Booking.com links](../labs/01-vscode-agent/README.md#public-search-starting-points).
-  Dated GBP results were readable on 9 September in Windows VS Code. This is not a Codespaces
-  pass: some cookie/filter clicks timed out, Google consent interaction failed, and Expedia
-  returned partial results with HTTP 429 errors. Recheck in the actual workshop environment.
+- Add/trust the workspace MCP connections from Lab 01 using an attendee identity. Test a real
+  browser navigation/download and a MarkItDown conversion. Install presence is not tool invocation.
+- Follow [the research guide](RESEARCH.md): inspect one official PDF first, then collect the
+  five-year window. Keep downloads ignored and separate from synthetic fixtures. Record blocked
+  downloads or truncated conversion; use labelled prepared facts without claiming a live pass.
+- Invoke the portable visual-brief skill, review source values, and create a learner-style HTML
+  presentation in the rehearsal copy, not the source template. Test the chosen community skill
+  in Linux; local presenter skills and desktop canvas features are not automatically available.
 - Check CLI sandbox/local-network support in the exact Codespace. Current Linux versions may
   require networking helpers and `/dev/net/tun`; inspect effective `/sandbox` settings and the
   official CLI release notes. Package downloads alone do not prove agent access. Do not bypass policy.
@@ -184,14 +187,14 @@ is required; repository access to the prepared Actions identity must already exi
 - Create an automation triggered by issue creation, open a matching issue, and confirm exactly one session starts.
 - Follow Lab 07's metadata-only hook example and harmless deny test. Local log files are not a durable compliance trail.
 - Test remote GitHub MCP in read-only mode.
-- Test Copilot built-in browser tools in the presenter client against a forwarded or deployed URL. If absent in an attendee client, use the presenter demo or manual page inspection; do not add another browser server.
+- Test Playwright MCP against Codespace localhost, and manually open the private forwarded preview.
+  Add/refresh/remove in the same browser context; repeat independently at the deployed origin.
 - Exercise the Dataverse-backed training API using synthetic records.
-- Set a name in `config.json`, dispatch **Deploy my app**, and confirm the app answers on its public URL.
-- Run the Day 2 opt-in connection and confirm **Source: Dataverse**, not fallback samples.
-- Invoke managed AttractionsAgent with the trip: E1 fits, E2 is excluded, A1 is not scheduled on
-  Monday, and unknown prices remain unknown. Then verify a permitted live source separately.
-- Finish the itinerary before the Awesome Copilot segment; distinguish authored, managed,
-  community, and deployed artifacts. Lab 08 deploys the business starter, not a hosted travel agent.
+- Set the unique label, dispatch **Deploy my app / website**, and verify the current site bytes,
+  commit, URL, and interaction. A healthy endpoint is not a checked chart or storage journey.
+- Independently prepare **Deploy my app / vendor** with Dataverse and seeded rows before Day 2.
+  Confirm **Source: Dataverse**, not samples. Stop unneeded research tools before service access.
+- Optional Day 5 only: invoke the managed specialist and verify origin. No local duplicate.
 - Follow Lab 06's JSON generation and separate baseline/report comparison with a fresh session.
 - Disable test automations and stop unused Codespaces at the end of the rehearsal.
 
@@ -206,6 +209,11 @@ those counterexamples and the three sample scores do not establish general docum
 The live Codespaces, product-feature, Dataverse, and deployment gates must still be observed.
 
 ## Container Image Readiness
+
+The new website target uses `python:3.12-alpine` and a non-root runtime user. The editor's
+base-image check on 16 September reported four High findings and no Critical findings for that
+tag. This is not a scan of the finished image or proof of exploitability. Re-scan both final
+images by digest and triage findings before live delivery. The vendor image is unchanged.
 
 A read-only Trivy 0.74.0 scan on 2026-09-09 of the Linux AMD64 base in
 [Dockerfile](../Dockerfile), `python:3.12-slim`, reported 51 High and 3 Critical package
@@ -228,7 +236,7 @@ container build, application security review, or live deployment check.
 | Old duplicate vendor-analyst still appears     | Cached organization discovery                                            | The shared copy is retired; refresh/reload the client. Keep the local workshop analyst used by Lab 06.                                                                      |
 | Learner agent or skill missing                 | File location, frontmatter, client                                       | Inspect discovery diagnostics; use skills for Agent Host, not unsupported prompt files.                                                                                     |
 | Inline suggestion or model option missing      | Client, language, seat, model and settings                               | Use a prepared example and the current support documentation; do not turn a missing preview into an installation task.                                                      |
-| Browser tools missing                          | Presenter client and effective browser policy                            | Use the prepared demo or inspect the page manually; do not install another browser server.                                                                                  |
+| Browser tools missing | Workspace MCP configuration, Linux setup, and effective policy | Use MCP logs and the prepared launcher. Record a blocker if unavailable; never expose an MCP port or disable sandbox/TLS. |
 | Plugin listed but its task fails               | Component discovery, tool access and runtime                             | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test.                                                                      |
 | AttractionsAgent absent or not Managed         | Entitlement, private-source read access, policy refresh, local shadowing | Inspect source and the actual agent ID. Do not copy it into the learner repo or change enterprise settings live.                                                            |
 | Travel site blocks the agent                   | Site access or bot controls                                              | Use another permitted source or clearly labelled fixture; never call the fallback live browsing.                                                                            |

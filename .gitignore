@@ -4,7 +4,9 @@ __pycache__/
 .ruff_cache/
 /rehearsal/results/
 /travel/output/
+/research/
 .venv/
+.venv-research/
 node_modules/
 dist/
 build/

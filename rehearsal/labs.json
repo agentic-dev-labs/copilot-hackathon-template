@@ -9,46 +9,47 @@
       "checks": {
         "fresh-install": "Codespaces network report includes a successful fresh-cache locked installation",
         "access": "GitHub, Copilot CLI, and editor are authenticated with the intended account",
-        "workspace": "Unique synthetic label, passing tests, and running provided vendor app",
-        "travel-brief": "Fictional trip brief inspected and travel authoring distinguished from the later vendor business case"
+        "workspace": "Unique synthetic label and reviewed site/brief.md created in browser-based Codespaces",
+        "cli-turn": "A real Copilot CLI request and refinement completed in the Codespace Bash terminal, separately from editor chat"
       }
     },
     {
       "id": "01",
-      "title": "Create TravelPlannerAgent and flight/hotel skills",
+      "title": "Public research, skill discovery, and visual brief",
       "guide": "labs/01-vscode-agent/README.md",
       "tests": ["tests/test_lab_contracts.py"],
       "checks": {
-        "travel-authoring": "Learner created a path-scoped travel instruction, TravelPlannerAgent, FindFlight, and FindHotel without a prebuilt solution",
-        "travel-invocation": "Learner planner and both named skills discovered and actually invoked with the fictional brief",
-        "date-price-checks": "Missing input, two hotel nights, currencies/price units, room types, sign-in-only rates, and unknown costs checked without booking",
-        "flight-hotel-browser": "Actual built-in browser observations of dated flight and hotel results recorded separately from provided_only fixtures; unsupported terms stay unknown",
-        "travel-review": "Four customization files reviewed and committed; generated research stays in ignored travel/output/; no local AttractionsAgent"
+        "mcp-tools": "Prepared dependencies installed in a fresh Codespace and both private workspace MCP connections actually invoked",
+        "browser-download": "Playwright inspected the official archive and at least one actual PDF download and reporting year; remaining years and blockers recorded truthfully",
+        "conversion": "A real MarkItDown conversion inspected; complete file output retained and any CLI fallback or truncation distinguished from MCP success",
+        "facts": "Comparable facts checked against original public sources with years, units, locations, calculations, and live/prepared labels",
+        "skill-discovery": "Awesome Copilot browsed, one candidate's complete files and dependencies inspected, and its use or access blocker recorded",
+        "visual-brief": "Prepared visual-brief skill invoked to create the learner's own HTML in the separately scheduled coached block; plotted values, navigation, and source references checked"
       }
     },
     {
       "id": "02",
-      "title": "CLI and managed AttractionsAgent trip completion",
+      "title": "Personal website, browser storage, and verification",
       "guide": "labs/02-copilot-cli/README.md",
-      "tests": ["tests/test_cli.py"],
+      "tests": ["tests/test_site.py"],
       "checks": {
-        "session": "Real CLI task using the learner travel workflow, with context/session controls and supported tool boundaries observed",
-        "programmatic": "Bounded programmatic task actually executed and its output checked",
-        "managed-origin": "Managed attractions@agentic-dev-labs delivery, private source, version, and discovered agent ID verified in the target client; manual install is not managed proof",
-        "specialist": "Shared AttractionsAgent actually invoked with the trip, without a same-name local substitute",
-        "itinerary": "Selected flight/hotel integrated with in-range activities, E2 excluded, A1 not on Monday, time conflicts avoided, unknown prices preserved, and nothing booked"
+        "implementation": "Learner extended the visual brief or built a small personal website with one meaningful interaction, preserving verified content",
+        "storage": "Synthetic add, reload, persistence, remove, and reload journey observed within one browser context",
+        "browser": "Playwright checked the real site at desktop and narrow widths, recording screenshots and actual failures/fixes separately from manual checks",
+        "preview": "Learner opened the private Codespaces forwarded preview and explained localhost, per-origin storage, and separate automation browser state"
       }
     },
     {
       "id": "08",
-      "title": "Awesome Copilot example and separate vendor-app deployment",
+      "title": "Publish the learner website",
       "guide": "labs/08-deploy/README.md",
-      "tests": ["tests/test_workflows.py", "tests/test_app_config.py"],
+      "tests": ["tests/test_workflows.py", "tests/test_app_config.py", "tests/test_site.py"],
       "checks": {
-        "community-example": "After trip completion, inspected Awesome Copilot and a prepared built-in-browser-only web-design-reviewer adaptation; community and managed origins distinguished",
+        "publication-boundary": "Reviewed site assets exclude source reports, extracts, private notes, credentials, and development tools",
         "reviewed-commit": "Exact tested commit was reviewed and pushed to the rehearsal repository",
         "actions": "Deploy workflow succeeded for that commit using the prepared runner identity",
-        "endpoint": "Downloaded deployment result and fresh requests verify the provided vendor app health, label, and local samples; this does not host the travel agent",
+        "endpoint": "Website-target artifact and fresh responses match the exact commit, label, entry-page bytes, and site fingerprint; no vendor-app substitution",
+        "deployed-storage": "The synthetic storage journey repeated at the deployment origin without assuming preview or Playwright state transfers",
         "no-azure-login": "No attendee Azure login or credential creation was used"
       }
     },
@@ -62,7 +63,7 @@
         "tests/test_app_main.py"
       ],
       "checks": {
-        "seed": "Three synthetic source vendors seeded under the unique rehearsal label without deleting custom rows",
+        "seed": "Separate vendor target and prepared Dataverse access verified; three fictional vendors seeded under the unique label without deleting custom rows",
         "implementation": "Form, validated server-side POST, scoped filter, unassessed state, and mocked failure tests implemented",
         "transport": "Redirect and credential boundaries checked with passing regression coverage before live service calls",
         "deployed-journey": "Final exact-commit deployment shows Dataverse; browser submit, reload, and scoped filtering verified",

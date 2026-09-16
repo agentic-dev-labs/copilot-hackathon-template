@@ -3,7 +3,7 @@
 import json
 import re
 from pathlib import Path
-from urllib.parse import parse_qs, unquote, urlsplit
+from urllib.parse import unquote, urlsplit
 
 import yaml
 
@@ -132,36 +132,33 @@ def test_local_document_links_resolve() -> None:
             assert (path.parent / unquote(link.path)).exists(), f"{path}: {target}"
 
 
-def test_travel_search_links_match_the_brief() -> None:
-    """Keep preset search parameters correct without claiming a live browser test."""
-    brief = json.loads(Path("travel/trip-brief.json").read_text(encoding="utf-8"))
-    lab = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
-    links = [urlsplit(target) for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", lab)]
-    flight = next(link for link in links if link.hostname == "www.kayak.co.uk")
-    assert flight.scheme == "https"
-    assert flight.path == (
-        f"/flights/{brief['origin']['airport']}-{brief['destination']['airport']}"
-        f"/{brief['dates']['start']}/{brief['dates']['end']}"
-    )
-    hotel = next(link for link in links if link.hostname == "www.booking.com")
-    assert hotel.scheme == "https"
-    assert hotel.path == "/searchresults.html"
-    query = parse_qs(hotel.query)
-    expected = {
-        "ss": f"{brief['destination']['city']}, {brief['destination']['country']}",
-        "checkin": brief["dates"]["start"],
-        "checkout": brief["dates"]["end"],
-        "group_adults": str(brief["adults"]),
-        "no_rooms": str(brief["rooms"]),
-        "group_children": "0",
-        "selected_currency": brief["budget"]["currency"],
-        "nflt": "ht_id=204",
-    }
-    for parameter, value in expected.items():
-        assert query[parameter] == [value]
+def test_research_links_use_completed_reporting_years() -> None:
+    """Pin the teaching window without confusing a publication year with a report year."""
+    text = Path("docs/RESEARCH.md").read_text(encoding="utf-8")
+    links = [urlsplit(target) for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text)]
+    reports = [link for link in links if link.path.endswith(".pdf")]
+    assert len(reports) == 5
+    for year, link in zip(range(2021, 2026), reports, strict=True):
+        assert link.scheme == "https" and link.hostname == "www.novonordisk.com"
+        assert link.path.endswith(f"annual_report/{year + 1}/novo-nordisk-annual-report-{year}.pdf")
 
 
 def test_travel_output_is_not_published() -> None:
     """Keep collected research out of source control and the vendor app image."""
     assert "/travel/output/" in Path(".gitignore").read_text(encoding="utf-8").splitlines()
     assert "/travel/" in Path(".dockerignore").read_text(encoding="utf-8").splitlines()
+
+
+def test_prepared_research_has_explicit_provenance() -> None:
+    """A small public fallback is not a fabricated learner observation or vendor fixture."""
+    facts = json.loads(Path("docs/annual-report-facts.json").read_text(encoding="utf-8"))
+    assert facts["source_mode"] == "prepared_public"
+    assert facts["currency"] == "DKK" and facts["unit"] == "million"
+    assert urlsplit(facts["source_url"]).hostname == "annualreport.novonordisk.com"
+    assert "Net sales" in facts["source_location"]
+    assert [row["year"] for row in facts["rows"]] == list(range(2021, 2026))
+    assert len(facts["limitations"]) >= 3
+    skill = Path(".github/skills/visual-brief/SKILL.md").read_text(encoding="utf-8")
+    metadata = yaml.safe_load(skill.split("---", 2)[1])
+    assert metadata["name"] == "visual-brief"
+    assert metadata["description"]

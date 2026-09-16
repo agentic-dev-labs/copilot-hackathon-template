@@ -129,3 +129,22 @@ def test_endpoint_validation_rejects_wrong_targets(url: str) -> None:
     """Do not fetch arbitrary credential-bearing URLs from an artifact."""
     with pytest.raises(ValueError):
         deployment_result.validate_origin(url)
+
+
+def test_website_verifies_exact_assets_without_vendor_heading(tmp_path) -> None:
+    """Creative learner titles are allowed; a wrong asset revision is not."""
+    content = '<html><body><h1>Synthetic Reading List</h1></body></html>'
+    (tmp_path / "index.html").write_text(content, encoding="utf-8")
+    expected = deployment_result.site_manifest(tmp_path)
+    health = {"status": "ok", "commit": COMMIT, "target": "website", "label": LABEL,
+              "site_digest": expected["digest"], "index_sha256": expected["index_sha256"]}
+    arguments = {"label": LABEL, "commit": COMMIT, "dataverse": False,
+                 "target": "website", "expected_site": expected}
+    assert deployment_result.validate_content(health, content, **arguments) == "website"
+    with pytest.raises(ValueError, match="asset content"):
+        deployment_result.validate_content(health, content + "stale", **arguments)
+    for key in ("target", "label", "site_digest", "index_sha256"):
+        with pytest.raises(ValueError):
+            deployment_result.validate_content({**health, key: "wrong"}, content, **arguments)
+    with pytest.raises(ValueError, match="cannot connect Dataverse"):
+        deployment_result.validate_content(health, content, **{**arguments, "dataverse": True})

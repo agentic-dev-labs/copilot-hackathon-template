@@ -35,25 +35,26 @@ def test_every_live_condition_starts_pending(ledger: dict) -> None:
 def test_passing_requires_observation_and_evidence(ledger: dict) -> None:
     """A green unit suite must not automatically pass the browser journey."""
     with pytest.raises(ValueError, match="Passing requires"):
-        evidence.record(ledger, "01", "flight-hotel-browser", "passed", [], "Tests passed")
+        evidence.record(ledger, "01", "browser-download", "passed", [], "Tests passed")
     with pytest.raises(ValueError, match="Passing requires"):
-        evidence.record(ledger, "01", "flight-hotel-browser", "passed",
+        evidence.record(ledger, "01", "browser-download", "passed",
                         ["https://github.com/synthetic/rehearsal/issues/1"], "Tests passed")
 
 
-def test_old_page_checks_cannot_complete_the_travel_lab(ledger: dict) -> None:
-    """Previous curriculum evidence must not silently satisfy the new travel work."""
+def test_old_travel_checks_cannot_complete_the_research_lab(ledger: dict) -> None:
+    """Previous curriculum evidence must not silently satisfy new research work."""
     lab = next(lab for lab in evidence.manifest() if lab["id"] == "01")
     ledger["labs"]["01"] = {
-        check: {"status": "passed"}
-        for check in ("implementation", "customizations", "browser", "review")
+        check: {"status": "passed", "evidence": ["https://example.invalid/observed"],
+            "observation_attested": True}
+        for check in ("travel-authoring", "travel-invocation", "flight-hotel-browser", "travel-review")
     }
     assert evidence.lab_status(ledger, lab) == "pending"
 
 
-@pytest.mark.parametrize("required_check", ["managed-origin", "specialist", "itinerary"])
-def test_shared_travel_work_requires_each_observation(ledger: dict, required_check: str) -> None:
-    """Delivery, invocation, and the final trip are separate live requirements."""
+@pytest.mark.parametrize("required_check", ["implementation", "storage", "browser", "preview"])
+def test_website_work_requires_each_observation(ledger: dict, required_check: str) -> None:
+    """Code, browser actions, persistence, and preview are separate live requirements."""
     lab = next(lab for lab in evidence.manifest() if lab["id"] == "02")
     assert required_check in lab["checks"]
     assert "delegation" not in lab["checks"]
@@ -108,7 +109,7 @@ def test_prompt_is_discoverable_and_has_every_lab() -> None:
         assert lab["guide"] in text
     assert "az login" in text
     assert "Do not run" in text
-    assert "built-in browser tools" in text
+    assert "Playwright MCP" in text
     assert json.loads(Path("rehearsal/labs.json").read_text(encoding="utf-8"))["schema_version"] == 1
 
 

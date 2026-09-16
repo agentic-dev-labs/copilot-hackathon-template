@@ -27,3 +27,32 @@ jobs:
         run: uv build --wheel
       - name: Build application image
         run: docker build --tag workshop-check .
+      - name: Prepare a CI-only website when learner output is absent
+        run: |
+          if [ ! -f site/index.html ]; then
+            printf '%s\n' '<!doctype html><html lang="en"><body><h1>Synthetic CI website</h1></body></html>' > site/index.html
+          fi
+          python -m app.site --check
+      - name: Build website image
+        run: docker build --file Dockerfile.website --tag workshop-website-check .
+      - name: Import website runtime and inspect actual image assets
+        run: docker run --rm --entrypoint python workshop-website-check -c 'from app.site import site_manifest; assert site_manifest()["index_sha256"]'
+
+  research-tools:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.7"
+      - name: Prepare Linux research tools and launch headless browser
+        run: bash .devcontainer/setup.sh
+      - name: Invoke both MCP servers with synthetic inputs
+        run: .venv-research/bin/python scripts/check_workshop_mcp.py

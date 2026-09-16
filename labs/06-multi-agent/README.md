@@ -4,12 +4,13 @@
 
 **Time-box:** 90 minutes
 
-**Prerequisites:** Completed Labs 01-03.
+**Prerequisites:** The prepared vendor app, synthetic reports, and Lab 03's review workflow.
+All editing and CLI work uses browser-based Codespaces and its Bash terminal.
 
-You already created TravelPlannerAgent and flight/hotel skills, then consumed the managed
-AttractionsAgent. This lab adds depth: a second specialist with an explicit JSON contract,
-missing-evidence checks, and ordered handoffs that preserve deterministic business results.
-Leave your travel files and the centrally supplied plugin unchanged.
+On Day 1 you discovered and used skills. Now author one custom role and a reusable workflow:
+an explicit JSON contract, missing-evidence checks, and ordered handoffs that preserve deterministic
+business results. No prior travel agent, managed plugin, or local workstation is required.
+Watch a small example, choose one business question, and verify both present and absent evidence.
 
 Use the [customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet)
 to revisit roles, workflows, tool access, and distribution. The presenter inspects packaging,
@@ -120,8 +121,9 @@ tasks; handoffs coordinate dependent stages.
 
 Pick any of these if you finish early. None of them are required.
 
-1. **Compare distribution (5 min).** Compare your repository roles with the managed
-   `attractions:AttractionsAgent`. Explain their origins and update paths. Use the official
+1. **Compare distribution (5 min, prepared demo).** If available, compare repository roles with
+   the facilitator's managed `attractions:AttractionsAgent`. This is optional, not a Monday
+   requirement or a reason to change policy. Explain their origins and update paths. Use the official
    configuration reference for organization-level agents; no extra shared vendor analyst is
    required. A matching name alone does not prove sharing or managed delivery.
 2. **Run independent checks (10 min).** If `/fleet` is available, ask for separate read-only

@@ -1,5 +1,7 @@
 .git
 .venv
+.venv-research
+/research/
 **/node_modules
 **/__pycache__
 .pytest_cache
@@ -19,5 +21,6 @@ docs
 .github
 .devcontainer
 .vscode
+site/**/*.md
 dist
 build

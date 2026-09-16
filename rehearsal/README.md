@@ -12,13 +12,14 @@ and evidence. Keep the [official reference map](../docs/REFERENCES.md) and
 
 Agent Host sessions do not use prompt files. In those clients, invoke the companion
 **`/workshop-rehearsal`** [skill](../.github/skills/workshop-rehearsal/SKILL.md), which reads the
-same task. Inspect the customization list rather than assuming discovery. Keep a supported
-built-in browser surface available; a CLI-only session cannot prove every editor interaction.
+same task. Inspect discovery rather than assuming it. Use browser-based Codespaces and its Bash
+terminal. Playwright MCP runs headless in the same Codespace; a CLI-only session cannot prove
+the learner's editor interactions or manual Ports preview.
 
-Day 1 is travel authoring and reuse: create TravelPlannerAgent plus FindFlight/FindHotel,
-consume the managed AttractionsAgent, and finish the fictional itinerary. Only then show the
-Awesome Copilot example and deploy the provided vendor app. Days 2-5 retain the vendor/Dataverse
-case. Do not prebuild the learner solution or copy the shared specialist into this template.
+Day 1 is everyday AI: public annual-report research, document conversion, checked facts, skill
+discovery, an HTML presentation, an interactive website with localStorage, and its own deployment.
+Days 2-5 retain the **separate vendor/Dataverse target**. Do not prebuild a completed learner site
+in the source template or copy a managed specialist locally.
 
 These changes must exist in the rehearsal repository before its Codespace can use them.
 Copy the updated template through your normal reviewed Git workflow, then create a dedicated
@@ -41,6 +42,7 @@ REPOSITORY="$(gh repo view --json nameWithOwner --jq .nameWithOwner)"
 python -m rehearsal.evidence --output "$RUN" init --repository "$REPOSITORY"
 python -m rehearsal.network --fresh-install --nuget --output "$RUN/network.json"
 uv sync --locked --extra dev --extra web
+bash .devcontainer/setup.sh
 python -m rehearsal.evidence --output "$RUN" checks
 ```
 
@@ -113,14 +115,14 @@ use the fresh-install helper above to test new downloads and an empty cache.
 
 - GitHub repository access, Copilot entitlement, and an authenticated GitHub/Copilot session.
 - Codespaces and network access; a preinstalled environment is not a successful fresh install.
-- Effective managed delivery of `attractions@agentic-dev-labs` and read access to its private
-  source. Inspect origin/version and invoke the discovered agent ID. A presenter-only manual
-  install is not managed delivery; no local duplicate may stand in for the shared specialist.
-- Lab 01's [KAYAK UK and Booking.com starting links](../labs/01-vscode-agent/README.md#public-search-starting-points)
-  checked in the target browser/client. September's Windows checks reached dated GBP results,
-  but some clicks timed out; they do not prove Codespaces access or reliable form automation.
-- CLI sandbox/local-network prerequisites verified independently of package-download TLS.
-  Do not install another browser server or bypass an enforced sandbox when a tool is unavailable.
+- The [pinned MCP tooling](../.devcontainer/README.md) installed in a fresh Codespace. The app's
+  locked-install network check does not cover `.venv-research/`, npm, or Chromium downloads.
+  Record those separately. Run `bash .devcontainer/mcp.sh check`, then invoke both actual MCP
+  servers in VS Code Web. CLI discovery/configuration is separate. Never bypass sandbox/TLS.
+- [Official annual reports and prepared facts](../docs/RESEARCH.md), with actual download paths,
+  cover years, full conversion files, checked values, and explicit live/prepared source modes.
+- The [visual-brief skill](../.github/skills/visual-brief/SKILL.md) and a reviewed community-skill
+  candidate tested in Linux. No inherited Windows/OneDrive paths or desktop-only canvas assumptions.
 - The existing training Azure resources and the `AZURE_CREDENTIALS` **Actions secret**, accessible
   to the rehearsal repository. Template copies do not automatically receive secret access.
 - For Lab 05: `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, and
@@ -128,7 +130,7 @@ use the fresh-install helper above to test new downloads and an empty cache.
   variables and the Actions secret `DATAVERSE_CLIENT_SECRET`.
 - The Dataverse schema, application user, and approved permissions. Do not provision or grant
   these as an attendee workaround.
-- Available cloud-agent, MCP, automation, custom-agent, hook, and built-in browser surfaces.
+- Available cloud-agent, MCP, automation, custom-agent, and hook surfaces in Codespaces.
   One client may not expose them all; missing access is a recorded blocker, not a passed fallback.
 
 **No attendee Azure sign-in.** [The deployment workflow](../.github/workflows/deploy.yml)
@@ -143,8 +145,8 @@ in chat, source, screenshots, evidence, or downloaded artifacts.
    and deployment cost in the existing training resource group. Normal tool approvals still apply.
 3. Test clean installation and artifact connectivity before completing labs. Keep TLS verification
    enabled. A NuGet probe diagnoses optional .NET access; it does not make .NET a Python-lab dependency.
-4. Complete and test each exercise rather than merely reading its instructions. Keep travel
-   observations and unknowns truthful, with no real bookings. Preserve later business CLI
+4. Complete and test each exercise rather than merely reading its instructions. Keep source
+  observations, current-date limits, and unknowns truthful. Preserve later business CLI
    baselines, original sources, and the deterministic scoring contract.
 5. Deploy the exact tested commit through Actions and verify the actual endpoint and page behavior.
 6. Report every lab, including failures and blocked live features. Unit tests cannot stand in for
@@ -153,8 +155,10 @@ in chat, source, screenshots, evidence, or downloaded artifacts.
 
 ## Deploy and Retrieve the Endpoint
 
-This deployment publishes the provided vendor app, not TravelPlannerAgent or a Copilot SDK
-runtime. Generated public research remains under ignored `travel/output/`, excluded from the image.
+The `website` target publishes the reviewed `site/` assets with a distinct derived name.
+The `vendor` target preserves the business app and existing name. Research downloads, extracted
+reports, Markdown notes, and developer tools are not website assets. No hosted Copilot runtime
+is deployed. Generated public research stays under ignored `research/` and out of both images.
 
 Use a label such as **Synthetic Rehearsal 9f72a1** in the rehearsal copy. Put the unique suffix
 early enough that the derived 32-character app name remains unique. Never reuse an attendee's label.
@@ -166,15 +170,16 @@ already-prepared training resource group or create credentials.
 ```bash
 BRANCH="$(git branch --show-current)"
 python -m rehearsal.deploy dispatch --repository "$REPOSITORY" --ref "$BRANCH" \
-  --request "$RUN/deploy-samples.json" --approve-deploy
-python -m rehearsal.deploy collect --request "$RUN/deploy-samples.json" --wait
+  --target website --request "$RUN/deploy-website.json" --approve-deploy
+python -m rehearsal.deploy collect --request "$RUN/deploy-website.json" --wait
 ```
 
-After Lab 05's real implementation and tests, commit/push again and request Dataverse explicitly:
+Prepare the vendor deployment with seeded rows independently before Lab 05. After the lab's
+implementation and tests, commit/push again and request the final vendor target explicitly:
 
 ```bash
 python -m rehearsal.deploy dispatch --repository "$REPOSITORY" --ref "$BRANCH" \
-  --request "$RUN/deploy-dataverse.json" --dataverse --approve-deploy
+  --target vendor --request "$RUN/deploy-dataverse.json" --dataverse --approve-deploy
 python -m rehearsal.deploy collect --request "$RUN/deploy-dataverse.json" --wait
 ```
 
@@ -187,7 +192,9 @@ and call `collect` without `--wait` after completion. Do not broaden token permi
 
 The workflow validates prepared secret presence and the requested SHA before Azure operations.
 It uses the Actions identity, selects the requested data source, and sets `WORKSHOP_COMMIT`.
-The helper rejects a healthy **old** revision, wrong label, or Dataverse sample fallback. Reverting
+The helper rejects a healthy **old** revision, wrong target/label, wrong website fingerprints,
+or Dataverse sample fallback. It stores the expected website fingerprint at dispatch, so a later
+local edit cannot silently change the requested result. Reverting
 to sample mode removes active Dataverse environment variables; it does not delete stored secrets
 or service rows. Each successful run publishes an artifact named
 `deployment-result-<run-id>-<attempt>` containing the verified URL, SHA, label, source, and run URL.
@@ -198,13 +205,13 @@ Container Apps environment, credentials, or other teams' rows. Record cleanup ow
 
 ## Record, Resume, and Finish
 
-The agent records the required checks in [labs.json](labs.json). For example, after observing a
-real flight and hotel search, attach credential-free screenshots or a transcript under this run directory:
+The agent records the required checks in [labs.json](labs.json). For example, after observing
+a real report download, attach credential-free screenshots or a transcript under this run directory:
 
 ```bash
-python -m rehearsal.evidence --output "$RUN" record --lab 01 --check flight-hotel-browser \
+python -m rehearsal.evidence --output "$RUN" record --lab 01 --check browser-download \
   --status passed --observed --evidence "$RUN/lab-01-browser.md" \
-  --note "Verified both dated search pages, airports/occupancy, currency and price units; recorded unknown terms."
+  --note "Verified the official archive, downloaded PDF path, and reporting year; recorded remaining download limits."
 python -m rehearsal.evidence --output "$RUN" record --lab 03 --check human-review \
   --status blocked --note "PR checks pass; the repository still requires an independent reviewer."
 python -m rehearsal.evidence --output "$RUN" summary --require-complete
@@ -217,10 +224,10 @@ under the ignored run directory. The summary fails while any core condition is p
 or blocked. These are **attested observations**, not a tamper-proof audit or independent evaluator.
 The agent still must inspect their substance and verify the final deployed commit.
 
-The travel curriculum uses new Lab 01 check IDs. Old page-edit evidence cannot complete it;
-resume with the missing travel observations rather than renaming old passes. Lab 02 records
-managed origin, specialist invocation, and the completed itinerary separately. A fixture-only
-result cannot pass `flight-hotel-browser`, even if its date/price reasoning is correct.
+The revised curriculum has new check IDs. Old travel-authoring or managed-plugin evidence
+cannot complete it; record new research and website observations rather than renaming passes.
+Lab 02 records implementation, storage, browser checks, and preview separately. Prepared public
+facts cannot pass `browser-download` or MCP-tool checks, even if the figures are correct.
 
 Run one lab's deterministic checks with `checks --lab 05`, or omit `--lab` for the full suite.
 The test runner never updates live statuses automatically. The known encryption, retention,
@@ -239,4 +246,4 @@ rerun them, and investigate further counterexamples rather than treating them as
 - [Workflow artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts), [exact-run listing](https://cli.github.com/manual/gh_run_list), [watching a run](https://cli.github.com/manual/gh_run_watch), and [artifact downloads](https://cli.github.com/manual/gh_run_download).
 - [Azure Container Apps deployment from GitHub](https://learn.microsoft.com/azure/container-apps/github-actions).
 - [Dataverse Web API operations](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/perform-operations-web-api).
-- [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools); no separate browser automation server.
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp) and [MarkItDown MCP](https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp); private Codespaces stdio connections.

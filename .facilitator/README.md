@@ -7,15 +7,15 @@ No passwords, tokens, or service credentials belong here.
 
 ## Documents
 
-- [RUN-OF-SHOW.md](RUN-OF-SHOW.md): presenter script, demos, timing, and fallbacks.
+- [RUN-OF-SHOW.md](RUN-OF-SHOW.md): historical presenter script, superseded on 16 September 2026.
 - [ENGAGEMENT-BRIEF.md](ENGAGEMENT-BRIEF.md): stakeholder context and internal planning history.
 - [Coverage and official references](../docs/REFERENCES.md): attendee-safe lookup guide for every feature family and daily optional tasks.
 
-The run sheet introduces the main families on Day 1 through learner-created TravelPlannerAgent
-and flight/hotel skills, then managed AttractionsAgent reuse and trip completion. Awesome Copilot
-comes afterward; the separate deployment publishes the provided vendor app for Days 2-5.
-Use labelled prepared-result fallbacks without changing the published times. The brief retains
-historical quotations; current procedures and browser-test limits belong in the linked guides.
+The current [facilitator guide](../docs/FACILITATOR.md) and [agenda](../docs/AGENDA.md) introduce
+everyday AI research, skills, HTML presentations, and learner websites on Day 1. Days 2-5 retain
+the separate vendor/Dataverse case. All attendee work stays in Codespaces. The historical run
+sheet and brief retain prior planning and quotations, not current procedures. Keep prepared
+fallbacks labelled and the published clock times unchanged.
 
 Existing confidentiality labels remain applicable; do not redistribute the material
 outside the approved repository audience. Docker builds exclude this entire folder.

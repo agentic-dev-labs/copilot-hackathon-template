@@ -1,9 +1,10 @@
-# Day 1 Travel Planner
+# Optional Travel Practice
 
-This is the practice context, not a prebuilt agent solution. In [Lab 01](../labs/01-vscode-agent/README.md)
-you create TravelPlannerAgent and the FindFlight/FindHotel skills. In [Lab 02](../labs/02-copilot-cli/README.md)
-you consume the facilitator's managed AttractionsAgent and finish the trip. Do not add a
-same-named local copy of that shared agent.
+This retained fictional context is optional material for later agent/skill exploration,
+not the required Day 1 exercise. [Lab 01](../labs/01-vscode-agent/README.md) now uses public
+annual-report research and [Lab 02](../labs/02-copilot-cli/README.md) builds a learner-selected
+interactive website. For optional travel authoring, apply Lab 06's role/skill patterns to
+these inputs. Do not copy the facilitator's managed AttractionsAgent locally.
 
 - [trip-brief.json](trip-brief.json): one fictional traveler, two hotel nights, dates, and budget.
 - [practice-sources.md](practice-sources.md): fictional listings/events for repeatable checks.
@@ -13,9 +14,9 @@ Use permitted public pages for a separate live browser observation. Never submit
 payment, passenger information, or a real employee's travel details. The fixture domains do
 not resolve; they identify supplied text rather than sources you visited.
 
-After trip completion, [Lab 08](../labs/08-deploy/README.md) introduces an Awesome Copilot example
-and deploys the already-provided vendor-review app. That app is the bridge to Day 2's business
-case; it does not host your Copilot agent or your generated travel research.
+[Lab 08](../labs/08-deploy/README.md) deploys the learner website; the vendor app is a separate
+target for Days 2-5. Keep this optional research out of both images. No hosted travel agent is
+provided and optional travel work does not change any required workshop finish condition.
 
 Official help: [custom agents](https://docs.github.com/en/copilot/reference/custom-agents-configuration),
 [skills](https://code.visualstudio.com/docs/agent-customization/agent-skills),

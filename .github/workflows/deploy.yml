@@ -4,6 +4,13 @@ run-name: Deploy my app [${{ inputs.rehearsal_id || github.ref_name }}]
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: Website for Day 1; separate vendor app for Days 2-5
+        type: choice
+        options:
+          - website
+          - vendor
+        default: website
       connect_dataverse:
         description: Configure the prepared Dataverse connection for Lab 05
         type: boolean
@@ -28,6 +35,7 @@ env:
   RESOURCE_GROUP: rg-nn-hackathon-2026-10
   ENVIRONMENT: cae-hackathon
   REGISTRY: acrnnhackathon2026
+  DEPLOY_TARGET: ${{ inputs.target || 'website' }}
 
 jobs:
   deploy:
@@ -46,6 +54,11 @@ jobs:
           DATAVERSE_TENANT_ID: ${{ vars.DATAVERSE_TENANT_ID }}
           DATAVERSE_CLIENT_SECRET: ${{ secrets.DATAVERSE_CLIENT_SECRET }}
         run: |
+          case "$DEPLOY_TARGET" in website|vendor) ;; *) echo "::error::Unknown deployment target"; exit 1 ;; esac
+          if [ "$DEPLOY_TARGET" = website ] && [ "$CONNECT_DATAVERSE" = true ]; then
+            echo "::error::Dataverse is only available on the separate vendor target."
+            exit 1
+          fi
           : "${AZURE_CREDENTIALS:?The owner must grant this repository access to the prepared Actions secret; attendee Azure login is not required}"
           if [ -n "$EXPECTED_SHA" ] && [ "$EXPECTED_SHA" != "$GITHUB_SHA" ]; then
             echo "::error::The branch moved after the rehearsal checks. Test and dispatch the intended commit again."
@@ -75,8 +88,12 @@ jobs:
       - name: Read config.json
         id: config
         run: |
-          python app/config.py >> "$GITHUB_OUTPUT"
-          python app/config.py
+          python app/config.py --target "$DEPLOY_TARGET" >> "$GITHUB_OUTPUT"
+          python app/config.py --target "$DEPLOY_TARGET"
+
+      - name: Validate learner website assets
+        if: ${{ env.DEPLOY_TARGET == 'website' }}
+        run: python -m app.site --check
 
       - name: Sign in to Azure
         uses: azure/login@v2
@@ -90,8 +107,11 @@ jobs:
 
       - name: Build the image
         run: |
+          DOCKERFILE=Dockerfile
+          if [ "$DEPLOY_TARGET" = website ]; then DOCKERFILE=Dockerfile.website; fi
           az acr build \
             --registry "$REGISTRY" \
+            --file "$DOCKERFILE" \
             --image "vendorapp/${{ steps.config.outputs.appName }}:${{ github.sha }}" \
             .
 
@@ -114,7 +134,7 @@ jobs:
               --min-replicas 0 --max-replicas 1 --output none
           fi
 
-      - name: Select sample data for Lab 08
+      - name: Keep unconnected targets free of Dataverse environment values
         if: ${{ !inputs.connect_dataverse }}
         run: |
           az containerapp update -n "${{ steps.config.outputs.appName }}" -g "$RESOURCE_GROUP" \
@@ -122,7 +142,7 @@ jobs:
             --output none
 
       - name: Configure Dataverse for Lab 05
-        if: ${{ inputs.connect_dataverse }}
+        if: ${{ env.DEPLOY_TARGET == 'vendor' && inputs.connect_dataverse }}
         env:
           APP: ${{ steps.config.outputs.appName }}
           DATAVERSE_URL: ${{ vars.DATAVERSE_URL }}
@@ -156,7 +176,14 @@ jobs:
           echo "### Your app is live" >> "$GITHUB_STEP_SUMMARY"
           echo "https://$FQDN" >> "$GITHUB_STEP_SUMMARY"
           echo "Verified commit: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
-          echo "Requested source: $([ "$CONNECT_DATAVERSE" = true ] && echo 'Source: Dataverse' || echo 'local synthetic samples')" >> "$GITHUB_STEP_SUMMARY"
+          echo "Deployment target: $DEPLOY_TARGET" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$DEPLOY_TARGET" = website ]; then
+            echo "Source: learner website assets; browser storage is private to each browser and origin." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$CONNECT_DATAVERSE" = true ]; then
+            echo "Source: Dataverse" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Source: local synthetic samples" >> "$GITHUB_STEP_SUMMARY"
+          fi
           echo "Azure sign-in ran in Actions using the prepared identity; attendees do not sign into Azure." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload verified deployment result

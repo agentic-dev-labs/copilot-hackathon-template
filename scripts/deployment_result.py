@@ -1,6 +1,7 @@
 """Verify a deployed revision and export non-secret, machine-readable evidence."""
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -12,7 +13,8 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, HTTPSHandler, Request, build_opener
 
-from app.config import load
+from app.config import deployment_name, load
+from app.site import site_manifest
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -77,10 +79,24 @@ def fetch(url: str) -> bytes:
     return body
 
 
-def validate_content(health: dict, page: str, *, label: str, commit: str, dataverse: bool) -> str:
+def validate_content(
+    health: dict, page: str, *, label: str, commit: str, dataverse: bool,
+    target: str = "vendor", expected_site: dict | None = None,
+) -> str:
     """Reject stale revisions, wrong labels, and sample fallback for a live lab."""
     if health.get("status") != "ok" or health.get("commit") != commit:
         raise ValueError("The endpoint is not serving the expected healthy commit")
+    if target == "website":
+        if dataverse or expected_site is None:
+            raise ValueError("A website needs expected asset fingerprints and cannot connect Dataverse")
+        if (health.get("target") != "website" or health.get("label") != label
+                or health.get("site_digest") != expected_site["digest"]
+                or health.get("index_sha256") != expected_site["index_sha256"]
+                or hashlib.sha256(page.encode("utf-8")).hexdigest() != expected_site["index_sha256"]):
+            raise ValueError("The website does not match the requested label and asset content")
+        return "website"
+    if target != "vendor":
+        raise ValueError("Unknown deployment target")
     facts = PageFacts()
     facts.feed(page)
     if "".join(facts.heading).strip() != f"{label} - Vendor Reviews":
@@ -99,7 +115,10 @@ def validate_content(health: dict, page: str, *, label: str, commit: str, datave
     return "Dataverse" if dataverse else "samples"
 
 
-def verify(url: str, *, label: str, commit: str, dataverse: bool, attempts: int = 3) -> dict:
+def verify(
+    url: str, *, label: str, commit: str, dataverse: bool, attempts: int = 3,
+    target: str = "vendor", expected_site: dict | None = None,
+) -> dict:
     """Allow brief rollout lag, but require every check to pass in the same attempt."""
     if not 1 <= attempts <= 3:
         raise ValueError("Endpoint verification allows one to three attempts")
@@ -112,9 +131,14 @@ def verify(url: str, *, label: str, commit: str, dataverse: bool, attempts: int 
             source = validate_content(
                 health, fetch(origin + "/").decode("utf-8"),
                 label=label, commit=commit, dataverse=dataverse,
+                target=target, expected_site=expected_site,
             )
-            return {"url": origin, "source": source, "commit": commit, "display_name": label,
-                    "health_status": 200, "page_status": 200, "verified_at": datetime.now(UTC).isoformat()}
+            result = {"url": origin, "source": source, "commit": commit, "display_name": label,
+                      "target": target, "health_status": 200, "page_status": 200,
+                      "verified_at": datetime.now(UTC).isoformat()}
+            if target == "website":
+                result.update(site_digest=expected_site["digest"], index_sha256=expected_site["index_sha256"])
+            return result
         except (OSError, ValueError):
             if attempt + 1 == attempts:
                 raise
@@ -139,11 +163,14 @@ def main() -> int:
             raise ValueError("Deployment evidence requires the Actions commit, repository, run, and attempt")
         settings = load()
         dataverse = os.environ.get("CONNECT_DATAVERSE", "false") == "true"
-        result = verify(arguments.url, label=settings["displayName"], commit=commit, dataverse=dataverse)
+        target = os.environ.get("DEPLOY_TARGET", "vendor")
+        expected_site = site_manifest() if target == "website" else None
+        result = verify(arguments.url, label=settings["displayName"], commit=commit,
+                dataverse=dataverse, target=target, expected_site=expected_site)
         result.update({
             "schema_version": 1, "repository": repository, "run_id": run_id, "run_attempt": attempt,
             "run_url": f"https://github.com/{repository}/actions/runs/{run_id}",
-            "app_name": settings["appName"], "connect_dataverse": dataverse,
+            "app_name": deployment_name(settings["displayName"], target), "connect_dataverse": dataverse,
             "azure_authentication": "prepared GitHub Actions identity",
         })
         arguments.output.parent.mkdir(parents=True, exist_ok=True)

@@ -4,15 +4,17 @@
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Repository write access, cloud agent enabled by the organization, and completed Lab 02.
+**Prerequisites:** Codespaces access, repository write access, cloud agent enabled by the
+organization, and the prepared vendor app used in Lab 05. No travel customizations are required.
 
 Day 1 showed a prepared issue-to-PR result. Here you run the workflow yourself and distinguish
 the issue specification, agent session, code changes, review, and merge. Model choice is separate
 from choosing the agent or its execution environment. Official procedures are linked below.
 
-Reusing the installed AttractionsAgent on Day 1 was a specialist invocation. This lab is
-different: a remote development agent changes the business app in a branch and proposes a PR.
-The travel agent/plugin is not needed for the task and should not be changed by it.
+On Day 1 you directed work interactively. Here a remote development agent changes the business
+app in a branch and proposes a PR. Your browser-based Codespace is still where you inspect and
+test it. Keep the learner website and its research unchanged. Follow the presenter's first small
+example, then choose your own bounded improvement to the vendor interface.
 
 ## Steps
 

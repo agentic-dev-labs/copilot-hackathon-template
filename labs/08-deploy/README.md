@@ -1,13 +1,12 @@
-# Lab 08: Discover reusable skills and ship the starter
+# Lab 08: Publish Your Website
 
-**Objective:** Inspect an Awesome Copilot example after completing the trip, then deploy the
-provided training application through GitHub Actions without attendee Azure sign-in.
+**Objective:** Publish your own reviewed website through the prepared GitHub Actions workflow
+and verify its URL, without installing anything on the laptop or signing into Azure.
 
 **Time-box:** 45 minutes
 
-**Prerequisites:** Completed Labs 00-02, your reviewed travel plan, and the facilitator's
-prepared Actions deployment access. The provided vendor-review app already runs; Lab 01
-does not need to have modified it.
+**Prerequisites:** Labs 00-02, a working `site/index.html`, and the facilitator's prepared Actions
+deployment access. All CLI commands run in the Codespaces Bash terminal.
 
 > This lab runs on **Day 1**, after Lab 02. Lab numbers group topics; they are not the order
 > of the week. See [the agenda](../../docs/AGENDA.md).
@@ -15,26 +14,16 @@ does not need to have modified it.
 The facilitator prepares deployment access. You change the app's label and trigger a workflow;
 you do not copy credentials into code or need an Azure portal login.
 
-## Presenter Demonstration (10 minutes within this lab)
+## Show and Try
 
-Only after the trip is finalized, open [Awesome Copilot](https://github.com/github/awesome-copilot/).
-Show the agents, instructions, skills, plugins, and Learning Hub. These are community-contributed
-examples to inspect, adapt, and test, not automatically approved enterprise capabilities.
+The presenter demonstrates review, commit, push, and **Run workflow**, then you repeat. Start
+the deployment in the first part of the block so build time overlaps the final checks/discussion.
+The 45 minutes cover review and dispatch (15), deployment and inspection (20), and verification (10).
 
-Use a prepared adaptation of [web-design-reviewer](https://github.com/github/awesome-copilot/tree/main/skills/web-design-reviewer)
-on the provided training app. Inspect its skill file/references, then demonstrate one visual
-check, a small source fix, and verification using **built-in browser tools only**. Do not copy
-the upstream example's browser-server setup. A prepared result is labelled as such, not claimed
-as a live run by every attendee. Installation is presenter prework, not an extra dependency.
-
-Explain the three repositories: this workshop supplies exercises/tests/deployment; your
-enterprise source distributes curated specialists; Awesome Copilot supplies examples to evaluate.
-The remaining 35 minutes cover the deployment steps below, including handover and review.
-
-The endpoint you publish is the **provided vendor-review training app**, used for Day 2's
-Dataverse exercise. It does not host TravelPlannerAgent, perform bookings, or embed Copilot SDK.
-The travel plan remains the completed customization exercise. Do not upload real research
-results just to make a travel page. Building such a page is optional follow-up, not a hidden prerequisite.
+This publishes **your `site/`**, not the vendor application. The `website` target has a separate
+derived name ending in `-web`; `vendor` keeps the existing business-app name for Days 2-5.
+Do not use the vendor target as a workaround for a missing website. The workshop builds with
+Copilot; it does not embed a Copilot model or agent runtime in the deployed page.
 
 ## Steps
 
@@ -48,35 +37,50 @@ results just to make a travel page. Building such a page is optional follow-up, 
 
 2. Check what will be derived from it:
 
-   ```shell
-   python app/config.py
+   ```bash
+   python app/config.py --target website
+   python -m app.site --check
+   uv run pytest
+   uv run ruff check .
    ```
 
-   It prints your `displayName` and the `appName` derived from it, for example `synthetic-team-seven`.
-   That name becomes your Container App. Two repositories with the same derived name would update
-   the same app; the facilitator assigns unique labels. A shared team repo produces one shared app.
+   The first command prints the website's name. The second checks an entry page, permitted asset
+   types, bounded size, and a fingerprint. Keep PDFs, raw extracts, credentials, and unrelated files
+   out of `site/`. Markdown notes are not served or copied into the image. Review intended JSON and
+   images too; an extension check is not a security scanner. Each asset is limited to 2 MiB, the
+   site to 100 files and 20 MiB. The facilitator assigns unique labels across repositories.
 
-3. Review your configuration/customization diff and commit/push it, using a PR if required.
-   An AI-generated summary is a draft to check against the diff. Merge before deployment.
-4. Go to **Actions**, select **Deploy my app**, and choose **Run workflow** on `main`. Leave **connect_dataverse** unchecked for Day 1.
+3. Open **Source Control**, inspect each changed file, and stage only your intended website,
+   configuration, and reviewed skill files. Do not stage `research/` or private material.
+   Enter a message and **Commit**, then **Push** (or **Sync Changes** if instructed). Saving,
+   committing, and pushing are separate. Use a branch/PR if the repository requires it; merge
+   only after the required review. Ask a helper if Git reports a conflict instead of forcing it.
+4. In your repository's browser tab, open **Actions > Deploy my app > Run workflow** on `main`.
+   Select **target: website** and leave **connect_dataverse** unchecked. Confirm the intended
+   repository and branch. Clicking once is enough; inspect the run before retrying a failed request.
 5. The workflow runs tests and lint, then **Read config.json**. If your label is still `Your Name`, it stops there
    with a message telling you to edit the file. That is the guard working, not a failure.
 6. The **Build the image** step builds your container remotely. Nothing is built on your laptop.
 7. When the run finishes, open the **run summary**. Your URL is printed there.
-8. Open it. The page title is your name, and the table lists the synthetic vendor reviews.
+8. Open it. Confirm it is your website, with the content and interactions you just reviewed.
+   The workflow checks exact entry-page bytes and the asset fingerprint, not a required title.
 9. Open `/healthz` at the same app origin. Confirm `status` is `ok` and `commit` matches
    the workflow's tested commit. A healthy response from an older revision is not this deployment.
 
-**Done when:** you can explain the community-example versus managed-plugin distinction, the
-workflow passes for your intended commit, and its summary/artifact URL shows your label and the
-three synthetic samples. The health response must identify that commit. This deployment is
-separate from executing the travel agent, and Dataverse is intentionally not connected yet.
+10. Add a fictional item on the deployed page, refresh, check persistence, remove it, and refresh
+   again. The new URL has separate localStorage from the Codespaces preview. Empty initial data
+   is expected. Test it yourself or with Playwright, keeping automation observations distinct.
+
+**Done when:** the workflow succeeds for the intended commit and **website** target, the
+verified URL serves your actual page, and the add/refresh/remove journey works at that origin.
+A healthy container alone does not prove the buttons, charts, or storage behaviour work.
 
 ## What you just learned
 
-A configuration value drives naming and display filters, not user identity. The workflow uses
-preconfigured credentials. Deployment is a deliberate action you trigger, not
-something that happens on every push.
+The preview is temporary; deployment is a deliberate Actions operation, not something every push
+does automatically. A label identifies a training deployment, not a user or authorization boundary.
+You can stop the Codespace after saving/pushing; that does not delete the separately deployed app.
+Agree retention with the facilitator. Do not delete personal GitHub accounts or shared Azure resources.
 
 ## If something goes wrong
 
@@ -86,9 +90,10 @@ something that happens on every push.
 | Deployment rejected on the name       | Derived name is invalid                                   | Names are lowercase, letters, digits and hyphens, 32 characters at most. Run `python app/config.py` to see yours                             |
 | The run cannot sign in to Azure       | Organization secrets are missing                          | Tell the facilitator; nothing on your side is wrong                                                                                          |
 | Stops on prepared access/commit check | Missing Actions configuration or the branch moved         | Ask the owner to check the named settings; retest the exact branch. Do not sign into Azure as a workaround.                                  |
-| Page loads but shows no rows          | Not the expected Day 1 result                             | Confirm the local samples are present and inspect the source label. Dataverse with no matching rows is different from the local-sample path. |
+| Page shows the vendor table           | Wrong deployment target or URL                           | Use the website target and its verified run-summary URL; do not overwrite the business app. |
+| Website validation fails              | Missing entry point, invalid asset, or excessive size     | Inspect `python -m app.site --check`; keep only intentional web assets under `site/`. |
 
-**Stretch goal:** Change something visible in `app/main.py`, push, and run the workflow again.
+**Stretch goal:** Change something visible in `site/index.html`, push, and run the website workflow again.
 Watch the same URL update rather than a new app appearing.
 
 ## Optional extras
@@ -108,7 +113,7 @@ Pick any of these if you finish early. None of them are required.
 ## Official References
 
 - [Awesome Copilot](https://github.com/github/awesome-copilot/) and [web-design-reviewer](https://github.com/github/awesome-copilot/tree/main/skills/web-design-reviewer): inspect provenance, dependencies, and source before reuse.
-- [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools): the workshop's browser path, with no additional server installation.
+- [Playwright MCP](https://github.com/microsoft/playwright-mcp): headless browser verification inside Codespaces; built-in browser tools are optional.
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): branch, commit, PR, review, and merge.
 - [Commit and PR smart actions](https://code.visualstudio.com/docs/editing/copilot-smart-actions) and [PR summaries](https://docs.github.com/en/copilot/how-tos/copilot-on-github/copilot-for-github-tasks/create-a-pr-summary).
 - [GitHub Actions quickstart](https://docs.github.com/en/actions/writing-workflows/quickstart) and [using Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions).

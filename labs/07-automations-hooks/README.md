@@ -11,9 +11,10 @@ This lab teaches the mechanisms; it does not implement a production approval or 
 See [automations](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-automations)
 and the [hook reference](https://docs.github.com/en/copilot/reference/hooks-reference) for current availability and behavior.
 
-Monday's plugin distributed an agent; it did not schedule a task. Today an event starts work
-and hooks observe or constrain selected calls. Keep this exercise on synthetic vendor reports,
-not travel searches, reservations, or public booking sites.
+Monday you used interactive tools and skills; they did not schedule a task. Today an event
+starts work and hooks observe or constrain selected calls. Keep this exercise on synthetic
+vendor reports, not annual-report downloads or production systems. All commands run in the
+Codespace Bash terminal. Show and try one trigger, then one harmless hook, in the same time-box.
 
 ## Part A: Automations (30 minutes)
 
@@ -88,8 +89,8 @@ It deliberately excludes prompts, arguments, and tool results. You create its ho
 1. Author `.github/hooks/audit.json` in your team repository with Copilot's help. Consult
    the official hook reference for the JSON structure. Use `version: 1` and wire `sessionStart`,
    `preToolUse`, and `postToolUse` to command hooks. Each command calls
-   `python scripts/audit_hook.py` with the matching event name. Set both `bash` and
-   `powershell` commands and an explicit `timeoutSec` of 10. Inspect the file yourself;
+   `python scripts/audit_hook.py` with the matching event name. Set the `bash` command
+   and an explicit `timeoutSec` of 10. Inspect the file yourself;
    creating it is the exercise, while the supplied Python helper is the reusable dependency.
 2. Run `uv run pytest tests/test_audit_hook.py -q`, then start a new Copilot CLI session
    in the Codespace and ask it to read a synthetic sample.
@@ -126,8 +127,8 @@ the four events listed in its `EVENTS` tuple; the table does not imply it implem
 | `errorOccurred`       | an error is raised                  | alerting, error patterns            |
 | `sessionEnd`          | the session ends                    | clean up, archive reports           |
 
-`preToolUse` is the powerful one: it can approve or deny a tool execution, which is how you
-block dangerous commands or require approval for sensitive operations.
+`preToolUse` can approve or deny a selected tool execution. This example demonstrates an
+exact-name denial; it is not a complete dangerous-command policy or security boundary.
 
 Hooks live in `.github/hooks/*.json` in the repository and apply to Copilot cloud agent and
 Copilot CLI. Copilot CLI also reads personal hooks from `~/.copilot/hooks/*.json`. Use the

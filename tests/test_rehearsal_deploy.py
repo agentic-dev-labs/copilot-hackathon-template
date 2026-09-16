@@ -97,6 +97,7 @@ def test_dispatch_is_github_only_and_records_unique_inputs(
     assert "expected_sha=" + COMMIT in dispatch_call
     assert "rehearsal_id=" + request["rehearsal_id"] in dispatch_call
     assert "connect_dataverse=true" in dispatch_call
+    assert "target=vendor" in dispatch_call
     before = len(calls)
     with pytest.raises(ValueError, match="already exists"):
         deploy.dispatch(REPOSITORY, "rehearsal", target, dataverse=True, approved=True)
@@ -180,3 +181,30 @@ def test_collect_downloads_exact_artifact_and_rechecks_endpoint(
     assert len(calls) == 2
     assert json.loads((tmp_path / "deployment-result-123-1.json").read_text(encoding="utf-8")) == result
     assert (tmp_path / "endpoint-123-1.json").is_file()
+
+
+def test_website_result_requires_target_and_fingerprints(request_record: dict, run_record: dict) -> None:
+    """An old vendor artifact or an edited website must not satisfy Monday's request."""
+    request = {**request_record, "target": "website", "connect_dataverse": False,
+               "app_name": "synthetic-web", "expected_site": {"digest": "c" * 64, "index_sha256": "d" * 64}}
+    result = {
+        "schema_version": 1, "repository": REPOSITORY, "commit": COMMIT,
+        "display_name": request["display_name"], "app_name": "synthetic-web",
+        "target": "website", "connect_dataverse": False, "run_id": "123", "run_attempt": "1",
+        "source": "website", "health_status": 200, "page_status": 200,
+        "run_url": f"https://github.com/{REPOSITORY}/actions/runs/123",
+        "url": "https://synthetic-web.example.azurecontainerapps.io",
+        "site_digest": "c" * 64, "index_sha256": "d" * 64,
+    }
+    deploy.validate_result(result, request, run_record)
+    for key in ("target", "site_digest", "index_sha256"):
+        with pytest.raises(ValueError):
+            deploy.validate_result({**result, key: "wrong"}, request, run_record)
+
+
+def test_website_cannot_request_dataverse(tmp_path: Path) -> None:
+    """Reject a conflicting target before making GitHub calls or writing a request."""
+    with pytest.raises(ValueError, match="website without Dataverse"):
+        deploy.dispatch(REPOSITORY, "main", tmp_path / "request.json",
+                        dataverse=True, approved=True, deployment_target="website")
+    assert not list(tmp_path.iterdir())

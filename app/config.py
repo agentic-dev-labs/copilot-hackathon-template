@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import argparse
+import hashlib
 import json
 import re
 import sys
@@ -45,12 +47,26 @@ def load(path: Path | None = None) -> dict[str, str]:
     return {"displayName": display_name, "appName": slugify(display_name)}
 
 
+def deployment_name(display_name: str, target: str = "vendor") -> str:
+    """Keep vendor names stable and give websites a separate, bounded name."""
+    base = slugify(display_name)
+    if target == "vendor":
+        return base
+    if target != "website":
+        raise ValueError("Deployment target must be website or vendor")
+    suffix = hashlib.sha256(display_name.strip().encode("utf-8")).hexdigest()[:6]
+    return f"{base[:20].rstrip('-')}-{suffix}-web"
+
+
 if __name__ == "__main__":
     # A traceback here would read as broken materials, so fail with a plain sentence.
     try:
+        parser = argparse.ArgumentParser(description=__doc__)
+        parser.add_argument("--target", choices=("website", "vendor"), default="vendor")
+        arguments = parser.parse_args()
         settings = load()
     except (OSError, ValueError) as error:
         print(f"config.json needs attention: {error}", file=sys.stderr)
         raise SystemExit(1) from None
     print(f"displayName={settings['displayName']}")
-    print(f"appName={settings['appName']}")
+    print(f"appName={deployment_name(settings['displayName'], arguments.target)}")

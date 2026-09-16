@@ -1,19 +1,17 @@
-# GitHub Copilot Workshop and Hackathon
+# Everyday AI With GitHub Copilot
 
-This template supports five days of demonstrations, guided labs, and team building. Day 1 uses
-a fictional travel plan to teach creating instructions, a coordinator agent, and flight/hotel
-skills, then reusing the facilitator's enterprise-managed AttractionsAgent. Days 2-5 transfer
-those patterns to a synthetic vendor-review app, Dataverse, cloud work, hooks, and evaluations.
+Use AI to research, analyse, communicate, organise, automate, and build. This five-day workshop
+starts with useful business-user outputs, then adds engineering depth. You do not need to be a
+developer. Every activity follows **show -> try -> personalise -> verify -> share**.
 
-**See the breadth on Day 1; practise in depth across the week.** The opening demos cover inline
-help, chat and planning, context/models, built-in browser tools, CLI, shared knowledge, cloud work,
-and reusable plugins. Longer-running and preview features use prepared examples. Start with the
-[coverage and official references](docs/REFERENCES.md) to find every topic and its documentation.
+**Day 1:** research public annual reports, discover a reusable skill, create a sourced HTML
+presentation, and publish your own interactive website with browser storage. **Day 2:** work
+with shared Dataverse data in the separately prepared synthetic vendor app. **Days 3-5:**
+cloud agents, MCP, automations, hooks, custom agents, and evidence-based evaluations.
 
-The sequence is **introduction -> create your planner -> reuse the managed specialist ->
-finish the trip -> inspect Awesome Copilot -> deploy the provided training app**. TravelPlannerAgent
-is an attendee-authored customization, not a hosted booking service. Skills are the core task
-definitions; optional prompt-file entry points depend on the current client's support.
+All attendee work uses **browser-based GitHub Codespaces and its Linux terminal**. Nothing
+needs installing on your laptop. See the [agenda](docs/AGENDA.md) and
+[topic map and official references](docs/REFERENCES.md).
 
 ## Start here
 
@@ -27,17 +25,20 @@ Repositories sharing a deployment environment need different derived app names. 
 not an identity or access boundary. The facilitator prepares service access; attendees do not
 need to put secrets in code or sign in to the Azure portal.
 
-Only a browser is required on the attendee laptop. Python, Node.js, Azure CLI, GitHub CLI, and project dependencies run in the Codespace.
+Python, Node.js, GitHub CLI, Copilot CLI, browser automation, and document conversion all run
+inside the Codespace. Open HTML using **Ports > Open in Browser**, not your laptop's localhost.
+Private previews work while the Codespace and web server run; they are not deployments.
 
 ## What This Repository Provides
 
-- [Travel practice](travel/README.md): a fictional brief and source fixtures, not prebuilt learner agents.
+- A prepared environment and lab guidance, not a completed learner website.
 - Nine labs, official references, tests, and a [rehearsal package](rehearsal/README.md).
-- A ready-to-run vendor-review app for the separate deployment exercise and Day 2 business case.
+- A ready-to-run vendor-review app for the separate Day 2 business case.
+- [Optional travel practice](travel/README.md) for later agent/skill exploration.
 
-AttractionsAgent comes from the facilitator's private enterprise marketplace. Do not copy it
-here. [Awesome Copilot](https://github.com/github/awesome-copilot/) is a community example
-collection to inspect and adapt, not this workshop or an enterprise approval policy.
+[Awesome Copilot](https://awesome-copilot.github.com/) is a community collection to inspect,
+adapt, and test, not an enterprise approval policy. The facilitator supplies a reviewed shortlist.
+An MCP provides tools; a skill guides a task; you decide whether the result is useful and accurate.
 
 ## Rehearse the Complete Workshop
 
@@ -59,17 +60,19 @@ With no Dataverse configured the app evaluates the synthetic samples directly, s
 fresh Codespace with no credentials.
 
 The devcontainer uses the checked-in `uv.lock`. Run `uv run pytest` and `uv run ruff check .`
-from the repository root to check your work. Browser demonstrations use Copilot's **built-in
-browser tools** where the presenter client supports them. No additional browser server is installed.
+from the repository root to check your work. Prepared headless Playwright MCP and MarkItDown MCP
+run privately inside Codespaces. Built-in desktop browser tools are not an attendee prerequisite.
 
 ## Deploy it
 
-Run the **Deploy my app** workflow from the Actions tab. It reads `config.json`, derives a valid
-Container App name, builds the image, and deploys to the shared environment. The run summary
-prints your public URL. Leave **connect_dataverse** unchecked on Day 1. Lab 05 explains how to
-enable it after the facilitator has configured the separate Actions variables and secrets.
-This publishes the vendor-review app, not the travel customizations or a Copilot SDK runtime.
-Generated trip research stays under ignored `travel/output/` and out of the deployment image.
+Run **Deploy my app** from Actions. Select **website** on Day 1 and **vendor** for the separate
+business app. The workflow uses the prepared Actions identity; no attendee Azure login is needed.
+The run summary prints the verified URL and commit. Follow [Lab 08](labs/08-deploy/README.md)
+before publishing. Only the intended site assets are published, not source reports or notes.
+
+`localStorage` belongs to one browser context and origin. Your preview, deployed site, and
+Playwright browser have separate data. A fresh URL showing an empty list is expected; repeat
+the synthetic add/refresh check there. Browser storage is not a shared team database.
 
 ## Labs
 
@@ -78,9 +81,9 @@ Lab numbers group topics; the **Day** column is the order of the week.
 | Lab                                       | Topic                                                 | Day |
 | ----------------------------------------- | ----------------------------------------------------- | --- |
 | [00](labs/00-setup/README.md)             | Codespace and access setup                            | 1   |
-| [01](labs/01-vscode-agent/README.md)      | Create TravelPlannerAgent, FindFlight, and FindHotel  | 1   |
-| [02](labs/02-copilot-cli/README.md)       | CLI and managed AttractionsAgent: finalize the trip   | 1   |
-| [08](labs/08-deploy/README.md)            | Awesome Copilot example, then deploy the provided app | 1   |
+| [01](labs/01-vscode-agent/README.md)      | Research, source verification, skills, and visual briefs | 1 |
+| [02](labs/02-copilot-cli/README.md)       | Your interactive website, storage, and browser checks    | 1 |
+| [08](labs/08-deploy/README.md)            | Publish your own website                                | 1 |
 | [05](labs/05-dataverse-app/README.md)     | Dataverse-backed application                          | 2   |
 | [03](labs/03-cloud-agent/README.md)       | Copilot cloud agent                                   | 3   |
 | [04](labs/04-mcp/README.md)               | Remote GitHub MCP server                              | 3   |
@@ -120,10 +123,12 @@ rules. It is not a general SOC 2 assessor, an OCR pipeline, or a production comp
 Chunking uses whitespace-delimited words, not a model tokenizer; it helps demonstrate bounded
 processing but does not guarantee complete evidence at every chunk size. Use synthetic data only.
 
-The starter app reads rows. Attendees add the write form in Lab 05 and create customization files
-in Labs 01, 06, and 07. Local unit tests mock external services; a green run does not prove live
-Codespaces, deployment, Dataverse, cloud-agent, or plugin availability. Use the facilitator's
-dry-run checklist before delivery.
+The vendor starter reads rows. Attendees add a write form in Lab 05 and author customizations
+in Labs 06 and 07. Day 1 public research is an explicit exception to the synthetic-only business
+fixtures: download into ignored `research/`, verify facts, and publish original summaries only.
+Never mix annual-report content into the vendor evaluator or confidential material into the lab.
+Local tests do not prove live Codespaces, MCP, deployment, or Dataverse availability. Rehearse
+the actual learner journey and keep prepared results visibly distinct from live observations.
 
 ## Official References
 
