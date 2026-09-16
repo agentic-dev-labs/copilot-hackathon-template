@@ -32,7 +32,7 @@ jobs:
           if [ ! -f site/index.html ]; then
             printf '%s\n' '<!doctype html><html lang="en"><body><h1>Synthetic CI website</h1></body></html>' > site/index.html
           fi
-          python -m app.site --check
+          uv run --no-sync python -m app.site --check
       - name: Build website image
         run: docker build --file Dockerfile.website --tag workshop-website-check .
       - name: Import website runtime and inspect actual image assets

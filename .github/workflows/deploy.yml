@@ -93,7 +93,7 @@ jobs:
 
       - name: Validate learner website assets
         if: ${{ env.DEPLOY_TARGET == 'website' }}
-        run: python -m app.site --check
+        run: uv run --no-sync python -m app.site --check
 
       - name: Sign in to Azure
         uses: azure/login@v2
@@ -171,7 +171,7 @@ jobs:
           test -n "$FQDN"
           curl --fail --silent --show-error --retry 6 --retry-delay 5 \
             --max-time 30 "https://$FQDN/healthz"
-          python -m scripts.deployment_result --url "https://$FQDN" \
+          uv run --no-sync python -m scripts.deployment_result --url "https://$FQDN" \
             --output deployment-result.json
           echo "### Your app is live" >> "$GITHUB_STEP_SUMMARY"
           echo "https://$FQDN" >> "$GITHUB_STEP_SUMMARY"

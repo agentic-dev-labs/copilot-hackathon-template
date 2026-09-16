@@ -64,6 +64,7 @@ def test_mcp_examples_are_private_and_use_pinned_tools() -> None:
     requirements = Path(".devcontainer/research-requirements.txt").read_text(encoding="utf-8")
     assert "markitdown-mcp==0.0.1a7" in requirements
     assert "markitdown==0.1.7" in requirements
+    assert "azure-ai-contentunderstanding==1.2.0b1" in requirements
 
 
 def test_research_stays_out_of_git_and_container_builds() -> None:

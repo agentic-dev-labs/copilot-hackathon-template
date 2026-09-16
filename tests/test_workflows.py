@@ -147,3 +147,6 @@ def test_website_target_is_separate_and_validated_before_build() -> None:
     assert "app.site:app" in dockerfile
     assert "research" not in dockerfile
     assert "site/**/*.md" in Path(".dockerignore").read_text(encoding="utf-8")
+    assert "uv run --no-sync python -m app.site --check" in text
+    assert "uv run --no-sync python -m scripts.deployment_result" in text
+    assert "uv run --no-sync python -m app.site --check" in Path(".github/workflows/ci.yml").read_text(encoding="utf-8")

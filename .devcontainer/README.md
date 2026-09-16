@@ -16,6 +16,9 @@ live in separate `.venv-research/`, using [direct version pins](research-require
 Their transitive Python dependencies are resolved at install time; record `uv pip freeze --python
 .venv-research/bin/python` during rehearsal. Do not describe those as fully locked dependencies.
 The optional MCP package is prerelease; validate compatibility before the event.
+MarkItDown's `all` extra requires the prerelease `azure-ai-contentunderstanding` SDK. Its exact
+version is explicitly pinned so uv permits that dependency without allowing every package's
+prereleases. The workshop's local conversion does not call that Azure service or require its credentials.
 
 Browser dependencies use [package.json](browser/package.json) and [package-lock.json](browser/package-lock.json)
 with `npm ci --ignore-scripts`. Playwright MCP 0.0.81 pins Playwright 1.64.0-alpha-2026-09-14.
