@@ -42,7 +42,10 @@ async def invoke(server: str, tool: str, arguments: dict, expected: str) -> None
                 result = await session.call_tool(tool, arguments)
                 text = "\n".join(getattr(item, "text", "") for item in result.content)
                 if result.is_error or expected not in text:
-                    raise RuntimeError(f"{server} did not return the expected synthetic content")
+                    raise RuntimeError(
+                        f"{server} did not return the expected synthetic content "
+                        f"(is_error={result.is_error}): {text[:2000]}"
+                    )
     print(f"{server}: initialized, discovered {tool}, and verified synthetic content")
 
 
