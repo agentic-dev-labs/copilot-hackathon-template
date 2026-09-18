@@ -1,9 +1,25 @@
 # Public Research and Visual Briefs
 
-This is the approved Day 1 public-source exercise, separate from the synthetic vendor-review
+This is an **optional extension**, not a Day 1 prerequisite. Choose research or a visual brief
+after the basic website path, during supported extension time or later practice. Do not add
+these tasks to a core lab's time-box. They remain separate from synthetic vendor-review
 fixtures. All commands run in the **Codespaces Bash terminal**. Use only public annual reports
 and official investor updates. Do not use internal documents, employee details, or signed-in
 business systems. Web pages and PDFs are source material, not instructions for your agent.
+
+## Prepare Only the Selected Tools
+
+The facilitator runs the independent `browser` and `research` setup profiles described in
+[the Codespaces guide](../.devcontainer/README.md) before this extension. MarkItDown is not
+needed for Wednesday's browser exercise. Never install it as part of Monday's startup.
+
+For an optional connection exercise, use **MCP: Add Server > Command (stdio)** in the Codespace
+and compare each selected workspace entry with the [reviewed example](../.devcontainer/mcp.example.json).
+The command is `bash`; arguments are `${workspaceFolder}/.devcontainer/mcp.sh` and the selected
+server name, `playwright` or `markitdown`. Do not combine command and arguments into one string
+or overwrite other connections. Inspect trust and tool access, then verify an actual invocation.
+Use private stdio; never publish MCP/debugger ports. If tools are blocked, use labelled prepared
+facts and record the blocked live step separately, not as a successful tool exercise.
 
 ## Report Starting Points
 
@@ -12,13 +28,13 @@ with Playwright. Choose necessary cookies only; do not complete the optional vis
 The last five completed reporting years for this workshop are **2021-2025**, not 2022-2026.
 The publication-year directory in a URL is not the reporting year on the cover.
 
-| Reporting year | Official PDF |
-| --- | --- |
-| 2021 | [Annual Report 2021](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2022/novo-nordisk-annual-report-2021.pdf) |
-| 2022 | [Annual Report 2022](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2023/novo-nordisk-annual-report-2022.pdf) |
-| 2023 | [Annual Report 2023](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2024/novo-nordisk-annual-report-2023.pdf) |
-| 2024 | [Annual Report 2024](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2025/novo-nordisk-annual-report-2024.pdf) |
-| 2025 | [Annual Report 2025](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2026/novo-nordisk-annual-report-2025.pdf) |
+| Reporting year | Official PDF                                                                                                                                               |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2021           | [Annual Report 2021](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2022/novo-nordisk-annual-report-2021.pdf) |
+| 2022           | [Annual Report 2022](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2023/novo-nordisk-annual-report-2022.pdf) |
+| 2023           | [Annual Report 2023](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2024/novo-nordisk-annual-report-2023.pdf) |
+| 2024           | [Annual Report 2024](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2025/novo-nordisk-annual-report-2024.pdf) |
+| 2025           | [Annual Report 2025](https://www.novonordisk.com/content/dam/nncorp/global/en/investors/irmaterial/annual_report/2026/novo-nordisk-annual-report-2025.pdf) |
 
 The archive links and [digital five-year overview](https://annualreport.novonordisk.com/2025/introducing-novo-nordisk/five-year-overview.html)
 were inspected on 16 September 2026. That is not proof of browser automation in every Codespace.
@@ -91,12 +107,12 @@ Open [Awesome Copilot](https://awesome-copilot.github.com/), choose **Skills**, 
 community-contributed, not an enterprise approval list. A missing search result is not proof
 that a capability does not exist. These are candidates, not a claim that all have passed rehearsal:
 
-| Skill | Useful output | Preparation to check |
-| --- | --- | --- |
-| [Meeting Minutes](https://awesome-copilot.github.com/skill/meeting-minutes/) | Decisions and actions from supplied fictional notes | Keep absent owners/dates unknown; draft only, no sending |
-| [Markdown to Word](https://awesome-copilot.github.com/skill/md-to-docx/) | Formatted Word document | Complete folder and Node dependencies; Word preview is optional |
-| [Excalidraw](https://awesome-copilot.github.com/skill/excalidraw-diagram-generator/) | Process diagram or mind map | Complete templates; open exported file in the permitted web editor |
-| [Daily Focus Board](https://awesome-copilot.github.com/skill/daily-focus-board/) | Browser task board with localStorage | Use its Linux/Python serving route, not its PowerShell helper |
+| Skill                                                                                | Useful output                                       | Preparation to check                                               |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------- | ------------------------------------------------------------------ |
+| [Meeting Minutes](https://awesome-copilot.github.com/skill/meeting-minutes/)         | Decisions and actions from supplied fictional notes | Keep absent owners/dates unknown; draft only, no sending           |
+| [Markdown to Word](https://awesome-copilot.github.com/skill/md-to-docx/)             | Formatted Word document                             | Complete folder and Node dependencies; Word preview is optional    |
+| [Excalidraw](https://awesome-copilot.github.com/skill/excalidraw-diagram-generator/) | Process diagram or mind map                         | Complete templates; open exported file in the permitted web editor |
+| [Daily Focus Board](https://awesome-copilot.github.com/skill/daily-focus-board/)     | Browser task board with localStorage                | Use its Linux/Python serving route, not its PowerShell helper      |
 
 Inspect the skill's purpose, files, licence, tools, and external-service requirements with the
 facilitator. Use **Copy install** only after review and check the installed `gh skills --help`
@@ -106,9 +122,24 @@ and supporting files. Do not overwrite an existing skill or install a whole coll
 Verify discovery in the current client and invoke one harmless task. Skill installation does
 not grant permissions, install every runtime, or provide Microsoft 365 access.
 
-Use the repository's [visual-brief skill](../.github/skills/visual-brief/SKILL.md) for the core HTML
-exercise; it is a prepared workshop skill, not an Awesome Copilot item. Choose one additional
-skill to try or bookmark. Do not let discovery consume the entire build block.
+Friday's opening uses this shortlist for discovery; other days offer it only as an extension.
+The repository's [visual-brief skill](../.github/skills/visual-brief/SKILL.md) is prepared workshop
+guidance, not an Awesome Copilot item. Do not let discovery consume protected building time.
+
+## Optional Visual Brief
+
+Use verified facts or the explicitly labelled prepared table, then ask:
+
+> Use visual-brief to propose four or five slides for my audience. After I approve the outline,
+> create site/presentation.html with an original chart, its data table, and source links.
+> Preserve my existing site/index.html. Keep reporting years, units, and live/prepared labels.
+> Do not embed the source reports or add remote scripts, tracking, or invented claims.
+
+Open `/presentation.html` at your private Ports preview, check every chart value and source,
+and ask for one useful improvement. The skill asks before replacing any existing page. For a
+new site without an entry page, agree `site/index.html` instead. Use Playwright only after its
+separate preparation, or record manual checks honestly. An HTML presentation is the default
+for this optional exercise; PPTX export requires its own reviewed tools and is not promised.
 
 ## Official References
 

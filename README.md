@@ -1,13 +1,15 @@
 # Everyday AI With GitHub Copilot
 
-Use AI to research, analyse, communicate, organise, automate, and build. This five-day workshop
-starts with useful business-user outputs, then adds engineering depth. You do not need to be a
-developer. Every activity follows **show -> try -> personalise -> verify -> share**.
+Describe an idea, build something small with AI, check it yourself, and learn how to improve it.
+Days 1-2 start from no GitHub or app-building experience. Days 3-5 add technical depth for
+low-coders and pro-coders. Every activity follows **show -> try -> personalise -> verify -> share**.
 
-**Day 1:** research public annual reports, discover a reusable skill, create a sourced HTML
-presentation, and publish your own interactive website with browser storage. **Day 2:** work
-with shared Dataverse data in the separately prepared synthetic vendor app. **Days 3-5:**
-cloud agents, MCP, automations, hooks, custom agents, and evidence-based evaluations.
+**Day 1:** understand the workspace, use Chat, build your first website, manually check a
+feature and a figure, and save your work in GitHub. Start with the same fictional app as the
+presenter, then personalise it. **Day 2:** David and Jackie explain the business/IT model and
+shared-data possibilities; you build your own idea with fictional content and table-side help.
+**Days 3-5:** use CLI and MCP/Playwright, delegate work, make checks repeatable, deploy, author
+skills, and evaluate results. No Dataverse integration is required for the workshop.
 
 All attendee work uses **browser-based GitHub Codespaces and its Linux terminal**. Nothing
 needs installing on your laptop. See the [agenda](docs/AGENDA.md) and
@@ -15,41 +17,43 @@ needs installing on your laptop. See the [agenda](docs/AGENDA.md) and
 
 ## Start here
 
-1. Select **Code > Codespaces > Create codespace on main**.
-2. Wait for the container setup to finish.
-3. Edit `config.json` and replace `Your Name` with your assigned, unique workshop label.
-4. Open [Lab 00](labs/00-setup/README.md).
+1. Join the first concepts-only block with the [glossary and labelled screenshots](docs/START-HERE.md).
+2. Open the repository assigned by the facilitator, then follow [Lab 00](labs/00-setup/README.md).
+3. Follow [today's chronological route](docs/START-HERE.md#todays-route), one step at a time.
 
-The label controls the page title, derived Container App name, and Dataverse display filter.
-Repositories sharing a deployment environment need different derived app names. The filter is
-not an identity or access boundary. The facilitator prepares service access; attendees do not
-need to put secrets in code or sign in to the Azure portal.
+You start with files and Chat, not commands or configuration. The terminal is introduced when
+you need one prepared preview command. CLI and browser tools are prepared separately for Day 3;
+optional research tools do not block Monday's workspace. The facilitator assigns your label and access.
 
-Python, Node.js, GitHub CLI, Copilot CLI, browser automation, and document conversion all run
-inside the Codespace. Open HTML using **Ports > Open in Browser**, not your laptop's localhost.
-Private previews work while the Codespace and web server run; they are not deployments.
+Open the page through **Ports > Open in Browser**, not your laptop's localhost. A private preview
+is enough for Monday. Browser storage and public deployment are optional supported extensions.
 
 ## What This Repository Provides
 
 - A prepared environment and lab guidance, not a completed learner website.
-- Nine labs, official references, tests, and a [rehearsal package](rehearsal/README.md).
-- A ready-to-run vendor-review app for the separate Day 2 business case.
+- Eight active labs, a [supported Tuesday build](docs/DAY-2-BUILD.md), official references, tests, and a [rehearsal package](rehearsal/README.md).
+- A [printable quick reference](docs/QUICK-REFERENCE.md) for the live demonstrations.
+- A synthetic vendor reader for the technical track; it runs without Dataverse credentials.
+- [Post-workshop Dataverse setup knowledge and prompts](post-workshop/dataverse/README.md), retained for the later technical-owner session.
+- [Optional public research and visual briefs](docs/RESEARCH.md), not Monday prerequisites.
 - [Optional travel practice](travel/README.md) for later agent/skill exploration.
 
-[Awesome Copilot](https://awesome-copilot.github.com/) is a community collection to inspect,
-adapt, and test, not an enterprise approval policy. The facilitator supplies a reviewed shortlist.
-An MCP provides tools; a skill guides a task; you decide whether the result is useful and accurate.
+[Awesome Copilot](https://awesome-copilot.github.com/) skill discovery is part of Day 5 and
+available as an extension. The collection is not an enterprise approval policy; complete
+folders, dependencies, and permissions need review before use.
 
 ## Rehearse the Complete Workshop
 
 In a dedicated Codespaces rehearsal copy, run **`/rehearse-workshop`** in Copilot's local Agent
 mode, or **`/workshop-rehearsal`** through the companion skill in Agent Host. The
-[rehearsal package](rehearsal/README.md) drives completion of all nine labs, diagnoses fresh
+[rehearsal package](rehearsal/README.md) drives the eight active labs and own-idea build, diagnoses fresh
 package installs, runs tests, tracks live evidence, and retrieves verified deployment endpoints.
 Attendees do not sign into Azure: the existing Actions workflow uses the prepared deployment identity.
 Missing access or required human review stays a blocker, not a simulated pass.
 
-## Run the app locally
+## Technical Reference: Run the Vendor Example
+
+This is the separate Days 3-5 example, not the beginner website. Its prepared label is facilitator work.
 
 ```shell
 uv sync --locked --extra dev --extra web
@@ -65,35 +69,41 @@ run privately inside Codespaces. Built-in desktop browser tools are not an atten
 
 ## Deploy it
 
-Run **Deploy my app** from Actions. Select **website** on Day 1 and **vendor** for the separate
-business app. The workflow uses the prepared Actions identity; no attendee Azure login is needed.
+For supported publication, run **Deploy my app** from Actions. Select **website** for your
+page and **vendor** for the separate business app. The workflow uses the prepared Actions identity; no attendee Azure login is needed.
 The run summary prints the verified URL and commit. Follow [Lab 08](labs/08-deploy/README.md)
 before publishing. Only the intended site assets are published, not source reports or notes.
 
-`localStorage` belongs to one browser context and origin. Your preview, deployed site, and
-Playwright browser have separate data. A fresh URL showing an empty list is expected; repeat
-the synthetic add/refresh check there. Browser storage is not a shared team database.
+If you chose remembering as an extension, `localStorage` belongs to one browser context and
+origin. Your preview, deployed site, and Playwright browser have separate data. Repeat your
+actual checks at a new URL. Browser storage is not a shared team database.
+
+Vendor writes are disabled by default. The preserved post-workshop reference explains the private
+training switch and production gaps. It is not authentication and must never be enabled on the
+public deployment. Beginner work does not need this form or service credentials.
 
 ## Labs
 
 Lab numbers group topics; the **Day** column is the order of the week.
 
-| Lab                                       | Topic                                                 | Day |
-| ----------------------------------------- | ----------------------------------------------------- | --- |
-| [00](labs/00-setup/README.md)             | Codespace and access setup                            | 1   |
-| [01](labs/01-vscode-agent/README.md)      | Research, source verification, skills, and visual briefs | 1 |
-| [02](labs/02-copilot-cli/README.md)       | Your interactive website, storage, and browser checks    | 1 |
-| [08](labs/08-deploy/README.md)            | Publish your own website                                | 1 |
-| [05](labs/05-dataverse-app/README.md)     | Dataverse-backed application                          | 2   |
-| [03](labs/03-cloud-agent/README.md)       | Copilot cloud agent                                   | 3   |
-| [04](labs/04-mcp/README.md)               | Remote GitHub MCP server                              | 3   |
-| [07](labs/07-automations-hooks/README.md) | Automations and hooks                                 | 4   |
-| [06](labs/06-multi-agent/README.md)       | Deeper agent/skill authoring and evidence handoffs    | 5   |
+| Lab                                       | Topic                                                         | Day |
+| ----------------------------------------- | ------------------------------------------------------------- | --- |
+| [00](labs/00-setup/README.md)             | Find your files and Copilot Chat                              | 1   |
+| [01](labs/01-vscode-agent/README.md)      | Build your first page; manually verify behaviour and a figure | 1   |
+| [02](labs/02-copilot-cli/README.md)       | One useful interaction and your own improvements              | 1   |
+| [08](labs/08-deploy/README.md)            | Save, share, keep building; optional publication              | 1   |
+| [Own-idea build](docs/DAY-2-BUILD.md)     | Supported prototype building with fictional local data | 2 |
+| [03](labs/03-cloud-agent/README.md)       | Copilot cloud agent                                           | 3   |
+| [04](labs/04-mcp/README.md)               | Remote GitHub MCP server                                      | 3   |
+| [07](labs/07-automations-hooks/README.md) | Automations and hooks                                         | 4   |
+| [06](labs/06-multi-agent/README.md)       | Deeper agent/skill authoring and evidence handoffs            | 5   |
 
 See the [prerequisites](docs/PREREQS.md), [agenda](docs/AGENDA.md), and [facilitator runbook](docs/FACILITATOR.md).
 
 Every lab ends with official references and optional tasks. Use the
 [daily early-finisher list](docs/REFERENCES.md#small-tasks-for-early-finishers) while the group catches up.
+The former Lab 05 link is retained as a signpost, not a ninth scheduled lab. Technical setup,
+data integration, and an approved real-work reference project live in the post-workshop folder.
 
 ## Sample reports
 
@@ -123,9 +133,11 @@ rules. It is not a general SOC 2 assessor, an OCR pipeline, or a production comp
 Chunking uses whitespace-delimited words, not a model tokenizer; it helps demonstrate bounded
 processing but does not guarantee complete evidence at every chunk size. Use synthetic data only.
 
-The vendor starter reads rows. Attendees add a write form in Lab 05 and author customizations
-in Labs 06 and 07. Day 1 public research is an explicit exception to the synthetic-only business
-fixtures: download into ignored `research/`, verify facts, and publish original summaries only.
+The vendor starter reads synthetic samples without service access and retains a separately
+documented opt-in private training form. Technical attendees author customizations in Labs 06
+and 07; beginners do not configure data connections. Optional public research
+is an explicit exception to the synthetic-only business fixtures: download into ignored
+`research/`, verify facts, and publish original summaries only.
 Never mix annual-report content into the vendor evaluator or confidential material into the lab.
 Local tests do not prove live Codespaces, MCP, deployment, or Dataverse availability. Rehearse
 the actual learner journey and keep prepared results visibly distinct from live observations.

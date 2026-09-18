@@ -1,9 +1,9 @@
 # Optional Travel Practice
 
 This retained fictional context is optional material for later agent/skill exploration,
-not the required Day 1 exercise. [Lab 01](../labs/01-vscode-agent/README.md) now uses public
-annual-report research and [Lab 02](../labs/02-copilot-cli/README.md) builds a learner-selected
-interactive website. For optional travel authoring, apply Lab 06's role/skill patterns to
+not the required Day 1 exercise. [Lab 01](../labs/01-vscode-agent/README.md) builds a first page
+and [Lab 02](../labs/02-copilot-cli/README.md) adds a checked interaction. A fictional weekend
+planner does not require this multi-agent travel workflow. For optional travel authoring, apply Lab 06's role/skill patterns to
 these inputs. Do not copy the facilitator's managed AttractionsAgent locally.
 
 - [trip-brief.json](trip-brief.json): one fictional traveler, two hotel nights, dates, and budget.
@@ -14,8 +14,8 @@ Use permitted public pages for a separate live browser observation. Never submit
 payment, passenger information, or a real employee's travel details. The fixture domains do
 not resolve; they identify supplied text rather than sources you visited.
 
-[Lab 08](../labs/08-deploy/README.md) deploys the learner website; the vendor app is a separate
-target for Days 2-5. Keep this optional research out of both images. No hosted travel agent is
+[Lab 08](../labs/08-deploy/README.md) optionally deploys the learner website; the vendor app is a separate
+target for Days 3-5. Keep this optional research out of both images. No hosted travel agent is
 provided and optional travel work does not change any required workshop finish condition.
 
 Official help: [custom agents](https://docs.github.com/en/copilot/reference/custom-agents-configuration),

@@ -5,9 +5,9 @@ attendee lab. Use a dedicated private/internal copy in Codespaces. The source te
 a starter: the agent completes the exercises in the rehearsal copy so attendees still have work to do.
 
 Run **`/rehearse-workshop`** in Copilot Chat's local VS Code Agent mode. The
-[prompt](../.github/prompts/rehearse-workshop.prompt.md) drives all nine labs in timetable order:
-**00, 01, 02, 08, 05, 03, 04, 07, 06**, including actual implementation, tests, deployment,
-and evidence. Keep the [official reference map](../docs/REFERENCES.md) and
+[prompt](../.github/prompts/rehearse-workshop.prompt.md) drives eight active labs and the supported
+own-idea session in timetable order: **00, 01, 02, 08, day-2, 03, 04, 07, 06**, including adjacent coached blocks, actual
+implementation, tests, later deployment, and evidence. Keep the [official reference map](../docs/REFERENCES.md) and
 [prerequisites](../docs/PREREQS.md) available. Preview-only extras are tracked separately.
 
 Agent Host sessions do not use prompt files. In those clients, invoke the companion
@@ -16,10 +16,19 @@ same task. Inspect discovery rather than assuming it. Use browser-based Codespac
 terminal. Playwright MCP runs headless in the same Codespace; a CLI-only session cannot prove
 the learner's editor interactions or manual Ports preview.
 
-Day 1 is everyday AI: public annual-report research, document conversion, checked facts, skill
-discovery, an HTML presentation, an interactive website with localStorage, and its own deployment.
-Days 2-5 retain the **separate vendor/Dataverse target**. Do not prebuild a completed learner site
-in the source template or copy a managed specialist locally.
+Day 1 is foundations, Chat, a first website, manual behaviour/source checks, and saved work.
+Storage, research, HTML presentations, and early publication are optional. Day 2 is supported
+own-idea building with fictional app-local content. Day 3 introduces CLI/MCP/Playwright; Day 4
+verifies repeatable checks and one selected release. The separate vendor reader uses local
+synthetic samples and stays read-only publicly. Dataverse is not a workshop prerequisite.
+Do not prebuild a completed learner site in the source template or copy a managed specialist.
+
+The manifest keeps eight numbered lab IDs and a `day-2` session. Lab 00 also records concepts
+and first-note blocks; Lab 01 records manual verification; Lab 03 records its preceding CLI
+introduction; Lab 04 records the prepared browser introduction; Lab 07 records Day 4 readiness;
+Lab 06 records Friday's skill review. These do not enlarge the individual active lab time-boxes.
+The retired Lab 05 is a signpost to the [post-workshop reference](../post-workshop/dataverse/README.md),
+not a live-service gate. Preserve its existing implementation and offline regression tests.
 
 These changes must exist in the rehearsal repository before its Codespace can use them.
 Copy the updated template through your normal reviewed Git workflow, then create a dedicated
@@ -40,7 +49,7 @@ the network helper itself uses only the standard library and can run before depe
 RUN="rehearsal/results/$(date -u +%Y%m%dT%H%M%SZ)"
 REPOSITORY="$(gh repo view --json nameWithOwner --jq .nameWithOwner)"
 python -m rehearsal.evidence --output "$RUN" init --repository "$REPOSITORY"
-python -m rehearsal.network --fresh-install --nuget --output "$RUN/network.json"
+python -m rehearsal.network --fresh-install --output "$RUN/network.json"
 uv sync --locked --extra dev --extra web
 bash .devcontainer/setup.sh
 python -m rehearsal.evidence --output "$RUN" checks
@@ -57,7 +66,7 @@ to clear failures. Use a new directory for an intentionally new rehearsal.
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | [Network doctor](network.py)   | Real PyPI/NuGet downloads, locked wheel hash, fresh temporary environment and cache                                    | All hosts/packages, a full .NET restore, or private-feed authentication         |
 | [Evidence runner](evidence.py) | Actual pytest/Ruff exits, revision, timestamp, and explicit status for every required condition                        | That an agent's recorded observation is independently correct                   |
-| [Lab manifest](labs.json)      | All nine labs and their live finish conditions remain visible                                                          | That an unavailable feature was exercised                                       |
+| [Lab manifest](labs.json) | Core conditions and optional extensions remain visible across active labs and supported sessions | That an unavailable feature was exercised |
 | [Deployment helper](deploy.py) | Clean pushed commit, confirmed rehearsal repository, unique Actions run, matching artifact and fresh endpoint requests | Form submission, browser layout, or human PR review                             |
 | Prompt and skill               | Drive implementation, real product calls, browser journeys, reviews, and fixes in the rehearsal copy                   | Bypass of missing seats, tools, service credentials, or required human approval |
 
@@ -115,21 +124,23 @@ use the fresh-install helper above to test new downloads and an empty cache.
 
 - GitHub repository access, Copilot entitlement, and an authenticated GitHub/Copilot session.
 - Codespaces and network access; a preinstalled environment is not a successful fresh install.
-- The [pinned MCP tooling](../.devcontainer/README.md) installed in a fresh Codespace. The app's
-  locked-install network check does not cover `.venv-research/`, npm, or Chromium downloads.
-  Record those separately. Run `bash .devcontainer/mcp.sh check`, then invoke both actual MCP
-  servers in VS Code Web. CLI discovery/configuration is separate. Never bypass sandbox/TLS.
-- [Official annual reports and prepared facts](../docs/RESEARCH.md), with actual download paths,
-  cover years, full conversion files, checked values, and explicit live/prepared source modes.
-- The [visual-brief skill](../.github/skills/visual-brief/SKILL.md) and a reviewed community-skill
-  candidate tested in Linux. No inherited Windows/OneDrive paths or desktop-only canvas assumptions.
+- A successful **core-only** startup. Before Day 3, use the separate `cli` and `browser`
+  profiles in [the setup guide](../.devcontainer/README.md), run `check-browser`, then observe
+  actual CLI authentication and a Playwright MCP call in VS Code Web. Never bypass sandbox/TLS.
+- Only for selected research, run the `research` profile and `check-research`. The app's lock
+  does not cover `.venv-research/`, npm, or Chromium; record those preparations separately.
+  A full optional-tool smoke can invoke both servers through `scripts/check_workshop_mcp.py`.
+- If research is selected, use [official reports and labelled prepared facts](../docs/RESEARCH.md)
+  with real download paths, complete conversions and checked values. A visual brief must not
+  overwrite the existing page. Review a community skill before Friday's discovery session.
+  No inherited workstation paths or desktop-only canvas assumptions.
 - The existing training Azure resources and the `AZURE_CREDENTIALS` **Actions secret**, accessible
   to the rehearsal repository. Template copies do not automatically receive secret access.
-- For Lab 05: `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, and
-  `DATAVERSE_CLIENT_SECRET` as **Codespaces secrets**; separately the three non-secret Actions
-  variables and the Actions secret `DATAVERSE_CLIENT_SECRET`.
-- The Dataverse schema, application user, and approved permissions. Do not provision or grant
-  these as an attendee workaround.
+- A prepared own-idea repository or an agreed continuation of the default app for Tuesday.
+  Use the [build guide](../docs/DAY-2-BUILD.md) and fictional data, without database provisioning.
+- A local-sample vendor reader for technical attendees without a personal site. Do not supply
+  Dataverse credentials or enable its training form for the required workshop. Separate later
+  setup needs explicit approval through the post-workshop reference and is not part of this run.
 - Available cloud-agent, MCP, automation, custom-agent, and hook surfaces in Codespaces.
   One client may not expose them all; missing access is a recorded blocker, not a passed fallback.
 
@@ -141,17 +152,18 @@ in chat, source, screenshots, evidence, or downloaded artifacts.
 ## Execution Rules
 
 1. Confirm a disposable rehearsal repository, unique synthetic label, branch, and derived app name.
-2. Confirm permission once for the run's pushes, synthetic service writes, issues, PRs, automation,
+2. Confirm permission once for the run's pushes, issues, PRs, automation,
    and deployment cost in the existing training resource group. Normal tool approvals still apply.
 3. Test clean installation and artifact connectivity before completing labs. Keep TLS verification
    enabled. A NuGet probe diagnoses optional .NET access; it does not make .NET a Python-lab dependency.
 4. Complete and test each exercise rather than merely reading its instructions. Keep source
-  observations, current-date limits, and unknowns truthful. Preserve later business CLI
+   observations, current-date limits, and unknowns truthful. Preserve later business CLI
    baselines, original sources, and the deterministic scoring contract.
 5. Deploy the exact tested commit through Actions and verify the actual endpoint and page behavior.
 6. Report every lab, including failures and blocked live features. Unit tests cannot stand in for
    a browser journey, managed-plugin delivery/invocation, MCP call, cloud session, live hook,
-   or event-triggered automation. Cloud delegation in Lab 02 is an optional preview.
+   or event-triggered automation. Manual beginner checks and the human novice pilot are also
+   distinct from automated browser observations; do not invent either.
 
 ## Deploy and Retrieve the Endpoint
 
@@ -159,6 +171,10 @@ The `website` target publishes the reviewed `site/` assets with a distinct deriv
 The `vendor` target preserves the business app and existing name. Research downloads, extracted
 reports, Markdown notes, and developer tools are not website assets. No hosted Copilot runtime
 is deployed. Generated public research stays under ignored `research/` and out of both images.
+
+In the Day 4 core, choose **one** target and keep Dataverse disabled. The following commands
+are alternatives, not two mandatory deployments. Do not create an unnecessary second site just
+to release both targets. No service connection is needed for the local-sample vendor reader.
 
 Use a label such as **Synthetic Rehearsal 9f72a1** in the rehearsal copy. Put the unique suffix
 early enough that the derived 32-character app name remains unique. Never reuse an attendee's label.
@@ -174,13 +190,13 @@ python -m rehearsal.deploy dispatch --repository "$REPOSITORY" --ref "$BRANCH" \
 python -m rehearsal.deploy collect --request "$RUN/deploy-website.json" --wait
 ```
 
-Prepare the vendor deployment with seeded rows independently before Lab 05. After the lab's
-implementation and tests, commit/push again and request the final vendor target explicitly:
+Alternatively, release the read-only local-sample vendor target. No seed operation, Dataverse
+credentials, or write-enable flag is required:
 
 ```bash
 python -m rehearsal.deploy dispatch --repository "$REPOSITORY" --ref "$BRANCH" \
-  --target vendor --request "$RUN/deploy-dataverse.json" --dataverse --approve-deploy
-python -m rehearsal.deploy collect --request "$RUN/deploy-dataverse.json" --wait
+  --target vendor --request "$RUN/deploy-vendor.json" --approve-deploy
+python -m rehearsal.deploy collect --request "$RUN/deploy-vendor.json" --wait
 ```
 
 `--approve-deploy` records your approval to deploy this confirmed training app; it does not bypass
@@ -193,7 +209,9 @@ and call `collect` without `--wait` after completion. Do not broaden token permi
 The workflow validates prepared secret presence and the requested SHA before Azure operations.
 It uses the Actions identity, selects the requested data source, and sets `WORKSHOP_COMMIT`.
 The helper rejects a healthy **old** revision, wrong target/label, wrong website fingerprints,
-or Dataverse sample fallback. It stores the expected website fingerprint at dispatch, so a later
+or unexpected source. Local samples are the intended source for this vendor release, not a
+fallback masquerading as live Dataverse. The optional Dataverse validator remains available for
+an explicitly approved post-workshop run. It stores the expected website fingerprint at dispatch, so a later
 local edit cannot silently change the requested result. Reverting
 to sample mode removes active Dataverse environment variables; it does not delete stored secrets
 or service rows. Each successful run publishes an artifact named
@@ -205,13 +223,13 @@ Container Apps environment, credentials, or other teams' rows. Record cleanup ow
 
 ## Record, Resume, and Finish
 
-The agent records the required checks in [labs.json](labs.json). For example, after observing
-a real report download, attach credential-free screenshots or a transcript under this run directory:
+The agent records checks from [labs.json](labs.json). For example, after observing a source
+comparison, attach credential-free screenshots or a transcript under this run directory:
 
 ```bash
-python -m rehearsal.evidence --output "$RUN" record --lab 01 --check browser-download \
-  --status passed --observed --evidence "$RUN/lab-01-browser.md" \
-  --note "Verified the official archive, downloaded PDF path, and reporting year; recorded remaining download limits."
+python -m rehearsal.evidence --output "$RUN" record --lab 01 --check source-check \
+  --status passed --observed --evidence "$RUN/lab-01-source.md" \
+  --note "Compared both fictional prices, currency and calculated total with the supplied source."
 python -m rehearsal.evidence --output "$RUN" record --lab 03 --check human-review \
   --status blocked --note "PR checks pass; the repository still requires an independent reviewer."
 python -m rehearsal.evidence --output "$RUN" summary --require-complete
@@ -224,12 +242,25 @@ under the ignored run directory. The summary fails while any core condition is p
 or blocked. These are **attested observations**, not a tamper-proof audit or independent evaluator.
 The agent still must inspect their substance and verify the final deployed commit.
 
-The revised curriculum has new check IDs. Old travel-authoring or managed-plugin evidence
-cannot complete it; record new research and website observations rather than renaming passes.
-Lab 02 records implementation, storage, browser checks, and preview separately. Prepared public
-facts cannot pass `browser-download` or MCP-tool checks, even if the figures are correct.
+The revised curriculum has new check IDs. Old travel/research evidence cannot complete the new
+first-page path; record actual observations rather than renaming passes. `checks` in the manifest
+gate core completion; `optional_checks` are displayed in a separate summary table. Use the same
+`record` command for either. An optional pass still requires `--observed` and evidence, but an
+unselected or blocked extension does not fail `summary --require-complete`. It never fills a
+missing core check. Prepared facts cannot pass an optional live download or conversion check.
 
-Run one lab's deterministic checks with `checks --lab 05`, or omit `--lab` for the full suite.
+Record Tuesday's own-idea brief, prototype, manual journey, saved work, and handover under `day-2`.
+Record Wednesday's `cli-turn` under Lab 03 and `browser-tools`/`browser-journey` under Lab 04.
+Record Thursday's saved script and `selected-release` under Lab 07. Optional early publication
+does not replace the later release check. A saved script is not browser CI unless the workflow
+actually invokes it. Report core completion and extension statuses separately.
+
+Existing ledgers retain retired `05` observations unchanged. They do not satisfy any `day-2`
+condition or automatically transfer to Wednesday. Record new observations; missing new checks
+remain pending. The runner can add new session entries while preserving the old ledger evidence.
+
+Run session checks with `checks --lab day-2`, an active lab such as `checks --lab 04`, or omit
+`--lab` for the full suite, including the maintained Dataverse regression tests.
 The test runner never updates live statuses automatically. The known encryption, retention,
 residency, SOC 2 metadata, and authenticated-redirect counterexamples have regression tests now;
 rerun them, and investigate further counterexamples rather than treating them as a complete language model.

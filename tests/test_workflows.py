@@ -110,8 +110,19 @@ def test_ci_builds_both_deliverables() -> None:
     assert "docker build --file Dockerfile.website --tag workshop-website-check ." in commands
     tool_commands = [step.get("run", "") for step in workflow["jobs"]["research-tools"]["steps"]]
     assert workflow["jobs"]["research-tools"]["runs-on"] == "ubuntu-22.04"
-    assert "bash .devcontainer/setup.sh" in tool_commands
+    tool_script = "\n".join(tool_commands)
+    assert "bash .devcontainer/setup.sh browser" in tool_script
+    assert "bash .devcontainer/setup.sh research" in tool_script
     assert ".venv-research/bin/python scripts/check_workshop_mcp.py" in tool_commands
+
+
+def test_public_deployments_disable_training_writes() -> None:
+    """Both creation and redeployment must override any previously enabled training form."""
+    workflow = yaml.load(Path(".github/workflows/deploy.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    deploy = next(step for step in workflow["jobs"]["deploy"]["steps"]
+                  if step.get("name") == "Deploy to Container Apps")
+    assert deploy["run"].count('"WORKSHOP_ALLOW_WRITES=false"') == 2
+    assert "WORKSHOP_ALLOW_WRITES=true" not in deploy["run"]
 
 
 def test_deployment_publishes_exact_revision_evidence_without_attendee_login() -> None:

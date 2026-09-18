@@ -6,12 +6,13 @@
 
 **Prerequisites:** Active Codespace, Copilot access, and permission to read your repository.
 
-Day 1 introduced MCP as one way to connect an agent to tools or data. This lab makes the
+Today's separate 10:45-11:15 [tools introduction](../../docs/TOOLS-PRACTICE.md) used a prepared
+Playwright connection. This lab makes the
 connection explicit: discover a tool, inspect what it can do, authenticate, call it, and verify
 the result. MCP configuration, a skill's instructions, and the built-in browser tools are different things.
 
-Monday's Playwright and MarkItDown connections supplied browser and document tools. This is
-another connection: GitHub MCP exposes repository data and actions. The learning goal is the
+Playwright supplied browser tools; MarkItDown is an optional document-conversion extension,
+not prior required work. This is another connection: GitHub MCP exposes repository data and actions. The learning goal is the
 same: inspect permissions, call the intended tool, and verify its result. All local configuration
 and terminal work remains inside Codespaces; the GitHub service itself is remote.
 

@@ -1,28 +1,111 @@
 # Facilitator runbook
 
 Use the [agenda](AGENDA.md) for timing and the [coverage guide](REFERENCES.md) for official
-links to every feature family. The priority is business-user AI enablement. Day 1 establishes
-a useful research/presentation/site loop; Day 2 connects it to shared data; Days 3-5 add depth.
+links for the whole week, not a Monday feature checklist. The priority is confidence for
+first-time GitHub/app users. Day 1 establishes foundations, Chat, a shared first website, manual
+checks, and saved work; Day 2 applies that workflow to participants' own ideas. Days 3-5 add depth.
 All attendee steps use browser-based Codespaces and its Bash terminal, never a laptop runtime.
-Use 8-minute demonstrations followed by practice and personalisation, not long feature tours.
+Start with 30 minutes of concepts only. After that, show one action for 3-5 minutes, let people
+try it for 8-12, then check. Repeat within the published blocks. Do not fill their building
+time with additional demonstrations when they are making progress.
 
 ## Demonstration preparation
 
 Prepare these results before Day 1 so network waits and preview setup do not consume lab time:
 
-| Block                  | Live core                                                                                  | Prepared result or fallback                                                            |
-| ---------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| Opening | A useful visual brief, a small interactive site, and a short CLI turn | Prepared advanced results; no mandatory feature-by-feature tour |
-| Tool connection | Learners add/trust Playwright and MarkItDown MCP in the Codespace | Prepared dependencies; actual invocation still required |
-| Research | One report first, verified facts, then bounded five-year collection | [Prepared public facts](annual-report-facts.json), labelled as prepared |
-| Skill discovery | Awesome Copilot shortlist and the prepared visual-brief skill | Complete folders, attribution, dependencies, and client checks |
-| Personal build | One interaction, localStorage, and browser verification | Extend the morning HTML instead of starting another project |
-| Deployment | Website target, reviewed assets, exact commit, actual URL | Vendor target prepared separately before Day 2 |
+| Block               | Live core                                                                                  | Prepared result or fallback                                                         |
+| ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Monday foundations  | Concepts, glossary, and labelled screenshots from [START-HERE](START-HERE.md); no commands | Point to the same controls in the actual browser-based client                       |
+| Monday first work   | Files, Chat, one idea note, save/review/commit/push                                        | Assigned working branch and tested access; no JSON or CLI setup                     |
+| Monday page         | Learner-generated HTML and one prepared preview command                                    | Separate labelled demonstration copy, never a completed page in the source template |
+| Monday verification | Check a button and the supplied fictional price total against its source                   | Optional single public figure, not a five-report assignment                         |
+| Monday afternoon    | One interaction, personal improvements, checked and pushed work                            | Storage and publication only for ready learners with help                           |
+| Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
+| Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | Prepared repository and fictional local content; default idea for people without one |
+| Wednesday tools | CLI task and prepared Playwright observation in the existing demonstration blocks | Separate cli/browser profiles; no Dataverse or PDF tools required |
+| Days 3-5            | Cloud review, MCP setup, saved browser checks, automation, skill discovery and evaluations | Prepared examples and honest blockers for unavailable live features                 |
 
-Use public reports for Day 1 research and the synthetic vendor app for the later business case.
-Name the model, agent role, tools, context, and execution
-environment as different choices. GitHub Copilot is the focus; Microsoft 365 Copilot and
-Power Platform are related products, not interchangeable entitlements or tool surfaces.
+Keep public reports and HTML briefs on the optional [extension shelf](RESEARCH.md), separate
+from synthetic vendor evidence. Name tools when they become useful, rather than explaining
+models, roles, and execution environments all at once. GitHub Copilot is the focus; Microsoft
+365 Copilot and Power Platform are related products, not interchangeable entitlements.
+
+## Room and Novice Pilot
+
+- Preflight the actual attendee account/browser/network path before the event, including the
+  assigned repository, Chat, first push, and private preview. A presenter account is not a substitute.
+- Plan support for **roughly 40-45 attendees**, with the final roster still to be confirmed. Confirm simultaneous Codespace
+  capacity, budget, and floor-helper coverage. Aim for one helper per 8-10 beginners in addition
+  to the presenter; if staffing is lower, arrange pairs and reduce simultaneous troubleshooting.
+- A pair uses one assigned project and rotates the driver. Never ask two people to edit the same
+  files concurrently. Prepare unique labels in `config.json` and test branch permissions before class.
+- Keep the current action and expected result visible while helping somebody. Use quiet checkpoints:
+  found Chat; pushed a note; opened a page; checked a behaviour and number; saved an improvement.
+- Provide the [printable quick reference](QUICK-REFERENCE.md). Demonstrate finding the instructions
+  and **Open Preview** for Markdown before expecting anyone to read a lab. The guides support
+  live instruction; they are not independent reading assignments.
+- Confirm table power, screen visibility, and a layout allowing helpers to circulate. Round tables
+  and a second instruction screen were discussed, not verified. Print the short sheet if needed.
+- Confirm the planned helper coverage with David, Bill, and Jackie, and encourage experienced
+  participants to help neighbours without taking over their keyboard. AI experience does not
+  necessarily imply GitHub/VS Code experience, even in the technical track.
+- Keep a labelled completed example in a separate approved rehearsal copy for rescue or demonstration.
+  It is not a learner-authored outcome or a replacement for recording a blocked step.
+- Pilot the new beginner route with David/Susan and a few genuine first-timers on the intended
+  managed-browser path. Record anonymous pilot labels, elapsed time, help needed, and unfinished
+  steps. Do not put employee details or screen credentials into evidence.
+- The pilot passes only when participants can find Chat, make and inspect a change, open the
+  preview, check it, and save/commit/push without the presenter taking over. Adjust instructions
+  from observations; a passing automated suite does not establish beginner usability.
+- The beginner guide's images are attributed official examples, not workshop captures. During
+  preflight compare them with the actual Codespaces UI; capture reviewed training-only replacements
+  if the control locations differ materially. Never label a mock-up as an observed interface.
+
+## Current Delivery Checkpoints
+
+Monday uses [START-HERE](START-HERE.md) as the chronological route. The note/Git block at
+10:00 and manual verification at 11:45 are outside Labs 00 and 01. Preserve afternoon building
+time; no storage or public URL is needed to finish. End with a neighbour seeing one working feature.
+Everyone starts from the shared fictional weekend-planner brief, then personalises it. Keep
+the sponsor welcome inside the first concepts-only block. Do not introduce a React migration
+solely because a starter template was mentioned; framework changes need an explicit decision.
+
+Tuesday gives David 09:00-09:30 for responsibilities and approved-tool context, then Jackie
+09:30-10:30 for Power Platform/shared-data examples. Confirm speaker availability. Use
+[DAY-2-BUILD](DAY-2-BUILD.md) at 10:45 and throughout the afternoon; no required integration lab
+or tools hour. At 14:45, allow two short volunteer demonstrations plus wrap-up or pair sharing,
+not five minutes for every attendee. Let people explain how their prototype might help their work.
+
+Wednesday introduces CLI at 09:00-09:15 before the cloud demonstration and MCP/Playwright at
+10:45-11:15 before Lab 04. Follow [TOOLS-PRACTICE](TOOLS-PRACTICE.md). Do not import the retired
+60-minute tools session on top of the existing agenda. Thursday uses one saved browser check
+and one selected release target with no live Dataverse requirement.
+
+## Idea Intake and Handover
+
+Before Tuesday, ask for a short idea description, not a real spreadsheet or business dataset:
+audience, task, smallest useful interaction, example fictional fields, and how success can be checked.
+Offer weekend planner, fictional event calendar, reading list, or a simple follow-up list examples.
+"I do not have an idea yet" is a valid response. Prepare an approved starter repository for each
+selected idea, or continue the Monday app if a new project is not ready. Never overwrite their work.
+
+Susan coordinates idea collection and the final attendee list; the meeting planned training
+invitations for the week before the event, after policy approval. Use a small approved pilot group
+for earlier testing. Do not bulk-invite or provision identities as part of content maintenance.
+The next content review discussed was **Monday 28 September 2026**, with Susan sending the invite
+and David bringing his overview material; this note does not assert a calendar invitation exists.
+
+The reported 09:00-16:00 attendee invitation differs from the published 09:00-15:00 beginner
+days. Confirm the finish time rather than silently extending the timetable. The proposed corporate
+repository/desktop/AI-marketplace transition is not rehearsed or approved by these notes. Keep
+attendee work Codespaces-only until an explicit change is approved and the target is tested.
+Familiar menus do not imply identical runtimes, extensions, authentication, or policy coverage.
+
+Never treat Codespaces as a policy bypass or a guarantee that actions cannot affect external
+systems. Preserve work and confirm access for all remaining days before any approved membership
+cleanup; never delete personal GitHub accounts. Use the
+[post-workshop technical reference and prompts](../post-workshop/dataverse/README.md) to plan
+the later real-work data/integration project with the technical owner, not during beginner building.
 
 Show how to stop or steer work as well as how to start it. Agent edits can be applied directly:
 inspect the actual diff and restoration controls rather than promising a universal approval
@@ -130,7 +213,7 @@ MCP configuration. Use a synthetic document and verify a quotation; do not promi
 PDF failed before installation or that every converted file has reliable page provenance.
 The toolkit is an optional presenter install, separate from the core labs. Verify its actual
 tool permissions, runtime dependencies, and client support in the governance repository.
-Keep this optional toolkit separate from Monday's core tools and visual-brief skill. A verified transcript
+Keep this optional toolkit separate from Wednesday's prepared browser connection. A verified transcript
 is a presenter fallback, not evidence that the attendee's plugin actually worked.
 
 ## Create team repositories
@@ -154,8 +237,10 @@ not automatically update team repositories that already exist.
 
 1. Confirm the approved, note-free source is flagged as a template.
 2. Run the script with the repository names you need.
-3. Verify the team grant and assign one unique workshop label/app name per deployed repository.
-4. Apply and test review rules. Configure Actions secret access and Day 2 Codespaces secrets separately.
+3. Verify the team grant and set one unique workshop label/app name in each repository's config
+   before the novice session. Have the owner commit/push that preparation through normal review.
+4. Apply and test review rules. Configure Actions access for approved publication, not Dataverse
+  secrets for beginner repositories. Database credentials are separate post-workshop preparation.
 5. Run CI once and create a Codespace in each repository.
 
 ## Dry run
@@ -170,15 +255,17 @@ is required; repository access to the prepared Actions identity must already exi
 - Inspect the devcontainer: Python version, dependency lock, minimum host requirements, shared editor settings, and forwarded port. Extension IDs are not version pins; CLI authentication is separate.
 - Run tests and the sample CLI end to end.
 - Use `--as-of 2026-10-26` to confirm sample scores 10, 8, and 2, plus exact source quotations.
-- Rehearse inline assistance, context attachments, model/usage controls, and checkpoint recovery on a disposable change.
-- Add/trust the workspace MCP connections from Lab 01 using an attendee identity. Test a real
-  browser navigation/download and a MarkItDown conversion. Install presence is not tool invocation.
-- Follow [the research guide](RESEARCH.md): inspect one official PDF first, then collect the
-  five-year window. Keep downloads ignored and separate from synthetic fixtures. Record blocked
-  downloads or truncated conversion; use labelled prepared facts without claiming a live pass.
-- Invoke the portable visual-brief skill, review source values, and create a learner-style HTML
-  presentation in the rehearsal copy, not the source template. Test the chosen community skill
-  in Linux; local presenter skills and desktop canvas features are not automatically available.
+- Complete the first-note save/review/commit/push journey through the browser UI and read back
+  the changed file on GitHub. Check the current screenshots and labels against that client.
+- Generate a small page in the rehearsal copy, open its private Ports preview, and manually check
+  an interaction and a source figure. Do not ship a finished page in the source template.
+- Rehearse stop/steer and inspection on a disposable small change. Keep Monday to these essentials.
+- Before Day 3, run `bash .devcontainer/setup.sh cli` and `bash .devcontainer/setup.sh browser`.
+  Verify CLI authentication separately, inspect the prepared Playwright connection, and observe
+  an actual call in VS Code Web. No research environment is required for that browser exercise.
+- Only if selected, follow [the optional research guide](RESEARCH.md), prepare its separate
+  profile, and record live downloads/conversion versus labelled prepared facts. Test visual-brief
+  and any selected community skill in Linux without overwriting the learner's existing page.
 - Check CLI sandbox/local-network support in the exact Codespace. Current Linux versions may
   require networking helpers and `/dev/net/tun`; inspect effective `/sandbox` settings and the
   official CLI release notes. Package downloads alone do not prove agent access. Do not bypass policy.
@@ -187,13 +274,19 @@ is required; repository access to the prepared Actions identity must already exi
 - Create an automation triggered by issue creation, open a matching issue, and confirm exactly one session starts.
 - Follow Lab 07's metadata-only hook example and harmless deny test. Local log files are not a durable compliance trail.
 - Test remote GitHub MCP in read-only mode.
-- Test Playwright MCP against Codespace localhost, and manually open the private forwarded preview.
-  Add/refresh/remove in the same browser context; repeat independently at the deployed origin.
-- Exercise the Dataverse-backed training API using synthetic records.
-- Set the unique label, dispatch **Deploy my app / website**, and verify the current site bytes,
-  commit, URL, and interaction. A healthy endpoint is not a checked chart or storage journey.
-- Independently prepare **Deploy my app / vendor** with Dataverse and seeded rows before Day 2.
-  Confirm **Source: Dataverse**, not samples. Stop unneeded research tools before service access.
+- Test Playwright MCP against Codespace localhost and compare with the manual Ports journey.
+  If storage was selected, test reloads in each browser/origin independently. Otherwise do not
+  treat missing persistence as a failed core feature.
+- Rehearse Tuesday's own-idea brief, bounded prototype, manual journey, save/push, and handover
+  questions using fictional app-local content. Do not substitute a database exercise or tool call.
+- For the technical track, prepare the vendor reader with local synthetic samples and no Dataverse
+  credentials. Retain its mocked transport/form tests; live data integration is post-workshop work.
+- In Day 4 readiness (or selected earlier publication), dispatch one intended **website** or
+  local-sample **vendor** target with **connect_dataverse** unchecked. Verify the exact commit,
+  source, URL, and interaction, plus website bytes/fingerprint when applicable. A healthy container
+  alone is not a checked feature. Preserve all deployment guards and human approvals.
+- Author and run a saved browser assertion check twice for the Day 4 block. Record whether CI
+  actually invokes it; an MCP screenshot or a local script does not prove browser CI coverage.
 - Optional Day 5 only: invoke the managed specialist and verify origin. No local duplicate.
 - Follow Lab 06's JSON generation and separate baseline/report comparison with a fresh session.
 - Disable test automations and stop unused Codespaces at the end of the rehearsal.
@@ -206,7 +299,8 @@ planned retention, unresolved sub-processor/residency metadata, residency contra
 SOC 2 type, and twelve-calendar-month date boundary are tested. Authenticated Dataverse and
 token requests reject redirects. This remains a small keyword-based teaching evaluator;
 those counterexamples and the three sample scores do not establish general document correctness.
-The live Codespaces, product-feature, Dataverse, and deployment gates must still be observed.
+The live Codespaces, product-feature, and selected deployment gates must still be observed.
+Live Dataverse checks are tracked separately if the post-workshop reference session is approved.
 
 ## Container Image Readiness
 
@@ -232,11 +326,11 @@ container build, application security review, or live deployment check.
 | ---------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Codespace creation fails                       | Network and Codespaces policy                                            | Allow required GitHub endpoints and enable Codespaces.                                                                                                                      |
 | Copilot icon or agent missing                  | Seat and organization policy                                             | Assign the seat, enable the feature, then reload the Codespace.                                                                                                             |
-| `copilot` command not found                    | Container setup step failed                                              | The container installs it from `https://gh.io/copilot-install`. Re-run that command in the terminal, or use `npm install -g @github/copilot`, which needs Node 22 or later. |
+| `copilot` command not found | Technical-track CLI profile not prepared | Before Day 3, the helper runs `bash .devcontainer/setup.sh cli` and verifies sign-in. This is not a Monday/Tuesday blocker. |
 | Old duplicate vendor-analyst still appears     | Cached organization discovery                                            | The shared copy is retired; refresh/reload the client. Keep the local workshop analyst used by Lab 06.                                                                      |
 | Learner agent or skill missing                 | File location, frontmatter, client                                       | Inspect discovery diagnostics; use skills for Agent Host, not unsupported prompt files.                                                                                     |
 | Inline suggestion or model option missing      | Client, language, seat, model and settings                               | Use a prepared example and the current support documentation; do not turn a missing preview into an installation task.                                                      |
-| Browser tools missing | Workspace MCP configuration, Linux setup, and effective policy | Use MCP logs and the prepared launcher. Record a blocker if unavailable; never expose an MCP port or disable sandbox/TLS. |
+| Browser tools missing                          | Workspace MCP configuration, Linux setup, and effective policy           | Use MCP logs and the prepared launcher. Record a blocker if unavailable; never expose an MCP port or disable sandbox/TLS.                                                   |
 | Plugin listed but its task fails               | Component discovery, tool access and runtime                             | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test.                                                                      |
 | AttractionsAgent absent or not Managed         | Entitlement, private-source read access, policy refresh, local shadowing | Inspect source and the actual agent ID. Do not copy it into the learner repo or change enterprise settings live.                                                            |
 | Travel site blocks the agent                   | Site access or bot controls                                              | Use another permitted source or clearly labelled fixture; never call the fallback live browsing.                                                                            |

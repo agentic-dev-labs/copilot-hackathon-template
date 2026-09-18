@@ -1,6 +1,7 @@
 """Check that rehearsal records cannot pass by omitting live requirements."""
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -17,13 +18,14 @@ def ledger(monkeypatch: pytest.MonkeyPatch) -> dict:
 
 
 def test_manifest_covers_all_labs_in_workshop_order() -> None:
-    """Keep every guide, check selector, and core lab discoverable."""
+    """Keep eight active labs and the supported own-idea session discoverable."""
     labs = evidence.manifest()
-    assert [lab["id"] for lab in labs] == ["00", "01", "02", "08", "05", "03", "04", "07", "06"]
+    assert [lab["id"] for lab in labs] == ["00", "01", "02", "08", "day-2", "03", "04", "07", "06"]
     for lab in labs:
         assert Path(lab["guide"]).is_file()
         assert lab["checks"]
         assert all(Path(path).is_file() for path in lab["tests"])
+        assert not set(lab["checks"]) & set(lab.get("optional_checks", {}))
 
 
 def test_every_live_condition_starts_pending(ledger: dict) -> None:
@@ -35,26 +37,26 @@ def test_every_live_condition_starts_pending(ledger: dict) -> None:
 def test_passing_requires_observation_and_evidence(ledger: dict) -> None:
     """A green unit suite must not automatically pass the browser journey."""
     with pytest.raises(ValueError, match="Passing requires"):
-        evidence.record(ledger, "01", "browser-download", "passed", [], "Tests passed")
+        evidence.record(ledger, "01", "manual-behaviour", "passed", [], "Tests passed")
     with pytest.raises(ValueError, match="Passing requires"):
-        evidence.record(ledger, "01", "browser-download", "passed",
+        evidence.record(ledger, "01", "manual-behaviour", "passed",
                         ["https://github.com/synthetic/rehearsal/issues/1"], "Tests passed")
 
 
-def test_old_travel_checks_cannot_complete_the_research_lab(ledger: dict) -> None:
-    """Previous curriculum evidence must not silently satisfy new research work."""
+def test_old_research_checks_cannot_complete_the_first_page_lab(ledger: dict) -> None:
+    """Previous curriculum evidence must not silently satisfy the new beginner journey."""
     lab = next(lab for lab in evidence.manifest() if lab["id"] == "01")
     ledger["labs"]["01"] = {
         check: {"status": "passed", "evidence": ["https://example.invalid/observed"],
             "observation_attested": True}
-        for check in ("travel-authoring", "travel-invocation", "flight-hotel-browser", "travel-review")
+        for check in ("mcp-tools", "browser-download", "conversion", "facts", "visual-brief")
     }
     assert evidence.lab_status(ledger, lab) == "pending"
 
 
-@pytest.mark.parametrize("required_check", ["implementation", "storage", "browser", "preview"])
+@pytest.mark.parametrize("required_check", ["implementation", "personalisation", "manual-checks", "preview"])
 def test_website_work_requires_each_observation(ledger: dict, required_check: str) -> None:
-    """Code, browser actions, persistence, and preview are separate live requirements."""
+    """Implementation, personalisation and manual checks are separate core requirements."""
     lab = next(lab for lab in evidence.manifest() if lab["id"] == "02")
     assert required_check in lab["checks"]
     assert "delegation" not in lab["checks"]
@@ -70,11 +72,83 @@ def test_website_work_requires_each_observation(ledger: dict, required_check: st
     assert evidence.lab_status(ledger, lab) == "blocked"
 
 
+def test_optional_extensions_are_visible_but_do_not_gate_core(ledger: dict) -> None:
+    """Storage can be blocked while the first interactive page is honestly complete."""
+    lab = next(lab for lab in evidence.manifest() if lab["id"] == "02")
+    for key in lab["checks"]:
+        evidence.record(ledger, "02", key, "passed", ["https://example.invalid/observed"],
+                        "Synthetic observation", observed=True)
+    evidence.record(ledger, "02", "storage", "blocked", [], "Extension not available")
+    assert evidence.lab_status(ledger, lab) == "passed"
+    assert "| 02 / storage | blocked |" in evidence.render_summary(ledger)
+    del ledger["labs"]["02"]["manual-checks"]
+    assert evidence.lab_status(ledger, lab) == "pending"
+
+
+def test_optional_pass_still_needs_actual_evidence(ledger: dict) -> None:
+    """Calling a task optional must not weaken the truth standard for a claimed pass."""
+    with pytest.raises(ValueError, match="Passing requires"):
+        evidence.record(ledger, "02", "storage", "passed", [], "Installed", observed=True)
+    ledger["labs"]["02"]["storage"] = {"status": "passed"}
+    assert evidence.check_status(ledger, "02", "storage") == "pending"
+
+
+def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
+    """Monday's optional publishing does not erase the full week's live release checks."""
+    labs = {lab["id"]: lab for lab in evidence.manifest()}
+    assert "cli-turn" not in labs["00"]["checks"]
+    assert "05" not in labs
+    assert "cli-turn" in labs["03"]["checks"]
+    assert {"browser-tools", "browser-journey"} <= labs["04"]["checks"].keys()
+    assert not {"seed", "private-journey", "cli-turn", "browser-tools"} & labs["day-2"]["checks"].keys()
+    assert "actions" not in labs["08"]["checks"]
+    assert "endpoint" in labs["08"]["optional_checks"]
+    assert {"repeatable-browser", "selected-release"} <= labs["07"]["checks"].keys()
+    assert "vendor-release" not in labs["07"]["checks"]
+
+
+def test_require_complete_ignores_unfinished_extensions(
+    ledger: dict, monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    """The CLI gates every core condition, not unselected extension work."""
+    for lab in evidence.manifest():
+        for key in lab["checks"]:
+            evidence.record(ledger, lab["id"], key, "passed", ["https://example.invalid/observed"],
+                            "Synthetic observation", observed=True)
+    evidence.record(ledger, "01", "conversion", "blocked", [], "Optional tool unavailable")
+    monkeypatch.setattr(evidence, "ROOT", tmp_path)
+    output = tmp_path / "rehearsal" / "results" / "synthetic"
+    output.mkdir(parents=True)
+    (output / "ledger.json").write_text(json.dumps(ledger), encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["evidence", "--output", str(output), "summary", "--require-complete"])
+    assert evidence.main() == 0
+    del ledger["labs"]["day-2"]["manual-journey"]
+    (output / "ledger.json").write_text(json.dumps(ledger), encoding="utf-8")
+    assert evidence.main() == 1
+
+
 def test_missing_entries_never_pass(ledger: dict) -> None:
     """Removing a blocked check from JSON must not improve completion status."""
     lab = evidence.manifest()[0]
     ledger["labs"][lab["id"]] = {}
     assert evidence.lab_status(ledger, lab) == "pending"
+
+
+def test_retired_dataverse_evidence_cannot_pass_own_idea_work(ledger: dict) -> None:
+    """Preserve old observations without converting them into unrelated new completion claims."""
+    old_entry = {"seed": {"status": "passed", "evidence": ["https://example.invalid/observed"],
+                          "observation_attested": True}}
+    ledger["labs"]["05"] = old_entry
+    del ledger["labs"]["day-2"]
+    session = next(lab for lab in evidence.manifest() if lab["id"] == "day-2")
+    assert evidence.lab_status(ledger, session) == "pending"
+    evidence.record(ledger, "day-2", "idea-brief", "passed", ["https://example.invalid/observed"],
+                    "New own-idea brief actually observed", observed=True)
+    assert evidence.lab_status(ledger, session) == "pending"
+    assert ledger["labs"]["05"] == old_entry
+    with pytest.raises(ValueError, match="Unknown lab"):
+        evidence.record(ledger, "05", "seed", "passed", ["https://example.invalid/observed"],
+                        "Retired requirement", observed=True)
 
 
 def test_blocked_and_passed_are_distinct(ledger: dict) -> None:
@@ -99,7 +173,7 @@ def test_references_reject_unsafe_or_missing_evidence(reference: str) -> None:
 
 
 def test_prompt_is_discoverable_and_has_every_lab() -> None:
-    """The comprehensive prompt must run as an agent and cover all nine exercises."""
+    """The comprehensive prompt must cover every active lab and supported session."""
     text = Path(".github/prompts/rehearse-workshop.prompt.md").read_text(encoding="utf-8")
     metadata = yaml.safe_load(text.split("---", 2)[1])
     assert metadata["name"] == "rehearse-workshop"

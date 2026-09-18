@@ -1,8 +1,10 @@
 """Check the startup contract without requiring a container runtime."""
 
 import json
+import os
 from pathlib import Path
 import asyncio
+import subprocess
 from contextlib import asynccontextmanager
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
@@ -32,13 +34,46 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     assert "npm ci --prefix .devcontainer/browser --ignore-scripts" in setup
     assert "--requirement .devcontainer/research-requirements.txt" in setup
     assert "install --with-deps chromium" in setup
-    assert "bash .devcontainer/mcp.sh check" in setup
+    assert "bash .devcontainer/mcp.sh check-browser" in setup
+    assert "bash .devcontainer/mcp.sh check-research" in setup
+    assert 'case "${1:-core}" in' in setup
+    assert set(config["onCreateCommand"]) == {"uv"}
     assert config["remoteEnv"]["UV_NATIVE_TLS"] == "true"
     assert 'export UV_NATIVE_TLS="${UV_NATIVE_TLS:-true}"' in setup
     assert "python -m rehearsal.network" in setup
     assert "exit 1" in setup
     assert config["remoteEnv"]["VIRTUAL_ENV"] == "${containerWorkspaceFolder}/.venv"
     assert config["remoteEnv"]["PATH"].startswith("${containerWorkspaceFolder}/.venv/bin:")
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
+@pytest.mark.parametrize("install_status", [0, 23])
+def test_core_setup_never_runs_advanced_installers(tmp_path: Path, install_status: int) -> None:
+    """Exercise the actual default script without downloads, even when core setup fails."""
+    tools = tmp_path / ".local" / "bin"
+    tools.mkdir(parents=True)
+    log = tmp_path / "calls.log"
+    for name in ("uv", "npm", "node", "curl", "copilot"):
+        executable = tools / name
+        status = install_status if name == "uv" else 97
+        executable.write_text(
+            f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> "$SETUP_CALL_LOG"\nexit {status}\n',
+            encoding="utf-8",
+        )
+        executable.chmod(0o755)
+    result = subprocess.run(
+        ["bash", ".devcontainer/setup.sh"],
+        env={**os.environ, "HOME": str(tmp_path), "SETUP_CALL_LOG": str(log)},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == (0 if install_status == 0 else 1)
+    assert log.read_text(encoding="utf-8").splitlines() == [
+        "uv sync --locked --extra dev --extra web",
+    ]
+    if install_status:
+        assert "TLS verification remains enabled" in result.stderr
 
 
 def test_setup_does_not_hide_failures_or_request_day_two_secrets() -> None:

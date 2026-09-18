@@ -5,24 +5,30 @@
 **Time-box:** 60 minutes
 
 **Prerequisites:** Codespaces access, repository write access, cloud agent enabled by the
-organization, and the prepared vendor app used in Lab 05. No travel customizations are required.
+organization, and the prepared vendor reader using local synthetic samples. No Dataverse access,
+retired Lab 05, or travel customizations are required.
 
-Day 1 showed a prepared issue-to-PR result. Here you run the workflow yourself and distinguish
-the issue specification, agent session, code changes, review, and merge. Model choice is separate
+The preceding 09:00 block has a [15-minute CLI introduction](../../docs/TOOLS-PRACTICE.md), then
+a 15-minute cloud-agent demonstration. Those are separate from this lab's 60 minutes.
+
+Here you run an issue-to-PR workflow and distinguish the issue specification, agent session,
+code changes, review, and merge. No Monday feature tour or personal website is a prerequisite.
+New technical attendees use the facilitator's prepared synthetic app. Model choice is separate
 from choosing the agent or its execution environment. Official procedures are linked below.
 
-On Day 1 you directed work interactively. Here a remote development agent changes the business
+Earlier beginner work used interactive Chat. Here a remote development agent changes the business
 app in a branch and proposes a PR. Your browser-based Codespace is still where you inspect and
-test it. Keep the learner website and its research unchanged. Follow the presenter's first small
+test it. Keep any learner website and optional research unchanged. Follow the presenter's first small
 example, then choose your own bounded improvement to the vendor interface.
 
 ## Steps
 
 1. Create an issue using **Copilot agent task**.
 2. Set one goal, measurable acceptance criteria, and explicit files in scope.
-   A suggested task is adding an escaped **Gaps** column to the vendor-review table for both
-   local samples and Dataverse rows. Reuse the evaluator's gaps, do not recompute risk with a
-   model, and add focused mocked tests. Scope app changes to `app/` and its existing tests;
+   A suggested task is adding an escaped **Gaps** column to the local synthetic vendor-review
+   table. Reuse the evaluator's gaps, do not recompute risk with a model, and add focused tests.
+   Keep the optional Dataverse path compatible using mocked tests, without calling a service.
+   Scope app changes to `app/` and its existing tests;
    the source reports, evaluator rules, and travel customizations remain unchanged.
 3. Assign the issue to Copilot and watch the cloud session log.
 4. Open the draft pull request and review code, tests, and the agent summary.

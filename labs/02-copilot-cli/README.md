@@ -1,38 +1,34 @@
-# Lab 02: Make It Yours and Make It Remember
+# Lab 02: Make Your Website Useful
 
-**Objective:** Create a useful interactive feature, save its state in the browser, and verify
-what actually happens. You can extend the morning presentation or make a small website of your own.
+**Objective:** Add one useful interaction, personalise it, and check it yourself.
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Lab 00, the morning research/HTML block, and prepared Playwright MCP.
-Use browser-based VS Code in Codespaces. All terminal commands below run in the Codespace's Bash
-terminal. The folder name is retained for existing links; the short CLI introduction is now Lab 00.
+**Prerequisites:** Your working page and manual verification from Lab 01. Stay in the same
+browser-based Codespace. No CLI, MCP, or automated browser checks are required today.
+The folder name is retained for existing links; Copilot CLI is introduced in the **Day 3** technical track.
 
 ## Show, Try, Personalise
 
-The presenter alternates small demonstrations with your practice. Work on **one** website.
-Choose the morning brief plus saved notes/favourites, or a fictional holiday planner, reading
-tracker, recipe collection, or event planner. No login, external database, API keys, paid maps,
-or live booking integration is needed. Website code is a means to your useful outcome.
+The presenter shows one small change, then you try it and personalise it. Keep **one** website.
+For the shared weekend planner, add and remove fictional activities, then choose your own
+small improvement. No app login, API keys, booking service, or database.
 
 ### 1. Agree one feature (10 minutes)
 
 Tell Copilot your idea and audience. Limit the first version to one list, form, or selection.
 Use a request like this, changing the subject to your idea:
 
-> Extend my site/index.html with a list of questions to explore. Let me add a question, mark it
-> complete, and remove it. Keep my verified figures and source links unchanged. Use semantic
-> HTML, CSS, and JavaScript. Propose the smallest change before editing; no new framework.
+> In site/index.html, let me add a fictional activity and remove it. Reject an empty name.
+> Keep the rest of my page and checked figures unchanged. Propose the smallest change first.
 
-If starting another idea, keep the reviewed morning presentation as `site/presentation.html`
-and use `site/index.html` for the new entry point. Ask before replacing files. Watch the proposed
-change, stop an overbroad request, and inspect the actual diff in **Source Control**.
+Say your expected result aloud: "When I add Synthetic Picnic, it appears once in the list."
+**Check:** the plan changes your existing page, not the framework or another application.
 
 ### 2. Build and open it (15 minutes)
 
-Approve the small plan and let Copilot implement it. Review the form labels, empty state, and
-buttons. Use fictional entries and render entered text safely, not as raw HTML.
+Let Copilot implement the agreed change. Review the form labels, empty state, and buttons.
+Use fictional entries only. Ask it to display entered names as text, not executable HTML.
 
 If the morning server is still running, reuse it; saving static assets and refreshing is enough.
 Otherwise run in the Codespace terminal:
@@ -45,64 +41,56 @@ Keep it running; use another terminal for commands. Open **Ports > 8000 > Open i
 If the port belongs to another process, use 8001 and forward it. Do not stop someone else's
 server. Keep visibility **Private**. A preview depends on a running Codespace; it is not deployed.
 
-### 3. Remember information (15 minutes)
+### 3. Try it yourself (15 minutes)
 
-> Save this list in localStorage under a unique key for this app. After a refresh, restore it.
-> Reject empty input, handle invalid saved JSON and unavailable storage, and show a useful
-> error without breaking the page. Never clear storage belonging to other sites or applications.
+| Try                       | Expected result                                           |
+| ------------------------- | --------------------------------------------------------- |
+| Add `Synthetic Picnic`    | It appears once in your list.                             |
+| Remove that item          | That item disappears; unrelated items stay.               |
+| Submit an empty name      | No empty item is added; the page explains what is needed. |
+| Use Tab and Enter         | You can reach and use the controls without a mouse.       |
+| Narrow the browser window | Text and buttons remain readable without overlapping.     |
 
-Manually add a fictional item, refresh, confirm it remains, remove it, and refresh again.
-Then change one thing about the appearance to suit your idea. Do not add real work notes or
-confidential data. localStorage is not encrypted secret storage or a shared team database.
+Record what actually happened in your brief. If a check fails, tell Copilot the expected
+and actual result, request a focused fix, and repeat that same check. Keeping data after a
+refresh is a separate extension; it is not a failure if you have not requested it.
 
-### 4. Verify with a browser (15 minutes)
+### 4. Make it yours (15 minutes)
 
-Use Playwright MCP in the same Codespace with this request:
-
-> Open http://localhost:8000 in your browser. Add a unique fictional item, refresh, and verify
-> it persists. Remove that item, refresh, and verify it is gone. Check keyboard access and a
-> narrow screen. Save screenshots under research/browser/. If a check fails, explain it, fix
-> the smallest problem, and repeat that check. Do not invent a defect to demonstrate a fix.
-
-Use your actual port. The automation browser has **separate** storage from your preview tab.
-An item entered by you will not automatically appear in Playwright. Its isolated session loses
-storage when closed; verify reload persistence within the same session. Screenshots and tool
-observations are not a saved CI test. If MCP is blocked, record that and perform the manual
-journey; do not call it an automated pass or make the MCP port public.
+Choose one change in wording, colour, arrangement, or a small extra interaction. Describe it
+in your own words. Inspect the change and repeat the add/remove checks so an improvement
+does not break an existing feature. Show a neighbour and ask what they found confusing.
 
 ### 5. Explain your result (5 minutes)
 
-Show a neighbour what it does and one request that improved it. In `site/brief.md`, record
-what you checked, any limitations, and how this could help your work. Ask Copilot to review
-its own claims against the diff and observed browser results.
+In `site/brief.md`, record what you checked, any limitations, and your next small improvement.
+Save the files. The next block repeats review, commit, and push; you can also do that now.
 
-**Done when:** your own HTML experience works, one meaningful interaction survives a refresh
-in the same browser, removal works after another refresh, and desktop/narrow-screen checks
-are recorded truthfully. You can explain why the preview and automation browser have different data.
+**Done when:** one meaningful interaction works, you made one personal improvement, and
+your manual checks and any remaining problems are recorded truthfully. Persistence is optional.
 
 ## When It Does Not Work
 
-| Symptom | Action |
-| --- | --- |
-| Blank or missing page | Confirm `site/index.html`, server terminal, and port; ask Copilot to inspect the exact error |
-| Data disappears after deployment | Different origin means different localStorage; repeat the check at the deployed URL |
-| Playwright cannot see your item | Its browser context is separate; create a fictional test item there |
-| Chart looks plausible but differs from facts | Stop and reconcile the source values before publishing |
-| Preview works but asset check fails | Keep only allowed website assets under `site/`; move PDFs/extracts to `research/` |
+| Symptom                             | Action                                                                                       |
+| ----------------------------------- | -------------------------------------------------------------------------------------------- |
+| Blank or missing page               | Confirm `site/index.html`, server terminal, and port; ask Copilot to inspect the exact error |
+| Data disappears after refresh       | Remembering data is optional; request it below when ready.                                   |
+| A number differs from the source    | Stop and reconcile the value and unit before sharing.                                        |
+| Preview works but asset check fails | Keep only allowed website assets under `site/`; move PDFs/extracts to `research/`            |
 
 ## Optional extras
 
-1. Add JSON export/import with input validation so fictional browser data can move to the deployed origin.
-2. Add a theme switch, sorting, or favourites without replacing verified content.
-3. Ask Copilot to turn the observed journey into a repeatable Playwright test. Running it once
-   does not automatically wire it into CI. Keep automation screenshots out of the published site.
-4. Try a bounded CLI request in the **Codespace terminal**, such as
-   `copilot -p "Read site/brief.md and suggest one usability question. Do not change files."`.
-   Do not enable blanket tool permissions; editor and CLI sessions are separate.
+1. **Remember my list.** Ask: "Remember my activities in this browser after a refresh. Show a
+   useful message if saving is unavailable. Do not store private information or clear other
+   apps' data." Add an item, refresh, confirm it remains, remove it, and refresh again.
+   The usual implementation is localStorage. It is not a shared database or secret storage;
+   a different browser or deployed URL has separate data. The helper checks invalid saved
+   data and unavailable storage; you do not need to learn JSON to try the feature.
+2. Add sorting, a theme switch, or favourites, then repeat your original checks.
+3. Ask for a smaller or clearer version of a control. Stop at one change before asking for more.
 
 ## Official References
 
-- [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices) and [CLI reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference).
-- [Playwright MCP](https://github.com/microsoft/playwright-mcp) and [browser testing](https://playwright.dev/docs/intro).
+- [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and [storage errors](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API).
 - [Forwarded ports](https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace), [reviewing changes](https://code.visualstudio.com/docs/agents/run/review-code-edits), and [whole-week topic map](../../docs/REFERENCES.md).

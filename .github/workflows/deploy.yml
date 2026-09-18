@@ -5,24 +5,24 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: Website for Day 1; separate vendor app for Days 2-5
+        description: Learner website or separate read-only vendor app
         type: choice
         options:
           - website
           - vendor
         default: website
       connect_dataverse:
-        description: Configure the prepared Dataverse connection for Lab 05
+        description: Optional post-workshop Dataverse connection; owner preparation required
         type: boolean
         default: false
       rehearsal_id:
         description: Optional correlation ID for an automated rehearsal
         type: string
-        default: ''
+        default: ""
       expected_sha:
         description: Optional exact commit required by an automated rehearsal
         type: string
-        default: ''
+        default: ""
 
 permissions:
   contents: read
@@ -121,7 +121,7 @@ jobs:
           IMAGE="$REGISTRY.azurecr.io/vendorapp/$APP:${{ github.sha }}"
           if az containerapp show -n "$APP" -g "$RESOURCE_GROUP" >/dev/null 2>&1; then
             az containerapp update -n "$APP" -g "$RESOURCE_GROUP" --image "$IMAGE" \
-              --set-env-vars "WORKSHOP_COMMIT=$GITHUB_SHA" --output none
+              --set-env-vars "WORKSHOP_COMMIT=$GITHUB_SHA" "WORKSHOP_ALLOW_WRITES=false" --output none
           else
             az containerapp create \
               -n "$APP" -g "$RESOURCE_GROUP" \
@@ -130,7 +130,7 @@ jobs:
               --target-port 8000 \
               --ingress external \
               --registry-server "$REGISTRY.azurecr.io" \
-              --env-vars "WORKSHOP_COMMIT=$GITHUB_SHA" \
+              --env-vars "WORKSHOP_COMMIT=$GITHUB_SHA" "WORKSHOP_ALLOW_WRITES=false" \
               --min-replicas 0 --max-replicas 1 --output none
           fi
 
@@ -141,7 +141,7 @@ jobs:
             --remove-env-vars DATAVERSE_URL DATAVERSE_CLIENT_ID DATAVERSE_TENANT_ID DATAVERSE_CLIENT_SECRET \
             --output none
 
-      - name: Configure Dataverse for Lab 05
+      - name: Configure the optional post-workshop Dataverse connection
         if: ${{ env.DEPLOY_TARGET == 'vendor' && inputs.connect_dataverse }}
         env:
           APP: ${{ steps.config.outputs.appName }}

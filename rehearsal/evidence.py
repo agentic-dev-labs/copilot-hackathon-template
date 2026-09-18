@@ -19,7 +19,7 @@ def now() -> str:
 
 
 def manifest() -> list[dict]:
-    """Load the required live finish conditions in workshop order."""
+    """Load core conditions and separately labelled optional extensions in workshop order."""
     return json.loads(MANIFEST.read_text(encoding="utf-8"))["labs"]
 
 
@@ -44,7 +44,7 @@ def initialize(repository: str) -> dict:
         "labs": {
             lab["id"]: {
                 key: {"status": "pending", "evidence": [], "note": ""}
-                for key in lab["checks"]
+                for key in lab["checks"] | lab.get("optional_checks", {})
             } for lab in manifest()
         },
     }
@@ -72,31 +72,35 @@ def record(
 ) -> None:
     """Require an explicit observation and a source for every passing condition."""
     expected = next((lab for lab in manifest() if lab["id"] == lab_id), None)
-    if expected is None or check not in expected["checks"]:
-        raise ValueError("Unknown lab or finish condition; use summary to see the required checks")
+    if expected is None or check not in expected["checks"] | expected.get("optional_checks", {}):
+        raise ValueError("Unknown lab or finish condition; use summary to see core and optional checks")
     if status not in STATUSES or not note.strip():
         raise ValueError("Supply a valid status and a short expected-versus-observed note")
     if status == "passed" and (not observed or not evidence):
         raise ValueError("Passing requires --observed and at least one evidence reference")
     for reference in evidence:
         validate_reference(reference)
-    ledger["labs"][lab_id][check] = {
+    ledger.setdefault("labs", {}).setdefault(lab_id, {})[check] = {
         "status": status, "evidence": evidence, "note": note,
         "recorded_at": now(), "revision": git_state(),
         "observation_attested": observed,
     }
 
 
+def check_status(ledger: dict, lab_id: str, key: str) -> str:
+    """Apply the same evidence requirement to both core and optional observations."""
+    entry = ledger.get("labs", {}).get(lab_id, {}).get(key, {})
+    status = entry.get("status", "pending")
+    if status not in STATUSES or (
+        status == "passed" and not (entry.get("evidence") and entry.get("observation_attested"))
+    ):
+        return "pending"
+    return status
+
+
 def lab_status(ledger: dict, lab: dict) -> str:
-    """Missing evidence remains pending even if someone removed a ledger entry."""
-    entries = ledger.get("labs", {}).get(lab["id"], {})
-    statuses = []
-    for key in lab["checks"]:
-        entry = entries.get(key, {})
-        status = entry.get("status", "pending")
-        if status == "passed" and not (entry.get("evidence") and entry.get("observation_attested")):
-            status = "pending"
-        statuses.append(status)
+    """Only manifest-defined core checks gate completion; missing entries stay pending."""
+    statuses = [check_status(ledger, lab["id"], key) for key in lab["checks"]]
     for status in ("failed", "blocked", "pending"):
         if status in statuses:
             return status
@@ -109,16 +113,20 @@ def render_summary(ledger: dict) -> str:
         "# Workshop Rehearsal Evidence", "", f"Repository: {ledger['repository']}", "",
         "Live statuses are recorded observations, not independent proof supplied by this script.",
         "Deterministic test results do not automatically pass any live condition.", "",
-        "| Lab | Status | Required Evidence Still Outstanding |", "|---|---|---|",
+        "| Lab / Session | Status | Required Evidence Still Outstanding |", "|---|---|---|",
     ]
     for lab in manifest():
-        entries = ledger.get("labs", {}).get(lab["id"], {})
-        missing = [key for key in lab["checks"] if not (
-            entries.get(key, {}).get("status") == "passed"
-            and entries.get(key, {}).get("observation_attested")
-            and entries.get(key, {}).get("evidence")
-        )]
+        missing = [key for key in lab["checks"] if check_status(ledger, lab["id"], key) != "passed"]
         lines.append(f"| {lab['id']}: {lab['title']} | {lab_status(ledger, lab)} | {', '.join(missing) or 'None'} |")
+    lines.extend([
+        "", "## Optional Extensions", "",
+        "These observations never substitute for core checks or block core completion.",
+        "Pending means not observed, not a pass or an installation claim.", "",
+        "| Lab or Session / Check | Status |", "|---|---|",
+    ])
+    for lab in manifest():
+        for key in lab.get("optional_checks", {}):
+            lines.append(f"| {lab['id']} / {key} | {check_status(ledger, lab['id'], key)} |")
     return "\n".join(lines) + "\n"
 
 
@@ -163,7 +171,7 @@ def main() -> int:
     create = commands.add_parser("init")
     create.add_argument("--repository", required=True)
     add = commands.add_parser("record")
-    add.add_argument("--lab", required=True)
+    add.add_argument("--lab", required=True, help="Manifest lab or session ID, including day-2")
     add.add_argument("--check", required=True)
     add.add_argument("--status", choices=STATUSES, required=True)
     add.add_argument("--evidence", action="append", default=[])

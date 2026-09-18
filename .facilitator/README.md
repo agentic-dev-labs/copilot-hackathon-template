@@ -7,15 +7,17 @@ No passwords, tokens, or service credentials belong here.
 
 ## Documents
 
-- [RUN-OF-SHOW.md](RUN-OF-SHOW.md): historical presenter script, superseded on 16 September 2026.
+- [RUN-OF-SHOW.md](RUN-OF-SHOW.md): historical presenter script, superseded by the 18 September meeting refit.
 - [ENGAGEMENT-BRIEF.md](ENGAGEMENT-BRIEF.md): stakeholder context and internal planning history.
 - [Coverage and official references](../docs/REFERENCES.md): attendee-safe lookup guide for every feature family and daily optional tasks.
 
-The current [facilitator guide](../docs/FACILITATOR.md) and [agenda](../docs/AGENDA.md) introduce
-everyday AI research, skills, HTML presentations, and learner websites on Day 1. Days 2-5 retain
-the separate vendor/Dataverse case. All attendee work stays in Codespaces. The historical run
-sheet and brief retain prior planning and quotations, not current procedures. Keep prepared
-fallbacks labelled and the published clock times unchanged.
+The current [facilitator guide](../docs/FACILITATOR.md) and [agenda](../docs/AGENDA.md) start with
+concepts, Chat, a shared first website, manual checks, and saved work. Tuesday is supported own-idea
+building after conceptual overviews. Tools and engineering depth belong to Days 3-5; Dataverse
+setup knowledge is preserved in the attendee-safe [post-workshop reference](../post-workshop/dataverse/README.md).
+That folder is not a copy of these private preparation notes. All attendee work stays in Codespaces.
+The historical run sheet and brief retain prior planning and quotations, not current procedures.
+Keep prepared fallbacks labelled and the published day boundaries unchanged.
 
 Existing confidentiality labels remain applicable; do not redistribute the material
 outside the approved repository audience. Docker builds exclude this entire folder.

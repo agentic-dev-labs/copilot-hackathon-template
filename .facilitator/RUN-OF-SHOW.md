@@ -1,11 +1,13 @@
 # Historical Run of Show — Facilitator Only
 
-> **Superseded delivery script, 16 September 2026.** Retained as historical preparation, not
+> **Superseded delivery script, 18 September 2026.** Retained as historical preparation, not
 > current attendee instructions. Use [the current facilitator guide](../docs/FACILITATOR.md),
-> [agenda](../docs/AGENDA.md), and labs. Day 1 now uses public annual-report research, reviewed
-> skills, an HTML brief, and a learner-selected website with localStorage and its own deployment.
-> All five days are Codespaces-only. The travel-first/built-in-browser-only talk tracks below
-> are not current requirements. The historical clock times still match the unchanged timetable.
+> [agenda](../docs/AGENDA.md), and labs. Day 1 now starts with concepts, Chat, a first website,
+> manual checks, and saved work. Tuesday is own-idea building; CLI and browser tools begin Wednesday. Storage,
+> publication, research, and presentations are not Monday completion gates. All five days are
+> Codespaces-only. The travel-first/built-in-browser-only talk tracks and historical sub-blocks
+> below are not current requirements. The former Dataverse lab is preserved in the post-workshop
+> reference; Tuesday's required integration/tools blocks have been removed with approval.
 
 > **Facilitator preparation material.** Temporarily versioned in `.facilitator/` with the
 > repository owner's explicit disclosure approval on 2026-09-09. The folder name does not

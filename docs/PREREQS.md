@@ -4,7 +4,8 @@ Complete and dry-run these items before Monday 26 October 2026.
 
 All attendee exercises use browser-based Codespaces and its Linux/Bash terminal on all five days.
 No local VS Code, PowerShell, Node, Python, Docker, browser extension, or Azure login is required.
-The goal is AI enablement for business work: research, communication, planning, and small tools.
+The beginner goal is to describe, build, check, and save a small website. Research, presentations,
+and additional integrations remain optional extensions, not first-day prerequisites.
 The presenter prepares advanced cloud-agent, managed-plugin, and automation examples separately.
 Use the [coverage guide](REFERENCES.md) to see required labs versus optional demonstrations.
 GitHub Copilot access does not automatically provide Microsoft 365 Copilot or Power Platform access.
@@ -13,7 +14,8 @@ The facilitator can run the [automated rehearsal](../rehearsal/README.md) in a d
 before delivery. Its network doctor checks artifact downloads and a fresh locked installation;
 its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 
-- [ ] Collect attendee GitHub usernames: `[Confirm with facilitator]`.
+- [ ] Collect final attendee GitHub usernames and coordinate approved invitations in the week
+      before the event. Use a small approved pilot group for earlier testing; no bulk invite is implied here.
 - [ ] Confirm those accounts may join an external GitHub organization.
 - [ ] Assign a GitHub Copilot seat to every attendee.
 - [ ] Grant each learner or pair write access to their assigned, approved note-free repository.
@@ -21,35 +23,56 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm package/container endpoints are reachable from Codespaces, including public PyPI artifact hosts. Do not disable TLS checks.
 - [ ] Confirm `github.com` is reachable from the corporate network.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
-- [ ] Confirm browser authentication flows for GitHub CLI and remote MCP are allowed.
-- [ ] Confirm Copilot CLI sign-in separately from GitHub CLI sign-in; a preinstalled command is not an authenticated session.
-- [ ] Rehearse the model picker, stop/review/recovery, and a simple CLI turn in browser-based Codespaces.
-- [ ] Complete [.devcontainer setup](../.devcontainer/README.md): app lock, isolated document tools,
-      locked Playwright MCP/browser, and a real headless launch. No tools are installed on the laptop.
-- [ ] Let learners add/trust the two workspace MCP connections using Lab 01. Test actual browser
-      navigation/download and MarkItDown conversion in that client, not only package installation.
-- [ ] Check the [official report archive and prepared facts](RESEARCH.md). Use public-source
-      material only; no login, visitor survey, confidential data, or CAPTCHA bypass.
-- [ ] Verify the portable visual-brief skill and one approved community-skill task in Codespaces.
-      Presenter-local skills, desktop file paths, and unsupported canvas extensions are not inherited.
-- [ ] Verify skill/MCP discovery separately in VS Code Web and CLI; conversation and browser state do not transfer.
-- [ ] Check CLI sandbox/local-network prerequisites in the exact Codespace. Successful
-      package downloads do not prove agent access to localhost; do not bypass enforced policy.
-- [ ] Assign team repositories and unique workshop labels/app names: `[Confirm with facilitator]`.
+- [ ] Complete the **core-only** [.devcontainer setup](../.devcontainer/README.md) in a fresh
+      Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
+- [ ] Rehearse Chat, stop/review, one preview command, and manual checks in browser-based Codespaces.
+- [ ] Assign repositories, working branches, and unique labels in `config.json` before class.
+      Confirm review rules and the first UI-based save/commit/push without bypassing protections.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
-- [ ] Rehearse private Ports previews and the **website** target, including localStorage at each
-      origin, a fresh deployed commit, and no uploaded PDFs, source extracts, or private notes.
+- [ ] Rehearse private Ports previews. Prepare optional assisted **website** publication separately;
+      no public URL or localStorage extension is needed to finish Monday.
 - [ ] Check capacity/cost for expected concurrent Codespace starts and builds; do not assume one
-      successful rehearsal proves a 50-person start. Assign floor helpers and a labelled fallback.
+      successful rehearsal proves a 40-45-person start. Confirm the final count, helpers, and a labelled fallback.
+- [ ] Run the novice pilot in [FACILITATOR.md](FACILITATOR.md), compare the official orientation
+      screenshots with the actual UI, and record time/help needed separately from test results.
+
+## Before Tuesday
+
+- [ ] Confirm David's 09:00-09:30 overview and Jackie's 09:30-10:30 conceptual Power Platform
+      session. Attendees are not asked to configure databases, connectors, or the internal marketplace.
+- [ ] Collect brief ideas with examples and an explicit "no idea yet" option. Request no real records
+      or private spreadsheets. Prepare suitable approved repositories or reuse the Monday project.
+- [ ] Rehearse [own-idea building](DAY-2-BUILD.md), manual checks, save/push, and handover questions.
+      No live Dataverse, mandatory CLI/MCP session, or public deployment is required to finish.
+- [ ] Print [the quick reference](QUICK-REFERENCE.md), confirm table power/screen visibility,
+      and agree helper coverage. Use selected volunteers rather than a full-room round-robin.
+- [ ] Resolve the reported 09:00-16:00 invitation versus this repository's 09:00-15:00 schedule
+      with the organisers; do not silently change hours or book meetings.
+- [ ] Keep Codespaces-only work. A corporate environment transition requires separate approval,
+      verified access, and saved work. Do not remove training membership needed for later sessions.
 
 ## Days 3-5 Access
 
+- [ ] Complete `bash .devcontainer/setup.sh cli` and `bash .devcontainer/setup.sh browser` in the
+      intended Codespaces before Day 3. Do not install research tools just to use Playwright.
+- [ ] Preflight Copilot CLI sign-in separately from editor/GitHub CLI sign-in with each learner's
+      approved identity. Never collect passwords or tokens. Installed is not authenticated.
+- [ ] Prepare the workspace Playwright connection, then test trust/discovery and an actual call
+      in VS Code Web. Follow the existing demonstration blocks in [tools practice](TOOLS-PRACTICE.md).
+- [ ] Verify CLI sandbox/local-network prerequisites; package downloads alone prove neither.
+      Do not bypass policy. Browser and CLI sessions do not share chat, cookies, or saved entries.
 - [ ] Enable the cloud agent, review branch requirements, and rehearse one issue-to-PR task.
 - [ ] Confirm automations are enabled for private/internal repositories and disable rehearsal triggers afterward.
 - [ ] Permit the remote GitHub MCP server and test its read-only tools and browser authentication.
 - [ ] Keep all work in Codespaces; corporate handover is planning, not a local-workstation exercise.
+- [ ] Prepare the local-sample vendor reader for technical attendees without a personal site.
+      Dataverse credentials and a completed former Lab 05 are not required.
+- [ ] Verify the selected everyday-work skill's complete files, licence, Linux dependencies, and
+      actual invocation before Friday. Presenter-local skills do not transfer to learners.
+- [ ] Run a saved browser assertion check and verify release evidence for Day 4. Do not claim a
+      browser CI check unless the workflow actually invokes it.
 
-## Presenter-only capabilities
+## Optional Examples
 
 - [ ] Prepare a Space containing only synthetic training sources, a non-code summary/table/diagram, a reviewed PR, and a completed automation.
 - [ ] Prepare a small public-source visual brief and a synthetic interactive site as labelled demonstrations.
@@ -57,12 +80,16 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
       promise a dedicated presentation generator was found in Awesome Copilot. Use the prepared skill.
 - [ ] Optional Day 5: demonstrate managed AttractionsAgent origin/version and actual invocation;
       missing private-source access is not a Day 1 blocker. Do not duplicate the specialist locally.
-- [ ] Explain that Lab 08 deploys **site/**, while Day 2 uses the separate **vendor** target.
+- [ ] Explain that optional Lab 08 publication deploys **site/**. The technical track can instead
+      release the separate **vendor** reader with local samples and **connect_dataverse** unchecked.
 - [ ] Inspect the available model/Auto and usage controls. Do not pin the lesson to a particular model or promise identical reasoning options in every client.
 - [ ] Test stop/steer/resume and checkpoint restoration on disposable changes. Keep a Git baseline for recovery.
 - [ ] Keep specialist SDK/BYOK, other IDEs, integrations, and administration as reference-only unless separately rehearsed and approved.
 - [ ] Keep labelled prepared results for blocked tools. Attendees add connections, not heavy runtime installations.
-- [ ] Agree Power Platform environment and connector access with the guest presenter before Day 2.
+- [ ] Only for the optional research extension, prepare `bash .devcontainer/setup.sh research`,
+      verify MarkItDown, inspect the [public archive and prepared facts](RESEARCH.md), and test
+      visual-brief without replacing an existing site. No PDF archive or presentation is a Monday gate.
+- [ ] Any Power Platform demonstration access belongs to the guest presenter, not attendee setup.
 - [ ] Agree work retention and access cleanup before the event; never delete a participant's personal GitHub account.
 
 ## Azure training target
@@ -81,27 +108,12 @@ These are the prepared training resource names, not a live health check. Verify 
 - [ ] Verify the deployment identity can build in the registry and create/update apps, and that Container Apps can pull the private image. Do not expose registry credentials to attendees.
 - [ ] Use the approved administrator workflow to manage secrets; no credentials are created by `scripts/create_attendee_repos.py`.
 
-## Dataverse training target
+## Post-Workshop Dataverse Work
 
-|                       |                                                                                         |
-| --------------------- | --------------------------------------------------------------------------------------- |
-| Environment           | Hackathon Dataverse (Developer SKU)                                                     |
-| `DATAVERSE_URL` value | `https://org0ef69385.crm.dynamics.com` (origin only)                                    |
-| Web API               | `https://org0ef69385.crm.dynamics.com/api/data/v9.2`                                    |
-| Tables                | `cr522_vendorreviews`, `cr522_controlfindings`                                          |
-| Exercise grouping     | `cr522_attendee` filters by label; this is not row-level authorization                  |
-| App identity          | `nn-hackathon-dataverse`; verify its application user and approved security role        |
-| Seed data             | Three sample vendor rows per label; `controlfindings` is an unpopulated extension table |
-
-- [ ] Supply `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, and `DATAVERSE_CLIENT_SECRET` as **Codespaces** secrets for Lab 05. Names alone in a devcontainer do not provision values.
-- [ ] Separately configure **Actions variables** `DATAVERSE_URL`, `DATAVERSE_CLIENT_ID`, `DATAVERSE_TENANT_ID`, plus the **Actions secret** `DATAVERSE_CLIENT_SECRET`. The deployment workflow does not read Codespaces secrets.
-- [ ] Verify the application user and security role permit the required synthetic-table operations. A 403 can mean a missing application user or insufficient permissions.
-- [ ] Provision with `python scripts/dataverse_provision.py` as the facilitator. It checks before creation and stops on permission errors; it does not repair arbitrary schema drift or rebuild tables.
-- [ ] Set `DATAVERSE_APP_ID` and an explicit approved `DATAVERSE_ROLE` before running `scripts/dataverse_app_user.py`. The helper never assumes an administrator role.
-- [ ] Seed with `python scripts/dataverse_seed.py` using each assigned label, then deploy the
-      **vendor** target with **connect_dataverse** enabled and verify the page source before Day 2.
-      The website target refuses Dataverse and must not receive these credentials.
-- [ ] Keep access scoped to the synthetic training environment. A shared application identity and public demo URLs are not the design for real vendor material.
+The former training target, configuration knowledge, schema/identity/seed scripts, verification,
+and reusable prompts now live in [the preserved technical reference](../post-workshop/dataverse/README.md).
+Do not provision them as a prerequisite for this workshop. Any later session needs explicit
+technical-owner approval and a separate non-production target before real-work adoption.
 
 ## Official References
 

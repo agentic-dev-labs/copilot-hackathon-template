@@ -7,7 +7,14 @@
 **Prerequisites:** The prepared vendor app, synthetic reports, and Lab 03's review workflow.
 All editing and CLI work uses browser-based Codespaces and its Bash terminal.
 
-On Day 1 you discovered and used skills. Now author one custom role and a reusable workflow:
+The separate **09:00-09:30** opening introduces skill discovery. Inspect one facilitator-reviewed
+everyday-work example from [Awesome Copilot](https://awesome-copilot.github.com/) using the
+[candidate guide](../../docs/RESEARCH.md#find-a-skill-for-your-work). Read its complete folder,
+licence, dependencies, and permissions; try a fictional input only after Linux/client preflight.
+Otherwise bookmark it and label the missing invocation, rather than installing during the lab.
+The opening is not part of this lab's 90 minutes, and no Monday skill use is assumed.
+
+Now author one custom role and a reusable workflow:
 an explicit JSON contract, missing-evidence checks, and ordered handoffs that preserve deterministic
 business results. No prior travel agent, managed plugin, or local workstation is required.
 Watch a small example, choose one business question, and verify both present and absent evidence.

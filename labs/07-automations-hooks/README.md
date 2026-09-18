@@ -11,7 +11,7 @@ This lab teaches the mechanisms; it does not implement a production approval or 
 See [automations](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-automations)
 and the [hook reference](https://docs.github.com/en/copilot/reference/hooks-reference) for current availability and behavior.
 
-Monday you used interactive tools and skills; they did not schedule a task. Today an event
+Wednesday's CLI and browser-tool tasks were interactive; they did not schedule a task. Today an event
 starts work and hooks observe or constrain selected calls. Keep this exercise on synthetic
 vendor reports, not annual-report downloads or production systems. All commands run in the
 Codespace Bash terminal. Show and try one trigger, then one harmless hook, in the same time-box.
@@ -148,6 +148,47 @@ Copilot CLI. Copilot CLI also reads personal hooks from `~/.copilot/hooks/*.json
 
 Automations separate the trigger from the interactive session. Hooks record selected activity
 and can deny selected calls; repository rules and operational controls remain separate.
+
+## Separate Readiness Block: Save a Browser Check
+
+This is the **11:15-12:30** coached block in the agenda, following the 10:45 demonstration.
+It is not additional work inside Lab 07's 60-minute time-box. Use one already observed journey
+on your own website or the prepared synthetic vendor reader. A new technical attendee can use
+the reader without building a Monday website or connecting live Dataverse.
+
+1. **Agree and author a check (15 minutes).** Ask Copilot to create `scripts/check_browser.cjs`
+   using Node's assertion library and the already pinned Playwright package under
+   `.devcontainer/browser/node_modules/playwright`. No new test framework or package install.
+   Accept an explicit `CHECK_URL`, use headless Chromium with `chromiumSandbox: true` and its
+   installed executable, bound waits to ten seconds, and close the browser in `finally`.
+   Assert the expected heading and one real interaction, not just that navigation returned.
+   Use fresh fictional entries; do not assume Monday's browser data exists in this context.
+2. **Run and inspect (20 minutes).** With your preview server running, execute:
+
+   ```bash
+   CHECK_URL=http://localhost:8000 node scripts/check_browser.cjs
+   ```
+
+   Use the actual port. Run it twice and require repeatable results and a nonzero exit on a
+   failed assertion. Inspect the assertions against the page; a script that merely takes a
+   screenshot is not a test. Do not claim a tool observation as this saved script's result.
+
+3. **Review and release (25 minutes).** Review the generated script and app diff, run repository
+   tests/lint, and inspect CI for the tested commit. A saved browser script does not run in CI
+   until a workflow explicitly calls it with its server and dependencies prepared. Record
+   local-browser and CI coverage separately. Publish the intended website or vendor target
+   through the existing workflow, following Lab 08's helper checks; never enable public writes.
+   Choose one target and leave **connect_dataverse** unchecked. For the vendor reader, verify
+   the expected local synthetic source; it is not a failed Dataverse connection. A live database
+   integration belongs to the preserved post-workshop reference, not this release gate.
+4. **Record evidence (15 minutes).** Identify the actual commit, check exits, workflow run, and
+   verified endpoint. Repeat the meaningful interaction at that endpoint. Record pending or
+   blocked deployment work rather than substituting an older healthy revision. Note one gap
+   before a real rollout, and the owner of retention/cleanup.
+
+**Readiness checked when:** the saved browser check runs repeatably, its assertions match the
+intended behaviour, the selected deployment is verified, and unsupported claims or remaining
+gaps are explicit. No workshop result certifies a regulated production system.
 
 ## Optional extras
 

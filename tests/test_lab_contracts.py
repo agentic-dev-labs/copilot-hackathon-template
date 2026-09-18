@@ -8,15 +8,51 @@ from urllib.parse import unquote, urlsplit
 import yaml
 
 
+def active_lab_guides() -> list[Path]:
+    """Exclude the retired Lab 05 signpost from attendee exercise requirements."""
+    return [path for path in Path("labs").glob("*/README.md")
+            if path.parent.name != "05-dataverse-app"]
+
+
 def test_lab_timeboxes_match_the_agenda() -> None:
     """Optional exercises must not silently extend the published core blocks."""
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
     rows = re.findall(r"\| (\d\d):(\d\d)-(\d\d):(\d\d) \| Lab (\d\d):", agenda)
-    assert len(rows) == 9
+    assert {row[-1] for row in rows} == {"00", "01", "02", "08", "03", "04", "07", "06"}
+    assert len(rows) == 8
     for start_hour, start_minute, end_hour, end_minute, number in rows:
         minutes = (int(end_hour) - int(start_hour)) * 60 + int(end_minute) - int(start_minute)
         lab = next(Path("labs").glob(f"{number}-*/README.md"))
         assert f"**Time-box:** {minutes} minutes" in lab.read_text(encoding="utf-8")
+
+
+def test_first_lab_requires_chat_not_terminal_setup() -> None:
+    """The beginner entry path must not silently reintroduce diagnostic commands."""
+    text = Path("labs/00-setup/README.md").read_text(encoding="utf-8")
+    assert "docs/START-HERE.md" in text
+    assert "```bash" not in text
+    assert "copilot --version" not in text
+    assert "gh auth status" not in text
+    assert "### 2. Ask Your First Question" in text
+    guide = Path("docs/START-HERE.md").read_text(encoding="utf-8")
+    assert "09:00-09:30: concepts only. No terminal commands." in guide
+    assert "save -> review -> commit -> push" in guide
+    assert "official documentation screenshots" in guide
+    assert "Expect -> try -> compare -> improve -> repeat" in guide
+
+
+def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
+    """Tool configuration, persistence and publication must not gate a first website."""
+    first_page = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
+    interaction = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
+    sharing = Path("labs/08-deploy/README.md").read_text(encoding="utf-8")
+    assert "uv run uvicorn app.site:app --host 0.0.0.0 --port 8000" in first_page
+    assert "MCP: Add Server" not in first_page
+    assert "USD 13 per person" in first_page
+    assert "localStorage" not in interaction.split("## Optional extras")[0]
+    assert "Persistence is optional" in interaction
+    assert "A deployment or saved browser state is not required" in sharing
+    assert "## Optional extras" in sharing
 
 
 def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
@@ -36,14 +72,18 @@ def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
 
 
 def test_private_run_sheet_matches_when_present() -> None:
-    """Validate the presenter notes while allowing their planned later removal."""
+    """Only active presenter notes claim to match the current timetable."""
     private_path = Path(".facilitator/RUN-OF-SHOW.md")
     if not private_path.exists():
         return
+    private = private_path.read_text(encoding="utf-8")
+    if "**Superseded delivery script" in private:
+        assert "../docs/AGENDA.md" in private
+        assert "../docs/FACILITATOR.md" in private
+        return
     pattern = r"\| (\d\d:\d\d)[-\u2013](\d\d:\d\d) \|"
     public = re.findall(pattern, Path("docs/AGENDA.md").read_text(encoding="utf-8"))
-    private = re.findall(pattern, private_path.read_text(encoding="utf-8"))
-    assert public == private
+    assert public == re.findall(pattern, private)
 
 
 def test_customization_examples_parse() -> None:
@@ -94,7 +134,7 @@ def test_authoring_labs_do_not_embed_finished_customizations() -> None:
 
 def test_labs_have_completion_checks_and_optional_work() -> None:
     """Attendees need an observable finish and a separate early-finisher path."""
-    for path in Path("labs").glob("*/README.md"):
+    for path in active_lab_guides():
         text = path.read_text(encoding="utf-8")
         assert "**Done when:**" in text, path
         assert "## Optional extras" in text, path
@@ -104,7 +144,7 @@ def test_labs_link_official_references_and_coverage_guide() -> None:
     """Each lab needs usable lookup links alongside its required and optional tasks."""
     official_hosts = {"docs.github.com", "code.visualstudio.com", "learn.microsoft.com"}
     guide = Path("docs/REFERENCES.md").resolve()
-    for path in Path("labs").glob("*/README.md"):
+    for path in active_lab_guides():
         text = path.read_text(encoding="utf-8")
         assert "## Official References\n" in text, path
         section = text.split("## Official References\n", 1)[1]
@@ -119,7 +159,7 @@ def test_labs_link_official_references_and_coverage_guide() -> None:
 def test_local_document_links_resolve() -> None:
     """Check the simple relative links used by the workshop documentation."""
     files = [Path("README.md"), Path("AGENTS.md")]
-    for directory in ("docs", "labs", ".github", "src", ".facilitator", "rehearsal", "travel"):
+    for directory in ("docs", "labs", ".github", "src", ".facilitator", "rehearsal", "travel", "post-workshop"):
         files.extend(
             path for path in Path(directory).rglob("*.md")
             if not {"results", "output"}.intersection(path.parts)
@@ -130,6 +170,82 @@ def test_local_document_links_resolve() -> None:
             if link.scheme or link.netloc or not link.path:
                 continue
             assert (path.parent / unquote(link.path)).exists(), f"{path}: {target}"
+
+
+def test_post_workshop_reference_preserves_the_technical_path() -> None:
+    """Removing a beginner lab must not discard the maintained implementation or its safeguards."""
+    guide = Path("post-workshop/dataverse/README.md").read_text(encoding="utf-8")
+    prompts = Path("post-workshop/dataverse/PROMPTS.md").read_text(encoding="utf-8")
+    assert "not an attendee lab or a production-ready" in guide
+    assert "WORKSHOP_ALLOW_WRITES" in guide
+    assert "not authentication" in guide
+    assert "not tenant isolation or authorization" in guide
+    assert "Do not create a second fork" in guide
+    assert "Do not edit files, call live services" in prompts
+    assert "Do not delete personal accounts" in prompts
+    assert "/post-workshop/" in Path(".dockerignore").read_text(encoding="utf-8").splitlines()
+    for path in (
+        "app/main.py", "src/vendor_assurance/dataverse.py", "scripts/dataverse_provision.py",
+        "scripts/dataverse_app_user.py", "scripts/dataverse_seed.py", ".github/workflows/deploy.yml",
+    ):
+        assert Path(path).is_file()
+
+
+def test_tuesday_protects_own_idea_building() -> None:
+    """The meeting refit removes required integration and tooling tasks from beginner Day 2."""
+    agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
+    tuesday = agenda.split("## Day 2", 1)[1].split("## Day 3", 1)[0]
+    assert "09:00-09:30 | David:" in tuesday
+    assert "09:30-10:30 | Jackie:" in tuesday
+    assert "Lab 05:" not in tuesday
+    assert "Guided tools:" not in tuesday
+    assert "DAY-2-BUILD.md" in tuesday
+    guide = Path("docs/DAY-2-BUILD.md").read_text(encoding="utf-8")
+    assert "No database, login, API keys" in guide
+    assert "not completion gates" in guide
+    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
+    assert "Open Preview" in quick_reference
+    assert "Do not delete accounts" in quick_reference
+
+
+def test_lab_guides_have_one_current_title() -> None:
+    """Catch accidentally retained old introductions alongside replacement instructions."""
+    for path in Path("labs").glob("*/README.md"):
+        assert len(re.findall(r"^# ", path.read_text(encoding="utf-8"), re.MULTILINE)) == 1, path
+    retired = Path("labs/05-dataverse-app/README.md").read_text(encoding="utf-8")
+    assert "Status: retired" in retired
+    assert "post-workshop/dataverse/README.md" in retired
+    assert "docs/DAY-2-BUILD.md" in retired
+    assert "**Time-box:**" not in retired
+    assert "DATAVERSE_CLIENT_SECRET" not in retired
+
+
+def test_tools_introduction_is_scheduled_in_the_technical_track() -> None:
+    """Useful tools are retained without consuming Tuesday's own-idea build time."""
+    tools = Path("docs/TOOLS-PRACTICE.md").read_text(encoding="utf-8")
+    assert "Day 3" in tools
+    assert "09:00-09:15" in tools
+    assert "10:45-11:15" in tools
+    assert "No Dataverse connection" in tools
+    old_link = Path("docs/DAY-2-TOOLS.md").read_text(encoding="utf-8")
+    assert "TOOLS-PRACTICE.md" in old_link and "DAY-2-BUILD.md" in old_link
+    assert "**Time-box:**" not in old_link
+
+
+def test_active_routes_do_not_send_learners_to_retired_guides() -> None:
+    """Compatibility signposts must not stay on the active learning path."""
+    paths = active_lab_guides() + [
+        Path("README.md"), Path("AGENTS.md"), Path("docs/AGENDA.md"),
+        Path("docs/START-HERE.md"), Path("docs/FACILITATOR.md"), Path("docs/REFERENCES.md"),
+        Path("docs/PREREQS.md"), Path("rehearsal/README.md"),
+        Path(".github/prompts/rehearse-workshop.prompt.md"),
+    ]
+    for path in paths:
+        text = path.read_text(encoding="utf-8")
+        assert "DAY-2-TOOLS.md" not in text, path
+        assert "labs/05-dataverse-app/README.md" not in text, path
+    prerequisites = Path("docs/PREREQS.md").read_text(encoding="utf-8")
+    assert "DATAVERSE_CLIENT_SECRET" not in prerequisites
 
 
 def test_research_links_use_completed_reporting_years() -> None:

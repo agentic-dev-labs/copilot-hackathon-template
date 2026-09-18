@@ -7,6 +7,8 @@ description: Create or improve a four-to-five-slide HTML presentation, visual an
 
 This is a prepared workshop skill, not a finished learner presentation or an installed
 Awesome Copilot item. Help the user communicate a useful answer, not learn a frontend framework.
+It is an optional extension, not part of Monday's required first-website path. Use it only
+when a presentation or visual brief is requested; do not replace an ordinary app-building task.
 
 ## Inputs and Boundaries
 
@@ -25,7 +27,9 @@ Verify calculations with code and source numbers with the originals. A plausible
 
 1. Propose four/five short slide titles and one message for each. Ask the user to approve the
    narrative before generating. They may choose growth, investment, sustainability, or onboarding.
-2. Create the approved presentation at `site/index.html`, with relative local assets. Use
+2. Agree the destination before writing. Prefer `site/presentation.html` when the learner
+   already has a website; use `site/index.html` only for a new site or explicit replacement. Use
+   relative local assets and
    semantic HTML/CSS/JavaScript and no framework build, authentication, or cloud connection.
    Do not replace an existing page without asking; preserve the user's content when improving it.
 3. Include one source-backed chart, its accessible data table, and clickable source references.
@@ -37,7 +41,8 @@ Verify calculations with code and source numbers with the originals. A plausible
 5. Open the preview using `uv run uvicorn app.site:app --host 0.0.0.0 --port 8000` in the
    Codespace terminal. Leave it running and tell the user to use **Ports > Open in Browser**.
    If another process uses that port, choose 8001 and forward that port. Laptop localhost is
-   not the Codespace. Do not make the preview or an MCP/debug port public.
+   not the Codespace. Open the agreed page path, such as `/presentation.html`, at the forwarded
+   origin. Do not make the preview or an MCP/debug port public.
 6. Use the prepared Playwright MCP against localhost inside the same Codespace. Check every
    slide, controls, chart values, source links, and layout at desktop and narrow widths.
    Capture screenshots under `research/browser/`. Compare every plotted value with the facts
@@ -46,7 +51,7 @@ Verify calculations with code and source numbers with the originals. A plausible
 7. Ask for one useful improvement and apply it without altering verified values. Do not deploy,
    commit, email, publish to Pages, or copy to a Windows/OneDrive path as part of this skill.
 
-## Afternoon Extension
+## Optional Interaction
 
 When asked, add a notes list, favourites, or another bounded interaction with localStorage.
 Handle empty input, empty state, invalid saved JSON, and storage failure without breaking the

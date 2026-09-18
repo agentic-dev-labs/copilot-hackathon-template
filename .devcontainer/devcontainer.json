@@ -14,12 +14,11 @@
     "storage": "32gb"
   },
   "onCreateCommand": {
-    "uv": "bash -o pipefail -c 'curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh'",
-    "copilot-cli": "bash -o pipefail -c 'curl -fsSL https://gh.io/copilot-install | bash'"
+    "uv": "bash -o pipefail -c 'curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh'"
   },
   "updateContentCommand": "bash .devcontainer/setup.sh",
   "postAttachCommand": {
-    "welcome": "printf '\\nOpen labs/00-setup/README.md: all commands run in this Codespace.\\nMCP connections are added and trusted during the guided exercise.\\n'"
+    "welcome": "printf '\\nOpen docs/START-HERE.md and follow the presenter.\\nCLI and browser tools are prepared separately for the Day 3 technical track.\\n'"
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {

@@ -3,79 +3,93 @@
   "labs": [
     {
       "id": "00",
-      "title": "Codespaces setup",
+      "title": "Foundations, files, Chat, and first saved note",
       "guide": "labs/00-setup/README.md",
       "tests": ["tests/test_devcontainer.py", "tests/test_app_config.py"],
       "checks": {
-        "fresh-install": "Codespaces network report includes a successful fresh-cache locked installation",
-        "access": "GitHub, Copilot CLI, and editor are authenticated with the intended account",
-        "workspace": "Unique synthetic label and reviewed site/brief.md created in browser-based Codespaces",
-        "cli-turn": "A real Copilot CLI request and refinement completed in the Codespace Bash terminal, separately from editor chat"
+        "fresh-install": "Fresh-cache locked core installation succeeds without installing CLI, Chromium, or research dependencies as a startup requirement",
+        "access": "GitHub and editor Chat work with the intended attendee account",
+        "orientation": "Concepts-only first block and labelled visual guide checked in browser-based Codespaces before terminal use",
+        "chat-turn": "A real editor Chat request and refinement completed without terminal setup",
+        "first-note": "Separate 10:00 block: learner created and corrected a brief, saved, reviewed, committed, pushed, and read back the same branch on GitHub"
       }
     },
     {
       "id": "01",
-      "title": "Public research, skill discovery, and visual brief",
+      "title": "First page and manual verification",
       "guide": "labs/01-vscode-agent/README.md",
       "tests": ["tests/test_lab_contracts.py"],
       "checks": {
-        "mcp-tools": "Prepared dependencies installed in a fresh Codespace and both private workspace MCP connections actually invoked",
+        "first-page": "Learner followed the shared fictional weekend-planner brief, then personalised it; no finished template, research, or tool-configuration prerequisite",
+        "preview": "One preview command introduced after Chat; actual private Ports preview opens the learner's page",
+        "manual-behaviour": "Coached 11:45 block: expected-versus-observed manual button check, with real fixes rechecked",
+        "source-check": "Coached 11:45 block: displayed figure, units, and calculation compared with the supplied source, not the model's confidence"
+      },
+      "optional_checks": {
+        "research-mcp": "Selected optional browser and document tools actually invoked; installation alone is insufficient",
         "browser-download": "Playwright inspected the official archive and at least one actual PDF download and reporting year; remaining years and blockers recorded truthfully",
         "conversion": "A real MarkItDown conversion inspected; complete file output retained and any CLI fallback or truncation distinguished from MCP success",
         "facts": "Comparable facts checked against original public sources with years, units, locations, calculations, and live/prepared labels",
-        "skill-discovery": "Awesome Copilot browsed, one candidate's complete files and dependencies inspected, and its use or access blocker recorded",
-        "visual-brief": "Prepared visual-brief skill invoked to create the learner's own HTML in the separately scheduled coached block; plotted values, navigation, and source references checked"
+        "visual-brief": "Optional visual-brief invoked with verified facts without overwriting the learner's site; charts, references, navigation, and layout checked"
       }
     },
     {
       "id": "02",
-      "title": "Personal website, browser storage, and verification",
+      "title": "Useful interaction and personal improvement",
       "guide": "labs/02-copilot-cli/README.md",
       "tests": ["tests/test_site.py"],
       "checks": {
-        "implementation": "Learner extended the visual brief or built a small personal website with one meaningful interaction, preserving verified content",
-        "storage": "Synthetic add, reload, persistence, remove, and reload journey observed within one browser context",
-        "browser": "Playwright checked the real site at desktop and narrow widths, recording screenshots and actual failures/fixes separately from manual checks",
-        "preview": "Learner opened the private Codespaces forwarded preview and explained localhost, per-origin storage, and separate automation browser state"
+        "implementation": "One meaningful interaction implemented in the existing page with fictional input and safe text handling",
+        "personalisation": "One learner-chosen improvement inspected against the actual diff and page",
+        "manual-checks": "Manual add/remove or equivalent journey, empty input, keyboard access, and narrow layout checked honestly",
+        "preview": "Learner reopened the private preview and recorded actual results and remaining limitations"
+      },
+      "optional_checks": {
+        "storage": "If selected, add/reload/present/remove/reload observed in one browser; corrupt or unavailable storage handled without clearing other apps' data"
       }
     },
     {
       "id": "08",
-      "title": "Publish the learner website",
+      "title": "Save, share, and keep building",
       "guide": "labs/08-deploy/README.md",
-      "tests": ["tests/test_workflows.py", "tests/test_app_config.py", "tests/test_site.py"],
+      "tests": [
+        "tests/test_workflows.py",
+        "tests/test_app_config.py",
+        "tests/test_site.py"
+      ],
       "checks": {
-        "publication-boundary": "Reviewed site assets exclude source reports, extracts, private notes, credentials, and development tools",
-        "reviewed-commit": "Exact tested commit was reviewed and pushed to the rehearsal repository",
+        "reviewed-files": "Selected changes and site assets exclude private material, credentials, full reports, and unrelated changes",
+        "reviewed-commit": "Reviewed work pushed and read back on the intended GitHub branch through the beginner workflow",
+        "checked-feature": "Private preview still works after the last improvement; learner explains an actual check and limitation",
+        "no-azure-login": "No attendee Azure login or credential creation used; publication is not required for Monday"
+      },
+      "optional_checks": {
         "actions": "Deploy workflow succeeded for that commit using the prepared runner identity",
         "endpoint": "Website-target artifact and fresh responses match the exact commit, label, entry-page bytes, and site fingerprint; no vendor-app substitution",
-        "deployed-storage": "The synthetic storage journey repeated at the deployment origin without assuming preview or Playwright state transfers",
-        "no-azure-login": "No attendee Azure login or credential creation was used"
+        "deployed-behaviour": "Chosen interaction verified at the actual new deployment URL, not just the health endpoint",
+        "deployed-storage": "Only if storage was selected, its journey repeated at the deployment origin without assuming preview state transfers"
       }
     },
     {
-      "id": "05",
-      "title": "Dataverse read and write app",
-      "guide": "labs/05-dataverse-app/README.md",
-      "tests": [
-        "tests/test_dataverse.py",
-        "tests/test_dataverse_scripts.py",
-        "tests/test_app_main.py"
-      ],
+      "id": "day-2",
+      "title": "Supported own-idea build and handover",
+      "guide": "docs/DAY-2-BUILD.md",
+      "tests": ["tests/test_lab_contracts.py", "tests/test_site.py"],
       "checks": {
-        "seed": "Separate vendor target and prepared Dataverse access verified; three fictional vendors seeded under the unique label without deleting custom rows",
-        "implementation": "Form, validated server-side POST, scoped filter, unassessed state, and mocked failure tests implemented",
-        "transport": "Redirect and credential boundaries checked with passing regression coverage before live service calls",
-        "deployed-journey": "Final exact-commit deployment shows Dataverse; browser submit, reload, and scoped filtering verified",
-        "no-azure-login": "Dataverse uses prepared environment credentials; no Azure CLI authentication fallback"
+        "idea-brief": "Participant chose an own idea or the default, described one user outcome and check, and used a prepared repository without overwriting Monday's work",
+        "prototype": "A bounded prototype or improved default works with fictional app-local content; no service integration or account migration was required",
+        "manual-journey": "Expected versus observed user journey, input handling, and one useful improvement checked manually",
+        "saved-work": "Reviewed changes committed, pushed, and read back from the intended GitHub branch",
+        "handover": "Working features and unresolved data/access/approval questions recorded for the technical owner; no training membership or personal account deleted"
       }
     },
     {
       "id": "03",
-      "title": "Cloud agent",
+      "title": "CLI introduction and cloud agent",
       "guide": "labs/03-cloud-agent/README.md",
       "tests": ["tests/test_workflows.py"],
       "checks": {
+        "cli-turn": "Separate 09:00-09:15 introduction: actual Codespaces Copilot CLI request and refinement, with independent authentication/context checked",
         "issue-session": "Focused synthetic issue assigned to the actual cloud agent with an inspected session",
         "iteration": "Precise PR correction requested and resulting changes inspected",
         "pr-tests": "Tests and checks passed on the actual PR commit, not an unrelated branch",
@@ -84,10 +98,12 @@
     },
     {
       "id": "04",
-      "title": "Remote GitHub MCP",
+      "title": "Prepared browser introduction and remote GitHub MCP",
       "guide": "labs/04-mcp/README.md",
       "tests": ["tests/test_lab_contracts.py"],
       "checks": {
+        "browser-tools": "Separate 10:45-11:15 introduction: prepared Playwright connection inspected, trusted, and actually invoked in editor Chat",
+        "browser-journey": "Existing personal page or local-sample vendor reader checked by Playwright and compared with a manual observation; no live database required",
         "configuration": "Authenticated remote GitHub MCP exposes only the intended read-only tools",
         "invocation": "Actual MCP call returned the rehearsal issue and matched its GitHub source",
         "cleanup": "Connection disabled if required by the agreed rehearsal policy"
@@ -95,15 +111,23 @@
     },
     {
       "id": "07",
-      "title": "Automations and hooks",
+      "title": "Automations, hooks, and adjacent readiness block",
       "guide": "labs/07-automations-hooks/README.md",
-      "tests": ["tests/test_audit_hook.py"],
+      "tests": [
+        "tests/test_audit_hook.py",
+        "tests/test_deployment_result.py",
+        "tests/test_site.py"
+      ],
       "checks": {
         "automation": "Matching issue event started the configured Copilot automation, not a manual substitute",
         "report-pr": "Automation produced an inspected generated-report PR with unchanged evaluator results",
         "live-hook": "Hook wiring loaded in a real CLI session and recorded metadata-only tool events",
         "deny": "Harmless exact-tool denial observed and compared with its direct helper test",
-        "cleanup": "Test automation disabled and temporary deny flag removed"
+        "cleanup": "Test automation disabled and temporary deny flag removed",
+        "repeatable-browser": "Separate 11:15 readiness block: saved assertion-based browser script ran twice; MCP observations and actual CI browser coverage distinguished",
+        "release-checks": "Reviewed final commit has actual test/lint results and inspected CI evidence",
+        "selected-release": "One approved website or local-sample vendor target deployed with Dataverse disabled; artifact and fresh responses match exact commit, label and intended source, plus website fingerprints when selected; public writes remain disabled",
+        "release-journey": "Meaningful feature checked at the actual deployment URL; optional storage and remaining rollout gaps recorded separately"
       }
     },
     {
@@ -116,6 +140,7 @@
         "tests/test_cli.py"
       ],
       "checks": {
+        "skill-review": "Separate 09:00 opening: one everyday-work skill's complete files, licence, dependencies and permissions reviewed; invocation or explicit bookmark/blocker distinguished",
         "discovery": "Authored agent and skill discovered and actually invoked",
         "missing-evidence": "Missing input and silent-source cases do not invent facts or evaluator JSON",
         "semantics": "Negative encryption, undefined retention, residency contradiction, and unstated SOC 2 counterexamples pass",

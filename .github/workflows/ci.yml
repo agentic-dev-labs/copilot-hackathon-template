@@ -53,6 +53,8 @@ jobs:
         with:
           version: "0.9.7"
       - name: Prepare Linux research tools and launch headless browser
-        run: bash .devcontainer/setup.sh
+        run: |
+          bash .devcontainer/setup.sh browser
+          bash .devcontainer/setup.sh research
       - name: Invoke both MCP servers with synthetic inputs
         run: .venv-research/bin/python scripts/check_workshop_mcp.py
