@@ -34,7 +34,8 @@ The presenter demonstrates the next action only when needed, then gives you time
 1. **Agree the first version (15 minutes).** Write the four answers above in your project brief.
    Ask Chat to propose a small plan using fictional examples and the existing project setup.
 2. **Build one page (30 minutes).** Ask for that version, inspect the files, and open the private
-   preview using the familiar prepared command and Ports link. Tell a helper if it does not open.
+   embedded Live Preview using the familiar command from the Palette. Save edits to refresh
+   beside Chat. Tell a helper if it does not open; use Lab 01's private fallback if needed.
 3. **Make one useful interaction (25 minutes).** Add a form, filter, or selection. Keep everything
    else unchanged. Compare your expected result with what you actually see.
 4. **Save a checkpoint (20 minutes).** Review, save, commit, push, and read back the same branch

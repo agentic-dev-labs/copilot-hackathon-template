@@ -1,11 +1,11 @@
 """Check the startup contract without requiring a container runtime."""
 
+import asyncio
 import json
 import os
-from pathlib import Path
-import asyncio
 import subprocess
 from contextlib import asynccontextmanager
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
@@ -23,6 +23,21 @@ def test_machine_requirements_and_notes() -> None:
     assert Path(".devcontainer/README.md").is_file()
 
 
+def test_beginner_preview_is_installed_and_scoped_to_the_website() -> None:
+    """Fresh Codespaces need an embedded save-refresh preview, not desktop Chromium."""
+    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
+    settings = json.loads(Path(".vscode/settings.json").read_text(encoding="utf-8"))
+    assert "ms-vscode.live-server" in config["customizations"]["vscode"]["extensions"]
+    assert {3000, 3001, 8000}.issubset(config["forwardPorts"])
+    assert settings["livePreview.serverRoot"] == "site"
+    assert settings["livePreview.portNumber"] == 3000
+    assert settings["livePreview.defaultPreviewPath"] == "site/index.html"
+    assert settings["livePreview.openPreviewTarget"] == "Embedded Preview"
+    assert settings["livePreview.useIntegratedBrowser"] is False
+    assert settings["livePreview.autoRefreshPreview"] == "On Changes to Saved Files"
+    assert settings["livePreview.hostIP"] == "127.0.0.1"
+
+
 def test_terminal_uses_the_installed_virtual_environment() -> None:
     """Bare Python and CLI commands must resolve to the project environment."""
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
@@ -37,7 +52,8 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     assert "bash .devcontainer/mcp.sh check-browser" in setup
     assert "bash .devcontainer/mcp.sh check-research" in setup
     assert 'case "${1:-core}" in' in setup
-    assert set(config["onCreateCommand"]) == {"uv"}
+    assert set(config["onCreateCommand"]) == {"uv", "copilot-cli"}
+    assert config["onCreateCommand"]["copilot-cli"] == "bash -o pipefail .devcontainer/setup.sh cli"
     assert config["remoteEnv"]["UV_NATIVE_TLS"] == "true"
     assert 'export UV_NATIVE_TLS="${UV_NATIVE_TLS:-true}"' in setup
     assert "python -m rehearsal.network" in setup
@@ -49,7 +65,7 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
 @pytest.mark.parametrize("install_status", [0, 23])
 def test_core_setup_never_runs_advanced_installers(tmp_path: Path, install_status: int) -> None:
-    """Exercise the actual default script without downloads, even when core setup fails."""
+    """Core dependencies stay independent of the CLI's on-create installer."""
     tools = tmp_path / ".local" / "bin"
     tools.mkdir(parents=True)
     log = tmp_path / "calls.log"
@@ -76,6 +92,38 @@ def test_core_setup_never_runs_advanced_installers(tmp_path: Path, install_statu
         assert "TLS verification remains enabled" in result.stderr
 
 
+@pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
+@pytest.mark.parametrize("install_status,version_status", [(0, 0), (23, 0), (0, 5)])
+def test_cli_install_and_version_failures_propagate(
+    tmp_path: Path,
+    install_status: int,
+    version_status: int,
+) -> None:
+    """The on-create CLI profile verifies the binary and never hides a failed download."""
+    tools = tmp_path / ".local" / "bin"
+    tools.mkdir(parents=True)
+    log = tmp_path / "calls.log"
+    for name, status in (("curl", install_status), ("copilot", version_status)):
+        executable = tools / name
+        executable.write_text(
+            f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> "$SETUP_CALL_LOG"\nexit {status}\n',
+            encoding="utf-8",
+        )
+        executable.chmod(0o755)
+    result = subprocess.run(
+        ["bash", "-o", "pipefail", ".devcontainer/setup.sh", "cli"],
+        env={**os.environ, "HOME": str(tmp_path), "SETUP_CALL_LOG": str(log)},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == (install_status or version_status)
+    expected = ["curl -fsSL https://gh.io/copilot-install"]
+    if not install_status:
+        expected.append("copilot --version")
+    assert log.read_text(encoding="utf-8").splitlines() == expected
+
+
 def test_setup_does_not_hide_failures_or_request_day_two_secrets() -> None:
     """The first lab needs working tools, not Dataverse credentials."""
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
@@ -92,7 +140,8 @@ def test_mcp_examples_are_private_and_use_pinned_tools() -> None:
     assert set(example["servers"]) == {"playwright", "markitdown"}
     for name, server in example["servers"].items():
         assert server == {
-            "type": "stdio", "command": "bash",
+            "type": "stdio",
+            "command": "bash",
             "args": ["${workspaceFolder}/.devcontainer/mcp.sh", name],
         }
     launcher = Path(".devcontainer/mcp.sh").read_text(encoding="utf-8")
@@ -119,19 +168,30 @@ def test_research_stays_out_of_git_and_container_builds() -> None:
         assert ".venv-research" in text
 
 
-@pytest.mark.parametrize("is_error,text", [(False, "Synthetic check"), (True, "Synthetic check"), (False, "Wrong")])
+@pytest.mark.parametrize(
+    "is_error,text", [(False, "Synthetic check"), (True, "Synthetic check"), (False, "Wrong")]
+)
 @pytest.mark.parametrize("server", ["markitdown", "playwright"])
-def test_mcp_smoke_checks_sdk_two_result_fields(monkeypatch, is_error: bool, text: str, server: str) -> None:
+def test_mcp_smoke_checks_sdk_two_result_fields(
+    monkeypatch, is_error: bool, text: str, server: str
+) -> None:
     """Check actual converted/evaluated text, not a navigation snapshot's filename."""
     tool = "convert_to_markdown" if server == "markitdown" else "browser_navigate"
     results = [SimpleNamespace(is_error=is_error, content=[SimpleNamespace(text=text)])]
     if server == "playwright":
-        results.insert(0, SimpleNamespace(is_error=False, content=[SimpleNamespace(text="Snapshot saved to file")]))
+        results.insert(
+            0,
+            SimpleNamespace(
+                is_error=False, content=[SimpleNamespace(text="Snapshot saved to file")]
+            ),
+        )
     client = SimpleNamespace(
         initialize=AsyncMock(),
-        list_tools=AsyncMock(return_value=SimpleNamespace(
-            tools=[SimpleNamespace(name=name) for name in (tool, "browser_evaluate")],
-        )),
+        list_tools=AsyncMock(
+            return_value=SimpleNamespace(
+                tools=[SimpleNamespace(name=name) for name in (tool, "browser_evaluate")],
+            )
+        ),
         call_tool=AsyncMock(side_effect=results),
     )
 
@@ -159,8 +219,11 @@ def test_mcp_smoke_checks_sdk_two_result_fields(monkeypatch, is_error: bool, tex
     assert client.call_tool.await_args_list[0].args == (tool, {})
     if server == "playwright":
         assert client.call_tool.await_count == 2
-        client.call_tool.assert_awaited_with("browser_evaluate", {
-            "function": "() => document.querySelector('h1')?.textContent",
-        })
+        client.call_tool.assert_awaited_with(
+            "browser_evaluate",
+            {
+                "function": "() => document.querySelector('h1')?.textContent",
+            },
+        )
     else:
         client.call_tool.assert_awaited_once_with(tool, {})

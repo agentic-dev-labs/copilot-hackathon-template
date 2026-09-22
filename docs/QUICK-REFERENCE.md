@@ -14,23 +14,34 @@ wait for the current step rather than racing through a long lab. Use fictional i
 | Save work | **File > Save**. This updates the working file, not GitHub. |
 | Record a version | Review files, select **+** beside only the intended files, type a short message, then **Commit**. |
 | Send it to GitHub | **Source Control > ... > Push**. Open the same branch on GitHub and confirm the changed file is there. |
-| See my website | After the presenter starts the preview, use **Ports > 8000 > Open in Browser**. Keep it **Private**. |
+| Start my guided website | In Agent Chat run **`/create-website`**. Choose a starter, answer one question at a time, and approve the small plan. |
+| Choose its appearance | Choose a fictional project name, logo style, and a light Fresh mint, Sky blue, or Soft coral palette; describe one or two useful features. |
+| See my website beside Chat | Creation opens the first preview. Later use **`/start-website`** to reopen the saved page without rebuilding it. |
+| Open it by hand | Open the HTML file, then **Live Preview: Show Preview (Internal Browser)** from the Command Palette. Save edits to refresh. |
+| Stop my preview | Use **`/stop-website`**, or **Live Preview: Stop Server** in the Command Palette. Files stay unchanged; the Codespace keeps running. |
+| Fix a blank embedded preview | Keep ports **3000/3001 Private**, open their forwarded links once through Ports for GitHub authentication, then reopen the preview. Ask a helper if blocked. |
 
 ## One Good Request
 
 "Change **this one thing** for **this audience**. Keep **these things** unchanged.
 Explain the small plan first. I will check it by **this action and expected result**."
 
-## One Prepared Preview Command
+Continue the website you chose: one design improvement, then one feature improvement.
+[Lab 02](../labs/02-copilot-cli/README.md) offers separate weekend, project, and budget examples.
+Use normal Chat for changes; do not rerun the creation interview for every edit.
 
-Only when the presenter introduces the terminal, run this in the **Codespaces Bash terminal**:
+## Preview Fallback With a Helper
+
+The main route needs no terminal. If Live Preview cannot run, the helper introduces this
+manual-refresh fallback in the **Codespaces Bash terminal**:
 
 ```bash
 uv run uvicorn app.site:app --host 0.0.0.0 --port 8000
 ```
 
-Leave it running. Save your files and refresh the browser to see a change. Ask a helper about
-a busy port or error. Your laptop's localhost is not this Codespace. A preview is not a deployment.
+Leave it running and use **Ports > 8000 > Open in Browser**, keeping it private. Save files and
+refresh manually on this fallback. Ask about a busy port or error. Your laptop's localhost is
+not this Codespace. Neither preview is a deployment; temporary form entries can reset on reload.
 
 ## Trust but Verify
 
@@ -40,7 +51,8 @@ Compare a number, unit, and calculation with the supplied source. Repeat the che
 
 ## Your Finish
 
-**Monday:** one shared app idea, personalised and checked, with work saved on GitHub.
+**Monday:** one guided starter, personalised and checked, with work saved on GitHub and shown
+to a neighbour/helper. Only then try an own-idea extension without replacing the first page.
 **Tuesday:** your own prototype or an improved default, one checked journey, and questions for IT.
 No required database, CLI, MCP, public deployment, or storage setup on either beginner day.
 
@@ -53,4 +65,5 @@ your Codespace through the Codespaces menu; closing its browser tab does not imm
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/overview),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),
-[Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
+[Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices),
+[Live Preview](https://github.com/microsoft/vscode-livepreview).

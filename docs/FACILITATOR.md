@@ -17,7 +17,7 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | Monday foundations  | Concepts, glossary, and labelled screenshots from [START-HERE](START-HERE.md); no commands | Point to the same controls in the actual browser-based client                       |
 | Monday first work   | Files, Chat, one idea note, save/review/commit/push                                        | Assigned working branch and tested access; no JSON or CLI setup                     |
-| Monday page         | Learner-generated HTML and one prepared preview command                                    | Separate labelled demonstration copy, never a completed page in the source template |
+| Monday page         | /create-website choices, learner-generated HTML, embedded live preview on save              | Private external/Python fallback; no completed page in the source template |
 | Monday verification | Check a button and the supplied fictional price total against its source                   | Optional single public figure, not a five-report assignment                         |
 | Monday afternoon    | One interaction, personal improvements, checked and pushed work                            | Storage and publication only for ready learners with help                           |
 | Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
@@ -66,9 +66,25 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
 Monday uses [START-HERE](START-HERE.md) as the chronological route. The note/Git block at
 10:00 and manual verification at 11:45 are outside Labs 00 and 01. Preserve afternoon building
 time; no storage or public URL is needed to finish. End with a neighbour seeing one working feature.
-Everyone starts from the shared fictional weekend-planner brief, then personalises it. Keep
+Use `/create-website` for the first guided choice: weekend, project, or budget planner. Demonstrate
+the weekend default. It asks for title, audience, a fictional logo, colors, and useful features,
+then waits for approval. Keep
 the sponsor welcome inside the first concepts-only block. Do not introduce a React migration
 solely because a starter template was mentioned; framework changes need an explicit decision.
+
+Fresh Codespaces install Live Preview and Copilot CLI. Monday uses the embedded webview and
+refresh-on-save settings, not desktop Chromium or CLI. The learner opens the generated HTML,
+then **Live Preview: Show Preview (Internal Browser)**. Verify the page and Chat are visible
+in the same browser tab. Keep actual preview ports private; normally 3000/3001. Complete their
+GitHub redirects once if needed, then reopen the embedded view. Treat a policy-blocked iframe
+as a recorded fallback to a private external tab, not a reason to make a port public.
+The separate Python preview on 8000 is a manual-refresh fallback and the deployment server.
+
+Do not require diagram tools, paid image generation, or choosing a frontend framework.
+The skill provides original neutral CSS, licensed fonts/icons, and synthetic starter facts.
+It must wait for each choice, preserve existing files, and never claim a manual check was done
+without the learner's result. Own-idea extensions begin after checking, saving, and showing the
+first site; use a new subfolder rather than overwriting it.
 
 Tuesday gives David 09:00-09:30 for responsibilities and approved-tool context, then Jackie
 09:30-10:30 for Power Platform/shared-data examples. Confirm speaker availability. Use
@@ -252,16 +268,30 @@ is required; repository access to the prepared Actions identity must already exi
 
 - Create a Codespace from a test team repository on the corporate network.
 - Confirm extensions install and `uv sync --locked --extra dev --extra web` succeeds.
+- Confirm Live Preview is installed in the Codespace and `copilot --version` responds without
+  requiring a learner installation. CLI sign-in is separate; check it before Day 3.
 - Inspect the devcontainer: Python version, dependency lock, minimum host requirements, shared editor settings, and forwarded port. Extension IDs are not version pins; CLI authentication is separate.
 - Run tests and the sample CLI end to end.
 - Use `--as-of 2026-10-26` to confirm sample scores 10, 8, and 2, plus exact source quotations.
 - Complete the first-note save/review/commit/push journey through the browser UI and read back
   the changed file on GitHub. Check the current screenshots and labels against that client.
-- Generate a small page in the rehearsal copy, open its private Ports preview, and manually check
-  an interaction and a source figure. Do not ship a finished page in the source template.
+- Invoke `/create-website` in a new session; verify one question at a time, all three starter
+  choices, logo/theme/feature choices, approval before editing, and existing-file preservation.
+  Open the embedded preview; change a heading and CSS, save, and observe both update. Check
+  private-port authentication and external/Python fallbacks. Do not substitute an HTTP check
+  for actual webview rendering or slash-command discovery.
+- Verify `/stop-website` stops only the chosen Live Preview server and `/start-website`
+  reopens the same saved page. Check a missing file, an already-running preview, an already-stopped
+  server, and a separate own-idea page; no recreation, deletion, or unrelated process termination.
+- In Lab 02, choose the learner's existing category, ask for one appearance change and one
+  feature change, and verify the matching manual example. Do not repeat the creation interview.
+- Manually check an interaction and a source figure, record honest results, save/push, and show
+  a helper. Test an own-idea extension without losing the first page. Do not ship the finished
+  rehearsal website in the source template.
 - Rehearse stop/steer and inspection on a disposable small change. Keep Monday to these essentials.
-- Before Day 3, run `bash .devcontainer/setup.sh cli` and `bash .devcontainer/setup.sh browser`.
-  Verify CLI authentication separately, inspect the prepared Playwright connection, and observe
+- Before Day 3, verify the preinstalled CLI and its authentication separately; rerun
+  `bash .devcontainer/setup.sh cli` only if repair/reinstall is needed. Prepare
+  `bash .devcontainer/setup.sh browser`, inspect the Playwright connection, and observe
   an actual call in VS Code Web. No research environment is required for that browser exercise.
 - Only if selected, follow [the optional research guide](RESEARCH.md), prepare its separate
   profile, and record live downloads/conversion versus labelled prepared facts. Test visual-brief

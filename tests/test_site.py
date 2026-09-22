@@ -2,13 +2,14 @@
 
 import hashlib
 import json
+import shutil
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
 
-from app.site import create_app, site_manifest
 from app.config import deployment_name, slugify
+from app.site import create_app, site_manifest
 
 HTML = '<!doctype html><html lang="en"><body><h1>Synthetic planner</h1></body></html>'
 
@@ -42,7 +43,9 @@ def test_website_serves_assets_and_identifies_revision(website: Path, monkeypatc
     assert result["site_digest"] == site_manifest(website)["digest"]
 
 
-@pytest.mark.parametrize("filename", ["report.pdf", ".env", "server.py", "files.zip", ".private/data.json"])
+@pytest.mark.parametrize(
+    "filename", ["report.pdf", ".env", "server.py", "files.zip", ".private/data.json"]
+)
 def test_site_rejects_unintended_publication(website: Path, filename: str) -> None:
     """A website build must fail before copying reports, hidden files, or source code."""
     path = website / filename
@@ -59,6 +62,36 @@ def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> No
     assert site_manifest(website) == initial
     (website / "main.css").write_text("body { color: black; }", encoding="utf-8")
     assert site_manifest(website)["digest"] != initial["digest"]
+
+
+def test_guided_kit_assets_fit_the_website_target(website: Path) -> None:
+    """The kit's copy layout must work without publishing skill files or license notes."""
+    source = Path(".github/skills/create-website/assets")
+    copies = {
+        "css/workshop.css": "css/workshop.css",
+        "fonts/source-sans-3-latin.woff2": "fonts/source-sans-3-latin.woff2",
+        "icons/calendar-days.svg": "assets/calendar-days.svg",
+        "fonts/OFL.txt": "FONT-LICENSE.md",
+        "icons/LICENSE": "ICON-LICENSE.md",
+    }
+    for original, relative in copies.items():
+        destination = website / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source / original, destination)
+    manifest = site_manifest(website)
+    assert set(manifest["files"]) == {
+        "index.html",
+        "css/workshop.css",
+        "fonts/source-sans-3-latin.woff2",
+        "assets/calendar-days.svg",
+    }
+    client = TestClient(create_app(website))
+    for relative in manifest["files"]:
+        response = client.get("/" + relative)
+        assert response.status_code == 200
+        assert hashlib.sha256(response.content).hexdigest() == manifest["files"][relative]
+    assert client.get("/FONT-LICENSE.md").status_code == 404
+    assert client.get("/ICON-LICENSE.md").status_code == 404
 
 
 def test_missing_site_and_invalid_markup_are_not_ready(tmp_path: Path, website: Path) -> None:

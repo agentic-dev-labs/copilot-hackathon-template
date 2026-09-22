@@ -25,11 +25,12 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
 - [ ] Complete the **core-only** [.devcontainer setup](../.devcontainer/README.md) in a fresh
       Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
-- [ ] Rehearse Chat, stop/review, one preview command, and manual checks in browser-based Codespaces.
+- [ ] Rehearse `/create-website` in Agent Chat: one question at a time, fictional starter/logo/theme/features, approval, and manual checks.
+- [ ] Verify Live Preview installs in a fresh Codespace, embeds beside Chat, and refreshes after saved HTML/CSS edits. Copilot CLI installs automatically; authenticate it separately before Day 3.
 - [ ] Assign repositories, working branches, and unique labels in `config.json` before class.
       Confirm review rules and the first UI-based save/commit/push without bypassing protections.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
-- [ ] Rehearse private Ports previews. Prepare optional assisted **website** publication separately;
+- [ ] Rehearse private Live Preview ports 3000/3001, their first-use authentication, and the private external/Python fallback. Prepare optional assisted **website** publication separately;
       no public URL or localStorage extension is needed to finish Monday.
 - [ ] Check capacity/cost for expected concurrent Codespace starts and builds; do not assume one
       successful rehearsal proves a 40-45-person start. Confirm the final count, helpers, and a labelled fallback.

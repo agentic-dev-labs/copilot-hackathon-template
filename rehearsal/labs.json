@@ -5,9 +5,12 @@
       "id": "00",
       "title": "Foundations, files, Chat, and first saved note",
       "guide": "labs/00-setup/README.md",
-      "tests": ["tests/test_devcontainer.py", "tests/test_app_config.py"],
+      "tests": [
+        "tests/test_devcontainer.py",
+        "tests/test_app_config.py"
+      ],
       "checks": {
-        "fresh-install": "Fresh-cache locked core installation succeeds without installing CLI, Chromium, or research dependencies as a startup requirement",
+        "fresh-install": "Fresh-cache locked core installation succeeds; on-create Copilot CLI and Live Preview installation verified separately; no Chromium or research dependency startup requirement",
         "access": "GitHub and editor Chat work with the intended attendee account",
         "orientation": "Concepts-only first block and labelled visual guide checked in browser-based Codespaces before terminal use",
         "chat-turn": "A real editor Chat request and refinement completed without terminal setup",
@@ -18,10 +21,12 @@
       "id": "01",
       "title": "First page and manual verification",
       "guide": "labs/01-vscode-agent/README.md",
-      "tests": ["tests/test_lab_contracts.py"],
+      "tests": [
+        "tests/test_lab_contracts.py"
+      ],
       "checks": {
-        "first-page": "Learner followed the shared fictional weekend-planner brief, then personalised it; no finished template, research, or tool-configuration prerequisite",
-        "preview": "One preview command introduced after Chat; actual private Ports preview opens the learner's page",
+        "first-page": "Actual /create-website invocation asks one question at a time for starter, title, audience, logo, colors, and features; approval precedes edits; no finished template or installation exercise",
+        "preview": "Actual embedded Live Preview renders beside Chat, refreshes on saved HTML/CSS changes, and stop/start reopens the same saved page without file changes; private-port authentication and fallback limits recorded truthfully",
         "manual-behaviour": "Coached 11:45 block: expected-versus-observed manual button check, with real fixes rechecked",
         "source-check": "Coached 11:45 block: displayed figure, units, and calculation compared with the supplied source, not the model's confidence"
       },
@@ -37,10 +42,12 @@
       "id": "02",
       "title": "Useful interaction and personal improvement",
       "guide": "labs/02-copilot-cli/README.md",
-      "tests": ["tests/test_site.py"],
+      "tests": [
+        "tests/test_site.py"
+      ],
       "checks": {
         "implementation": "One meaningful interaction implemented in the existing page with fictional input and safe text handling",
-        "personalisation": "One learner-chosen improvement inspected against the actual diff and page",
+        "personalisation": "Chosen weekend/project/budget page gets one visual improvement and one feature improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
         "manual-checks": "Manual add/remove or equivalent journey, empty input, keyboard access, and narrow layout checked honestly",
         "preview": "Learner reopened the private preview and recorded actual results and remaining limitations"
       },
@@ -74,7 +81,10 @@
       "id": "day-2",
       "title": "Supported own-idea build and handover",
       "guide": "docs/DAY-2-BUILD.md",
-      "tests": ["tests/test_lab_contracts.py", "tests/test_site.py"],
+      "tests": [
+        "tests/test_lab_contracts.py",
+        "tests/test_site.py"
+      ],
       "checks": {
         "idea-brief": "Participant chose an own idea or the default, described one user outcome and check, and used a prepared repository without overwriting Monday's work",
         "prototype": "A bounded prototype or improved default works with fictional app-local content; no service integration or account migration was required",
@@ -87,7 +97,9 @@
       "id": "03",
       "title": "CLI introduction and cloud agent",
       "guide": "labs/03-cloud-agent/README.md",
-      "tests": ["tests/test_workflows.py"],
+      "tests": [
+        "tests/test_workflows.py"
+      ],
       "checks": {
         "cli-turn": "Separate 09:00-09:15 introduction: actual Codespaces Copilot CLI request and refinement, with independent authentication/context checked",
         "issue-session": "Focused synthetic issue assigned to the actual cloud agent with an inspected session",
@@ -100,7 +112,9 @@
       "id": "04",
       "title": "Prepared browser introduction and remote GitHub MCP",
       "guide": "labs/04-mcp/README.md",
-      "tests": ["tests/test_lab_contracts.py"],
+      "tests": [
+        "tests/test_lab_contracts.py"
+      ],
       "checks": {
         "browser-tools": "Separate 10:45-11:15 introduction: prepared Playwright connection inspected, trusted, and actually invoked in editor Chat",
         "browser-journey": "Existing personal page or local-sample vendor reader checked by Playwright and compared with a manual observation; no live database required",

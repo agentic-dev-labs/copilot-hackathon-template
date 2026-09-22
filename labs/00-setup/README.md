@@ -39,7 +39,8 @@ Follow the presenter one action at a time. The written steps are a reminder, not
 
 6. Ask: "Suggest three small features for a fictional weekend planner. No bookings or logins.
    Do not create anything yet." Choose one small improvement to the presenter's planner.
-   Keep personal project ideas for Tuesday; everyone starts with the same app type today.
+   In Lab 01 the guided menu also offers fictional project and budget planners. The weekend
+   option matches the demonstration. Finish a guided starter before beginning your own idea.
 7. Tell a neighbour where you would ask for a change and where you would inspect the file.
    Point to **Source Control**, but wait for the next demonstration before using it.
 

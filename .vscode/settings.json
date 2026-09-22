@@ -1,4 +1,13 @@
 {
   "python.testing.pytestEnabled": true,
-  "python.testing.pytestArgs": ["tests"]
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "livePreview.serverRoot": "site",
+  "livePreview.portNumber": 3000,
+  "livePreview.defaultPreviewPath": "site/index.html",
+  "livePreview.openPreviewTarget": "Embedded Preview",
+  "livePreview.useIntegratedBrowser": false,
+  "livePreview.autoRefreshPreview": "On Changes to Saved Files",
+  "livePreview.hostIP": "127.0.0.1"
 }

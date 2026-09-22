@@ -14,11 +14,12 @@
     "storage": "32gb"
   },
   "onCreateCommand": {
-    "uv": "bash -o pipefail -c 'curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh'"
+    "uv": "bash -o pipefail -c 'curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh'",
+    "copilot-cli": "bash -o pipefail .devcontainer/setup.sh cli"
   },
   "updateContentCommand": "bash .devcontainer/setup.sh",
   "postAttachCommand": {
-    "welcome": "printf '\\nOpen docs/START-HERE.md and follow the presenter.\\nCLI and browser tools are prepared separately for the Day 3 technical track.\\n'"
+    "welcome": "printf '\\nOpen docs/START-HERE.md and follow the presenter.\\nCopilot CLI is installed; sign-in is separate. Browser automation is prepared later.\\n'"
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {
@@ -26,10 +27,22 @@
     "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
     "PATH": "${containerWorkspaceFolder}/.venv/bin:/home/vscode/.local/bin:${containerEnv:PATH}"
   },
-  "forwardPorts": [8000],
+  "forwardPorts": [
+    3000,
+    3001,
+    8000
+  ],
   "portsAttributes": {
+    "3000": {
+      "label": "Website live preview",
+      "onAutoForward": "notify"
+    },
+    "3001": {
+      "label": "Live preview updates",
+      "onAutoForward": "silent"
+    },
     "8000": {
-      "label": "Workshop preview",
+      "label": "Python preview (fallback / technical track)",
       "onAutoForward": "notify"
     }
   },
@@ -40,6 +53,7 @@
         "GitHub.copilot-chat",
         "GitHub.vscode-pull-request-github",
         "GitHub.vscode-github-actions",
+        "ms-vscode.live-server",
         "ms-python.python",
         "ms-python.debugpy",
         "charliermarsh.ruff",
@@ -50,7 +64,9 @@
         "github.copilot.chat.organizationCustomAgents.enabled": true,
         "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
         "python.testing.pytestEnabled": true,
-        "python.testing.pytestArgs": ["tests"],
+        "python.testing.pytestArgs": [
+          "tests"
+        ],
         "[python]": {
           "editor.defaultFormatter": "charliermarsh.ruff",
           "editor.formatOnSave": true,

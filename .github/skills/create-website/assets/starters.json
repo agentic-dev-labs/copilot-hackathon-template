@@ -1,0 +1,130 @@
+{
+    "source_mode": "synthetic_workshop",
+    "currency": "USD",
+    "starters": [
+        {
+            "id": "weekend",
+            "title": "Weekend planner",
+            "audience": "Someone organising a fictional Saturday",
+            "interaction": "Add and remove an activity; reject an empty name",
+            "logo_symbol": {
+                "label": "Calendar",
+                "file": "calendar-days.svg"
+            },
+            "feature_choices": [
+                "Add and remove activities",
+                "Filter by activity type",
+                "Show the remaining budget"
+            ],
+            "unit": "USD per person",
+            "budget_cents": 2500,
+            "items": [
+                {
+                    "name": "Synthetic museum visit",
+                    "category": "Culture",
+                    "cost_cents": 800
+                },
+                {
+                    "name": "Synthetic garden visit",
+                    "category": "Outdoors",
+                    "cost_cents": 500
+                },
+                {
+                    "name": "Fictional riverside walk",
+                    "category": "Outdoors",
+                    "cost_cents": 0
+                }
+            ],
+            "expected": {
+                "item_count": 3,
+                "total_cents": 1300,
+                "remaining_cents": 1200
+            },
+            "manual_check": "USD 8 + USD 5 + USD 0 = USD 13 per person; USD 12 remains."
+        },
+        {
+            "id": "project",
+            "title": "Project planner",
+            "audience": "Someone organising a fictional team open day",
+            "interaction": "Mark a task done and filter the tasks by status",
+            "logo_symbol": {
+                "label": "Checklist",
+                "file": "clipboard-check.svg"
+            },
+            "feature_choices": [
+                "Mark tasks done and filter by status",
+                "Add and remove tasks",
+                "Show the remaining budget"
+            ],
+            "unit": "USD per task",
+            "budget_cents": 10000,
+            "items": [
+                {
+                    "name": "Draft the fictional event brief",
+                    "category": "Planning",
+                    "cost_cents": 0,
+                    "done": true
+                },
+                {
+                    "name": "Prepare sample display materials",
+                    "category": "Design",
+                    "cost_cents": 4500,
+                    "done": false
+                },
+                {
+                    "name": "Arrange fictional refreshments",
+                    "category": "Logistics",
+                    "cost_cents": 3000,
+                    "done": false
+                }
+            ],
+            "expected": {
+                "item_count": 3,
+                "total_cents": 7500,
+                "remaining_cents": 2500,
+                "done_count": 1
+            },
+            "manual_check": "USD 0 + USD 45 + USD 30 = USD 75; USD 25 remains; one of three tasks is done."
+        },
+        {
+            "id": "budget",
+            "title": "Budget planner",
+            "audience": "Someone planning a fictional community event",
+            "interaction": "Add and remove an expense; reject empty names and negative costs",
+            "logo_symbol": {
+                "label": "Wallet",
+                "file": "wallet.svg"
+            },
+            "feature_choices": [
+                "Add and remove expenses",
+                "Filter expenses by category",
+                "Warn when the budget is exceeded"
+            ],
+            "unit": "USD per expense",
+            "budget_cents": 50000,
+            "items": [
+                {
+                    "name": "Fictional room hire",
+                    "category": "Venue",
+                    "cost_cents": 18000
+                },
+                {
+                    "name": "Fictional lunch",
+                    "category": "Food",
+                    "cost_cents": 12000
+                },
+                {
+                    "name": "Fictional stationery",
+                    "category": "Materials",
+                    "cost_cents": 5000
+                }
+            ],
+            "expected": {
+                "item_count": 3,
+                "total_cents": 35000,
+                "remaining_cents": 15000
+            },
+            "manual_check": "USD 180 + USD 120 + USD 50 = USD 350; USD 150 remains."
+        }
+    ]
+}

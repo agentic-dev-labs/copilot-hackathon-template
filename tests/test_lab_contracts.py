@@ -2,6 +2,7 @@
 
 import json
 import re
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -10,8 +11,9 @@ import yaml
 
 def active_lab_guides() -> list[Path]:
     """Exclude the retired Lab 05 signpost from attendee exercise requirements."""
-    return [path for path in Path("labs").glob("*/README.md")
-            if path.parent.name != "05-dataverse-app"]
+    return [
+        path for path in Path("labs").glob("*/README.md") if path.parent.name != "05-dataverse-app"
+    ]
 
 
 def test_lab_timeboxes_match_the_agenda() -> None:
@@ -55,6 +57,21 @@ def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
     assert "## Optional extras" in sharing
 
 
+def test_personalisation_lab_follows_the_chosen_category() -> None:
+    """Learners improve their own page, with visual and feature changes kept small."""
+    text = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
+    for category in ("Weekend planner", "Project planner", "Budget planner"):
+        assert f"| {category} |" in text
+    assert "**one appearance change** and **one feature change**" in text
+    assert "not a new creation interview" in text
+    assert "If a feature already works" in text
+    assert "Keep the design unchanged" in text
+    assert "own-idea extension in a separate folder" in text
+    blocks = re.findall(r"^### \d\. .*\((\d+) minutes\)", text, re.MULTILINE)
+    assert sum(map(int, blocks)) == 60
+    assert "USD 17" in text and "USD 120" in text
+
+
 def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
     """The published blocks must fill the stated days without adding hidden time."""
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
@@ -68,7 +85,9 @@ def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
         ]
         assert all(end > start for start, end in intervals)
         assert sum(end - start for start, end in intervals) == expected
-        assert all(previous[1] == following[0] for previous, following in zip(intervals, intervals[1:]))
+        assert all(
+            previous[1] == following[0] for previous, following in zip(intervals, intervals[1:])
+        )
 
 
 def test_private_run_sheet_matches_when_present() -> None:
@@ -90,8 +109,12 @@ def test_customization_examples_parse() -> None:
     """Broken frontmatter can silently prevent a customization from loading."""
     for lab in Path("labs").glob("*/README.md"):
         text = lab.read_text(encoding="utf-8")
-        for language, body in re.findall(r"```(json|yaml|markdown)\n(.*?)\n[ \t]*```", text, re.DOTALL):
-            body = "\n".join(line[3:] if line.startswith("   ") else line for line in body.splitlines())
+        for language, body in re.findall(
+            r"```(json|yaml|markdown)\n(.*?)\n[ \t]*```", text, re.DOTALL
+        ):
+            body = "\n".join(
+                line[3:] if line.startswith("   ") else line for line in body.splitlines()
+            )
             if language == "json":
                 json.loads(body)
             elif language == "yaml":
@@ -100,6 +123,99 @@ def test_customization_examples_parse() -> None:
                 metadata = yaml.safe_load(body.split("---", 2)[1])
                 assert isinstance(metadata, dict)
                 assert metadata.get("description")
+
+
+def test_guided_website_skill_is_explicit_and_preserves_learner_work() -> None:
+    """A provided workflow must wait for choices and never count invented checks as success."""
+    path = Path(".github/skills/create-website/SKILL.md")
+    text = path.read_text(encoding="utf-8")
+    metadata = yaml.safe_load(text.split("---", 2)[1])
+    assert metadata["name"] == path.parent.name
+    assert metadata["user-invocable"] is True
+    assert metadata["disable-model-invocation"] is True
+    assert "Stop after the question and wait" in text
+    assert "Do not edit until approved" in text
+    assert "not yet checked" in text
+    assert "Never overwrite the first page" in text
+    assert "No deployment or public port" in text
+    assert "Live Preview: Show Preview (Internal Browser)" in text
+    assert "paid reference service" in text
+    assert "Who will use this page?" in text
+    assert "What kind of logo would you like" in text
+    assert "What should people be able to do?" in text
+    assert "No logo-generation API" in text
+    assert "Which light color palette" in text
+    assert "Fresh mint" in text
+    assert "Keep the frontend build-free" in text
+    assert '<script src="app.js" defer>' in text
+    assert "100 KiB" in text
+    assert "../start-website/SKILL.md" in text
+    assert "../stop-website/SKILL.md" in text
+    assert "category-specific ideas" in text
+
+
+def test_preview_lifecycle_skills_reuse_the_extension_and_preserve_files() -> None:
+    """Recovery must not recreate pages, bypass editor tool restrictions, or kill by port."""
+    texts = {}
+    for name in ("start-website", "stop-website"):
+        path = Path(".github/skills") / name / "SKILL.md"
+        text = path.read_text(encoding="utf-8")
+        metadata = yaml.safe_load(text.split("---", 2)[1])
+        assert metadata["name"] == name
+        assert metadata["description"]
+        assert metadata["user-invocable"] is True
+        assert metadata["disable-model-invocation"] is True
+        texts[name] = text
+    start = texts["start-website"]
+    assert "livePreview.start.preview.atFileString" in start
+    assert "relative to the configured server root" in start
+    assert "Do not create a placeholder" in start
+    assert "Can you see your page beside Chat?" in start
+    assert "permitted command tool" in start
+    stop = texts["stop-website"]
+    assert "livePreview.end" in stop
+    assert "Do not edit, delete, reset" in stop
+    assert "multi-root workspace" in stop
+    assert "Closing the tab alone is not evidence" in stop
+    assert "Do not use `pkill`, `killall`" in stop
+
+
+def test_guided_starter_figures_and_shared_assets() -> None:
+    """All choices have synthetic, checkable arithmetic and self-contained CSS dependencies."""
+    assets = Path(".github/skills/create-website/assets")
+    data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
+    assert data["source_mode"] == "synthetic_workshop"
+    assert data["currency"] == "USD"
+    assert [starter["id"] for starter in data["starters"]] == ["weekend", "project", "budget"]
+    for starter in data["starters"]:
+        expected = starter["expected"]
+        assert len(starter["feature_choices"]) == 3
+        icon = ET.parse(assets / "icons" / starter["logo_symbol"]["file"]).getroot()
+        assert icon.tag == "{http://www.w3.org/2000/svg}svg"
+        assert icon.attrib["viewBox"] == "0 0 24 24"
+        assert not any(element.tag.endswith("script") for element in icon.iter())
+        assert expected["item_count"] == len(starter["items"])
+        assert expected["total_cents"] == sum(item["cost_cents"] for item in starter["items"])
+        assert expected["remaining_cents"] == starter["budget_cents"] - expected["total_cents"]
+        if "done_count" in expected:
+            assert expected["done_count"] == sum(item["done"] for item in starter["items"])
+    css = (assets / "css/workshop.css").read_text(encoding="utf-8")
+    for resource in re.findall(r'url\("([^"]+)"\)', css):
+        assert not urlsplit(resource).scheme
+        assert (assets / "css" / resource).is_file()
+    assert "prefers-reduced-motion" in css
+    assert ":focus-visible" in css
+    assert "color-scheme: light" in css
+    assert len(css.encode("utf-8")) < 12 * 1024
+    assert "@import" not in css
+    assert "prefers-color-scheme: dark" not in css
+    assert "letter-spacing: 0" in css
+    assert "SIL OPEN FONT LICENSE" in (assets / "fonts/OFL.txt").read_text(encoding="utf-8")
+    assert "ISC License" in (assets / "icons/LICENSE").read_text(encoding="utf-8")
+    font = (assets / "fonts/source-sans-3-latin.woff2").read_bytes()
+    assert font[:4] == b"wOF2"
+    assert len(font) < 40 * 1024
+    assert sum(icon.stat().st_size for icon in (assets / "icons").glob("*.svg")) < 4 * 1024
 
 
 def test_agent_frontmatter_and_handoff_targets() -> None:
@@ -149,7 +265,9 @@ def test_labs_link_official_references_and_coverage_guide() -> None:
         assert "## Official References\n" in text, path
         section = text.split("## Official References\n", 1)[1]
         links = [urlsplit(target) for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", section)]
-        assert any(link.scheme == "https" and link.hostname in official_hosts for link in links), path
+        assert any(link.scheme == "https" and link.hostname in official_hosts for link in links), (
+            path
+        )
         assert any(
             not link.scheme and (path.parent / unquote(link.path)).resolve() == guide
             for link in links
@@ -159,9 +277,19 @@ def test_labs_link_official_references_and_coverage_guide() -> None:
 def test_local_document_links_resolve() -> None:
     """Check the simple relative links used by the workshop documentation."""
     files = [Path("README.md"), Path("AGENTS.md")]
-    for directory in ("docs", "labs", ".github", "src", ".facilitator", "rehearsal", "travel", "post-workshop"):
+    for directory in (
+        "docs",
+        "labs",
+        ".github",
+        "src",
+        ".facilitator",
+        "rehearsal",
+        "travel",
+        "post-workshop",
+    ):
         files.extend(
-            path for path in Path(directory).rglob("*.md")
+            path
+            for path in Path(directory).rglob("*.md")
             if not {"results", "output"}.intersection(path.parts)
         )
     for path in files:
@@ -185,8 +313,12 @@ def test_post_workshop_reference_preserves_the_technical_path() -> None:
     assert "Do not delete personal accounts" in prompts
     assert "/post-workshop/" in Path(".dockerignore").read_text(encoding="utf-8").splitlines()
     for path in (
-        "app/main.py", "src/vendor_assurance/dataverse.py", "scripts/dataverse_provision.py",
-        "scripts/dataverse_app_user.py", "scripts/dataverse_seed.py", ".github/workflows/deploy.yml",
+        "app/main.py",
+        "src/vendor_assurance/dataverse.py",
+        "scripts/dataverse_provision.py",
+        "scripts/dataverse_app_user.py",
+        "scripts/dataverse_seed.py",
+        ".github/workflows/deploy.yml",
     ):
         assert Path(path).is_file()
 
@@ -235,9 +367,14 @@ def test_tools_introduction_is_scheduled_in_the_technical_track() -> None:
 def test_active_routes_do_not_send_learners_to_retired_guides() -> None:
     """Compatibility signposts must not stay on the active learning path."""
     paths = active_lab_guides() + [
-        Path("README.md"), Path("AGENTS.md"), Path("docs/AGENDA.md"),
-        Path("docs/START-HERE.md"), Path("docs/FACILITATOR.md"), Path("docs/REFERENCES.md"),
-        Path("docs/PREREQS.md"), Path("rehearsal/README.md"),
+        Path("README.md"),
+        Path("AGENTS.md"),
+        Path("docs/AGENDA.md"),
+        Path("docs/START-HERE.md"),
+        Path("docs/FACILITATOR.md"),
+        Path("docs/REFERENCES.md"),
+        Path("docs/PREREQS.md"),
+        Path("rehearsal/README.md"),
         Path(".github/prompts/rehearse-workshop.prompt.md"),
     ]
     for path in paths:

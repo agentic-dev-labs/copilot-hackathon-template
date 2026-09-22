@@ -16,7 +16,9 @@
 - Use `uv sync --locked --extra dev --extra web`, `uv run pytest`, and `uv run ruff check .`.
 - From Day 3, browser exercises use prepared headless Playwright MCP inside the Codespace, with private stdio
   transport. MarkItDown is an optional later conversion tool. Built-in browser tools are optional, not a
-  required desktop-only feature. Learners open previews through Ports, not laptop localhost.
+  required desktop-only feature. Beginners use embedded Live Preview; private Ports links are
+  for authentication/fallback, never laptop localhost. Copilot CLI installs at creation; teaching
+  and separate sign-in checks remain Day 3.
 - Keep published clock times and lab durations unchanged without explicit approval. The approved
   post-meeting 18 September change gives Tuesday's first 30 minutes to David, the next hour
   to Jackie, and the rest to own-idea building with final volunteer sharing. CLI/MCP move to
@@ -25,11 +27,15 @@
   every lab. Do not add product reference prose to synthetic evidence fixtures or the report template.
 - Keep CLI baselines and agent-authored reports in separate paths; test results do not prove live readiness.
 - Day 1 starts with a concepts-only first block and the glossary/screenshots in docs/START-HERE.md.
-  Chat comes first; introduce the terminal only for a prepared preview command. Build one small
-  shared fictional weekend-planner page, personalise it, check behaviour and a figure manually,
+  Chat comes first. Use the provided /create-website skill: choose weekend/project/budget,
+  title, audience, fictional logo, colors, and basic features, one question at a time before approval.
+  Demonstrate the weekend default; build one small page and use embedded refresh-on-save preview.
+  Introduce the terminal only for the Python fallback when needed. Personalise, check behaviour and a figure manually,
   and save/commit/push. Demonstrate finding instructions and Markdown Open Preview. Prepare
   dependencies, not the finished learner output. No CLI, MCP, research, skills, or presentation
-  prerequisites. localStorage and public deployment are optional, not completion gates.
+  authoring or installation prerequisites. localStorage and public deployment are optional, not
+  completion gates. Finish/check/save/show the starter before an own-idea extension; preserve the
+  first site in place. Use neutral styling, not real corporate branding or paid image services.
 - Lab 08's core is reviewed, pushed work; optional publication uses the learner's `site/` target.
   Day 2 follows docs/DAY-2-BUILD.md: own ideas with fictional app-local content, no required
   database, CLI, MCP, or deployment. docs/QUICK-REFERENCE.md supports live demonstrations.

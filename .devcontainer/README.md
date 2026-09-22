@@ -10,10 +10,45 @@ choose **Change machine type**. Expect a restart. For a new Codespace, use the
 repository's **Code > Codespaces > ... > New with options** menu. New creations
 use the configuration committed and pushed to the selected branch.
 
-All attendee tools run inside this Linux container. Normal startup runs only the **core** profile:
-`uv sync --locked --extra dev --extra web`, which finishes before normal attachment. It does
-not install Copilot CLI, research packages, or Chromium. A later-tool failure must not block
-Monday's files, Chat, and website preview. Do not ignore a failed core install.
+All attendee tools run inside this Linux container. Creation installs **uv and Copilot CLI**
+automatically; the CLI profile also checks `copilot --version`. Installation does not authenticate
+the attendee. Content setup runs the **core** Python profile, `uv sync --locked --extra dev --extra web`,
+before normal attachment. Chromium and research packages remain separate later preparation.
+Do not ignore a failed creation or core install. CLI teaching and sign-in checks remain in Day 3.
+
+## Same-Window Website Preview
+
+Fresh Codespaces install **Microsoft Live Preview** (`ms-vscode.live-server`) through the
+devcontainer extension list. Workspace settings scope its server to `site/`, use the embedded
+webview instead of the desktop Integrated Browser, and refresh **on saved file changes**.
+No Chromium, npm frontend build, CLI sign-in, or browser MCP is needed for this preview.
+
+At Lab 01, select the built-in coding Agent and run `/create-website`. The prepared skill
+asks for a starter, title, audience, logo style, colors, and a small feature set, then waits
+for approval. It provides neutral CSS and
+an open-source local font; it does not place a completed website in the template.
+Open the resulting `site/index.html`, then run **Live Preview: Show Preview (Internal Browser)**
+from the Command Palette. Keep Chat visible beside the preview. Save a changed heading to
+test live refresh. This is a page reload, not state-preserving hot-module replacement.
+
+Ports **3000** (page server) and **3001** (normally the refresh connection) are forwarded.
+Keep both **Private**. For Codespaces authentication, the extension documents opening both
+actual forwarded URLs once through Ports, allowing the normal redirects, then reopening the
+embedded preview. Browser policy may still block embedding; use the private external tab
+as the fallback. If a port is occupied, a helper chooses free ports and checks the extension's
+status indicator; never stop another process or change visibility to Public.
+
+After a pull, an existing Codespace may need a rebuild to install the new extension. New
+Codespaces use the **committed and pushed branch**, not local uncommitted edits. The old
+`app.site:app` preview on 8000 remains a manual-refresh fallback and the deployment server.
+Extension installation and skill discovery still need a fresh attendee-account rehearsal.
+
+The provided `/start-website` and `/stop-website` skills use the extension's commands where
+editor tools permit, with the matching Command Palette action as a fallback. They do not
+generate files or start duplicate Python servers. The default initial page is `site/index.html`
+relative to the workspace, while the file-specific start command takes a path relative to the
+server root. Stop Server can prompt for a workspace when several preview servers are running;
+select only the workshop site. Stopping a preview does not stop Codespaces compute or billing.
 
 ## Facilitator Preparation Profiles
 
@@ -23,7 +58,7 @@ not as a room-wide installation exercise:
 | Profile  | Command                                | When                                                      |
 | -------- | -------------------------------------- | --------------------------------------------------------- |
 | Core     | `bash .devcontainer/setup.sh`          | Automatic startup; Monday's required environment.         |
-| CLI      | `bash .devcontainer/setup.sh cli`      | Before Day 3; verify technical attendee sign-in separately. |
+| CLI      | `bash .devcontainer/setup.sh cli`      | Automatic on creation; facilitator repair/reinstall command. Sign-in stays separate. |
 | Browser  | `bash .devcontainer/setup.sh browser`  | Before Day 3; installs and launches sandboxed Chromium. |
 | Research | `bash .devcontainer/setup.sh research` | Optional later document-conversion exercise only.         |
 
@@ -79,8 +114,8 @@ the launcher and the desired server name. Derive the path with `pwd` in Bash. Do
 Never expose MCP or debugger ports. No Dataverse credentials are needed for the workshop;
 stop unused servers before any separately approved post-workshop service configuration.
 
-Port 8000 is forwarded, but the application still needs starting. Monday's Lab 01 introduces
-the one preview command after Chat. Use `app.site:app` for the
+Port 8000 remains forwarded for the optional Python fallback and technical examples.
+Use `app.site:app` for the
 learner website or `app.main:app` for the vendor app, then **Ports > Open in Browser**. For a
 second running server choose and forward another port, such as 8001. Keep previews private.
 Neither a laptop's localhost nor its file system points into the Codespace.
@@ -95,3 +130,5 @@ secrets are separate. Live Dataverse setup is preserved in the
 - [Changing machine type](https://docs.github.com/en/codespaces/customizing-your-codespace/changing-the-machine-type-for-your-codespace)
 - [Codespaces prebuilds](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds)
 - [Forwarding ports](https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace)
+- [Microsoft Live Preview](https://github.com/microsoft/vscode-livepreview): embedded preview, save-refresh, and Codespaces authentication.
+- [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills): explicit invocation and discovery.
