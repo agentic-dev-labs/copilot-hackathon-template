@@ -94,10 +94,24 @@ keep everything else, and never restart this interview. See [Start Website](../s
   `[data-column]` areas. Removal uses a `.remove` button with an `aria-label`.
 - Build elements with `Workshop.el` or `textContent`; never put entered text in `innerHTML`.
 - Beauty comes from the kit: `.app-header` with `.hero` and a `.hero-art` image, weekday icons
-  in `art/<weekday>.svg` (`.day-art`), `.board`/`.column`/`.card`, `.calendar`/`.day`/`.chip`,
-  `.wall`/`.note`, `.weather-now`/`.forecast`, `.tabs`, `.progress` (`--value` 0-100),
-  `.animate-in` with `--i`, `Workshop.flash()`, and `Workshop.toast()`. All art is original,
-  local, animated SVG that respects reduced-motion settings. Prefer kit classes to new CSS.
+  in `art/<weekday>.svg` (`.day-art`, including `saturday.svg`/`sunday.svg` for a full week),
+  `.board`/`.column`/`.card`, `.calendar`/`.day`/`.chip`, `.wall`/`.note`,
+  `.weather-now`/`.forecast`, `.tabs`, `.progress` (`--value` 0-100), `.animate-in` with `--i`,
+  `Workshop.flash()`, and `Workshop.toast()`. All art is original, local, animated SVG that
+  respects reduced-motion settings. Prefer kit classes to new CSS.
+- **Recolouring a page** (a request like "make it red" or "a turquoise gradient"): add one
+  `[data-theme="name"] { --accent; --accent-strong; --accent-soft; --second; }` block in the
+  page's own `<style>`, matching the kit's existing `[data-theme="blue"]`/`[data-theme="coral"]`
+  pattern, and set it on `<body data-theme="name">`. The header's gradient and every accent-based
+  element (buttons, progress bar, chips) follow automatically; never hand-edit `workshop.css`
+  for a one-page colour change.
+- **Adding a tag to a card** (a request like "give each task a type" or "a priority label"):
+  use `.chip` for the pill and add the kit's `.chip-toggle` class if it is clickable, plus
+  `.card-stack` on the containing `.card`. Kanban columns are only ~200px wide, so a chip sharing
+  the description's row can squeeze `.card-text` down to one unreadable character per line;
+  `.card-stack` puts the checkbox/chip/remove on a top row and gives the description its own
+  full-width row below. Always re-open the preview and look at an actual card afterwards — do
+  not trust the code alone.
 - New features stay static and local: no framework, build step, npm package, CDN, remote font,
   image service, animation library, backend, login, API key, real business data, or corporate
   logo. No logo-generation API or paid reference service. No deployment or public port.
