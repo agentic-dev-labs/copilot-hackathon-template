@@ -11,6 +11,7 @@ __pycache__/
 node_modules/
 dist/
 build/
+.playwright-mcp/
 # Root only, so an agent can commit its reports under reports/
 /PrivacyReview_*.md
 logs/
