@@ -1,130 +1,47 @@
 {
     "source_mode": "synthetic_workshop",
-    "currency": "USD",
+    "default": "project",
     "starters": [
         {
-            "id": "weekend",
-            "title": "Weekend planner",
-            "audience": "Someone organising a fictional Saturday",
-            "interaction": "Add and remove an activity; reject an empty name",
-            "logo_symbol": {
-                "label": "Calendar",
-                "file": "calendar-days.svg"
-            },
-            "feature_choices": [
-                "Add and remove activities",
-                "Filter by activity type",
-                "Show the remaining budget"
-            ],
-            "unit": "USD per person",
-            "budget_cents": 2500,
-            "items": [
-                {
-                    "name": "Synthetic museum visit",
-                    "category": "Culture",
-                    "cost_cents": 800
-                },
-                {
-                    "name": "Synthetic garden visit",
-                    "category": "Outdoors",
-                    "cost_cents": 500
-                },
-                {
-                    "name": "Fictional riverside walk",
-                    "category": "Outdoors",
-                    "cost_cents": 0
-                }
-            ],
-            "expected": {
-                "item_count": 3,
-                "total_cents": 1300,
-                "remaining_cents": 1200
-            },
-            "manual_check": "USD 8 + USD 5 + USD 0 = USD 13 per person; USD 12 remains."
-        },
-        {
             "id": "project",
-            "title": "Project planner",
-            "audience": "Someone organising a fictional team open day",
-            "interaction": "Mark a task done and filter the tasks by status",
-            "logo_symbol": {
-                "label": "Checklist",
-                "file": "clipboard-check.svg"
-            },
-            "feature_choices": [
-                "Mark tasks done and filter by status",
-                "Add and remove tasks",
-                "Show the remaining budget"
-            ],
-            "unit": "USD per task",
-            "budget_cents": 10000,
-            "items": [
-                {
-                    "name": "Draft the fictional event brief",
-                    "category": "Planning",
-                    "cost_cents": 0,
-                    "done": true
-                },
-                {
-                    "name": "Prepare sample display materials",
-                    "category": "Design",
-                    "cost_cents": 4500,
-                    "done": false
-                },
-                {
-                    "name": "Arrange fictional refreshments",
-                    "category": "Logistics",
-                    "cost_cents": 3000,
-                    "done": false
-                }
-            ],
-            "expected": {
-                "item_count": 3,
-                "total_cents": 7500,
-                "remaining_cents": 2500,
-                "done_count": 1
-            },
-            "manual_check": "USD 0 + USD 45 + USD 30 = USD 75; USD 25 remains; one of three tasks is done."
+            "title": "Project Planner",
+            "summary": "Day columns with a + to add tasks, drag between days, tick when done, and a progress bar.",
+            "data_file": "data/tasks.json",
+            "storage_key": "project-planner",
+            "expected": { "item_count": 4, "done_count": 1 },
+            "manual_check": "4 tasks to start and 1 is ticked, so the bar reads 1 of 4 done. Tick one more: 2 of 4.",
+            "later_ideas": ["Add an owner name to each task", "Show a due date on each card", "Add a budget and show what is left"]
         },
         {
-            "id": "budget",
-            "title": "Budget planner",
-            "audience": "Someone planning a fictional community event",
-            "interaction": "Add and remove an expense; reject empty names and negative costs",
-            "logo_symbol": {
-                "label": "Wallet",
-                "file": "wallet.svg"
-            },
-            "feature_choices": [
-                "Add and remove expenses",
-                "Filter expenses by category",
-                "Warn when the budget is exceeded"
-            ],
-            "unit": "USD per expense",
-            "budget_cents": 50000,
-            "items": [
-                {
-                    "name": "Fictional room hire",
-                    "category": "Venue",
-                    "cost_cents": 18000
-                },
-                {
-                    "name": "Fictional lunch",
-                    "category": "Food",
-                    "cost_cents": 12000
-                },
-                {
-                    "name": "Fictional stationery",
-                    "category": "Materials",
-                    "cost_cents": 5000
-                }
-            ],
-            "expected": {
-                "item_count": 3,
-                "total_cents": 35000,
-                "remaining_cents": 15000
-            },
-            "manual_check": "USD 180 + USD 120 + USD 50 = USD 350; USD 150 remains."
+            "id": "calendar",
+            "title": "Calendar",
+            "summary": "A month grid with a + on every day, notes you can drag between days, and Month, Week and Workdays views.",
+            "data_file": "data/events.json",
+            "storage_key": "calendar",
+            "expected": { "item_count": 3 },
+            "manual_check": "3 notes to start: today, tomorrow and in three days. Add one and the count shows 4 notes planned.",
+            "later_ideas": ["Give notes a colour by type", "Show public holidays you type in", "Add a start time to each note"]
+        },
+        {
+            "id": "ideas",
+            "title": "Ideas Wall",
+            "summary": "Colourful sticky notes: + to add an idea, drag to put the best first, and x to remove.",
+            "data_file": "data/ideas.json",
+            "storage_key": "ideas-wall",
+            "expected": { "item_count": 3 },
+            "manual_check": "3 ideas to start. Add one: 4 ideas. Remove one: back to 3.",
+            "later_ideas": ["Add a vote button with a count", "Group ideas into themes", "Search the ideas"]
+        },
+        {
+            "id": "weather",
+            "title": "Weather",
+            "summary": "City buttons, + to add any city, today's weather with a big icon, and the next three days, from the public Open-Meteo API.",
+            "data_file": "data/weather.json",
+            "storage_key": "weather",
+            "live_api": "Open-Meteo (no key; free tier is for non-commercial use)",
+            "expected": { "item_count": 3 },
+            "manual_check": "3 cities to start. Open 'the raw forecast data' link and compare today's temperature with the page.",
+            "later_ideas": ["Switch between Celsius and Fahrenheit", "Add a 'what to wear' tip", "Show sunrise and sunset"]
         }
     ]
 }

@@ -1,6 +1,6 @@
 ---
 name: create-website
-description: 'Guide a first-time user through choosing, building, previewing, checking, and saving a simple fictional website in this workshop. Use /create-website to start or continue the guided starter, or to try an own-idea extension after completing it.'
+description: 'Build a beautiful fictional website for a first-time user from one choice: Calendar, Weather, Project Planner, or Ideas Wall. Use /create-website to start; the page opens beside Chat and the learner improves it just by asking.'
 argument-hint: 'Start or continue your website'
 user-invocable: true
 disable-model-invocation: true
@@ -8,158 +8,165 @@ disable-model-invocation: true
 
 # Create Your Website
 
-You are a patient website-building guide for someone who has never coded. Work in the
-existing Codespace with the built-in coding Agent. Do not ask the learner to select a
-framework, install software, configure a service, or understand how a skill works.
-Use short sentences and one action at a time. A skill is guidance, not a guaranteed wizard.
+You are a friendly guide for business people who have never coded. The goal is to show them
+they can build a good-looking, working website **just by talking**. Ask one question, build
+straight away, and let the preview do the rest. Never ask them to choose a framework, install
+software, configure a service, or understand how this skill works.
 
-## First Response: Choose, Then Wait
+## 1. One Question
 
-Before editing, check whether `site/brief.md` and `site/index.html` exist. Read the brief
-only if present. If it is missing, gather the choices normally and create it only after approval.
-Do not inspect unrelated business reports or private facilitator files.
+Check whether `site/index.html` exists. Do not inspect unrelated business reports or private
+facilitator files.
 
-- If a page exists, ask whether to continue it or get help with a specific change. Do not reset it.
-- Otherwise ask exactly one question: **"Which website would you like to make?"**
-  Offer **Weekend planner** (the presenter default), **Project planner**, and **Budget planner**.
-  Use the question tool with these three choices when available; otherwise use a numbered chat list.
-  Read [starters.json](./assets/starters.json) for the selected fictional brief and expected figures.
-- Stop after the question and wait for the answer. Do not build a page before the learner answers.
-- If they request their own idea first, explain that the guided starter comes first in this lab.
-  Record their idea for the extension; never silently substitute a different task.
+- If a page exists, ask whether to continue it or change something specific. Do not reset it.
+- Otherwise ask exactly one question: **"Which website would you like to make?"** Offer
+  **Project Planner** (the presenter default), **Calendar**, **Ideas Wall**, and **Weather**,
+  each with its one-line `summary` from [starters.json](./assets/starters.json). Use the
+  question tool when available; otherwise a numbered list.
+- Stop after the question and wait. Choosing a category is the approval to build it; ask
+  nothing else before building. If they describe their own idea, pick the closest category,
+  say so in one sentence, and note the idea for later.
 
-## Agree a Tiny First Version
+## 2. Build It Straight Away
 
-Ask the following separately, waiting for each answer. Reuse answers already supplied:
+The name comes from the repository, so there is nothing to ask. Run
+`basename -s .git "$(git remote get-url origin 2>/dev/null || pwd)"`, turn hyphens and
+underscores into spaces, and capitalise each word's first letter (`copilot-hackathon-template`
+becomes `Copilot Hackathon Template`; `AliFarahnak` stays `AliFarahnak`). The page name is that
+plus the category title, for example **AliFarahnak Project Planner**.
 
-1. **"What would you like to call it?"** Offer the selected starter title as a default.
-2. **"Who will use this page?"** Offer the selected starter's fictional audience. No real names,
-  department records, or confidential examples are needed.
-3. **"What kind of logo would you like: your project name, initials, or a small symbol with the name?"**
-  Recommend name only when unsure. For initials, confirm the letters; for a symbol, offer the
-  selected starter's recommended symbol. This is a fictional project mark, not a company logo.
-4. **"Which light color palette would you like?"** Recommend **Fresh mint**: white and light
-  grey with green and soft blue accents. Also offer **Sky blue**: white with blue and pale peach,
-  or **Soft coral**: white with coral and pale sage. All start light, with dark readable text.
-  Use labelled choices or swatches when the question UI supports them, never raw CSS codes.
-  Accept a preferred color in ordinary words and preserve readable contrast. Do not switch to
-  dark mode based on the editor or operating-system theme; ask before adding a dark alternative.
-5. **"What should people be able to do?"** Offer the selected starter's `feature_choices` in
-  plain language. Recommend its `interaction` first; choose at most one extra for the first version.
-  Do not ask about frameworks, hosting, file formats, or design-system terminology.
-6. Summarise the purpose, one page, three fictional entries, selected features, logo, colors,
-  and a checkable total or count in at most six short lines. Ask **"Shall I build this first version?"**
-  Do not edit until approved. "Not sure" means explain and offer a default, not invent a decision.
+Each category has a tested, self-contained blueprint in this skill. The source template never
+ships a finished `site/`; this copy happens only after the learner chooses.
 
-There is no separate diagram tool or image-generation service in this journey. The questions
-and a small local visual kit are enough to create a coherent first design. Keep the interview
-short; do not repeat questions already answered in the learner's message or brief.
+| Category | Blueprint | Sample data (pretend API) |
+| --- | --- | --- |
+| Project Planner | [project/index.html](./assets/blueprints/project/index.html) | [data/tasks.json](./assets/blueprints/project/data/tasks.json) |
+| Calendar | [calendar/index.html](./assets/blueprints/calendar/index.html) | [data/events.json](./assets/blueprints/calendar/data/events.json) |
+| Ideas Wall | [ideas/index.html](./assets/blueprints/ideas/index.html) | [data/ideas.json](./assets/blueprints/ideas/data/ideas.json) |
+| Weather | [weather/index.html](./assets/blueprints/weather/index.html) | [data/weather.json](./assets/blueprints/weather/data/weather.json) |
 
-Keep the learner's existing note. After approval, update only the relevant brief sections with
-the chosen idea, theme, expected result, and remaining work. Do not overwrite unrelated writing.
-Also record the confirmed audience, logo style, and selected features so later UI changes keep them.
-Keep all prices and units consistent with the selected brief; these are fictional, not live quotes.
+1. Copy the chosen blueprint's `index.html` and `data/` folder into `site/`.
+2. Copy the kit unchanged: [workshop.css](./assets/css/workshop.css) to `site/css/workshop.css`,
+   [workshop.js](./assets/js/workshop.js) to `site/js/workshop.js`, the [art](./assets/art/)
+   folder to `site/art/`, [the font](./assets/fonts/source-sans-3-latin.woff2) to
+   `site/fonts/source-sans-3-latin.woff2`, and [its license](./assets/fonts/OFL.txt) to
+   `site/FONT-LICENSE.md`. See [the kit notes](./assets/README.md).
+3. In `site/index.html`, replace `My` in the `<title>` and `.logo` text with the repository
+   name, and the `.logo-mark` letter with its first letter. Change nothing else.
+4. Write `site/brief.md`: the page name, category, what it does, the starter's `manual_check`,
+   each check marked **not yet checked**, and the starter's `later_ideas`. Keep an existing
+   brief's writing and add to it.
 
-## Build in the Existing Stack
+Then open the preview immediately (next section). Do not stop to summarise the files first.
 
-- Use plain HTML, CSS, and JavaScript. No React, Vue, Tailwind, npm project, backend, database,
-  login, API key, real business data, or corporate logo. No deployment or public port.
-- First site: `site/index.html`, `site/styles.css`, and `site/app.js`. Keep the root HTML entry point.
-- Copy [workshop.css](./assets/css/workshop.css) to `site/css/workshop.css` unchanged, and
-  [source-sans-3-latin.woff2](./assets/fonts/source-sans-3-latin.woff2) to `site/fonts/source-sans-3-latin.woff2`.
-  Copy [the font license](./assets/fonts/OFL.txt) to `site/FONT-LICENSE.md` so it is retained but
-  not served by the publication target. Read [the asset notes](./assets/README.md).
-- For a name-only logo, render the project name as text. For initials, use the `.logo-mark`
-  class with the confirmed letters. For a symbol, copy only the selected Lucide SVG from
-  `assets/icons/` in this skill to `site/assets/`, plus [its license](./assets/icons/LICENSE)
-  to `site/ICON-LICENSE.md`. Keep the SVG intact; use the `.logo` and `.logo-mark` classes.
-  Give a meaningful image accessible text, or an empty alt when the adjacent name conveys it.
-  No logo-generation API, paid key, trademark imitation, or additional installation.
-- Link the shared CSS first, then the learner's `styles.css`. Put personal changes in that
-  second file. Fresh mint uses `data-theme="green"` (the default), Sky blue uses `"blue"`,
-  and Soft coral uses `"coral"` on the body. Do not change
-  the shared skill's assets while making a learner's website.
-- Keep the frontend build-free: no package.json, bundler, JSX, TypeScript compiler, CSS
-  framework, CDN, remote font, or service worker. Use a regular `<script src="app.js" defer>`
-  and relative CSS links so Live Preview can serve the files directly and reload saved edits.
-  Keep the first version's HTML, CSS, and JavaScript together below 100 KiB, excluding the
-  provided font and icons. This is a review budget, not a reason to minify learner code or to
-  delete existing work. Prefer one small script and no runtime dependencies or polling loops.
-  Use the optional small logo symbol as the visual asset; avoid giant images, videos, and 3D.
-  Readability, a balanced light palette, responsive layout, and useful states provide the polish.
-- Reuse the kit's container, header, form, button, stats, list, and card classes where suitable.
-  Aim for a readable, attractive app, not a promotional landing page. Use clear text commands,
-  labels for inputs, visible keyboard focus, and empty/error states. Do not nest decorative cards.
-  Keep the chosen logo and typography consistent; add only restrained purposeful motion that
-  respects reduced-motion preferences. Beauty should not add steps or obscure the main task.
-- Keep paths relative and assets local. Use textContent for entered text. Store monetary amounts
-  as integer cents or use equivalent correct decimal arithmetic; show the currency and unit.
-- If an intended file exists, ask before replacing it. Fix a working project in place, without
-  changing its framework. Do not copy a completed example site into the learner's project.
-- Build only the approved small version and summarise the changed files. Immediately follow
-  [Start Website](../start-website/SKILL.md) for that HTML file to show the first version, then
-  pause for the learner's observation. They should not need another creation request or a
-  second interview. Do not add persistence unless the learner chooses that extension later.
+## 3. Show It and Hand Over
 
-## Open Beside Chat
+Run this yourself from the repository root; do not ask the learner to type it:
 
-Follow the linked start workflow in this conversation. Use its permitted editor command when
-available, or guide **Live Preview: Show Preview (Internal Browser)** as the UI fallback.
-Do not claim the preview opened unless a UI observation or the learner confirms it. Keep Chat
-beside the page and return here for the manual checks once it is visible. No desktop Chromium
-or browser MCP is required. The Python fallback on 8000 needs manual refresh.
+```bash
+python3 scripts/website_preview.py start
+```
 
-Explain the two recovery commands in one sentence: **"/start-website reopens your existing page;
-/stop-website stops its preview without deleting your files."** Use [Stop Website](../stop-website/SKILL.md)
-only when requested, not automatically after building. Saved edits refresh the live page;
-temporary form entries may reset. A preview is not a deployment.
+It opens `site/index.html` in a **Website preview** panel beside Chat. There is no server,
+port, or sign-in, and the panel redraws whenever a site file changes. Require
+`previewOpen: true`, then ask **"Can you see your page beside Chat?"** A command result is
+not proof it rendered. If the helper is missing, show the exact error to the facilitator.
 
-Continue design and feature improvements in ordinary Chat rather than restarting this
-interview. Offer [Lab 02's category-specific ideas](../../../labs/02-copilot-cli/README.md)
-when the learner wants suggestions. Ask for one small change, preserve unrelated behavior,
-and recheck their chosen category's figures after every feature change.
+Then hand over in three short lines:
 
-## Check, Improve, and Save
+- **"Try it: press + to add something, drag it, or remove it."**
+- **"Now tell me what to change, for example: 'make the cards bigger', 'add Saturday',
+  or one of these: <two of the starter's later_ideas>."**
+- **"/start-website reopens your page; /stop-website closes it without deleting anything."**
 
-Ask one check at a time and wait for the observed result:
+From here the learner leads through ordinary Chat. Make one requested change at a time,
+keep everything else, and never restart this interview. See [Start Website](../start-website/SKILL.md),
+[Stop Website](../stop-website/SKILL.md), and [Lab 02's category-specific ideas](../../../labs/02-copilot-cli/README.md).
 
-1. Try the main interaction, such as adding and removing a fictional item. Does it do what they expected?
-2. Compare the displayed total or count with the selected starter's `expected` values. Have the
-   learner do the calculation themselves; an assistant's "looks good" is not verification.
-3. Ask for one personal change, implement it narrowly, then repeat the original check. Try a
-   narrow window and keyboard Tab/Enter. Fix genuine failures without inventing one for the lesson.
-4. Record the user's actual observations in their brief. If unchecked, write **not yet checked**.
+## How the Pages Work (Keep This When Changing Them)
+
+- One page: kit CSS link, a small `<style>`, the markup, `js/workshop.js`, then one inline script.
+- Entries are remembered in this browser with `Workshop.store`. On first load they come from the
+  local JSON file with `Workshop.loadJSON`, with the same items inline as `SAMPLE`. Keep both
+  identical when changing sample data. **Start again with the examples** clears saved entries.
+- `Workshop.addButton(label, onAdd)` makes the round **+** that turns into a text box.
+  `Workshop.enableBoard(area, onMove)` handles drag and drop for `[data-card-id]` items inside
+  `[data-column]` areas. Removal uses a `.remove` button with an `aria-label`.
+- Build elements with `Workshop.el` or `textContent`; never put entered text in `innerHTML`.
+- Beauty comes from the kit: `.app-header` with `.hero` and a `.hero-art` image, weekday icons
+  in `art/<weekday>.svg` (`.day-art`), `.board`/`.column`/`.card`, `.calendar`/`.day`/`.chip`,
+  `.wall`/`.note`, `.weather-now`/`.forecast`, `.tabs`, `.progress` (`--value` 0-100),
+  `.animate-in` with `--i`, `Workshop.flash()`, and `Workshop.toast()`. All art is original,
+  local, animated SVG that respects reduced-motion settings. Prefer kit classes to new CSS.
+- New features stay static and local: no framework, build step, npm package, CDN, remote font,
+  image service, animation library, backend, login, API key, real business data, or corporate
+  logo. No logo-generation API or paid reference service. No deployment or public port.
+- The preview allows only the page's own files plus Open-Meteo, which the owner approved for
+  the Weather page. Other internet APIs do not load; record such wishes as questions for IT.
+  Open-Meteo's free tier is for non-commercial use. Keep learner-written files below 100 KiB,
+  excluding the copied kit. Never overwrite the first page without asking.
+
+## 4. Check and Save
+
+When the learner is ready, one check at a time, waiting for their observation:
+
+1. Try the main interaction. Did it do what they expected?
+2. Press **Start again with the examples** and do the starter's `manual_check` themselves.
+   An assistant's "looks good" is not verification.
+3. Ask for one change, then check it appeared by itself and their entries are still there.
+   Try a narrow window and keyboard Tab/Enter.
+4. Record their actual observations in the brief. If unchecked, write **not yet checked**.
 5. Guide **save -> review -> commit -> push** through Source Control. Never stage unrelated work,
-   commit, push, or deploy automatically. Ask them to confirm the same branch and files on GitHub.
-6. Ask them to show one checked feature to a neighbour or helper. A stage presentation is optional.
+   commit, push, or deploy automatically. Ask them to confirm the same files on GitHub.
+6. Ask them to show one feature to a neighbour or helper.
 
-Completion requires a visible page, a working interaction, a manually verified number, reviewed
-work saved on GitHub, and a neighbour/helper demonstration. Record confirmed steps only.
+## Your Own Idea (Fast Finishers)
 
-## Fast-Finisher Own Idea
+Offer this only after the first page is checked, saved on GitHub, and shown. It is optional:
+if time runs out, the learner moves on to the next lab. The first page is the finish.
 
-Offer this only after the learner confirms the starter checks, saving, and demonstration.
-They may instead continue improving the same page. An own idea stays one page, one useful
-interaction, and fictional local data, with no live integrations or real company branding.
+1. Ask one question: **"Describe your idea in one sentence."** Then build straight away.
+2. Choose a short folder name from the idea, such as `site/ideas/team-lunch/`, and check it
+   does not exist. Never overwrite the first page; it stays the publication entry point.
+3. Start from the closest blueprint pattern, then reshape it to fit the idea:
 
-For a separate page, agree a new folder such as `site/ideas/my-list/` with the learner and
-check it does not exist. Never overwrite the first page or change the preview server root.
-Use relative links to the existing shared CSS/font, and open the new HTML file with the same
-Live Preview command. Keep its own brief. The existing root page remains the publication entry
-point; publishing is not part of this skill.
+   | The idea is mostly... | Start from |
+   | --- | --- |
+   | Things moving through stages or days (tasks, orders, a hiring pipeline) | Project Planner |
+   | Things on dates (events, shifts, holidays, deadlines) | Calendar |
+   | Collecting, sorting, or voting on items (ideas, wishes, feedback) | Ideas Wall |
+   | Looking something up and showing the result | Weather pattern with a local data file |
+
+4. Copy the blueprint's `index.html` and `data/` into the new folder. Point shared files one
+   level up twice: `../../css/workshop.css`, `../../js/workshop.js`, and `../../art/...`. Keep
+   `data/` inside the folder. Use a new storage key, `idea-<folder>`.
+5. Rename everything for the idea: the title and logo (repository name plus the idea's name),
+   headline, subtitle, column or view names, button labels, and three or four fictional sample
+   entries, kept identical in the data file and inline `SAMPLE`. Keep the kit's `+`, `x`, and
+   drag behaviour wherever it fits.
+6. Keep it just as beautiful: the gradient header with a `.hero-art` image (reuse the closest
+   hero or a weekday icon), content in `.panel`, `.card`, `.note`, or `.column`, entries that
+   `.animate-in` with a stagger, `Workshop.toast()` after every action, `Workshop.flash()` on
+   the changed item, one clear number to check (a count or `.progress` bar), and the learner's
+   `data-theme`. Everything must work with a keyboard and in a narrow window.
+7. Write `brief.md` in the folder with the one-sentence idea and one manual check marked
+   **not yet checked**. Open it with
+   `python3 scripts/website_preview.py start ideas/<folder>/index.html`, confirm it is visible,
+   and hand over exactly as for the first page: try it, then ask for changes.
+
+The same rules apply: fictional local data only, no new internet APIs beyond Open-Meteo, no real
+branding, and no frameworks, packages, or build steps. If an idea needs real systems or data,
+build it with fictional sample data and note the real integration as a question for IT.
 
 ## Presenter Notes
 
-The skill ships with the repository; attendees do not install or author it. If `/create-website`
-is missing, a helper checks workspace trust and Chat customization discovery. The fallback is
-to open this file, attach it to Agent Chat, and ask to follow its workflow. Do not install a
-marketplace plugin or use CLI/MCP as a prerequisite for Monday.
-
-This is an original workshop workflow, not an installed Awesome Copilot plugin. Useful design
-and review references: [HTML/CSS guidance](https://github.com/github/awesome-copilot/blob/db8d563aefebf9dd569bc72596c4ebd817847534/instructions/html-css-style-color-guide.instructions.md)
-and [visual review](https://github.com/github/awesome-copilot/tree/db8d563aefebf9dd569bc72596c4ebd817847534/skills/web-design-reviewer).
-No upstream scripts, live browser requirement, or paid reference service is inherited.
+The skill and kit ship with the repository; attendees install nothing. If `/create-website`
+is missing, a helper checks workspace trust and Chat customization discovery, then attaches
+this file to Agent Chat and asks to follow it. No CLI, MCP, animation service, or marketplace
+plugin is needed. This is an original workshop workflow.
 
 Official references: [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills),
-[Live Preview](https://github.com/microsoft/vscode-livepreview), and
-[Codespaces ports](https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace).
+[localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage),
+[HTML drag and drop](https://developer.mozilla.org/docs/Web/API/HTML_Drag_and_Drop_API),
+[fetch](https://developer.mozilla.org/docs/Web/API/Fetch_API), and
+[Open-Meteo](https://open-meteo.com/en/docs).

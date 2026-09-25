@@ -65,33 +65,30 @@ def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> No
 
 
 def test_guided_kit_assets_fit_the_website_target(website: Path) -> None:
-    """The kit's copy layout must work without publishing skill files or license notes."""
+    """A copied blueprint and kit publish as-is, without skill files or license notes."""
     source = Path(".github/skills/create-website/assets")
     copies = {
+        "blueprints/project/index.html": "index.html",
+        "blueprints/project/data/tasks.json": "data/tasks.json",
         "css/workshop.css": "css/workshop.css",
+        "js/workshop.js": "js/workshop.js",
+        "art/hero-project.svg": "art/hero-project.svg",
+        "art/monday.svg": "art/monday.svg",
         "fonts/source-sans-3-latin.woff2": "fonts/source-sans-3-latin.woff2",
-        "icons/calendar-days.svg": "assets/calendar-days.svg",
         "fonts/OFL.txt": "FONT-LICENSE.md",
-        "icons/LICENSE": "ICON-LICENSE.md",
     }
     for original, relative in copies.items():
         destination = website / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source / original, destination)
     manifest = site_manifest(website)
-    assert set(manifest["files"]) == {
-        "index.html",
-        "css/workshop.css",
-        "fonts/source-sans-3-latin.woff2",
-        "assets/calendar-days.svg",
-    }
+    assert set(manifest["files"]) == set(copies.values()) - {"FONT-LICENSE.md"}
     client = TestClient(create_app(website))
     for relative in manifest["files"]:
         response = client.get("/" + relative)
         assert response.status_code == 200
         assert hashlib.sha256(response.content).hexdigest() == manifest["files"][relative]
     assert client.get("/FONT-LICENSE.md").status_code == 404
-    assert client.get("/ICON-LICENSE.md").status_code == 404
 
 
 def test_missing_site_and_invalid_markup_are_not_ready(tmp_path: Path, website: Path) -> None:

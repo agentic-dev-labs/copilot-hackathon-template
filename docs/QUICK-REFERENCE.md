@@ -14,12 +14,12 @@ wait for the current step rather than racing through a long lab. Use fictional i
 | Save work | **File > Save**. This updates the working file, not GitHub. |
 | Record a version | Review files, select **+** beside only the intended files, type a short message, then **Commit**. |
 | Send it to GitHub | **Source Control > ... > Push**. Open the same branch on GitHub and confirm the changed file is there. |
-| Start my guided website | In Agent Chat run **`/create-website`**. Choose a starter, answer one question at a time, and approve the small plan. |
-| Choose its appearance | Choose a fictional project name, logo style, and a light Fresh mint, Sky blue, or Soft coral palette; describe one or two useful features. |
-| See my website beside Chat | Creation opens the first preview. Later use **`/start-website`** to reopen the saved page without rebuilding it. |
-| Open it by hand | Open the HTML file, then **Live Preview: Show Preview (Internal Browser)** from the Command Palette. Save edits to refresh. |
-| Stop my preview | Use **`/stop-website`**, or **Live Preview: Stop Server** in the Command Palette. Files stay unchanged; the Codespace keeps running. |
-| Fix a blank embedded preview | Keep ports **3000/3001 Private**, open their forwarded links once through Ports for GitHub authentication, then reopen the preview. Ask a helper if blocked. |
+| Start my guided website | In Agent Chat run **`/create-website`** and pick one: Project Planner, Calendar, Ideas Wall, or Weather. It builds straight away. |
+| Choose its appearance | Pick a light Fresh mint, Sky blue, or Soft coral palette. Change anything else later just by asking. |
+| See my website beside Chat | Creation opens the preview. Later use **`/start-website`** to reopen the saved page without rebuilding it. |
+| See an edit immediately | Ask for one colour or heading change and watch the preview; it updates by itself. |
+| Stop my preview | Use **`/stop-website`**. The panel closes. Files and your entries stay; the Codespace keeps running. |
+| Fix a blank preview | Show a helper the exact message. There is no server or port to fix. |
 
 ## One Good Request
 
@@ -27,21 +27,16 @@ wait for the current step rather than racing through a long lab. Use fictional i
 Explain the small plan first. I will check it by **this action and expected result**."
 
 Continue the website you chose: one design improvement, then one feature improvement.
-[Lab 02](../labs/02-copilot-cli/README.md) offers separate weekend, project, and budget examples.
+[Lab 02](../labs/02-copilot-cli/README.md) offers separate ideas for each of the four websites.
 Use normal Chat for changes; do not rerun the creation interview for every edit.
 
-## Preview Fallback With a Helper
+## Preview Help
 
-The main route needs no terminal. If Live Preview cannot run, the helper introduces this
-manual-refresh fallback in the **Codespaces Bash terminal**:
-
-```bash
-uv run uvicorn app.site:app --host 0.0.0.0 --port 8000
-```
-
-Leave it running and use **Ports > 8000 > Open in Browser**, keeping it private. Save files and
-refresh manually on this fallback. Ask about a busy port or error. Your laptop's localhost is
-not this Codespace. Neither preview is a deployment; temporary form entries can reset on reload.
+The learner needs no terminal. Creation opens the approved page automatically; start and stop
+use the prepared preview panel. A helper can use **Workshop Website: Open Preview** or
+**Close Preview** in the Command Palette, or the **Open Preview** button on an HTML file.
+Do not install or configure tools during the lesson; new Codespaces must be rehearsed beforehand.
+A preview is not a deployment. The page remembers entries in this browser only.
 
 ## Trust but Verify
 
@@ -65,5 +60,4 @@ your Codespace through the Codespaces menu; closing its browser tab does not imm
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/overview),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),
-[Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices),
-[Live Preview](https://github.com/microsoft/vscode-livepreview).
+[Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).

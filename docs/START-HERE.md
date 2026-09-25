@@ -5,8 +5,8 @@ You do not need to know how to code. Everything happens in your browser-based Co
 nothing is installed on your laptop. Use fictional examples, never private work information.
 The presenter demonstrates every essential click, then pauses for your turn. You are not
 expected to work through this guide independently. Keep the [printable quick reference](QUICK-REFERENCE.md)
-beside you. Monday starts with a guided fictional website; the presenter uses the weekend
-planner, with project and budget planners as supported choices. Tuesday protects own-idea building.
+beside you. Monday starts with a guided fictional website; the presenter uses the Project
+Planner, with Calendar, Ideas Wall and Weather as supported choices. Tuesday protects own-idea building.
 
 ## First Block: Understand the Workspace
 
@@ -78,16 +78,14 @@ Source: [GitHub's Codespaces source-control guide](https://docs.github.com/en/co
 
 ![GitHub Codespaces screenshot highlighting the Ports tab and globe button that opens a preview in a browser.](https://docs.github.com/assets/images/help/codespaces/quickstart-forward-port.png)
 
-**Website preview:** open your generated HTML file and choose **Live Preview: Show Preview
-(Internal Browser)** from the Command Palette. Keep Chat beside the page in the same window.
-This differs from **Open Preview**, which displays a Markdown document. Saved changes refresh
-the website automatically; the code tab can be closed without losing the files.
+**Website preview:** `/create-website` opens your approved page in a panel beside Chat.
+Later, `/start-website` reopens it and `/stop-website` closes it. This differs from
+**Open Preview**, which displays a Markdown document. Ask for one small change and watch it
+appear by itself. Your files and the entries you add stay saved.
 
-**Ports:** the lower panel listing running previews. **Globe / Open in Browser:** open a private
-forwarded URL if access is needed. Live Preview normally uses **3000** and **3001**; keep both
-**Private**. Open those URLs once to complete normal GitHub redirects, then reopen the embedded
-preview. Use the private external tab if browser policy blocks embedding. A helper can use the
-Python preview on **8000** as a manual-refresh fallback; no terminal is needed on the main route.
+**Ports:** the lower panel listing running services. Beginner websites do not use it; the
+preview needs no server or port. Show a helper a blocked preview instead of repeatedly
+refreshing Codespaces or installing software.
 
 Source: [GitHub's Codespaces quickstart](https://docs.github.com/en/codespaces/getting-started/quickstart).
 GitHub Docs screenshots are reproduced by reference, unmodified, under
@@ -116,11 +114,11 @@ This coached **10:00-10:30** block follows Lab 00; it is not extra work inside i
 Use the same Codespace. The presenter demonstrates each step, then pauses for your turn.
 
 1. In Chat choose the built-in **Agent** when the presenter shows it. Ask:
-   "Create site/brief.md with my idea: a fictional weekend planner. Include who it is for,
-   three things it should show, and one thing I can check. Do not build the website yet."
-   The weekend planner is the default; you may describe a fictional project or budget planner
-   instead. In Lab 01, `/create-website` asks about your audience, logo, colors, and features,
-   one question at a time. Record unrelated ideas for after you finish, check, save, and show
+   "Create site/brief.md with my idea: a fictional project planner for a team week. Include who
+   it is for, three things it should show, and one thing I can check. Do not build the website yet."
+   The project planner is the default; you may describe a calendar, ideas wall, or weather page
+   instead. In Lab 01, `/create-website` asks only which website you want and then builds it.
+   Record unrelated ideas for after you finish, check, save, and show
    this first website rather than repeatedly starting again.
 2. Open the new file from **Explorer > site > brief.md**. Read it and correct one sentence.
    **Check:** it describes your idea, not a different application.
@@ -154,5 +152,5 @@ or training-account removal is needed to continue.
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [Microsoft Live Preview](https://github.com/microsoft/vscode-livepreview): same-window preview and refresh on save.
+- [VS Code webviews](https://code.visualstudio.com/api/extension-guides/webview): how the website preview panel works.
 - [Week's topic map](REFERENCES.md).

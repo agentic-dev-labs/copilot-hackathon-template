@@ -48,11 +48,12 @@ def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
     first_page = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
     interaction = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
     sharing = Path("labs/08-deploy/README.md").read_text(encoding="utf-8")
-    assert "uv run uvicorn app.site:app --host 0.0.0.0 --port 8000" in first_page
+    assert "python3 scripts/website_preview.py status" in first_page
+    assert "appear by itself" in first_page
     assert "MCP: Add Server" not in first_page
-    assert "USD 13 per person" in first_page
+    assert "1 of 4 done" in first_page
     assert "localStorage" not in interaction.split("## Optional extras")[0]
-    assert "Persistence is optional" in interaction
+    assert "not a requirement" in interaction
     assert "A deployment or saved browser state is not required" in sharing
     assert "## Optional extras" in sharing
 
@@ -60,7 +61,7 @@ def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
 def test_personalisation_lab_follows_the_chosen_category() -> None:
     """Learners improve their own page, with visual and feature changes kept small."""
     text = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
-    for category in ("Weekend planner", "Project planner", "Budget planner"):
+    for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather"):
         assert f"| {category} |" in text
     assert "**one appearance change** and **one feature change**" in text
     assert "not a new creation interview" in text
@@ -69,7 +70,7 @@ def test_personalisation_lab_follows_the_chosen_category() -> None:
     assert "own-idea extension in a separate folder" in text
     blocks = re.findall(r"^### \d\. .*\((\d+) minutes\)", text, re.MULTILINE)
     assert sum(map(int, blocks)) == 60
-    assert "USD 17" in text and "USD 120" in text
+    assert "2 of 4" in text and "3 notes planned" in text
 
 
 def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
@@ -134,27 +135,29 @@ def test_guided_website_skill_is_explicit_and_preserves_learner_work() -> None:
     assert metadata["user-invocable"] is True
     assert metadata["disable-model-invocation"] is True
     assert "Stop after the question and wait" in text
-    assert "Do not edit until approved" in text
+    assert "Choosing a category is the approval to build it" in text
     assert "not yet checked" in text
     assert "Never overwrite the first page" in text
     assert "No deployment or public port" in text
-    assert "Live Preview: Show Preview (Internal Browser)" in text
+    assert "python3 scripts/website_preview.py start" in text
     assert "paid reference service" in text
-    assert "Who will use this page?" in text
-    assert "What kind of logo would you like" in text
-    assert "What should people be able to do?" in text
     assert "No logo-generation API" in text
-    assert "Which light color palette" in text
-    assert "Fresh mint" in text
-    assert "Keep the frontend build-free" in text
-    assert '<script src="app.js" defer>' in text
+    assert 'git remote get-url origin' in text
+    assert "Describe your idea in one sentence." in text
+    assert "moves on to the next lab" in text
+    for name in ("project", "calendar", "ideas", "weather"):
+        assert f"./assets/blueprints/{name}/index.html" in text
+    assert "Workshop.store" in text and "Workshop.loadJSON" in text
+    assert "Workshop.enableBoard" in text and "Workshop.addButton" in text
+    assert "./assets/art/" in text
+    assert "Vue" not in text and "Vite" not in text
     assert "100 KiB" in text
     assert "../start-website/SKILL.md" in text
     assert "../stop-website/SKILL.md" in text
     assert "category-specific ideas" in text
 
 
-def test_preview_lifecycle_skills_reuse_the_extension_and_preserve_files() -> None:
+def test_preview_lifecycle_skills_reuse_the_helper_and_preserve_files() -> None:
     """Recovery must not recreate pages, bypass editor tool restrictions, or kill by port."""
     texts = {}
     for name in ("start-website", "stop-website"):
@@ -167,38 +170,58 @@ def test_preview_lifecycle_skills_reuse_the_extension_and_preserve_files() -> No
         assert metadata["disable-model-invocation"] is True
         texts[name] = text
     start = texts["start-website"]
-    assert "livePreview.start.preview.atFileString" in start
-    assert "relative to the configured server root" in start
+    assert "python3 scripts/website_preview.py start" in start
+    assert "relative to site/" in start
     assert "Do not create a placeholder" in start
-    assert "Can you see your page beside Chat?" in start
-    assert "permitted command tool" in start
+    assert "Can you see your page beside Chat?" in " ".join(start.split())
+    assert "no server, no port, no sign-in" in start
     stop = texts["stop-website"]
-    assert "livePreview.end" in stop
+    assert "python3 scripts/website_preview.py stop" in stop
     assert "Do not edit, delete, reset" in stop
-    assert "multi-root workspace" in stop
-    assert "Closing the tab alone is not evidence" in stop
     assert "Do not use `pkill`, `killall`" in stop
+    assert "previewOpen: false" in stop
 
 
 def test_guided_starter_figures_and_shared_assets() -> None:
-    """All choices have synthetic, checkable arithmetic and self-contained CSS dependencies."""
+    """Every starter has a tested blueprint, matching sample data, a checkable count, and local art."""
     assets = Path(".github/skills/create-website/assets")
     data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
     assert data["source_mode"] == "synthetic_workshop"
-    assert data["currency"] == "USD"
-    assert [starter["id"] for starter in data["starters"]] == ["weekend", "project", "budget"]
+    assert [starter["id"] for starter in data["starters"]] == ["project", "calendar", "ideas", "weather"]
+    assert data["default"] == "project"
+    allowed_urls = {"http://www.w3.org/2000/svg", "https://api.open-meteo.com/v1/forecast",
+                    "https://geocoding-api.open-meteo.com/v1/search"}
     for starter in data["starters"]:
-        expected = starter["expected"]
-        assert len(starter["feature_choices"]) == 3
-        icon = ET.parse(assets / "icons" / starter["logo_symbol"]["file"]).getroot()
-        assert icon.tag == "{http://www.w3.org/2000/svg}svg"
-        assert icon.attrib["viewBox"] == "0 0 24 24"
-        assert not any(element.tag.endswith("script") for element in icon.iter())
-        assert expected["item_count"] == len(starter["items"])
-        assert expected["total_cents"] == sum(item["cost_cents"] for item in starter["items"])
-        assert expected["remaining_cents"] == starter["budget_cents"] - expected["total_cents"]
-        if "done_count" in expected:
-            assert expected["done_count"] == sum(item["done"] for item in starter["items"])
+        assert starter["summary"] and starter["manual_check"]
+        assert len(starter["later_ideas"]) == 3
+        blueprint = assets / "blueprints" / starter["id"]
+        sample = json.loads((blueprint / starter["data_file"]).read_text(encoding="utf-8"))
+        key = "cities" if starter["id"] == "weather" else "items"
+        assert len(sample[key]) == starter["expected"]["item_count"]
+        if "done_count" in starter["expected"]:
+            assert sum(item["done"] for item in sample["items"]) == starter["expected"]["done_count"]
+        page = (blueprint / "index.html").read_text(encoding="utf-8")
+        assert f"store('{starter['storage_key']}')" in page
+        assert f"'{starter['data_file']}'" in page
+        assert '<script src="js/workshop.js"></script>' in page
+        assert '<link rel="stylesheet" href="css/workshop.css">' in page
+        assert "<title>My " in page and "logo-mark" in page
+        assert "innerHTML" not in page
+        assert set(re.findall(r"https?://[^`'\"?$\s]+", page)) <= allowed_urls
+        for art in re.findall(r'src="(art/[^"]+)"', page):
+            assert (assets / art).is_file(), art
+    kit = (assets / "js/workshop.js").read_text(encoding="utf-8")
+    assert "innerHTML" not in kit and "eval(" not in kit and not re.search(r"https?://", kit)
+    for art in (assets / "art").glob("*.svg"):
+        root = ET.parse(art).getroot()
+        assert root.tag == "{http://www.w3.org/2000/svg}svg", art
+        assert not any(element.tag.endswith("script") for element in root.iter()), art
+        text = art.read_text(encoding="utf-8")
+        assert "http" not in text.replace("http://www.w3.org/2000/svg", ""), art
+        assert "prefers-reduced-motion: reduce" in text, art
+    weekdays = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"}
+    assert weekdays <= {art.stem for art in (assets / "art").glob("*.svg")}
+    assert sum(art.stat().st_size for art in (assets / "art").glob("*.svg")) < 24 * 1024
     css = (assets / "css/workshop.css").read_text(encoding="utf-8")
     for resource in re.findall(r'url\("([^"]+)"\)', css):
         assert not urlsplit(resource).scheme
@@ -211,11 +234,9 @@ def test_guided_starter_figures_and_shared_assets() -> None:
     assert "prefers-color-scheme: dark" not in css
     assert "letter-spacing: 0" in css
     assert "SIL OPEN FONT LICENSE" in (assets / "fonts/OFL.txt").read_text(encoding="utf-8")
-    assert "ISC License" in (assets / "icons/LICENSE").read_text(encoding="utf-8")
     font = (assets / "fonts/source-sans-3-latin.woff2").read_bytes()
     assert font[:4] == b"wOF2"
     assert len(font) < 40 * 1024
-    assert sum(icon.stat().st_size for icon in (assets / "icons").glob("*.svg")) < 4 * 1024
 
 
 def test_agent_frontmatter_and_handoff_targets() -> None:

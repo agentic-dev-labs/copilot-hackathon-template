@@ -25,10 +25,10 @@
         "tests/test_lab_contracts.py"
       ],
       "checks": {
-        "first-page": "Actual /create-website invocation asks one question at a time for starter, title, audience, logo, colors, and features; approval precedes edits; no finished template or installation exercise",
-        "preview": "Actual embedded Live Preview renders beside Chat, refreshes on saved HTML/CSS changes, and stop/start reopens the same saved page without file changes; private-port authentication and fallback limits recorded truthfully",
+        "first-page": "Actual /create-website invocation asks only which of the four websites, then builds the tested blueprint named after the repository; existing pages preserved; no finished template or installation exercise",
+        "preview": "Actual Website preview panel renders beside Chat, updates by itself on changes with added entries kept, and stop/start reopens the same saved page without file changes; blockers recorded truthfully",
         "manual-behaviour": "Coached 11:45 block: expected-versus-observed manual button check, with real fixes rechecked",
-        "source-check": "Coached 11:45 block: displayed figure, units, and calculation compared with the supplied source, not the model's confidence"
+        "source-check": "Coached 11:45 block: the starter's count, or Weather against its raw forecast data, checked by the learner, not the model's confidence"
       },
       "optional_checks": {
         "research-mcp": "Selected optional browser and document tools actually invoked; installation alone is insufficient",

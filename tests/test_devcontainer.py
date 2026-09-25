@@ -24,18 +24,44 @@ def test_machine_requirements_and_notes() -> None:
 
 
 def test_beginner_preview_is_installed_and_scoped_to_the_website() -> None:
-    """Fresh Codespaces need an embedded save-refresh preview, not desktop Chromium."""
+    """Fresh Codespaces get a server-free editor preview: no ports, sign-in, or browser tabs."""
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
     settings = json.loads(Path(".vscode/settings.json").read_text(encoding="utf-8"))
-    assert "ms-vscode.live-server" in config["customizations"]["vscode"]["extensions"]
-    assert {3000, 3001, 8000}.issubset(config["forwardPorts"])
-    assert settings["livePreview.serverRoot"] == "site"
-    assert settings["livePreview.portNumber"] == 3000
-    assert settings["livePreview.defaultPreviewPath"] == "site/index.html"
-    assert settings["livePreview.openPreviewTarget"] == "Embedded Preview"
-    assert settings["livePreview.useIntegratedBrowser"] is False
-    assert settings["livePreview.autoRefreshPreview"] == "On Changes to Saved Files"
-    assert settings["livePreview.hostIP"] == "127.0.0.1"
+    assert "ms-vscode.live-server" not in config["customizations"]["vscode"]["extensions"]
+    assert config["forwardPorts"] == [8000]
+    assert not any(key.startswith("livePreview.") for key in settings)
+    assert config["postAttachCommand"]["website-preview"] == "bash .devcontainer/setup.sh preview"
+    manifest = json.loads(Path(".devcontainer/website-preview/package.json").read_text())
+    assert manifest["name"] == "workshop-site-preview"
+    assert manifest["extensionKind"] == ["workspace"]
+    assert manifest["capabilities"]["untrustedWorkspaces"]["supported"] is False
+    assert manifest["files"] == ["extension.cjs", "controller.cjs"]
+    extension = Path(".devcontainer/website-preview/extension.cjs").read_text()
+    assert "createWebviewPanel" in extension
+    assert "child_process" not in extension
+    assert "connect-src ${resources}" in extension
+    assert "localResourceRoots: [site]" in extension
+
+
+def test_website_helper_ownership_contracts() -> None:
+    """Exercise the Node helper without depending on a real editor or browser."""
+    result = subprocess.run(
+        ["node", "--test", ".devcontainer/website-preview/controller.test.cjs"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_website_toolchain_is_pinned_and_locked() -> None:
+    """The only preparation dependency is the pinned extension packager."""
+    package = json.loads(Path(".devcontainer/website-preview/package.json").read_text())
+    lock = json.loads(Path(".devcontainer/website-preview/package-lock.json").read_text())
+    assert "dependencies" not in package
+    for name, version in package["devDependencies"].items():
+        assert version[0].isdigit()
+        assert lock["packages"][f"node_modules/{name}"]["version"] == version
 
 
 def test_terminal_uses_the_installed_virtual_environment() -> None:
@@ -64,14 +90,14 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
 
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
 @pytest.mark.parametrize("install_status", [0, 23])
-def test_core_setup_never_runs_advanced_installers(tmp_path: Path, install_status: int) -> None:
-    """Core dependencies stay independent of the CLI's on-create installer."""
+def test_core_setup_prepares_website_tools_but_not_advanced_tools(tmp_path: Path, install_status: int) -> None:
+    """Core prepares Python and frontend dependencies without creating a learner page."""
     tools = tmp_path / ".local" / "bin"
     tools.mkdir(parents=True)
     log = tmp_path / "calls.log"
     for name in ("uv", "npm", "node", "curl", "copilot"):
         executable = tools / name
-        status = install_status if name == "uv" else 97
+        status = install_status if name == "uv" else (0 if name == "npm" else 97)
         executable.write_text(
             f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> "$SETUP_CALL_LOG"\nexit {status}\n',
             encoding="utf-8",
@@ -85,9 +111,10 @@ def test_core_setup_never_runs_advanced_installers(tmp_path: Path, install_statu
         check=False,
     )
     assert result.returncode == (0 if install_status == 0 else 1)
-    assert log.read_text(encoding="utf-8").splitlines() == [
-        "uv sync --locked --extra dev --extra web",
-    ]
+    expected = ["uv sync --locked --extra dev --extra web"]
+    if not install_status:
+        expected.append("npm ci --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund")
+    assert log.read_text(encoding="utf-8").splitlines() == expected
     if install_status:
         assert "TLS verification remains enabled" in result.stderr
 

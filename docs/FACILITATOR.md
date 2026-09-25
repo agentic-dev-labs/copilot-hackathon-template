@@ -17,8 +17,8 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | Monday foundations  | Concepts, glossary, and labelled screenshots from [START-HERE](START-HERE.md); no commands | Point to the same controls in the actual browser-based client                       |
 | Monday first work   | Files, Chat, one idea note, save/review/commit/push                                        | Assigned working branch and tested access; no JSON or CLI setup                     |
-| Monday page         | /create-website choices, learner-generated HTML, embedded live preview on save              | Private external/Python fallback; no completed page in the source template |
-| Monday verification | Check a button and the supplied fictional price total against its source                   | Optional single public figure, not a five-report assignment                         |
+| Monday page         | /create-website asks only the category; tested blueprint copied and named; live preview panel | Helper checks the preview helper; no completed page in the source template |
+| Monday verification | Check a button and the starter's count (or Weather against its raw data) yourself          | Optional single public figure, not a five-report assignment                         |
 | Monday afternoon    | One interaction, personal improvements, checked and pushed work                            | Storage and publication only for ready learners with help                           |
 | Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
 | Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | Prepared repository and fictional local content; default idea for people without one |
@@ -66,25 +66,26 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
 Monday uses [START-HERE](START-HERE.md) as the chronological route. The note/Git block at
 10:00 and manual verification at 11:45 are outside Labs 00 and 01. Preserve afternoon building
 time; no storage or public URL is needed to finish. End with a neighbour seeing one working feature.
-Use `/create-website` for the first guided choice: weekend, project, or budget planner. Demonstrate
-the weekend default. It asks for title, audience, a fictional logo, colors, and useful features,
-then waits for approval. Keep
+Use `/create-website` for the first guided choice: Project Planner, Calendar, Ideas Wall, or
+Weather. Demonstrate the Project Planner. It asks only which one, then builds and opens it,
+so attendees see how little they need to say. Keep
 the sponsor welcome inside the first concepts-only block. Do not introduce a React migration
 solely because a starter template was mentioned; framework changes need an explicit decision.
 
-Fresh Codespaces install Live Preview and Copilot CLI. Monday uses the embedded webview and
-refresh-on-save settings, not desktop Chromium or CLI. The learner opens the generated HTML,
-then **Live Preview: Show Preview (Internal Browser)**. Verify the page and Chat are visible
-in the same browser tab. Keep actual preview ports private; normally 3000/3001. Complete their
-GitHub redirects once if needed, then reopen the embedded view. Treat a policy-blocked iframe
-as a recorded fallback to a private external tab, not a reason to make a port public.
-The separate Python preview on 8000 is a manual-refresh fallback and the deployment server.
+Fresh Codespaces prepare the repository-owned Website preview panel, plus Copilot CLI.
+Monday uses that panel, not desktop Chromium, CLI, or any server or port. The learner runs
+`/create-website`; after approval the skill copies the tested category blueprint and kit,
+personalises it, and opens it beside Chat. Verify a change appears by itself and an added
+entry survives it, then `/stop-website` closes the panel and `/start-website` reopens it.
+The Python server on 8000 remains for technical examples and deployment.
 
 Do not require diagram tools, paid image generation, or choosing a frontend framework.
-The skill provides original neutral CSS, licensed fonts/icons, and synthetic starter facts.
-It must wait for each choice, preserve existing files, and never claim a manual check was done
-without the learner's result. Own-idea extensions begin after checking, saving, and showing the
-first site; use a new subfolder rather than overwriting it.
+The skill provides original CSS, original animated SVG art, a licensed font, and synthetic
+starter data. It must preserve existing files and never claim a manual check was done
+without the learner's result. Fast finishers build an own idea from one sentence after checking,
+saving, and showing the first site, in a new subfolder; slower learners move on to the next lab.
+The Weather starter calls Open-Meteo, approved by the owner; its free tier is non-commercial,
+and the page shows sample weather if the network blocks it.
 
 Tuesday gives David 09:00-09:30 for responsibilities and approved-tool context, then Jackie
 09:30-10:30 for Power Platform/shared-data examples. Confirm speaker availability. Use
@@ -101,7 +102,7 @@ and one selected release target with no live Dataverse requirement.
 
 Before Tuesday, ask for a short idea description, not a real spreadsheet or business dataset:
 audience, task, smallest useful interaction, example fictional fields, and how success can be checked.
-Offer weekend planner, fictional event calendar, reading list, or a simple follow-up list examples.
+Offer project planner, calendar, ideas wall, reading list, or a simple follow-up list examples.
 "I do not have an idea yet" is a valid response. Prepare an approved starter repository for each
 selected idea, or continue the Monday app if a new project is not ready. Never overwrite their work.
 
@@ -268,20 +269,20 @@ is required; repository access to the prepared Actions identity must already exi
 
 - Create a Codespace from a test team repository on the corporate network.
 - Confirm extensions install and `uv sync --locked --extra dev --extra web` succeeds.
-- Confirm Live Preview is installed in the Codespace and `copilot --version` responds without
+- Confirm the workshop preview helper is active and `copilot --version` responds without
   requiring a learner installation. CLI sign-in is separate; check it before Day 3.
 - Inspect the devcontainer: Python version, dependency lock, minimum host requirements, shared editor settings, and forwarded port. Extension IDs are not version pins; CLI authentication is separate.
 - Run tests and the sample CLI end to end.
 - Use `--as-of 2026-10-26` to confirm sample scores 10, 8, and 2, plus exact source quotations.
 - Complete the first-note save/review/commit/push journey through the browser UI and read back
   the changed file on GitHub. Check the current screenshots and labels against that client.
-- Invoke `/create-website` in a new session; verify one question at a time, all three starter
-  choices, logo/theme/feature choices, approval before editing, and existing-file preservation.
-  Open the embedded preview; change a heading and CSS, save, and observe both update. Check
-  private-port authentication and external/Python fallbacks. Do not substitute an HTTP check
-  for actual webview rendering or slash-command discovery.
-- Verify `/stop-website` stops only the chosen Live Preview server and `/start-website`
-  reopens the same saved page. Check a missing file, an already-running preview, an already-stopped
+- Invoke `/create-website` in a new session; verify it asks only which of the four websites,
+  builds straight away with the repository name, and preserves an existing page.
+  Let creation open the Website preview automatically; change a heading and CSS, and observe
+  both update with an added entry kept. Do not substitute an HTTP check
+  for actual panel rendering or slash-command discovery.
+- Verify `/stop-website` closes only the Website preview panel and `/start-website`
+  reopens the same saved page automatically. Check a missing file, an already-running preview, an already-stopped
   server, and a separate own-idea page; no recreation, deletion, or unrelated process termination.
 - In Lab 02, choose the learner's existing category, ask for one appearance change and one
   feature change, and verify the matching manual example. Do not repeat the creation interview.

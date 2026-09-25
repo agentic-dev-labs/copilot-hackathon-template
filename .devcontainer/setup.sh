@@ -15,6 +15,24 @@ case "${1:-core}" in
 			printf 'See rehearsal/README.md for package-host and approved certificate guidance.\n' >&2
 			exit 1
 		fi
+		npm ci --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund
+		;;
+	preview)
+		if ! command -v code >/dev/null 2>&1; then
+			printf 'Preview helper installation needs an attached Codespaces editor.\n' >&2
+			exit 1
+		fi
+		VERSION="$(node -p 'require("./.devcontainer/website-preview/package.json").version')"
+		if code --list-extensions --show-versions | grep -Fxq "workshop-local.workshop-site-preview@$VERSION"; then
+			printf 'Workshop preview helper %s is already prepared.\n' "$VERSION"
+		else
+			mkdir -p .workshop-preview
+			pushd .devcontainer/website-preview >/dev/null
+			node_modules/.bin/vsce package --no-dependencies --allow-missing-repository --skip-license --out "$ROOT/.workshop-preview/workshop-site-preview.vsix"
+			popd >/dev/null
+			code --install-extension "$ROOT/.workshop-preview/workshop-site-preview.vsix" --force
+			printf 'Preview helper installed. Existing editor sessions may need one Reload Window.\n'
+		fi
 		;;
 	cli)
 		curl -fsSL https://gh.io/copilot-install | bash
@@ -31,7 +49,7 @@ case "${1:-core}" in
 		bash .devcontainer/mcp.sh check-research
 		;;
 	*)
-		printf 'Usage: bash .devcontainer/setup.sh [core|cli|browser|research]\n' >&2
+		printf 'Usage: bash .devcontainer/setup.sh [core|preview|cli|browser|research]\n' >&2
 		exit 2
 		;;
 esac

@@ -5,6 +5,7 @@ __pycache__/
 /rehearsal/results/
 /travel/output/
 /research/
+.workshop-preview/
 .venv/
 .venv-research/
 node_modules/

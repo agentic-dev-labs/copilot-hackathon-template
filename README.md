@@ -6,7 +6,7 @@ low-coders and pro-coders. Every activity follows **show -> try -> personalise -
 
 **Day 1:** understand the workspace, use Chat, build your first website, manually check a
 feature and a figure, and save your work in GitHub. Use the guided `/create-website` starter
-menu; the presenter demonstrates the fictional weekend planner. **Day 2:** David and Jackie explain the business/IT model and
+menu; the presenter demonstrates the Project Planner. **Day 2:** David and Jackie explain the business/IT model and
 shared-data possibilities; you build your own idea with fictional content and table-side help.
 **Days 3-5:** use CLI and MCP/Playwright, delegate work, make checks repeatable, deploy, author
 skills, and evaluate results. No Dataverse integration is required for the workshop.
@@ -22,28 +22,26 @@ needs installing on your laptop. See the [agenda](docs/AGENDA.md) and
 3. Follow [today's chronological route](docs/START-HERE.md#todays-route), one step at a time.
 
 You start with files and Chat, not commands or configuration. In Lab 01, `/create-website`
-guides you through a weekend, project, or budget planner. Microsoft Live Preview opens your
-page inside the same Codespaces window and refreshes after saved edits. Copilot CLI is installed
+asks one question, Project Planner, Calendar, Ideas Wall, or Weather, and builds it straight
+away, named after your repository. The page opens in a **Website preview** panel beside Chat
+and updates by itself as it changes: no server, port, or sign-in. Copilot CLI is installed
 from creation but introduced on Day 3; browser automation is prepared separately for that track.
-optional research tools do not block Monday's workspace. The facilitator assigns your label and access.
+Optional research tools do not block Monday's workspace. The facilitator assigns your label and access.
 
-Open `site/index.html`, then **Live Preview: Show Preview (Internal Browser)** from the Command
-Palette. If authentication blocks it, open the private forwarded links once through Ports and
-retry. See [Lab 01](labs/01-vscode-agent/README.md) for the fallback. A private preview is
-enough for Monday; public deployment is not part of the guided skill.
-
-The prepared commands keep the same website: **`/create-website`** asks the questions, builds
-after approval, and opens the first preview; **`/start-website`** reopens it;
-**`/stop-website`** stops preview without deleting files. Where Chat cannot run editor commands,
-the skill gives the single matching UI action instead. Continue colors, layout, and features
-in normal Chat using [Lab 02's category-specific examples](labs/02-copilot-cli/README.md).
-The frontend is build-free HTML/CSS/JavaScript with light palettes, local assets, and no CDN.
+The prepared commands keep the same website: **`/create-website`** builds and opens it;
+**`/start-website`** reopens it; **`/stop-website`** closes the preview without deleting files.
+Continue colours, layout, and features in normal Chat using
+[Lab 02's category-specific examples](labs/02-copilot-cli/README.md). Fast finishers build
+their own idea from one sentence in `site/ideas/`. A private preview is enough for Monday.
+Each page is one self-contained HTML file with a local design kit, original animated artwork,
+and fictional sample data; no framework, build step, or CDN. Only the Weather page uses the
+internet, calling the owner-approved Open-Meteo API.
 
 ## What This Repository Provides
 
 - A prepared environment and lab guidance, not a completed learner website.
-- A [guided creation skill](.github/skills/create-website/SKILL.md) with neutral styling and three fictional starter briefs; no learner installation or skill authoring.
-- Plain-language choices for audience, fictional logo, colors, and useful features before building; no paid image service or diagram tool.
+- A [guided creation skill](.github/skills/create-website/SKILL.md) with four tested category designs and original animated art; no learner installation or skill authoring.
+- One question before building; everything else is changed later just by asking. No paid image service or diagram tool.
 - Eight active labs, a [supported Tuesday build](docs/DAY-2-BUILD.md), official references, tests, and a [rehearsal package](rehearsal/README.md).
 - A [printable quick reference](docs/QUICK-REFERENCE.md) for the live demonstrations.
 - A synthetic vendor reader for the technical track; it runs without Dataverse credentials.

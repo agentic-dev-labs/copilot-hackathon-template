@@ -46,8 +46,9 @@ Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or
 is required. Use prepared headless Playwright MCP via private stdio from Day 3. MarkItDown
 is an optional later research tool. Neither installation blocks Monday's core setup.
 Built-in browser tools are optional when supported, not a Codespaces prerequisite.
-Use embedded Live Preview for beginner websites, with private Ports links for authentication or
-fallback; laptop localhost is not Codespace localhost. Copilot CLI is installed on creation,
+Use the prepared server-free Website preview panel for beginner websites. Creation and start
+open it beside Chat automatically; stop closes it. It needs no server, port, or sign-in.
+Laptop localhost is not Codespace localhost. Copilot CLI is installed on creation,
 but sign-in and teaching remain separate. Keep service
 credentials and other private notes out of commits.
 The owner approved temporary versioning of the two existing preparation documents under
@@ -60,16 +61,20 @@ its README cleanup reminder. A green offline suite is not a live Codespaces or D
 The approved post-meeting 18 September curriculum replaces breadth-first Monday. Its first 30 minutes are
 concepts only: glossary, labelled screenshots, GitHub/repository/Codespace, save -> commit -> push.
 Then use short show -> try -> personalise -> verify -> share cycles: Chat first, the provided
-`/create-website` workflow, and embedded refresh-on-save preview. Offer weekend/project/budget
-starters, demonstrate the weekend default, and ask for title, audience, a fictional logo, colors,
-and basic features one question at a time. Build only after approval. Use the terminal only
-for the Python preview fallback when needed. Continue with personalisation,
+`/create-website` workflow, and the live Website preview beside Chat. Offer the Project Planner,
+Calendar, Ideas Wall and Weather starters, demonstrate the Project Planner, and ask only which
+one; choosing is the approval to build. The agent calls the
+prepared preview helper; do not introduce attendee terminal or port setup. Continue with personalisation,
 manual behaviour and source checks, and saved work. Demonstrate every essential click, including
 finding the guide and Markdown Open Preview; these are not independent reading assignments.
 Use [docs/START-HERE.md](docs/START-HERE.md). No Monday CLI/MCP configuration, research downloads,
 skill installation, or presentation requirement. Storage and deployment are optional extensions.
-Prepare dependencies, not a completed learner website. Keep HTML/CSS/JavaScript simple and
-local, and ask before changing frameworks, overwriting pages, or adding an external service.
+Prepare the skill, its tested category blueprints, the local kit and the editor helper, not a
+completed site/. The skill copies one self-contained index.html plus a data/*.json pretend API
+after approval. Keep pages static and local, and ask before changing frameworks, overwriting
+pages, or adding an external service. The owner approved one exception: the Weather starter
+calls Open-Meteo, and the preview allows only that host. Fast finishers build an own idea from
+one sentence in `site/ideas/<name>/`; slower learners move on to the next lab.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate
 branding, diagram tools, or paid image service belongs in the beginner builder. Complete the
 starter's checks, saving, and neighbour/helper demonstration before a separate own-idea extension.

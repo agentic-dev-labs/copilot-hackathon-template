@@ -16,8 +16,9 @@
 - Use `uv sync --locked --extra dev --extra web`, `uv run pytest`, and `uv run ruff check .`.
 - From Day 3, browser exercises use prepared headless Playwright MCP inside the Codespace, with private stdio
   transport. MarkItDown is an optional later conversion tool. Built-in browser tools are optional, not a
-  required desktop-only feature. Beginners use embedded Live Preview; private Ports links are
-  for authentication/fallback, never laptop localhost. Copilot CLI installs at creation; teaching
+  required desktop-only feature. Beginners use the prepared server-free Website preview panel:
+  create/start open it beside Chat, stop closes it, and it redraws on every change. No ports.
+  Ports links are never laptop localhost. Copilot CLI installs at creation; teaching
   and separate sign-in checks remain Day 3.
 - Keep published clock times and lab durations unchanged without explicit approval. The approved
   post-meeting 18 September change gives Tuesday's first 30 minutes to David, the next hour
@@ -27,10 +28,13 @@
   every lab. Do not add product reference prose to synthetic evidence fixtures or the report template.
 - Keep CLI baselines and agent-authored reports in separate paths; test results do not prove live readiness.
 - Day 1 starts with a concepts-only first block and the glossary/screenshots in docs/START-HERE.md.
-  Chat comes first. Use the provided /create-website skill: choose weekend/project/budget,
-  title, audience, fictional logo, colors, and basic features, one question at a time before approval.
-  Demonstrate the weekend default; build one small page and use embedded refresh-on-save preview.
-  Introduce the terminal only for the Python fallback when needed. Personalise, check behaviour and a figure manually,
+  Chat comes first. Use the provided /create-website skill: one question (Project Planner,
+  Calendar, Ideas Wall, or Weather), then it builds, so learners see they can build by talking.
+  Demonstrate the Project Planner; the skill copies its tested blueprint into one self-contained
+  site/index.html with the local kit and a data/*.json pretend API, then personalises it.
+  Prepare the skill, kit and editor helper, not a finished site/. The agent calls
+  scripts/website_preview.py start/stop/status; attendees do not configure terminals or ports.
+  Personalise, observe a live update, check behaviour and a figure manually,
   and save/commit/push. Demonstrate finding instructions and Markdown Open Preview. Prepare
   dependencies, not the finished learner output. No CLI, MCP, research, skills, or presentation
   authoring or installation prerequisites. localStorage and public deployment are optional, not

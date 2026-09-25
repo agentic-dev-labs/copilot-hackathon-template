@@ -229,7 +229,7 @@ comparison, attach credential-free screenshots or a transcript under this run di
 ```bash
 python -m rehearsal.evidence --output "$RUN" record --lab 01 --check source-check \
   --status passed --observed --evidence "$RUN/lab-01-source.md" \
-  --note "Compared both fictional prices, currency and calculated total with the supplied source."
+  --note "Pressed Start again with the examples and counted 1 of 4 done, matching the starter."
 python -m rehearsal.evidence --output "$RUN" record --lab 03 --check human-review \
   --status blocked --note "PR checks pass; the repository still requires an independent reviewer."
 python -m rehearsal.evidence --output "$RUN" summary --require-complete

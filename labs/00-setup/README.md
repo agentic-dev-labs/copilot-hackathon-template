@@ -37,10 +37,10 @@ Follow the presenter one action at a time. The written steps are a reminder, not
 
 ### 3. Understand the Shared Idea (10 minutes)
 
-6. Ask: "Suggest three small features for a fictional weekend planner. No bookings or logins.
+6. Ask: "Suggest three small features for a fictional team project planner. No logins.
    Do not create anything yet." Choose one small improvement to the presenter's planner.
-   In Lab 01 the guided menu also offers fictional project and budget planners. The weekend
-   option matches the demonstration. Finish a guided starter before beginning your own idea.
+   In Lab 01 the guided menu also offers a Calendar, an Ideas Wall, and a Weather page. The
+   project planner matches the demonstration. Finish a guided page before beginning your own idea.
 7. Tell a neighbour where you would ask for a change and where you would inspect the file.
    Point to **Source Control**, but wait for the next demonstration before using it.
 

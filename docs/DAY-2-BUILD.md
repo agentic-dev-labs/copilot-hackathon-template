@@ -11,7 +11,7 @@ tools, configure the internal marketplace, or implement authentication during th
 ## Choose One Useful Outcome
 
 Use your submitted idea and assigned, prepared repository. If you have no idea yet, continue
-the weekend planner or choose a fictional event calendar, reading list, or simple follow-up list.
+the Monday page or run `/create-website` and describe your idea in one sentence.
 A real spreadsheet, employee list, or customer report is not needed to show the idea.
 
 Before building, tell your helper:
@@ -33,9 +33,9 @@ The presenter demonstrates the next action only when needed, then gives you time
 
 1. **Agree the first version (15 minutes).** Write the four answers above in your project brief.
    Ask Chat to propose a small plan using fictional examples and the existing project setup.
-2. **Build one page (30 minutes).** Ask for that version, inspect the files, and open the private
-   embedded Live Preview using the familiar command from the Palette. Save edits to refresh
-   beside Chat. Tell a helper if it does not open; use Lab 01's private fallback if needed.
+2. **Build one page (30 minutes).** Ask for that version, inspect the files, and let Copilot
+   open it beside Chat with the prepared helper. Use `/start-website` to reopen it later.
+   Save one small edit and observe the update. Show a helper any error rather than configuring tools.
 3. **Make one useful interaction (25 minutes).** Add a form, filter, or selection. Keep everything
    else unchanged. Compare your expected result with what you actually see.
 4. **Save a checkpoint (20 minutes).** Review, save, commit, push, and read back the same branch

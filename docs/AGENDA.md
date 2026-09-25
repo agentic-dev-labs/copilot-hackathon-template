@@ -34,7 +34,7 @@ self-study. Use [START-HERE](START-HERE.md) and the [printable quick reference](
 | 09:30-10:00 | Lab 00: Find your files and Copilot Chat; ask and refine one question                                                                               |
 | 10:00-10:30 | Show and try: create a short idea note; save, review, commit, push, and confirm the file on GitHub                                                  |
 | 10:30-10:45 | Break                                                                                                                                               |
-| 10:45-11:45 | Lab 01: Use /create-website to choose a fictional starter, logo, colors, and features; build and open the embedded live preview |
+| 10:45-11:45 | Lab 01: Use /create-website to pick a Project Planner, Calendar, Ideas Wall, or Weather page; it builds and opens the live preview |
 | 11:45-12:15 | Trust but verify: manually check a button and a figure against its source; describe a real issue, improve, and recheck                              |
 | 12:15-13:00 | Lunch                                                                                                                                               |
 | 13:00-14:00 | Lab 02: Make your website useful; add one interaction, personalise, and check it yourself                                                           |
@@ -46,9 +46,9 @@ and reviewed work visible in GitHub. A private preview is enough. Remembering br
 publication are optional extensions. No CLI, MCP, PDF download, presentation, or skill installation
 gates Monday's finish. The [beginner guide](START-HERE.md) is the chronological route.
 The 10:00 note block and 11:45 verification block are separate from Labs 00 and 01.
-The presenter uses the weekend planner; project and budget planners follow the same guided
-steps. Complete, check, save, and show that starter before an own-idea extension, preserving
-the first page. Their own business idea is Tuesday's main focus.
+The presenter uses the Project Planner; Calendar, Ideas Wall and Weather follow the same guided
+steps. Complete, check, save, and show that page before an own-idea page, preserving
+the first page. Fast finishers may start their own idea on Monday; it is Tuesday's main focus.
 
 ## Day 2 - Tuesday, 6 hours - Line of Business
 

@@ -19,6 +19,7 @@
   },
   "updateContentCommand": "bash .devcontainer/setup.sh",
   "postAttachCommand": {
+    "website-preview": "bash .devcontainer/setup.sh preview",
     "welcome": "printf '\\nOpen docs/START-HERE.md and follow the presenter.\\nCopilot CLI is installed; sign-in is separate. Browser automation is prepared later.\\n'"
   },
   "waitFor": "updateContentCommand",
@@ -28,19 +29,9 @@
     "PATH": "${containerWorkspaceFolder}/.venv/bin:/home/vscode/.local/bin:${containerEnv:PATH}"
   },
   "forwardPorts": [
-    3000,
-    3001,
     8000
   ],
   "portsAttributes": {
-    "3000": {
-      "label": "Website live preview",
-      "onAutoForward": "notify"
-    },
-    "3001": {
-      "label": "Live preview updates",
-      "onAutoForward": "silent"
-    },
     "8000": {
       "label": "Python preview (fallback / technical track)",
       "onAutoForward": "notify"
@@ -53,7 +44,6 @@
         "GitHub.copilot-chat",
         "GitHub.vscode-pull-request-github",
         "GitHub.vscode-github-actions",
-        "ms-vscode.live-server",
         "ms-python.python",
         "ms-python.debugpy",
         "charliermarsh.ruff",

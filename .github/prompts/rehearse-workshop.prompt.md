@@ -75,7 +75,7 @@ rewrite the lockfile to a private mirror, or claim `--no-sync` proves fresh inst
 If the first attempt fails, preserve the result and identify which trust mode/host failed.
 
 Run `bash .devcontainer/setup.sh` for the core profile, then tests and Ruff. Separately verify
-on-create Copilot CLI and Live Preview installation, without treating installation as sign-in.
+on-create Copilot CLI and the prepared server-free website preview helper, without treating installation as sign-in.
 Chromium and document-conversion installs remain later profiles. Check repository access and editor Chat
 with the intended identity without printing tokens. Advanced profiles are prepared separately.
 Set the unique synthetic label as facilitator prework. Complete Lab 00's files/Chat journey and
@@ -88,11 +88,12 @@ separate and do not invent a human observation or claim a script is that pilot.
 ## 2. Complete the Day 1 Labs
 
 1. [Lab 01](../../labs/01-vscode-agent/README.md): invoke the actual `/create-website` skill.
-  Check its single-question pauses, category/title/audience/logo/theme/feature choices, explicit
-  approval, neutral local assets, and existing-file preservation. Demonstrate the weekend default;
-  verify project/budget choices separately. Open embedded Live Preview beside Chat, save a heading
-  and CSS change, and observe the refresh. Keep ports private; record authentication or embedding
-  blockers and external/Python fallback use separately, not as a successful embedded-view test.
+  Check its single-question pauses, category/name/colour choices, explicit
+  approval, the copied blueprint and local kit, and existing-file preservation. Demonstrate the Project Planner;
+  verify project/budget choices separately. Require creation to open the Website preview beside Chat,
+  save a heading and CSS change, and observe the live update without Refresh. Test stop closes
+  only that panel and start reopens it with added entries still present. Record any blocker
+  separately, not as a successful embedded-view test.
   In the separate 11:45 block, check a button and a figure against the supplied source and
   calculate it independently. Record expected versus observed, not a model's self-assessment.
   No research, MCP configuration, presentation, or skill installation is required.
