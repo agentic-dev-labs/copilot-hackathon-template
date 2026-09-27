@@ -182,6 +182,28 @@ def test_preview_lifecycle_skills_reuse_the_helper_and_preserve_files() -> None:
     assert "previewOpen: false" in stop
 
 
+def test_hand_over_offers_ideas_for_every_category() -> None:
+    """A beginner who does not know what to ask for must be shown concrete options."""
+    assets = Path(".github/skills/create-website/assets")
+    data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
+    shared = data["any_page_ideas"]
+    assert len(shared) >= 4
+    assert any("colour theme" in idea for idea in shared)
+    assert any("tabs" in idea for idea in shared)
+    seen: set[str] = set()
+    for starter in data["starters"]:
+        ideas = starter["later_ideas"]
+        assert all(idea.strip() and idea[0].isupper() for idea in ideas)
+        assert len(set(ideas)) == len(ideas)
+        # Each category needs its own wording, not one list repeated four times.
+        assert not seen & set(ideas)
+        seen |= set(ideas)
+        assert not set(ideas) & set(shared)
+    skill = Path(".github/skills/create-website/SKILL.md").read_text(encoding="utf-8")
+    assert "any_page_ideas" in skill and "later_ideas" in skill
+    assert "Suggest, never build" in skill
+
+
 def test_guided_starter_figures_and_shared_assets() -> None:
     """Every starter has a tested blueprint, matching sample data, a checkable count, and local art."""
     assets = Path(".github/skills/create-website/assets")
@@ -193,7 +215,7 @@ def test_guided_starter_figures_and_shared_assets() -> None:
                     "https://geocoding-api.open-meteo.com/v1/search"}
     for starter in data["starters"]:
         assert starter["summary"] and starter["manual_check"]
-        assert len(starter["later_ideas"]) == 3
+        assert len(starter["later_ideas"]) >= 4
         blueprint = assets / "blueprints" / starter["id"]
         sample = json.loads((blueprint / starter["data_file"]).read_text(encoding="utf-8"))
         key = "cities" if starter["id"] == "weather" else "items"

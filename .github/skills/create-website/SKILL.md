@@ -72,12 +72,19 @@ port, or sign-in, and the panel redraws whenever a site file changes. Require
 `previewOpen: true`, then ask **"Can you see your page beside Chat?"** A command result is
 not proof it rendered. If the helper is missing, show the exact error to the facilitator.
 
-Then hand over in three short lines:
+Then hand over. Keep it to three short lines plus a small menu of ideas:
 
 - **"Try it: press + to add something, drag it, or remove it."**
-- **"Now tell me what to change, for example: 'make the cards bigger', 'add Saturday',
-  or one of these: <two of the starter's later_ideas>."**
+- **"Now just tell me what to change. Here are some ideas, or ask for anything else:"**
+  then four bullets they could say back word for word: one look change and one layout
+  change from `any_page_ideas`, and two features from the starter's `later_ideas`. Use the
+  category's own words ("stages", "notes", "cities"), and name the colour or column they
+  would get rather than a generic placeholder.
 - **"/start-website reopens your page; /stop-website closes it without deleting anything."**
+
+Suggest, never build: stop after the menu and wait for them to pick. The ideas are options
+to spark one request, not a checklist to finish, and any request outside the list is equally
+welcome. Offer a fresh set next time rather than repeating the same four.
 
 From here the learner leads through ordinary Chat. Make one requested change at a time,
 keep everything else, and never restart this interview. See [Start Website](../start-website/SKILL.md),
@@ -175,7 +182,8 @@ if time runs out, the learner moves on to the next lab. The first page is the fi
 7. Write `brief.md` in the folder with the one-sentence idea and one manual check marked
    **not yet checked**. Open it with
    `python3 scripts/website_preview.py start ideas/<folder>/index.html`, confirm it is visible,
-   and hand over exactly as for the first page: try it, then ask for changes.
+   and hand over exactly as for the first page: try it, then the same four-idea menu, with the
+   two feature ideas written for their idea rather than the blueprint it started from.
 
 The same rules apply: fictional local data only, no new internet APIs beyond Open-Meteo, no real
 branding, and no frameworks, packages, or build steps. If an idea needs real systems or data,

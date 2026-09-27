@@ -16,7 +16,7 @@ stylesheet, or corporate font is included. The skill copies the chosen blueprint
 | `blueprints/<category>/data/*.json` | `site/data/*.json` | Fictional sample entries; the page's pretend API |
 | [fonts/source-sans-3-latin.woff2](fonts/source-sans-3-latin.woff2) | `site/fonts/source-sans-3-latin.woff2` | Local, open-source variable font, Latin subset (28,740 bytes) |
 | [fonts/OFL.txt](fonts/OFL.txt) | `site/FONT-LICENSE.md` | Retained font license; Markdown is not published by the static app |
-| [starters.json](starters.json) | Summaries, checks, and later ideas | The category list, manual checks, and suggested next features |
+| [starters.json](starters.json) | Summaries, checks, and idea menus | The category list, manual checks, per-category `later_ideas`, and the shared `any_page_ideas` offered at hand-over |
 
 Neither the CSS, the script, nor the art makes external requests. The only internet access is
 the Weather blueprint's calls to Open-Meteo, which the owner approved; its free tier is for

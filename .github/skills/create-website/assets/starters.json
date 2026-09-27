@@ -1,6 +1,12 @@
 {
     "source_mode": "synthetic_workshop",
     "default": "project",
+    "any_page_ideas": [
+        "Change the colour theme, such as \"make it purple\" or \"a warm sunset gradient\"",
+        "Change the headline, the wording and the picture at the top",
+        "Add tabs so you can switch between two views of the same page",
+        "Show one clear number you can check yourself, such as a count or a progress bar"
+    ],
     "starters": [
         {
             "id": "project",
@@ -10,7 +16,13 @@
             "storage_key": "project-planner",
             "expected": { "item_count": 4, "done_count": 1 },
             "manual_check": "4 tasks to start and 1 is ticked, so the bar reads 1 of 4 done. Tick one more: 2 of 4.",
-            "later_ideas": ["Add an owner name to each task", "Show a due date on each card", "Add a budget and show what is left"]
+            "later_ideas": [
+                "Rename the columns to your own stages, such as To Do, In Progress, Review and Done",
+                "Add a chart showing how much work is left in each stage",
+                "Add an owner name and a due date to each card",
+                "Give each card a priority chip and make the urgent ones stand out",
+                "Add tabs to switch between every task and only the unfinished ones"
+            ]
         },
         {
             "id": "calendar",
@@ -20,7 +32,13 @@
             "storage_key": "calendar",
             "expected": { "item_count": 3 },
             "manual_check": "3 notes to start: today, tomorrow and in three days. Add one and the count shows 4 notes planned.",
-            "later_ideas": ["Give notes a colour by type", "Show public holidays you type in", "Add a start time to each note"]
+            "later_ideas": [
+                "Colour each note by type, such as meeting, deadline or day off",
+                "Add a start time to each note and keep each day in time order",
+                "Add an Agenda tab beside Month, Week and Workdays",
+                "Show how many notes each week has",
+                "Mark the holidays you type in so they look different"
+            ]
         },
         {
             "id": "ideas",
@@ -30,7 +48,13 @@
             "storage_key": "ideas-wall",
             "expected": { "item_count": 3 },
             "manual_check": "3 ideas to start. Add one: 4 ideas. Remove one: back to 3.",
-            "later_ideas": ["Add a vote button with a count", "Group ideas into themes", "Search the ideas"]
+            "later_ideas": [
+                "Add a vote button with a count, and sort the best idea to the front",
+                "Group the ideas into themes with tabs",
+                "Add a search box that filters the notes as you type",
+                "Let each note have its own colour",
+                "Show the top idea in a highlighted panel above the wall"
+            ]
         },
         {
             "id": "weather",
@@ -41,7 +65,13 @@
             "live_api": "Open-Meteo (no key; free tier is for non-commercial use)",
             "expected": { "item_count": 3 },
             "manual_check": "3 cities to start. Open 'the raw forecast data' link and compare today's temperature with the page.",
-            "later_ideas": ["Switch between Celsius and Fahrenheit", "Add a 'what to wear' tip", "Show sunrise and sunset"]
+            "later_ideas": [
+                "Switch between Celsius and Fahrenheit",
+                "Add a \"what to wear\" tip that follows the temperature",
+                "Show sunrise and sunset times",
+                "Draw a simple chart of the temperature across the next few days",
+                "Add tabs for today and the rest of the week"
+            ]
         }
     ]
 }
