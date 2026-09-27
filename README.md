@@ -62,6 +62,10 @@ package installs, runs tests, tracks live evidence, and retrieves verified deplo
 Attendees do not sign into Azure: the existing Actions workflow uses the prepared deployment identity.
 Missing access or required human review stays a blocker, not a simulated pass.
 
+After a rehearsal or debugging run, **`/workshop-reset`** turns what the run actually proved into
+skill and lab improvements, then clears the generated attendee output so the next run starts from
+the template. It proposes before it edits, never commits, and deletes only named paths.
+
 ## Technical Reference: Run the Vendor Example
 
 This is the separate Days 3-5 example, not the beginner website. Its prepared label is facilitator work.

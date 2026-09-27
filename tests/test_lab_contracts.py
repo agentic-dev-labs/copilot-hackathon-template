@@ -182,6 +182,37 @@ def test_preview_lifecycle_skills_reuse_the_helper_and_preserve_files() -> None:
     assert "previewOpen: false" in stop
 
 
+def test_facilitator_reset_skill_harvests_before_clearing() -> None:
+    """A reset tool must keep the evidence, the owner's work, and its own safety rules."""
+    path = Path(".github/skills/workshop-reset/SKILL.md")
+    text = path.read_text(encoding="utf-8")
+    metadata = yaml.safe_load(text.split("---", 2)[1])
+    assert metadata["name"] == path.parent.name
+    assert metadata["description"]
+    assert metadata["user-invocable"] is True
+    # Clearing the run's output must never be something a model decides to do by itself.
+    assert metadata["disable-model-invocation"] is True
+    body = " ".join(text.split())
+    assert "harvest what the run proved, then clear what it generated" in body
+    assert "Never start at section 5." in body
+    # The destructive commands cannot tell leftovers from the facilitator's own work.
+    for command in ("git reset --hard", "git checkout .", "git clean -fdx"):
+        assert command in text
+    assert "Delete named paths only." in text
+    assert "python3 scripts/website_preview.py stop" in text
+    assert "site/README.md" in text
+    # The preview socket is prepared machinery; clearing it breaks the next run.
+    assert "`.workshop-preview/`: the preview extension and its live `site.sock`" in text
+    assert "never that this run created it" in text
+    assert "12 KiB" in text
+    assert "synthetic" in text
+    assert "Never invent one" in text
+    assert "not a learning" in text
+    assert "did not exercise" in body
+    assert "uv run pytest" in text and "uv run ruff check ." in text
+    assert "never commit, push, or deploy" in body
+
+
 def test_hand_over_offers_ideas_for_every_category() -> None:
     """A beginner who does not know what to ask for must be shown concrete options."""
     assets = Path(".github/skills/create-website/assets")
