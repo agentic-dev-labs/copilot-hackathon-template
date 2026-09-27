@@ -162,7 +162,9 @@ finish a source-backed fictional trip, and explain community versus enterprise d
 Their separate vendor app URL is the Day 2 starting point, not evidence of a hosted travel runtime.
 Use the [small optional tasks](../docs/REFERENCES.md#small-tasks-for-early-finishers) during lab slack.
 
-**Travel browser preflight:** use [Lab 01's dated starting links](../labs/01-vscode-agent/README.md#public-search-starting-points).
+**Travel browser preflight:** Lab 01's dated public-search section was removed in the refit; the
+retained material is the [synthetic practice sources](../travel/practice-sources.md) and the optional
+[research starting points](../docs/RESEARCH.md#report-starting-points).
 KAYAK UK and Booking.com returned readable GBP results on 9 September in Windows VS Code.
 Google consent clicks timed out; Expedia returned partial results and HTTP 429 errors. Recheck
 in the target Codespace/network before delivery. Do not promise a site will never block an agent.
@@ -442,6 +444,6 @@ release snapshot as the demo script.
 ## Official References
 
 - [Coverage guide](../docs/REFERENCES.md): official links for the full week, including the bonus topics.
-- [Copilot features](https://docs.github.com/en/copilot/get-started/features), [VS Code agents](https://code.visualstudio.com/docs/agents/overview), and [customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).
+- [Copilot features](https://docs.github.com/en/copilot/get-started/about-github-copilot), [VS Code agents](https://code.visualstudio.com/docs/agents/overview), and [customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).
 - [CLI overview](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli), [browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools), and [Spaces](https://docs.github.com/en/copilot/concepts/context/spaces).
 - [Copilot changelog](https://github.blog/changelog/label/copilot/) and [VS Code release notes](https://code.visualstudio.com/updates): recheck the week before delivery.

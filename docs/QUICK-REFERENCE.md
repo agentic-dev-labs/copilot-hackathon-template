@@ -15,7 +15,7 @@ wait for the current step rather than racing through a long lab. Use fictional i
 | Record a version | Review files, select **+** beside only the intended files, type a short message, then **Commit**. |
 | Send it to GitHub | **Source Control > ... > Push**. Open the same branch on GitHub and confirm the changed file is there. |
 | Start my guided website | In Agent Chat run **`/create-website`** and pick one: Project Planner, Calendar, Ideas Wall, or Weather. It builds straight away. |
-| Choose its appearance | Pick a light Fresh mint, Sky blue, or Soft coral palette. Change anything else later just by asking. |
+| Change its appearance | Creation asks only which website. Afterwards ask Chat for a light Fresh mint, Sky blue, or Soft coral palette, or any other change. |
 | See my website beside Chat | Creation opens the preview. Later use **`/start-website`** to reopen the saved page without rebuilding it. |
 | See an edit immediately | Ask for one colour or heading change and watch the preview; it updates by itself. |
 | Stop my preview | Use **`/stop-website`**. The panel closes. Files and your entries stay; the Codespace keeps running. |
@@ -58,6 +58,6 @@ your Codespace through the Codespaces menu; closing its browser tab does not imm
 
 [Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Agenda](AGENDA.md)
 
-Official help: [Codespaces](https://docs.github.com/en/codespaces/overview),
+Official help: [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),
 [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).

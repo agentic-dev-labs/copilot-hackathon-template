@@ -25,7 +25,7 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
 - [ ] Complete the **core-only** [.devcontainer setup](../.devcontainer/README.md) in a fresh
       Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
-- [ ] Rehearse `/create-website` in Agent Chat: one question at a time, fictional starter/logo/theme/features, approval, and manual checks.
+- [ ] Rehearse `/create-website` in Agent Chat: it asks only which of the four websites, then builds the tested blueprint, names it after the repository, and opens the preview. Check the starter's manual check yourself.
 - [ ] Verify the Website preview helper in a fresh Codespace: creation opens the panel beside Chat, edits appear by themselves, added entries survive an edit, stop closes the panel, and start reopens it. Copilot CLI sign-in stays separate before Day 3.
 - [ ] Assign repositories, working branches, and unique labels in `config.json` before class.
       Confirm review rules and the first UI-based save/commit/push without bypassing protections.
@@ -119,8 +119,8 @@ technical-owner approval and a separate non-production target before real-work a
 ## Official References
 
 - [Copilot getting started](https://docs.github.com/en/copilot/get-started), [administration](https://docs.github.com/en/copilot/how-tos/administer-copilot), and [client feature matrix](https://docs.github.com/en/copilot/reference/copilot-feature-matrix).
-- [Codespaces](https://docs.github.com/en/codespaces/overview), [devcontainers](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/introduction-to-dev-containers), and [Codespaces secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces).
+- [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces), [devcontainers](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers), and [Codespaces secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces).
 - [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools), [GitHub MCP setup](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server), and [enterprise-managed settings](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings).
-- [Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) and [Container Apps deployment](https://learn.microsoft.com/azure/container-apps/github-actions).
+- [Actions secrets](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets) and [Container Apps deployment](https://learn.microsoft.com/azure/container-apps/github-actions).
 - [Dataverse Web API](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/perform-operations-web-api) and [Power Automate connectors](https://learn.microsoft.com/power-automate/dataverse/overview).
 - [Whole-week coverage and extras](REFERENCES.md).

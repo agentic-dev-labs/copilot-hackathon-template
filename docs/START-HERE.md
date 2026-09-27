@@ -56,7 +56,7 @@ To return to editing a file, select its editor tab; preview and editing do not c
 **Chat:** normally the right sidebar; open it with **View > Chat** if hidden. Ignore the lower
 panel for now. This general VS Code layout image is not a Codespaces session capture.
 
-Source: [Microsoft's VS Code layout guide](https://code.visualstudio.com/docs/getstarted/userinterface).
+Source: [Microsoft's VS Code layout guide](https://code.visualstudio.com/docs/editing/getting-started/userinterface).
 
 ### B. Review and Record a Change
 
@@ -87,7 +87,7 @@ appear by itself. Your files and the entries you add stay saved.
 preview needs no server or port. Show a helper a blocked preview instead of repeatedly
 refreshing Codespaces or installing software.
 
-Source: [GitHub's Codespaces quickstart](https://docs.github.com/en/codespaces/getting-started/quickstart).
+Source: [GitHub's Codespaces quickstart](https://docs.github.com/en/codespaces/quickstart).
 GitHub Docs screenshots are reproduced by reference, unmodified, under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), with the
 [source licence and disclaimer](https://github.com/github/docs/blob/main/LICENSE).
@@ -148,7 +148,7 @@ or training-account removal is needed to continue.
 
 ## Official References
 
-- [Codespaces overview](https://docs.github.com/en/codespaces/overview).
+- [Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces).
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).

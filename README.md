@@ -155,7 +155,7 @@ the actual learner journey and keep prepared results visibly distinct from live 
 
 ## Official References
 
-- [Copilot features](https://docs.github.com/en/copilot/get-started/features): the overall capability map.
+- [Copilot features](https://docs.github.com/en/copilot/get-started/about-github-copilot): the overall capability map.
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): branch, commit, PR, review, and merge.
 - [VS Code agents](https://code.visualstudio.com/docs/agents/overview): how context, models, tools, and sessions work together.
 - [Workshop coverage and references](docs/REFERENCES.md): topic-by-topic official links, later-day practice, and optional extensions.

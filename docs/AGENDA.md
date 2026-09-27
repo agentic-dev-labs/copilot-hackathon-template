@@ -17,7 +17,7 @@ Tuesday's former tools hour is supported building; the final 15 minutes allow se
 to share. Day 2 is not a sequence of technical labs.
 Dependencies and sign-in preflight are facilitator preparation, not room-wide install exercises.
 
-Official starting points: [Copilot features](https://docs.github.com/en/copilot/get-started/features),
+Official starting points: [Copilot features](https://docs.github.com/en/copilot/get-started/about-github-copilot),
 [VS Code agents](https://code.visualstudio.com/docs/agents/overview),
 [customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet),
 and [current release notes](https://github.blog/changelog/label/copilot/).

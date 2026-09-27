@@ -49,4 +49,4 @@ backup before relying on their removal from the workshop repository.
 ## Official References
 
 - [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files): why ignore rules do not untrack files already in Git.
-- [Copilot features](https://docs.github.com/en/copilot/get-started/features) and [VS Code releases](https://code.visualstudio.com/updates): recheck product coverage before delivery.
+- [Copilot features](https://docs.github.com/en/copilot/get-started/about-github-copilot) and [VS Code releases](https://code.visualstudio.com/updates): recheck product coverage before delivery.

@@ -272,9 +272,9 @@ rerun them, and investigate further counterexamples rather than treating them as
 - [Agent skills](https://code.visualstudio.com/docs/agent-customization/agent-skills): the Agent Host-compatible entry point.
 - [uv TLS trust](https://docs.astral.sh/uv/concepts/authentication/certificates/) and [uv environment variables](https://docs.astral.sh/uv/reference/environment/).
 - [PyPI JSON API](https://docs.pypi.org/api/json/) and [NuGet API](https://learn.microsoft.com/nuget/api/overview), including [package downloads](https://learn.microsoft.com/nuget/api/package-base-address-resource).
-- [Codespaces](https://docs.github.com/en/codespaces/overview) and [Codespaces secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces).
-- [GitHub Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions) and [workflow dispatch](https://cli.github.com/manual/gh_workflow_run).
-- [Workflow artifacts](https://docs.github.com/en/actions/using-workflows/storing-workflow-data-as-artifacts), [exact-run listing](https://cli.github.com/manual/gh_run_list), [watching a run](https://cli.github.com/manual/gh_run_watch), and [artifact downloads](https://cli.github.com/manual/gh_run_download).
+- [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) and [Codespaces secrets](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces).
+- [GitHub Actions secrets](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets) and [workflow dispatch](https://cli.github.com/manual/gh_workflow_run).
+- [Workflow artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data), [exact-run listing](https://cli.github.com/manual/gh_run_list), [watching a run](https://cli.github.com/manual/gh_run_watch), and [artifact downloads](https://cli.github.com/manual/gh_run_download).
 - [Azure Container Apps deployment from GitHub](https://learn.microsoft.com/azure/container-apps/github-actions).
 - [Dataverse Web API operations](https://learn.microsoft.com/power-apps/developer/data-platform/webapi/perform-operations-web-api).
 - [Playwright MCP](https://github.com/microsoft/playwright-mcp) and [MarkItDown MCP](https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp); private Codespaces stdio connections.

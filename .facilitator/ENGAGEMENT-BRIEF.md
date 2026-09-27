@@ -241,7 +241,7 @@ watermark or imply real vendor material has been tested here. Real reports requi
 Do not use historical version, billing, or support claims below as current prerequisites.
 Recheck product documentation and the actual presenter client during rehearsal.
 
-Current official entrypoints: [Copilot features](https://docs.github.com/en/copilot/get-started/features),
+Current official entrypoints: [Copilot features](https://docs.github.com/en/copilot/get-started/about-github-copilot),
 [CLI](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli),
 [VS Code agents](https://code.visualstudio.com/docs/agents/overview),
 [built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools), and

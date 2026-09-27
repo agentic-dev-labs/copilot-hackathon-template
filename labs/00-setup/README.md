@@ -72,8 +72,8 @@ Stop your Codespace when finished for the day. Closing the browser tab does not 
 
 ## Official References
 
-- [Codespaces overview](https://docs.github.com/en/codespaces/overview): where the environment runs and how access/billing work.
+- [Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces): where the environment runs and how access/billing work.
 - [Codespaces quickstart](https://docs.github.com/en/codespaces/quickstart): creating and using the environment.
-- [Copilot getting started](https://docs.github.com/en/copilot/get-started/quickstart): Chat and first requests.
+- [Copilot getting started](https://docs.github.com/en/copilot/get-started/quickstart-for-using-github-copilot-in-your-ide): Chat and first requests.
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): the branch/commit/PR workflow used in later labs.
 - [Whole-week coverage and extras](../../docs/REFERENCES.md): official links and later topics.

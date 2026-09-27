@@ -101,6 +101,6 @@ does not immediately stop compute. Stopping the Codespace does not delete a sepa
 
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): branch, commit, PR, review, and merge.
 - [Commit and PR smart actions](https://code.visualstudio.com/docs/editing/copilot-smart-actions) and [PR summaries](https://docs.github.com/en/copilot/how-tos/copilot-on-github/copilot-for-github-tasks/create-a-pr-summary).
-- [GitHub Actions quickstart](https://docs.github.com/en/actions/writing-workflows/quickstart) and [using Actions secrets](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions).
+- [GitHub Actions quickstart](https://docs.github.com/en/actions/get-started/quickstart) and [using Actions secrets](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets).
 - [Container Apps with GitHub Actions](https://learn.microsoft.com/azure/container-apps/github-actions): deployment and registry authentication. The workshop uses its checked-in workflow, not every option in the guide.
 - [Copilot code review](https://docs.github.com/en/copilot/concepts/agents/code-review) and [whole-week coverage](../../docs/REFERENCES.md).
