@@ -10,7 +10,7 @@ stylesheet, or corporate font is included. The skill copies the chosen blueprint
 | Kit file | Learner destination | Purpose |
 | --- | --- | --- |
 | [css/workshop.css](css/workshop.css) | `site/css/workshop.css` | Themes, header, board, cards, calendar, sticky notes, weather, tabs, progress, toast, motion |
-| [js/workshop.js](js/workshop.js) | `site/js/workshop.js` | `store`, `getJSON`, `loadJSON`, safe `el`, `addButton`, `enableBoard`, `toast`, `flash`, `newId` |
+| [js/workshop.js](js/workshop.js) | `site/js/workshop.js` | `store`, `getJSON`, `loadJSON`, `useColumns`, safe `el`, `addButton`, `enableBoard`, `toast`, `flash`, `newId` |
 | [art/](art/) | `site/art/` | Original animated SVGs: four header illustrations and one icon per weekday |
 | `blueprints/<category>/index.html` | `site/index.html` | Tested self-contained page for the chosen category |
 | `blueprints/<category>/data/*.json` | `site/data/*.json` | Fictional sample entries; the page's pretend API |
@@ -45,5 +45,7 @@ Run `/create-website` in a fresh Codespace. Verify it asks only which website to
 builds immediately with the repository name, opens the preview, and hands over. Press + to add,
 drag, and remove in each category; switch the calendar views; add a city on the Weather page.
 Ask for a changed heading and verify the panel updates by itself with added entries kept.
-**Start again with the examples** must reproduce each starter's `manual_check`. Check narrow and
+Rename a Project Planner column and verify the board follows without losing saved cards.
+Remove every entry and reload: each starter's examples must come back by themselves and
+reproduce its `manual_check`. Check narrow and
 desktop widths. Recorded observations must not be invented.

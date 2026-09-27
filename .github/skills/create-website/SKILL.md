@@ -88,7 +88,15 @@ keep everything else, and never restart this interview. See [Start Website](../s
 - One page: kit CSS link, a small `<style>`, the markup, `js/workshop.js`, then one inline script.
 - Entries are remembered in this browser with `Workshop.store`. On first load they come from the
   local JSON file with `Workshop.loadJSON`, with the same items inline as `SAMPLE`. Keep both
-  identical when changing sample data. **Start again with the examples** clears saved entries.
+  identical when changing sample data. There is no reset button: the examples load themselves
+  whenever nothing of the learner's is saved, so a page that has been emptied fills itself again.
+- **Changing a board's columns** (a request like "use project stages instead of days" or "add a
+  Blocked column"): edit `SAMPLE.columns` and the matching `columns` in the page's `data/*.json`,
+  and leave the `useColumns(..., SAMPLE.columns)` call in place. Columns describe the page, so
+  `Workshop.useColumns` makes an edit appear on the learner's next redraw instead of staying
+  hidden behind cards they saved earlier; their cards are kept, and a card whose column has gone
+  moves to the first column. Never ask a learner to clear browser storage, press a reset, or
+  throw away their entries to see a change you made: make the change reach them instead.
 - `Workshop.addButton(label, onAdd)` makes the round **+** that turns into a text box.
   `Workshop.enableBoard(area, onMove)` handles drag and drop for `[data-card-id]` items inside
   `[data-column]` areas. Removal uses a `.remove` button with an `aria-label`.
@@ -125,7 +133,7 @@ keep everything else, and never restart this interview. See [Start Website](../s
 When the learner is ready, one check at a time, waiting for their observation:
 
 1. Try the main interaction. Did it do what they expected?
-2. Press **Start again with the examples** and do the starter's `manual_check` themselves.
+2. Do the starter's `manual_check` themselves against the page in front of them.
    An assistant's "looks good" is not verification.
 3. Ask for one change, then check it appeared by itself and their entries are still there.
    Try a narrow window and keyboard Tab/Enter.
@@ -157,7 +165,8 @@ if time runs out, the learner moves on to the next lab. The first page is the fi
 5. Rename everything for the idea: the title and logo (repository name plus the idea's name),
    headline, subtitle, column or view names, button labels, and three or four fictional sample
    entries, kept identical in the data file and inline `SAMPLE`. Keep the kit's `+`, `x`, and
-   drag behaviour wherever it fits.
+   drag behaviour wherever it fits, and keep the `useColumns(..., SAMPLE.columns)` calls so later
+   column changes reach the learner's saved board.
 6. Keep it just as beautiful: the gradient header with a `.hero-art` image (reuse the closest
    hero or a weekday icon), content in `.panel`, `.card`, `.note`, or `.column`, entries that
    `.animate-in` with a stagger, `Workshop.toast()` after every action, `Workshop.flash()` on

@@ -43,6 +43,26 @@
         }
     }
 
+    /**
+     * Follow the page's own column list while keeping the entries saved in this browser.
+     *
+     * Columns describe the page, so renaming or replacing them shows straight away instead of
+     * staying hidden behind entries saved on an earlier visit. Entries are the learner's work,
+     * so they are kept; one pointing at a column that has gone moves to the first column
+     * rather than disappearing.
+     */
+    function useColumns(state, columns, field = 'column') {
+        if (!state || typeof state !== 'object') return state
+        if (!Array.isArray(columns) || columns.length === 0) return state
+        const items = Array.isArray(state.items) ? state.items : []
+        return {
+            ...state,
+            columns: [...columns],
+            items: items.map(item =>
+                columns.includes(item[field]) ? item : { ...item, [field]: columns[0] }),
+        }
+    }
+
     /** Build an element safely: text is always set with textContent, never as HTML. */
     function el(tag, props = {}, ...children) {
         const node = document.createElement(tag)
@@ -147,5 +167,5 @@
 
     const newId = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`)
 
-    window.Workshop = { store, getJSON, loadJSON, el, addButton, enableBoard, toast, flash, newId }
+    window.Workshop = { store, getJSON, loadJSON, useColumns, el, addButton, enableBoard, toast, flash, newId }
 })()

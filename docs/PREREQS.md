@@ -30,7 +30,7 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Assign repositories, working branches, and unique labels in `config.json` before class.
       Confirm review rules and the first UI-based save/commit/push without bypassing protections.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
-- [ ] Rehearse all four categories: add, drag and remove in each, switch the calendar views, add a Weather city on the corporate network, and **Start again with the examples**. Prepare optional assisted **website** publication separately;
+- [ ] Rehearse all four categories: add, drag and remove in each, switch the calendar views, add a Weather city on the corporate network, and confirm an emptied page reloads its own examples. Prepare optional assisted **website** publication separately;
       no public URL or localStorage extension is needed to finish Monday.
 - [ ] Check capacity/cost for expected concurrent Codespace starts and builds; do not assume one
       successful rehearsal proves a 40-45-person start. Confirm the final count, helpers, and a labelled fallback.

@@ -27,7 +27,6 @@
         <section class="panel animate-in">
             <div class="toolbar">
                 <div class="cities" id="cities" role="group" aria-label="Cities"></div>
-                <button type="button" class="ghost" id="reset">Start again with the examples</button>
             </div>
             <p class="notice" id="notice" role="status" hidden></p>
             <div class="weather-now" id="now" aria-live="polite"></div>
@@ -88,6 +87,8 @@
         const saved = store('weather')
         let state = { cities: SAMPLE.cities, selected: 0 }
         let sample = SAMPLE
+        // No cities means there is nothing of the learner's left to keep, so the
+        // examples load themselves again rather than leaving a blank page.
         const valid = data => data && Array.isArray(data.cities) && data.cities.length > 0
 
         function forecastUrl(city) {
@@ -184,14 +185,6 @@
                 ? el('span', {}, 'Check it yourself: ', el('a', { href: weather.url, target: '_blank', rel: 'noopener' }, 'the raw forecast data'))
                 : 'Sample data from data/weather.json')
         }
-
-        document.getElementById('reset').addEventListener('click', async () => {
-            saved.clear()
-            sample = await loadJSON('data/weather.json', SAMPLE)
-            state = { cities: sample.cities, selected: 0 }
-            toast('Back to the examples')
-            show()
-        })
 
         async function start() {
             sample = await loadJSON('data/weather.json', SAMPLE)

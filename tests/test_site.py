@@ -2,7 +2,9 @@
 
 import hashlib
 import json
+import re
 import shutil
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -12,6 +14,8 @@ from app.config import deployment_name, slugify
 from app.site import create_app, site_manifest
 
 HTML = '<!doctype html><html lang="en"><body><h1>Synthetic planner</h1></body></html>'
+KIT = Path(".github/skills/create-website/assets/js/workshop.js")
+PROJECT_BLUEPRINT = Path(".github/skills/create-website/assets/blueprints/project")
 
 
 @pytest.fixture
@@ -89,6 +93,73 @@ def test_guided_kit_assets_fit_the_website_target(website: Path) -> None:
         assert response.status_code == 200
         assert hashlib.sha256(response.content).hexdigest() == manifest["files"][relative]
     assert client.get("/FONT-LICENSE.md").status_code == 404
+
+
+def board_columns(page: Path) -> list[str]:
+    """Read the column names a board page renders from, as written in its inline SAMPLE."""
+    inline = re.search(r"columns: \[(.+?)\]", page.read_text(encoding="utf-8"))
+    assert inline is not None, "the board page must declare SAMPLE.columns"
+    return [name.strip().strip("'") for name in inline.group(1).split(",")]
+
+
+def test_board_columns_come_from_the_page_not_older_browser_storage() -> None:
+    """A requested column change must reach a learner who already has saved cards."""
+    kit = KIT.read_text(encoding="utf-8")
+    assert "function useColumns(" in kit
+    assert "useColumns" in kit.split("window.Workshop = ")[1]
+    page = (PROJECT_BLUEPRINT / "index.html").read_text(encoding="utf-8")
+    assert "useColumns(valid(loaded) ? loaded : SAMPLE, SAMPLE.columns)" in page
+    columns = board_columns(PROJECT_BLUEPRINT / "index.html")
+    data = json.loads((PROJECT_BLUEPRINT / "data/tasks.json").read_text(encoding="utf-8"))
+    assert columns == data["columns"]
+    assert {item["column"] for item in data["items"]} <= set(columns)
+
+
+@pytest.mark.parametrize("category", ["project", "calendar", "ideas", "weather"])
+def test_examples_reload_themselves_without_a_reset_button(category: str) -> None:
+    """Beginners get their examples back by emptying the page, not by finding a button."""
+    blueprints = PROJECT_BLUEPRINT.parent
+    page = (blueprints / category / "index.html").read_text(encoding="utf-8")
+    assert "Start again with the examples" not in page
+    assert 'id="reset"' not in page
+    assert "saved.clear()" not in page
+    # An emptied page counts as nothing saved, so start() falls back to the examples.
+    assert re.search(r"const valid = data =>.*?\.length > 0", page, re.DOTALL) is not None
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node runs the browser helper kit")
+def test_use_columns_keeps_saved_cards_while_following_a_renamed_board() -> None:
+    """Renaming columns must not discard the learner's own entries or strand them."""
+    stale = {
+        "columns": ["Monday", "Friday"],
+        "items": [
+            {"id": "t1", "text": "Synthetic sample task", "column": "Monday", "done": True},
+            {"id": "own", "text": "Synthetic learner task", "column": "Friday", "done": False},
+        ],
+    }
+    renamed = ["To Do", "In Progress", "Done"]
+    harness = f"""
+        global.window = {{}}
+        eval(require('node:fs').readFileSync({str(KIT)!r}, 'utf8'))
+        const {{ useColumns }} = window.Workshop
+        const once = useColumns({json.dumps(stale)}, {json.dumps(renamed)})
+        console.log(JSON.stringify({{
+            once,
+            unchanged: useColumns(once, {json.dumps(renamed)}),
+            noColumns: useColumns({json.dumps(stale)}, []),
+        }}))
+    """
+    result = subprocess.run(
+        ["node", "-e", harness], capture_output=True, text=True, check=True, timeout=60
+    )
+    once = json.loads(result.stdout)["once"]
+    repeated = json.loads(result.stdout)["unchanged"]
+    assert once["columns"] == renamed
+    assert [item["id"] for item in once["items"]] == ["t1", "own"]
+    assert [item["column"] for item in once["items"]] == ["To Do", "To Do"]
+    assert once["items"][0]["done"] is True
+    assert repeated == once
+    assert json.loads(result.stdout)["noColumns"] == stale
 
 
 def test_missing_site_and_invalid_markup_are_not_ready(tmp_path: Path, website: Path) -> None:

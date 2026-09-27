@@ -37,7 +37,6 @@
             <div class="calendar" id="calendar"></div>
             <div class="toolbar" style="margin: 1rem 0 0">
                 <span class="muted" id="count"></span>
-                <button type="button" class="ghost" id="reset">Start again with the examples</button>
             </div>
         </section>
     </main>
@@ -64,7 +63,10 @@
         const iso = date => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
         const addDays = (date, days) => new Date(date.getFullYear(), date.getMonth(), date.getDate() + days)
         const startOfWeek = date => addDays(date, -((date.getDay() + 6) % 7))
-        const valid = data => data && Array.isArray(data.items) && data.items.every(item => item.date)
+        // An empty calendar means there is nothing of the learner's left to keep, so the
+        // examples load themselves again rather than leaving a blank page.
+        const valid = data => data && Array.isArray(data.items) && data.items.length > 0
+            && data.items.every(item => item.date)
         // Sample notes use offsets from today so they always appear in the current week.
         const withDates = data => ({ view: 'month', items: data.items.map(({ dayOffset, ...item }) => ({ ...item, date: iso(addDays(new Date(), dayOffset || 0)) })) })
 
@@ -147,12 +149,6 @@
         document.getElementById('previous').addEventListener('click', () => step(-1))
         document.getElementById('next').addEventListener('click', () => step(1))
         document.getElementById('today').addEventListener('click', () => { cursor = new Date(); render() })
-        document.getElementById('reset').addEventListener('click', async () => {
-            saved.clear()
-            state = withDates(await loadJSON('data/events.json', SAMPLE))
-            cursor = new Date()
-            update('Back to the examples')
-        })
         enableBoard(document.getElementById('calendar'), (id, date) => {
             const item = state.items.find(entry => entry.id === id)
             if (!item || item.date === date) return

@@ -28,7 +28,6 @@
                 <strong id="done-text"></strong>
                 <div class="progress" aria-hidden="true"><span id="done-bar"></span></div>
             </div>
-            <button type="button" class="ghost" id="reset">Start again with the examples</button>
         </section>
         <div class="board" id="board"></div>
     </main>
@@ -37,7 +36,7 @@
 
     <script src="js/workshop.js"></script>
     <script>
-        const { el, store, loadJSON, addButton, enableBoard, toast, flash, newId } = window.Workshop
+        const { el, store, loadJSON, useColumns, addButton, enableBoard, toast, flash, newId } = window.Workshop
         const SAMPLE = {
             columns: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
             items: [
@@ -49,7 +48,10 @@
         }
         const saved = store('project-planner')
         let state = SAMPLE
+        // An empty board means there is nothing of the learner's left to keep, so the
+        // examples load themselves again rather than leaving a blank page.
         const valid = data => data && Array.isArray(data.columns) && Array.isArray(data.items)
+            && data.items.length > 0
 
         function update(message, changedId) {
             saved.save(state)
@@ -85,6 +87,13 @@
                 }, '\u00d7'))
         }
 
+        // The kit ships one icon per weekday, so only those column names ask for a picture.
+        // A column called "In Progress" simply shows its name instead of requesting a missing file.
+        const DAY_ART = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        const columnArt = column => DAY_ART.includes(column.toLowerCase())
+            ? el('img', { className: 'day-art', src: `art/${column.toLowerCase()}.svg`, alt: '' })
+            : null
+
         function render() {
             const done = state.items.filter(item => item.done).length
             const total = state.items.length
@@ -95,7 +104,7 @@
                 return el('section', { className: 'column', 'data-column': column, 'aria-label': column },
                     el('div', { className: 'column-title' },
                         el('span', { className: 'row', style: 'gap: 0' },
-                            el('img', { className: 'day-art', src: `art/${column.toLowerCase()}.svg`, alt: '', onError: event => event.target.remove() }),
+                            columnArt(column),
                             column),
                         el('span', { className: 'count' }, String(items.length))),
                     items.map(card),
@@ -107,17 +116,12 @@
             }))
         }
 
-        document.getElementById('reset').addEventListener('click', async () => {
-            saved.clear()
-            state = await loadJSON('data/tasks.json', SAMPLE)
-            update('Back to the examples')
-        })
         enableBoard(document.getElementById('board'), move)
 
         async function start() {
             const remembered = saved.load(null)
             const loaded = valid(remembered) ? remembered : await loadJSON('data/tasks.json', SAMPLE)
-            state = valid(loaded) ? loaded : SAMPLE
+            state = useColumns(valid(loaded) ? loaded : SAMPLE, SAMPLE.columns)
             render()
         }
         start()

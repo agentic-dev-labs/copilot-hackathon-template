@@ -48,7 +48,7 @@ These commands do not repeat the interview or publish anything.
 
 **You should see:** your page inside the same Codespaces browser tab. **Check:** its title
 uses your repository name. This is a live website preview, not Markdown Open Preview.
-The page remembers entries in this browser; **Start again with the examples** brings back the start.
+The page remembers entries in this browser; empty it completely and the examples come back.
 
 ### If Preview Is Blocked
 
@@ -85,8 +85,8 @@ Use **expect -> try -> compare -> improve -> repeat**; do not invent a defect fo
    "show only this week", or "shuffle the ideas". Predict what will happen, click it twice,
    and compare. If it fails, tell Copilot what you expected and what you actually saw. Try the
    same action again after a fix.
-2. **Check a number (10 minutes).** Press **Start again with the examples**, then do your
-   category's check below yourself. Do not accept a number you have not counted or compared.
+2. **Check a number (10 minutes).** Do your category's check below yourself, counting what is
+   on the page. Do not accept a number you have not counted or compared.
 3. **Record the check (10 minutes).** In your brief write what you tried, what happened, and
    any remaining limitation. A screenshot or confident answer alone does not prove behaviour.
    Save and review any final changes before committing and pushing.

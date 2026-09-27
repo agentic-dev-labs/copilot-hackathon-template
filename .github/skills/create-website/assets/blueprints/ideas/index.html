@@ -25,7 +25,6 @@
     <main class="container main">
         <section class="panel toolbar animate-in">
             <strong id="count"></strong>
-            <button type="button" class="ghost" id="reset">Start again with the examples</button>
         </section>
         <div class="wall" id="wall" data-column="wall"></div>
     </main>
@@ -46,7 +45,9 @@
         const TILTS = ['-1.5deg', '1deg', '-0.5deg', '1.5deg']
         const saved = store('ideas-wall')
         let state = SAMPLE
-        const valid = data => data && Array.isArray(data.items)
+        // An empty wall means there is nothing of the learner's left to keep, so the
+        // examples load themselves again rather than leaving a blank page.
+        const valid = data => data && Array.isArray(data.items) && data.items.length > 0
 
         function update(message, changedId) {
             saved.save(state)
@@ -74,11 +75,6 @@
             document.getElementById('wall').replaceChildren(...notes, adder)
         }
 
-        document.getElementById('reset').addEventListener('click', async () => {
-            saved.clear()
-            state = await loadJSON('data/ideas.json', SAMPLE)
-            update('Back to the examples')
-        })
         enableBoard(document.getElementById('wall').parentElement, (id, _column, beforeId) => {
             const item = state.items.find(entry => entry.id === id)
             if (!item) return
