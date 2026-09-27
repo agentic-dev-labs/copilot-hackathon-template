@@ -24,7 +24,7 @@ options, not a list to finish. If a feature already works, improve it or pick an
 | Your Website | Appearance Ideas | Feature Ideas |
 | --- | --- | --- |
 | Project Planner | Sky blue or Soft coral palette, bigger cards, a calmer header | Owner name on each card, due dates, hide finished tasks |
-| Calendar | Colour notes by type, larger day numbers, a softer today highlight | Start times, a "this week" count, public holidays you type in |
+| Calendar | Colour notes by type, larger day numbers, a softer today highlight | Start times, a "this week" count, your country's public holidays |
 | Ideas Wall | Larger notes, different sticky-note colours, a bolder headline | A vote button with a count, themes to group ideas, search |
 | Weather | A different palette, larger temperature, a friendlier headline | Celsius/Fahrenheit switch, a "what to wear" tip, sunrise and sunset |
 
