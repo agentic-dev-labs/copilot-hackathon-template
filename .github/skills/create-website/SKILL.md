@@ -55,7 +55,9 @@ ships a finished `site/`; this copy happens only after the learner chooses.
    name, and the `.logo-mark` letter with its first letter. Change nothing else.
 4. Write `site/brief.md`: the page name, category, what it does, the starter's `manual_check`,
    each check marked **not yet checked**, and the starter's `later_ideas`. Keep an existing
-   brief's writing and add to it.
+   brief's writing and add to it. Record every later change the learner asks for as one line
+   under a `## Changes so far` heading, in their words rather than file names, so the next
+   session can see what the page already does. Never rewrite an observation they made.
 
 Then open the preview immediately (next section). Do not stop to summarise the files first.
 
@@ -70,7 +72,10 @@ python3 scripts/website_preview.py start
 It opens `site/index.html` in a **Website preview** panel beside Chat. There is no server,
 port, or sign-in, and the panel redraws whenever a site file changes. Require
 `previewOpen: true`, then ask **"Can you see your page beside Chat?"** A command result is
-not proof it rendered. If the helper is missing, show the exact error to the facilitator.
+not proof it rendered, and you cannot see the panel yourself: `previewOpen` and
+`renderingVerified` are separate, and only the learner's answer settles the second one. Never
+write "it looks good" about a page you have not been shown. If the helper is missing, show the
+exact error to the facilitator.
 
 Then hand over. Keep it to three short lines plus a small menu of ideas:
 
@@ -104,6 +109,19 @@ keep everything else, and never restart this interview. See [Start Website](../s
   hidden behind cards they saved earlier; their cards are kept, and a card whose column has gone
   moves to the first column. Never ask a learner to clear browser storage, press a reset, or
   throw away their entries to see a change you made: make the change reach them instead.
+  Change the words that still describe the old columns in the same edit: the headline, the
+  subtitle's "drag it to another day", the `addButton` label's "Add a task on Monday", and the
+  sample entries' `column` values, kept identical in the data file and `SAMPLE`. Only weekday
+  names get a picture from `columnArt`, so a board of stages loses every icon at once and looks
+  noticeably plainer; that is correct behaviour, not a bug, so say it has happened and offer one
+  replacement, such as a `.chip` count or a hero image, rather than leaving the page duller.
+- **Making something bigger or full-width** (a request like "make the progress bar much bigger"):
+  set the size in the page's own `<style>`, but check what the element sits inside first. Kit
+  wrappers are often flex items themselves, so a child's `flex: 1 0 100%` resolves against a
+  wrapper that is only as wide as its own text: `.summary` inside `.toolbar` leaves a "full
+  width" progress bar stopping about a third of the way across. Give the wrapper `width: 100%`
+  as well, and grow the label beside it so the pair still reads as one thing. Sizes look right
+  in code and wrong on screen, so look at the rendered page before saying it is done.
 - `Workshop.addButton(label, onAdd)` makes the round **+** that turns into a text box.
   `Workshop.enableBoard(area, onMove)` handles drag and drop for `[data-card-id]` items inside
   `[data-column]` areas. Removal uses a `.remove` button with an `aria-label`.
@@ -117,9 +135,13 @@ keep everything else, and never restart this interview. See [Start Website](../s
 - **Recolouring a page** (a request like "make it red" or "a turquoise gradient"): add one
   `[data-theme="name"] { --accent; --accent-strong; --accent-soft; --second; }` block in the
   page's own `<style>`, matching the kit's existing `[data-theme="blue"]`/`[data-theme="coral"]`
-  pattern, and set it on `<body data-theme="name">`. The header's gradient and every accent-based
-  element (buttons, progress bar, chips) follow automatically; never hand-edit `workshop.css`
-  for a one-page colour change.
+  pattern, and set it on `<body data-theme="name">`. The blueprints ship `data-theme="green"`,
+  which is the kit's `:root` default rather than a block of its own, so "put it back the way it
+  was" means restoring that attribute value and deleting the block you added, never writing a
+  `[data-theme="green"]` rule. The header's gradient and every accent-based element (buttons,
+  progress bar, chips) follow automatically; never hand-edit `workshop.css` for a one-page
+  colour change: the kit is capped at 12 KiB by `tests/test_lab_contracts.py`, so anything
+  added there has to be paid for in bytes.
 - **Adding a tag to a card** (a request like "give each task a type" or "a priority label"):
   use `.chip` for the pill and add the kit's `.chip-toggle` class if it is clickable, plus
   `.card-stack` on the containing `.card`. Kanban columns are only ~200px wide, so a chip sharing
@@ -127,6 +149,23 @@ keep everything else, and never restart this interview. See [Start Website](../s
   `.card-stack` puts the checkbox/chip/remove on a top row and gives the description its own
   full-width row below. Always re-open the preview and look at an actual card afterwards — do
   not trust the code alone.
+- **Adding information the learner did not type** (a request like "add Danish public holidays",
+  "show week numbers", or "mark our school terms"): this is page furniture, not their data, so
+  never write it into `Workshop.store`, and never give it a `data-card-id`, `draggable`, or a
+  `.remove` button. Keep the rules in a `data/*.json` file with the same rules inline as a
+  fallback, exactly like `SAMPLE`, and work the dates out while drawing so every month and year
+  they scroll to is right. `Workshop.el` skips `false` and `undefined` children, so
+  `holiday && el('div', ...)` adds it only where it belongs, and a month grid's faded
+  `.is-outside` days stay out of any count you show. Check the facts first and say which rule
+  you used: holidays move, and some are withdrawn, so a movable date belongs in a calculation
+  rather than a typed list. Denmark's Store bededag is the trap: it was a public holiday for
+  the last time on 5 May 2023.
+- **A new rule in the page's `<style>` beats `workshop.css`, including the kit's state classes.**
+  `.day.is-holiday` has the same specificity as `.day.is-over` and `.day.is-today` but comes
+  later, so it silently swallows the drag-over highlight and the today border. Set only what you
+  need, usually `background`, and restate the combination you just broke, such as
+  `.day.is-holiday.is-over { background: var(--accent-soft); }`. Then drag an entry onto one of
+  those days in the preview and confirm both still show.
 - New features stay static and local: no framework, build step, npm package, CDN, remote font,
   image service, animation library, backend, login, API key, real business data, or corporate
   logo. No logo-generation API or paid reference service. No deployment or public port.
@@ -195,6 +234,13 @@ The skill and kit ship with the repository; attendees install nothing. If `/crea
 is missing, a helper checks workspace trust and Chat customization discovery, then attaches
 this file to Agent Chat and asks to follow it. No CLI, MCP, animation service, or marketplace
 plugin is needed. This is an original workshop workflow.
+
+Checking a layout during preparation, never in front of attendees: the Website preview is a
+VS Code panel that an agent cannot read, and Playwright refuses `file://` URLs, so a layout
+change can only be confirmed by eye. While preparing material, serve the folder on loopback
+with `python3 -m http.server 8931 --bind 127.0.0.1`, screenshot it with the prepared Playwright
+MCP, then stop the server. Keep it loopback-only, never a forwarded or public port, and keep it
+out of Days 1 and 2, where the learner's own answer is the verification.
 
 Official references: [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills),
 [localStorage](https://developer.mozilla.org/docs/Web/API/Window/localStorage),

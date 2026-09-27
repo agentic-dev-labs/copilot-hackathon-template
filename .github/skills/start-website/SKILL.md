@@ -23,7 +23,8 @@ install anything, or start a server. This also runs right after a build in
    For a separate agreed page pass its path relative to site/, for example
    `python3 scripts/website_preview.py start ideas/my-list/index.html`.
 3. Require `previewOpen: true` in the result, then ask **"Can you see your page beside Chat?"**
-   A command result alone does not prove the page rendered.
+   A command result alone does not prove the page rendered, and you cannot see the panel
+   yourself, so wait for their answer instead of describing the page back to them.
 
 The **Website preview** panel reads the file directly: no server, no port, no sign-in, and no
 separate browser tab. It redraws when any file in site/ changes. Entries the learner added stay,
