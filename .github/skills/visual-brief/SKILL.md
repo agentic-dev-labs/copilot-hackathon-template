@@ -28,10 +28,10 @@ Verify calculations with code and source numbers with the originals. A plausible
 1. Propose four/five short slide titles and one message for each. Ask the user to approve the
    narrative before generating. They may choose growth, investment, sustainability, or onboarding.
 2. Agree the destination before writing. Prefer `site/presentation.html` when the learner
-   already has a website; use `site/index.html` only for a new site or explicit replacement. Use
-   relative local assets and
-   semantic HTML/CSS/JavaScript and no framework build, authentication, or cloud connection.
-   Do not replace an existing page without asking; preserve the user's content when improving it.
+   already has a website; use `site/index.html` only for a new site or explicit replacement.
+   Use relative local assets, semantic HTML/CSS/JavaScript, and no framework build,
+   authentication, or cloud connection. Do not replace an existing page without asking;
+   preserve the user's content when improving it.
 3. Include one source-backed chart, its accessible data table, and clickable source references.
    Label units, reporting periods, calculations, and uncertainty. Prefer a simple bar chart;
    if a chart library is needed, use a reviewed pinned local copy with its licence.

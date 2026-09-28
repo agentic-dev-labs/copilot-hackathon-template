@@ -126,6 +126,13 @@ keep everything else, and never restart this interview. See [Start Website](../s
   `Workshop.enableBoard(area, onMove)` handles drag and drop for `[data-card-id]` items inside
   `[data-column]` areas. Removal uses a `.remove` button with an `aria-label`.
 - Build elements with `Workshop.el` or `textContent`; never put entered text in `innerHTML`.
+- **Building a chart** (one of the later-idea prompts, "add a chart showing..."): `Workshop.el`
+  calls `document.createElement`, which can't make SVG shapes. A literal `<svg>` written in the
+  page's own HTML markup parses fine, but `el('polyline', ...)`, `el('circle', ...)`, and
+  `el('text', ...)` each silently become an inert `HTMLUnknownElement` — nothing draws, and
+  there is no console error to flag it. Give the `<svg>`'s children their own
+  `document.createElementNS('http://www.w3.org/2000/svg', tag)` helper in the page's script,
+  and redraw it from `render()` so it stays in sync with the board's live data.
 - Beauty comes from the kit: `.app-header` with `.hero` and a `.hero-art` image, weekday icons
   in `art/<weekday>.svg` (`.day-art`, including `saturday.svg`/`sunday.svg` for a full week),
   `.board`/`.column`/`.card`, `.calendar`/`.day`/`.chip`, `.wall`/`.note`,
