@@ -7,6 +7,18 @@ export UV_NATIVE_TLS="${UV_NATIVE_TLS:-true}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+EDITOR_RELOAD_REQUIRED=false
+
+ensure_editor_extension() {
+	local extension="$1"
+	if code --list-extensions | grep -Fxiq "$extension"; then
+		return
+	fi
+	code --install-extension "$extension"
+	EDITOR_RELOAD_REQUIRED=true
+	printf 'Installed editor extension %s.\n' "$extension"
+}
+
 case "${1:-core}" in
 	core)
 		if ! uv sync --locked --extra dev --extra web; then
@@ -22,6 +34,9 @@ case "${1:-core}" in
 			printf 'Preview helper installation needs an attached Codespaces editor.\n' >&2
 			exit 1
 		fi
+		ensure_editor_extension "ms-python.python"
+		ensure_editor_extension "ms-python.vscode-python-envs"
+		ensure_editor_extension "charliermarsh.ruff"
 		VERSION="$(node -p 'require("./.devcontainer/website-preview/package.json").version')"
 		if code --list-extensions --show-versions | grep -Fxq "workshop-local.workshop-site-preview@$VERSION"; then
 			printf 'Workshop preview helper %s is already prepared.\n' "$VERSION"
@@ -32,6 +47,9 @@ case "${1:-core}" in
 			popd >/dev/null
 			code --install-extension "$ROOT/.workshop-preview/workshop-site-preview.vsix" --force
 			printf 'Preview helper installed. Existing editor sessions may need one Reload Window.\n'
+		fi
+		if "$EDITOR_RELOAD_REQUIRED"; then
+			printf 'Run Developer: Reload Window once so Ruff can use the project environment.\n'
 		fi
 		;;
 	cli)

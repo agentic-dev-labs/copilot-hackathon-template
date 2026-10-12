@@ -88,6 +88,68 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     assert config["remoteEnv"]["PATH"].startswith("${containerWorkspaceFolder}/.venv/bin:")
 
 
+def test_python_environment_is_prepared_for_ruff() -> None:
+    """Fresh and existing Codespaces provide Ruff with the active Python environment."""
+    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
+    required_extensions = {
+        "ms-python.python",
+        "ms-python.vscode-python-envs",
+        "charliermarsh.ruff",
+    }
+
+    assert required_extensions <= set(config["customizations"]["vscode"]["extensions"])
+    setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
+    for extension in required_extensions:
+        assert f'ensure_editor_extension "{extension}"' in setup
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
+@pytest.mark.parametrize("missing_environment_provider", [False, True])
+def test_preview_setup_repairs_python_environment_provider(
+    tmp_path: Path, missing_environment_provider: bool
+) -> None:
+    """Post-attach setup repairs old Codespaces once and stays quiet afterward."""
+    tools = tmp_path / ".local" / "bin"
+    tools.mkdir(parents=True)
+    log = tmp_path / "calls.log"
+    version = json.loads(Path(".devcontainer/website-preview/package.json").read_text())["version"]
+    extensions = ["ms-python.python", "ms-python.vscode-python-envs", "charliermarsh.ruff"]
+    if missing_environment_provider:
+        extensions.remove("ms-python.vscode-python-envs")
+    installed = "\\n".join(extensions)
+
+    code = tools / "code"
+    code.write_text(
+        "#!/bin/sh\n"
+        "case \"$*\" in\n"
+        f'  "--list-extensions") printf \'%b\\n\' "{installed}" ;;\n'
+        f'  "--list-extensions --show-versions") printf \'%s\\n\' '
+        f'"workshop-local.workshop-site-preview@{version}" ;;\n'
+        '  --install-extension\\ *) printf \'%s\\n\' "$*" >> "$SETUP_CALL_LOG" ;;\n'
+        "  *) exit 97 ;;\n"
+        "esac\n",
+        encoding="utf-8",
+    )
+    code.chmod(0o755)
+    node = tools / "node"
+    node.write_text(f"#!/bin/sh\nprintf '%s\\n' '{version}'\n", encoding="utf-8")
+    node.chmod(0o755)
+
+    result = subprocess.run(
+        ["bash", ".devcontainer/setup.sh", "preview"],
+        env={**os.environ, "HOME": str(tmp_path), "SETUP_CALL_LOG": str(log)},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    calls = log.read_text(encoding="utf-8").splitlines() if log.exists() else []
+    expected = ["--install-extension ms-python.vscode-python-envs"]
+    assert calls == (expected if missing_environment_provider else [])
+    assert ("Run Developer: Reload Window once" in result.stdout) is missing_environment_provider
+
+
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
 @pytest.mark.parametrize("install_status", [0, 23])
 def test_core_setup_prepares_website_tools_but_not_advanced_tools(tmp_path: Path, install_status: int) -> None:

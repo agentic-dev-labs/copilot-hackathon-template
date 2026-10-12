@@ -12,10 +12,13 @@ use the configuration committed and pushed to the selected branch.
 
 All attendee tools run inside this Linux container. Creation installs **uv and Copilot CLI**
 automatically; the CLI profile also checks `copilot --version`. Installation does not authenticate
-the attendee. Content setup runs `uv sync --locked --extra dev --extra web` and installs the
-pinned extension packager before normal attachment. The post-attach preview profile
-installs the repository-owned editor helper. Chromium and research packages remain later preparation.
-Do not ignore a failed creation or core install. CLI teaching and sign-in checks remain in Day 3.
+the attendee. The container requests the Python, Python Environments, and Ruff editor extensions so
+Ruff can use the project environment. Content setup runs `uv sync --locked --extra dev --extra web`
+and installs the pinned extension packager before normal attachment. The post-attach preview profile
+repairs any missing Python editor extensions and installs the repository-owned editor helper. When it
+repairs an older Codespace, run **Developer: Reload Window** once at its prompt. Chromium and research
+packages remain later preparation. Do not ignore a failed creation or core install. CLI teaching and
+sign-in checks remain in Day 3.
 
 ## Same-Window Website Preview
 
