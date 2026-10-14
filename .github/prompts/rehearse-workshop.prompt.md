@@ -137,7 +137,8 @@ local-network prerequisites, and never disable enforced boundaries to force a su
 
 1. Complete a real Copilot CLI sign-in with `/login` and the device code, ask about the page,
    compare the answer with the page, and observe one approved change in the Website preview.
-2. [Lab 04](../../labs/04-mcp/README.md): add remote GitHub MCP at its `/readonly` endpoint,
+2. [Lab 04](../../labs/04-mcp/README.md): start the repository's prepared `github` server from
+   `.vscode/mcp.json` (its `/readonly` endpoint), confirm nothing started on its own beforehand,
    authenticate normally, confirm no write tools are listed, and invoke it to list recent
    commits; compare them with GitHub. A `gh` request verifies the fact but does not replace the
    required MCP call. The browser part is a presenter demonstration with VS Code's built-in

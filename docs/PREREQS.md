@@ -63,13 +63,15 @@ hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md).
 - [ ] Confirm the training accounts may use Copilot CLI, and preflight one attendee sign-in path
       privately. Never collect passwords or tokens. Installed is not authenticated.
 - [ ] Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools
-      in the presenter's own Codespace. Attendees install nothing for it. The Playwright browser
+      from VS Code Desktop connected to the presenter's Codespace; the integrated browser is a
+      desktop feature. Attendees install nothing for it. The Playwright browser
       profile could not start Chromium's sandbox in a default Codespace on 14 October 2026; see
       the [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation) and never use `--no-sandbox`.
 - [ ] Verify CLI sandbox/local-network prerequisites; package downloads alone prove neither.
       Do not bypass policy. Browser and CLI sessions do not share chat, cookies, or saved entries.
-- [ ] Permit the remote GitHub MCP server and test `https://api.githubcopilot.com/mcp/readonly`,
-      its browser sign-in, and that no write tools appear.
+- [ ] Permit the remote GitHub MCP server. Attendee repositories ship it in `.vscode/mcp.json`
+      (`https://api.githubcopilot.com/mcp/readonly`) as their only MCP server; test its sign-in and
+      that no write tools appear.
 - [ ] Enable the cloud agent for the presenter's demonstration repository and rehearse one
       issue-to-merged-change run. Enable it for attendee repositories only if the optional Day 4 try is offered.
 - [ ] Rehearse Lab 06: an instructions file applied to `site/` and a small learner-written skill

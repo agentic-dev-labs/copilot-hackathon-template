@@ -24,7 +24,7 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 | Monday afternoon    | One interaction, personal improvements, checked and pushed work                            | Storage and publication only for ready learners with help                           |
 | Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
 | Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | `/create-website` own-idea route in `site/ideas/` with fictional local content; Monday's page for people without an idea |
-| Wednesday tools | CLI question and one change, read-only GitHub MCP, an instructions file and a small skill | Presenter's browser-tools demonstration rehearsed in their own Codespace; attendees install nothing; a prepared fallback screen for blocked sign-in or policy |
+| Wednesday tools | CLI question and one change, the repository's read-only GitHub MCP server, an instructions file and a small skill | Presenter's browser-tools demonstration from VS Code Desktop connected to their Codespace; attendees install nothing; a prepared fallback screen for blocked sign-in or policy |
 | Wednesday close | Pick an idea and write its brief; cloud-agent demonstration | Start the demonstration issue early, or show a prepared pull request labelled as prepared |
 | Thursday building | Supported building, a 10:45 check-in, own checks, and a written three-minute story | Optional cloud-agent try only where the feature is enabled; nobody blocked waiting for it |
 | Friday showcase | Short presentations by table, then the wrap-up | Screen-sharing method, timer, running order, and screenshot backups agreed before 09:30 |
@@ -362,9 +362,13 @@ is required; repository access to the prepared Actions identity must already exi
   previewed result. Note how long the session takes so the 12:15 demonstration can start early.
   Check current limits instead of relying on a historical session cap. If attendees will try it on
   Day 4, confirm the **Website change for Copilot** issue template and Copilot assignment in their repositories.
-- Test remote GitHub MCP at `https://api.githubcopilot.com/mcp/readonly` and confirm no write tools appear.
-- Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools in
-  the presenter's own Codespace: open a page, read its title, add an item, and report the count.
+- In a fresh attendee-style Codespace, confirm no MCP server runs on Day 1, then select **Start** on
+  the `github` server in `.vscode/mcp.json` (`https://api.githubcopilot.com/mcp/readonly`), sign in,
+  and confirm no write tools appear. Attendees get only this server from the repository.
+- Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools,
+  from VS Code Desktop connected to the presenter's Codespace (the integrated browser is a desktop
+  feature): open a page, read its title, add an item, and report the count. Disable personal MCP
+  servers in that workspace so the room sees the same tool list as attendees.
   Attendees run no browser setup. Playwright MCP stays for a later owner-approved environment,
   because Chromium's sandbox could not start in a default Codespace on 14 October 2026; see the
   [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation).

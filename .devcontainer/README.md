@@ -10,7 +10,12 @@ choose **Change machine type**. Expect a restart. For a new Codespace, use the
 repository's **Code > Codespaces > ... > New with options** menu. New creations
 use the configuration committed and pushed to the selected branch.
 
-All attendee tools run inside this Linux container. Creation installs **uv and Copilot CLI**
+All attendee tools run inside this Linux container. The repository ships its own MCP tool list:
+`.vscode/mcp.json` holds only the read-only GitHub server for Lab 04, and `.vscode/settings.json`
+sets `chat.mcp.autostart` to `never`, so no tool server starts until a learner selects **Start**.
+The Azure Container Apps extension was removed from the editor extensions on 14 October 2026: it
+brought an Azure MCP server and Azure sign-in prompts that attendees cannot use. Facilitators who
+need it can install it in their own Codespace. Creation installs **uv and Copilot CLI**
 automatically; the CLI profile also checks `copilot --version`. Installation does not authenticate
 the attendee. The container requests the Python, Python Environments, and Ruff editor extensions so
 Ruff can use the project environment. Content setup runs `uv sync --locked --extra dev --extra web`
@@ -97,6 +102,7 @@ not prove successful authentication or organization-agent access.
 When it succeeds, the browser profile runs `scripts/enable_playwright_mcp.py`, which copies only
 the `playwright` entry from [mcp.example.json](mcp.example.json) into `.vscode/mcp.json`. It keeps
 existing entries, such as Lab 04's GitHub server, and leaves alone a file it cannot safely merge.
+Because that file is tracked, the added entry then shows as a change; do not commit it to the template.
 The user then starts and trusts the server. MarkItDown is optional and never added
 automatically; the example file itself is not an automatically loaded configuration. It uses workspace stdio servers launched by
 `bash .devcontainer/mcp.sh playwright` and `bash .devcontainer/mcp.sh markitdown`.

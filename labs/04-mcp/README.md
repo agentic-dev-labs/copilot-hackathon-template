@@ -14,16 +14,15 @@ which tools to plug in, and you still check what they report. The presenter show
 
 ## 1. Plug In GitHub (25 minutes)
 
-1. Open the Command Palette: press **F1**, or open the menu (three lines, top left) and choose
-   **View > Command Palette**. Type **MCP: Add Server** and select it.
-2. Choose **HTTP**. Paste `https://api.githubcopilot.com/mcp/readonly` and press Enter.
-   `readonly` means Copilot can look at your repository but cannot change anything on GitHub.
-3. Name it `github`. When asked where to save it, choose **Workspace**. VS Code opens
-   `.vscode/mcp.json`, the list of tools plugged into this project. It stays in your Codespace
-   and is not saved to GitHub.
-4. Sign in with GitHub when asked and allow access. If sign-in is blocked, show a helper and
-   follow the presenter's screen instead.
-5. In Chat choose **Agent**, then ask:
+This project comes with its own short list of tools, so you do not have to find or type anything.
+
+1. In the **Explorer**, open the **.vscode** folder and select **mcp.json**. It lists one tool
+   server, `github`, at `https://api.githubcopilot.com/mcp/readonly`. `readonly` means Copilot
+   can look at your repository but cannot change anything on GitHub.
+2. Select **Start**, the small link just above `"github"`. If VS Code asks you to sign in to
+   GitHub or to allow access, choose **Allow**. If sign-in is blocked, show a helper and follow
+   the presenter's screen instead.
+3. In Chat choose **Agent**, then ask:
 
    > Use the GitHub tools to list the last three commits in my repository. For each one, tell me
    > its message and which files it changed. Do not change anything.
@@ -57,14 +56,15 @@ click through a page, but its report is still something you compare with what yo
 | What you see                        | Next action                                                                   |
 | ----------------------------------- | ----------------------------------------------------------------------------- |
 | GitHub sign-in fails                | It may be blocked by policy. Tell a helper and follow the presenter's screen. |
-| **MCP: Add Server** is not listed   | Check the spelling in the Command Palette, then ask a helper.                 |
-| Copilot does not use the GitHub tool | Say "Use the GitHub tools" in your question, and allow the tool when asked.   |
+| No **Start** link above `"github"`  | Make sure you opened `.vscode/mcp.json`, then ask a helper.                   |
+| Copilot does not use the GitHub tool | Select **Start** first, say "Use the GitHub tools", and allow the tool.       |
 
 ## Optional extras
 
 1. Ask the GitHub tools which file in your repository has changed most often. Compare with GitHub.
 2. Ask for the message of your very first commit, then find it on GitHub yourself.
-3. Open the tools button in the chat box and turn off one tool you do not need.
+3. See where new tools come from: press **F1**, type **MCP: Add Server**, look at the choices,
+   then press **Esc** to close it without adding anything.
 
 ## Official References
 

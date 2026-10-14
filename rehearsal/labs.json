@@ -119,7 +119,7 @@
         "tests/test_site.py"
       ],
       "checks": {
-        "configuration": "Remote GitHub MCP at the /readonly endpoint authenticated and listed no write tools",
+        "configuration": "The repository's prepared .vscode/mcp.json lists only the read-only GitHub server; nothing started before Start was selected; authentication succeeded and only read-only tools are exposed",
         "invocation": "Actual MCP call listed the rehearsal repository's recent commits and matched GitHub",
         "browser-demo": "Presenter's built-in browser tools, rehearsed in the presenter Codespace, opened a page and reported a title and a count after adding an item; the report matched a manual check"
       },

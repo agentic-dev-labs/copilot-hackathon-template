@@ -12,7 +12,6 @@ node_modules/
 dist/
 build/
 .playwright-mcp/
-/.vscode/mcp.json
 # Root only, so an agent can commit its reports under reports/
 /PrivacyReview_*.md
 logs/

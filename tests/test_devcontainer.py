@@ -281,8 +281,23 @@ def test_browser_profile_connects_only_the_reviewed_playwright_entry(tmp_path: P
     merged = json.loads(target.read_text(encoding="utf-8"))
     assert merged == {"inputs": [], "servers": {"github": github, "playwright": entry}}
     assert "markitdown" not in merged["servers"]
-    # The generated connection is workspace state, not part of a learner's content commit.
-    assert "/.vscode/mcp.json" in Path(".gitignore").read_text(encoding="utf-8").splitlines()
+
+
+def test_repository_ships_only_the_read_only_github_mcp_server(tmp_path: Path) -> None:
+    """Attendees see one tool server, it starts only when they choose, and nothing needs Azure."""
+    github = {"type": "http", "url": "https://api.githubcopilot.com/mcp/readonly"}
+    workspace = json.loads(Path(".vscode/mcp.json").read_text(encoding="utf-8"))
+    assert workspace == {"servers": {"github": github}}
+    assert "/.vscode/mcp.json" not in Path(".gitignore").read_text(encoding="utf-8").splitlines()
+    settings = json.loads(Path(".vscode/settings.json").read_text(encoding="utf-8"))
+    assert settings["chat.mcp.autostart"] == "never"
+    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
+    assert not any("azure" in name.lower() for name in config["customizations"]["vscode"]["extensions"])
+    # A later, owner-approved Playwright setup adds to this list without dropping GitHub.
+    target = tmp_path / "mcp.json"
+    target.write_text(Path(".vscode/mcp.json").read_text(encoding="utf-8"), encoding="utf-8")
+    assert enable_playwright_mcp.enable_playwright(target, Path(".devcontainer/mcp.example.json"))
+    assert set(json.loads(target.read_text(encoding="utf-8"))["servers"]) == {"github", "playwright"}
 
 
 @pytest.mark.parametrize(

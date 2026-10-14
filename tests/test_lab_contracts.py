@@ -502,6 +502,7 @@ def test_day_three_labs_use_simple_reviewed_tools() -> None:
     """MCP is read-only, the browser check uses the learner's page, and skills are learner-written."""
     mcp = Path("labs/04-mcp/README.md").read_text(encoding="utf-8")
     assert "https://api.githubcopilot.com/mcp/readonly" in mcp
+    assert "open the **.vscode** folder and select **mcp.json**" in mcp and "Select **Start**" in mcp
     assert "## 2. Watch Copilot Use a Browser" in mcp and "nothing to set up" in mcp
     assert "setup.sh browser" not in mcp and "uvicorn" not in mcp and "Playwright" not in mcp
     customization = Path("labs/06-multi-agent/README.md").read_text(encoding="utf-8")

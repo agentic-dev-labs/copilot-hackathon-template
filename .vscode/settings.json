@@ -10,5 +10,6 @@
     ".venv": true,
     ".venv-research": true,
     ".workshop-preview": true
-  }
+  },
+  "chat.mcp.autostart": "never"
 }

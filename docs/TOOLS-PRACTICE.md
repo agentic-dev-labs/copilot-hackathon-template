@@ -92,9 +92,17 @@ and your work is visible on GitHub. Tomorrow, follow the [build day guide](DAY-4
 
 - Before Day 3, confirm the training accounts may use Copilot CLI, the remote GitHub MCP server,
   and the cloud agent. Check one attendee sign-in path privately. Installed is not signed in.
+- **This repository has its own tool list.** `.vscode/mcp.json` contains only the read-only
+  GitHub server, and `chat.mcp.autostart` is `never` in `.vscode/settings.json`, so no tool server
+  starts until an attendee selects **Start** in Lab 04. Attendees never see your personal tools.
+  On your own screen, hide them for the room: run **MCP: List Servers**, pick each personal server,
+  and choose **Disable** for this workspace.
 - **Decision, 14 October 2026: the browser check in Lab 04 is a presenter demonstration.**
-  Attendees install nothing for it. The presenter uses VS Code's built-in browser tools in their
-  own Codespace; rehearse the exact page and steps there beforehand. Serve the page privately with
+  Attendees install nothing for it. VS Code's integrated browser and its browser tools are a VS
+  Code Desktop feature, so open your Codespace in VS Code Desktop for this demo, keep
+  `workbench.browser.enableChatTools` on, and turn on `workbench.browser.enableRemoteProxy`
+  (preview) so the browser can reach pages in the Codespace. Rehearse the exact page and steps
+  there beforehand. Serve the page privately with
   `uv run uvicorn app.site:app --port 8000` if the tools need a web address, and never make the
   port public. Background: in the owner's Codespace the pinned Playwright browser installed in
   about 40 seconds (`bash .devcontainer/setup.sh browser`) but could not start, because the
