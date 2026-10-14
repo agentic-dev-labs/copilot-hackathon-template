@@ -1,6 +1,6 @@
 ---
 name: rehearse-workshop
-description: Rehearse the guided first website, Tuesday own-idea building, and later technical labs in a disposable browser-based Codespace, without Dataverse prerequisites or attendee Azure login.
+description: Rehearse the guided first website, Tuesday own-idea building, and the simplified Days 3-5 (tools, build day, showcase) in a disposable browser-based Codespace, without Dataverse prerequisites or attendee Azure login.
 agent: agent
 ---
 
@@ -23,10 +23,11 @@ Do not stop after generating the checklist or running preflight: continue implem
 
 ## Outcome and Boundaries
 
-Complete the eight active labs and the `day-2` supported session, including their code changes,
-customizations, tests, technical-track tool calls, and one selected release. Produce evidence
-and the endpoint actually tested. The vendor reader deliberately uses local synthetic samples;
-this is not a claim of a live Dataverse connection. Unit tests alone do not pass live product checks.
+Complete the seven active labs and the `day-2` to `day-5` supported sessions, including their
+code changes, learner-written customizations, tests, and real Day 3 tool calls. Publication is
+optional. Produce evidence and any endpoint actually tested. Since 14 October, Days 3-5 use the
+attendee's own website only; the vendor reader, automations, hooks, and release readiness are
+post-workshop reference, not part of this run. Unit tests alone do not pass live product checks.
 
 - Use a dedicated private/internal rehearsal copy, not the source template or an attendee's app.
   Establish its repository, remote, branch, commit, unique synthetic label, and derived app name.
@@ -34,7 +35,7 @@ this is not a claim of a live Dataverse connection. Unit tests alone do not pass
   Before template generation, check whether `.facilitator/` is tracked. If so, require an
   owner-prepared snapshot excluding it; do not broaden disclosure or silently change retention.
 - Invocation authorizes routine lab code edits and checks in that confirmed rehearsal copy.
-  Before the first push, issue/PR/automation creation, or deployment, confirm the
+  Before the first push, issue/PR creation, or deployment, confirm the
   target repository, label/app, existing resource group, and permission to incur rehearsal usage once.
   Reuse that approval for the agreed run. Never widen it to other repositories or resources.
 - Follow normal client tool approvals. Never enable blanket permission bypass, weaken branch rules,
@@ -88,9 +89,10 @@ separate and do not invent a human observation or claim a script is that pilot.
 ## 2. Complete the Day 1 Labs
 
 1. [Lab 01](../../labs/01-vscode-agent/README.md): invoke the actual `/create-website` skill.
-  Check its single-question pauses, category/name/colour choices, explicit
-  approval, the copied blueprint and local kit, and existing-file preservation. Demonstrate the Project Planner;
-  verify project/budget choices separately. Require creation to open the Website preview beside Chat,
+  Check it asks exactly one question (Project Planner, Calendar, Ideas Wall, or Weather), treats
+  the choice as approval, names the page after the repository, copies the tested blueprint and
+  local kit, and, when a page already exists, offers the own-idea route without replacing it.
+  Demonstrate the Project Planner; verify the other three categories separately. Require creation to open the Website preview beside Chat,
   save a heading and CSS change, and observe the live update without Refresh. Test stop closes
   only that panel and start reopens it with added entries still present. Record any blocker
   separately, not as a successful embedded-view test.
@@ -116,7 +118,8 @@ but it must not be claimed as a successful invocation.
 
 Follow [Day 2: Build Your Own Idea](../../docs/DAY-2-BUILD.md), recorded as `day-2`, not the retired
 Lab 05. Agree one fictional user outcome, a small prototype, and a manual acceptance check.
-Use a prepared repository or improve the existing default without overwriting Monday's work.
+Use the `/create-website` own-idea route in `site/ideas/`, or improve the existing default,
+without overwriting Monday's work. Confirm the skill offers the own-idea route when a page exists.
 Implement one meaningful interaction using fictional app-local content, check it, save/review/
 commit/push with the approved run permissions, and read back the intended branch on GitHub.
 Record working features and unresolved data, access, and approval questions for the technical owner.
@@ -126,79 +129,62 @@ this beginner session. The [post-workshop Dataverse guide](../../post-workshop/d
 and its prompts preserve the technical path separately. Keep existing mocked Dataverse and
 private-form safety regressions in the suite, but do not execute their live setup as part of class.
 
-## 4. Complete Cloud, MCP, Automation, and Hook Labs
+## 4. Complete Day 3
 
-Prepare the independent CLI/browser profiles before Day 3 and follow
-[the tools introductions](../../docs/TOOLS-PRACTICE.md) in their existing demonstration blocks.
-Record the real CLI request/refinement under Lab 03. Record the inspected Playwright connection
-and observed journey under Lab 04. Use a personal page or the local-sample vendor reader; no
-Dataverse connection is required. Keep editor/CLI/browser state separate, inspect sandbox and
+Follow [the Day 3 guide](../../docs/TOOLS-PRACTICE.md), recorded as `day-3`, on the rehearsal
+copy's own learner website. Keep editor/CLI/browser state separate, inspect sandbox and
 local-network prerequisites, and never disable enforced boundaries to force a successful result.
 
-1. [Lab 03](../../labs/03-cloud-agent/README.md): create one small, bounded issue using the
-   repository template. Assign it to the real cloud agent, inspect its session and PR, request a
-   specific correction, and test the resulting PR commit rather than `main`. Review the diff and
-   checks before any workflow approval. Do not approve your own PR as another identity or bypass
-   a human gate. Record a required human review as pending if it cannot be completed here.
-2. [Lab 04](../../labs/04-mcp/README.md): configure remote GitHub MCP in the rehearsal workspace,
-   authenticate normally, inspect its read-only toolset, invoke it to retrieve the training issue,
-   and compare the result with GitHub. A `gh` request verifies the fact but does not replace the
-   required MCP call. Cloud MCP configuration is separate from the Codespace's configuration.
-3. [Lab 07](../../labs/07-automations-hooks/README.md): use the supported Automations UI/API to
-   create the bounded issue-created automation with the required label/filter, prompt, and tools.
-   Create a matching synthetic issue, observe the resulting session and generated report PR,
-   inspect its evidence, and disable/delete only this test automation when finished. If no supported
-   UI/tool is accessible, record this stage as blocked with the exact missing capability; a manually
-   started task or scheduled Actions job is not a successful Copilot automation.
-4. Wire the supplied audit helper into the hook configuration, run the direct harmless deny test,
-   and observe real CLI session/tool events. Record metadata only. Remove a temporary deny rule
-   and disable the run's automation. Unit tests alone do not prove live hook discovery.
-5. Complete the separate Day 4 readiness block documented in Lab 07. Author a saved bounded
-  Playwright assertion script using the prepared package, preserve the browser sandbox, and run
-  it twice. Distinguish its actual local results from CI; only claim browser CI if a workflow
-  invokes the script with its server and dependencies. Review/test the final commit, then use
-  `rehearsal.deploy dispatch` and `collect` for one selected website or local-sample vendor target,
-  with Dataverse disabled. Verify exact commit, target, intended source, website bytes/fingerprints
-  when applicable, and real endpoint behaviour. A second target is optional, not an extra core gate.
-  Never enable public training writes or substitute an older healthy revision.
+1. Complete a real Copilot CLI sign-in with `/login` and the device code, ask about the page,
+   compare the answer with the page, and observe one approved change in the Website preview.
+2. [Lab 04](../../labs/04-mcp/README.md): add remote GitHub MCP at its `/readonly` endpoint,
+   authenticate normally, confirm no write tools are listed, and invoke it to list recent
+   commits; compare them with GitHub. A `gh` request verifies the fact but does not replace the
+   required MCP call. The browser part is a presenter demonstration with VS Code's built-in
+   browser tools; record it as `browser-demo` only from a real rehearsal in the presenter's
+   Codespace. Attendees run no browser setup. Playwright MCP is optional and only for an
+   owner-approved environment where Chromium's sandbox starts; never add `--no-sandbox`.
+3. [Lab 06](../../labs/06-multi-agent/README.md): author an instructions file under
+   `.github/instructions/` applied to `site/` and observe one of its rules being followed. Author
+   the `check-my-page` skill, confirm discovery through its slash command, and verify it waits for
+   each answer and records only real results. Commit both files. Do not ship them in the template.
+4. Complete the "pick your idea" block: a brief with a self-check, a first step, and pushed work.
+5. [Lab 03](../../labs/03-cloud-agent/README.md): create one small website issue with the
+   **Website change for Copilot** template, assign it to the real cloud agent, inspect its session
+   and pull request, review the diff against the issue, then merge with the run's approval, pull,
+   and check the change in the Website preview. Do not bypass a required human review; record it
+   as pending if it cannot be completed here. Note how long the session took for the demonstration.
 
-## 5. Complete Agent Authoring and Evaluations
+## 5. Complete Build Day and the Showcase
 
-Follow [Lab 06](../../labs/06-multi-agent/README.md). In its separate opening, inspect one reviewed
-everyday-work skill and distinguish an actual invocation from bookmarking an unavailable example.
-Then author a business agent and skill, exercise present and missing evidence, and invoke the repository-local
-analyst/writer/reviewer roles. The outdated organization vendor-analyst duplicate is retired.
-Generate evaluator JSON and an immutable CLI report under `reports/baseline/`; keep the
-agent-authored report in its separate documented path. Compare both to the original synthetic
-source and verify every quote, all ten findings, score, sensitivity, and gaps.
+Follow [the build day guide](../../docs/DAY-4-BUILD.md), recorded as `day-4`: build one bounded
+improvement with fictional local content, run the learner's own checks, write the three-minute
+story in the brief, and push. If publication is selected, follow Lab 08's optional route with
+`rehearsal.deploy dispatch` and `collect` for the **website** target with Dataverse disabled;
+verify exact commit, website bytes/fingerprint, and real endpoint behaviour. Never substitute an
+older healthy revision.
 
-Explicitly test the known negative AES/TLS statements, planned retention without a defined period,
-contradictory residency, and unstated SOC 2 type. Passing the three existing sample scores does
-not establish those semantics. The reproduced cases now have regression tests; run them rather
-than assuming they passed. Add further counterexample tests and repair the evaluator when needed,
-then regenerate the authoritative JSON and both reports. Never have a model
-silently replace calculated statuses. Run independent checks separately from dependent handoffs.
+Follow [the showcase guide](../../docs/DAY-5-SHOWCASE.md), recorded as `day-5`. Automation can
+check the guide and preview, but room logistics and a live presentation need a human rehearsal;
+record those as pending rather than inventing an observation.
 
-Check selected optional Spaces and other demonstration capabilities against the reference map.
-The managed travel plugin is optional Day 5 material, not a Lab 02 requirement. Do not substitute
-old travel evidence for current website checks or label a prepared extract as a live conversion.
-Keep optional SDK/BYOK, fleet, third-party agents, integrations, and second-model previews separate
-from the eight active labs and own-idea session. Do not install optional products or change enterprise settings to turn
-an unavailable preview green.
+Optional Spaces, managed plugins, travel, SDK/BYOK, fleet, third-party agents, integrations,
+second-model previews, and everything in the [advanced reference](../../post-workshop/advanced/README.md)
+stay outside this run. Do not install optional products or change enterprise settings to turn an
+unavailable preview green.
 
 ## 6. Finish and Report
 
 - Run the complete test and lint suite on the final rehearsal commit. Re-run documentation contracts.
   Revisit any failed stage after a repair. Do not alter tests merely to accept a failure.
-- Deploy the selected target in Day 4 readiness through Actions, download its result, and verify
-  the final website or read-only local-sample vendor app. Dataverse releases remain post-workshop work.
+- If publication was selected, deploy the website target through Actions, download its result,
+  and verify the final website. Dataverse and vendor releases remain post-workshop work.
   Record run URL, commit SHA, application URL, request results, and browser evidence together.
 - Track every lab as `pending`, `passed`, `failed`, or `blocked`, with timestamps, evidence,
   command/tool/session reference, expected versus actual result, and remaining work. Separate
   deterministic checks from observed live product behavior and optional extension statuses.
   Never mark a substituted fallback passed.
-- Disable only this run's test automations, remove temporary hook denials, stop local dev processes,
-  and document retained PRs/apps. Do not delete shared Azure resources. Leave the
+- Stop local dev processes and document retained PRs/apps. Do not delete shared Azure resources. Leave the
   working endpoint available for the user; report its ongoing usage and cleanup owner.
 - If a missing access/policy/tool blocks one stage, finish all independent stages. Ask only for
   the specific non-secret action required. If blocked work remains, the overall run is incomplete.

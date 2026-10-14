@@ -1,6 +1,7 @@
 ---
 name: vendor-analyst
 description: Checks deterministic evaluator JSON against a synthetic vendor report before handing it to the writer.
+user-invocable: false
 tools:
   - read
   - search

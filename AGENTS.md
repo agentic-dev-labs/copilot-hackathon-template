@@ -6,12 +6,13 @@ discovery rules; verify the client rather than assuming every agent reads the sa
 
 ## What this is
 
-A training repository for a hands-on GitHub Copilot workshop. Days 1-2 start from zero GitHub
-and app-building experience; plan support for roughly 40-45 business users and confirm the final
-roster. Days 3-5 add engineering depth.
+A training repository for a hands-on GitHub Copilot workshop. All five days are for business
+users with zero GitHub and app-building experience; plan support for roughly 40-45 people and
+confirm the final roster. Keep every day simple.
 Day 1 teaches foundations, Chat, a small learner-created website, and manual verification.
-Day 2 is supported own-idea building with fictional app-local content. CLI and browser tools
-start in the Day 3 technical track. The separate technical business case
+Day 2 is supported own-idea building with fictional app-local content. Day 3 shows CLI, MCP and
+browser tools, an instructions file, and a small skill on the attendee's own website; Day 4 is
+build day; Day 5 is presentations. The separate post-workshop business case
 reviews **synthetic** vendor reports with deterministic scores and quoted evidence.
 
 ## Non-negotiable rules
@@ -43,9 +44,10 @@ Tests and lint must both pass before opening a pull request.
 
 All attendee work runs in browser-based Codespaces and its Linux/Bash terminal, including
 Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or desktop VS Code
-is required. Use prepared headless Playwright MCP via private stdio from Day 3. MarkItDown
+is required. On Day 3 the presenter demonstrates browser checks with built-in browser tools;
+attendees install nothing for it. Prepared headless Playwright MCP via private stdio is kept for
+an owner-approved environment where Chromium's sandbox starts; never add --no-sandbox. MarkItDown
 is an optional later research tool. Neither installation blocks Monday's core setup.
-Built-in browser tools are optional when supported, not a Codespaces prerequisite.
 Use the prepared server-free Website preview panel for beginner websites. Creation and start
 open it beside Chat automatically; stop closes it. It needs no server, port, or sign-in.
 Laptop localhost is not Codespace localhost. Copilot CLI is installed on creation,
@@ -83,7 +85,7 @@ Lab 08's core is reviewed, pushed work. Its optional website target publishes on
 Day 2 gives David 09:00-09:30 and Jackie 09:30-10:30 for conceptual overviews, then protects
 10:45-12:15 and the afternoon for participants' own ideas. Follow docs/DAY-2-BUILD.md and the
 printable quick reference. No required database, CLI, MCP, automation, or deployment work on
-either beginner day. Use fictional local content; collect integration questions for IT later.
+Day 1 or Day 2. Use fictional local content; collect integration questions for IT later.
 
 The former Lab 05 is a signpost to post-workshop/dataverse/README.md and PROMPTS.md. Preserve
 the maintained app/client/provisioning/seed/tests and deployment safeguards; do not duplicate
@@ -91,12 +93,18 @@ or delete them. The technical reference is not authorization for production or l
 Keep WORKSHOP_ALLOW_WRITES private-only and disabled in deployments. The switch and workshop
 label are not authorization. Preserve validation, server-owned labels, unassessed rows, and scores.
 
-Day 3 introduces CLI and MCP/Playwright in the existing demonstration blocks, then cloud-agent
-review and MCP configuration; Day 4 adds repeatable browser checks,
-automation and release evidence; Day 5 covers skill discovery, authoring and evaluations.
+The owner approved simplifying Days 3-5 on 14 October 2026 for the same first-time audience.
+Day 3 (docs/TOOLS-PRACTICE.md): Copilot CLI, Lab 04 (read-only GitHub MCP hands-on and a presenter
+browser-tools demonstration), Lab 06 (one instructions file and one small skill), picking an idea, and
+a Lab 03 cloud-agent demonstration. Day 4 (docs/DAY-4-BUILD.md) is supported building with an
+optional cloud-agent try. Day 5 (docs/DAY-5-SHOWCASE.md) is short presentations and a wrap-up.
+Ali presents Day 1, leads Days 3-4, and hosts Day 5; on Day 2 David and Jackie present and Ali
+supports tables. Hooks, automations, multi-agent handoffs, evaluations, saved browser tests, CI,
+release verification, and the vendor app are post-workshop/advanced reference, not workshop
+tasks; the former Lab 07 is a signpost. Preserve that reference and its maintained code/tests.
 Research/HTML briefs, managed plugins, and travel remain optional, not beginner prerequisites.
 Never duplicate a managed specialist locally. The correct vendor-analyst is repository-local
-for Lab 06. Generated travel output remains ignored.
+for the advanced agent-handoff reference. Generated travel output remains ignored.
 
 Keep the published day boundaries and active lab lengths. The reported 09:00-16:00 invitation
 is not approval to extend the 09:00-15:00 beginner timetable. No corporate workstation/account

@@ -12,7 +12,8 @@ Open the saved website beside Chat. Do not repeat the interview, generate or cha
 install anything, or start a server. This also runs right after a build in
 [Create Website](../create-website/SKILL.md).
 
-1. Default to `site/index.html`, or the learner's requested HTML file under site/. If it does
+1. Default to `site/index.html`, or the learner's requested HTML file under site/. If they give
+   only an idea's folder name, such as `team-lunch`, use `ideas/team-lunch/index.html`. If it does
    not exist, say **"Let's create your website first with /create-website."** Do not create a placeholder.
 2. Run this yourself from the repository root; do not ask the learner to type it:
 

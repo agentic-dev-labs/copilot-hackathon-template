@@ -11,7 +11,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from scripts import check_workshop_mcp
+from scripts import check_workshop_mcp, enable_playwright_mcp
 
 
 def test_machine_requirements_and_notes() -> None:
@@ -121,9 +121,9 @@ def test_preview_setup_repairs_python_environment_provider(
     code = tools / "code"
     code.write_text(
         "#!/bin/sh\n"
-        "case \"$*\" in\n"
+        'case "$*" in\n'
         f'  "--list-extensions") printf \'%b\\n\' "{installed}" ;;\n'
-        f'  "--list-extensions --show-versions") printf \'%s\\n\' '
+        f"  \"--list-extensions --show-versions\") printf '%s\\n' "
         f'"workshop-local.workshop-site-preview@{version}" ;;\n'
         '  --install-extension\\ *) printf \'%s\\n\' "$*" >> "$SETUP_CALL_LOG" ;;\n'
         "  *) exit 97 ;;\n"
@@ -152,7 +152,9 @@ def test_preview_setup_repairs_python_environment_provider(
 
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
 @pytest.mark.parametrize("install_status", [0, 23])
-def test_core_setup_prepares_website_tools_but_not_advanced_tools(tmp_path: Path, install_status: int) -> None:
+def test_core_setup_prepares_website_tools_but_not_advanced_tools(
+    tmp_path: Path, install_status: int
+) -> None:
     """Core prepares Python and frontend dependencies without creating a learner page."""
     tools = tmp_path / ".local" / "bin"
     tools.mkdir(parents=True)
@@ -175,7 +177,9 @@ def test_core_setup_prepares_website_tools_but_not_advanced_tools(tmp_path: Path
     assert result.returncode == (0 if install_status == 0 else 1)
     expected = ["uv sync --locked --extra dev --extra web"]
     if not install_status:
-        expected.append("npm ci --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund")
+        expected.append(
+            "npm ci --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund"
+        )
     assert log.read_text(encoding="utf-8").splitlines() == expected
     if install_status:
         assert "TLS verification remains enabled" in result.stderr
@@ -247,6 +251,58 @@ def test_mcp_examples_are_private_and_use_pinned_tools() -> None:
     assert "markitdown-mcp==0.0.1a7" in requirements
     assert "markitdown==0.1.7" in requirements
     assert "azure-ai-contentunderstanding==1.2.0b1" in requirements
+
+
+def test_browser_profile_connects_only_the_reviewed_playwright_entry(tmp_path: Path) -> None:
+    """Day 3's one setup command adds Playwright to Copilot without dropping other servers."""
+    setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
+    browser = setup.split("\tbrowser)", 1)[1].split(";;", 1)[0]
+    assert browser.rstrip().endswith("python3 scripts/enable_playwright_mcp.py")
+    assert "enable_playwright_mcp" not in setup.split("\tbrowser)", 1)[0]
+    # An unverifiable, unused apt source is set aside before Playwright runs apt, never trusted
+    # blindly, and a browser that cannot start stops with plain words, never --no-sandbox.
+    set_aside = "sudo mv /etc/apt/sources.list.d/yarn.list /etc/apt/sources.list.d/yarn.list.disabled"
+    assert browser.index(set_aside) < browser.index("install --with-deps chromium")
+    assert "apt-key" not in setup and "--allow-unauthenticated" not in setup
+    assert "if ! bash .devcontainer/mcp.sh check-browser; then" in browser
+    assert "follow the presenter for the browser part of Lab 04" in browser
+    assert "--no-sandbox" not in setup and "chromiumSandbox: false" not in setup
+
+    example = Path(".devcontainer/mcp.example.json")
+    entry = json.loads(example.read_text(encoding="utf-8"))["servers"]["playwright"]
+    target = tmp_path / ".vscode" / "mcp.json"
+    assert enable_playwright_mcp.enable_playwright(target, example) is True
+    assert json.loads(target.read_text(encoding="utf-8")) == {"servers": {"playwright": entry}}
+    assert enable_playwright_mcp.enable_playwright(target, example) is False
+
+    github = {"type": "http", "url": "https://api.githubcopilot.com/mcp/readonly"}
+    target.write_text(json.dumps({"inputs": [], "servers": {"github": github}}), encoding="utf-8")
+    assert enable_playwright_mcp.enable_playwright(target, example) is True
+    merged = json.loads(target.read_text(encoding="utf-8"))
+    assert merged == {"inputs": [], "servers": {"github": github, "playwright": entry}}
+    assert "markitdown" not in merged["servers"]
+    # The generated connection is workspace state, not part of a learner's content commit.
+    assert "/.vscode/mcp.json" in Path(".gitignore").read_text(encoding="utf-8").splitlines()
+
+
+@pytest.mark.parametrize(
+    "existing",
+    [
+        '{\n  // a comment makes this JSONC\n  "servers": {}\n}',
+        "[]",
+        '{"servers": []}',
+        '{"servers": {"playwright": {"type": "http", "url": "https://example.invalid"}}}',
+    ],
+)
+def test_playwright_connection_never_overwrites_a_file_it_cannot_merge(
+    tmp_path: Path, existing: str
+) -> None:
+    """A learner's own configuration is left untouched and the failure is visible."""
+    target = tmp_path / "mcp.json"
+    target.write_text(existing, encoding="utf-8")
+    with pytest.raises(ValueError, match="left unchanged"):
+        enable_playwright_mcp.enable_playwright(target, Path(".devcontainer/mcp.example.json"))
+    assert target.read_text(encoding="utf-8") == existing
 
 
 def test_research_stays_out_of_git_and_container_builds() -> None:

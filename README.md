@@ -1,165 +1,83 @@
-# Everyday AI With GitHub Copilot
+# Build Your Own Website Just by Talking to AI
 
-Describe an idea, build something small with AI, check it yourself, and learn how to improve it.
-Days 1-2 start from no GitHub or app-building experience. Days 3-5 add technical depth for
-low-coders and pro-coders. Every activity follows **show -> try -> personalise -> verify -> share**.
+**No coding. Nothing to install. Just your web browser and your ideas.**
 
-**Day 1:** understand the workspace, use Chat, build your first website, manually check a
-feature and a figure, and save your work in GitHub. Use the guided `/create-website` starter
-menu; the presenter demonstrates the Project Planner. **Day 2:** David and Jackie explain the business/IT model and
-shared-data possibilities; you build your own idea with fictional content and table-side help.
-**Days 3-5:** use CLI and MCP/Playwright, delegate work, make checks repeatable, deploy, author
-skills, and evaluate results. No Dataverse integration is required for the workshop.
+In this five-day workshop you tell GitHub Copilot, an AI helper, what you want in plain words,
+and it builds it with you. By Friday you will have made something of your own, checked that it
+really works, and shown it to the room. You have never used GitHub or written code? Perfect.
+This workshop was made for you.
 
-All attendee work uses **browser-based GitHub Codespaces and its Linux terminal**. Nothing
-needs installing on your laptop. See the [agenda](docs/AGENDA.md) and
-[topic map and official references](docs/REFERENCES.md).
+**When and where:** October 26-30, 2026, in Princeton, New Jersey. Monday and Tuesday are full
+days, and Wednesday to Friday are mornings. Your calendar invitation has the exact times.
 
-## Start here
+## Your Week
 
-1. Join the first concepts-only block with the [glossary and labelled screenshots](docs/START-HERE.md).
-2. Open the repository assigned by the facilitator, then follow [Lab 00](labs/00-setup/README.md).
-3. Follow [today's chronological route](docs/START-HERE.md#todays-route), one step at a time.
+| Day           | What you do                                                                   | What you take home                                  |
+| ------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Monday**    | Meet GitHub and Copilot, then build your first website just by asking for it  | A working website you made your own and checked     |
+| **Tuesday**   | Hear how business and IT work together, then build your own idea with help    | The first version of your own idea                  |
+| **Wednesday** | Learn a few more Copilot tricks, then pick the idea you will build            | Your own Copilot rules, a small skill, and a plan   |
+| **Thursday**  | Build day, with helpers at every table                                        | Something that works, ready to show                 |
+| **Friday**    | Show what you built or learned, in about three minutes                        | Your story, and ideas for what to try next          |
 
-You start with files and Chat, not commands or configuration. In Lab 01, `/create-website`
-asks one question, Project Planner, Calendar, Ideas Wall, or Weather, and builds it straight
-away, named after your repository. The page opens in a **Website preview** panel beside Chat
-and updates by itself as it changes: no server, port, or sign-in. Copilot CLI is installed
-from creation but introduced on Day 3; browser automation is prepared separately for that track.
-Optional research tools do not block Monday's workspace. The facilitator assigns your label and access.
+Every step follows the same rhythm: **watch, try, make it yours, check it, share it.**
 
-The prepared commands keep the same website: **`/create-website`** builds and opens it;
-**`/start-website`** reopens it; **`/stop-website`** closes the preview without deleting files.
-Continue colours, layout, and features in normal Chat using
-[Lab 02's category-specific examples](labs/02-copilot-cli/README.md). Fast finishers build
-their own idea from one sentence in `site/ideas/`. A private preview is enough for Monday.
-Each page is one self-contained HTML file with a local design kit, original animated artwork,
-and fictional sample data; no framework, build step, or CDN. Only the Weather page uses the
-internet, calling the owner-approved Open-Meteo API.
+## How to Start
 
-## What This Repository Provides
+1. **Open your repository.** Your facilitator sends you a link. A repository is your project's
+   folder on GitHub, and it remembers every version of your work.
+2. **Open your Codespace.** Select the green **Code** button, then **Codespaces**, then
+   **Create codespace on main**. A Codespace is a computer on the internet that you use in a
+   browser tab, so nothing goes on your laptop.
+3. **Open your guide.** In the file list on the left, open **docs**, right-click
+   **START-HERE.md**, and choose **Open Preview**.
 
-- A prepared environment and lab guidance, not a completed learner website.
-- A [guided creation skill](.github/skills/create-website/SKILL.md) with four tested category designs and original animated art; no learner installation or skill authoring.
-- One question before building; everything else is changed later just by asking. No paid image service or diagram tool.
-- Eight active labs, a [supported Tuesday build](docs/DAY-2-BUILD.md), official references, tests, and a [rehearsal package](rehearsal/README.md).
-- A [printable quick reference](docs/QUICK-REFERENCE.md) for the live demonstrations.
-- A synthetic vendor reader for the technical track; it runs without Dataverse credentials.
-- [Post-workshop Dataverse setup knowledge and prompts](post-workshop/dataverse/README.md), retained for the later technical-owner session.
-- [Optional public research and visual briefs](docs/RESEARCH.md), not Monday prerequisites.
-- [Optional travel practice](travel/README.md) for later agent/skill exploration.
+That's it. From here, the presenter shows you every step.
 
-[Awesome Copilot](https://awesome-copilot.github.com/) skill discovery is part of Day 5 and
-available as an extension. The collection is not an enterprise approval policy; complete
-folders, dependencies, and permissions need review before use.
+## Five Words to Know
 
-## Rehearse the Complete Workshop
+| Word       | Think of it as...                                                         |
+| ---------- | ------------------------------------------------------------------------- |
+| Repository | Your project folder on GitHub, with its whole history.                     |
+| Codespace  | A computer in the cloud that opens in your browser.                       |
+| Copilot    | A helper you talk to. It is clever but can be wrong, so you check its work. |
+| Commit     | A snapshot of your work, with a short label saying what changed.          |
+| Push       | Sending your snapshots up to GitHub, where they are safe.                 |
 
-In a dedicated Codespaces rehearsal copy, run **`/rehearse-workshop`** in Copilot's local Agent
-mode, or **`/workshop-rehearsal`** through the companion skill in Agent Host. The
-[rehearsal package](rehearsal/README.md) drives the eight active labs and own-idea build, diagnoses fresh
-package installs, runs tests, tracks live evidence, and retrieves verified deployment endpoints.
-Attendees do not sign into Azure: the existing Actions workflow uses the prepared deployment identity.
-Missing access or required human review stays a blocker, not a simulated pass.
+## Try These on GitHub
 
-After a rehearsal or debugging run, **`/workshop-reset`** turns what the run actually proved into
-skill and lab improvements, then clears the generated attendee output so the next run starts from
-the template. It proposes before it edits, never commits, and deletes only named paths.
+A few things to explore on the GitHub website. You cannot break anything by looking.
 
-## Technical Reference: Run the Vendor Example
+- **See every snapshot:** on your repository's page, select **Commits** (next to the clock icon).
+- **Read any file:** select a file name. Pages ending in `.md`, like this one, show nicely formatted.
+- **Look back in time:** open a file and select **History** to see how it changed.
+- **Search:** press **/** on your keyboard and type a word.
+- **Write a to-do note:** open **Issues**, then **New issue**. On Wednesday the presenter shows
+  how Copilot can pick up a note like this and do the work.
+- **Come back tomorrow:** the green **Code** button reopens your Codespace.
 
-This is the separate Days 3-5 example, not the beginner website. Its prepared label is facilitator work.
+## Four Golden Rules
 
-```shell
-uv sync --locked --extra dev --extra web
-uv run uvicorn app.main:app --reload
-```
+1. **Use made-up data only.** Never real names, customers, patients, or work records.
+2. **Check it yourself.** "Copilot says it works" is not proof. Click it and count it.
+3. **Save often.** Save, commit, and push, then look for your work on GitHub.
+4. **Stuck? Raise your hand.** Never install anything or approve something you do not understand.
 
-With no Dataverse configured the app evaluates the synthetic samples directly, so it works in a
-fresh Codespace with no credentials.
+## What Is in This Repository
 
-The devcontainer uses the checked-in `uv.lock`. Run `uv run pytest` and `uv run ruff check .`
-from the repository root to check your work. Prepared headless Playwright MCP and MarkItDown MCP
-run privately inside Codespaces. Built-in desktop browser tools are not an attendee prerequisite.
+| Folder          | What is inside                                                    |
+| --------------- | ----------------------------------------------------------------- |
+| `docs/`         | Your daily guides. Start with `docs/START-HERE.md`.               |
+| `labs/`         | Step-by-step exercises. The daily guides tell you which to open.  |
+| `site/`         | Your website lives here once you build it.                        |
+| Everything else | Behind-the-scenes tools that make the workshop run. Ignore them.  |
 
-## Deploy it
+## For Facilitators
 
-For supported publication, run **Deploy my app** from Actions. Select **website** for your
-page and **vendor** for the separate business app. The workflow uses the prepared Actions identity; no attendee Azure login is needed.
-The run summary prints the verified URL and commit. Follow [Lab 08](labs/08-deploy/README.md)
-before publishing. Only the intended site assets are published, not source reports or notes.
+[Agenda](docs/AGENDA.md) · [Facilitator runbook](docs/FACILITATOR.md) ·
+[Prerequisites](docs/PREREQS.md) · [Rehearsal](rehearsal/README.md) ·
+[Topic map](docs/REFERENCES.md) · [Advanced post-workshop reference](post-workshop/advanced/README.md)
 
-If you chose remembering as an extension, `localStorage` belongs to one browser context and
-origin. Your preview, deployed site, and Playwright browser have separate data. Repeat your
-actual checks at a new URL. Browser storage is not a shared team database.
-
-Vendor writes are disabled by default. The preserved post-workshop reference explains the private
-training switch and production gaps. It is not authentication and must never be enabled on the
-public deployment. Beginner work does not need this form or service credentials.
-
-## Labs
-
-Lab numbers group topics; the **Day** column is the order of the week.
-
-| Lab                                       | Topic                                                         | Day |
-| ----------------------------------------- | ------------------------------------------------------------- | --- |
-| [00](labs/00-setup/README.md)             | Find your files and Copilot Chat                              | 1   |
-| [01](labs/01-vscode-agent/README.md)      | Build your first page; manually verify behaviour and a figure | 1   |
-| [02](labs/02-copilot-cli/README.md)       | One useful interaction and your own improvements              | 1   |
-| [08](labs/08-deploy/README.md)            | Save, share, keep building; optional publication              | 1   |
-| [Own-idea build](docs/DAY-2-BUILD.md)     | Supported prototype building with fictional local data | 2 |
-| [03](labs/03-cloud-agent/README.md)       | Copilot cloud agent                                           | 3   |
-| [04](labs/04-mcp/README.md)               | Remote GitHub MCP server                                      | 3   |
-| [07](labs/07-automations-hooks/README.md) | Automations and hooks                                         | 4   |
-| [06](labs/06-multi-agent/README.md)       | Deeper agent/skill authoring and evidence handoffs            | 5   |
-
-See the [prerequisites](docs/PREREQS.md), [agenda](docs/AGENDA.md), and [facilitator runbook](docs/FACILITATOR.md).
-
-Every lab ends with official references and optional tasks. Use the
-[daily early-finisher list](docs/REFERENCES.md#small-tasks-for-early-finishers) while the group catches up.
-The former Lab 05 link is retained as a signpost, not a ninth scheduled lab. Technical setup,
-data integration, and an approved real-work reference project live in the post-workshop folder.
-
-## Sample reports
-
-Three synthetic vendor reports are provided so you can compare outcomes from the same
-checklist. All are fabricated and describe no real organization.
-
-| Sample                                  | Outcome                                                    |
-| --------------------------------------- | ---------------------------------------------------------- |
-| `synthetic_soc2_harborline_congress.md` | Strong report, scores 10/10                                |
-| `synthetic_soc2_report.md`              | Mixed report, 8/10 with one failure and one unclear result |
-| `synthetic_soc2_meridian_outreach.md`   | Weak report, scores 2/10 despite strong encryption         |
-
-They live in `src/vendor_assurance/samples/`. These outcomes use review date **2026-10-26**;
-date-sensitive results change as reports age. Use a fixed date for repeatable demonstrations:
-
-```bash
-vendor-assurance src/vendor_assurance/samples/synthetic_soc2_report.md --as-of 2026-10-26 --output-directory reports/
-```
-
-The CLI writes JSON to stdout and the output path to stderr. Scores come from deterministic
-Python, not the model. Evidence remains source text; the report renderer encodes table characters.
-
-## Training scope
-
-The evaluator recognizes ten controls in the supplied UTF-8 Markdown/text format using simple
-rules. It is not a general SOC 2 assessor, an OCR pipeline, or a production compliance opinion.
-Chunking uses whitespace-delimited words, not a model tokenizer; it helps demonstrate bounded
-processing but does not guarantee complete evidence at every chunk size. Use synthetic data only.
-
-The vendor starter reads synthetic samples without service access and retains a separately
-documented opt-in private training form. Technical attendees author customizations in Labs 06
-and 07; beginners do not configure data connections. Optional public research
-is an explicit exception to the synthetic-only business fixtures: download into ignored
-`research/`, verify facts, and publish original summaries only.
-Never mix annual-report content into the vendor evaluator or confidential material into the lab.
-Local tests do not prove live Codespaces, MCP, deployment, or Dataverse availability. Rehearse
-the actual learner journey and keep prepared results visibly distinct from live observations.
-
-## Official References
-
-- [Copilot features](https://docs.github.com/en/copilot/get-started/about-github-copilot): the overall capability map.
-- [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): branch, commit, PR, review, and merge.
-- [VS Code agents](https://code.visualstudio.com/docs/agents/overview): how context, models, tools, and sessions work together.
-- [Workshop coverage and references](docs/REFERENCES.md): topic-by-topic official links, later-day practice, and optional extensions.
+**Learn more:** [About GitHub Copilot](https://docs.github.com/en/copilot/get-started/about-github-copilot) ·
+[What is a Codespace?](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) ·
+[How work flows on GitHub](https://docs.github.com/en/get-started/using-github/github-flow)

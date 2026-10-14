@@ -18,9 +18,11 @@ def ledger(monkeypatch: pytest.MonkeyPatch) -> dict:
 
 
 def test_manifest_covers_all_labs_in_workshop_order() -> None:
-    """Keep eight active labs and the supported own-idea session discoverable."""
+    """Keep the seven active labs and the four supported daily sessions discoverable."""
     labs = evidence.manifest()
-    assert [lab["id"] for lab in labs] == ["00", "01", "02", "08", "day-2", "03", "04", "07", "06"]
+    assert [lab["id"] for lab in labs] == [
+        "00", "01", "02", "08", "day-2", "day-3", "04", "06", "03", "day-4", "day-5"
+    ]
     for lab in labs:
         assert Path(lab["guide"]).is_file()
         assert lab["checks"]
@@ -98,13 +100,21 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     labs = {lab["id"]: lab for lab in evidence.manifest()}
     assert "cli-turn" not in labs["00"]["checks"]
     assert "05" not in labs
-    assert "cli-turn" in labs["03"]["checks"]
-    assert {"browser-tools", "browser-journey"} <= labs["04"]["checks"].keys()
+    assert "cli-turn" in labs["day-3"]["checks"]
+    assert "browser-demo" in labs["04"]["checks"]
+    assert "playwright-mcp" in labs["04"]["optional_checks"]
+    assert "browser-setup" not in labs["day-3"]["checks"]
     assert not {"seed", "private-journey", "cli-turn", "browser-tools"} & labs["day-2"]["checks"].keys()
     assert "actions" not in labs["08"]["checks"]
     assert "endpoint" in labs["08"]["optional_checks"]
-    assert {"repeatable-browser", "selected-release"} <= labs["07"]["checks"].keys()
-    assert "vendor-release" not in labs["07"]["checks"]
+    assert "07" not in labs
+    assert {"instructions", "skill-discovery", "honest-checks"} <= labs["06"]["checks"].keys()
+    assert {"issue-session", "review", "merged-check"} <= labs["03"]["checks"].keys()
+    assert "publication" in labs["day-4"]["optional_checks"]
+    assert "presentation" in labs["day-5"]["checks"]
+    advanced = {"repeatable-browser", "selected-release", "automation", "live-hook", "handoffs"}
+    for lab in labs.values():
+        assert not advanced & (lab["checks"].keys() | lab.get("optional_checks", {}).keys())
 
 
 def test_require_complete_ignores_unfinished_extensions(
@@ -181,6 +191,9 @@ def test_prompt_is_discoverable_and_has_every_lab() -> None:
     assert metadata["description"]
     for lab in evidence.manifest():
         assert lab["guide"] in text
+    # Day 1 asks exactly one question; the retired multi-question flow must not come back.
+    assert "exactly one question" in text
+    assert "budget" not in text and "name/colour" not in text
     assert "az login" in text
     assert "Do not run" in text
     assert "Playwright MCP" in text

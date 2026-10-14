@@ -3,7 +3,9 @@
 Use the [agenda](AGENDA.md) for timing and the [coverage guide](REFERENCES.md) for official
 links for the whole week, not a Monday feature checklist. The priority is confidence for
 first-time GitHub/app users. Day 1 establishes foundations, Chat, a shared first website, manual
-checks, and saved work; Day 2 applies that workflow to participants' own ideas. Days 3-5 add depth.
+checks, and saved work; Day 2 applies that workflow to participants' own ideas. Since the
+14 October refit, Days 3-5 stay just as simple for the same audience: a few more ways to use
+Copilot on their own website and choosing an idea (Day 3), build day (Day 4), and presentations (Day 5).
 All attendee steps use browser-based Codespaces and its Bash terminal, never a laptop runtime.
 Start with 30 minutes of concepts only. After that, show one action for 3-5 minutes, let people
 try it for 8-12, then check. Repeat within the published blocks. Do not fill their building
@@ -21,9 +23,11 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 | Monday verification | Check a button and the starter's count (or Weather against its raw data) yourself          | Optional single public figure, not a five-report assignment                         |
 | Monday afternoon    | One interaction, personal improvements, checked and pushed work                            | Storage and publication only for ready learners with help                           |
 | Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
-| Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | Prepared repository and fictional local content; default idea for people without one |
-| Wednesday tools | CLI task and prepared Playwright observation in the existing demonstration blocks | Separate cli/browser profiles; no Dataverse or PDF tools required |
-| Days 3-5            | Cloud review, MCP setup, saved browser checks, automation, skill discovery and evaluations | Prepared examples and honest blockers for unavailable live features                 |
+| Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | `/create-website` own-idea route in `site/ideas/` with fictional local content; Monday's page for people without an idea |
+| Wednesday tools | CLI question and one change, read-only GitHub MCP, an instructions file and a small skill | Presenter's browser-tools demonstration rehearsed in their own Codespace; attendees install nothing; a prepared fallback screen for blocked sign-in or policy |
+| Wednesday close | Pick an idea and write its brief; cloud-agent demonstration | Start the demonstration issue early, or show a prepared pull request labelled as prepared |
+| Thursday building | Supported building, a 10:45 check-in, own checks, and a written three-minute story | Optional cloud-agent try only where the feature is enabled; nobody blocked waiting for it |
+| Friday showcase | Short presentations by table, then the wrap-up | Screen-sharing method, timer, running order, and screenshot backups agreed before 09:30 |
 
 Keep public reports and HTML briefs on the optional [extension shelf](RESEARCH.md), separate
 from synthetic vendor evidence. Name tools when they become useful, rather than explaining
@@ -34,6 +38,9 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
 
 - Preflight the actual attendee account/browser/network path before the event, including the
   assigned repository, Chat, first push, and private preview. A presenter account is not a substitute.
+- Avoid 40-45 first-time Codespace creations at 09:30 on Monday. Enable Codespaces prebuilds for
+  the attendee repositories, or ask attendees to create their Codespace before 09:00 and leave the
+  tab open. A first creation installs dependencies and the preview helper and can take minutes.
 - Plan support for **roughly 40-45 attendees**, with the final roster still to be confirmed. Confirm simultaneous Codespace
   capacity, budget, and floor-helper coverage. Aim for one helper per 8-10 beginners in addition
   to the presenter; if staffing is lower, arrange pairs and reduce simultaneous troubleshooting.
@@ -48,7 +55,7 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
   and a second instruction screen were discussed, not verified. Print the short sheet if needed.
 - Confirm the planned helper coverage with David, Bill, and Jackie, and encourage experienced
   participants to help neighbours without taking over their keyboard. AI experience does not
-  necessarily imply GitHub/VS Code experience, even in the technical track.
+  necessarily imply GitHub/VS Code experience, even on Days 3-5.
 - Keep a labelled completed example in a separate approved rehearsal copy for rescue or demonstration.
   It is not a learner-authored outcome or a replacement for recording a blocked step.
 - Pilot the new beginner route with David/Susan and a few genuine first-timers on the intended
@@ -85,7 +92,12 @@ starter data. It must preserve existing files and never claim a manual check was
 without the learner's result. Fast finishers build an own idea from one sentence after checking,
 saving, and showing the first site, in a new subfolder; slower learners move on to the next lab.
 The Weather starter calls Open-Meteo, approved by the owner; its free tier is non-commercial,
-and the page shows sample weather if the network blocks it.
+and the page shows sample weather if the network blocks it. Weather uses Fahrenheit and mph, and
+the Calendar's weeks start on Sunday, for the US audience. In the 11:45 checking block a
+facilitator may instead show one value from the official
+[five-year overview](https://annualreport.novonordisk.com/2025/introducing-novo-nordisk/five-year-overview.html)
+against the labeled [prepared facts](annual-report-facts.json), checking year, unit, and value.
+That replaces the count check; it is not a PDF research assignment.
 
 Tuesday gives David 09:00-09:30 for responsibilities and approved-tool context, then Jackie
 09:30-10:30 for Power Platform/shared-data examples. Confirm speaker availability. Use
@@ -93,18 +105,61 @@ Tuesday gives David 09:00-09:30 for responsibilities and approved-tool context, 
 or tools hour. At 14:45, allow two short volunteer demonstrations plus wrap-up or pair sharing,
 not five minutes for every attendee. Let people explain how their prototype might help their work.
 
-Wednesday introduces CLI at 09:00-09:15 before the cloud demonstration and MCP/Playwright at
-10:45-11:15 before Lab 04. Follow [TOOLS-PRACTICE](TOOLS-PRACTICE.md). Do not import the retired
-60-minute tools session on top of the existing agenda. Thursday uses one saved browser check
-and one selected release target with no live Dataverse requirement.
+**Roles (14 October 2026):** Ali presents Day 1, leads Days 3-4, and hosts Day 5. On Day 2, as
+agreed with David, Ali does not present: David and Jackie give the overviews and Ali is table
+support with the other helpers. Confirm who restarts the room at 10:45 on Day 2 and who hosts the 14:45 demonstrations.
+
+Wednesday follows [the Day 3 guide](TOOLS-PRACTICE.md): CLI 09:00-09:45, [Lab 04](../labs/04-mcp/README.md)
+09:45-10:30 (GitHub MCP hands-on, then the presenter's browser-tools demonstration), [Lab 06](../labs/06-multi-agent/README.md)
+10:45-11:30, picking an idea 11:30-12:15, and the [Lab 03](../labs/03-cloud-agent/README.md)
+cloud-agent demonstration 12:15-12:30. Every exercise uses the attendee's own website; no vendor
+app, database, or extra repository. Thursday follows [the build day guide](DAY-4-BUILD.md) with a
+quick check-in at 10:45; protect the building time. Friday follows [the showcase guide](DAY-5-SHOWCASE.md):
+about two minutes to show plus one for a question or change-over fits about 40 people across the
+two rounds with a short buffer, so present in pairs or by table if the roster is larger. Hooks, automations, multi-agent handoffs,
+saved browser tests, CI, and release verification are [post-workshop reference](../post-workshop/advanced/README.md).
+
+## Helping With Optional Publication (Lab 08)
+
+Learners see a short, optional publish route. Helpers own the checks behind it. Before a learner
+dispatches **Actions > Deploy my app**, confirm the unique label in `config.json`, the reviewed
+commit on `main`, and deployment access. The workflow keeps its tests, lint, asset validation,
+and revision checks, and any required pull-request review still applies. Run these in the
+learner's Codespace first:
+
+```bash
+uv run python app/config.py --target website
+uv run python -m app.site --check
+uv run pytest
+uv run ruff check .
+```
+
+The website target publishes only allowed `site/` assets; Markdown is not served. Limits are
+2 MiB per asset, 100 files, and 20 MiB in total. Asset validation is not a full security scan, so
+look at JSON and images as well as code. The workflow checks the exact commit and the entry page's
+bytes and fingerprint through `/healthz` and the page; a healthy older revision is not this
+deployment. Keep the website and vendor targets separate and never select vendor as a workaround.
+Publication is checked only when the run succeeded, its verified URL serves the reviewed page, and
+the learner's chosen interaction works there. Agree how long it stays online and who removes it;
+never delete shared resources.
+
+| Symptom                               | Cause                                             | Fix                                                                                                    |
+| ------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Stops on **Read config.json**         | The prepared workshop label is missing            | Check the unique label before retrying.                                                                |
+| Deployment rejected on the name       | Derived name is invalid                           | Names are lowercase letters, digits and hyphens, 32 characters at most; `python app/config.py` shows it. |
+| The run cannot sign in to Azure       | Organization secrets are missing                  | The owner checks secret access; nothing on the learner's side is wrong.                                |
+| Stops on prepared access/commit check | Missing Actions configuration or the branch moved | Check the named settings and retest the exact branch. Never sign into Azure as a workaround.            |
+| Page shows the vendor table           | Wrong deployment target or URL                    | Use the website target and its verified run-summary URL; do not overwrite the business app.            |
+| Website validation fails              | Missing entry point, invalid asset, or too large  | Inspect `python -m app.site --check`; keep only intentional web assets under `site/`.                  |
 
 ## Idea Intake and Handover
 
 Before Tuesday, ask for a short idea description, not a real spreadsheet or business dataset:
 audience, task, smallest useful interaction, example fictional fields, and how success can be checked.
 Offer project planner, calendar, ideas wall, reading list, or a simple follow-up list examples.
-"I do not have an idea yet" is a valid response. Prepare an approved starter repository for each
-selected idea, or continue the Monday app if a new project is not ready. Never overwrite their work.
+"I do not have an idea yet" is a valid response. Own ideas start with `/create-website` in their
+own folder under `site/ideas/` in the same repository, so no extra repository is needed. People
+without an idea continue the Monday page. Never overwrite their work.
 
 Susan coordinates idea collection and the final attendee list; the meeting planned training
 invitations for the week before the event, after policy approval. Use a small approved pilot group
@@ -136,7 +191,7 @@ administration do not add prerequisites to Monday. Use the
 ## Organization setup
 
 1. Confirm all items in [PREREQS.md](PREREQS.md).
-2. Verify Copilot cloud-agent, automation, Codespaces, and remote GitHub MCP availability in the event organization.
+2. Verify Copilot CLI, cloud-agent, Codespaces, and remote GitHub MCP availability in the event organization.
 3. Grant the required repository access. Test branch rules and use only the bypass permissions the cloud workflow actually requires.
 4. Provision the shared Azure resources once: resource group, Container Apps environment, and container registry. See [PREREQS.md](PREREQS.md) for the provisioned names.
 5. Configure Actions and Codespaces service access separately as listed in [PREREQS.md](PREREQS.md).
@@ -146,7 +201,8 @@ administration do not add prerequisites to Monday. Use the
 
 The private repository `agentic-dev-labs/.github-private` now supplies managed settings and
 the plugin marketplace. The outdated organization vendor-analyst was removed with owner
-approval on 2026-09-09. Keep the correct local analyst/writer/reviewer for Friday's Lab 06.
+approval on 2026-09-09. Keep the correct local analyst/writer/reviewer for the
+[advanced post-workshop reference](../post-workshop/advanced/agent-authoring-handoffs.md).
 
 | Path                                             | Job                         | Reaches                                                       |
 | ------------------------------------------------ | --------------------------- | ------------------------------------------------------------- |
@@ -190,7 +246,7 @@ mid-demonstration or assume repository agents and plugins are the same thing.
 6. Leave `strictKnownMarketplaces` alone. It is enterprise-wide with no organization scope,
    and restricting it blocks plugins installed from every other marketplace.
 
-**Optional Day 5 specialist:** [attractions plugin](https://github.com/agentic-dev-labs/.github-private/tree/main/plugins/attractions).
+**Optional later specialist:** [attractions plugin](https://github.com/agentic-dev-labs/.github-private/tree/main/plugins/attractions).
 The tested CLI ID is `attractions:AttractionsAgent`. Inspect the current identifier in each
 client. The plugin installs neither an MCP server nor a browser package. It returns dated
 activity suggestions and never makes reservations. The owner approved adding it to the
@@ -224,7 +280,7 @@ before/after observation, and three for verification. If live generation would
 overrun, show the already verified result and label it prepared. Do not ship the presenter's
 demo customization as a learner-authored skill or imply the community item is managed.
 
-For an optional Day 5 document-tool demo, use `copilot plugin install assurance-toolkit@agentic-dev-labs`
+For an optional later document-tool demo, use `copilot plugin install assurance-toolkit@agentic-dev-labs`
 after confirming it appears in the marketplace. Inspect its agent, skills, and document-conversion
 MCP configuration. Use a synthetic document and verify a quotation; do not promise that every
 PDF failed before installation or that every converted file has reliable page provenance.
@@ -291,9 +347,7 @@ is required; repository access to the prepared Actions identity must already exi
   rehearsal website in the source template.
 - Rehearse stop/steer and inspection on a disposable small change. Keep Monday to these essentials.
 - Before Day 3, verify the preinstalled CLI and its authentication separately; rerun
-  `bash .devcontainer/setup.sh cli` only if repair/reinstall is needed. Prepare
-  `bash .devcontainer/setup.sh browser`, inspect the Playwright connection, and observe
-  an actual call in VS Code Web. No research environment is required for that browser exercise.
+  `bash .devcontainer/setup.sh cli` only if repair/reinstall is needed.
 - Only if selected, follow [the optional research guide](RESEARCH.md), prepare its separate
   profile, and record live downloads/conversion versus labelled prepared facts. Test visual-brief
   and any selected community skill in Linux without overwriting the learner's existing page.
@@ -301,26 +355,31 @@ is required; repository access to the prepared Actions identity must already exi
   require networking helpers and `/dev/net/tun`; inspect effective `/sandbox` settings and the
   official CLI release notes. Package downloads alone do not prove agent access. Do not bypass policy.
 - Check the synthetic Space's sources and permissions; do not attach the whole repository or facilitator notes.
-- Assign a test issue to Copilot and verify one reviewed result within the lab time-box. Check current limits instead of relying on a historical session cap.
-- Create an automation triggered by issue creation, open a matching issue, and confirm exactly one session starts.
-- Follow Lab 07's metadata-only hook example and harmless deny test. Local log files are not a durable compliance trail.
-- Test remote GitHub MCP in read-only mode.
-- Test Playwright MCP against Codespace localhost and compare with the manual Ports journey.
-  If storage was selected, test reloads in each browser/origin independently. Otherwise do not
-  treat missing persistence as a failed core feature.
+- Rehearse the Day 3 CLI block in a fresh attendee-style Codespace: sign in to Copilot CLI with
+  `/login` and the device code, ask about the page, and watch one approved change appear in the
+  preview.
+- Assign the Lab 03 demonstration issue to Copilot and verify one reviewed, merged, pulled, and
+  previewed result. Note how long the session takes so the 12:15 demonstration can start early.
+  Check current limits instead of relying on a historical session cap. If attendees will try it on
+  Day 4, confirm the **Website change for Copilot** issue template and Copilot assignment in their repositories.
+- Test remote GitHub MCP at `https://api.githubcopilot.com/mcp/readonly` and confirm no write tools appear.
+- Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools in
+  the presenter's own Codespace: open a page, read its title, add an item, and report the count.
+  Attendees run no browser setup. Playwright MCP stays for a later owner-approved environment,
+  because Chromium's sandbox could not start in a default Codespace on 14 October 2026; see the
+  [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation).
+- Run Lab 06: an instructions file under `.github/instructions/` applied to `site/`, and a
+  `check-my-page` skill that is discovered, waits for answers, and records only real results.
 - Rehearse Tuesday's own-idea brief, bounded prototype, manual journey, save/push, and handover
   questions using fictional app-local content. Do not substitute a database exercise or tool call.
-- For the technical track, prepare the vendor reader with local synthetic samples and no Dataverse
-  credentials. Retain its mocked transport/form tests; live data integration is post-workshop work.
-- In Day 4 readiness (or selected earlier publication), dispatch one intended **website** or
-  local-sample **vendor** target with **connect_dataverse** unchecked. Verify the exact commit,
-  source, URL, and interaction, plus website bytes/fingerprint when applicable. A healthy container
-  alone is not a checked feature. Preserve all deployment guards and human approvals.
-- Author and run a saved browser assertion check twice for the Day 4 block. Record whether CI
-  actually invokes it; an MCP screenshot or a local script does not prove browser CI coverage.
-- Optional Day 5 only: invoke the managed specialist and verify origin. No local duplicate.
-- Follow Lab 06's JSON generation and separate baseline/report comparison with a fresh session.
-- Disable test automations and stop unused Codespaces at the end of the rehearsal.
+  Confirm `/create-website` offers the own-idea route when a page already exists.
+- For optional publication (Lab 08), dispatch the intended **website** target with
+  **connect_dataverse** unchecked. Verify the exact commit, URL, and interaction, plus website
+  bytes/fingerprint. A healthy container alone is not a checked feature. Preserve all deployment
+  guards and human approvals.
+- Rehearse Friday's logistics: screen sharing in the room, the timer, the running order, and a
+  pair or table fallback if the roster is larger than about 40.
+- Stop unused Codespaces at the end of the rehearsal.
 
 Unit tests, lint, JSON/YAML parsing, and a valid lockfile are offline checks, not evidence that
 these live steps have passed. Record rehearsal results before promising end-to-end readiness.
@@ -357,18 +416,19 @@ container build, application security review, or live deployment check.
 | ---------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Codespace creation fails                       | Network and Codespaces policy                                            | Allow required GitHub endpoints and enable Codespaces.                                                                                                                      |
 | Copilot icon or agent missing                  | Seat and organization policy                                             | Assign the seat, enable the feature, then reload the Codespace.                                                                                                             |
-| `copilot` command not found | Technical-track CLI profile not prepared | Before Day 3, the helper runs `bash .devcontainer/setup.sh cli` and verifies sign-in. This is not a Monday/Tuesday blocker. |
-| Old duplicate vendor-analyst still appears     | Cached organization discovery                                            | The shared copy is retired; refresh/reload the client. Keep the local workshop analyst used by Lab 06.                                                                      |
+| `copilot` command not found | CLI profile not prepared | Before Day 3, the helper runs `bash .devcontainer/setup.sh cli` and verifies sign-in. This is not a Monday/Tuesday blocker. |
+| Old duplicate vendor-analyst still appears     | Cached organization discovery                                            | The shared copy is retired; refresh/reload the client. Keep the local analyst used by the advanced reference.                                                                      |
 | Learner agent or skill missing                 | File location, frontmatter, client                                       | Inspect discovery diagnostics; use skills for Agent Host, not unsupported prompt files.                                                                                     |
 | Inline suggestion or model option missing      | Client, language, seat, model and settings                               | Use a prepared example and the current support documentation; do not turn a missing preview into an installation task.                                                      |
-| Browser tools missing                          | Workspace MCP configuration, Linux setup, and effective policy           | Use MCP logs and the prepared launcher. Record a blocker if unavailable; never expose an MCP port or disable sandbox/TLS.                                                   |
+| Browser tools missing in the presenter demo    | Client support and effective policy                                      | Use the rehearsed fallback screen. Record a blocker if unavailable; never expose an MCP port or disable sandbox/TLS.                                                       |
+| Browser profile: Chromium sandbox cannot start | Container seccomp blocks user namespaces                                 | Expected in a default Codespace; attendees do not run this profile. Never add `--no-sandbox`; see the Day 3 helper notes.                                                   |
+| Setup did not add `playwright` to `.vscode/mcp.json` | The file had comments, another shape, or a different playwright entry | Read the message; nothing was overwritten. Add only the entry from `.devcontainer/mcp.example.json` and keep the others. |
+| Copilot missing from an issue's Assignees | Cloud agent not enabled for that repository or account | Enable it for the demonstration repository; attendees skip the optional Day 4 try rather than wait. |
 | Plugin listed but its task fails               | Component discovery, tool access and runtime                             | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test.                                                                      |
 | AttractionsAgent absent or not Managed         | Entitlement, private-source read access, policy refresh, local shadowing | Inspect source and the actual agent ID. Do not copy it into the learner repo or change enterprise settings live.                                                            |
 | Travel site blocks the agent                   | Site access or bot controls                                              | Use another permitted source or clearly labelled fixture; never call the fallback live browsing.                                                                            |
 | Packages work but agent cannot reach localhost | Sandbox and runtime prerequisites                                        | Inspect local-network controls and CLI release notes; do not disable enforced boundaries.                                                                                   |
 | Cloud task cannot start                        | Access level or agent policy                                             | Grant write access and enable the cloud agent at organization level.                                                                                                        |
-| Automations pane missing                       | Repository visibility or organization policy                             | Automations require a private or internal repository and an organization that allows them.                                                                                  |
-| Hook appears to hang the agent                 | Hook runtime                                                             | Hooks block execution; keep them under five seconds and set `timeoutSec`.                                                                                                   |
 | Agent cannot update protected branch           | Target branch and ruleset                                                | Verify that the task uses its permitted branch. Have the owner approve only the documented exception needed; do not weaken protection during the session.                   |
 | Dependency setup fails                         | Registry firewall path                                                   | Allowlist the approved registry endpoints and rebuild the container.                                                                                                        |
 | MCP authentication fails                       | Remote URL and browser auth                                              | Use the documented remote URL and confirm the login flow is allowed.                                                                                                        |

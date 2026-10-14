@@ -1,64 +1,74 @@
-# Lab 04: Remote GitHub MCP
+# Lab 04: Copilot Uses Tools (MCP)
 
-**Objective:** Connect the remote GitHub MCP server and perform a read-only repository query.
+**Objective:** Plug a tool into Copilot so it can read your GitHub repository, check what it
+reports, and watch Copilot use a browser.
 
-**Time-box:** 60 minutes
+**Time-box:** 45 minutes
 
-**Prerequisites:** Active Codespace, Copilot access, and permission to read your repository.
+**Prerequisites:** Your website from Days 1-2 and Agent Chat, in the same browser-based
+Codespace. Nothing to install.
 
-Today's separate 10:45-11:15 [tools introduction](../../docs/TOOLS-PRACTICE.md) used a prepared
-Playwright connection. This lab makes the
-connection explicit: discover a tool, inspect what it can do, authenticate, call it, and verify
-the result. MCP configuration, a skill's instructions, and the built-in browser tools are different things.
+**MCP** is a standard plug for tools. With a tool, Copilot can do something it cannot do by
+talking alone, such as looking things up on GitHub or clicking through a web page. You choose
+which tools to plug in, and you still check what they report. The presenter shows each part first.
 
-Playwright supplied browser tools; MarkItDown is an optional document-conversion extension,
-not prior required work. This is another connection: GitHub MCP exposes repository data and actions. The learning goal is the
-same: inspect permissions, call the intended tool, and verify its result. All local configuration
-and terminal work remains inside Codespaces; the GitHub service itself is remote.
+## 1. Plug In GitHub (25 minutes)
 
-## Steps
+1. Open the Command Palette: press **F1**, or open the menu (three lines, top left) and choose
+   **View > Command Palette**. Type **MCP: Add Server** and select it.
+2. Choose **HTTP**. Paste `https://api.githubcopilot.com/mcp/readonly` and press Enter.
+   `readonly` means Copilot can look at your repository but cannot change anything on GitHub.
+3. Name it `github`. When asked where to save it, choose **Workspace**. VS Code opens
+   `.vscode/mcp.json`, the list of tools plugged into this project. It stays in your Codespace
+   and is not saved to GitHub.
+4. Sign in with GitHub when asked and allow access. If sign-in is blocked, show a helper and
+   follow the presenter's screen instead.
+5. In Chat choose **Agent**, then ask:
 
-1. Open the Command Palette in the Codespace and choose **MCP: Add Server**, then **HTTP**.
-2. Enter `https://api.githubcopilot.com/mcp/`, save the GitHub server in the workspace's `.vscode/mcp.json`, and follow the GitHub authentication flow.
-3. Follow the [GitHub MCP toolset guide](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/configure-toolsets) to configure read-only mode. Inspect the tool list before approving access; requesting read-only behavior in a prompt is not the same as removing write tools.
-4. Ask Copilot to list open issues through the GitHub MCP server.
-5. Ask it to read one issue and summarize acceptance criteria without changing the issue.
-6. Inspect the listed MCP tools and verify write tools are unavailable or disabled.
-7. Remove or disable the connection after the exercise if required by facilitator policy.
+   > Use the GitHub tools to list the last three commits in my repository. For each one, tell me
+   > its message and which files it changed. Do not change anything.
 
-The remote GitHub server needs no local runtime. Browser automation uses the prepared headless
-Playwright MCP inside the Codespace. GitHub tools and browser tools are different capabilities.
-Cloud-agent MCP configuration is separate from `.vscode/mcp.json`; do not assume local servers
-or authentication carry over.
+   If Copilot asks to use a tool, read the tool's name and allow it.
+   **Check:** open your repository on GitHub in another tab and select **Commits**. Do the
+   messages and files match what Copilot said?
 
-Enterprise controls can restrict MCP servers in supported clients. Check the current supported
-properties and effective policy. Matching a user-assigned server name alone is not a strong
-security boundary; URL/command controls and service authorization are separate concerns.
+## 2. Watch Copilot Use a Browser (20 minutes)
 
-**Done when:** a tool call retrieves a real issue from your training repository, its answer matches GitHub, and write tools are unavailable in the selected configuration.
+Tools can also click through a web page. The presenter shows this on their own screen with
+VS Code's browser tools, so you have nothing to set up.
+
+1. Watch the presenter ask Copilot to open a page, read its title, add an item, and report the
+   new count.
+2. Do the same check by hand on your own page: open it with `/start-website`, read the title,
+   add one made-up item, and count.
+3. Compare. Did Copilot's report match what the presenter's page showed? Is your own count one
+   more than before? A tool's report is something you check, just like any other answer.
+
+**Done when:** Copilot listed your own recent commits and they match GitHub, and you compared
+the presenter's browser check with your own check of your page.
 
 ## What you just learned
 
-MCP gives agents governed access to external capabilities, and read-only mode reduces risk during exploration.
+MCP plugs tools into Copilot. Read-only GitHub tools can look but not change. A browser tool can
+click through a page, but its report is still something you compare with what you expected.
+
+## When It Does Not Work
+
+| What you see                        | Next action                                                                   |
+| ----------------------------------- | ----------------------------------------------------------------------------- |
+| GitHub sign-in fails                | It may be blocked by policy. Tell a helper and follow the presenter's screen. |
+| **MCP: Add Server** is not listed   | Check the spelling in the Command Palette, then ask a helper.                 |
+| Copilot does not use the GitHub tool | Say "Use the GitHub tools" in your question, and allow the tool when asked.   |
 
 ## Optional extras
 
-Pick any of these if you finish early. None of them are required.
-
-1. **Trim the tool list (5 min).** Configure toolsets so only the tools you need are loaded, then notice the
-   effect on how the agent behaves.
-2. **Drive a browser (5-10 min).** Ask the prepared Playwright MCP to open the app at Codespace localhost or its deployment URL, inspect the table, and capture a screenshot. Its context is separate from the learner preview; otherwise inspect manually and record the limitation.
-3. **Ground it deliberately (5-10 min).** Query the prepared training Space with the ten controls
-   and synthetic samples. Compare the answer with a normal chat and identify its sources. If you
-   create your own Space, include only synthetic files; do not attach the whole repository or `.facilitator/`.
-4. **Two routes, one fact.** Ask for the same repository fact through MCP and through `gh`, and
-   compare how each answer is grounded.
+1. Ask the GitHub tools which file in your repository has changed most often. Compare with GitHub.
+2. Ask for the message of your very first commit, then find it on GitHub yourself.
+3. Open the tools button in the chat box and turn off one tool you do not need.
 
 ## Official References
 
 - [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and [MCP in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
-- [Set up GitHub MCP](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server), [configure toolsets](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/configure-toolsets), and [use it in an IDE](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/use-the-github-mcp-server).
-- [Repository MCP for cloud agent and review](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers).
-- [Playwright MCP](https://github.com/microsoft/playwright-mcp): the prepared Codespaces browser path. [Built-in browser tools](https://code.visualstudio.com/docs/agents/run/browser-tools) are optional where supported.
-- [Copilot Spaces](https://docs.github.com/en/copilot/concepts/context/spaces) and [enterprise-managed settings](https://docs.github.com/en/copilot/reference/enterprise-administrators/enterprise-managed-settings).
-- [Whole-week coverage and extras](../../docs/REFERENCES.md).
+- [Set up the GitHub MCP server](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server) and [use it in your editor](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/use-the-github-mcp-server).
+- [Browser tools in VS Code](https://code.visualstudio.com/docs/agents/run/browser-tools): what the presenter uses.
+- [Whole-week topic map](../../docs/REFERENCES.md).

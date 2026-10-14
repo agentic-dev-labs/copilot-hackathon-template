@@ -8,6 +8,11 @@ disable-model-invocation: true
 
 # Workshop Reset
 
+**First, check who is asking.** Before reading or changing anything, ask: **"This facilitator
+tool deletes the website in site/. Are you a facilitator resetting a rehearsal copy?"** Continue
+only after a clear yes. Otherwise stop and suggest `/start-website` or ordinary Chat instead: an
+attendee's website is their work and must never be cleared.
+
 A facilitator tool for the end of a rehearsal run, not an attendee lab. It has two halves and
 the order matters: **harvest what the run proved, then clear what it generated.** Resetting
 first destroys the evidence, because the built page, the preview output and the failing command

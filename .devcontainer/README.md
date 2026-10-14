@@ -54,20 +54,20 @@ version needs one **Developer: Reload Window**. The attach profile skips a match
 For a fresh Codespace, commit and push the reviewed changes and create it from that branch.
 Verify skill discovery, first build, automatic open, one observed live update, stop, reopen,
 and saved entries after an edit. Tests are not a live attendee pilot. No Chromium, CLI
-sign-in, or browser MCP is needed. The Python static server on 8000 remains a technical
-and deployment tool.
+sign-in, or browser MCP is needed. The Python static server on 8000 can serve a page for the
+presenter's Day 3 browser demonstration and is used for deployment checks.
 
 ## Facilitator Preparation Profiles
 
 Run the following separately in the Codespace's Bash terminal before the relevant session,
-not as a room-wide installation exercise:
+not as room-wide installation exercises. Attendees run none of them.
 
 | Profile  | Command                                | When                                                      |
 | -------- | -------------------------------------- | --------------------------------------------------------- |
 | Core     | `bash .devcontainer/setup.sh`          | Automatic startup; Monday's required environment.         |
 | Preview  | `bash .devcontainer/setup.sh preview`  | Automatic after editor attachment; facilitator repair command. |
 | CLI      | `bash .devcontainer/setup.sh cli`      | Automatic on creation; facilitator repair/reinstall command. Sign-in stays separate. |
-| Browser  | `bash .devcontainer/setup.sh browser`  | Before Day 3; installs and launches sandboxed Chromium. |
+| Browser  | `bash .devcontainer/setup.sh browser`  | Not run by attendees: since 14 October the Day 3 browser check is a presenter demonstration. For a later owner-approved environment it sets aside the unused Yarn apt source, installs and launches sandboxed Chromium, then adds the reviewed `playwright` entry to `.vscode/mcp.json`. |
 | Research | `bash .devcontainer/setup.sh research` | Optional later document-conversion exercise only.         |
 
 Each profile fails visibly when its own preparation fails. Do not run the research profile as
@@ -94,10 +94,11 @@ The image and feature tags can change; extension IDs and the Copilot CLI install
 do not pin versions. Record tool versions during rehearsal. Installed tools do
 not prove successful authentication or organization-agent access.
 
-The facilitator prepares the Playwright workspace connection for Day 3. Technical attendees inspect
-and trust it before actual use; deeper configuration belongs in Lab 04. MarkItDown is optional.
-Use only the needed entry from [mcp.example.json](mcp.example.json); the example is not an
-automatically loaded configuration. It uses workspace stdio servers launched by
+When it succeeds, the browser profile runs `scripts/enable_playwright_mcp.py`, which copies only
+the `playwright` entry from [mcp.example.json](mcp.example.json) into `.vscode/mcp.json`. It keeps
+existing entries, such as Lab 04's GitHub server, and leaves alone a file it cannot safely merge.
+The user then starts and trusts the server. MarkItDown is optional and never added
+automatically; the example file itself is not an automatically loaded configuration. It uses workspace stdio servers launched by
 `bash .devcontainer/mcp.sh playwright` and `bash .devcontainer/mcp.sh markitdown`.
 The `check-browser` and `check-research` commands are independent. `check` runs both for a
 full optional-tool rehearsal. These verify imports and a real Chromium launch, not VS Code/CLI discovery or
@@ -116,14 +117,25 @@ the startup check explicitly matches MCP's sandboxed browser configuration. The 
 Codespace must also pass this launch and the MCP smoke check. Escalate an unsupported host
 configuration to the facilitator instead of adding `--no-sandbox` or disabling a host policy.
 
+Two findings from a 14 October 2026 dry run in the owner's Codespace. First, the base image's
+Yarn apt source (`dl.yarnpkg.com`) failed its signature check (`NO_PUBKEY 62D54FD4003F6525`) and
+stopped Playwright's dependency install. The repository does not use Yarn, so the browser profile
+renames that source to `yarn.list.disabled` before apt runs; no key is trusted and no check is
+skipped. Second, Chromium still could not start: the container's default seccomp filter blocks
+the user namespaces its sandbox needs (`unshare --user` fails), and the container lacks
+`CAP_SYS_ADMIN`, so the setuid sandbox cannot help either. Enabling it needs an owner-approved
+container change, such as `"runArgs": ["--security-opt", "seccomp=unconfined"]`, tested in a
+fresh Codespace. The owner chose the alternative for this workshop: a presenter demonstration
+with VS Code's built-in browser tools; see the [Day 3 helper notes](../docs/TOOLS-PRACTICE.md#helper-preparation).
+
 In Copilot CLI, use `/mcp` and configure command `bash` with the **absolute Codespace path** to
 the launcher and the desired server name. Derive the path with `pwd` in Bash. Do not copy
 `${workspaceFolder}` into CLI configuration or assume the editor's chat/auth/browser session is shared.
 Never expose MCP or debugger ports. No Dataverse credentials are needed for the workshop;
 stop unused servers before any separately approved post-workshop service configuration.
 
-Port 8000 remains forwarded for technical examples and static build checks.
-Use `app.site:app` for the
+Port 8000 is forwarded silently, without a pop-up, for the Day 3 browser check, technical
+examples, and static build checks. Use `app.site:app` for the
 learner website or `app.main:app` for the vendor app, then **Ports > Open in Browser**. For a
 second running server choose and forward another port, such as 8001. Keep previews private.
 Neither a laptop's localhost nor its file system points into the Codespace.

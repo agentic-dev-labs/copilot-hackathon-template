@@ -1,79 +1,66 @@
 # Lab 00: Find Your Files and Copilot Chat
 
-**Objective:** Find your way around your Codespace and ask Copilot your first question.
+**Objective:** Open your Codespace, find your files, and ask Copilot your first question.
 
 **Time-box:** 30 minutes
 
-**Prerequisites:** A browser, assigned GitHub account, Copilot seat, and write access to your repository.
+**Prerequisites:** A browser, your GitHub account with Copilot, and your own repository from the facilitator.
 
-First join the **09:00-09:30 concepts-only block** in the
-[beginner guide](../../docs/START-HERE.md). Its glossary and labelled screenshots stay open
-beside this lab. This lab runs **09:30-10:00**. No terminal commands, CLI sign-in, tool
-installation, or configuration-file editing are required.
-Follow the presenter one action at a time. The written steps are a reminder, not a self-study test.
+This lab runs **09:30-10:00**, right after the concepts block in the
+[beginner guide](../../docs/START-HERE.md). Keep its word list open. You do not type anything
+in the terminal today. The presenter shows each step first, then you try it.
 
 ## Steps
 
-### 1. Open Your Assigned Workspace (10 minutes)
+### 1. Open Your Codespace (10 minutes)
 
-1. Open the **assigned learner repository**, then **Code > Codespaces > Create codespace on main**.
-   The facilitator supplies a copy without private preparation notes. Do not create an attendee
-   copy from an unapproved template. Wait for setup; report a failed setup rather than skipping it.
-2. Open **Explorer** on the left, expand **site**, and open its README.
-   **You should see:** the file in the centre editor, not a running website yet.
-   **Check:** point to the file list and the opened file separately.
-   Right-click that Markdown file and choose **Open Preview** to read it. The presenter then
-   shows how to return to the editor tab. This is a document preview, not the website preview.
+1. Open your repository on GitHub. Select **Code > Codespaces > Create codespace on main**.
+   If a helper already made one for you, open that one instead. Wait until it finishes loading.
+   If you see an error, tell a helper.
+2. In the **Explorer** on the left, open the **site** folder and select **README.md**.
+   **You should see:** the file in the middle of the screen. There is no website yet.
+3. Right-click **README.md** and choose **Open Preview** to read it nicely. The presenter shows
+   how to get back to the plain text.
 
 ### 2. Ask Your First Question (10 minutes)
 
-3. Open **View > Chat**. Use the built-in **Ask** when offered, not a vendor-review role.
-   If the client shows a different selector, let the presenter identify the built-in chat.
-4. Ask: "Explain the difference between my repository, Codespace, and Copilot in three
-   short sentences. Do not change files or run commands."
-   **You should see:** an answer in Chat. **Check:** compare it with the presenter's glossary.
-5. Follow up: "Use an everyday example and make it shorter."
-   **Check:** did the answer become clearer? You are allowed to correct or question it.
+4. Open Chat with **View > Chat**. In the chat box, choose **Ask** from the list.
+5. Ask: "Explain the difference between my repository, Codespace, and Copilot in three short
+   sentences. Do not change files or run commands."
+   **Check:** compare the answer with the word list. Does it match?
+6. Then ask: "Use an everyday example and make it shorter."
+   **Check:** is it clearer now? You can always ask again, or say that something is wrong.
 
-### 3. Understand the Shared Idea (10 minutes)
+### 3. Get an Idea (10 minutes)
 
-6. Ask: "Suggest three small features for a fictional team project planner. No logins.
-   Do not create anything yet." Choose one small improvement to the presenter's planner.
-   In Lab 01 the guided menu also offers a Calendar, an Ideas Wall, and a Weather page. The
-   project planner matches the demonstration. Finish a guided page before beginning your own idea.
-7. Tell a neighbour where you would ask for a change and where you would inspect the file.
-   Point to **Source Control**, but wait for the next demonstration before using it.
+7. Ask: "Suggest three small features for a made-up team project planner. No logins. Do not
+   create anything yet." Pick one you like.
+8. Tell a neighbor where you would ask Copilot for a change (Chat) and where you would look at
+   a file (Explorer). Point to **Source Control**, but do not use it yet.
 
-**Done when:** your assigned Codespace opens, you can find Explorer and Chat, a real Chat
-request and refinement worked, and you can describe one small idea.
+**Done when:** your Codespace is open, you can find the Explorer and Chat, and you asked Copilot
+a question and a follow-up.
 
-**Next, 10:00-10:30:** follow [Your first note](../../docs/START-HERE.md#your-first-note).
-You will create a note, review it, save, commit, push, and confirm it on GitHub. This is a
-separate coached block, not a hidden extension of this lab.
+**Next, 10:00-10:30:** [Your first note](../../docs/START-HERE.md#your-first-note), where you
+save your first file on GitHub.
 
-If sign-in, models, or setup are missing, ask the facilitator. Do not install tools on the laptop,
-change organisation policy, or grant broad permissions to make a demonstration work.
+If sign-in or Copilot is missing, ask a helper. Never install anything on your laptop.
 
 ## What you just learned
 
-You can use a consistent development environment and Copilot without installing a runtime on the laptop.
+Your project lives on GitHub, you work on it in a Codespace, and you talk to Copilot in Chat.
 
 ## Optional extras
 
-Pick any of these if you finish early. None of them are required.
+1. Ask the same question for a different audience, such as a new team member.
+2. Close the README tab and find it again in the Explorer.
 
-1. **Compare two requests (5 min).** Ask for a shorter outline or a different audience. Explain
-   which result is more useful without treating confident wording as evidence.
-2. **Name your audience (5 min).** Ask how the same small page would change for another audience.
-3. **Practise finding your place (5 min).** Close the note tab, then reopen it from Explorer.
-   Stay in this workspace; do not start another project or install anything.
-
-Stop your Codespace when finished for the day. Closing the browser tab does not immediately stop compute billing.
+At the end of the day, stop your Codespace: go to [github.com/codespaces](https://github.com/codespaces),
+open the **...** menu next to it, and choose **Stop codespace**. Closing the browser tab does not stop it.
 
 ## Official References
 
-- [Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces): where the environment runs and how access/billing work.
-- [Codespaces quickstart](https://docs.github.com/en/codespaces/quickstart): creating and using the environment.
-- [Copilot getting started](https://docs.github.com/en/copilot/get-started/quickstart-for-using-github-copilot-in-your-ide): Chat and first requests.
-- [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): the branch/commit/PR workflow used in later labs.
+- [Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces): where your Codespace runs.
+- [Codespaces quickstart](https://docs.github.com/en/codespaces/quickstart): creating and using a Codespace.
+- [Copilot getting started](https://docs.github.com/en/copilot/get-started/quickstart-for-using-github-copilot-in-your-ide): your first Chat requests.
 - [Whole-week coverage and extras](../../docs/REFERENCES.md): official links and later topics.

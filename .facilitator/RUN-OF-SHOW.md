@@ -8,6 +8,8 @@
 > Codespaces-only. The travel-first/built-in-browser-only talk tracks and historical sub-blocks
 > below are not current requirements. The former Dataverse lab is preserved in the post-workshop
 > reference; Tuesday's required integration/tools blocks have been removed with approval.
+> On 14 October 2026 Days 3-5 were also simplified: Wednesday tools and picking an idea, Thursday
+> build day, Friday presentations. Ali is table support on Day 2. The Day 3-5 sections below are historical.
 
 > **Facilitator preparation material.** Temporarily versioned in `.facilitator/` with the
 > repository owner's explicit disclosure approval on 2026-09-09. The folder name does not

@@ -57,9 +57,20 @@ case "${1:-core}" in
 		copilot --version
 		;;
 	browser)
+		# Playwright installs Chromium's Linux libraries with apt. The base image's Yarn package
+		# source is unused here and can fail its signature check, which stops apt. Set it aside
+		# (renamed, so it is reversible) instead of trusting a new key or skipping verification.
+		if [ -f /etc/apt/sources.list.d/yarn.list ]; then
+			sudo mv /etc/apt/sources.list.d/yarn.list /etc/apt/sources.list.d/yarn.list.disabled
+		fi
 		npm ci --prefix .devcontainer/browser --ignore-scripts --no-audit --no-fund
 		node .devcontainer/browser/node_modules/playwright/cli.js install --with-deps chromium
-		bash .devcontainer/mcp.sh check-browser
+		if ! bash .devcontainer/mcp.sh check-browser; then
+			printf '\nThe browser could not start in this Codespace. Show a helper this message,\n' >&2
+			printf 'then follow the presenter for the browser part of Lab 04.\n' >&2
+			exit 1
+		fi
+		python3 scripts/enable_playwright_mcp.py
 		;;
 	research)
 		uv venv --allow-existing .venv-research --python 3.12

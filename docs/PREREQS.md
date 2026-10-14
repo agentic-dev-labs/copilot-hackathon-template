@@ -6,7 +6,8 @@ All attendee exercises use browser-based Codespaces and its Linux/Bash terminal 
 No local VS Code, PowerShell, Node, Python, Docker, browser extension, or Azure login is required.
 The beginner goal is to describe, build, check, and save a small website. Research, presentations,
 and additional integrations remain optional extensions, not first-day prerequisites.
-The presenter prepares advanced cloud-agent, managed-plugin, and automation examples separately.
+The presenter prepares the cloud-agent demonstration separately. Deeper technical topics are
+[post-workshop reference](../post-workshop/advanced/README.md), not workshop prerequisites.
 Use the [coverage guide](REFERENCES.md) to see required labs versus optional demonstrations.
 GitHub Copilot access does not automatically provide Microsoft 365 Copilot or Power Platform access.
 
@@ -23,6 +24,8 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm package/container endpoints are reachable from Codespaces, including public PyPI artifact hosts. Do not disable TLS checks.
 - [ ] Confirm `github.com` is reachable from the corporate network.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
+- [ ] Enable Codespaces prebuilds for the attendee repositories, or ask attendees to create their
+      Codespace before 09:00 on Monday, so 40-45 first creations do not consume Lab 00.
 - [ ] Complete the **core-only** [.devcontainer setup](../.devcontainer/README.md) in a fresh
       Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
 - [ ] Rehearse `/create-website` in Agent Chat: it asks only which of the four websites, then builds the tested blueprint, names it after the repository, and opens the preview. Check the starter's manual check yourself.
@@ -42,7 +45,7 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm David's 09:00-09:30 overview and Jackie's 09:30-10:30 conceptual Power Platform
       session. Attendees are not asked to configure databases, connectors, or the internal marketplace.
 - [ ] Collect brief ideas with examples and an explicit "no idea yet" option. Request no real records
-      or private spreadsheets. Prepare suitable approved repositories or reuse the Monday project.
+      or private spreadsheets. Own ideas use `/create-website` in `site/ideas/` of the same repository.
 - [ ] Rehearse [own-idea building](DAY-2-BUILD.md), manual checks, save/push, and handover questions.
       No live Dataverse, mandatory CLI/MCP session, or public deployment is required to finish.
 - [ ] Print [the quick reference](QUICK-REFERENCE.md), confirm table power/screen visibility,
@@ -54,35 +57,36 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 
 ## Days 3-5 Access
 
-- [ ] Complete `bash .devcontainer/setup.sh cli` and `bash .devcontainer/setup.sh browser` in the
-      intended Codespaces before Day 3. Do not install research tools just to use Playwright.
-- [ ] Preflight Copilot CLI sign-in separately from editor/GitHub CLI sign-in with each learner's
-      approved identity. Never collect passwords or tokens. Installed is not authenticated.
-- [ ] Prepare the workspace Playwright connection, then test trust/discovery and an actual call
-      in VS Code Web. Follow the existing demonstration blocks in [tools practice](TOOLS-PRACTICE.md).
+Days 3-5 use each attendee's own repository and website. No vendor app, database, automation,
+hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md).
+
+- [ ] Confirm the training accounts may use Copilot CLI, and preflight one attendee sign-in path
+      privately. Never collect passwords or tokens. Installed is not authenticated.
+- [ ] Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools
+      in the presenter's own Codespace. Attendees install nothing for it. The Playwright browser
+      profile could not start Chromium's sandbox in a default Codespace on 14 October 2026; see
+      the [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation) and never use `--no-sandbox`.
 - [ ] Verify CLI sandbox/local-network prerequisites; package downloads alone prove neither.
       Do not bypass policy. Browser and CLI sessions do not share chat, cookies, or saved entries.
-- [ ] Enable the cloud agent, review branch requirements, and rehearse one issue-to-PR task.
-- [ ] Confirm automations are enabled for private/internal repositories and disable rehearsal triggers afterward.
-- [ ] Permit the remote GitHub MCP server and test its read-only tools and browser authentication.
+- [ ] Permit the remote GitHub MCP server and test `https://api.githubcopilot.com/mcp/readonly`,
+      its browser sign-in, and that no write tools appear.
+- [ ] Enable the cloud agent for the presenter's demonstration repository and rehearse one
+      issue-to-merged-change run. Enable it for attendee repositories only if the optional Day 4 try is offered.
+- [ ] Rehearse Lab 06: an instructions file applied to `site/` and a small learner-written skill
+      discovered through its slash command.
+- [ ] Agree Friday's room logistics: screen sharing, a timer, the running order, and the host.
 - [ ] Keep all work in Codespaces; corporate handover is planning, not a local-workstation exercise.
-- [ ] Prepare the local-sample vendor reader for technical attendees without a personal site.
-      Dataverse credentials and a completed former Lab 05 are not required.
-- [ ] Verify the selected everyday-work skill's complete files, licence, Linux dependencies, and
-      actual invocation before Friday. Presenter-local skills do not transfer to learners.
-- [ ] Run a saved browser assertion check and verify release evidence for Day 4. Do not claim a
-      browser CI check unless the workflow actually invokes it.
 
 ## Optional Examples
 
-- [ ] Prepare a Space containing only synthetic training sources, a non-code summary/table/diagram, a reviewed PR, and a completed automation.
+- [ ] Prepare a Space containing only synthetic training sources, a non-code summary/table/diagram, and a reviewed PR.
 - [ ] Prepare a small public-source visual brief and a synthetic interactive site as labelled demonstrations.
 - [ ] Review the full community skill folders, licences, dependencies, and permission needs; do not
       promise a dedicated presentation generator was found in Awesome Copilot. Use the prepared skill.
-- [ ] Optional Day 5: demonstrate managed AttractionsAgent origin/version and actual invocation;
-      missing private-source access is not a Day 1 blocker. Do not duplicate the specialist locally.
-- [ ] Explain that optional Lab 08 publication deploys **site/**. The technical track can instead
-      release the separate **vendor** reader with local samples and **connect_dataverse** unchecked.
+- [ ] Optional later: demonstrate managed AttractionsAgent origin/version and actual invocation;
+      missing private-source access is not a workshop blocker. Do not duplicate the specialist locally.
+- [ ] Explain that optional Lab 08 publication deploys **site/**. The separate **vendor** reader is a
+      post-workshop example; release it only with local samples and **connect_dataverse** unchecked.
 - [ ] Inspect the available model/Auto and usage controls. Do not pin the lesson to a particular model or promise identical reasoning options in every client.
 - [ ] Test stop/steer/resume and checkpoint restoration on disposable changes. Keep a Git baseline for recovery.
 - [ ] Keep specialist SDK/BYOK, other IDEs, integrations, and administration as reference-only unless separately rehearsed and approved.

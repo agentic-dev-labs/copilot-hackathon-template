@@ -18,7 +18,9 @@ software, configure a service, or understand how this skill works.
 Check whether `site/index.html` exists. Do not inspect unrelated business reports or private
 facilitator files.
 
-- If a page exists, ask whether to continue it or change something specific. Do not reset it.
+- If a page exists, ask one question: **"Would you like to keep improving your page, or build
+  your own idea in its own folder?"** Do not reset it. For their own idea, follow
+  [Your Own Idea](#your-own-idea); otherwise continue the page through ordinary Chat.
 - Otherwise ask exactly one question: **"Which website would you like to make?"** Offer
   **Project Planner** (the presenter default), **Calendar**, **Ideas Wall**, and **Weather**,
   each with its one-line `summary` from [starters.json](./assets/starters.json). Use the
@@ -31,7 +33,7 @@ facilitator files.
 
 The name comes from the repository, so there is nothing to ask. Run
 `basename -s .git "$(git remote get-url origin 2>/dev/null || pwd)"`, turn hyphens and
-underscores into spaces, and capitalise each word's first letter (`copilot-hackathon-template`
+underscores into spaces, and capitalize each word's first letter (`copilot-hackathon-template`
 becomes `Copilot Hackathon Template`; `AliFarahnak` stays `AliFarahnak`). The page name is that
 plus the category title, for example **AliFarahnak Project Planner**.
 
@@ -59,7 +61,7 @@ ships a finished `site/`; this copy happens only after the learner chooses.
    under a `## Changes so far` heading, in their words rather than file names, so the next
    session can see what the page already does. Never rewrite an observation they made.
 
-Then open the preview immediately (next section). Do not stop to summarise the files first.
+Then open the preview immediately (next section). Do not stop to summarize the files first.
 
 ## 3. Show It and Hand Over
 
@@ -83,7 +85,7 @@ Then hand over. Keep it to three short lines plus a small menu of ideas:
 - **"Now just tell me what to change. Here are some ideas, or ask for anything else:"**
   then four bullets they could say back word for word: one look change and one layout
   change from `any_page_ideas`, and two features from the starter's `later_ideas`. Use the
-  category's own words ("stages", "notes", "cities"), and name the colour or column they
+  category's own words ("stages", "notes", "cities"), and name the color or column they
   would get rather than a generic placeholder.
 - **"/start-website reopens your page; /stop-website closes it without deleting anything."**
 
@@ -113,7 +115,7 @@ keep everything else, and never restart this interview. See [Start Website](../s
   subtitle's "drag it to another day", the `addButton` label's "Add a task on Monday", and the
   sample entries' `column` values, kept identical in the data file and `SAMPLE`. Only weekday
   names get a picture from `columnArt`, so a board of stages loses every icon at once and looks
-  noticeably plainer; that is correct behaviour, not a bug, so say it has happened and offer one
+  noticeably plainer; that is correct behavior, not a bug, so say it has happened and offer one
   replacement, such as a `.chip` count or a hero image, rather than leaving the page duller.
 - **Making something bigger or full-width** (a request like "make the progress bar much bigger"):
   set the size in the page's own `<style>`, but check what the element sits inside first. Kit
@@ -139,7 +141,7 @@ keep everything else, and never restart this interview. See [Start Website](../s
   `.weather-now`/`.forecast`, `.tabs`, `.progress` (`--value` 0-100), `.animate-in` with `--i`,
   `Workshop.flash()`, and `Workshop.toast()`. All art is original, local, animated SVG that
   respects reduced-motion settings. Prefer kit classes to new CSS.
-- **Recolouring a page** (a request like "make it red" or "a turquoise gradient"): add one
+- **Recoloring a page** (a request like "make it red" or "a turquoise gradient"): add one
   `[data-theme="name"] { --accent; --accent-strong; --accent-soft; --second; }` block in the
   page's own `<style>`, matching the kit's existing `[data-theme="blue"]`/`[data-theme="coral"]`
   pattern, and set it on `<body data-theme="name">`. The blueprints ship `data-theme="green"`,
@@ -147,7 +149,7 @@ keep everything else, and never restart this interview. See [Start Website](../s
   was" means restoring that attribute value and deleting the block you added, never writing a
   `[data-theme="green"]` rule. The header's gradient and every accent-based element (buttons,
   progress bar, chips) follow automatically; never hand-edit `workshop.css` for a one-page
-  colour change: the kit is capped at 12 KiB by `tests/test_lab_contracts.py`, so anything
+  color change: the kit is capped at 12 KiB by `tests/test_lab_contracts.py`, so anything
   added there has to be paid for in bytes.
 - **Adding a tag to a card** (a request like "give each task a type" or "a priority label"):
   use `.chip` for the pill and add the kit's `.chip-toggle` class if it is clickable, plus
@@ -193,12 +195,14 @@ When the learner is ready, one check at a time, waiting for their observation:
 4. Record their actual observations in the brief. If unchecked, write **not yet checked**.
 5. Guide **save -> review -> commit -> push** through Source Control. Never stage unrelated work,
    commit, push, or deploy automatically. Ask them to confirm the same files on GitHub.
-6. Ask them to show one feature to a neighbour or helper.
+6. Ask them to show one feature to a neighbor or helper.
 
-## Your Own Idea (Fast Finishers)
+## Your Own Idea
 
-Offer this only after the first page is checked, saved on GitHub, and shown. It is optional:
-if time runs out, the learner moves on to the next lab. The first page is the finish.
+On Monday, offer this only after the first page is checked, saved on GitHub, and shown. It is
+optional that day: if time runs out, the learner moves on to the next lab. The first page is the
+finish. From Tuesday it is the main way to start an own idea, and the learner may continue the
+same idea on Wednesday and Thursday.
 
 1. Ask one question: **"Describe your idea in one sentence."** Then build straight away.
 2. Choose a short folder name from the idea, such as `site/ideas/team-lunch/`, and check it
@@ -218,7 +222,7 @@ if time runs out, the learner moves on to the next lab. The first page is the fi
 5. Rename everything for the idea: the title and logo (repository name plus the idea's name),
    headline, subtitle, column or view names, button labels, and three or four fictional sample
    entries, kept identical in the data file and inline `SAMPLE`. Keep the kit's `+`, `x`, and
-   drag behaviour wherever it fits, and keep the `useColumns(..., SAMPLE.columns)` calls so later
+   drag behavior wherever it fits, and keep the `useColumns(..., SAMPLE.columns)` calls so later
    column changes reach the learner's saved board.
 6. Keep it just as beautiful: the gradient header with a `.hero-art` image (reuse the closest
    hero or a weekday icon), content in `.panel`, `.card`, `.note`, or `.column`, entries that

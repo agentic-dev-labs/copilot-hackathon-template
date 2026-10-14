@@ -2,7 +2,7 @@
     "source_mode": "synthetic_workshop",
     "default": "project",
     "any_page_ideas": [
-        "Change the colour theme, such as \"make it purple\" or \"a warm sunset gradient\"",
+        "Change the color theme, such as \"make it purple\" or \"a warm sunset gradient\"",
         "Change the headline, the wording and the picture at the top",
         "Add tabs so you can switch between two views of the same page",
         "Show one clear number you can check yourself, such as a count or a progress bar"
@@ -33,7 +33,7 @@
             "expected": { "item_count": 3 },
             "manual_check": "3 notes to start: today, tomorrow and in three days. Add one and the count shows 4 notes planned.",
             "later_ideas": [
-                "Colour each note by type, such as meeting, deadline or day off",
+                "Color each note by type, such as meeting, deadline or day off",
                 "Add a start time to each note and keep each day in time order",
                 "Add an Agenda tab beside Month, Week and Workdays",
                 "Show how many notes each week has",
@@ -43,7 +43,7 @@
         {
             "id": "ideas",
             "title": "Ideas Wall",
-            "summary": "Colourful sticky notes: + to add an idea, drag to put the best first, and x to remove.",
+            "summary": "Colorful sticky notes: + to add an idea, drag to put the best first, and x to remove.",
             "data_file": "data/ideas.json",
             "storage_key": "ideas-wall",
             "expected": { "item_count": 3 },
@@ -52,7 +52,7 @@
                 "Add a vote button with a count, and sort the best idea to the front",
                 "Group the ideas into themes with tabs",
                 "Add a search box that filters the notes as you type",
-                "Let each note have its own colour",
+                "Let each note have its own color",
                 "Show the top idea in a highlighted panel above the wall"
             ]
         },
@@ -66,7 +66,7 @@
             "expected": { "item_count": 3 },
             "manual_check": "3 cities to start. Open 'the raw forecast data' link and compare today's temperature with the page.",
             "later_ideas": [
-                "Switch between Celsius and Fahrenheit",
+                "Add a switch between Fahrenheit and Celsius",
                 "Add a \"what to wear\" tip that follows the temperature",
                 "Show sunrise and sunset times",
                 "Draw a simple chart of the temperature across the next few days",

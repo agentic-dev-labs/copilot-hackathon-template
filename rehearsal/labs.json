@@ -10,7 +10,7 @@
         "tests/test_app_config.py"
       ],
       "checks": {
-        "fresh-install": "Fresh-cache locked core installation succeeds; on-create Copilot CLI and Live Preview installation verified separately; no Chromium or research dependency startup requirement",
+        "fresh-install": "Fresh-cache locked core installation succeeds; on-create Copilot CLI and the Website preview helper verified separately; no Chromium or research dependency startup requirement",
         "access": "GitHub and editor Chat work with the intended attendee account",
         "orientation": "Concepts-only first block and labelled visual guide checked in browser-based Codespaces before terminal use",
         "chat-turn": "A real editor Chat request and refinement completed without terminal setup",
@@ -47,7 +47,7 @@
       ],
       "checks": {
         "implementation": "One meaningful interaction implemented in the existing page with fictional input and safe text handling",
-        "personalisation": "Chosen weekend/project/budget page gets one visual improvement and one feature improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
+        "personalisation": "Chosen Project Planner, Calendar, Ideas Wall, or Weather page gets one visual improvement and one feature improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
         "manual-checks": "Manual add/remove or equivalent journey, empty input, keyboard access, and narrow layout checked honestly",
         "preview": "Learner reopened the private preview and recorded actual results and remaining limitations"
       },
@@ -86,7 +86,7 @@
         "tests/test_site.py"
       ],
       "checks": {
-        "idea-brief": "Participant chose an own idea or the default, described one user outcome and check, and used a prepared repository without overwriting Monday's work",
+        "idea-brief": "Participant chose an own idea or the default, described one user outcome and check, and used the /create-website own-idea route in site/ideas/ without overwriting Monday's work",
         "prototype": "A bounded prototype or improved default works with fictional app-local content; no service integration or account migration was required",
         "manual-journey": "Expected versus observed user journey, input handling, and one useful improvement checked manually",
         "saved-work": "Reviewed changes committed, pushed, and read back from the intended GitHub branch",
@@ -94,73 +94,98 @@
       }
     },
     {
-      "id": "03",
-      "title": "CLI introduction and cloud agent",
-      "guide": "labs/03-cloud-agent/README.md",
+      "id": "day-3",
+      "title": "Copilot CLI and picking an idea",
+      "guide": "docs/TOOLS-PRACTICE.md",
       "tests": [
-        "tests/test_workflows.py"
+        "tests/test_devcontainer.py",
+        "tests/test_lab_contracts.py"
       ],
       "checks": {
-        "cli-turn": "Separate 09:00-09:15 introduction: actual Codespaces Copilot CLI request and refinement, with independent authentication/context checked",
-        "issue-session": "Focused synthetic issue assigned to the actual cloud agent with an inspected session",
-        "iteration": "Precise PR correction requested and resulting changes inspected",
-        "pr-tests": "Tests and checks passed on the actual PR commit, not an unrelated branch",
-        "human-review": "Required human review completed without bypassing branch protections"
+        "cli-turn": "Actual Codespaces Copilot CLI sign-in and a question about the learner's own page compared with the page, plus one approved change observed in the Website preview",
+        "idea-brief": "Idea chosen (Tuesday's, a new one in site/ideas/, or a small skill), a brief with a self-check written, a first step started, and work pushed"
+      },
+      "optional_checks": {
+        "playwright-profile": "Only in an owner-approved environment where Chromium's sandbox starts: browser profile completed and added only the reviewed playwright entry; attendees never run it in class"
       }
     },
     {
       "id": "04",
-      "title": "Prepared browser introduction and remote GitHub MCP",
+      "title": "Copilot uses tools: GitHub MCP and a browser demonstration",
       "guide": "labs/04-mcp/README.md",
       "tests": [
-        "tests/test_lab_contracts.py"
-      ],
-      "checks": {
-        "browser-tools": "Separate 10:45-11:15 introduction: prepared Playwright connection inspected, trusted, and actually invoked in editor Chat",
-        "browser-journey": "Existing personal page or local-sample vendor reader checked by Playwright and compared with a manual observation; no live database required",
-        "configuration": "Authenticated remote GitHub MCP exposes only the intended read-only tools",
-        "invocation": "Actual MCP call returned the rehearsal issue and matched its GitHub source",
-        "cleanup": "Connection disabled if required by the agreed rehearsal policy"
-      }
-    },
-    {
-      "id": "07",
-      "title": "Automations, hooks, and adjacent readiness block",
-      "guide": "labs/07-automations-hooks/README.md",
-      "tests": [
-        "tests/test_audit_hook.py",
-        "tests/test_deployment_result.py",
+        "tests/test_lab_contracts.py",
+        "tests/test_devcontainer.py",
         "tests/test_site.py"
       ],
       "checks": {
-        "automation": "Matching issue event started the configured Copilot automation, not a manual substitute",
-        "report-pr": "Automation produced an inspected generated-report PR with unchanged evaluator results",
-        "live-hook": "Hook wiring loaded in a real CLI session and recorded metadata-only tool events",
-        "deny": "Harmless exact-tool denial observed and compared with its direct helper test",
-        "cleanup": "Test automation disabled and temporary deny flag removed",
-        "repeatable-browser": "Separate 11:15 readiness block: saved assertion-based browser script ran twice; MCP observations and actual CI browser coverage distinguished",
-        "release-checks": "Reviewed final commit has actual test/lint results and inspected CI evidence",
-        "selected-release": "One approved website or local-sample vendor target deployed with Dataverse disabled; artifact and fresh responses match exact commit, label and intended source, plus website fingerprints when selected; public writes remain disabled",
-        "release-journey": "Meaningful feature checked at the actual deployment URL; optional storage and remaining rollout gaps recorded separately"
+        "configuration": "Remote GitHub MCP at the /readonly endpoint authenticated and listed no write tools",
+        "invocation": "Actual MCP call listed the rehearsal repository's recent commits and matched GitHub",
+        "browser-demo": "Presenter's built-in browser tools, rehearsed in the presenter Codespace, opened a page and reported a title and a count after adding an item; the report matched a manual check"
+      },
+      "optional_checks": {
+        "playwright-mcp": "Only in an owner-approved environment where Chromium's sandbox starts: Playwright MCP invoked against app.site on port 8000 and compared with a manual check"
       }
     },
     {
       "id": "06",
-      "title": "Deeper agent authoring and evidence handoffs",
+      "title": "Teach Copilot: an instructions file and a small skill",
       "guide": "labs/06-multi-agent/README.md",
       "tests": [
-        "tests/test_evaluator.py",
-        "tests/test_report_writer.py",
-        "tests/test_cli.py"
+        "tests/test_lab_contracts.py"
       ],
       "checks": {
-        "skill-review": "Separate 09:00 opening: one everyday-work skill's complete files, licence, dependencies and permissions reviewed; invocation or explicit bookmark/blocker distinguished",
-        "discovery": "Authored agent and skill discovered and actually invoked",
-        "missing-evidence": "Missing input and silent-source cases do not invent facts or evaluator JSON",
-        "semantics": "Negative encryption, undefined retention, residency contradiction, and unstated SOC 2 counterexamples pass",
-        "handoffs": "Actual repository-local analyst, writer, and reviewer invocations used original source and unchanged evaluator JSON; retired organization duplicate not used",
-        "baseline": "Agent-authored report compared against untouched separate CLI baseline and source quotes",
-        "commit": "Authored customization files reviewed and committed"
+        "instructions": "Learner-authored .github/instructions file applied to site/ was used and one of its rules was observably followed",
+        "skill-discovery": "Learner-authored check-my-page skill discovered and actually invoked by its slash command",
+        "honest-checks": "The skill waited for each answer and recorded only the learner's real results; nothing marked passed without an answer",
+        "commit": "Both customization files reviewed, committed, and pushed"
+      }
+    },
+    {
+      "id": "03",
+      "title": "Cloud agent demonstration and optional try",
+      "guide": "labs/03-cloud-agent/README.md",
+      "tests": [
+        "tests/test_lab_contracts.py",
+        "tests/test_site.py"
+      ],
+      "checks": {
+        "issue-session": "Focused website issue assigned to the actual cloud agent, with its session inspected",
+        "review": "Pull request diff reviewed against the issue before merging; scope limited to the requested file",
+        "merged-check": "Merged change pulled into the Codespace and checked in the Website preview"
+      },
+      "optional_checks": {
+        "attendee-try": "Attendee-style repository: Website change for Copilot template used, Copilot assignable, pull request reviewed and merged with a helper, pulled, and checked"
+      }
+    },
+    {
+      "id": "day-4",
+      "title": "Build day",
+      "guide": "docs/DAY-4-BUILD.md",
+      "tests": [
+        "tests/test_lab_contracts.py",
+        "tests/test_site.py"
+      ],
+      "checks": {
+        "build": "A bounded own-idea version or improvement built with fictional local content, without overwriting Monday's page",
+        "self-check": "The learner's own check, empty input, keyboard, and narrow window recorded truthfully in the brief",
+        "story": "Three-minute story written in the brief; work committed, pushed, and read back on GitHub"
+      },
+      "optional_checks": {
+        "publication": "Optional Lab 08 website publication verified at the actual URL for the exact commit"
+      }
+    },
+    {
+      "id": "day-5",
+      "title": "Showcase and wrap-up",
+      "guide": "docs/DAY-5-SHOWCASE.md",
+      "tests": [
+        "tests/test_lab_contracts.py"
+      ],
+      "checks": {
+        "logistics": "Screen sharing, timer, running order, and the table-based fallback rehearsed in the actual room setup",
+        "presentation": "A rehearsal presentation shown live from the preview in about three minutes, with a screenshot backup labelled as such",
+        "wrap-up": "Approved tools, who to ask, work retention, and stopping Codespaces covered without deleting accounts or training access"
       }
     }
   ]

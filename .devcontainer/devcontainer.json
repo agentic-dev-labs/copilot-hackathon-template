@@ -20,7 +20,7 @@
   "updateContentCommand": "bash .devcontainer/setup.sh",
   "postAttachCommand": {
     "website-preview": "bash .devcontainer/setup.sh preview",
-    "welcome": "printf '\\nOpen docs/START-HERE.md and follow the presenter.\\nCopilot CLI is installed; sign-in is separate. Browser automation is prepared later.\\n'"
+    "welcome": "printf '\\nWelcome! Follow the presenter. Your guide is docs/START-HERE.md.\\n'"
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {
@@ -33,8 +33,8 @@
   ],
   "portsAttributes": {
     "8000": {
-      "label": "Python preview (fallback / technical track)",
-      "onAutoForward": "notify"
+      "label": "Private preview server (presenter and deployment checks)",
+      "onAutoForward": "silent"
     }
   },
   "customizations": {

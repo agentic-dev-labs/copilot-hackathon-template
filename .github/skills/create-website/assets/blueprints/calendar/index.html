@@ -62,7 +62,8 @@
         const pad = number => String(number).padStart(2, '0')
         const iso = date => `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
         const addDays = (date, days) => new Date(date.getFullYear(), date.getMonth(), date.getDate() + days)
-        const startOfWeek = date => addDays(date, -((date.getDay() + 6) % 7))
+        // Weeks start on Sunday, as on US calendars; the Workdays view skips to Monday.
+        const startOfWeek = date => addDays(date, -date.getDay())
         // An empty calendar means there is nothing of the learner's left to keep, so the
         // examples load themselves again rather than leaving a blank page.
         const valid = data => data && Array.isArray(data.items) && data.items.length > 0
@@ -86,7 +87,8 @@
                 return days
             }
             const start = startOfWeek(cursor)
-            return Array.from({ length: state.view === 'week' ? 7 : 5 }, (_, index) => addDays(start, index))
+            const firstDay = state.view === 'workdays' ? 1 : 0
+            return Array.from({ length: state.view === 'week' ? 7 : 5 }, (_, index) => addDays(start, firstDay + index))
         }
 
         function chip(item) {

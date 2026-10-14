@@ -5,28 +5,29 @@ attendee lab. Use a dedicated private/internal copy in Codespaces. The source te
 a starter: the agent completes the exercises in the rehearsal copy so attendees still have work to do.
 
 Run **`/rehearse-workshop`** in Copilot Chat's local VS Code Agent mode. The
-[prompt](../.github/prompts/rehearse-workshop.prompt.md) drives eight active labs and the supported
-own-idea session in timetable order: **00, 01, 02, 08, day-2, 03, 04, 07, 06**, including adjacent coached blocks, actual
+[prompt](../.github/prompts/rehearse-workshop.prompt.md) drives seven active labs and the supported
+daily sessions in timetable order: **00, 01, 02, 08, day-2, day-3, 04, 06, 03, day-4, day-5**, including adjacent coached blocks, actual
 implementation, tests, later deployment, and evidence. Keep the [official reference map](../docs/REFERENCES.md) and
 [prerequisites](../docs/PREREQS.md) available. Preview-only extras are tracked separately.
 
 Agent Host sessions do not use prompt files. In those clients, invoke the companion
 **`/workshop-rehearsal`** [skill](../.github/skills/workshop-rehearsal/SKILL.md), which reads the
 same task. Inspect discovery rather than assuming it. Use browser-based Codespaces and its Bash
-terminal. Playwright MCP runs headless in the same Codespace; a CLI-only session cannot prove
-the learner's editor interactions or manual Ports preview.
+terminal. A CLI-only session cannot prove the learner's editor interactions or the Website preview.
 
 Day 1 is foundations, Chat, a first website, manual behaviour/source checks, and saved work.
 Storage, research, HTML presentations, and early publication are optional. Day 2 is supported
-own-idea building with fictional app-local content. Day 3 introduces CLI/MCP/Playwright; Day 4
-verifies repeatable checks and one selected release. The separate vendor reader uses local
+own-idea building with fictional app-local content. Day 3 shows CLI, GitHub MCP, an instructions
+file, and a small skill on the learner's own page, plus presenter browser and cloud-agent demonstrations;
+Day 4 is build day and Day 5 is presentations. The post-workshop vendor reader uses local
 synthetic samples and stays read-only publicly. Dataverse is not a workshop prerequisite.
 Do not prebuild a completed learner site in the source template or copy a managed specialist.
 
-The manifest keeps eight numbered lab IDs and a `day-2` session. Lab 00 also records concepts
-and first-note blocks; Lab 01 records manual verification; Lab 03 records its preceding CLI
-introduction; Lab 04 records the prepared browser introduction; Lab 07 records Day 4 readiness;
-Lab 06 records Friday's skill review. These do not enlarge the individual active lab time-boxes.
+The manifest keeps seven numbered lab IDs and `day-2` to `day-5` sessions. Lab 00 also records
+concepts and first-note blocks; Lab 01 records manual verification; `day-3` records the CLI block
+and picking an idea; Lab 03 records the cloud-agent demonstration and the
+optional Day 4 try. These do not enlarge the individual active lab time-boxes. The former Lab 07
+is a signpost to the [advanced post-workshop reference](../post-workshop/advanced/README.md).
 The retired Lab 05 is a signpost to the [post-workshop reference](../post-workshop/dataverse/README.md),
 not a live-service gate. Preserve its existing implementation and offline regression tests.
 
@@ -124,25 +125,27 @@ use the fresh-install helper above to test new downloads and an empty cache.
 
 - GitHub repository access, Copilot entitlement, and an authenticated GitHub/Copilot session.
 - Codespaces and network access; a preinstalled environment is not a successful fresh install.
-- A successful **core-only** startup. Before Day 3, use the separate `cli` and `browser`
-  profiles in [the setup guide](../.devcontainer/README.md), run `check-browser`, then observe
-  actual CLI authentication and a Playwright MCP call in VS Code Web. Never bypass sandbox/TLS.
+- A successful **core-only** startup. Before Day 3, observe actual Copilot CLI authentication in
+  VS Code Web, and rehearse the presenter's browser-tools demonstration. The `browser` profile in
+  [the setup guide](../.devcontainer/README.md) is only for an owner-approved environment where
+  Chromium's sandbox starts. Never bypass sandbox/TLS.
 - Only for selected research, run the `research` profile and `check-research`. The app's lock
   does not cover `.venv-research/`, npm, or Chromium; record those preparations separately.
   A full optional-tool smoke can invoke both servers through `scripts/check_workshop_mcp.py`.
 - If research is selected, use [official reports and labelled prepared facts](../docs/RESEARCH.md)
   with real download paths, complete conversions and checked values. A visual brief must not
-  overwrite the existing page. Review a community skill before Friday's discovery session.
+  overwrite the existing page. Review any community skill before suggesting it.
   No inherited workstation paths or desktop-only canvas assumptions.
 - The existing training Azure resources and the `AZURE_CREDENTIALS` **Actions secret**, accessible
   to the rehearsal repository. Template copies do not automatically receive secret access.
-- A prepared own-idea repository or an agreed continuation of the default app for Tuesday.
+- The `/create-website` own-idea route in `site/ideas/`, or a continuation of the default app, for Tuesday.
   Use the [build guide](../docs/DAY-2-BUILD.md) and fictional data, without database provisioning.
-- A local-sample vendor reader for technical attendees without a personal site. Do not supply
-  Dataverse credentials or enable its training form for the required workshop. Separate later
-  setup needs explicit approval through the post-workshop reference and is not part of this run.
-- Available cloud-agent, MCP, automation, custom-agent, and hook surfaces in Codespaces.
-  One client may not expose them all; missing access is a recorded blocker, not a passed fallback.
+- The vendor reader is a post-workshop example and is not needed for this run. Do not supply
+  Dataverse credentials or enable its training form. Separate later setup needs explicit
+  approval through the post-workshop reference and is not part of this run.
+- Available Copilot CLI, remote GitHub MCP, Playwright MCP, skill discovery, and cloud-agent
+  surfaces in Codespaces. One client may not expose them all; missing access is a recorded
+  blocker, not a passed fallback.
 
 **No attendee Azure sign-in.** [The deployment workflow](../.github/workflows/deploy.yml)
 authenticates on the GitHub runner using the prepared identity and publishes the application URL.
@@ -152,17 +155,17 @@ in chat, source, screenshots, evidence, or downloaded artifacts.
 ## Execution Rules
 
 1. Confirm a disposable rehearsal repository, unique synthetic label, branch, and derived app name.
-2. Confirm permission once for the run's pushes, issues, PRs, automation,
-   and deployment cost in the existing training resource group. Normal tool approvals still apply.
+2. Confirm permission once for the run's pushes, issues, PRs, and any optional
+   deployment cost in the existing training resource group. Normal tool approvals still apply.
 3. Test clean installation and artifact connectivity before completing labs. Keep TLS verification
    enabled. A NuGet probe diagnoses optional .NET access; it does not make .NET a Python-lab dependency.
 4. Complete and test each exercise rather than merely reading its instructions. Keep source
    observations, current-date limits, and unknowns truthful. Preserve later business CLI
    baselines, original sources, and the deterministic scoring contract.
-5. Deploy the exact tested commit through Actions and verify the actual endpoint and page behavior.
+5. If publication is selected, deploy the exact tested commit through Actions and verify the
+   actual endpoint and page behavior.
 6. Report every lab, including failures and blocked live features. Unit tests cannot stand in for
-   a browser journey, managed-plugin delivery/invocation, MCP call, cloud session, live hook,
-   or event-triggered automation. Manual beginner checks and the human novice pilot are also
+   a browser journey, MCP call, skill invocation, or cloud session. Manual beginner checks and the human novice pilot are also
    distinct from automated browser observations; do not invent either.
 
 ## Deploy and Retrieve the Endpoint
@@ -172,9 +175,9 @@ The `vendor` target preserves the business app and existing name. Research downl
 reports, Markdown notes, and developer tools are not website assets. No hosted Copilot runtime
 is deployed. Generated public research stays under ignored `research/` and out of both images.
 
-In the Day 4 core, choose **one** target and keep Dataverse disabled. The following commands
-are alternatives, not two mandatory deployments. Do not create an unnecessary second site just
-to release both targets. No service connection is needed for the local-sample vendor reader.
+Publication is optional (Lab 08, with a helper on Days 1, 2, or 4). Use the **website** target and
+keep Dataverse disabled. The vendor command is kept for the post-workshop reference only; do not
+create an unnecessary second site. No service connection is needed for the local-sample vendor reader.
 
 Use a label such as **Synthetic Rehearsal 9f72a1** in the rehearsal copy. Put the unique suffix
 early enough that the derived 32-character app name remains unique. Never reuse an attendee's label.
@@ -190,8 +193,8 @@ python -m rehearsal.deploy dispatch --repository "$REPOSITORY" --ref "$BRANCH" \
 python -m rehearsal.deploy collect --request "$RUN/deploy-website.json" --wait
 ```
 
-Alternatively, release the read-only local-sample vendor target. No seed operation, Dataverse
-credentials, or write-enable flag is required:
+For a separately approved post-workshop run only, the read-only local-sample vendor target uses
+the same helper. No seed operation, Dataverse credentials, or write-enable flag is required:
 
 ```bash
 python -m rehearsal.deploy dispatch --repository "$REPOSITORY" --ref "$BRANCH" \
@@ -250,10 +253,11 @@ unselected or blocked extension does not fail `summary --require-complete`. It n
 missing core check. Prepared facts cannot pass an optional live download or conversion check.
 
 Record Tuesday's own-idea brief, prototype, manual journey, saved work, and handover under `day-2`.
-Record Wednesday's `cli-turn` under Lab 03 and `browser-tools`/`browser-journey` under Lab 04.
-Record Thursday's saved script and `selected-release` under Lab 07. Optional early publication
-does not replace the later release check. A saved script is not browser CI unless the workflow
-actually invokes it. Report core completion and extension statuses separately.
+Record Wednesday's `cli-turn` and `idea-brief` under `day-3`, the GitHub MCP checks and the
+presenter's `browser-demo` under Lab 04, the instructions file and skill under Lab 06, and
+the cloud-agent demonstration under Lab 03. Record Thursday under `day-4`, with publication as an
+optional check, and Friday's logistics and presentation under `day-5`. Report core completion and
+extension statuses separately.
 
 Existing ledgers retain retired `05` observations unchanged. They do not satisfy any `day-2`
 condition or automatically transfer to Wednesday. Record new observations; missing new checks

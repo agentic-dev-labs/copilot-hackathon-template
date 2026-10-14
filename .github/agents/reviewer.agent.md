@@ -1,6 +1,7 @@
 ---
 name: reviewer
 description: Verifies that privacy review evidence is present in the source and findings are supported.
+user-invocable: false
 tools:
   - read
   - search
@@ -20,7 +21,7 @@ defects need an evaluator regression test, not a different model-generated statu
 This is a training review, not a compliance approval. Never use real vendor, patient,
 customer, or employee data.
 
-When a CLI baseline is supplied, compare it without changing either artifact. Lab 06 keeps
+When a CLI baseline is supplied, compare it without changing either artifact. The agent-handoff exercise keeps
 the baseline in `reports/baseline/` and the agent-authored report directly in `reports/`.
 Repository tests passing does not establish that a newly generated report is accurate.
 

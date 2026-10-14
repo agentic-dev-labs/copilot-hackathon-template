@@ -25,7 +25,7 @@ are light: Fresh mint (`green`, default), Sky blue (`blue`), or Soft coral (`cor
 body's `data-theme`. The editor's dark theme does not change the website.
 
 The artwork is original to this workshop: hand-written SVG shapes with CSS animation inside
-each file, no scripts or external links, and no third-party licence. Every file stops moving
+each file, no scripts or external links, and no third-party license. Every file stops moving
 when the visitor asks for reduced motion. Together they stay below 24 KiB.
 
 The font is [Source Sans 3 from Google Fonts](https://github.com/google/fonts/tree/main/ofl/sourcesans3),

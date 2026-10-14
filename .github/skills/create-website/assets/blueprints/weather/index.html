@@ -42,17 +42,17 @@
         const { el, store, getJSON, loadJSON, addButton, toast, flash } = window.Workshop
         const SAMPLE = {
             cities: [
-                { name: 'Copenhagen', country: 'Denmark', latitude: 55.68, longitude: 12.57 },
-                { name: 'London', country: 'United Kingdom', latitude: 51.51, longitude: -0.13 },
+                { name: 'Princeton', country: 'United States', latitude: 40.35, longitude: -74.66 },
                 { name: 'New York', country: 'United States', latitude: 40.71, longitude: -74.01 },
+                { name: 'Copenhagen', country: 'Denmark', latitude: 55.68, longitude: 12.57 },
             ],
             offline: {
-                current: { temperature: 14, code: 2, wind: 12 },
+                current: { temperature: 57, code: 2, wind: 7 },
                 daily: [
-                    { date: '2026-01-01', code: 2, max: 15, min: 8 },
-                    { date: '2026-01-02', code: 61, max: 13, min: 7 },
-                    { date: '2026-01-03', code: 0, max: 17, min: 9 },
-                    { date: '2026-01-04', code: 3, max: 14, min: 8 },
+                    { date: '2026-01-01', code: 2, max: 59, min: 46 },
+                    { date: '2026-01-02', code: 61, max: 55, min: 45 },
+                    { date: '2026-01-03', code: 0, max: 63, min: 48 },
+                    { date: '2026-01-04', code: 3, max: 57, min: 46 },
                 ],
             },
         }
@@ -94,6 +94,7 @@
         function forecastUrl(city) {
             const query = new URLSearchParams({
                 latitude: city.latitude, longitude: city.longitude, timezone: 'auto', forecast_days: 4,
+                temperature_unit: 'fahrenheit', wind_speed_unit: 'mph',
                 current: 'temperature_2m,weather_code,wind_speed_10m',
                 daily: 'weather_code,temperature_2m_max,temperature_2m_min',
             })
@@ -163,11 +164,11 @@
             const now = document.getElementById('now')
             now.replaceChildren(
                 icon,
-                el('div', {}, el('span', { className: 'temp' }, `${Math.round(weather.current.temperature)}\u00b0C`)),
+                el('div', {}, el('span', { className: 'temp' }, `${Math.round(weather.current.temperature)}\u00b0F`)),
                 el('div', { className: 'details' },
                     el('h2', {}, `${city.name}${city.country ? `, ${city.country}` : ''}`),
                     el('span', {}, label),
-                    el('span', { className: 'muted' }, `Wind ${Math.round(weather.current.wind)} km/h`)))
+                    el('span', { className: 'muted' }, `Wind ${Math.round(weather.current.wind)} mph`)))
             flash(now)
             document.getElementById('forecast').replaceChildren(...weather.daily.slice(1, 4).map((day, index) => {
                 const [dayIcon, dayLabel] = look(day.code)

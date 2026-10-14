@@ -1,6 +1,6 @@
 ---
 name: workshop-rehearsal
-description: Use when asked to rehearse the eight active workshop labs and own-idea build in Codespaces, diagnose package access, and verify a selected GitHub Actions deployment without attendee Azure login or Dataverse prerequisites.
+description: Use when asked to rehearse the seven active workshop labs and the Day 2-5 sessions in Codespaces, diagnose package access, and verify an optional GitHub Actions website deployment without attendee Azure login or Dataverse prerequisites.
 ---
 
 # Workshop Rehearsal
@@ -15,8 +15,10 @@ is used in an Agent Host or CLI session. Use tools available in the current clie
 - **Day 1** — concepts, Chat, a learner-created website, manual behaviour/source checks, and
   save/commit/push. Storage, research, presentations, and early publication are optional.
 - **Day 2** — supported own-idea building with fictional app-local content, not an integration lab.
-- **Day 3** — introduces CLI/MCP/Playwright in the existing demonstration blocks.
-- **Day 4** — adds saved browser checks and one exact-commit website or local-sample vendor release.
+- **Day 3** — Copilot CLI, read-only GitHub MCP, a presenter browser-tools demonstration, an
+  instructions file and a small skill, picking an idea, and a cloud-agent demonstration.
+- **Day 4** — build day with an optional cloud-agent try; publication stays optional.
+- **Day 5** — short presentations and a wrap-up; room logistics need a human rehearsal.
 
 Use browser-based Codespaces and Bash throughout. Presenter-local tools do not prove availability.
 
@@ -26,8 +28,10 @@ Use browser-based Codespaces and Bash throughout. Presenter-local tools do not p
 - Preserve the source template; complete exercises in the confirmed rehearsal copy.
 - Use the helpers in `rehearsal/` for network diagnostics, evidence, and exact-run Actions
   deployment. Core setup must not depend on advanced installs.
-- Prepare CLI/browser profiles for Day 3, and the research profile only if selected.
-- Use pinned Playwright MCP through private stdio and verify actual invocation.
+- Attendees run no browser profile; the Day 3 browser check is a presenter demonstration.
+  Prepare the research profile only if selected. Advanced post-workshop topics stay outside this run.
+- Use pinned Playwright MCP through private stdio only in an owner-approved environment where
+  Chromium's sandbox starts, and verify actual invocation.
 - Optional MarkItDown and storage observations never replace core checks.
 - The preserved post-workshop Dataverse guide does not authorize live setup or writes during
   this run.

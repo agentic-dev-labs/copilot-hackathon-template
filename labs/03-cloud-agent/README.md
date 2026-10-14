@@ -1,75 +1,88 @@
-# Lab 03: Copilot cloud agent
+# Lab 03: Hand a Task to the Cloud Agent
 
-**Objective:** Assign a focused issue and review the cloud agent's draft pull request.
+**Objective:** See Copilot take a task from a GitHub issue, work on it by itself in the cloud,
+and return a pull request for a person to review.
 
-**Time-box:** 60 minutes
+**Time-box:** 15 minutes
 
-**Prerequisites:** Codespaces access, repository write access, cloud agent enabled by the
-organization, and the prepared vendor reader using local synthetic samples. No Dataverse access,
-retired Lab 05, or travel customizations are required.
+**Prerequisites:** On Day 3 you only watch. For the optional try on Day 4: your Day 1 website
+saved on GitHub, and a helper's confirmation that the cloud agent is switched on for your repository.
 
-The preceding 09:00 block has a [15-minute CLI introduction](../../docs/TOOLS-PRACTICE.md), then
-a 15-minute cloud-agent demonstration. Those are separate from this lab's 60 minutes.
+This is a **12:15-12:30 demonstration on Day 3**. On **Day 4** you can try it yourself inside
+the building time; it adds no extra block. Everything happens on the GitHub website and in your
+browser-based Codespace.
 
-Here you run an issue-to-PR workflow and distinguish the issue specification, agent session,
-code changes, review, and merge. No Monday feature tour or personal website is a prerequisite.
-New technical attendees use the facilitator's prepared synthetic app. Model choice is separate
-from choosing the agent or its execution environment. Official procedures are linked below.
+| Word         | Plain meaning                                                                         |
+| ------------ | ------------------------------------------------------------------------------------- |
+| Issue        | A to-do note on GitHub that describes what you want.                                  |
+| Cloud agent  | Copilot working by itself in the cloud, on its own copy of your project.              |
+| Pull request | Its proposed change. Nothing in your project changes until a person accepts it.       |
+| Merge        | Accept the pull request into your project.                                            |
 
-Earlier beginner work used interactive Chat. Here a remote development agent changes the business
-app in a branch and proposes a PR. Your browser-based Codespace is still where you inspect and
-test it. Keep any learner website and optional research unchanged. Follow the presenter's first small
-example, then choose your own bounded improvement to the vendor interface.
+## Watch the Demonstration (Day 3, 15 minutes)
 
-## Steps
+On a practice repository, the presenter shows:
 
-1. Create an issue using **Copilot agent task**.
-2. Set one goal, measurable acceptance criteria, and explicit files in scope.
-   A suggested task is adding an escaped **Gaps** column to the local synthetic vendor-review
-   table. Reuse the evaluator's gaps, do not recompute risk with a model, and add focused tests.
-   Keep the optional Dataverse path compatible using mocked tests, without calling a service.
-   Scope app changes to `app/` and its existing tests;
-   the source reports, evaluator rules, and travel customizations remain unchanged.
-3. Assign the issue to Copilot and watch the cloud session log.
-4. Open the draft pull request and review code, tests, and the agent summary.
-5. Leave a precise pull request comment mentioning `@copilot` and requesting one correction.
-6. Review the new diff. Check out the agent's PR branch in the Codespace before running its tests; tests on `main` do not validate the PR. Approve pending workflows only after inspecting the changes.
-7. Merge only when acceptance criteria are met and facilitator branch rules allow it.
+1. An issue asking for one small change, what must stay the same, and how to check it.
+2. Assigning the issue to **Copilot**, then its progress log while it works.
+3. The pull request: which file changed, and the change explained in plain words.
+4. Merging it, bringing the change into the Codespace, and checking it in the preview.
 
-The cloud agent can also research a repository, propose a plan, and iterate on a branch
-_before_ any pull request exists. Start that from the agents panel on GitHub when you want to
-agree an approach first, and mention `@copilot` on an existing pull request to request changes.
+Notice the pattern: you describe the outcome, Copilot does the work in the background, and a
+person reviews before anything is accepted. It also follows the rules in your instructions file
+from [Lab 06](../06-multi-agent/README.md).
 
-Keep this exercise to one repository and one small PR. Session limits and supported entrypoints
-can change; inspect the current session UI and [cloud-agent documentation](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent).
+**Done when:** you have seen an issue become a pull request, and the presenter's own check of
+the change before merging.
 
-**Done when:** the PR meets the issue's acceptance criteria, has passing checks, and has received human review. A draft PR by itself is not a mandatory human-approval rule.
+## Optional Try on Day 4
+
+Ask for a change to your **Day 1 page** while you build your idea in its own folder, so you and
+Copilot are not editing the same file at once. If your Day 4 idea is the Day 1 page itself, skip
+this try.
+
+1. **Write the issue (09:00-09:15).** On GitHub open your repository, then **Issues > New issue**
+   and choose **Website change for Copilot**. Fill in what to change, what must stay the same,
+   and how you will check it. For example: "Show today's date under the page title. Change only
+   site/index.html. I will check that today's date appears and my entries still work."
+2. **Assign it.** In the issue, select **Assignees > Copilot**. If a small window opens, check that
+   the branch is the one your work is on (normally `main`; a helper confirms), then confirm. If
+   Copilot is not listed, it is not switched on for you: skip this try and tell a helper. Check that
+   the issue shows Copilot has started, then go back to building.
+3. **Review it (11:45-12:00).** Open **Pull requests** and select Copilot's pull request, then
+   **Files changed**. Does it change only what you asked for? If not, leave a comment starting
+   with `@copilot` that says exactly what to fix, or close it. Nothing changes until you merge.
+4. **Accept it with a helper.** First save, commit, and push your own work in the Codespace. If the
+   pull request is still a draft, select **Ready for review**. Then select **Merge pull request**.
+   If GitHub asks you to approve workflows, ask the helper first.
+5. **Bring it into your Codespace.** In **Source Control** select **... > Pull**. Run
+   `/start-website` and check the change yourself.
+
+**Try finished when:** your merged change works in your own preview after you pulled it, and
+your entries still work.
 
 ## What you just learned
 
-Issues provide durable specifications, draft pull requests expose agent work for review, and comments create an auditable iteration loop.
+An issue is a clear request, the cloud agent works on it without you watching, and a pull
+request lets a person check the result before accepting it. Delegating work does not delegate
+the checking.
+
+## When It Does Not Work
+
+| What you see                              | Next action                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------------- |
+| Copilot is not in the Assignees list      | The feature is not switched on for this repository. Skip the try.             |
+| The pull request changed too much         | Comment with `@copilot` asking for the smaller change, or close it unmerged.   |
+| Pull reports a conflict                   | Stop and show a helper. Never force a push.                                   |
 
 ## Optional extras
 
-Pick any of these if you finish early. None of them are required.
-
-1. **Plan before any pull request exists.** Start a session from the agents panel and have it
-   research and propose an approach on a branch first.
-2. **Compare prepared results (5-10 min).** Inspect two results from the same bounded task with
-   different models or reasoning settings. Compare evidence, tests, and usage. A new run is optional
-   and requires the normal permission and budget checks.
-3. **Let Copilot write the issue.** Describe the problem in prose and let it produce the structured
-   issue, then judge whether its acceptance criteria are testable.
-4. **Inspect another entrypoint (5 min).** Find an existing session through GitHub or the CLI.
-   Mobile is an optional presenter tour, not an attendee installation requirement.
-5. **Narrow a bad result.** Take an issue whose first attempt was too broad and tighten it without
-   adding scope.
+1. Ask Chat to write your issue from one sentence, then edit it into your own words.
+2. Open the agent's progress log and find one step where it checked its own work.
 
 ## Official References
 
-- [About the cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent) and [kick off a task](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/kick-off-a-task).
-- [Research, plan, and iterate](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/research-plan-iterate) and [manage sessions](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/manage-and-track-agents).
-- [Review Copilot output](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output) and [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow).
-- [Configure the agent environment](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/customize-the-agent-environment): distinct from an attendee's Codespace.
-- [Third-party agents](https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents): optional later comparison, with its own support and access requirements.
-- [Whole-week coverage and extras](../../docs/REFERENCES.md).
+- [About the cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent) and [start a task](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/kick-off-a-task).
+- [Review Copilot's output](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output).
+- [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): issues, pull requests, and merging.
+- [Whole-week topic map](../../docs/REFERENCES.md).

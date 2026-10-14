@@ -1,6 +1,6 @@
 ---
-name: Copilot agent task
-about: Assign a focused implementation task to the Copilot cloud agent
+name: "Advanced: vendor app task (post-workshop)"
+about: Not for the workshop. For a website change, choose Website change for Copilot instead.
 title: "[Agent] "
 labels: ["copilot"]
 assignees: []

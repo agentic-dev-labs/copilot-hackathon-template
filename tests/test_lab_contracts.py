@@ -9,19 +9,20 @@ from urllib.parse import unquote, urlsplit
 import yaml
 
 
+RETIRED_LABS = {"05-dataverse-app", "07-automations-hooks"}
+
+
 def active_lab_guides() -> list[Path]:
-    """Exclude the retired Lab 05 signpost from attendee exercise requirements."""
-    return [
-        path for path in Path("labs").glob("*/README.md") if path.parent.name != "05-dataverse-app"
-    ]
+    """Exclude the retired Lab 05 and Lab 07 signposts from attendee exercise requirements."""
+    return [path for path in Path("labs").glob("*/README.md") if path.parent.name not in RETIRED_LABS]
 
 
 def test_lab_timeboxes_match_the_agenda() -> None:
     """Optional exercises must not silently extend the published core blocks."""
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
     rows = re.findall(r"\| (\d\d):(\d\d)-(\d\d):(\d\d) \| Lab (\d\d):", agenda)
-    assert {row[-1] for row in rows} == {"00", "01", "02", "08", "03", "04", "07", "06"}
-    assert len(rows) == 8
+    assert {row[-1] for row in rows} == {"00", "01", "02", "08", "04", "06", "03"}
+    assert len(rows) == 7
     for start_hour, start_minute, end_hour, end_minute, number in rows:
         minutes = (int(end_hour) - int(start_hour)) * 60 + int(end_minute) - int(start_minute)
         lab = next(Path("labs").glob(f"{number}-*/README.md"))
@@ -145,6 +146,7 @@ def test_guided_website_skill_is_explicit_and_preserves_learner_work() -> None:
     assert 'git remote get-url origin' in text
     assert "Describe your idea in one sentence." in text
     assert "moves on to the next lab" in text
+    assert "or build\n  your own idea in its own folder?" in text
     for name in ("project", "calendar", "ideas", "weather"):
         assert f"./assets/blueprints/{name}/index.html" in text
     assert "Workshop.store" in text and "Workshop.loadJSON" in text
@@ -219,7 +221,7 @@ def test_hand_over_offers_ideas_for_every_category() -> None:
     data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
     shared = data["any_page_ideas"]
     assert len(shared) >= 4
-    assert any("colour theme" in idea for idea in shared)
+    assert any("color theme" in idea for idea in shared)
     assert any("tabs" in idea for idea in shared)
     seen: set[str] = set()
     for starter in data["starters"]:
@@ -312,7 +314,7 @@ def test_agent_frontmatter_and_handoff_targets() -> None:
 
 def test_authoring_labs_do_not_embed_finished_customizations() -> None:
     """Give learners requirements rather than complete agent, skill, or hook files."""
-    for number in ("01", "06", "07"):
+    for number in ("01", "06"):
         path = next(Path("labs").glob(f"{number}-*/README.md"))
         text = path.read_text(encoding="utf-8")
         for body in re.findall(r"```markdown\n(.*?)\n[ \t]*```", text, re.DOTALL):
@@ -420,7 +422,11 @@ def test_tuesday_protects_own_idea_building() -> None:
     assert "DAY-2-BUILD.md" in tuesday
     guide = Path("docs/DAY-2-BUILD.md").read_text(encoding="utf-8")
     assert "No database, login, API keys" in guide
+    assert guide.count("Run `/create-website`") == 1
     assert "not completion gates" in guide
+    assert "helpers work with you at the tables" in guide
+    assert "site/ideas/" in guide and "prepared repository" not in guide
+    assert "The presenter" not in guide
     quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
     assert "Open Preview" in quick_reference
     assert "Do not delete accounts" in quick_reference
@@ -436,18 +442,96 @@ def test_lab_guides_have_one_current_title() -> None:
     assert "docs/DAY-2-BUILD.md" in retired
     assert "**Time-box:**" not in retired
     assert "DATAVERSE_CLIENT_SECRET" not in retired
+    automation = Path("labs/07-automations-hooks/README.md").read_text(encoding="utf-8")
+    assert "Status: retired" in automation
+    assert "post-workshop/advanced/automations-hooks-readiness.md" in automation
+    assert "docs/DAY-4-BUILD.md" in automation
+    assert "**Time-box:**" not in automation and "```" not in automation
 
 
-def test_tools_introduction_is_scheduled_in_the_technical_track() -> None:
-    """Useful tools are retained without consuming Tuesday's own-idea build time."""
+def agenda_day(number: int) -> str:
+    """Return one day's section of the published agenda."""
+    agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
+    section = agenda.split(f"## Day {number} ", 1)[1]
+    return section.split("\n## ", 1)[0]
+
+
+def test_day_three_guide_follows_the_agenda_on_the_learners_own_page() -> None:
+    """Wednesday's tools stay on the learner's website and keep Tuesday free of tool setup."""
     tools = Path("docs/TOOLS-PRACTICE.md").read_text(encoding="utf-8")
-    assert "Day 3" in tools
-    assert "09:00-09:15" in tools
-    assert "10:45-11:15" in tools
-    assert "No Dataverse connection" in tools
+    assert tools.startswith("# Day 3: More Ways to Use Copilot")
+    route = tools.split("## Today's Route", 1)[1].split("\n## ", 1)[0]
+    times = re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", route)
+    assert times == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", agenda_day(3).replace(
+        "| 10:30-10:45 | Break", ""))
+    for target in ("../labs/04-mcp/README.md", "../labs/06-multi-agent/README.md",
+                   "../labs/03-cloud-agent/README.md", "#pick-your-idea", "DAY-4-BUILD.md"):
+        assert target in tools
+    learner, helpers = tools.split("## Helper Preparation", 1)
+    # Since 14 October attendees install nothing on Day 3; the browser check is a presenter demo.
+    assert "setup.sh browser" not in learner and "uvicorn" not in learner
+    assert "presenter demonstration" in helpers and "Never add\n  `--no-sandbox`" in helpers
+    assert "uv run uvicorn app.site:app --port 8000" in helpers and "never make the\n  port public" in helpers
+    assert "/login" in tools and "Never paste a password or token" in tools
+    assert "No Dataverse connection, vendor app, or research download" in tools
     old_link = Path("docs/DAY-2-TOOLS.md").read_text(encoding="utf-8")
     assert "TOOLS-PRACTICE.md" in old_link and "DAY-2-BUILD.md" in old_link
     assert "**Time-box:**" not in old_link
+
+
+def test_days_three_to_five_stay_simple_for_first_time_users() -> None:
+    """The 14 October refit drops advanced engineering topics from the scheduled week."""
+    for number, guide in ((3, "TOOLS-PRACTICE.md"), (4, "DAY-4-BUILD.md"), (5, "DAY-5-SHOWCASE.md")):
+        section = agenda_day(number)
+        assert guide in section
+        lowered = section.lower()
+        for topic in ("hook", "automation", "vendor", "ci ", "evaluation", "handoff", "lab 07"):
+            assert topic not in lowered, (number, topic)
+    assert "Presentations, round 1" in agenda_day(5)
+    for path in (Path("docs/DAY-4-BUILD.md"), Path("docs/DAY-5-SHOWCASE.md")):
+        text = path.read_text(encoding="utf-8")
+        assert "**Done when:**" in text and "## Optional extras" in text, path
+        assert "## Official References\n" in text and "(REFERENCES.md)" in text, path
+    build = Path("docs/DAY-4-BUILD.md").read_text(encoding="utf-8")
+    assert "My story" in build and "No database, login, API keys" in build
+    showcase = Path("docs/DAY-5-SHOWCASE.md").read_text(encoding="utf-8")
+    assert "two minutes to show" in showcase and "fictional" in showcase
+
+
+def test_day_three_labs_use_simple_reviewed_tools() -> None:
+    """MCP is read-only, the browser check uses the learner's page, and skills are learner-written."""
+    mcp = Path("labs/04-mcp/README.md").read_text(encoding="utf-8")
+    assert "https://api.githubcopilot.com/mcp/readonly" in mcp
+    assert "## 2. Watch Copilot Use a Browser" in mcp and "nothing to set up" in mcp
+    assert "setup.sh browser" not in mcp and "uvicorn" not in mcp and "Playwright" not in mcp
+    customization = Path("labs/06-multi-agent/README.md").read_text(encoding="utf-8")
+    assert ".github/instructions/my-website.instructions.md" in customization
+    assert ".github/skills/check-my-page/SKILL.md" in customization
+    assert "without my answer" in customization
+    assert "/check-my-page site/ideas/team-lunch/index.html" in customization
+    cloud = " ".join(Path("labs/03-cloud-agent/README.md").read_text(encoding="utf-8").split())
+    assert "## Optional Try on Day 4" in cloud and "Website change for Copilot" in cloud
+    assert "Nothing changes until you merge" in cloud
+    assert "First save, commit, and push your own work" in cloud
+    assert "If the pull request is still a draft" in cloud
+    template = Path(".github/ISSUE_TEMPLATE/website-change.md").read_text(encoding="utf-8")
+    metadata = yaml.safe_load(template.split("---", 2)[1])
+    assert metadata["name"] == "Website change for Copilot"
+    assert "site/index.html" in template and "fictional" in template
+
+
+def test_advanced_material_is_preserved_outside_the_schedule() -> None:
+    """Dropped labs remain available as clearly labelled post-workshop reference."""
+    index = Path("post-workshop/advanced/README.md").read_text(encoding="utf-8")
+    assert "**Not part of the workshop.**" in index
+    pages = re.findall(r"\]\(([a-z-]+\.md)\)", index)
+    assert len(pages) == 6
+    for page in pages:
+        text = (Path("post-workshop/advanced") / page).read_text(encoding="utf-8")
+        assert text.startswith("# Advanced Reference: "), page
+        assert "**Post-workshop reference, not a workshop lab.**" in text, page
+        assert "**Time-box:**" not in text, page
+    assert Path("scripts/audit_hook.py").is_file() and Path(".github/agents/vendor-analyst.agent.md").is_file()
 
 
 def test_active_routes_do_not_send_learners_to_retired_guides() -> None:
@@ -462,11 +546,17 @@ def test_active_routes_do_not_send_learners_to_retired_guides() -> None:
         Path("docs/PREREQS.md"),
         Path("rehearsal/README.md"),
         Path(".github/prompts/rehearse-workshop.prompt.md"),
+        Path("docs/DAY-2-BUILD.md"),
+        Path("docs/TOOLS-PRACTICE.md"),
+        Path("docs/DAY-4-BUILD.md"),
+        Path("docs/DAY-5-SHOWCASE.md"),
+        Path("docs/QUICK-REFERENCE.md"),
     ]
     for path in paths:
         text = path.read_text(encoding="utf-8")
         assert "DAY-2-TOOLS.md" not in text, path
         assert "labs/05-dataverse-app/README.md" not in text, path
+        assert "07-automations-hooks/README.md" not in text, path
     prerequisites = Path("docs/PREREQS.md").read_text(encoding="utf-8")
     assert "DATAVERSE_CLIENT_SECRET" not in prerequisites
 

@@ -1,136 +1,107 @@
 # Lab 01: Build Your First Page
 
-**Objective:** Turn your idea into a small website and open it in your browser.
+**Objective:** Build a small website by talking to Copilot, see it beside Chat, and change it.
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Lab 00 and the separate first-note/save/commit/push block in the
-[beginner guide](../../docs/START-HERE.md#your-first-note). Use the same Codespace and the
-built-in coding Agent in Chat. The guided skill, design kit, and preview panel are already provided;
-no research downloads, tool installation, or skill authoring is required.
+**Prerequisites:** Lab 00 and [your first note](../../docs/START-HERE.md#your-first-note), in the
+same Codespace. Nothing to install.
 
-Choose one starter: **Project Planner**, **Calendar**, **Ideas Wall**, or **Weather**.
-The presenter demonstrates the Project Planner; choose it when unsure. Follow the same
-actions, then improve it by asking. Finish, check, save, and show this page before an own-idea
-page. Fast finishers build their own idea next; everyone else moves on and continues on
-Tuesday. No bookings, accounts, paid services, real company branding, or real work data.
-The presenter shows one action for 3-5 minutes; you try it before the next demonstration.
+You choose one of four starter websites: **Project Planner**, **Calendar**, **Ideas Wall**, or
+**Weather**. The presenter builds the Project Planner; pick it if you are unsure. All four work
+the same way, and everything on them is made up. The presenter shows each step, then you try it.
 
 ## 1. Pick Your Website (15 minutes)
 
-In Agent Chat type **`/create-website`**, select it from the menu, and send it.
-It asks one question, which website you want, and then builds it straight away. The page is
-named after your repository, for example **AliFarahnak Project Planner**. No names, colours,
-or technical choices are needed now; you change anything later just by asking.
-The helper can show where the prepared workflow lives; you do not need to author or install a skill.
+1. In Chat, choose **Agent**. Type **`/create-website`**, pick it from the list, and press Enter.
+2. Copilot asks one question: which website would you like to make? Choose one.
+3. It builds the page straight away and names it after your repository, for example
+   **AliFarahnak Project Planner**. You can change anything later just by asking.
 
-If the command is missing, ask the helper to open and attach
-[the prepared workflow](../../.github/skills/create-website/SKILL.md) to Agent Chat and say
-"Follow this guided website workflow; ask me the first question and wait."
-Copilot starts from a tested, beautiful design for your choice: one self-contained page, a
-small file of fictional sample entries, and a local kit with animated artwork. You do not
-choose or install anything.
-
-**You should see:** a new `index.html` under **Explorer > site**. **Check:** open it and confirm
-the title uses your repository name. A response saying "created" is not enough.
+**Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the proof,
+not Copilot saying "done". If `/create-website` is not in the list, ask a helper.
 
 ## 2. Open Your Preview (20 minutes)
 
-After the first build, Copilot opens your page in the **Website preview** panel beside Chat.
-If closed later, use **`/start-website`** to reopen the saved page.
-**`/stop-website`** closes the panel without deleting the page.
-These commands do not repeat the interview or publish anything.
+Copilot opens your page in a **Website preview** panel beside Chat.
 
-1. Check that your website is visible beside Chat with your repository's name.
-2. Press **+** to add one fictional entry, drag it somewhere else, then ask for one small change.
-3. Watch the change appear by itself. Your added entry should still be there.
-4. Try `/stop-website`, then `/start-website`. Confirm the same page returns.
+1. Find your page beside Chat. Its title uses your repository's name.
+2. Press **+** to add a made-up entry, then drag it somewhere else.
+3. Ask Copilot for one small change, such as "Make the title bigger. Leave the rest alone."
+   Watch the change appear by itself. Your entry is still there.
+4. Type `/stop-website` to close the preview, then `/start-website` to open it again. The same
+   page comes back.
 
-**You should see:** your page inside the same Codespaces browser tab. **Check:** its title
-uses your repository name. This is a live website preview, not Markdown Open Preview.
-The page remembers entries in this browser; empty it completely and the examples come back.
+The page remembers your entries in this browser. If you remove them all, the examples come back.
 
-### If Preview Is Blocked
-
-Show the helper the exact result; do not install tools or repeatedly open panels.
-A helper can check `python3 scripts/website_preview.py status`. There is no server or
-port to fix: the panel reads your file directly. A missing helper is a preparation issue,
-not a learner exercise. The preview is not a deployment.
+**If the preview does not open,** show a helper the exact message and do not install anything.
+A helper can run `python3 scripts/website_preview.py status` to see what is wrong.
 
 ## 3. Make One Change (15 minutes)
 
-Ask for one change in ordinary words, for example: "Add a Saturday column" (Project Planner),
-"Start the week on Sunday" (Calendar), "Make the notes bigger" (Ideas Wall), or "Add Paris
-as a starting city" (Weather). Add: "Leave the rest alone."
+Ask for one change in ordinary words, and add "Leave the rest alone." For example:
 
-Read the changed file in **Source Control** and save it; the preview updates by itself.
-**Check:** your requested change is visible and the other content still works.
-If too much changed, stop and ask for a focused correction. Stopping is not an undo.
+| Your website    | Try asking                          |
+| --------------- | ----------------------------------- |
+| Project Planner | "Add a Saturday column."            |
+| Calendar        | "Make today's date stand out more." |
+| Ideas Wall      | "Make the notes bigger."            |
+| Weather         | "Add Paris as a city."              |
 
-## 4. Explain What You Built (10 minutes)
+Open **Source Control** to see what changed, then save. **Check:** your change is there and
+everything else still works. If Copilot changed too much, select **Stop** and ask for something smaller.
 
-Show a neighbour the page and the file that produces it. Ask them to add and move one entry.
-Record one thing to improve in your brief. Save, review, commit, and push using the sequence
-you already practised. Check the same branch on GitHub.
+## 4. Show and Save (10 minutes)
 
-**Done when:** your own page opens in a private preview, one requested change is visible,
-and you can find both the file and its saved version in GitHub.
+Show a neighbor your page and the file behind it, **site/index.html**. Let them add and move an
+entry. Then save, review, commit, and push, just like your note, and find it on GitHub.
+
+**Done when:** your page opens beside Chat, one change you asked for is visible, and your saved
+version is on GitHub.
 
 ## Coached Verification Block
 
-**11:45-12:15**, outside the 60-minute lab: **trust but verify** is today's main habit.
-Use **expect -> try -> compare -> improve -> repeat**; do not invent a defect for the exercise.
+**11:45-12:15**, right after this lab: **trust, but verify.** Copilot can be wrong, so you check.
 
-1. **Check behaviour (10 minutes).** Ask for one new button, such as "hide finished tasks",
-   "show only this week", or "shuffle the ideas". Predict what will happen, click it twice,
-   and compare. If it fails, tell Copilot what you expected and what you actually saw. Try the
-   same action again after a fix.
-2. **Check a number (10 minutes).** Do your category's check below yourself, counting what is
-   on the page. Do not accept a number you have not counted or compared.
-3. **Record the check (10 minutes).** In your brief write what you tried, what happened, and
-   any remaining limitation. A screenshot or confident answer alone does not prove behaviour.
-   Save and review any final changes before committing and pushing.
+1. **Check a button (10 minutes).** Ask for one new button, such as "hide finished tasks",
+   "show only this week", or "shuffle the ideas". Say what you expect, click it twice, and
+   compare. If it is wrong, tell Copilot: "I expected ..., but I saw ...". Check again after the fix.
+2. **Check a number (10 minutes).** Count it yourself, using the table below. Do not trust a
+   number you have not checked.
+3. **Write it down (10 minutes).** In **site/brief.md**, write what you tried and what happened,
+   including anything that does not work yet. Then save, review, commit, and push.
 
-| Your Website | Check It Yourself |
-| --- | --- |
-| Project Planner | 4 tasks and 1 ticked, so the bar reads **1 of 4 done**. Tick one more: 2 of 4. |
-| Calendar | **3 notes planned**: today, tomorrow, and in three days. Add one: 4 notes planned. |
-| Ideas Wall | **3 ideas**. Add one: 4 ideas. Remove one: back to 3. |
-| Weather | Open **the raw forecast data** link and compare today's temperature with the page. |
+| Your website    | Check it yourself                                                                    |
+| --------------- | ------------------------------------------------------------------------------------ |
+| Project Planner | 4 tasks and 1 ticked, so the bar reads **1 of 4 done**. Tick one more: 2 of 4.       |
+| Calendar        | **3 notes planned**: today, tomorrow, and in three days. Add one: 4 notes planned.   |
+| Ideas Wall      | **3 ideas**. Add one: 4 ideas. Remove one: back to 3.                                |
+| Weather         | Select **the raw forecast data** link and compare today's temperature with the page. |
 
-The figures come from [the starters](../../.github/skills/create-website/assets/starters.json).
-Weather is the only page with live data, so its numbers change; comparing with the source is
-the check. If live weather is blocked, the page says it is showing sample weather.
-
-For a public-source alternative, the facilitator can show one value from the
-[official five-year overview](https://annualreport.novonordisk.com/2025/introducing-novo-nordisk/five-year-overview.html)
-and the labelled [prepared facts](../../docs/annual-report-facts.json). Check year, unit, and
-value against the original. This replaces the count check; it is not a PDF research assignment.
+Weather is the only page with live data. If the internet is blocked, it says it is showing sample weather.
 
 ## When It Does Not Work
 
-| What you see                    | Next action                                                                     |
-| ------------------------------- | ------------------------------------------------------------------------------- |
-| Blank or missing page           | Show a helper the exact message; there is no server or port to fix.             |
-| Old title                       | Save once, then show the helper the unchanged preview; do not refresh the whole Codespace. |
-| Command failed                  | Show a helper the error. Do not install software on your laptop.                |
-| Copilot changes unrelated files | Stop, inspect the diff, and ask for the smallest correction.                    |
-| Button or count is wrong        | State expected versus actual, request a fix, then repeat the check.             |
+| What you see                     | What to do                                                          |
+| -------------------------------- | ------------------------------------------------------------------- |
+| A blank page or no preview       | Show a helper the exact message.                                    |
+| Copilot changed other files      | Select **Stop**, look in **Source Control**, and ask for less.      |
+| A button or a number is wrong    | Tell Copilot what you expected and what you saw, then check again.  |
+| Something asks you to install    | Say no and ask a helper.                                            |
 
 ## Optional extras
 
-1. **Build your own idea (fast finishers).** After your checks, saving to GitHub, and showing a
-   neighbour/helper, run `/create-website` again and choose your own idea. Describe it in one
-   sentence; Copilot builds it just as beautifully in its own folder under `site/ideas/`. Your
-   first page stays unchanged. If time runs out, move on to the next lab; Tuesday has more time.
-2. Make the page comfortable to read in a narrow browser window.
-3. Try one of the later ideas in your brief, such as due dates or colours by type.
+1. **Your own idea (fast finishers).** After your page is checked, saved, and shown to a
+   neighbor, run `/create-website` again, choose to build your own idea, and describe it in one
+   sentence. It gets its own folder under `site/ideas/`, and your first page stays as it is. If
+   time runs out, stop; Tuesday has more time.
+2. Make the page easy to read in a narrow window.
+3. Try one of the later ideas listed in your brief.
 
 ## Official References
 
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
-- [Codespaces ports](https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace).
 - [Review AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [VS Code webviews](https://code.visualstudio.com/api/extension-guides/webview) and [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills).
-- [Whole-week topic map and optional research](../../docs/REFERENCES.md).
+- [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills): how `/create-website` works.
+- [Whole-week topic map](../../docs/REFERENCES.md).

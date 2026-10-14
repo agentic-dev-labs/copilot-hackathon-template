@@ -59,6 +59,17 @@ def test_site_rejects_unintended_publication(website: Path, filename: str) -> No
         site_manifest(website)
 
 
+def test_own_idea_pages_serve_at_their_full_index_path(website: Path) -> None:
+    """A browser opens an own-idea page by its full index.html path, not its folder."""
+    idea = website / "ideas" / "team-lunch"
+    idea.mkdir(parents=True)
+    (idea / "index.html").write_text(HTML, encoding="utf-8")
+    client = TestClient(create_app(website))
+    assert client.get("/ideas/team-lunch/index.html").status_code == 200
+    # Directory URLs are not served, so anyone opening an idea page must give the full path.
+    assert client.get("/ideas/team-lunch/").status_code == 404
+
+
 def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> None:
     """The fingerprint covers shipped bytes but excludes the unserved Markdown brief."""
     initial = site_manifest(website)
@@ -160,6 +171,64 @@ def test_use_columns_keeps_saved_cards_while_following_a_renamed_board() -> None
     assert once["items"][0]["done"] is True
     assert repeated == once
     assert json.loads(result.stdout)["noColumns"] == stale
+
+
+def run_node(script: str) -> str:
+    """Run a short script in Node and return its standard output."""
+    result = subprocess.run(["node", "-e", script], capture_output=True, text=True, check=False)
+    assert result.returncode == 0, result.stderr
+    return result.stdout
+
+
+def inline_block(page: str, start: str) -> str:
+    """Return a top-level block of a blueprint's inline script, from its first line to its closing brace."""
+    match = re.search(re.escape(start) + r".*?\n        \}\n", page, re.DOTALL)
+    assert match is not None, start
+    return match.group(0)
+
+
+@pytest.mark.parametrize("category", ["project", "calendar", "ideas", "weather"])
+def test_inline_sample_matches_the_data_file(category: str) -> None:
+    """The skill keeps the inline SAMPLE and data/*.json identical, so an offline page looks the same."""
+    blueprint = PROJECT_BLUEPRINT.parent / category
+    starters = json.loads((blueprint.parent.parent / "starters.json").read_text(encoding="utf-8"))
+    starter = next(item for item in starters["starters"] if item["id"] == category)
+    page = (blueprint / "index.html").read_text(encoding="utf-8")
+    literal = inline_block(page, "const SAMPLE = ").removeprefix("const SAMPLE = ")
+    inline = json.loads(run_node(f"console.log(JSON.stringify({literal}))"))
+    assert inline == json.loads((blueprint / starter["data_file"]).read_text(encoding="utf-8"))
+
+
+def test_weather_starter_uses_us_units_and_local_cities() -> None:
+    """The US audience sees Fahrenheit and mph, starting with Princeton."""
+    blueprint = PROJECT_BLUEPRINT.parent / "weather"
+    data = json.loads((blueprint / "data/weather.json").read_text(encoding="utf-8"))
+    assert [city["name"] for city in data["cities"]] == ["Princeton", "New York", "Copenhagen"]
+    page = (blueprint / "index.html").read_text(encoding="utf-8")
+    assert "temperature_unit: 'fahrenheit', wind_speed_unit: 'mph'" in page
+    assert "\\u00b0F`" in page and " mph`" in page
+    assert "\\u00b0C" not in page and "km/h" not in page
+
+
+def test_calendar_weeks_start_on_sunday_and_workdays_are_monday_to_friday() -> None:
+    """Run the calendar's own date code: Month and Week start on Sunday, Workdays skip the weekend."""
+    page = (PROJECT_BLUEPRINT.parent / "calendar" / "index.html").read_text(encoding="utf-8")
+    helpers = "\n".join(
+        re.search(rf"^\s*const {name} = .*$", page, re.MULTILINE).group(0)
+        for name in ("addDays", "startOfWeek")
+    )
+    script = helpers + "\nlet state = { view: 'month' }\nlet cursor = new Date(2026, 9, 28)\n"
+    script += inline_block(page, "function visibleDays() {")
+    script += (
+        "const out = {}\n"
+        "for (const view of ['month', 'week', 'workdays']) {"
+        " state.view = view; out[view] = visibleDays().map(day => day.getDay()) }\n"
+        "console.log(JSON.stringify(out))"
+    )
+    days = json.loads(run_node(script))
+    assert days["month"][0] == 0 and days["month"][-1] == 6 and len(days["month"]) % 7 == 0
+    assert days["week"] == [0, 1, 2, 3, 4, 5, 6]
+    assert days["workdays"] == [1, 2, 3, 4, 5]
 
 
 def test_missing_site_and_invalid_markup_are_not_ready(tmp_path: Path, website: Path) -> None:

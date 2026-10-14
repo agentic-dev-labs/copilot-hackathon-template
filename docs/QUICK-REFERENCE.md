@@ -1,62 +1,59 @@
 # Workshop Quick Reference
 
-Print this short sheet beside the learner's laptop. The presenter shows each action first;
-wait for the current step rather than racing through a long lab. Use fictional information only.
+Keep this short sheet beside you. The presenter shows each step first, so wait for the current
+step instead of racing ahead. Use made-up information only.
 
-| I want to... | Where to go / what to check |
+| I want to... | Where to go |
 | --- | --- |
-| Find the instructions | Open the assigned repository's README, then **Start here**. In Codespaces, open **Explorer > docs > START-HERE.md**. |
-| Read a Markdown guide | Right-click the `.md` file in Explorer and select **Open Preview**. Editing view and readable preview are the same file. |
-| Find a file | **Explorer**, the files icon on the left; click a folder to expand it and a file to open it. |
-| Ask Copilot | **View > Chat**. Start with a question, then describe one small change. |
-| Stop an overbroad request | Select **Stop** in Chat. Inspect what already changed; stopping does not undo it. |
-| Inspect a change | **Source Control**, the branching-lines icon; select the changed file and compare the actual before/after. |
-| Save work | **File > Save**. This updates the working file, not GitHub. |
-| Record a version | Review files, select **+** beside only the intended files, type a short message, then **Commit**. |
-| Send it to GitHub | **Source Control > ... > Push**. Open the same branch on GitHub and confirm the changed file is there. |
-| Start my guided website | In Agent Chat run **`/create-website`** and pick one: Project Planner, Calendar, Ideas Wall, or Weather. It builds straight away. |
-| Change its appearance | Creation asks only which website. Afterwards ask Chat for a light Fresh mint, Sky blue, or Soft coral palette, or any other change. |
-| See my website beside Chat | Creation opens the preview. Later use **`/start-website`** to reopen the saved page without rebuilding it. |
-| See an edit immediately | Ask for one colour or heading change and watch the preview; it updates by itself. |
-| Stop my preview | Use **`/stop-website`**. The panel closes. Files and your entries stay; the Codespace keeps running. |
-| Fix a blank preview | Show a helper the exact message. There is no server or port to fix. |
+| Find today's guide | In the Explorer, open **docs > START-HERE.md** (Day 1) or the guide the presenter names. |
+| Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
+| Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
+| Ask Copilot | **View > Chat**. Start with a question, then ask for one small change. |
+| Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
+| See what changed | **Source Control**, the branching-lines icon. Select a file to compare before and after. |
+| Save | **File > Save**. This keeps the change in the file, not on GitHub yet. |
+| Take a snapshot | In Source Control, select **+** next to the files you checked, type a short message, then **Commit**. |
+| Send it to GitHub | **Source Control > ... > Push**. Then open your repository on GitHub to see it. |
+| Build my first website | In Chat choose **Agent**, then type **`/create-website`** and pick one of the four websites. |
+| Build my own idea | Run **`/create-website`** again and choose your own idea. It gets its own folder under `site/ideas/`. |
+| See my website | **`/start-website`** opens it beside Chat. For an idea, add its folder name: `/start-website team-lunch`. |
+| Close my website | **`/stop-website`**. Your files and entries stay. |
+| Change how it looks | Just ask, for example: "Try a sky blue look. Keep everything else the same." |
+| Paste into the terminal | **Ctrl+V** (Windows) or **Cmd+V** (Mac). Allow clipboard access if the browser asks. |
+| Use Copilot in the terminal (Day 3) | Type `copilot` and press Enter. Type `/exit` to leave. |
+| Something looks broken | Show a helper the exact message. Do not install anything. |
 
 ## One Good Request
 
-"Change **this one thing** for **this audience**. Keep **these things** unchanged.
-Explain the small plan first. I will check it by **this action and expected result**."
+"Change **this one thing** for **this audience**. Keep **these things** unchanged. Explain the
+small plan first. I will check it by **this action and expected result**."
 
-Continue the website you chose: one design improvement, then one feature improvement.
-[Lab 02](../labs/02-copilot-cli/README.md) offers separate ideas for each of the four websites.
-Use normal Chat for changes; do not rerun the creation interview for every edit.
+[Lab 02](../labs/02-copilot-cli/README.md) has ideas for each of the four websites.
 
-## Preview Help
+## Trust, but Verify
 
-The learner needs no terminal. Creation opens the approved page automatically; start and stop
-use the prepared preview panel. A helper can use **Workshop Website: Open Preview** or
-**Close Preview** in the Command Palette, or the **Open Preview** button on an HTML file.
-Do not install or configure tools during the lesson; new Codespaces must be rehearsed beforehand.
-A preview is not a deployment. The page remembers entries in this browser only.
+**Expect -> try -> compare -> improve -> repeat.** Click the button yourself. Try an empty entry.
+Count a number yourself. Check again after a fix. "Copilot says it works" is not a check, and a
+screenshot alone does not prove a button works.
 
-## Trust but Verify
+## Your Finish Each Day
 
-**Expect -> try -> compare -> improve -> repeat.** Click the button yourself. Try empty input.
-Compare a number, unit, and calculation with the supplied source. Repeat the check after a fix.
-"Copilot says it works" is not evidence. A screenshot alone does not prove a button works.
+**Monday:** your first website, made your own and checked, saved on GitHub, and shown to a neighbor.
+**Tuesday:** a first version of your own idea (or a better Monday page), one check, and questions for IT.
+Nothing extra is required on Monday or Tuesday: no database, CLI, MCP, or setup. Publishing is
+optional, with a helper.
+**Wednesday:** one Copilot CLI question, a GitHub tool answer you checked, the presenter's
+browser check compared with your own, your own instructions file and skill, and a chosen idea.
+**Thursday:** a working first version you checked yourself, saved on GitHub, with a three-minute story.
+**Friday:** show what you built or learned in about three minutes.
 
-## Your Finish
+Ask a helper about sign-in, conflicts, permissions, or any command you do not understand. Never
+paste passwords or real work records into Chat. Do not delete accounts or remove training access
+yourself. In pairs, take turns at the keyboard. Before you leave, push your work, then stop your
+Codespace at github.com/codespaces; closing the browser tab does not stop it.
 
-**Monday:** one guided starter, personalised and checked, with work saved on GitHub and shown
-to a neighbour/helper. Only then try an own-idea extension without replacing the first page.
-**Tuesday:** your own prototype or an improved default, one checked journey, and questions for IT.
-No required database, CLI, MCP, public deployment, or storage setup on either beginner day.
-
-Ask for help with sign-in, conflicts, permissions, or unfamiliar commands. Never paste secrets
-or real work records into Chat. Do not delete accounts or remove training access yourself.
-Rotate the driver in pairs; do not edit the same files concurrently. Save and push before stopping
-your Codespace through the Codespaces menu; closing its browser tab does not immediately stop it.
-
-[Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Agenda](AGENDA.md)
+[Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Wednesday](TOOLS-PRACTICE.md) |
+[Thursday building](DAY-4-BUILD.md) | [Friday showcase](DAY-5-SHOWCASE.md) | [Agenda](AGENDA.md)
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),

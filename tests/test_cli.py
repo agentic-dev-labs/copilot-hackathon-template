@@ -26,11 +26,11 @@ def test_cli_stdout_is_json_and_report_is_written(
     assert len(list((tmp_path / "reports").glob("*_2026_10_26.md"))) == 1
 
 
-def test_lab_06_command_preserves_the_agent_report(
+def test_agent_handoff_reference_command_preserves_the_agent_report(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
 ) -> None:
     """Run the documented baseline command and keep its comparison artifact separate."""
-    lab = Path("labs/06-multi-agent/README.md").read_text(encoding="utf-8")
+    lab = Path("post-workshop/advanced/agent-authoring-handoffs.md").read_text(encoding="utf-8")
     command = next(
         line.strip() for line in lab.splitlines()
         if line.strip().startswith("uv run vendor-assurance ")

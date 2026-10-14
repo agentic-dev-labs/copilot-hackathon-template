@@ -122,7 +122,7 @@ and supporting files. Do not overwrite an existing skill or install a whole coll
 Verify discovery in the current client and invoke one harmless task. Skill installation does
 not grant permissions, install every runtime, or provide Microsoft 365 access.
 
-Friday's opening uses this shortlist for discovery; other days offer it only as an extension.
+This shortlist is an optional extension, for example when writing a skill in Lab 06 or planning a later idea.
 The repository's [visual-brief skill](../.github/skills/visual-brief/SKILL.md) is prepared workshop
 guidance, not an Awesome Copilot item. Do not let discovery consume protected building time.
 

@@ -13,7 +13,8 @@ No passwords, tokens, or service credentials belong here.
 
 The current [facilitator guide](../docs/FACILITATOR.md) and [agenda](../docs/AGENDA.md) start with
 concepts, Chat, a shared first website, manual checks, and saved work. Tuesday is supported own-idea
-building after conceptual overviews. Tools and engineering depth belong to Days 3-5; Dataverse
+building after conceptual overviews. Since 14 October, Days 3-5 stay simple: tools on the
+attendee's own website and picking an idea, a build day, and presentations. Dataverse
 setup knowledge is preserved in the attendee-safe [post-workshop reference](../post-workshop/dataverse/README.md).
 That folder is not a copy of these private preparation notes. All attendee work stays in Codespaces.
 The historical run sheet and brief retain prior planning and quotations, not current procedures.
