@@ -46,8 +46,9 @@ All attendee work runs in browser-based Codespaces and its Linux/Bash terminal, 
 Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or desktop VS Code
 is required. On Day 3 the presenter demonstrates browser checks with built-in browser tools;
 attendees install nothing for it. The repository's only MCP server is the read-only GitHub one in
-`.vscode/mcp.json`, with `chat.mcp.autostart` set to `never`; do not add servers attendees cannot
-use. Prepared headless Playwright MCP via private stdio is kept for
+`.vscode/mcp.json`, with `chat.mcp.autostart` set to `never`, MCP discovery from other apps,
+other extensions' chat tools, and agent plugins switched off in `.vscode/settings.json`; do not
+add servers or tools attendees cannot use. Prepared headless Playwright MCP via private stdio is kept for
 an owner-approved environment where Chromium's sandbox starts; never add --no-sandbox. MarkItDown
 is an optional later research tool. Neither installation blocks Monday's core setup.
 Use the prepared server-free Website preview panel for beginner websites. Creation and start

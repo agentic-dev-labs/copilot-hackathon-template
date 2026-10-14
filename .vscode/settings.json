@@ -11,5 +11,14 @@
     ".venv-research": true,
     ".workshop-preview": true
   },
-  "chat.mcp.autostart": "never"
+  "chat.mcp.autostart": "never",
+  "chat.mcp.discovery.enabled": {
+    "claude-desktop": false,
+    "copilot": false,
+    "cursor-global": false,
+    "cursor-workspace": false,
+    "windsurf": false
+  },
+  "chat.extensionTools.enabled": false,
+  "chat.plugins.enabled": false
 }

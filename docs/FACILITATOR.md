@@ -362,9 +362,12 @@ is required; repository access to the prepared Actions identity must already exi
   previewed result. Note how long the session takes so the 12:15 demonstration can start early.
   Check current limits instead of relying on a historical session cap. If attendees will try it on
   Day 4, confirm the **Website change for Copilot** issue template and Copilot assignment in their repositories.
-- In a fresh attendee-style Codespace, confirm no MCP server runs on Day 1, then select **Start** on
-  the `github` server in `.vscode/mcp.json` (`https://api.githubcopilot.com/mcp/readonly`), sign in,
-  and confirm no write tools appear. Attendees get only this server from the repository.
+- In a fresh attendee-style Codespace, confirm no MCP server runs on Day 1 and that the Agent's
+  **Configure Tools** list shows no Python, pull-request, Pylance, Azure, or plugin tools. Then
+  select **Start** on the `github` server in `.vscode/mcp.json`
+  (`https://api.githubcopilot.com/mcp/readonly`), sign in, and confirm no write tools appear.
+  Attendees get only this server from the repository. If an enterprise-managed plugin or tool still
+  appears, an organization policy is overriding the workspace settings; check it with the owner.
 - Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools,
   from VS Code Desktop connected to the presenter's Codespace (the integrated browser is a desktop
   feature): open a page, read its title, add an item, and report the count. Disable personal MCP

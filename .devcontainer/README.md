@@ -13,6 +13,11 @@ use the configuration committed and pushed to the selected branch.
 All attendee tools run inside this Linux container. The repository ships its own MCP tool list:
 `.vscode/mcp.json` holds only the read-only GitHub server for Lab 04, and `.vscode/settings.json`
 sets `chat.mcp.autostart` to `never`, so no tool server starts until a learner selects **Start**.
+The same settings turn off MCP discovery from other apps (`chat.mcp.discovery.enabled`), chat tools
+from other extensions such as Python and Pull Requests (`chat.extensionTools.enabled`), and agent
+plugins (`chat.plugins.enabled`); this file's settings turn off organization custom agents.
+Copilot Chat's own built-in tools are unaffected. Pylance's MCP server never starts by itself.
+An exact server allowlist is enterprise policy only (`allowedMcpServers`), not a repository setting.
 The Azure Container Apps extension was removed from the editor extensions on 14 October 2026: it
 brought an Azure MCP server and Azure sign-in prompts that attendees cannot use. Facilitators who
 need it can install it in their own Codespace. Creation installs **uv and Copilot CLI**

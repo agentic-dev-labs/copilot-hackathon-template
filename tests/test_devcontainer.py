@@ -291,8 +291,16 @@ def test_repository_ships_only_the_read_only_github_mcp_server(tmp_path: Path) -
     assert "/.vscode/mcp.json" not in Path(".gitignore").read_text(encoding="utf-8").splitlines()
     settings = json.loads(Path(".vscode/settings.json").read_text(encoding="utf-8"))
     assert settings["chat.mcp.autostart"] == "never"
+    # No servers pulled in from other apps' configurations, including Copilot CLI's default.
+    discovery = settings["chat.mcp.discovery.enabled"]
+    assert set(discovery) == {"claude-desktop", "copilot", "cursor-global", "cursor-workspace", "windsurf"}
+    assert not any(discovery.values())
+    # Other extensions' chat tools and agent plugins stay out; Copilot's built-in tools remain.
+    assert settings["chat.extensionTools.enabled"] is False
+    assert settings["chat.plugins.enabled"] is False
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
     assert not any("azure" in name.lower() for name in config["customizations"]["vscode"]["extensions"])
+    assert config["customizations"]["vscode"]["settings"]["github.copilot.chat.organizationCustomAgents.enabled"] is False
     # A later, owner-approved Playwright setup adds to this list without dropping GitHub.
     target = tmp_path / "mcp.json"
     target.write_text(Path(".vscode/mcp.json").read_text(encoding="utf-8"), encoding="utf-8")

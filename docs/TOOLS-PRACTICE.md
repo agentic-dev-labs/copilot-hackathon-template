@@ -92,11 +92,15 @@ and your work is visible on GitHub. Tomorrow, follow the [build day guide](DAY-4
 
 - Before Day 3, confirm the training accounts may use Copilot CLI, the remote GitHub MCP server,
   and the cloud agent. Check one attendee sign-in path privately. Installed is not signed in.
-- **This repository has its own tool list.** `.vscode/mcp.json` contains only the read-only
-  GitHub server, and `chat.mcp.autostart` is `never` in `.vscode/settings.json`, so no tool server
-  starts until an attendee selects **Start** in Lab 04. Attendees never see your personal tools.
-  On your own screen, hide them for the room: run **MCP: List Servers**, pick each personal server,
-  and choose **Disable** for this workspace.
+- **This repository keeps attendees' Copilot to its own tools.** `.vscode/mcp.json` lists only the
+  read-only GitHub server. `.vscode/settings.json` sets `chat.mcp.autostart` to `never` (nothing
+  starts until an attendee selects **Start** in Lab 04), switches off `chat.mcp.discovery.enabled`
+  for every other app (Copilot CLI, Claude, Cursor, Windsurf), and sets `chat.extensionTools.enabled`
+  and `chat.plugins.enabled` to `false`, which hides other extensions' chat tools and any agent
+  plugin. The devcontainer turns off organization custom agents. VS Code has no repository setting
+  that allows only named servers; that allowlist is enterprise policy (`allowedMcpServers` in Copilot
+  managed settings). Personal servers in your own VS Code profile are not affected, so before you
+  present, run **MCP: List Servers**, pick each personal server, and choose **Disable** for this workspace.
 - **Decision, 14 October 2026: the browser check in Lab 04 is a presenter demonstration.**
   Attendees install nothing for it. VS Code's integrated browser and its browser tools are a VS
   Code Desktop feature, so open your Codespace in VS Code Desktop for this demo, keep
