@@ -528,7 +528,7 @@ def test_days_three_to_five_stay_simple_for_first_time_users() -> None:
 
 
 def test_day_three_labs_use_simple_reviewed_tools() -> None:
-    """MCP is read-only, the browser check uses the learner's page, and skills are learner-written."""
+    """MCP is read-only, the browser check uses the learner's page, and the picture skill is learner-written."""
     mcp = Path("labs/04-mcp/README.md").read_text(encoding="utf-8")
     assert "https://api.githubcopilot.com/mcp/readonly" in mcp
     assert "open the **.vscode** folder and select **mcp.json**" in mcp and "Select **Start**" in mcp
@@ -536,9 +536,10 @@ def test_day_three_labs_use_simple_reviewed_tools() -> None:
     assert "setup.sh browser" not in mcp and "uvicorn" not in mcp and "Playwright" not in mcp
     customization = Path("labs/06-multi-agent/README.md").read_text(encoding="utf-8")
     assert ".github/instructions/my-website.instructions.md" in customization
-    assert ".github/skills/check-my-page/SKILL.md" in customization
-    assert "without my answer" in customization
-    assert "/check-my-page site/ideas/team-lunch/index.html" in customization
+    assert ".github/skills/make-image/SKILL.md" in customization
+    assert "python3 scripts/workshop_ai.py image" in customization and "no real people" in customization
+    assert "`/add-chat`" in customization and "it can be wrong, so you check" in customization
+    assert Path(".github/skills/add-chat/SKILL.md").is_file(), "the chat skill is prepared; the picture skill is not"
     cloud = " ".join(Path("labs/03-cloud-agent/README.md").read_text(encoding="utf-8").split())
     assert "## Optional Try on Day 4" in cloud and "Website change for Copilot" in cloud
     assert "Nothing changes until you merge" in cloud

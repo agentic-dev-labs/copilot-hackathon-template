@@ -41,14 +41,18 @@ purple with giant text." Look at the preview. Then, in Chat, select **Undo** for
 Copilot shows **Keep** and **Undo** after each change it makes, and **Undo** puts your files back
 the way they were. Your page returns to normal. Now you know you can always go back.
 
-**Optional wow: show Copilot a picture.** Here is a quick sketch of a page:
+**Two optional wows, if you have time:**
+
+- **Let Copilot draw a picture.** Ask: "Draw a friendly rocket for the top of my page, in my
+  colors." It appears in a few seconds. Not right? Ask again, or select **Undo**. Made-up
+  pictures only: no real people, logos, or company names.
+- **Show Copilot a sketch.** Drag **docs > images > sketch-example.png** from the Explorer into the
+  chat box and ask: "Make my page look more like this sketch. Keep all my entries and features."
 
 ![A hand-drawn page sketch: a wide header with a sun doodle, a big centered title, a short welcome line, and a small "3 of 5 done" badge; three rounded cards with an orange stripe on top; a big round + button at the bottom right. Orange notes say warm sunset colors, rounded cards with lots of space, and big round + button.](../../docs/images/sketch-example.png)
 
-Drag **docs > images > sketch-example.png** from the Explorer into the chat box, then ask: "Make
-my page look more like this sketch. Keep all my entries and features." Watch Copilot turn a
-drawing into a design. If Copilot says it cannot see pictures, skip this. You can also use a
-photo or screenshot of your own sketch, but never a picture with real work information in it.
+If Copilot says it cannot see pictures, skip the sketch. A photo of your own sketch works too,
+but never a picture with real work information in it.
 
 ### 3. Add One Feature (15 minutes)
 

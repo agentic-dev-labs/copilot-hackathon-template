@@ -55,7 +55,8 @@
       },
       "optional_checks": {
         "storage": "If selected, add/reload/present/remove/reload observed in one browser; corrupt or unavailable storage handled without clearing other apps' data",
-        "sketch": "Optional: docs/images/sketch-example.png attached to Chat and the page restyled toward it with entries and features kept; a model without image input recorded as blocked, not passed"
+        "sketch": "Optional: docs/images/sketch-example.png attached to Chat and the page restyled toward it with entries and features kept; a model without image input recorded as blocked, not passed",
+        "ai-picture": "Optional: a picture drawn by the workshop helper was placed in the page from a plain Chat request; a Codespace without the secrets recorded as blocked, not passed"
       }
     },
     {
@@ -79,7 +80,8 @@
         "endpoint": "Website-target artifact and fresh responses match the exact commit, label, entry-page bytes, and site fingerprint; no vendor-app substitution",
         "deployed-behaviour": "Chosen interaction verified at the actual new deployment URL, not just the health endpoint",
         "deployed-storage": "Only if storage was selected, its journey repeated at the deployment origin without assuming preview state transfers",
-        "challenge": "A bronze, silver, or gold challenge-card level completed and checked by the learner"
+        "challenge": "A bronze, silver, or gold challenge-card level completed and checked by the learner",
+        "add-chat": "Optional bonus: /add-chat added the Ask bubble and one answer was checked against the page"
       }
     },
     {
@@ -134,16 +136,21 @@
     },
     {
       "id": "06",
-      "title": "Teach Copilot: an instructions file and a small skill",
+      "title": "Teach Copilot: an instructions file, a picture skill, and a chat",
       "guide": "labs/06-multi-agent/README.md",
       "tests": [
-        "tests/test_lab_contracts.py"
+        "tests/test_lab_contracts.py",
+        "tests/test_workshop_ai.py",
+        "tests/test_devcontainer.py"
       ],
       "checks": {
         "instructions": "Learner-authored .github/instructions file applied to site/ was used and one of its rules was observably followed",
-        "skill-discovery": "Learner-authored check-my-page skill discovered and actually invoked by its slash command",
-        "honest-checks": "The skill waited for each answer and recorded only the learner's real results; nothing marked passed without an answer",
-        "commit": "Both customization files reviewed, committed, and pushed"
+        "picture-skill": "Learner-authored make-image skill discovered by its slash command; it ran scripts/workshop_ai.py with the workshop identity, saved a picture under site/art/, and the page showed it",
+        "chat": "Ready-made /add-chat added the Ask bubble; one answer from the Website preview was checked against the page",
+        "commit": "The learner's customization files and page changes reviewed, committed, and pushed"
+      },
+      "optional_checks": {
+        "edit-image": "Optional edit-image skill saved an edited copy beside the original picture"
       }
     },
     {

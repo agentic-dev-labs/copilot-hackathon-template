@@ -2,6 +2,7 @@ const fs = require('node:fs')
 const net = require('node:net')
 const path = require('node:path')
 const { PreviewController, resolveEntry } = require('./controller.cjs')
+const { createAssistant, createChatHandler } = require('./assistant.cjs')
 
 const VIEW_TYPE = 'workshopSite'
 const ENTRY_KEY = 'workshopSite.entry'
@@ -9,6 +10,12 @@ const ENTRY_KEY = 'workshopSite.entry'
 const ALLOWED_APIS = ['https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com']
 const controllers = new Map()
 const sockets = []
+let chatHandler
+// The "Ask my page" bubble posts questions here; answers come from the workshop's chat model.
+const answerQuestion = message => {
+  chatHandler = chatHandler || createChatHandler(createAssistant())
+  return chatHandler(message)
+}
 
 function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, character => `&#${character.charCodeAt(0)};`)
@@ -51,6 +58,10 @@ function createPreview(vscode, context, workspace, target, restoredPanel) {
     watcher, watcher.onDidChange(refresh), watcher.onDidCreate(refresh), watcher.onDidDelete(refresh),
     vscode.workspace.onDidChangeTextDocument(event => { if (event.document.uri.fsPath === current.file) refresh() }),
     vscode.workspace.onDidSaveTextDocument(document => { if (insideSite(document.uri)) refresh() }),
+    panel.webview.onDidReceiveMessage(async message => {
+      const reply = await answerQuestion(message)
+      if (reply && !disposed) panel.webview.postMessage(reply)
+    }),
   ]
   panel.onDidDispose(() => {
     disposed = true

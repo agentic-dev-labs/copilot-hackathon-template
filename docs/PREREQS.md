@@ -30,6 +30,10 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
       Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
 - [ ] Rehearse `/create-website` in Agent Chat: it asks only which of the four websites, then builds the tested blueprint, names it after the repository, and opens the preview. Check the starter's manual check yourself.
 - [ ] Verify the Website preview helper in a fresh Codespace: creation opens the panel beside Chat, edits appear by themselves, added entries survive an edit, stop closes the panel, and start reopens it. Copilot CLI sign-in stays separate before Day 3.
+- [ ] Switch on [AI pictures and chat](FACILITATOR.md#ai-pictures-and-chat): the four `FOUNDRY_*`
+      organization Codespaces secrets reach private repositories. In a fresh attendee Codespace,
+      `python3 scripts/workshop_ai.py status` reports `"ok": true`, one picture appears, and
+      **Ask** answers once. Attendees never see a key or sign in to Azure.
 - [ ] Assign repositories, working branches, and unique labels in `config.json` before class.
       Confirm review rules and the first UI-based save/commit/push without bypassing protections.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
@@ -74,8 +78,9 @@ hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md).
       that no write tools appear.
 - [ ] Enable the cloud agent for the presenter's demonstration repository and rehearse one
       issue-to-merged-change run. Enable it for attendee repositories only if the optional Day 4 try is offered.
-- [ ] Rehearse Lab 06: an instructions file applied to `site/` and a small learner-written skill
-      discovered through its slash command.
+- [ ] Rehearse Lab 06 in an attendee-like private copy: an instructions file applied to `site/`,
+      a learner-written `/make-image` skill that puts a picture on the page, and `/add-chat` with
+      one answer checked against the page.
 - [ ] Agree Friday's room logistics: screen sharing, a timer, the running order, and the host.
 - [ ] Keep all work in Codespaces; corporate handover is planning, not a local-workstation exercise.
 

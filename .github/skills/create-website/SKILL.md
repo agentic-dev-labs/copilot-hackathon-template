@@ -175,9 +175,21 @@ keep everything else, and never restart this interview. See [Start Website](../s
   need, usually `background`, and restate the combination you just broke, such as
   `.day.is-holiday.is-over { background: var(--accent-soft); }`. Then drag an entry onto one of
   those days in the preview and confirm both still show.
+- **Pictures** (a request like "draw a picture for my header" or "make the top picture a rocket"):
+  run `python3 scripts/workshop_ai.py image "<the learner's own words>" --name <short-name>`. It
+  saves a JPEG or PNG under `site/art/` in a few seconds and prints one JSON line with its `path`.
+  Put it in the page with a relative path (`art/header.jpg`, or `../../art/header.jpg` from a
+  page in `site/ideas/<name>/`), usually by replacing the `.hero-art` image, with a short `alt`.
+  To change a picture, `python3 scripts/workshop_ai.py edit site/art/header.jpg "<change>"` saves
+  a new file beside the old one, so going back is easy. The picture is made once and saved as a
+  file, so the page stays static. If the helper says pictures are not switched on, say so and
+  carry on without one. Never add an image API, key, or remote image address to the page.
+- **A chat bubble** is added by [Add Chat](../add-chat/SKILL.md) (`/add-chat`), not by hand.
 - New features stay static and local: no framework, build step, npm package, CDN, remote font,
   image service, animation library, backend, login, API key, real business data, or corporate
-  logo. No logo-generation API or paid reference service. No deployment or public port.
+  logo. No logo-generation API or paid reference service. No deployment or public port. The
+  owner-approved exceptions are pictures saved by the workshop helper and the `/add-chat` bubble,
+  which asks through the Website preview.
 - The preview allows only the page's own files plus Open-Meteo, which the owner approved for
   the Weather page. Other internet APIs do not load; record such wishes as questions for IT.
   Open-Meteo's free tier is for non-commercial use. Keep learner-written files below 100 KiB,

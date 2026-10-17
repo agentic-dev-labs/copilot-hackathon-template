@@ -19,4 +19,10 @@ NN-NA-Hackathon-2026-10-Engagement-Brief.md
 *.private.md
 .env
 .env.*
+*.env
 !.env.example
+*.vsix
+# Facilitator preparation notes stay in the owner's Codespace; they are not part of the template.
+/.facilitator/
+# site/ is deliberately NOT ignored: attendees save and push their website there.
+# The template itself keeps only site/README.md; CI checks that on the template repository.

@@ -88,13 +88,13 @@ tested handover. The workshop remains Codespaces-only; there is no account-delet
 | 09:00-09:45 | Copilot in the terminal (CLI): watch, then ask one question about your own website                                |
 | 09:45-10:30 | Lab 04: Copilot uses tools (MCP): read your GitHub history, then watch Copilot check a page in a browser           |
 | 10:30-10:45 | Break                                                                                                             |
-| 10:45-11:30 | Lab 06: Teach Copilot about your project with one instructions file and one small skill                           |
+| 10:45-11:30 | Lab 06: Teach Copilot about your project: one instructions file, your own picture skill, and a chat bubble        |
 | 11:30-12:15 | Pick your idea: continue Tuesday's or start a new one; write a short brief and begin                              |
 | 12:15-12:30 | Lab 03: Watch the cloud agent take a task from an issue (demonstration), then tomorrow's plan                     |
 
 **Finish:** one CLI question about your own page, a GitHub answer you checked yourself, the
-presenter's browser check compared with your own, your own instructions file and skill, and a
-chosen idea with a short brief. Attendees install nothing on Day 3. Follow the
+presenter's browser check compared with your own, your own instructions file and `/make-image`
+skill, a chat on your page with one answer checked, and a chosen idea with a short brief. Attendees install nothing on Day 3. Follow the
 [Day 3 guide](TOOLS-PRACTICE.md). Everything works on the website you already built; no new app
 or database is needed.
 

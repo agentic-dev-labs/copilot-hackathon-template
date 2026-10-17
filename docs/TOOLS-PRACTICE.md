@@ -14,7 +14,7 @@ the Project Planner. A helper can get you started while the room continues.
 | ----------- | ------------------------------------------------- | --------------------------------------------------------------------------- |
 | 09:00-09:45 | [Copilot in the terminal](#copilot-in-the-terminal) | You asked Copilot CLI about your website and saw one change appear.        |
 | 09:45-10:30 | [Lab 04](../labs/04-mcp/README.md)                | Copilot read your GitHub history, and you compared a browser check.         |
-| 10:45-11:30 | [Lab 06](../labs/06-multi-agent/README.md)        | Copilot followed your instructions file and your own skill ran.             |
+| 10:45-11:30 | [Lab 06](../labs/06-multi-agent/README.md)        | Your rules work, your own `/make-image` skill drew a picture, and your page has a chat. |
 | 11:30-12:15 | [Pick your idea](#pick-your-idea)                 | Your idea has a short brief, a first step, and is saved on GitHub.          |
 | 12:15-12:30 | [Lab 03](../labs/03-cloud-agent/README.md)        | You watched the cloud agent turn an issue into a pull request.              |
 

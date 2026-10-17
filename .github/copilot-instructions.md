@@ -44,6 +44,11 @@
   authoring or installation prerequisites. localStorage and public deployment are optional, not
   completion gates. Finish/check/save/show the starter before an own-idea extension; preserve the
   first site in place. Use neutral styling, not real corporate branding or paid image services.
+- Owner-approved AI exception (17 October 2026): to draw or change a picture for a learner's page,
+  run `python3 scripts/workshop_ai.py image "<words>" --name <name>` or `edit <picture> "<change>"`;
+  it saves files under site/ with the workshop identity (Entra ID, FOUNDRY_* Codespaces secrets).
+  `/add-chat` adds an "Ask my page" bubble answered through the Website preview. Never use API keys
+  or put credentials in files; pictures stay fictional, with no real people, logos, or text.
 - Lab 08's core is reviewed, pushed work; optional publication uses the learner's `site/` target.
   Day 2 follows docs/DAY-2-BUILD.md: own ideas with fictional app-local content, no required
   database, CLI, MCP, or deployment. docs/QUICK-REFERENCE.md supports live demonstrations.

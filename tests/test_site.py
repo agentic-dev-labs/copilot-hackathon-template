@@ -113,6 +113,20 @@ def board_columns(page: Path) -> list[str]:
     return [name.strip().strip("'") for name in inline.group(1).split(",")]
 
 
+def test_chat_bubble_is_optional_safe_and_holds_no_secret() -> None:
+    """The chat kit file talks only to the preview; it never calls a service or renders HTML."""
+    chat = (KIT.parent / "workshop-chat.js").read_text(encoding="utf-8")
+    assert "innerHTML" not in chat and "eval(" not in chat and not re.search(r"https?://", chat)
+    assert "fetch(" not in chat and "XMLHttpRequest" not in chat
+    assert "acquireVsCodeApi()" in chat and chat.count("acquireVsCodeApi()") == 1
+    assert "'workshop.ask'" in chat and "'workshop.answer'" in chat
+    assert "switched off" in chat
+    assert "window.Workshop = Object.assign(window.Workshop || {}, { addChat })" in chat
+    for category in ("project", "calendar", "ideas", "weather"):
+        page = (PROJECT_BLUEPRINT.parent / category / "index.html").read_text(encoding="utf-8")
+        assert "workshop-chat.js" not in page, "chat is added on request, not shipped in every starter"
+
+
 def test_board_columns_come_from_the_page_not_older_browser_storage() -> None:
     """A requested column change must reach a learner who already has saved cards."""
     kit = KIT.read_text(encoding="utf-8")

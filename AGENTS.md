@@ -56,10 +56,12 @@ open it beside Chat automatically; stop closes it. It needs no server, port, or 
 Laptop localhost is not Codespace localhost. Copilot CLI is installed on creation,
 but sign-in and teaching remain separate. Keep service
 credentials and other private notes out of commits.
-The owner approved temporary versioning of the two existing preparation documents under
-`.facilitator/` on 2026-09-09. This is a limited exception for those documents, not permission
-to add real data to examples or tests. Keep that folder out of Docker build contexts and follow
-its README cleanup reminder. A green offline suite is not a live Codespaces or Dataverse dry run.
+Facilitator preparation notes live only in the git-ignored `.facilitator/` folder: they were
+untracked on 17 October 2026, as its README reminder required, and earlier commits still contain
+them. Keep that folder out of commits and Docker build contexts. The template is a starting
+point, not the solution: it ships an empty `site/` (README only) and no learner-made skills or
+instructions; CI checks this on the template repository. A green offline suite is not a live
+Codespaces or Dataverse dry run.
 
 ## Maintaining workshop content
 
@@ -81,7 +83,11 @@ pages, or adding an external service. The owner approved one exception: the Weat
 calls Open-Meteo, and the preview allows only that host. Fast finishers build an own idea from
 one sentence in `site/ideas/<name>/`; slower learners move on to the next lab.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate
-branding, diagram tools, or paid image service belongs in the beginner builder. Complete the
+branding, diagram tools, or paid image service belongs in the beginner builder. The owner approved
+one AI exception on 17 October 2026: `scripts/workshop_ai.py` draws or edits pictures and saves them
+as files under `site/`, and `/add-chat` adds a bubble the Website preview answers with the workshop
+chat model. Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY_*,
+private repositories only). Never use or add API keys, and never put credentials in files. Complete the
 starter's checks, saving, and neighbour/helper demonstration before a separate own-idea extension.
 
 Lab 08's core is reviewed, pushed work. Its optional website target publishes only `site/`.

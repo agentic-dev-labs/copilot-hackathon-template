@@ -26,8 +26,9 @@ Use the loop you already know: **ask for one change -> watch the preview -> chec
 - Your idea's page lives in its own folder under `site/ideas/`. Type `/start-website` and your
   folder's name, for example `/start-website team-lunch`, to open it beside Chat.
 - Use whichever tool helps: Chat, Copilot CLI in the terminal, the GitHub tools from
-  [Lab 04](../labs/04-mcp/README.md), and your instructions file and `/check-my-page` skill from
-  [Lab 06](../labs/06-multi-agent/README.md).
+  [Lab 04](../labs/04-mcp/README.md), and your instructions file, `/make-image` skill, and
+  `/add-chat` from [Lab 06](../labs/06-multi-agent/README.md). A picture of your own or an
+  "Ask my page" chat makes a great thing to show tomorrow.
 - When something is wrong, say: "I expected [result]. I actually saw [result]. Fix only that."
   If Copilot changes more than you asked, select **Stop** and ask a helper.
 - Save a checkpoint about every 30-45 minutes: save, review, commit, and push.
@@ -44,8 +45,8 @@ you. If you are stuck for more than ten minutes at any time, raise your hand.
 
 ## Check It Yourself (11:45-12:15)
 
-1. Run `/check-my-page` with your page's path, such as `/check-my-page site/ideas/team-lunch/index.html`,
-   or do the check written in your brief by hand.
+1. Do the check written in your brief by hand. If your page has a chat, ask it one question and
+   compare the answer with the page.
 2. Try an empty input, the keyboard (Tab and Enter), and a narrow window. For a skill, run it on
    three made-up examples, including one with missing information, and check it does not guess.
 3. Write what actually happened in your brief, including anything that does not work yet.

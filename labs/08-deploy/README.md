@@ -43,6 +43,7 @@ Pick one level, ask Copilot, and check the result yourself:
 | **Bronze** | Ask for one idea from the "later ideas" list in your brief.                                                        |
 | **Silver** | Make your page phone-friendly: drag the preview narrower, tell Copilot what looks wrong, and check again.          |
 | **Gold**   | Build your own idea: run `/create-website`, choose your own idea, and describe it in one sentence. It gets its own folder. |
+| **Bonus**  | Type `/add-chat`. An **Ask** button appears on your page: ask it a question, then check the answer against your page. |
 
 Done, and time left? Take the next level. Then save, commit, and push again.
 

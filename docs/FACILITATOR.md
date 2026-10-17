@@ -196,6 +196,45 @@ administration do not add prerequisites to Monday. Use the
 4. Provision the shared Azure resources once: resource group, Container Apps environment, and container registry. See [PREREQS.md](PREREQS.md) for the provisioned names.
 5. Configure Actions and Codespaces service access separately as listed in [PREREQS.md](PREREQS.md).
    `scripts/create_attendee_repos.py` creates repositories and team grants, not credentials.
+6. Switch on [AI pictures and chat](#ai-pictures-and-chat) before Monday's Lab 02.
+
+## AI pictures and chat
+
+Lab 02's optional picture, the `/make-image` skill attendees write in Lab 06, and the prepared
+`/add-chat` skill use the facilitator's Microsoft Foundry resource through one **workshop
+identity**: an Entra ID app registration with only the **Cognitive Services OpenAI User** role on
+that resource. It can draw and chat, but cannot read keys or change anything. No API key is used.
+
+1. Store four **organization Codespaces secrets** with access for private repositories:
+   `FOUNDRY_TENANT_ID`, `FOUNDRY_CLIENT_ID`, `FOUNDRY_CLIENT_SECRET`, and `FOUNDRY_RESOURCE` (the
+   resource name only). Attendee repositories are private, so their Codespaces receive them. The
+   public template does not: add the same four as your own personal Codespaces secrets for it.
+2. Secrets arrive when a Codespace starts, so stop and restart it after any change. The restart
+   also installs a newer Website preview; a window that is already open needs one
+   **Developer: Reload Window** for that.
+3. In the terminal, `python3 scripts/workshop_ai.py status` reports `"ok": true`. Then add
+   `/add-chat` to a practice page and get one answer from **Ask**.
+
+For a picture, Copilot runs `scripts/workshop_ai.py`, which signs in as the workshop identity,
+draws with the first model that has capacity, and saves the file under `site/`. For the chat, the
+page's **Ask** button hands the question and the page's visible text to the Website preview,
+which asks the chat model and shows the answer. The page holds no credential and makes no network
+call, and a published copy says the chat is switched off. Page text is treated as data, not
+instructions, and attendees still check every answer.
+
+Capacity tested on 17 October 2026 for about 45 people:
+
+| Feature          | Models, in order                                            | Speed                                          |
+| ---------------- | ----------------------------------------------------------- | ---------------------------------------------- |
+| New picture      | FLUX-1.1-pro and FLUX.1-Kontext-pro, then gpt-image backups | 2-4 seconds; about 60 a minute before backups  |
+| Change a picture | FLUX.1-Kontext-pro, then gpt-image-1.5                      | A few seconds                                  |
+| Ask my page      | gpt-5.6-luna, then gpt-5.5                                  | 1-2 seconds; 20 questions a minute per page    |
+
+When everyone draws at once, the helper retries once and then says "busy": wait a minute.
+Content filters block unsuitable requests with a plain message.
+
+After the workshop, and before the client secret expires on 1 November 2026, delete the four
+organization secrets, your personal copies, and the app registration.
 
 ## Governance repository
 
@@ -295,13 +334,14 @@ Repository secrets are **not** copied from a template. The script creates privat
 and grants the configured attendee team write access. It first inspects the selected template
 and stops if facilitator preparation files are present or the inspection fails.
 
-The current source temporarily tracks `.facilitator/`. Its disclosure approval applies only
-to this repository, so the owner must prepare an approved template snapshot excluding that
-folder before making attendee copies. Do not copy the notes and remove them afterward.
-Pass the approved template's actual `owner/repository` to `--template`:
+The template no longer tracks `.facilitator/`: the notes stay in the owner's Codespace and are
+git-ignored, though earlier commits still contain them. The template also ships no finished
+website or learner-made skills, so every attendee starts from the same empty `site/`. CI fails
+on the template repository if learner work is committed there. The script's own check confirms
+the template is clean before it copies anything:
 
 ```shell
-python scripts/create_attendee_repos.py nn-na-2026-10-team-01 nn-na-2026-10-team-02 --template OWNER/APPROVED-TEMPLATE
+python scripts/create_attendee_repos.py nn-na-2026-10-team-01 nn-na-2026-10-team-02
 ```
 
 Re-running reuses existing repositories and reapplies the team grant. It does not create
@@ -383,8 +423,10 @@ is required; repository access to the prepared Actions identity must already exi
   Attendees run no browser setup. Playwright MCP stays for a later owner-approved environment,
   because Chromium's sandbox could not start in a default Codespace on 14 October 2026; see the
   [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation).
-- Run Lab 06: an instructions file under `.github/instructions/` applied to `site/`, and a
-  `check-my-page` skill that is discovered, waits for answers, and records only real results.
+- Run Lab 06 in a private copy that receives the FOUNDRY_* secrets: an instructions file under
+  `.github/instructions/` applied to `site/`, a learner-written `make-image` skill that runs
+  `scripts/workshop_ai.py` and puts the picture in the page, and the ready-made `/add-chat` with one
+  answer checked against the page. See [AI pictures and chat](#ai-pictures-and-chat).
 - Rehearse Tuesday's own-idea brief, bounded prototype, manual journey, save/push, and handover
   questions using fictional app-local content. Do not substitute a database exercise or tool call.
   Confirm `/create-website` offers the own-idea route when a page already exists.

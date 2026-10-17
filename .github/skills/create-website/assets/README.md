@@ -11,6 +11,7 @@ stylesheet, or corporate font is included. The skill copies the chosen blueprint
 | --- | --- | --- |
 | [css/workshop.css](css/workshop.css) | `site/css/workshop.css` | Themes, header, board, cards, calendar, sticky notes, weather, tabs, progress, toast, motion |
 | [js/workshop.js](js/workshop.js) | `site/js/workshop.js` | `store`, `getJSON`, `loadJSON`, `useColumns`, safe `el`, `addButton`, `enableBoard`, `toast`, `flash`, `newId` |
+| [js/workshop-chat.js](js/workshop-chat.js) | `site/js/workshop-chat.js`, only when `/add-chat` runs | `Workshop.addChat()`: an "Ask my page" bubble that asks the Website preview, never the network |
 | [art/](art/) | `site/art/` | Original animated SVGs: four header illustrations and one icon per weekday |
 | `blueprints/<category>/index.html` | `site/index.html` | Tested self-contained page for the chosen category |
 | `blueprints/<category>/data/*.json` | `site/data/*.json` | Fictional sample entries; the page's pretend API |
@@ -18,7 +19,7 @@ stylesheet, or corporate font is included. The skill copies the chosen blueprint
 | [fonts/OFL.txt](fonts/OFL.txt) | `site/FONT-LICENSE.md` | Retained font license; Markdown is not published by the static app |
 | [starters.json](starters.json) | Summaries, checks, and idea menus | The category list, manual checks, per-category `later_ideas`, and the shared `any_page_ideas` offered at hand-over |
 
-Neither the CSS, the script, nor the art makes external requests. The only internet access is
+Neither the CSS, the scripts, nor the art makes external requests; the chat bubble only posts questions to the Website preview. The only internet access is
 the Weather blueprint's calls to Open-Meteo, which the owner approved; its free tier is for
 non-commercial use, and the page falls back to local sample weather when blocked. All palettes
 are light: Fresh mint (`green`, default), Sky blue (`blue`), or Soft coral (`coral`) via the

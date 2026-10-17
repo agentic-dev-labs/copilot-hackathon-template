@@ -153,8 +153,10 @@ local-network prerequisites, and never disable enforced boundaries to force a su
    owner-approved environment where Chromium's sandbox starts; never add `--no-sandbox`.
 3. [Lab 06](../../labs/06-multi-agent/README.md): author an instructions file under
    `.github/instructions/` applied to `site/` and observe one of its rules being followed. Author
-   the `check-my-page` skill, confirm discovery through its slash command, and verify it waits for
-   each answer and records only real results. Commit both files. Do not ship them in the template.
+   the `make-image` skill, confirm discovery through its slash command, and verify it runs
+   `scripts/workshop_ai.py`, saves a picture under `site/art/`, and shows it in the page. Run the
+   ready-made `/add-chat` and check one answer against the page. Commit the learner files. Do not
+   ship them in the template. Missing FOUNDRY_* secrets are a recorded blocker, never an API key.
 4. Complete the "pick your idea" block: a brief with a self-check, a first step, and pushed work.
 5. [Lab 03](../../labs/03-cloud-agent/README.md): create one small website issue with the
    **Website change for Copilot** template, assign it to the real cloud agent, inspect its session

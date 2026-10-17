@@ -3,7 +3,8 @@
 **No coding. Nothing to install. Just your web browser and your ideas.**
 
 In this five-day workshop you tell GitHub Copilot, an AI helper, what you want in plain words,
-and it builds it with you. By Friday you will have made something of your own, checked that it
+and it builds it with you. You will even draw your own pictures with AI and give your website a
+chat assistant that answers questions about it. By Friday you will have made something of your own, checked that it
 really works, and shown it to the room. You have never used GitHub or written code? Perfect.
 This workshop was made for you.
 
@@ -16,7 +17,7 @@ days, and Wednesday to Friday are mornings. Your calendar invitation has the exa
 | ------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
 | **Monday**    | Meet GitHub and Copilot, build your first website just by asking, and peek at its code | A working website you made your own and checked |
 | **Tuesday**   | Hear how business and IT work together, then build your own idea with help    | The first version of your own idea                  |
-| **Wednesday** | Learn a few more Copilot tricks, then pick the idea you will build            | Your own Copilot rules, a small skill, and a plan   |
+| **Wednesday** | Learn a few more Copilot tricks, then pick the idea you will build            | Your own picture skill, a chat on your page, and a plan |
 | **Thursday**  | Build day, with helpers at every table                                        | Something that works, ready to show                 |
 | **Friday**    | Show what you built or learned, in about three minutes                        | Your story, and ideas for what to try next          |
 

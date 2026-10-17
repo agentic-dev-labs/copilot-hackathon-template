@@ -50,6 +50,13 @@ The skill opens the panel beside Chat automatically. `/start-website` reopens it
 panel's browser storage and survive edits. HTML files under `site/` also show an
 **Open Preview** button in the editor title bar.
 
+**Ask my page.** `/add-chat` adds `Workshop.addChat` to a page. Its **Ask** button posts the
+question and the page's visible text to this panel through the webview message channel. The
+panel signs in as the workshop identity from the `FOUNDRY_*` Codespaces secrets and asks the chat
+model, one question at a time and at most 20 a minute. The page never holds a credential, and its
+own network rules are unchanged. Without the secrets it answers that it is not switched on. See
+[AI pictures and chat](../docs/FACILITATOR.md#ai-pictures-and-chat).
+
 For facilitator diagnosis only:
 
 ```bash

@@ -24,6 +24,9 @@ step instead of racing ahead. Use made-up information only.
 | Close my website | **`/stop-website`**. Your files and entries stay. |
 | Change how it looks | Just ask, for example: "Try a sky blue look. Keep everything else the same." |
 | Show Copilot a picture | Drag the picture from the Explorer into the chat box, then ask, for example: "Make my page look like this sketch." |
+| Draw a picture for my page | Ask: "Draw a picture for my header: a friendly rocket, in my colors." It appears in a few seconds. |
+| Change a picture | Ask: "Change my header picture: make it a night scene." The old picture stays, so you can go back. |
+| Add a chat to my page | Type **`/add-chat`**, then select **Ask** at the bottom right of your page. Check its answers yourself. |
 | Paste into the terminal | **Ctrl+V** (Windows) or **Cmd+V** (Mac). Allow clipboard access if the browser asks. |
 | Use Copilot in the terminal (Day 3) | Type `copilot` and press Enter. Type `/exit` to leave. |
 | Something looks broken | Show a helper the exact message. Do not install anything. |
@@ -48,7 +51,8 @@ screenshot alone does not prove a button works.
 Nothing extra is required on Monday or Tuesday: no database, CLI, MCP, or setup. Publishing is
 optional, with a helper.
 **Wednesday:** one Copilot CLI question, a GitHub tool answer you checked, the presenter's
-browser check compared with your own, your own instructions file and skill, and a chosen idea.
+browser check compared with your own, your own instructions file and `/make-image` skill, a chat on
+your page, and a chosen idea.
 **Thursday:** a working first version you checked yourself, saved on GitHub, with a three-minute story.
 **Friday:** show what you built or learned in about three minutes.
 

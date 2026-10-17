@@ -108,7 +108,8 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     assert "actions" not in labs["08"]["checks"]
     assert "endpoint" in labs["08"]["optional_checks"]
     assert "07" not in labs
-    assert {"instructions", "skill-discovery", "honest-checks"} <= labs["06"]["checks"].keys()
+    assert {"instructions", "picture-skill", "chat"} <= labs["06"]["checks"].keys()
+    assert "edit-image" in labs["06"]["optional_checks"] and "ai-picture" in labs["02"]["optional_checks"]
     assert {"issue-session", "review", "merged-check"} <= labs["03"]["checks"].keys()
     assert "publication" in labs["day-4"]["optional_checks"]
     assert "presentation" in labs["day-5"]["checks"]
