@@ -21,6 +21,7 @@ ensure_editor_extension() {
 
 case "${1:-core}" in
 	core)
+		bash .devcontainer/hide-template-demo.sh
 		if ! uv sync --locked --extra dev --extra web; then
 			printf '\nDependency setup failed; TLS verification remains enabled.\n' >&2
 			printf 'Facilitator: run python -m rehearsal.network --fresh-install\n' >&2

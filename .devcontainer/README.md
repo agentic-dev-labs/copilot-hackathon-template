@@ -81,7 +81,7 @@ not as room-wide installation exercises. Attendees run none of them.
 
 | Profile  | Command                                | When                                                      |
 | -------- | -------------------------------------- | --------------------------------------------------------- |
-| Core     | `bash .devcontainer/setup.sh`          | Automatic startup; Monday's required environment.         |
+| Core     | `bash .devcontainer/setup.sh`          | Automatic startup; Monday's required environment. In the template's own Codespace only, it also keeps a demo `site/` out of Source Control. |
 | Preview  | `bash .devcontainer/setup.sh preview`  | Automatic after editor attachment; facilitator repair command. |
 | CLI      | `bash .devcontainer/setup.sh cli`      | Automatic on creation; facilitator repair/reinstall command. Sign-in stays separate. |
 | Browser  | `bash .devcontainer/setup.sh browser`  | Not run by attendees: since 14 October the Day 3 browser check is a presenter demonstration. For a later owner-approved environment it sets aside the unused Yarn apt source, installs and launches sandboxed Chromium, then adds the reviewed `playwright` entry to `.vscode/mcp.json`. |

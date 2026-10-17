@@ -24,5 +24,7 @@ NN-NA-Hackathon-2026-10-Engagement-Brief.md
 *.vsix
 # Facilitator preparation notes stay in the owner's Codespace; they are not part of the template.
 /.facilitator/
-# site/ is deliberately NOT ignored: attendees save and push their website there.
-# The template itself keeps only site/README.md; CI checks that on the template repository.
+# site/ is deliberately NOT ignored: attendees save and push their website there, and every
+# attendee repository gets a copy of this file. The template keeps only site/README.md: in the
+# template's own Codespace, .devcontainer/hide-template-demo.sh hides a demo site locally, and
+# CI fails if one is committed to the template.

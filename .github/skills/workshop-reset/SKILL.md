@@ -28,7 +28,10 @@ Re-read this session, then look at what is actually on disk:
 ```bash
 git status --porcelain
 git --no-pager diff
+ls -A site
 ```
+
+`ls -A site` matters: the template's own Codespace hides a demo website from Git.
 
 Each candidate learning needs three things. Drop it if any are missing:
 
@@ -125,9 +128,9 @@ alone unless the facilitator says otherwise.
 run's leftovers from the facilitator's own uncommitted work, and this skill exists to keep that
 distinction. Delete named paths only.
 
-Finish with `git status --porcelain` and confirm `site/` holds nothing but `README.md`, matching
-what the template ships. Skill and lab improvements stay in the working tree for review; leave
-them uncommitted unless asked.
+Finish with `git status --porcelain`, then confirm with `ls -A site` that `site/` holds nothing
+but `README.md`, matching what the template ships. Skill and lab improvements stay in the
+working tree for review; leave them uncommitted unless asked.
 
 ## 6. Hand Back
 

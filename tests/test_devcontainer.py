@@ -175,7 +175,12 @@ def test_core_setup_prepares_website_tools_but_not_advanced_tools(
         executable.chmod(0o755)
     result = subprocess.run(
         ["bash", ".devcontainer/setup.sh"],
-        env={**os.environ, "HOME": str(tmp_path), "SETUP_CALL_LOG": str(log)},
+        env={
+            **os.environ,
+            "HOME": str(tmp_path),
+            "SETUP_CALL_LOG": str(log),
+            "GITHUB_REPOSITORY": "synthetic-owner/attendee-copy",
+        },
         capture_output=True,
         text=True,
         check=False,
@@ -189,6 +194,51 @@ def test_core_setup_prepares_website_tools_but_not_advanced_tools(
     assert log.read_text(encoding="utf-8").splitlines() == expected
     if install_status:
         assert "TLS verification remains enabled" in result.stderr
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
+@pytest.mark.parametrize(
+    "repository,hidden",
+    [
+        ("agentic-dev-labs/copilot-hackathon-template", True),
+        ("agentic-dev-labs/nn-na-2026-10-team-01", False),
+        ("someone/copilot-hackathon-template", False),
+    ],
+)
+def test_only_the_template_codespace_hides_a_demo_site(
+    tmp_path: Path, repository: str, hidden: bool
+) -> None:
+    """Attendee copies inherit .gitignore, so they must still see and commit their site/."""
+    rules = Path(".gitignore").read_text(encoding="utf-8").splitlines()
+    assert not [rule for rule in rules if "site" in rule and not rule.startswith("#")]
+    assert "bash .devcontainer/hide-template-demo.sh" in Path(".devcontainer/setup.sh").read_text(
+        encoding="utf-8"
+    )
+    script = Path(".devcontainer/hide-template-demo.sh").resolve()
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True)
+    (tmp_path / "site" / "js").mkdir(parents=True)
+    for name in ("README.md", "index.html", "js/workshop.js"):
+        (tmp_path / "site" / name).write_text("synthetic", encoding="utf-8")
+    for _ in range(2):
+        subprocess.run(
+            ["bash", str(script)],
+            cwd=tmp_path,
+            env={**os.environ, "GITHUB_REPOSITORY": repository},
+            check=True,
+        )
+    status = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=all"],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.splitlines()
+    assert "?? site/README.md" in status
+    assert ("?? site/index.html" in status) is not hidden
+    assert ("?? site/js/workshop.js" in status) is not hidden
+    exclude_file = tmp_path / ".git" / "info" / "exclude"
+    exclude = exclude_file.read_text(encoding="utf-8") if exclude_file.exists() else ""
+    assert exclude.count("/site/*") == (1 if hidden else 0)
 
 
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
