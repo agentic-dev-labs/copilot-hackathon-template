@@ -68,8 +68,16 @@ test('the sign-in is reused, a busy model falls back, and refusals are explained
   await assert.rejects(busy.ask({ question: 'x', page: 'p', title: 't' }), /busy/)
 })
 
+test('secrets that arrive after the preview started are picked up without a reload', async () => {
+  let available = null
+  const assistant = createAssistant({ loadSettings: () => available, fetchImpl: fakeService().fetchImpl })
+  await assert.rejects(assistant.ask({ question: 'x', page: 'p', title: 't' }), /not switched on/)
+  available = SETTINGS
+  assert.equal(await assistant.ask({ question: 'x', page: 'p', title: 't' }), 'Two tasks are left.')
+})
+
 test('missing setup and failed sign-in give plain messages without the secret', async () => {
-  await assert.rejects(createAssistant({ settings: null, fetchImpl: () => assert.fail('no network') })
+  await assert.rejects(createAssistant({ loadSettings: () => null, fetchImpl: () => assert.fail('no network') })
     .ask({ question: 'x', page: '', title: '' }), /not switched on/)
   await assert.rejects(createAssistant({ settings: SETTINGS, fetchImpl: fakeService().fetchImpl })
     .ask({ question: '   ', page: '', title: '' }), /Type a question/)

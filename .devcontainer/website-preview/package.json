@@ -2,7 +2,7 @@
   "name": "workshop-site-preview",
   "displayName": "Workshop Website Preview",
   "description": "Show the workshop website beside Chat and redraw it on every change, without a server.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "publisher": "workshop-local",
   "private": true,
   "engines": { "vscode": "^1.99.0" },

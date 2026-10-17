@@ -41,8 +41,9 @@ function clip(value, limit) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, limit)
 }
 
-/** Create an assistant with its own token cache; fetchImpl and now are injectable for tests. */
-function createAssistant({ settings = readSettings(), fetchImpl = globalThis.fetch, now = Date.now } = {}) {
+/** Create an assistant with its own token cache; settings, fetchImpl and now are injectable for tests. */
+function createAssistant({ settings = null, loadSettings = readSettings, fetchImpl = globalThis.fetch, now = Date.now } = {}) {
+  let current = settings
   let cached = { token: '', expires: 0 }
 
   async function request(url, options) {
@@ -59,13 +60,13 @@ function createAssistant({ settings = readSettings(), fetchImpl = globalThis.fet
     if (cached.token && now() < cached.expires) return cached.token
     const body = new URLSearchParams({
       grant_type: 'client_credentials',
-      client_id: settings.FOUNDRY_CLIENT_ID,
-      client_secret: settings.FOUNDRY_CLIENT_SECRET,
+      client_id: current.FOUNDRY_CLIENT_ID,
+      client_secret: current.FOUNDRY_CLIENT_SECRET,
       scope: 'https://cognitiveservices.azure.com/.default',
     })
     let response
     try {
-      response = await request(`https://login.microsoftonline.com/${encodeURIComponent(settings.FOUNDRY_TENANT_ID)}/oauth2/v2.0/token`, {
+      response = await request(`https://login.microsoftonline.com/${encodeURIComponent(current.FOUNDRY_TENANT_ID)}/oauth2/v2.0/token`, {
         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body,
       })
     } catch {
@@ -79,7 +80,9 @@ function createAssistant({ settings = readSettings(), fetchImpl = globalThis.fet
 
   /** Ask one question about the page; returns the answer text or throws a plain-language Error. */
   async function ask({ question, page, title }) {
-    if (!settings) throw new Error(NOT_READY)
+    // Codespaces can deliver the secrets after the preview has started, so look again until they arrive.
+    current = current || loadSettings()
+    if (!current) throw new Error(NOT_READY)
     const asked = clip(question, MAX_QUESTION)
     if (!asked) throw new Error('Type a question first.')
     const input = `Page title: ${clip(title, 120)}\n\nPage content:\n${clip(page, MAX_PAGE)}\n\nQuestion: ${asked}`
@@ -88,7 +91,7 @@ function createAssistant({ settings = readSettings(), fetchImpl = globalThis.fet
     for (const model of MODELS) {
       let response
       try {
-        response = await request(`https://${settings.FOUNDRY_RESOURCE}.openai.azure.com/openai/v1/responses`, {
+        response = await request(`https://${current.FOUNDRY_RESOURCE}.openai.azure.com/openai/v1/responses`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
           body: JSON.stringify({ model, instructions: INSTRUCTIONS, input, max_output_tokens: 1200, reasoning: { effort: 'low' } }),
