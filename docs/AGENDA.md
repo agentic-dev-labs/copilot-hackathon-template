@@ -46,8 +46,9 @@ self-study. Use [START-HERE](START-HERE.md) and the [printable quick reference](
 | 14:00-14:45 | Lab 08: Save, share, and keep building; supported publication is optional, not the core finish                                                      |
 | 14:45-15:00 | Pair sharing and selected volunteer demonstrations: what worked, what you checked, and a possible work use |
 
-**Finish:** a personalized page with one useful interaction, manual behavior and source checks,
-and reviewed work visible in GitHub. A private preview is enough. Remembering browser data and
+**Finish:** a personalized page with one useful interaction, a headline changed by hand after
+reading the code with Copilot, one change undone on purpose, manual behavior and source checks,
+and reviewed work visible in GitHub, including its history. A private preview is enough. Remembering browser data and
 publication are optional extensions. No CLI, MCP, PDF download, presentation, or skill installation
 gates Monday's finish. The [beginner guide](START-HERE.md) is the chronological route.
 The 10:00 note block and 11:45 verification block are separate from Labs 00 and 01.

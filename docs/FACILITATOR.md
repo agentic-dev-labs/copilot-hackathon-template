@@ -19,9 +19,9 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
 | Monday foundations  | Concepts, glossary, and labelled screenshots from [START-HERE](START-HERE.md); no commands | Point to the same controls in the actual browser-based client                       |
 | Monday first work   | Files, Chat, one idea note, save/review/commit/push                                        | Assigned working branch and tested access; no JSON or CLI setup                     |
-| Monday page         | /create-website asks only the category; tested blueprint copied and named; live preview panel | Helper checks the preview helper; no completed page in the source template |
+| Monday page         | /create-website asks only the category; tested blueprint copied and named; live preview panel; Copilot explains selected code and each learner edits the `<h1>` headline by hand | Helper checks the preview helper; no completed page in the source template |
 | Monday verification | Check a button and the starter's count (or Weather against its raw data) yourself          | Optional single public figure, not a five-report assignment                         |
-| Monday afternoon    | One interaction, personal improvements, checked and pushed work                            | Storage and publication only for ready learners with help                           |
+| Monday afternoon    | One interaction, personal improvements, a bold change undone with **Undo**, a Copilot-written commit message, a tour of commits and file **History** on GitHub, and the bronze/silver/gold challenge card | Optional sketch-to-design moment (demonstrate it once first); storage and publication only for ready learners with help |
 | Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
 | Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | `/create-website` own-idea route in `site/ideas/` with fictional local content; Monday's page for people without an idea |
 | Wednesday tools | CLI question and one change, the repository's read-only GitHub MCP server, an instructions file and a small skill | Presenter's browser-tools demonstration from VS Code Desktop connected to their Codespace; attendees install nothing; a prepared fallback screen for blocked sign-in or policy |
@@ -346,6 +346,14 @@ is required; repository access to the prepared Actions identity must already exi
   a helper. Test an own-idea extension without losing the first page. Do not ship the finished
   rehearsal website in the source template.
 - Rehearse stop/steer and inspection on a disposable small change. Keep Monday to these essentials.
+- In VS Code in the browser (Codespaces), rehearse the four Monday additions: Chat explains
+  selected lines in `site/index.html` and a hand edit of the `<h1>` headline updates the preview;
+  **Keep** and **Undo** appear after a Copilot change and **Undo** restores the page; the
+  **sparkle icon** in Source Control writes a commit message; and the commit list, a commit's
+  changes, and the file **History** are easy to find on GitHub.
+- Rehearse the optional sketch moment: drag `docs/images/sketch-example.png` from the Explorer
+  into Chat with the model attendees will use. Image input depends on the model and policy; if
+  Copilot cannot see pictures, keep it as a presenter demonstration or skip it.
 - Before Day 3, verify the preinstalled CLI and its authentication separately; rerun
   `bash .devcontainer/setup.sh cli` only if repair/reinstall is needed.
 - Only if selected, follow [the optional research guide](RESEARCH.md), prepare its separate

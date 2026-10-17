@@ -36,6 +36,20 @@ Describe what you want in ordinary words. For example:
 Look at the change in **Source Control**, save, and watch the preview update. You do not need
 any design words or codes. If the preview is closed, type `/start-website`.
 
+**Be brave once, then undo it.** Ask for something wild, such as "Make the whole page bright
+purple with giant text." Look at the preview. Then, in Chat, select **Undo** for that change:
+Copilot shows **Keep** and **Undo** after each change it makes, and **Undo** puts your files back
+the way they were. Your page returns to normal. Now you know you can always go back.
+
+**Optional wow: show Copilot a picture.** Here is a quick sketch of a page:
+
+![A hand-drawn page sketch: a wide header with a sun doodle, a big centered title, a short welcome line, and a small "3 of 5 done" badge; three rounded cards with an orange stripe on top; a big round + button at the bottom right. Orange notes say warm sunset colors, rounded cards with lots of space, and big round + button.](../../docs/images/sketch-example.png)
+
+Drag **docs > images > sketch-example.png** from the Explorer into the chat box, then ask: "Make
+my page look more like this sketch. Keep all my entries and features." Watch Copilot turn a
+drawing into a design. If Copilot says it cannot see pictures, skip this. You can also use a
+photo or screenshot of your own sketch, but never a picture with real work information in it.
+
 ### 3. Add One Feature (15 minutes)
 
 Use one of these, changed to fit your page:
@@ -88,7 +102,8 @@ written in your brief. Entries that stay after a refresh are a bonus, not a requ
    shown to a neighbor: run `/create-website`, choose your own idea, and describe it in one
    sentence. Copilot builds it as an own-idea extension in a separate folder under `site/ideas/`,
    and your first page stays unchanged. If time runs out, stop; Tuesday has more time.
-2. Add sorting, a theme switch, or favorites, then repeat your checks.
+2. Add sorting, a theme switch, or favorites, then repeat your checks. Or take a challenge from
+   [Lab 08's challenge card](../08-deploy/README.md#3-take-a-challenge-15-minutes).
 3. Ask for a smaller or clearer version of one button.
 4. Your entries are remembered with localStorage, in this browser only. It is not a shared
    database: another browser, or a published page, starts with the examples again.
@@ -96,5 +111,6 @@ written in your brief. Entries that stay after a refresh are a bonus, not a requ
 ## Official References
 
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
-- [Reviewing changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
+- [Reviewing and undoing changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
+- [Adding a picture to Chat](https://code.visualstudio.com/docs/chat/copilot-chat-context).
 - [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and the [whole-week topic map](../../docs/REFERENCES.md).

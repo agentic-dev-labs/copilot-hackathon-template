@@ -11,31 +11,54 @@ moves to pair sharing. The presenter shows each step, then pauses for your turn.
 
 ## Steps
 
-### 1. Save Your Work on GitHub (15 minutes)
+### 1. Let Copilot Write the Message (10 minutes)
 
 1. Save your files. Open **Source Control** and read what actually changed, not only what Chat
    said. You should see only your website files and your note, with no real or private information.
-2. Select **+** next to each file you checked, type a short message, select **Commit**, then
-   **... > Push**.
-3. Open your repository on GitHub. Your latest message is shown next to your files.
-   If a push is rejected or mentions a conflict, ask a helper. Never force a push.
+2. Select **+** next to each file you checked.
+3. In the message box, select the **sparkle icon**. Copilot reads your changes and writes the
+   message for you. Read it and fix anything that is not true. No sparkle? Type a short message yourself.
+4. Select **Commit**, then **... > Push**. If a push is rejected or mentions a conflict, ask a
+   helper. Never force a push.
 
-### 2. Keep Building (20 minutes)
+### 2. Explore Your Work on GitHub (10 minutes)
 
-4. Make one more small improvement and check it again in the preview. Then save, commit, and push.
+GitHub keeps every snapshot you pushed today, like a time machine for your work.
 
-### 3. Show It (10 minutes)
+5. Open your repository on GitHub and select **Commits** (next to the clock icon). These are the
+   snapshots of your project, newest first. Yours from today are at the top: how many did you make?
+6. Scroll down to your first own snapshot, **Describe my website idea**, and select it. GitHub
+   shows exactly what changed: green lines were added, red lines were removed.
+7. Go back to your repository, open **site > index.html**, and select **History**. Each entry is
+   one version of your page. Find the change you made in Lab 02 by its message.
 
-5. Show one feature to a neighbor. Explain what you expected, what you saw, and anything that
+**Check:** you found your first commit and your page's history on GitHub.
+
+### 3. Take a Challenge (15 minutes)
+
+Pick one level, ask Copilot, and check the result yourself:
+
+| Level      | Challenge                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| **Bronze** | Ask for one idea from the "later ideas" list in your brief.                                                        |
+| **Silver** | Make your page phone-friendly: drag the preview narrower, tell Copilot what looks wrong, and check again.          |
+| **Gold**   | Build your own idea: run `/create-website`, choose your own idea, and describe it in one sentence. It gets its own folder. |
+
+Done, and time left? Take the next level. Then save, commit, and push again.
+
+### 4. Show It (10 minutes)
+
+8. Show one feature to a neighbor. Explain what you expected, what you saw, and anything that
    does not work yet. Write your next idea in your brief instead of starting something big.
 
-**Done when:** your work is on GitHub, your page still works in the preview, and you can explain
-one real check. A deployment or saved browser state is not required.
+**Done when:** your work is on GitHub, you found your own history there, your page still works
+in the preview, and you can explain one real check. A deployment or saved browser state is not required.
 
 ## What you just learned
 
-Pushing keeps your work safe on GitHub. Publishing, which is optional, puts a page on the
-internet. Neither one proves the page works: you check that yourself.
+Pushing keeps your work safe on GitHub, and GitHub remembers every version, so you can always
+look back. Publishing, which is optional, puts a page on the internet. Neither one proves the page
+works: you check that yourself.
 
 ## Optional extras
 
@@ -60,5 +83,7 @@ not take down a published page.
 
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): save, share, and review.
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
+- [Commit messages with Copilot](https://code.visualstudio.com/docs/editing/copilot-smart-actions): the sparkle icon.
+- [Commit history on GitHub](https://docs.github.com/en/pull-requests/committing-changes-to-your-project/viewing-and-comparing-commits/differences-between-commit-views): commits and file history.
 - [GitHub Actions quickstart](https://docs.github.com/en/actions/get-started/quickstart): what runs when you publish.
 - [Whole-week coverage](../../docs/REFERENCES.md).

@@ -96,6 +96,8 @@ separate and do not invent a human observation or claim a script is that pilot.
   save a heading and CSS change, and observe the live update without Refresh. Test stop closes
   only that panel and start reopens it with added entries still present. Record any blocker
   separately, not as a successful embedded-view test.
+  Ask Chat to explain selected lines of `site/index.html`, then change a word of the `<h1>`
+  headline by hand, save, and observe the preview update.
   In the separate 11:45 block, check a button and a figure against the supplied source and
   calculate it independently. Record expected versus observed, not a model's self-assessment.
   No research, MCP configuration, presentation, or skill installation is required.
@@ -103,9 +105,13 @@ separate and do not invent a human observation or claim a script is that pilot.
   improvement to the existing page. Check blank input, safe text, keyboard access, and narrow
   layout. Record manual results distinctly from any behind-the-scenes automation. Storage is
   optional; only when selected, test add/reload/remove/reload and corrupt/unavailable storage.
+  Make one deliberately bold change and revert it with Chat's **Undo**. Optionally attach
+  `docs/images/sketch-example.png` and record whether the model could use the image.
   Never prebuild the learner website in the source template.
-3. [Lab 08](../../labs/08-deploy/README.md): review files, commit/push with the run's approval,
-  confirm the actual files on GitHub, and recheck the private preview. That is the core finish.
+3. [Lab 08](../../labs/08-deploy/README.md): review files, generate the commit message with the
+  sparkle icon and correct it, commit/push with the run's approval, find the commit list, a
+  commit's changes, and the file History on GitHub, and recheck the private preview. That is the
+  core finish. Try one challenge-card level.
   If early publication is selected, retain all Actions/revision/asset guards and record its
   optional checks. Otherwise defer release to Day 4; do not make a public URL a Monday gate.
 

@@ -28,7 +28,8 @@
         "first-page": "Actual /create-website invocation asks only which of the four websites, then builds the tested blueprint named after the repository; existing pages preserved; no finished template or installation exercise",
         "preview": "Actual Website preview panel renders beside Chat, updates by itself on changes with added entries kept, and stop/start reopens the same saved page without file changes; blockers recorded truthfully",
         "manual-behaviour": "Coached 11:45 block: expected-versus-observed manual button check, with real fixes rechecked",
-        "source-check": "Coached 11:45 block: the starter's count, or Weather against its raw forecast data, checked by the learner, not the model's confidence"
+        "source-check": "Coached 11:45 block: the starter's count, or Weather against its raw forecast data, checked by the learner, not the model's confidence",
+        "read-code": "Chat explained selected lines of site/index.html, and the learner changed the <h1> headline by hand; the preview updated after saving and a broken edit was recoverable with Ctrl+Z"
       },
       "optional_checks": {
         "research-mcp": "Selected optional browser and document tools actually invoked; installation alone is insufficient",
@@ -49,10 +50,12 @@
         "implementation": "One meaningful interaction implemented in the existing page with fictional input and safe text handling",
         "personalisation": "Chosen Project Planner, Calendar, Ideas Wall, or Weather page gets one visual improvement and one feature improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
         "manual-checks": "Manual add/remove or equivalent journey, empty input, keyboard access, and narrow layout checked honestly",
-        "preview": "Learner reopened the private preview and recorded actual results and remaining limitations"
+        "preview": "Learner reopened the private preview and recorded actual results and remaining limitations",
+        "undo": "A deliberately bold Copilot change was reverted with Chat's Undo and the page returned to its previous state"
       },
       "optional_checks": {
-        "storage": "If selected, add/reload/present/remove/reload observed in one browser; corrupt or unavailable storage handled without clearing other apps' data"
+        "storage": "If selected, add/reload/present/remove/reload observed in one browser; corrupt or unavailable storage handled without clearing other apps' data",
+        "sketch": "Optional: docs/images/sketch-example.png attached to Chat and the page restyled toward it with entries and features kept; a model without image input recorded as blocked, not passed"
       }
     },
     {
@@ -68,13 +71,15 @@
         "reviewed-files": "Selected changes and site assets exclude private material, credentials, full reports, and unrelated changes",
         "reviewed-commit": "Reviewed work pushed and read back on the intended GitHub branch through the beginner workflow",
         "checked-feature": "Private preview still works after the last improvement; learner explains an actual check and limitation",
-        "no-azure-login": "No attendee Azure login or credential creation used; publication is not required for Monday"
+        "no-azure-login": "No attendee Azure login or credential creation used; publication is not required for Monday",
+        "github-tour": "Commit message generated with the sparkle icon and corrected, pushed, and the commit list, one commit's changes, and the History of site/index.html found on GitHub"
       },
       "optional_checks": {
         "actions": "Deploy workflow succeeded for that commit using the prepared runner identity",
         "endpoint": "Website-target artifact and fresh responses match the exact commit, label, entry-page bytes, and site fingerprint; no vendor-app substitution",
         "deployed-behaviour": "Chosen interaction verified at the actual new deployment URL, not just the health endpoint",
-        "deployed-storage": "Only if storage was selected, its journey repeated at the deployment origin without assuming preview state transfers"
+        "deployed-storage": "Only if storage was selected, its journey repeated at the deployment origin without assuming preview state transfers",
+        "challenge": "A bronze, silver, or gold challenge-card level completed and checked by the learner"
       }
     },
     {

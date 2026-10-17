@@ -11,7 +11,7 @@ You choose one of four starter websites: **Project Planner**, **Calendar**, **Id
 **Weather**. The presenter builds the Project Planner; pick it if you are unsure. All four work
 the same way, and everything on them is made up. The presenter shows each step, then you try it.
 
-## 1. Pick Your Website (15 minutes)
+## 1. Pick Your Website (10 minutes)
 
 1. In Chat, choose **Agent**. Type **`/create-website`**, pick it from the list, and press Enter.
 2. Copilot asks one question: which website would you like to make? Choose one.
@@ -21,7 +21,7 @@ the same way, and everything on them is made up. The presenter shows each step, 
 **Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the proof,
 not Copilot saying "done". If `/create-website` is not in the list, ask a helper.
 
-## 2. Open Your Preview (20 minutes)
+## 2. Open Your Preview (15 minutes)
 
 Copilot opens your page in a **Website preview** panel beside Chat.
 
@@ -37,9 +37,31 @@ The page remembers your entries in this browser. If you remove them all, the exa
 **If the preview does not open,** show a helper the exact message and do not install anything.
 A helper can run `python3 scripts/website_preview.py status` to see what is wrong.
 
-## 3. Make One Change (15 minutes)
+## 3. Peek Inside the Code (15 minutes)
 
-Ask for one change in ordinary words, and add "Leave the rest alone." For example:
+Your page is made of code: plain text that tells the browser what to show. You do not need to
+learn it. Just take a look, with Copilot as your guide.
+
+1. In the **Explorer**, open **site > index.html**. This is the code behind your page. Scroll
+   through it. It is only text.
+2. Select about five lines near the top: click at the start of the first line, then hold
+   **Shift** and click at the end of the fifth. In Chat, ask: "Explain the lines I selected in
+   plain English, one short sentence per line. I have never seen code before." Copilot reads
+   your selected lines automatically.
+3. Find your page's big headline: click anywhere inside index.html, press **Ctrl+F** (**Cmd+F**
+   on a Mac), type `<h1>`, and press Enter. The words between `<h1>` and `</h1>` are the headline you see on
+   your page, for example *Plan the week, one card at a time*.
+4. Change one or two of those words yourself, by typing. Leave `<h1>` and `</h1>` exactly as
+   they are. Choose **File > Save** and watch the preview update by itself.
+
+**Check:** your new words appear on your page. You just changed code with your own hands.
+If the page looks broken, press **Ctrl+Z** (**Cmd+Z** on a Mac) until your typing is undone,
+save again, and ask a helper if it still looks wrong.
+
+## 4. Make One Change (10 minutes)
+
+Now let Copilot do the typing. Ask for one change in ordinary words, and add "Leave the rest
+alone." For example:
 
 | Your website    | Try asking                          |
 | --------------- | ----------------------------------- |
@@ -49,15 +71,16 @@ Ask for one change in ordinary words, and add "Leave the rest alone." For exampl
 | Weather         | "Add Paris as a city."              |
 
 Open **Source Control** to see what changed, then save. **Check:** your change is there and
-everything else still works. If Copilot changed too much, select **Stop** and ask for something smaller.
+everything else still works. If Copilot changed too much, select **Stop**, then **Undo** in Chat,
+and ask for something smaller.
 
-## 4. Show and Save (10 minutes)
+## 5. Show and Save (10 minutes)
 
 Show a neighbor your page and the file behind it, **site/index.html**. Let them add and move an
 entry. Then save, review, commit, and push, just like your note, and find it on GitHub.
 
-**Done when:** your page opens beside Chat, one change you asked for is visible, and your saved
-version is on GitHub.
+**Done when:** your page opens beside Chat, you changed its headline yourself, one change you
+asked Copilot for is visible, and your saved version is on GitHub.
 
 ## Coached Verification Block
 
@@ -85,7 +108,7 @@ Weather is the only page with live data. If the internet is blocked, it says it 
 | What you see                     | What to do                                                          |
 | -------------------------------- | ------------------------------------------------------------------- |
 | A blank page or no preview       | Show a helper the exact message.                                    |
-| Copilot changed other files      | Select **Stop**, look in **Source Control**, and ask for less.      |
+| Copilot changed other files      | Select **Stop**, then **Undo** in Chat, and ask for less.           |
 | A button or a number is wrong    | Tell Copilot what you expected and what you saw, then check again.  |
 | Something asks you to install    | Say no and ask a helper.                                            |
 
@@ -96,12 +119,14 @@ Weather is the only page with live data. If the internet is blocked, it says it 
    sentence. It gets its own folder under `site/ideas/`, and your first page stays as it is. If
    time runs out, stop; Tuesday has more time.
 2. Make the page easy to read in a narrow window.
-3. Try one of the later ideas listed in your brief.
+3. Try one of the later ideas listed in your brief, or a challenge from
+   [Lab 08's challenge card](../08-deploy/README.md#3-take-a-challenge-15-minutes).
 
 ## Official References
 
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
-- [Review AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
+- [Review and undo AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
+- [Chat context](https://code.visualstudio.com/docs/agents/concepts/context): how Copilot reads your selected lines.
 - [Source control](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
 - [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills): how `/create-website` works.
 - [Whole-week topic map](../../docs/REFERENCES.md).

@@ -10,15 +10,20 @@ step instead of racing ahead. Use made-up information only.
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
 | Ask Copilot | **View > Chat**. Start with a question, then ask for one small change. |
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
+| Undo Copilot's change | Select **Undo** in Chat after the change. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
+| Ask what code means | Select a few lines in a file, then ask Chat: "Explain the lines I selected in plain English." |
 | See what changed | **Source Control**, the branching-lines icon. Select a file to compare before and after. |
 | Save | **File > Save**. This keeps the change in the file, not on GitHub yet. |
 | Take a snapshot | In Source Control, select **+** next to the files you checked, type a short message, then **Commit**. |
+| Let Copilot write the message | Select the **sparkle icon** in the Source Control message box. Read it and fix anything untrue. |
+| See my history on GitHub | On your repository page select **Commits**. On a file, select **History**. |
 | Send it to GitHub | **Source Control > ... > Push**. Then open your repository on GitHub to see it. |
 | Build my first website | In Chat choose **Agent**, then type **`/create-website`** and pick one of the four websites. |
 | Build my own idea | Run **`/create-website`** again and choose your own idea. It gets its own folder under `site/ideas/`. |
 | See my website | **`/start-website`** opens it beside Chat. For an idea, add its folder name: `/start-website team-lunch`. |
 | Close my website | **`/stop-website`**. Your files and entries stay. |
 | Change how it looks | Just ask, for example: "Try a sky blue look. Keep everything else the same." |
+| Show Copilot a picture | Drag the picture from the Explorer into the chat box, then ask, for example: "Make my page look like this sketch." |
 | Paste into the terminal | **Ctrl+V** (Windows) or **Cmd+V** (Mac). Allow clipboard access if the browser asks. |
 | Use Copilot in the terminal (Day 3) | Type `copilot` and press Enter. Type `/exit` to leave. |
 | Something looks broken | Show a helper the exact message. Do not install anything. |

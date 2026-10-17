@@ -74,6 +74,35 @@ def test_personalisation_lab_follows_the_chosen_category() -> None:
     assert "2 of 4" in text and "3 notes planned" in text
 
 
+def test_day_one_teaches_reading_code_undo_and_history() -> None:
+    """First-timers peek at code, undo a change, and find their history, within the same times."""
+    first_page = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
+    blocks = re.findall(r"^## \d\. .*\((\d+) minutes\)", first_page, re.MULTILINE)
+    assert sum(map(int, blocks)) == 60
+    assert "## 3. Peek Inside the Code" in first_page
+    assert "Explain the lines I selected" in first_page and "`<h1>`" in first_page
+    # The example headline in the lab must be the Project Planner starter's real headline.
+    example = re.search(r"for example \*(.+?)\*", first_page).group(1)
+    planner = Path(".github/skills/create-website/assets/blueprints/project/index.html")
+    assert f"<h1>{example}</h1>" in planner.read_text(encoding="utf-8")
+
+    interaction = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
+    assert "select **Undo**" in interaction and "**Keep** and **Undo**" in interaction
+    sketch = Path("docs/images/sketch-example.png")
+    assert "](../../docs/images/sketch-example.png)" in interaction
+    assert sketch.read_bytes()[:8] == b"\x89PNG\r\n\x1a\n" and sketch.stat().st_size < 100 * 1024
+    assert "never a picture with real work information" in interaction
+
+    sharing = Path("labs/08-deploy/README.md").read_text(encoding="utf-8")
+    blocks = re.findall(r"^### \d\. .*\((\d+) minutes\)", sharing, re.MULTILINE)
+    assert sum(map(int, blocks)) == 45
+    assert "**sparkle icon**" in sharing and "**Commits**" in sharing and "**History**" in sharing
+    for level in ("**Bronze**", "**Silver**", "**Gold**"):
+        assert level in sharing
+    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
+    assert "Undo Copilot's change" in quick_reference and "Show Copilot a picture" in quick_reference
+
+
 def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
     """The published blocks must fill the stated days without adding hidden time."""
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")

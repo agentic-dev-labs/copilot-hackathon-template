@@ -14,7 +14,7 @@ days, and Wednesday to Friday are mornings. Your calendar invitation has the exa
 
 | Day           | What you do                                                                   | What you take home                                  |
 | ------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
-| **Monday**    | Meet GitHub and Copilot, then build your first website just by asking for it  | A working website you made your own and checked     |
+| **Monday**    | Meet GitHub and Copilot, build your first website just by asking, and peek at its code | A working website you made your own and checked |
 | **Tuesday**   | Hear how business and IT work together, then build your own idea with help    | The first version of your own idea                  |
 | **Wednesday** | Learn a few more Copilot tricks, then pick the idea you will build            | Your own Copilot rules, a small skill, and a plan   |
 | **Thursday**  | Build day, with helpers at every table                                        | Something that works, ready to show                 |
