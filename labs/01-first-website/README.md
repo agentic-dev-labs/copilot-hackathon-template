@@ -120,7 +120,7 @@ Weather is the only page with live data. If the internet is blocked, it says it 
    time runs out, stop; Tuesday has more time.
 2. Make the page easy to read in a narrow window.
 3. Try one of the later ideas listed in your brief, or a challenge from
-   [Lab 08's challenge card](../08-deploy/README.md#3-take-a-challenge-15-minutes).
+   [Lab 08's challenge card](../08-save-and-share/README.md#3-take-a-challenge-15-minutes).
 
 ## Official References
 
@@ -129,4 +129,4 @@ Weather is the only page with live data. If the internet is blocked, it says it 
 - [Chat context](https://code.visualstudio.com/docs/agents/concepts/context): how Copilot reads your selected lines.
 - [Source control](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
 - [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills): how `/create-website` works.
-- [Whole-week topic map](../../docs/REFERENCES.md).
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

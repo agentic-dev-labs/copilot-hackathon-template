@@ -144,7 +144,7 @@ the user namespaces its sandbox needs (`unshare --user` fails), and the containe
 `CAP_SYS_ADMIN`, so the setuid sandbox cannot help either. Enabling it needs an owner-approved
 container change, such as `"runArgs": ["--security-opt", "seccomp=unconfined"]`, tested in a
 fresh Codespace. The owner chose the alternative for this workshop: a presenter demonstration
-with VS Code's built-in browser tools; see the [Day 3 helper notes](../docs/TOOLS-PRACTICE.md#helper-preparation).
+with VS Code's built-in browser tools; see the [Day 3 helper notes](../docs/FACILITATOR.md#day-3-helper-preparation).
 
 In Copilot CLI, use `/mcp` and configure command `bash` with the **absolute Codespace path** to
 the launcher and the desired server name. Derive the path with `pwd` in Bash. Do not copy

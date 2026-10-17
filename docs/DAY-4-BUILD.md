@@ -6,16 +6,16 @@ only. The goal is **one working thing you can show tomorrow in three minutes**.
 
 ## Today's Route
 
-| When        | What you do                                                                                        |
-| ----------- | -------------------------------------------------------------------------------------------------- |
+| When        | What you do                                                                                                                            |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | 09:00-09:15 | Recap and goal. Optional: hand one small change to the cloud agent ([Lab 03](../labs/03-cloud-agent/README.md#optional-try-on-day-4)). |
-| 09:15-10:30 | Build your idea with help at the tables.                                                           |
-| 10:45-11:45 | Quick check-in, then keep building.                                                                |
-| 11:45-12:15 | Check it yourself; review the cloud agent's pull request if you tried it.                          |
-| 12:15-12:30 | Save to GitHub and prepare your three-minute story.                                                |
+| 09:15-10:30 | Build your idea with help at the tables.                                                                                               |
+| 10:30-10:45 | Break.                                                                                                                                 |
+| 10:45-11:45 | Quick check-in, then keep building.                                                                                                    |
+| 11:45-12:15 | Check it yourself; review the cloud agent's pull request if you tried it.                                                              |
+| 12:15-12:30 | Save to GitHub and prepare your three-minute story.                                                                                    |
 
-The [agenda](AGENDA.md) includes the break. If you have no idea yet, keep improving Monday's page;
-that is a good thing to show.
+If you have no idea yet, keep improving Monday's page; that is a good thing to show.
 
 ## Build in Small Steps
 
@@ -27,7 +27,7 @@ Use the loop you already know: **ask for one change -> watch the preview -> chec
   folder's name, for example `/start-website team-lunch`, to open it beside Chat.
 - Use whichever tool helps: Chat, Copilot CLI in the terminal, the GitHub tools from
   [Lab 04](../labs/04-mcp/README.md), and your instructions file, `/make-image` skill, and
-  `/add-chat` from [Lab 06](../labs/06-multi-agent/README.md). A picture of your own or an
+  `/add-chat` from [Lab 06](../labs/06-teach-copilot/README.md). A picture of your own or an
   "Ask my page" chat makes a great thing to show tomorrow.
 - When something is wrong, say: "I expected [result]. I actually saw [result]. Fix only that."
   If Copilot changes more than you asked, select **Stop** and ask a helper.
@@ -72,7 +72,7 @@ checked yourself, your work is visible on GitHub, and your story is written in y
 
 ## Optional extras
 
-1. Publish your page with a helper using [Lab 08's optional route](../labs/08-deploy/README.md#publish-with-a-helper).
+1. Publish your page with a helper using [Lab 08's optional route](../labs/08-save-and-share/README.md#publish-with-a-helper).
 2. Ask a neighbor to try your page without help, and write down where they got stuck.
 3. Add one plain sentence at the top of your page telling a first-time visitor what to do.
 
@@ -81,4 +81,4 @@ checked yourself, your work is visible on GitHub, and your story is written in y
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI-generated edits](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [Whole-week topic map](REFERENCES.md).
+- [Topic map (for presenters)](REFERENCES.md).

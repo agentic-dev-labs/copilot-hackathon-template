@@ -99,4 +99,4 @@ are short files you wrote, and you still check what Copilot does with them.
 - [Custom instructions in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-instructions).
 - [Agent Skills in VS Code](https://code.visualstudio.com/docs/agent-customization/agent-skills) and [about agent skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills).
 - [Customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).
-- [Whole-week topic map](../../docs/REFERENCES.md).
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

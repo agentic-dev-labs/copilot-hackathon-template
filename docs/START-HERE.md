@@ -11,19 +11,21 @@ ahead. Keep the [printable quick reference](QUICK-REFERENCE.md) beside you.
 
 **09:00-09:30: concepts only. No terminal commands.** Just watch and listen.
 
-| Word         | What it means                                                       |
-| ------------ | ------------------------------------------------------------------- |
-| GitHub       | The website where your project and its saved versions are kept.     |
-| Repository   | Your project: its files and their history. Often called a "repo".   |
-| Codespace    | A computer in the cloud that you use through your browser.          |
-| VS Code      | The program you see inside the Codespace.                           |
-| Copilot Chat | The AI assistant you talk to. It is helpful, but it can be wrong.   |
-| Prompt       | What you type to ask Copilot for something.                         |
-| File         | One piece of your project, such as a note or a web page.            |
-| Save         | Keep your latest change in the file.                                |
-| Commit       | Take a labeled snapshot of your saved changes.                      |
-| Push         | Send your snapshots up to GitHub.                                   |
-| Preview      | Look at your page while you build it. Only you can see it.          |
+| Word         | What it means                                                     |
+| ------------ | ----------------------------------------------------------------- |
+| GitHub       | The website where your project and its saved versions are kept.   |
+| Repository   | Your project: its files and their history. Often called a "repo". |
+| Codespace    | A computer in the cloud that you use through your browser.        |
+| VS Code      | The program you see inside the Codespace.                         |
+| Copilot Chat | The AI assistant you talk to. It is helpful, but it can be wrong. |
+| Ask          | In Chat: Copilot only answers. It never changes your files.       |
+| Agent        | In Chat: Copilot can change your files. You check each change.    |
+| Prompt       | What you type to ask Copilot for something.                       |
+| File         | One piece of your project, such as a note or a web page.          |
+| Save         | Keep your latest change in the file.                              |
+| Commit       | Take a labeled snapshot of your saved changes.                    |
+| Push         | Send your snapshots up to GitHub.                                 |
+| Preview      | Look at your page while you build it. Only you can see it.        |
 
 The order is always **save -> review -> commit -> push**. Saving does not send anything to
 GitHub; pushing does. An answer in Chat is not a file until you can see the file.
@@ -74,24 +76,26 @@ stay saved. This is different from **Open Preview**, which shows a document like
 
 ## Today's Route
 
-| When        | Open                                        | You are finished when                                         |
-| ----------- | ------------------------------------------- | ------------------------------------------------------------- |
-| 09:30-10:00 | [Lab 00](../labs/00-setup/README.md)        | You can find your files and ask Chat a question.              |
-| 10:00-10:30 | [Your first note](#your-first-note)         | Your note is saved on GitHub.                                 |
-| 10:45-11:45 | [Lab 01](../labs/01-vscode-agent/README.md) | Your first page opens beside Chat.                            |
-| 11:45-12:15 | Lab 01's checking block                     | You checked a button and a number yourself.                   |
-| 13:00-14:00 | [Lab 02](../labs/02-copilot-cli/README.md)  | Your page has your own look and one new feature.              |
-| 14:00-14:45 | [Lab 08](../labs/08-deploy/README.md)       | Your work is saved on GitHub and you keep improving it.       |
-| 14:45-15:00 | Pair sharing                                | You showed one feature and how you checked it.                |
+| When        | Open                                          | You are finished when                                   |
+| ----------- | --------------------------------------------- | ------------------------------------------------------- |
+| 09:30-10:00 | [Lab 00](../labs/00-setup/README.md)          | You can find your files and ask Chat a question.        |
+| 10:00-10:30 | [Your first note](#your-first-note)           | Your note is saved on GitHub.                           |
+| 10:30-10:45 | Break                                         |                                                         |
+| 10:45-11:45 | [Lab 01](../labs/01-first-website/README.md)  | Your first page opens beside Chat.                      |
+| 11:45-12:15 | Lab 01's checking block                       | You checked a button and a number yourself.             |
+| 12:15-13:00 | Lunch                                         |                                                         |
+| 13:00-14:00 | [Lab 02](../labs/02-make-it-useful/README.md) | Your page has your own look and one new feature.        |
+| 14:00-14:45 | [Lab 08](../labs/08-save-and-share/README.md) | Your work is saved on GitHub and you keep improving it. |
+| 14:45-15:00 | Pair sharing                                  | You showed one feature and how you checked it.          |
 
-Lab numbers are just names, so follow this table from top to bottom. The [agenda](AGENDA.md)
-shows the breaks, lunch, and the rest of the week.
+Lab numbers are just names, so follow this table from top to bottom. For the other days, see
+[your week](../README.md#your-week).
 
 ## Your First Note
 
 **10:00-10:30.** The presenter shows each step, then pauses for your turn.
 
-1. In Chat, choose **Agent** when the presenter shows it. Ask:
+1. In Chat, choose **Agent** when the presenter shows it: **Agent** can change your files. Type:
    "Create site/brief.md with my idea: a made-up project planner for a team week. Include who
    it is for, three things it should show, and one thing I can check. Do not build the website yet."
    You may describe a calendar, an ideas wall, or a weather page instead.
@@ -128,4 +132,4 @@ Tomorrow you build your own idea with [Build Your Own Idea](DAY-2-BUILD.md). You
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [Week's topic map](REFERENCES.md).
+- [Topic map (for presenters)](REFERENCES.md).

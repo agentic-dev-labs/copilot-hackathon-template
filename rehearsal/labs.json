@@ -20,7 +20,7 @@
     {
       "id": "01",
       "title": "First page and manual verification",
-      "guide": "labs/01-vscode-agent/README.md",
+      "guide": "labs/01-first-website/README.md",
       "tests": [
         "tests/test_lab_contracts.py"
       ],
@@ -42,7 +42,7 @@
     {
       "id": "02",
       "title": "Useful interaction and personal improvement",
-      "guide": "labs/02-copilot-cli/README.md",
+      "guide": "labs/02-make-it-useful/README.md",
       "tests": [
         "tests/test_site.py"
       ],
@@ -62,7 +62,7 @@
     {
       "id": "08",
       "title": "Save, share, and keep building",
-      "guide": "labs/08-deploy/README.md",
+      "guide": "labs/08-save-and-share/README.md",
       "tests": [
         "tests/test_workflows.py",
         "tests/test_app_config.py",
@@ -137,7 +137,7 @@
     {
       "id": "06",
       "title": "Teach Copilot: an instructions file, a picture skill, and a chat",
-      "guide": "labs/06-multi-agent/README.md",
+      "guide": "labs/06-teach-copilot/README.md",
       "tests": [
         "tests/test_lab_contracts.py",
         "tests/test_workshop_ai.py",

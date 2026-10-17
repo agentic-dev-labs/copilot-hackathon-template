@@ -107,7 +107,7 @@ written in your brief. Entries that stay after a refresh are a bonus, not a requ
    sentence. Copilot builds it as an own-idea extension in a separate folder under `site/ideas/`,
    and your first page stays unchanged. If time runs out, stop; Tuesday has more time.
 2. Add sorting, a theme switch, or favorites, then repeat your checks. Or take a challenge from
-   [Lab 08's challenge card](../08-deploy/README.md#3-take-a-challenge-15-minutes).
+   [Lab 08's challenge card](../08-save-and-share/README.md#3-take-a-challenge-15-minutes).
 3. Ask for a smaller or clearer version of one button.
 4. Your entries are remembered with localStorage, in this browser only. It is not a shared
    database: another browser, or a published page, starts with the examples again.
@@ -117,4 +117,5 @@ written in your brief. Entries that stay after a refresh are a bonus, not a requ
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Reviewing and undoing changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Adding a picture to Chat](https://code.visualstudio.com/docs/chat/copilot-chat-context).
-- [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) and the [whole-week topic map](../../docs/REFERENCES.md).
+- [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage): how your page remembers entries.
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

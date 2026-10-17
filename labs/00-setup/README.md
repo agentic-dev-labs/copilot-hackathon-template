@@ -24,7 +24,8 @@ in the terminal today. The presenter shows each step first, then you try it.
 
 ### 2. Ask Your First Question (10 minutes)
 
-4. Open Chat with **View > Chat**. In the chat box, choose **Ask** from the list.
+4. Open Chat with **View > Chat**. In the chat box, choose **Ask** from the list. **Ask** only
+   answers; it never changes your files.
 5. Ask: "Explain the difference between my repository, Codespace, and Copilot in three short
    sentences. Do not change files or run commands."
    **Check:** compare the answer with the word list. Does it match?
@@ -63,4 +64,4 @@ open the **...** menu next to it, and choose **Stop codespace**. Closing the bro
 - [Codespaces overview](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces): where your Codespace runs.
 - [Codespaces quickstart](https://docs.github.com/en/codespaces/quickstart): creating and using a Codespace.
 - [Copilot getting started](https://docs.github.com/en/copilot/get-started/quickstart-for-using-github-copilot-in-your-ide): your first Chat requests.
-- [Whole-week coverage and extras](../../docs/REFERENCES.md): official links and later topics.
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

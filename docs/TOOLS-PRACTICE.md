@@ -10,16 +10,17 @@ the Project Planner. A helper can get you started while the room continues.
 
 ## Today's Route
 
-| When        | Open                                              | You are finished when                                                       |
-| ----------- | ------------------------------------------------- | --------------------------------------------------------------------------- |
-| 09:00-09:45 | [Copilot in the terminal](#copilot-in-the-terminal) | You asked Copilot CLI about your website and saw one change appear.        |
-| 09:45-10:30 | [Lab 04](../labs/04-mcp/README.md)                | Copilot read your GitHub history, and you compared a browser check.         |
-| 10:45-11:30 | [Lab 06](../labs/06-multi-agent/README.md)        | Your rules work, your own `/make-image` skill drew a picture, and your page has a chat. |
-| 11:30-12:15 | [Pick your idea](#pick-your-idea)                 | Your idea has a short brief, a first step, and is saved on GitHub.          |
-| 12:15-12:30 | [Lab 03](../labs/03-cloud-agent/README.md)        | You watched the cloud agent turn an issue into a pull request.              |
+| When        | Open                                                | You are finished when                                                                   |
+| ----------- | --------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 09:00-09:45 | [Copilot in the terminal](#copilot-in-the-terminal) | You asked Copilot CLI about your website and saw one change appear.                     |
+| 09:45-10:30 | [Lab 04](../labs/04-mcp/README.md)                  | Copilot read your GitHub history, and you compared a browser check.                     |
+| 10:30-10:45 | Break                                               |                                                                                         |
+| 10:45-11:30 | [Lab 06](../labs/06-teach-copilot/README.md)        | Your rules work, your own `/make-image` skill drew a picture, and your page has a chat. |
+| 11:30-12:15 | [Pick your idea](#pick-your-idea)                   | Your idea has a short brief, a first step, and is saved on GitHub.                      |
+| 12:15-12:30 | [Lab 03](../labs/03-cloud-agent/README.md)          | You watched the cloud agent turn an issue into a pull request.                          |
 
-The [agenda](AGENDA.md) includes the break and the rest of the week. Lab numbers are just
-names, so follow this table from top to bottom.
+Lab numbers are just names, so follow this table from top to bottom. For the other days, see
+[your week](../README.md#your-week).
 
 ## New Words for Today
 
@@ -88,39 +89,6 @@ on the same files, and you check the result the same way.
 **Done when:** your idea has a brief with a check you will do yourself, a first step started,
 and your work is visible on GitHub. Tomorrow, follow the [build day guide](DAY-4-BUILD.md).
 
-## Helper Preparation
-
-- Before Day 3, confirm the training accounts may use Copilot CLI, the remote GitHub MCP server,
-  and the cloud agent. Check one attendee sign-in path privately. Installed is not signed in.
-- **This repository keeps attendees' Copilot to its own tools.** `.vscode/mcp.json` lists only the
-  read-only GitHub server. `.vscode/settings.json` sets `chat.mcp.autostart` to `never` (nothing
-  starts until an attendee selects **Start** in Lab 04), switches off `chat.mcp.discovery.enabled`
-  for every other app (Copilot CLI, Claude, Cursor, Windsurf), and sets `chat.extensionTools.enabled`
-  and `chat.plugins.enabled` to `false`, which hides other extensions' chat tools and any agent
-  plugin. The devcontainer turns off organization custom agents. VS Code has no repository setting
-  that allows only named servers; that allowlist is enterprise policy (`allowedMcpServers` in Copilot
-  managed settings). Personal servers in your own VS Code profile are not affected, so before you
-  present, run **MCP: List Servers**, pick each personal server, and choose **Disable** for this workspace.
-- **Decision, 14 October 2026: the browser check in Lab 04 is a presenter demonstration.**
-  Attendees install nothing for it. VS Code's integrated browser and its browser tools are a VS
-  Code Desktop feature, so open your Codespace in VS Code Desktop for this demo, keep
-  `workbench.browser.enableChatTools` on, and turn on `workbench.browser.enableRemoteProxy`
-  (preview) so the browser can reach pages in the Codespace. Rehearse the exact page and steps
-  there beforehand. Serve the page privately with
-  `uv run uvicorn app.site:app --port 8000` if the tools need a web address, and never make the
-  port public. Background: in the owner's Codespace the pinned Playwright browser installed in
-  about 40 seconds (`bash .devcontainer/setup.sh browser`) but could not start, because the
-  container's default seccomp filter blocks the user namespaces Chromium's sandbox needs. Keep
-  that profile for a later owner-approved environment, such as a reviewed
-  `"runArgs": ["--security-opt", "seccomp=unconfined"]` tested in a fresh Codespace. Never add
-  `--no-sandbox`.
-- Start the cloud-agent demonstration issue before 12:15 so its pull request is ready, or show a
-  prepared one and say that it is prepared. See [Lab 03](../labs/03-cloud-agent/README.md).
-- Never publish MCP or debugger ports, disable the browser sandbox or TLS checks, or print
-  credentials. No Dataverse connection, vendor app, or research download is needed today.
-- Deeper material lives in the [advanced reference](../post-workshop/advanced/README.md); do
-  not add it to today's blocks.
-
 ## Optional extras
 
 1. In Copilot CLI, type `/help` and find one command you would like to try later.
@@ -133,4 +101,4 @@ and your work is visible on GitHub. Tomorrow, follow the [build day guide](DAY-4
 - [CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference).
 - [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and [MCP in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
 - [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills).
-- [Whole-week topic map](REFERENCES.md).
+- [Topic map (for presenters)](REFERENCES.md).

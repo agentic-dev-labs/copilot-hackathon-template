@@ -71,4 +71,4 @@ click through a page, but its report is still something you compare with what yo
 - [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and [MCP in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
 - [Set up the GitHub MCP server](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/set-up-the-github-mcp-server) and [use it in your editor](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/use-the-github-mcp-server).
 - [Browser tools in VS Code](https://code.visualstudio.com/docs/agents/run/browser-tools): what the presenter uses.
-- [Whole-week topic map](../../docs/REFERENCES.md).
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

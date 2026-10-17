@@ -46,9 +46,9 @@ def test_first_lab_requires_chat_not_terminal_setup() -> None:
 
 def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
     """Tool configuration, persistence and publication must not gate a first website."""
-    first_page = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
-    interaction = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
-    sharing = Path("labs/08-deploy/README.md").read_text(encoding="utf-8")
+    first_page = Path("labs/01-first-website/README.md").read_text(encoding="utf-8")
+    interaction = Path("labs/02-make-it-useful/README.md").read_text(encoding="utf-8")
+    sharing = Path("labs/08-save-and-share/README.md").read_text(encoding="utf-8")
     assert "python3 scripts/website_preview.py status" in first_page
     assert "appear by itself" in first_page
     assert "MCP: Add Server" not in first_page
@@ -61,7 +61,7 @@ def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
 
 def test_personalisation_lab_follows_the_chosen_category() -> None:
     """Learners improve their own page, with visual and feature changes kept small."""
-    text = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
+    text = Path("labs/02-make-it-useful/README.md").read_text(encoding="utf-8")
     for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather"):
         assert f"| {category} |" in text
     assert "**one appearance change** and **one feature change**" in text
@@ -76,7 +76,7 @@ def test_personalisation_lab_follows_the_chosen_category() -> None:
 
 def test_day_one_teaches_reading_code_undo_and_history() -> None:
     """First-timers peek at code, undo a change, and find their history, within the same times."""
-    first_page = Path("labs/01-vscode-agent/README.md").read_text(encoding="utf-8")
+    first_page = Path("labs/01-first-website/README.md").read_text(encoding="utf-8")
     blocks = re.findall(r"^## \d\. .*\((\d+) minutes\)", first_page, re.MULTILINE)
     assert sum(map(int, blocks)) == 60
     assert "## 3. Peek Inside the Code" in first_page
@@ -86,14 +86,14 @@ def test_day_one_teaches_reading_code_undo_and_history() -> None:
     planner = Path(".github/skills/create-website/assets/blueprints/project/index.html")
     assert f"<h1>{example}</h1>" in planner.read_text(encoding="utf-8")
 
-    interaction = Path("labs/02-copilot-cli/README.md").read_text(encoding="utf-8")
+    interaction = Path("labs/02-make-it-useful/README.md").read_text(encoding="utf-8")
     assert "select **Undo**" in interaction and "**Keep** and **Undo**" in interaction
     sketch = Path("docs/images/sketch-example.png")
     assert "](../../docs/images/sketch-example.png)" in interaction
     assert sketch.read_bytes()[:8] == b"\x89PNG\r\n\x1a\n" and sketch.stat().st_size < 100 * 1024
     assert "never a picture with real work information" in interaction
 
-    sharing = Path("labs/08-deploy/README.md").read_text(encoding="utf-8")
+    sharing = Path("labs/08-save-and-share/README.md").read_text(encoding="utf-8")
     blocks = re.findall(r"^### \d\. .*\((\d+) minutes\)", sharing, re.MULTILINE)
     assert sum(map(int, blocks)) == 45
     assert "**sparkle icon**" in sharing and "**Commits**" in sharing and "**History**" in sharing
@@ -491,18 +491,20 @@ def test_day_three_guide_follows_the_agenda_on_the_learners_own_page() -> None:
     assert tools.startswith("# Day 3: More Ways to Use Copilot")
     route = tools.split("## Today's Route", 1)[1].split("\n## ", 1)[0]
     times = re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", route)
-    assert times == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", agenda_day(3).replace(
-        "| 10:30-10:45 | Break", ""))
-    for target in ("../labs/04-mcp/README.md", "../labs/06-multi-agent/README.md",
+    assert times == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", agenda_day(3))
+    for target in ("../labs/04-mcp/README.md", "../labs/06-teach-copilot/README.md",
                    "../labs/03-cloud-agent/README.md", "#pick-your-idea", "DAY-4-BUILD.md"):
         assert target in tools
-    learner, helpers = tools.split("## Helper Preparation", 1)
+    # Attendees read only their own steps; the technical helper notes live in the facilitator guide.
+    facilitator = Path("docs/FACILITATOR.md").read_text(encoding="utf-8")
+    helpers = facilitator.split("## Day 3 Helper Preparation", 1)[1].split("\n## ", 1)[0]
+    assert "Helper Preparation" not in tools
+    assert "setup.sh browser" not in tools and "uvicorn" not in tools and "seccomp" not in tools
     # Since 14 October attendees install nothing on Day 3; the browser check is a presenter demo.
-    assert "setup.sh browser" not in learner and "uvicorn" not in learner
     assert "presenter demonstration" in helpers and "Never add\n  `--no-sandbox`" in helpers
     assert "uv run uvicorn app.site:app --port 8000" in helpers and "never make the\n  port public" in helpers
     assert "/login" in tools and "Never paste a password or token" in tools
-    assert "No Dataverse connection, vendor app, or research download" in tools
+    assert "No Dataverse connection, vendor app, or research download" in helpers
     old_link = Path("docs/DAY-2-TOOLS.md").read_text(encoding="utf-8")
     assert "TOOLS-PRACTICE.md" in old_link and "DAY-2-BUILD.md" in old_link
     assert "**Time-box:**" not in old_link
@@ -534,7 +536,7 @@ def test_day_three_labs_use_simple_reviewed_tools() -> None:
     assert "open the **.vscode** folder and select **mcp.json**" in mcp and "Select **Start**" in mcp
     assert "## 2. Watch Copilot Use a Browser" in mcp and "nothing to set up" in mcp
     assert "setup.sh browser" not in mcp and "uvicorn" not in mcp and "Playwright" not in mcp
-    customization = Path("labs/06-multi-agent/README.md").read_text(encoding="utf-8")
+    customization = Path("labs/06-teach-copilot/README.md").read_text(encoding="utf-8")
     assert ".github/instructions/my-website.instructions.md" in customization
     assert ".github/skills/make-image/SKILL.md" in customization
     assert "python3 scripts/workshop_ai.py image" in customization and "no real people" in customization
@@ -563,6 +565,25 @@ def test_advanced_material_is_preserved_outside_the_schedule() -> None:
         assert "**Post-workshop reference, not a workshop lab.**" in text, page
         assert "**Time-box:**" not in text, page
     assert Path("scripts/audit_hook.py").is_file() and Path(".github/agents/vendor-analyst.agent.md").is_file()
+
+
+def test_attendee_pages_stand_alone_for_first_time_users() -> None:
+    """Beginners never need the facilitator agenda, and presenter-only pages are labelled."""
+    days = [Path(f"docs/{name}.md") for name in
+            ("START-HERE", "DAY-2-BUILD", "TOOLS-PRACTICE", "DAY-4-BUILD", "DAY-5-SHOWCASE")]
+    for path in days + [Path("docs/QUICK-REFERENCE.md"), *active_lab_guides()]:
+        text = path.read_text(encoding="utf-8")
+        assert "AGENDA.md" not in text, path
+        for label in re.findall(r"\[([^\]]*)\]\([^)]*REFERENCES\.md\)", text):
+            assert label == "Topic map (for presenters)", (path, label)
+    for path in days:
+        route = path.read_text(encoding="utf-8").split("## Today's Route", 1)[1].split("\n## ", 1)[0]
+        assert "| 10:30-10:45 | Break" in route, path
+    words = Path("docs/START-HERE.md").read_text(encoding="utf-8")
+    assert "| Ask          | In Chat: Copilot only answers." in words
+    assert "| Agent        | In Chat: Copilot can change your files." in words
+    for lab in ("01-first-website", "02-make-it-useful", "06-teach-copilot", "08-save-and-share"):
+        assert Path("labs", lab, "README.md").is_file(), "folder names say what the lab does"
 
 
 def test_active_routes_do_not_send_learners_to_retired_guides() -> None:

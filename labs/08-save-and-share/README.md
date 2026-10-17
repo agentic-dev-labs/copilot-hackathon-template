@@ -87,4 +87,4 @@ not take down a published page.
 - [Commit messages with Copilot](https://code.visualstudio.com/docs/editing/copilot-smart-actions): the sparkle icon.
 - [Commit history on GitHub](https://docs.github.com/en/pull-requests/committing-changes-to-your-project/viewing-and-comparing-commits/differences-between-commit-views): commits and file history.
 - [GitHub Actions quickstart](https://docs.github.com/en/actions/get-started/quickstart): what runs when you publish.
-- [Whole-week coverage](../../docs/REFERENCES.md).
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

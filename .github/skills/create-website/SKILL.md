@@ -95,7 +95,7 @@ welcome. Offer a fresh set next time rather than repeating the same four.
 
 From here the learner leads through ordinary Chat. Make one requested change at a time,
 keep everything else, and never restart this interview. See [Start Website](../start-website/SKILL.md),
-[Stop Website](../stop-website/SKILL.md), and [Lab 02's category-specific ideas](../../../labs/02-copilot-cli/README.md).
+[Stop Website](../stop-website/SKILL.md), and [Lab 02's category-specific ideas](../../../labs/02-make-it-useful/README.md).
 
 ## How the Pages Work (Keep This When Changing Them)
 

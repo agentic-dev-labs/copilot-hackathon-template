@@ -6,14 +6,13 @@ better way of working with AI all count. Keep everything on screen fictional.
 
 ## Today's Route
 
-| When        | What happens                                                                 |
-| ----------- | ---------------------------------------------------------------------------- |
-| 09:00-09:30 | Final polish and practice your story.                                        |
-| 09:30-10:30 | Presentations, round 1.                                                      |
-| 10:45-12:00 | Presentations, round 2.                                                      |
-| 12:00-12:30 | Wrap-up: approved tools, who to ask, keeping your work, and next steps.      |
-
-The [agenda](AGENDA.md) includes the break.
+| When        | What happens                                                            |
+| ----------- | ----------------------------------------------------------------------- |
+| 09:00-09:30 | Final polish and practice your story.                                   |
+| 09:30-10:30 | Presentations, round 1.                                                 |
+| 10:30-10:45 | Break.                                                                  |
+| 10:45-12:00 | Presentations, round 2.                                                 |
+| 12:00-12:30 | Wrap-up: approved tools, who to ask, keeping your work, and next steps. |
 
 ## Your Three Minutes
 
@@ -49,7 +48,8 @@ An honest "this part does not work yet" is better than a polished claim nobody c
 - Where your work lives: your repository stays available for the agreed period. Ask before
   moving to other tools, and never remove training access or delete an account yourself.
 - Stop your Codespace when you finish; closing the browser tab does not stop it.
-- Where to go next: the [topic map](REFERENCES.md) and the questions for IT you wrote this week.
+- What to try next: keep building in your repository, try one of the later ideas in your brief,
+  and take the questions for IT you wrote this week to your technical owner.
 
 **Done when:** you have shown what you built or learned, and you know where your work lives and
 who to ask next.
@@ -64,4 +64,4 @@ who to ask next.
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Stopping a Codespace](https://docs.github.com/en/codespaces/developing-in-a-codespace/stopping-and-starting-a-codespace).
 - [Responsible use of Copilot](https://docs.github.com/en/copilot/responsible-use).
-- [Whole-week topic map](REFERENCES.md).
+- [Topic map (for presenters)](REFERENCES.md).

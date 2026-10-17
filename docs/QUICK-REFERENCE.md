@@ -8,7 +8,7 @@ step instead of racing ahead. Use made-up information only.
 | Find today's guide | In the Explorer, open **docs > START-HERE.md** (Day 1) or the guide the presenter names. |
 | Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
-| Ask Copilot | **View > Chat**. Start with a question, then ask for one small change. |
+| Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
 | Undo Copilot's change | Select **Undo** in Chat after the change. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
 | Ask what code means | Select a few lines in a file, then ask Chat: "Explain the lines I selected in plain English." |
@@ -36,7 +36,7 @@ step instead of racing ahead. Use made-up information only.
 "Change **this one thing** for **this audience**. Keep **these things** unchanged. Explain the
 small plan first. I will check it by **this action and expected result**."
 
-[Lab 02](../labs/02-copilot-cli/README.md) has ideas for each of the four websites.
+[Lab 02](../labs/02-make-it-useful/README.md) has ideas for each of the four websites.
 
 ## Trust, but Verify
 
@@ -62,7 +62,7 @@ yourself. In pairs, take turns at the keyboard. Before you leave, push your work
 Codespace at github.com/codespaces; closing the browser tab does not stop it.
 
 [Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Wednesday](TOOLS-PRACTICE.md) |
-[Thursday building](DAY-4-BUILD.md) | [Friday showcase](DAY-5-SHOWCASE.md) | [Agenda](AGENDA.md)
+[Thursday building](DAY-4-BUILD.md) | [Friday showcase](DAY-5-SHOWCASE.md) | [Your week](../README.md#your-week)
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),

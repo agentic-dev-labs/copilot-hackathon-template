@@ -70,7 +70,7 @@ hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md).
       from VS Code Desktop connected to the presenter's Codespace; the integrated browser is a
       desktop feature. Attendees install nothing for it. The Playwright browser
       profile could not start Chromium's sandbox in a default Codespace on 14 October 2026; see
-      the [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation) and never use `--no-sandbox`.
+      the [Day 3 helper notes](FACILITATOR.md#day-3-helper-preparation) and never use `--no-sandbox`.
 - [ ] Verify CLI sandbox/local-network prerequisites; package downloads alone prove neither.
       Do not bypass policy. Browser and CLI sessions do not share chat, cookies, or saved entries.
 - [ ] Permit the remote GitHub MCP server. Attendee repositories ship it in `.vscode/mcp.json`

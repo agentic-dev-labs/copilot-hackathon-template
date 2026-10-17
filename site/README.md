@@ -10,4 +10,4 @@ build your page with `/create-website`.
   customers, patients, or work records, and no private files.
 
 Your page remembers the entries you add in this browser only; it is not a shared database.
-Publishing is optional. See [Lab 01](../labs/01-vscode-agent/README.md) to get started.
+Publishing is optional. See [Lab 01](../labs/01-first-website/README.md) to get started.

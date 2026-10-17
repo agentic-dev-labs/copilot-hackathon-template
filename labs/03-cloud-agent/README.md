@@ -30,7 +30,7 @@ On a practice repository, the presenter shows:
 
 Notice the pattern: you describe the outcome, Copilot does the work in the background, and a
 person reviews before anything is accepted. It also follows the rules in your instructions file
-from [Lab 06](../06-multi-agent/README.md).
+from [Lab 06](../06-teach-copilot/README.md).
 
 **Done when:** you have seen an issue become a pull request, and the presenter's own check of
 the change before merging.
@@ -85,4 +85,4 @@ the checking.
 - [About the cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent) and [start a task](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/kick-off-a-task).
 - [Review Copilot's output](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output).
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): issues, pull requests, and merging.
-- [Whole-week topic map](../../docs/REFERENCES.md).
+- [Topic map (for presenters)](../../docs/REFERENCES.md).

@@ -110,7 +110,7 @@ agreed with David, Ali does not present: David and Jackie give the overviews and
 support with the other helpers. Confirm who restarts the room at 10:45 on Day 2 and who hosts the 14:45 demonstrations.
 
 Wednesday follows [the Day 3 guide](TOOLS-PRACTICE.md): CLI 09:00-09:45, [Lab 04](../labs/04-mcp/README.md)
-09:45-10:30 (GitHub MCP hands-on, then the presenter's browser-tools demonstration), [Lab 06](../labs/06-multi-agent/README.md)
+09:45-10:30 (GitHub MCP hands-on, then the presenter's browser-tools demonstration), [Lab 06](../labs/06-teach-copilot/README.md)
 10:45-11:30, picking an idea 11:30-12:15, and the [Lab 03](../labs/03-cloud-agent/README.md)
 cloud-agent demonstration 12:15-12:30. Every exercise uses the attendee's own website; no vendor
 app, database, or extra repository. Thursday follows [the build day guide](DAY-4-BUILD.md) with a
@@ -118,6 +118,39 @@ quick check-in at 10:45; protect the building time. Friday follows [the showcase
 about two minutes to show plus one for a question or change-over fits about 40 people across the
 two rounds with a short buffer, so present in pairs or by table if the roster is larger. Hooks, automations, multi-agent handoffs,
 saved browser tests, CI, and release verification are [post-workshop reference](../post-workshop/advanced/README.md).
+
+## Day 3 Helper Preparation
+
+- Before Day 3, confirm the training accounts may use Copilot CLI, the remote GitHub MCP server,
+  and the cloud agent. Check one attendee sign-in path privately. Installed is not signed in.
+- **This repository keeps attendees' Copilot to its own tools.** `.vscode/mcp.json` lists only the
+  read-only GitHub server. `.vscode/settings.json` sets `chat.mcp.autostart` to `never` (nothing
+  starts until an attendee selects **Start** in Lab 04), switches off `chat.mcp.discovery.enabled`
+  for every other app (Copilot CLI, Claude, Cursor, Windsurf), and sets `chat.extensionTools.enabled`
+  and `chat.plugins.enabled` to `false`, which hides other extensions' chat tools and any agent
+  plugin. The devcontainer turns off organization custom agents. VS Code has no repository setting
+  that allows only named servers; that allowlist is enterprise policy (`allowedMcpServers` in Copilot
+  managed settings). Personal servers in your own VS Code profile are not affected, so before you
+  present, run **MCP: List Servers**, pick each personal server, and choose **Disable** for this workspace.
+- **Decision, 14 October 2026: the browser check in Lab 04 is a presenter demonstration.**
+  Attendees install nothing for it. VS Code's integrated browser and its browser tools are a VS
+  Code Desktop feature, so open your Codespace in VS Code Desktop for this demo, keep
+  `workbench.browser.enableChatTools` on, and turn on `workbench.browser.enableRemoteProxy`
+  (preview) so the browser can reach pages in the Codespace. Rehearse the exact page and steps
+  there beforehand. Serve the page privately with
+  `uv run uvicorn app.site:app --port 8000` if the tools need a web address, and never make the
+  port public. Background: in the owner's Codespace the pinned Playwright browser installed in
+  about 40 seconds (`bash .devcontainer/setup.sh browser`) but could not start, because the
+  container's default seccomp filter blocks the user namespaces Chromium's sandbox needs. Keep
+  that profile for a later owner-approved environment, such as a reviewed
+  `"runArgs": ["--security-opt", "seccomp=unconfined"]` tested in a fresh Codespace. Never add
+  `--no-sandbox`.
+- Start the cloud-agent demonstration issue before 12:15 so its pull request is ready, or show a
+  prepared one and say that it is prepared. See [Lab 03](../labs/03-cloud-agent/README.md).
+- Never publish MCP or debugger ports, disable the browser sandbox or TLS checks, or print
+  credentials. No Dataverse connection, vendor app, or research download is needed today.
+- Deeper material lives in the [advanced reference](../post-workshop/advanced/README.md); do
+  not add it to today's blocks.
 
 ## Helping With Optional Publication (Lab 08)
 
@@ -424,7 +457,7 @@ is required; repository access to the prepared Actions identity must already exi
   servers in that workspace so the room sees the same tool list as attendees.
   Attendees run no browser setup. Playwright MCP stays for a later owner-approved environment,
   because Chromium's sandbox could not start in a default Codespace on 14 October 2026; see the
-  [Day 3 helper notes](TOOLS-PRACTICE.md#helper-preparation).
+  [Day 3 helper notes](#day-3-helper-preparation).
 - Run Lab 06 in a private copy that receives the FOUNDRY_* secrets: an instructions file under
   `.github/instructions/` applied to `site/`, a learner-written `make-image` skill that runs
   `scripts/workshop_ai.py` and puts the picture in the page, and the ready-made `/add-chat` with one

@@ -5,9 +5,19 @@ are no more presentations: helpers work with you at the tables. Use the same hab
 ask in Chat, watch the preview, check it yourself, and save. Use made-up content only, never
 real work data.
 
-David starts with how business and IT work together and which tools are approved. Jackie then
-shows how shared data and the Power Platform work, through examples. You do not set any of that
-up today.
+## Today's Route
+
+| When        | What happens                                                            |
+| ----------- | ----------------------------------------------------------------------- |
+| 09:00-09:30 | David: how business and IT work together, and which tools are approved. |
+| 09:30-10:30 | Jackie: how shared data and the Power Platform work, through examples.  |
+| 10:30-10:45 | Break.                                                                  |
+| 10:45-12:15 | Morning build, with help at your table.                                 |
+| 12:15-13:00 | Lunch.                                                                  |
+| 13:00-14:45 | Afternoon build, at your own pace.                                      |
+| 14:45-15:00 | Show a neighbor and plan your next step.                                |
+
+You do not set up anything from the morning talks today.
 
 ## Choose One Useful Outcome
 
@@ -60,7 +70,7 @@ still work, and save before you try something big. The terminal (CLI), MCP, and 
 come on Wednesday, not today.
 
 From 14:00, helpers can help you publish if you want to, using
-[Lab 08's optional route](../labs/08-deploy/README.md#publish-with-a-helper). Your preview is
+[Lab 08's optional route](../labs/08-save-and-share/README.md#publish-with-a-helper). Your preview is
 enough to finish.
 
 ## Show and Plan the Next Step: 14:45-15:00
@@ -92,4 +102,4 @@ for that later step.
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI-generated edits](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [Whole-week topic map](REFERENCES.md).
+- [Topic map (for presenters)](REFERENCES.md).

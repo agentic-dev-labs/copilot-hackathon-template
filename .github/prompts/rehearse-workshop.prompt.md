@@ -88,7 +88,7 @@ separate and do not invent a human observation or claim a script is that pilot.
 
 ## 2. Complete the Day 1 Labs
 
-1. [Lab 01](../../labs/01-vscode-agent/README.md): invoke the actual `/create-website` skill.
+1. [Lab 01](../../labs/01-first-website/README.md): invoke the actual `/create-website` skill.
   Check it asks exactly one question (Project Planner, Calendar, Ideas Wall, or Weather), treats
   the choice as approval, names the page after the repository, copies the tested blueprint and
   local kit, and, when a page already exists, offers the own-idea route without replacing it.
@@ -101,14 +101,14 @@ separate and do not invent a human observation or claim a script is that pilot.
   In the separate 11:45 block, check a button and a figure against the supplied source and
   calculate it independently. Record expected versus observed, not a model's self-assessment.
   No research, MCP configuration, presentation, or skill installation is required.
-2. [Lab 02](../../labs/02-copilot-cli/README.md): add one meaningful interaction and a personal
+2. [Lab 02](../../labs/02-make-it-useful/README.md): add one meaningful interaction and a personal
   improvement to the existing page. Check blank input, safe text, keyboard access, and narrow
   layout. Record manual results distinctly from any behind-the-scenes automation. Storage is
   optional; only when selected, test add/reload/remove/reload and corrupt/unavailable storage.
   Make one deliberately bold change and revert it with Chat's **Undo**. Optionally attach
   `docs/images/sketch-example.png` and record whether the model could use the image.
   Never prebuild the learner website in the source template.
-3. [Lab 08](../../labs/08-deploy/README.md): review files, generate the commit message with the
+3. [Lab 08](../../labs/08-save-and-share/README.md): review files, generate the commit message with the
   sparkle icon and correct it, commit/push with the run's approval, find the commit list, a
   commit's changes, and the file History on GitHub, and recheck the private preview. That is the
   core finish. Try one challenge-card level.
@@ -151,7 +151,7 @@ local-network prerequisites, and never disable enforced boundaries to force a su
    browser tools; record it as `browser-demo` only from a real rehearsal in the presenter's
    Codespace. Attendees run no browser setup. Playwright MCP is optional and only for an
    owner-approved environment where Chromium's sandbox starts; never add `--no-sandbox`.
-3. [Lab 06](../../labs/06-multi-agent/README.md): author an instructions file under
+3. [Lab 06](../../labs/06-teach-copilot/README.md): author an instructions file under
    `.github/instructions/` applied to `site/` and observe one of its rules being followed. Author
    the `make-image` skill, confirm discovery through its slash command, and verify it runs
    `scripts/workshop_ai.py`, saves a picture under `site/art/`, and shows it in the page. Run the
