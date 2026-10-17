@@ -1,7 +1,7 @@
 # Your Website
 
-This folder holds your website. It stays empty until Lab 01 on Monday, when you ask Copilot to
-build your page with `/create-website`.
+This folder holds your website. On Monday your idea note, **brief.md**, arrives first; then in
+Lab 01 you ask Copilot to build your page with `/create-website`.
 
 - **index.html** will be your page, and **brief.md** holds your idea and your checks.
 - Your own ideas get their own folders under **ideas/**, so your first page is never replaced.

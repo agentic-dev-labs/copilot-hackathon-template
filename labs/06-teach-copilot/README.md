@@ -87,8 +87,9 @@ are short files you wrote, and you still check what Copilot does with them.
 ## Optional extras
 
 1. **Change a picture:** write a second skill, `/edit-image`, that runs
-   `python3 scripts/workshop_ai.py edit site/art/header.jpg "my change"` and shows the new
-   version. The old picture stays, so you can always go back.
+   `python3 scripts/workshop_ai.py edit` on the picture I describe, with my change, and shows the
+   new version. Try `/edit-image make my header picture a night scene`. The old picture stays, so
+   you can always go back.
 2. Write a skill for a routine task at work and test it with made-up content, for example turning
    fictional meeting notes into a short action list.
 3. Open `.github/skills/add-chat/SKILL.md` and see how a ready-made skill is written. Read it; do
