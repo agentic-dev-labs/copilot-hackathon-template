@@ -25,8 +25,8 @@ or push for the learner.
 4. In `config.json`, set `"websiteName": "<name>"`. Change nothing else in the file.
 5. Hand over in three short lines:
    - **"Your address will be https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io"**
-   - **"Now save it: Source Control, sparkle message, Commit, then Sync Changes. Publishing starts
-     by itself and takes about three minutes."**
+   - **"Now save it as usual: Source Control, sparkle message, Commit, then ... > Push. Publishing
+     starts by itself and takes about three minutes."**
    - **"On GitHub, Actions > Publish my website shows progress; the link also appears under
      Deployments on your repository page."**
 
