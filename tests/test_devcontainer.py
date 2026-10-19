@@ -3,6 +3,8 @@
 import asyncio
 import json
 import os
+import re
+import shutil
 import subprocess
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -10,6 +12,7 @@ from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
+import yaml
 
 from scripts import check_workshop_mcp, enable_playwright_mcp
 
@@ -21,6 +24,43 @@ def test_machine_requirements_and_notes() -> None:
     assert config["hostRequirements"] == {"cpus": 4, "memory": "16gb", "storage": "32gb"}
     assert "//" not in config
     assert Path(".devcontainer/README.md").is_file()
+
+
+def test_codespaces_start_from_the_ready_made_image() -> None:
+    """Attendee copies download one published image instead of installing tools at start-up."""
+    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
+    workflow = yaml.load(
+        Path(".github/workflows/codespace-image.yml").read_text(encoding="utf-8"),
+        Loader=yaml.BaseLoader,
+    )
+    assert config["image"] == f"{workflow['env']['IMAGE']}:latest"
+    # Features would rebuild the image in every Codespace; attendees never use the Azure CLI.
+    assert "features" not in config and "build" not in config
+    job = workflow["jobs"]["build"]
+    assert job["if"] == "github.repository == 'agentic-dev-labs/copilot-hackathon-template'"
+    steps = "\n".join(step.get("run", "") for step in job["steps"])
+    assert "--network none" in steps and "--offline" in steps
+    assert steps.index("--network none") < steps.index("docker push")
+
+    dockerfile = Path(".github/codespace-image/Dockerfile").read_text(encoding="utf-8")
+    assert dockerfile.startswith("# The ready-made Codespace image.")
+    assert "uv/0.9.7/install.sh" in dockerfile and "gh.io/copilot-install" in dockerfile
+    assert "uv sync --locked --extra dev --extra web" in dockerfile
+    assert "npm ci --prefix website-preview --ignore-scripts" in dockerfile
+    assert "--no-sandbox" not in dockerfile and "insecure" not in dockerfile.lower()
+    # The image's build context holds only the dependency lists: no notes, secrets or learner work.
+    ignore = Path(".github/codespace-image/Dockerfile.dockerignore").read_text(encoding="utf-8")
+    rules = [line for line in ignore.splitlines() if line and not line.startswith("#")]
+    assert rules == [
+        "*",
+        "!pyproject.toml",
+        "!uv.lock",
+        "!.devcontainer/website-preview/package.json",
+        "!.devcontainer/website-preview/package-lock.json",
+    ]
+    for source in re.findall(r"^COPY (?!--from)(?:--chown=\S+ )?(.+) \S+$", dockerfile, re.M):
+        for path in source.split():
+            assert f"!{path}" in rules, path
 
 
 def test_beginner_preview_is_installed_and_scoped_to_the_website() -> None:
@@ -242,23 +282,36 @@ def test_only_the_template_codespace_hides_a_demo_site(
 
 
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
-@pytest.mark.parametrize("install_status,version_status", [(0, 0), (23, 0), (0, 5)])
+@pytest.mark.parametrize(
+    "preinstalled,install_status,version_status",
+    [(False, 0, 0), (False, 23, 0), (False, 0, 5), (True, 0, 0), (True, 0, 5)],
+)
 def test_cli_install_and_version_failures_propagate(
     tmp_path: Path,
+    preinstalled: bool,
     install_status: int,
     version_status: int,
 ) -> None:
-    """The on-create CLI profile verifies the binary and never hides a failed download."""
+    """The on-create CLI profile reuses the image's CLI, verifies it, and never hides a failure."""
     tools = tmp_path / ".local" / "bin"
     tools.mkdir(parents=True)
     log = tmp_path / "calls.log"
-    for name, status in (("curl", install_status), ("copilot", version_status)):
-        executable = tools / name
-        executable.write_text(
-            f'#!/bin/sh\nprintf "%s\\n" "{name} $*" >> "$SETUP_CALL_LOG"\nexit {status}\n',
-            encoding="utf-8",
-        )
-        executable.chmod(0o755)
+    copilot = tmp_path / "copilot-stub"
+    copilot.write_text(
+        f'#!/bin/sh\nprintf "%s\\n" "copilot $*" >> "$SETUP_CALL_LOG"\nexit {version_status}\n',
+        encoding="utf-8",
+    )
+    copilot.chmod(0o755)
+    if preinstalled:
+        shutil.copy(copilot, tools / "copilot")
+    # A successful download "installs" the CLI, as the real installer does.
+    install = f'cp "{copilot}" "{tools / "copilot"}"\n' if not install_status else ""
+    curl = tools / "curl"
+    curl.write_text(
+        f'#!/bin/sh\nprintf "%s\\n" "curl $*" >> "$SETUP_CALL_LOG"\n{install}exit {install_status}\n',
+        encoding="utf-8",
+    )
+    curl.chmod(0o755)
     result = subprocess.run(
         ["bash", "-o", "pipefail", ".devcontainer/setup.sh", "cli"],
         env={**os.environ, "HOME": str(tmp_path), "SETUP_CALL_LOG": str(log)},
@@ -267,7 +320,7 @@ def test_cli_install_and_version_failures_propagate(
         check=False,
     )
     assert result.returncode == (install_status or version_status)
-    expected = ["curl -fsSL https://gh.io/copilot-install"]
+    expected = [] if preinstalled else ["curl -fsSL https://gh.io/copilot-install"]
     if not install_status:
         expected.append("copilot --version")
     assert log.read_text(encoding="utf-8").splitlines() == expected

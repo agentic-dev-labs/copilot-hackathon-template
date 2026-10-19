@@ -19,23 +19,35 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
       before the event. Use a small approved pilot group for earlier testing; no bulk invite is implied here.
 - [ ] Confirm those accounts may join an external GitHub organization.
 - [ ] Assign a GitHub Copilot seat to every attendee.
-- [ ] Grant each learner or pair write access to their assigned, approved note-free repository.
-- [ ] Keep repositories private/internal and labels unique; a pair has one project and rotates the driver.
+- [ ] Let attendees make their own copy at 09:00: in agentic-dev-labs **Settings > Member
+      privileges**, allow members to create **private** repositories; flag the clean template as
+      a **template** and make sure attendees can see it. Test **Use this template** with an
+      attendee-like account: owner agentic-dev-labs, name = GitHub username, **Private**.
+- [ ] Keep repositories private and names unique; a pair has one project (the driver's) and
+      rotates the driver. Keep `scripts/create_attendee_repos.py` ready for anyone who cannot create one.
 - [ ] Confirm package/container endpoints are reachable from Codespaces, including public PyPI artifact hosts. Do not disable TLS checks.
 - [ ] Confirm `github.com` is reachable from the corporate network.
-- [ ] Confirm GitHub Codespaces is reachable and can create a container from the template.
-- [ ] Enable Codespaces prebuilds for the attendee repositories, or ask attendees to create their
-      Codespace before 09:00 on Monday, so 40-45 first creations do not consume Lab 00.
+- [ ] Confirm GitHub Codespaces is reachable and can create a container from the template, and
+      that the organization pays for Codespaces on its repositories, with a spending limit.
+- [ ] Publish the [ready-made Codespace image](../.devcontainer/README.md#ready-made-image): run
+      **Actions > Codespace image**, then make the `copilot-hackathon-codespace` package **public**
+      in its **Package settings**. In a fresh copy made with **Use this template**, time a
+      Codespace creation and confirm concurrent capacity for 40-45 starts.
+- [ ] Get the SEFR video file and the running times of the welcome and the ASTER Overview teaser
+      (HZRW). They share 09:00-09:30 with the GitHub tour; test video playback and sound in the room.
+- [ ] Confirm with David whether attendees are split across rooms MKC 1D412 and 1D413. If so,
+      agree how the second room sees and hears the presenter, and who leads the helpers there.
 - [ ] Complete the **core-only** [.devcontainer setup](../.devcontainer/README.md) in a fresh
       Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
 - [ ] Rehearse `/create-website` in Agent Chat: it asks only which of the four websites, then builds the tested blueprint, names it after the repository, and opens the preview. Check the starter's manual check yourself.
 - [ ] Verify the Website preview helper in a fresh Codespace: creation opens the panel beside Chat, edits appear by themselves, added entries survive an edit, stop closes the panel, and start reopens it. Copilot CLI sign-in stays separate before Day 3.
 - [ ] Switch on [AI pictures and chat](FACILITATOR.md#ai-pictures-and-chat): the four `FOUNDRY_*`
-      organization Codespaces secrets reach private repositories. In a fresh attendee Codespace,
+      organization Codespaces secrets have repository access set to **Private repositories**
+      (not selected ones), so copies made on Monday receive them. In a fresh attendee Codespace,
       `python3 scripts/workshop_ai.py status` reports `"ok": true`, one picture appears, and
       **Ask** answers once. Attendees never see a key or sign in to Azure.
-- [ ] Assign repositories, working branches, and unique labels in `config.json` before class.
-      Confirm review rules and the first UI-based save/commit/push without bypassing protections.
+- [ ] Confirm review rules and the first UI-based save/commit/push without bypassing protections.
+      Unique labels in `config.json` are set only for optional publication.
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
 - [ ] Rehearse all four categories: add, drag and remove in each, switch the calendar views, add a Weather city on the corporate network, and confirm an emptied page reloads its own examples. Prepare optional assisted **website** publication separately;
       no public URL or localStorage extension is needed to finish Monday.

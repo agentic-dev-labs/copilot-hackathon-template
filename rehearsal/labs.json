@@ -4,7 +4,7 @@
     {
       "id": "00",
       "title": "Foundations, files, Chat, and first saved note",
-      "guide": "labs/00-setup/README.md",
+      "guide": "README.md",
       "tests": [
         "tests/test_devcontainer.py",
         "tests/test_app_config.py"
@@ -12,7 +12,7 @@
       "checks": {
         "fresh-install": "Fresh-cache locked core installation succeeds; on-create Copilot CLI and the Website preview helper verified separately; no Chromium or research dependency startup requirement",
         "access": "GitHub and editor Chat work with the intended attendee account",
-        "orientation": "Concepts-only first block and labelled visual guide checked in browser-based Codespaces before terminal use",
+        "orientation": "Concepts-only GitHub tour from the README, including an attendee-like account making a private copy of the template in agentic-dev-labs with Use this template, and the labelled visual guide checked in browser-based Codespaces before terminal use",
         "chat-turn": "A real editor Chat request and refinement completed without terminal setup",
         "first-note": "Separate 10:00 block: learner created and corrected a brief, saved, reviewed, committed, pushed, and read back the same branch on GitHub"
       }

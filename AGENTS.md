@@ -65,8 +65,13 @@ Codespaces or Dataverse dry run.
 
 ## Maintaining workshop content
 
-The approved post-meeting 18 September curriculum replaces breadth-first Monday. Its first 30 minutes are
-concepts only: glossary, labelled screenshots, GitHub/repository/Codespace, save -> commit -> push.
+The approved post-meeting 18 September curriculum replaces breadth-first Monday. Its first 30 minutes
+hold the sponsor welcome (SEFR video) and ASTER Overview teaser (HZRW) from David's 18 October
+slide, then a concepts-only GitHub tour: GitHub, a repository, each attendee making one private
+copy of the template in agentic-dev-labs with Use this template (so nobody pushes to a shared
+repository), and save -> commit -> push. Until 10:30 attendees use
+only the repository README, the page GitHub shows them first; the presenter shows each step on
+their own repository and attendees repeat it on theirs.
 Then use short show -> try -> personalise -> verify -> share cycles: Chat first, the provided
 `/create-website` workflow, and the live Website preview beside Chat. Offer the Project Planner,
 Calendar, Ideas Wall and Weather starters, demonstrate the Project Planner, and ask only which
@@ -74,7 +79,7 @@ one; choosing is the approval to build. The agent calls the
 prepared preview helper; do not introduce attendee terminal or port setup. Continue with personalisation,
 manual behaviour and source checks, and saved work. Demonstrate every essential click, including
 finding the guide and Markdown Open Preview; these are not independent reading assignments.
-Use [docs/START-HERE.md](docs/START-HERE.md). No Monday CLI/MCP configuration, research downloads,
+Use the README until 10:30, then [docs/START-HERE.md](docs/START-HERE.md). No Monday CLI/MCP configuration, research downloads,
 skill installation, or presentation requirement. Storage and deployment are optional extensions.
 Prepare the skill, its tested category blueprints, the local kit and the editor helper, not a
 completed site/. The skill copies one self-contained index.html plus a data/*.json pretend API

@@ -63,7 +63,7 @@ post-workshop reference, not part of this run. Unit tests alone do not pass live
 
 ## 1. Establish a Fresh Environment
 
-Read [Lab 00](../../labs/00-setup/README.md) and follow the rehearsal guide's preflight.
+Read the [README's Monday morning](../../README.md#monday-morning-follow-along) and follow the rehearsal guide's preflight.
 Confirm this is a Codespace, not a local Windows terminal reusing an installed virtual environment.
 Test both package metadata and a real locked artifact from `files.pythonhosted.org`; optionally
 probe NuGet metadata and a real package as a separate .NET connectivity diagnostic.
@@ -79,10 +79,9 @@ Run `bash .devcontainer/setup.sh` for the core profile, then tests and Ruff. Sep
 on-create Copilot CLI and the prepared server-free website preview helper, without treating installation as sign-in.
 Chromium and document-conversion installs remain later profiles. Check repository access and editor Chat
 with the intended identity without printing tokens. Advanced profiles are prepared separately.
-Set the unique synthetic label as facilitator prework. Complete Lab 00's files/Chat journey and
-the separate 10:00 first-note/save/review/commit/push block in
-[START-HERE](../../docs/START-HERE.md); read back the same branch on GitHub.
-Check the concepts-only sequence and actual UI against the labelled screenshots. Automation can
+Set the unique synthetic label as facilitator prework. Complete the README's files/Chat journey
+and its separate 10:00 first-note/save/review/commit/push block; read back the same branch on GitHub.
+Check the concepts-only GitHub tour and the actual UI against [START-HERE](../../docs/START-HERE.md)'s labelled screenshots. Automation can
 inspect an interface, but cannot prove a novice understood it. Keep the human novice pilot
 separate and do not invent a human observation or claim a script is that pilot.
 

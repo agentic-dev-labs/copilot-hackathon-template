@@ -4,12 +4,13 @@
 
 **Time-box:** 60 minutes
 
-**Prerequisites:** Lab 00 and [your first note](../../docs/START-HERE.md#your-first-note), in the
-same Codespace. Nothing to install.
+**Prerequisites:** The morning steps in the [README](../../README.md#monday-morning-follow-along),
+including [your first note](../../README.md#your-first-note), in the same Codespace. Nothing to install.
 
-You choose one of four starter websites: **Project Planner**, **Calendar**, **Ideas Wall**, or
-**Weather**. The presenter builds the Project Planner; pick it if you are unsure. All four work
-the same way, and everything on them is made up. The presenter shows each step, then you try it.
+At 10:45 the presenter shows `/create-website`, then each later step, and you try each one
+straight after. You choose one of four starter websites: **Project Planner**, **Calendar**,
+**Ideas Wall**, or **Weather**. The presenter builds the Project Planner; pick it if you are
+unsure. All four work the same way, and everything on them is made up.
 
 ## 1. Pick Your Website (10 minutes)
 

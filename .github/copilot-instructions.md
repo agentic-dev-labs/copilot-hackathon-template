@@ -31,7 +31,10 @@
 - Maintain the topic map in [docs/REFERENCES.md](../docs/REFERENCES.md) and direct official links in
   every lab. Do not add product reference prose to synthetic evidence fixtures or the report template.
 - Keep CLI baselines and agent-authored reports in separate paths; test results do not prove live readiness.
-- Day 1 starts with a concepts-only first block and the glossary/screenshots in docs/START-HERE.md.
+- Day 1 starts with the sponsor welcome, SEFR video and ASTER teaser, then a concepts-only GitHub
+  tour; until 10:30 attendees follow only the README, repeating each step the presenter shows on
+  their own repository, then docs/START-HERE.md is the route. At 09:00 each attendee makes one
+  private copy of the template in agentic-dev-labs with Use this template, never a second one.
   Chat comes first. Use the provided /create-website skill: one question (Project Planner,
   Calendar, Ideas Wall, or Weather), then it builds, so learners see they can build by talking.
   Demonstrate the Project Planner; the skill copies its tested blueprint into one self-contained

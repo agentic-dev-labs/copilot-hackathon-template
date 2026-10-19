@@ -9,36 +9,51 @@ from urllib.parse import unquote, urlsplit
 import yaml
 
 
-RETIRED_LABS = {"05-dataverse-app", "07-automations-hooks"}
+SIGNPOST_LABS = {"00-setup", "05-dataverse-app", "07-automations-hooks"}
 
 
 def active_lab_guides() -> list[Path]:
-    """Exclude the retired Lab 05 and Lab 07 signposts from attendee exercise requirements."""
-    return [path for path in Path("labs").glob("*/README.md") if path.parent.name not in RETIRED_LABS]
+    """Exclude the Lab 00, Lab 05 and Lab 07 signposts from attendee exercise requirements."""
+    return [path for path in Path("labs").glob("*/README.md") if path.parent.name not in SIGNPOST_LABS]
 
 
 def test_lab_timeboxes_match_the_agenda() -> None:
     """Optional exercises must not silently extend the published core blocks."""
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
     rows = re.findall(r"\| (\d\d):(\d\d)-(\d\d):(\d\d) \| Lab (\d\d):", agenda)
-    assert {row[-1] for row in rows} == {"00", "01", "02", "08", "04", "06", "03"}
-    assert len(rows) == 7
+    assert {row[-1] for row in rows} == {"01", "02", "08", "04", "06", "03"}
+    assert len(rows) == 6
     for start_hour, start_minute, end_hour, end_minute, number in rows:
         minutes = (int(end_hour) - int(start_hour)) * 60 + int(end_minute) - int(start_minute)
         lab = next(Path("labs").glob(f"{number}-*/README.md"))
         assert f"**Time-box:** {minutes} minutes" in lab.read_text(encoding="utf-8")
+    # Monday morning's lab lives in the README, which attendees see first on GitHub.
+    assert "| 09:30-10:00 | Lab, from the README:" in agenda_day(1)
 
 
 def test_first_lab_requires_chat_not_terminal_setup() -> None:
     """The beginner entry path must not silently reintroduce diagnostic commands."""
-    text = Path("labs/00-setup/README.md").read_text(encoding="utf-8")
-    assert "docs/START-HERE.md" in text
-    assert "```bash" not in text
-    assert "copilot --version" not in text
-    assert "gh auth status" not in text
-    assert "### 2. Ask Your First Question" in text
+    readme = Path("README.md").read_text(encoding="utf-8")
+    morning = readme.split("## Monday Morning: Follow Along", 1)[1].split("\n## ", 1)[0]
+    assert "```" not in morning
+    assert "copilot --version" not in morning
+    assert "gh auth status" not in morning
+    for heading in ("### This Is GitHub", "### Find Your Files and Copilot Chat",
+                    "### Your First Note", "### Next: Your First Website"):
+        assert heading in morning
+    flat = " ".join(morning.split())
+    assert "Concepts only: no commands." in flat
+    assert "Use this template > Create a new repository" in flat
+    assert "choose **agentic-dev-labs**" in flat and "choose **Private**" in flat
+    assert "Make only one." in flat
+    assert "save -> review -> commit -> push" in flat
+    assert "presenter shows `/create-website`" in flat
+    signpost = Path("labs/00-setup/README.md").read_text(encoding="utf-8")
+    assert "README.md#monday-morning-follow-along" in signpost
+    assert "**Time-box:**" not in signpost and "```" not in signpost
     guide = Path("docs/START-HERE.md").read_text(encoding="utf-8")
-    assert "09:00-09:30: concepts only. No terminal commands." in guide
+    assert "README.md#monday-morning-follow-along" in guide
+    assert "## Your First Note" not in guide, "the note steps live only in the README"
     assert "save -> review -> commit -> push" in guide
     assert "official documentation screenshots" in guide
     assert "Expect -> try -> compare -> improve -> repeat" in guide

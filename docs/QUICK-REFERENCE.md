@@ -5,7 +5,7 @@ step instead of racing ahead. Use made-up information only.
 
 | I want to... | Where to go |
 | --- | --- |
-| Find today's guide | In the Explorer, open **docs > START-HERE.md** (Day 1) or the guide the presenter names. |
+| Find today's guide | Monday until 10:30: the **README** on your repository's GitHub page. Then, in the Explorer, **docs > START-HERE.md**, or the guide the presenter names. |
 | Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
 | Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |

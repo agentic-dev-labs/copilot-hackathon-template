@@ -7,7 +7,8 @@ checks, and saved work; Day 2 applies that workflow to participants' own ideas. 
 14 October refit, Days 3-5 stay just as simple for the same audience: a few more ways to use
 Copilot on their own website and choosing an idea (Day 3), build day (Day 4), and presentations (Day 5).
 All attendee steps use browser-based Codespaces and its Bash terminal, never a laptop runtime.
-Start with 30 minutes of concepts only. After that, show one action for 3-5 minutes, let people
+Start with the 09:00-09:30 block: the sponsor welcome (SEFR video) and the ASTER Overview teaser
+(HZRW), then your GitHub tour, concepts only. After that, show one action for 3-5 minutes, let people
 try it for 8-12, then check. Repeat within the published blocks. Do not fill their building
 time with additional demonstrations when they are making progress.
 
@@ -17,8 +18,8 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 
 | Block               | Live core                                                                                  | Prepared result or fallback                                                         |
 | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| Monday foundations  | Concepts, glossary, and labelled screenshots from [START-HERE](START-HERE.md); no commands | Point to the same controls in the actual browser-based client                       |
-| Monday first work   | Files, Chat, one idea note, save/review/commit/push                                        | Assigned working branch and tested access; no JSON or CLI setup                     |
+| Monday foundations  | Welcome, SEFR video and ASTER teaser; then on github.com: GitHub, a repository, everyone's own private copy via **Use this template**, and the README's five words; no commands | Org settings that let attendees create private repositories, tested with an attendee-like account; `scripts/create_attendee_repos.py` for anyone who cannot |
+| Monday first work   | From the README: Codespace, Chat, one idea note, save/review/commit/push                   | Assigned working branch and tested access; no JSON or CLI setup                     |
 | Monday page         | /create-website asks only the category; tested blueprint copied and named; live preview panel; Copilot explains selected code and each learner edits the `<h1>` headline by hand | Helper checks the preview helper; no completed page in the source template |
 | Monday verification | Check a button and the starter's count (or Weather against its raw data) yourself          | Optional single public figure, not a five-report assignment                         |
 | Monday afternoon    | One interaction, personal improvements, a bold change undone with **Undo**, a Copilot-written commit message, a tour of commits and file **History** on GitHub, and the bronze/silver/gold challenge card | Optional sketch-to-design moment (demonstrate it once first); storage and publication only for ready learners with help |
@@ -36,16 +37,20 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
 
 ## Room and Novice Pilot
 
-- Preflight the actual attendee account/browser/network path before the event, including the
-  assigned repository, Chat, first push, and private preview. A presenter account is not a substitute.
-- Avoid 40-45 first-time Codespace creations at 09:30 on Monday. Enable Codespaces prebuilds for
-  the attendee repositories, or ask attendees to create their Codespace before 09:00 and leave the
-  tab open. A first creation installs dependencies and the preview helper and can take minutes.
+- Preflight the actual attendee account/browser/network path before the event, including
+  creating a private repository from the template in agentic-dev-labs, Chat, first push, and
+  private preview. A presenter account is not a substitute.
+- Repositories made at 09:00 start their Codespaces from the ready-made image (see the
+  [Codespaces setup](../.devcontainer/README.md#ready-made-image)), not from prebuilds, which
+  belong to one repository. Attendees click **Create codespace** right after making their
+  repository, so it loads during the tour. Time a fresh creation in rehearsal, confirm concurrent
+  capacity, and have helpers watch for stuck creations.
 - Plan support for **roughly 40-45 attendees**, with the final roster still to be confirmed. Confirm simultaneous Codespace
   capacity, budget, and floor-helper coverage. Aim for one helper per 8-10 beginners in addition
   to the presenter; if staffing is lower, arrange pairs and reduce simultaneous troubleshooting.
-- A pair uses one assigned project and rotates the driver. Never ask two people to edit the same
-  files concurrently. Prepare unique labels in `config.json` and test branch permissions before class.
+- A pair uses one project, the driver's repository, and rotates the driver; a helper adds the
+  partner under **Settings > Collaborators and teams**. Never ask two people to edit the same
+  files concurrently. Unique labels in `config.json` are needed only for optional publication.
 - Keep the current action and expected result visible while helping somebody. Use quiet checkpoints:
   found Chat; pushed a note; opened a page; checked a behaviour and number; saved an improvement.
 - Provide the [printable quick reference](QUICK-REFERENCE.md). Demonstrate finding the instructions
@@ -70,13 +75,26 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
 
 ## Current Delivery Checkpoints
 
-Monday uses [START-HERE](START-HERE.md) as the chronological route. The note/Git block at
-10:00 and manual verification at 11:45 are outside Labs 00 and 01. Preserve afternoon building
+Monday morning runs from the repository [README](../README.md#monday-morning-follow-along): it is
+the first thing attendees see on their repository's GitHub page, so nobody has to find a guide
+before 10:30. Create your own copy live alongside the room, so your screen matches
+theirs. Each block is interactive: show one step, attendees do it on their own repository
+alongside you or straight after, then the next step.
+
+| Time        | You show                                                                                       | Attendees do                                               |
+| ----------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 09:00-09:30 | After the welcome, SEFR video and ASTER teaser: this is GitHub; this is a repository (the template's files and README); **Use this template > Create a new repository** with owner agentic-dev-labs, your username as the name, and **Private**; straight away **Code > Codespaces > Create codespace on main**, left loading in its tab; then Commits, History, Search, Issues in your new copy; the five words and save -> review -> commit -> push | Make their own private copy with you, check the owner and **Private** label, start its Codespace, then find the same places while it loads |
+| 09:30-10:00 | Switch to the Codespace tab; README with **Open Preview**; Chat in **Ask**; one question and one refinement; three feature ideas | Each step straight after you                               |
+| 10:00-10:30 | Agent mode note in `site/brief.md`; edit one sentence; Source Control; commit; push; find it on GitHub | The same, then helpers check every note is on GitHub       |
+| 10:45       | `/create-website` with the Project Planner, then [START-HERE](START-HERE.md) is the route      | Lab 01 step by step                                        |
+
+The sponsor welcome, SEFR video and ASTER teaser share the 09:00-09:30 block, so confirm their
+running time with David and use the rest for the tour. The 11:45 manual verification is outside
+Lab 01. Preserve afternoon building
 time; no storage or public URL is needed to finish. End with a neighbour seeing one working feature.
 Use `/create-website` for the first guided choice: Project Planner, Calendar, Ideas Wall, or
 Weather. Demonstrate the Project Planner. It asks only which one, then builds and opens it,
-so attendees see how little they need to say. Keep
-the sponsor welcome inside the first concepts-only block. Do not introduce a React migration
+so attendees see how little they need to say. Do not introduce a React migration
 solely because a starter template was mentioned; framework changes need an explicit decision.
 
 Fresh Codespaces prepare the repository-owned Website preview panel, plus Copilot CLI.
@@ -363,7 +381,9 @@ is a presenter fallback, not evidence that the attendee's plugin actually worked
 
 ## Create team repositories
 
-Repository secrets are **not** copied from a template. The script creates private repositories
+Attendees normally make their own private copy at 09:00 with **Use this template**. Use the
+script below beforehand or as a fallback, for example for anyone whose account cannot create
+repositories. Repository secrets are **not** copied from a template. The script creates private repositories
 and grants the configured attendee team write access. It first inspects the selected template
 and stops if facilitator preparation files are present or the inspection fails.
 

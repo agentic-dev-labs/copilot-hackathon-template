@@ -20,11 +20,31 @@ Copilot Chat's own built-in tools are unaffected. Pylance's MCP server never sta
 An exact server allowlist is enterprise policy only (`allowedMcpServers`), not a repository setting.
 The Azure Container Apps extension was removed from the editor extensions on 14 October 2026: it
 brought an Azure MCP server and Azure sign-in prompts that attendees cannot use. Facilitators who
-need it can install it in their own Codespace. Creation installs **uv and Copilot CLI**
-automatically; the CLI profile also checks `copilot --version`. Installation does not authenticate
+need it can install it in their own Codespace.
+
+## Ready-Made Image
+
+Codespaces start from a ready-made image, `ghcr.io/agentic-dev-labs/copilot-hackathon-codespace`,
+instead of installing tools each time. GitHub's own prebuilds belong to one repository, so a copy
+made with **Use this template** on Monday would get none; an image works for every copy because
+each inherits this `devcontainer.json`. The [image definition](../.github/codespace-image/Dockerfile)
+holds Node.js 22, the GitHub CLI, uv, Copilot CLI, and package caches filled from `uv.lock` and the
+preview helper's `package-lock.json`. The Azure CLI is no longer included: deployment runs in
+GitHub Actions, and AI pictures sign in with the `FOUNDRY_*` Codespaces secrets. A facilitator who
+wants `az login` installs it in their own Codespace.
+
+The [Codespace image workflow](../.github/workflows/codespace-image.yml) rebuilds and republishes
+the image on the template repository when that definition or a lockfile changes. Before
+publishing, it proves `uv sync` and `npm ci` work with networking switched off. Attendee copies
+skip that job. The package must be **public**, or new copies cannot download it: after its first
+publication, an organization owner opens the package's **Package settings** and changes its
+visibility. It contains public tools and caches only, never secrets or learner work.
+
+Creation installs uv or Copilot CLI only if the image lacks them; the CLI profile always checks
+`copilot --version`. Installation does not authenticate
 the attendee. The container requests the Python, Python Environments, and Ruff editor extensions so
 Ruff can use the project environment. Content setup runs `uv sync --locked --extra dev --extra web`
-and installs the pinned extension packager before normal attachment. The post-attach preview profile
+and `npm ci` from the image's caches, installing the pinned extension packager before normal attachment. The post-attach preview profile
 repairs any missing Python editor extensions and installs the repository-owned editor helper. When it
 repairs an older Codespace, run **Developer: Reload Window** once at its prompt. Chromium and research
 packages remain later preparation. Do not ignore a failed creation or core install. CLI teaching and
@@ -107,7 +127,7 @@ privilege configuration must permit the documented install. The launcher uses th
 headless and isolated, not the default installed Chrome channel. The `browser` profile's
 `check-browser` launches that real binary without requiring the research environment.
 
-The image and feature tags can change; extension IDs and the Copilot CLI installer
+The image tags can change; extension IDs and the Copilot CLI installer
 do not pin versions. Record tool versions during rehearsal. Installed tools do
 not prove successful authentication or organization-agent access.
 
@@ -158,7 +178,8 @@ learner website or `app.main:app` for the vendor app, then **Ports > Open in Bro
 second running server choose and forward another port, such as 8001. Keep previews private.
 Neither a laptop's localhost nor its file system points into the Codespace.
 
-Prebuilds must be configured in repository settings. Codespaces secrets and Actions
+Codespaces prebuilds are configured per repository and are not used here; the ready-made image
+replaces them. Codespaces secrets and Actions
 secrets are separate. Live Dataverse setup is preserved in the
 [post-workshop reference](../post-workshop/dataverse/README.md), not a beginner prerequisite.
 
@@ -166,7 +187,8 @@ secrets are separate. Live Dataverse setup is preserved in the
 
 - [Minimum machine specifications](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/configuring-dev-containers/setting-a-minimum-specification-for-codespace-machines)
 - [Changing machine type](https://docs.github.com/en/codespaces/customizing-your-codespace/changing-the-machine-type-for-your-codespace)
-- [Codespaces prebuilds](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds)
+- [Codespaces prebuilds](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds): why they do not reach template copies.
+- [Prebuilding dev container images](https://containers.dev/guide/prebuild) and [container package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility).
 - [Forwarding ports](https://docs.github.com/en/codespaces/developing-in-a-codespace/forwarding-ports-in-your-codespace)
 - [VS Code webviews](https://code.visualstudio.com/api/extension-guides/webview): the server-free website preview panel.
 - [VS Code API](https://code.visualstudio.com/api/references/vscode-api): editor-owned tabs and native tools.

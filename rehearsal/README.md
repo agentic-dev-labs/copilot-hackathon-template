@@ -23,8 +23,9 @@ Day 4 is build day and Day 5 is presentations. The post-workshop vendor reader u
 synthetic samples and stays read-only publicly. Dataverse is not a workshop prerequisite.
 Do not prebuild a completed learner site in the source template or copy a managed specialist.
 
-The manifest keeps seven numbered lab IDs and `day-2` to `day-5` sessions. Lab 00 also records
-concepts and first-note blocks; Lab 01 records manual verification; `day-3` records the CLI block
+The manifest keeps seven numbered lab IDs and `day-2` to `day-5` sessions. Lab 00 records the
+README's Monday morning: the GitHub tour, files and Chat, and the first note (its old lab page is
+a signpost); Lab 01 records manual verification; `day-3` records the CLI block
 and picking an idea; Lab 03 records the cloud-agent demonstration and the
 optional Day 4 try. These do not enlarge the individual active lab time-boxes. The former Lab 07
 is a signpost to the [advanced post-workshop reference](../post-workshop/advanced/README.md).

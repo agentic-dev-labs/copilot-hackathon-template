@@ -1,0 +1,60 @@
+name: Codespace image
+
+# Builds the ready-made image that attendee Codespaces download instead of installing tools
+# at start-up. Only the template repository publishes it; attendee copies skip this job.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/codespace-image/**
+      - .github/workflows/codespace-image.yml
+      - pyproject.toml
+      - uv.lock
+      - .devcontainer/website-preview/package.json
+      - .devcontainer/website-preview/package-lock.json
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: codespace-image
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/agentic-dev-labs/copilot-hackathon-codespace
+
+jobs:
+  build:
+    if: github.repository == 'agentic-dev-labs/copilot-hackathon-template'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the image
+        run: |
+          docker build --file .github/codespace-image/Dockerfile \
+            --tag "$IMAGE:latest" --tag "$IMAGE:${{ github.sha }}" .
+      - name: Check that a Codespace start needs no downloads
+        run: |
+          docker run --rm --user vscode --network none --volume "$PWD:/src:ro" "$IMAGE:latest" \
+            bash -o pipefail -c '
+              set -eu
+              cp -r /src /tmp/work && cd /tmp/work
+              uv sync --locked --extra dev --extra web --offline
+              npm ci --offline --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund
+              .venv/bin/python -c "import fastapi, pytest, uvicorn, yaml, vendor_assurance"
+              node --version
+              gh --version
+            '
+      - name: Check the installed Copilot CLI
+        run: docker run --rm --user vscode "$IMAGE:latest" copilot --version
+      - name: Publish the image
+        env:
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          printf '%s' "$REGISTRY_TOKEN" | docker login ghcr.io --username "${{ github.actor }}" --password-stdin
+          docker push --all-tags "$IMAGE"
+          printf 'Published %s:latest and %s:%s\n' "$IMAGE" "$IMAGE" "${{ github.sha }}"

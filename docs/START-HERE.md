@@ -4,12 +4,14 @@ Welcome! Today you will build a small website just by describing it, check that 
 save it on GitHub. You do not need to know how to code. Everything happens in your web browser;
 nothing is installed on your laptop. Use made-up examples only, never real work information.
 
+Until 10:30 you follow the repository's [README](../README.md#monday-morning-follow-along). This
+page is your route for the whole day, a picture guide to the screen, and the full word list.
 The presenter shows every step first, then gives you time to try it. You do not need to read
 ahead. Keep the [printable quick reference](QUICK-REFERENCE.md) beside you.
 
-## First Block: Understand the Workspace
+## Words You Will Hear
 
-**09:00-09:30: concepts only. No terminal commands.** Just watch and listen.
+You do not need to learn these now. Come back here when a word is new.
 
 | Word         | What it means                                                     |
 | ------------ | ----------------------------------------------------------------- |
@@ -61,7 +63,7 @@ Select the **+** next to a file you checked to include it in your next snapshot.
 ![A short commit message and the Commit button.](https://docs.github.com/assets/images/help/codespaces/vscode-commit-button.png)
 
 Type a short **message** about what you changed, select **Commit**, then choose **... > Push**.
-Your repository already exists, so never create a new one.
+You made your repository this morning, so never make a second one.
 
 Source: [GitHub's Codespaces source-control guide](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
 GitHub Docs screenshots are shown unmodified under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
@@ -78,10 +80,11 @@ stay saved. This is different from **Open Preview**, which shows a document like
 
 | When        | Open                                          | You are finished when                                   |
 | ----------- | --------------------------------------------- | ------------------------------------------------------- |
-| 09:30-10:00 | [Lab 00](../labs/00-setup/README.md)          | You can find your files and ask Chat a question.        |
-| 10:00-10:30 | [Your first note](#your-first-note)           | Your note is saved on GitHub.                           |
+| 09:00-09:30 | [README: This is GitHub](../README.md#this-is-github) | You found your files, commits, and one file's history. |
+| 09:30-10:00 | [README: Files and Chat](../README.md#find-your-files-and-copilot-chat) | You can find your files and ask Chat a question. |
+| 10:00-10:30 | [README: Your first note](../README.md#your-first-note) | Your note is saved on GitHub.                  |
 | 10:30-10:45 | Break                                         |                                                         |
-| 10:45-11:45 | [Lab 01](../labs/01-first-website/README.md)  | Your first page opens beside Chat.                      |
+| 10:45-11:45 | [Lab 01](../labs/01-first-website/README.md)  | The presenter showed `/create-website`; your first page opens beside Chat. |
 | 11:45-12:15 | Lab 01's checking block                       | You checked a button and a number yourself.             |
 | 12:15-13:00 | Lunch                                         |                                                         |
 | 13:00-14:00 | [Lab 02](../labs/02-make-it-useful/README.md) | Your page has your own look and one new feature.        |
@@ -90,28 +93,6 @@ stay saved. This is different from **Open Preview**, which shows a document like
 
 Lab numbers are just names, so follow this table from top to bottom. For the other days, see
 [your week](../README.md#your-week).
-
-## Your First Note
-
-**10:00-10:30.** The presenter shows each step, then pauses for your turn.
-
-1. In Chat, choose **Agent** when the presenter shows it: **Agent** can change your files. Type:
-   "Create site/brief.md with my idea: a made-up project planner for a team week. Include who
-   it is for, three things it should show, and one thing I can check. Do not build the website yet."
-   You may describe a calendar, an ideas wall, or a weather page instead.
-2. Open **Explorer > site > brief.md**. Read it and change one sentence into your own words.
-   **Check:** it describes your idea, not something else.
-3. Choose **File > Save**. Open **Source Control** and select the note to see what changed.
-   **Check:** only your note is listed.
-4. Select the **+** next to it, type `Describe my website idea`, select **Commit**, then
-   **... > Push**.
-   **Check:** open your repository on GitHub in a new browser tab and open **site/brief.md**.
-   Your sentence is there.
-
-You work in your own repository, on the `main` branch unless a helper says otherwise. If
-anything asks you to create a new repository, says a push was rejected, or mentions a
-conflict, stop and ask a helper. Never force a push. If you work in a pair, take turns at the
-keyboard.
 
 ## The Habit to Keep
 

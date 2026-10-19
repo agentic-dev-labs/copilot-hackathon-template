@@ -1,6 +1,6 @@
 # Five-day agenda
 
-**Location:** Princeton, New Jersey  
+**Location:** Princeton, New Jersey; Days 1-2 in rooms MKC 1D412 and 1D413  
 **Dates:** Monday 26 October-Friday 30 October 2026
 
 **Post-meeting revision: 18 September 2026. Days 3-5 simplified: 14 October 2026.** The whole
@@ -29,29 +29,38 @@ and [current release notes](https://github.blog/changelog/label/copilot/).
 Feature availability depends on client, model, license, and policy; previews are not lab prerequisites.
 Use the [coverage and official reference guide](REFERENCES.md) for topic-level links and short
 optional tasks for every day. Monday's guides support live demonstrations, not independent
-self-study. Use [START-HERE](START-HERE.md) and the [printable quick reference](QUICK-REFERENCE.md).
+self-study. Monday morning runs from the repository [README](../README.md#monday-morning-follow-along);
+from 10:45 use [START-HERE](START-HERE.md) and the [printable quick reference](QUICK-REFERENCE.md).
 
-## Day 1 - Monday, 6 hours - Line of Business
+## Day 1 - Monday, 6 hours - GitHub and your first app (Line of Business)
+
+Timings and wording follow David's latest slide (18 October 2026). Ali presents every block after
+the opening welcome and teaser. The labs are interactive: Ali shows one step on his own
+repository, attendees do it on theirs alongside him or straight after, then the next step.
 
 | Time        | Activity                                                                                                                                            |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 09:00-09:30 | Brief sponsor welcome within the concepts-only block; glossary, screenshots, GitHub/repository/Codespace, save -> commit -> push; no commands |
-| 09:30-10:00 | Lab 00: Find your files and Copilot Chat; ask and refine one question                                                                               |
-| 10:00-10:30 | Show and try: create a short idea note; save, review, commit, push, and confirm the file on GitHub                                                  |
+| 09:00-09:30 | Sponsor welcome (SEFR video), ASTER Overview teaser (HZRW), glossary and GitHub basics (concepts only): Ali shows GitHub and a repository, then everyone makes their own private copy of the template in agentic-dev-labs with Use this template and looks around it; no commands |
+| 09:30-10:00 | Lab, from the README: find files and Copilot Chat; ask and refine a question                                                                       |
+| 10:00-10:30 | Create an idea note; save, review, commit, push, and verify it on GitHub (README)                                                                   |
 | 10:30-10:45 | Break                                                                                                                                               |
-| 10:45-11:45 | Lab 01: Use /create-website to pick a Project Planner, Calendar, Ideas Wall, or Weather page; it builds and opens the live preview |
-| 11:45-12:15 | Trust but verify: manually check a button and a figure against its source; describe a real issue, improve, and recheck                              |
+| 10:45-11:45 | Lab 01: Ali shows /create-website, then attendees create a Project Planner, Calendar, Ideas Wall, or Weather website and preview it |
+| 11:45-12:15 | Trust but verify: check a button and a figure, fix, and recheck                                                                                     |
 | 12:15-13:00 | Lunch                                                                                                                                               |
-| 13:00-14:00 | Lab 02: Make your website useful; add one interaction, personalize, and check it yourself                                                           |
-| 14:00-14:45 | Lab 08: Save, share, and keep building; supported publication is optional, not the core finish                                                      |
-| 14:45-15:00 | Pair sharing and selected volunteer demonstrations: what worked, what you checked, and a possible work use |
+| 13:00-14:00 | Lab 02: Add a useful interaction, personalize, and check                                                                                            |
+| 14:00-14:45 | Lab 08: Save, share, and keep building (publication optional)                                                                                       |
+| 14:45-15:00 | Pair sharing and selected volunteer demonstrations                                                                                                  |
 
 **Finish:** a personalized page with one useful interaction, a headline changed by hand after
 reading the code with Copilot, one change undone on purpose, manual behavior and source checks,
 and reviewed work visible in GitHub, including its history. A private preview is enough. Remembering browser data and
 publication are optional extensions. No CLI, MCP, PDF download, presentation, or skill installation
-gates Monday's finish. The [beginner guide](START-HERE.md) is the chronological route.
-The 10:00 note block and 11:45 verification block are separate from Labs 00 and 01.
+gates Monday's finish. Until 10:30 the [README](../README.md#monday-morning-follow-along) is the
+attendees' only page, so they see it on their repository's GitHub page without finding a file;
+from 10:45 the [beginner guide](START-HERE.md) is the chronological route. At 09:00 every
+attendee (or the driver of a pair) makes one private copy of the template in agentic-dev-labs,
+so nobody pushes to a shared repository.
+The 11:45 verification block is separate from Lab 01.
 The presenter uses the Project Planner; Calendar, Ideas Wall and Weather follow the same guided
 steps. Complete, check, save, and show that page before an own-idea page, preserving
 the first page. Fast finishers may start their own idea on Monday; it is Tuesday's main focus.

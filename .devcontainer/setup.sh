@@ -54,7 +54,10 @@ case "${1:-core}" in
 		fi
 		;;
 	cli)
-		curl -fsSL https://gh.io/copilot-install | bash
+		# The ready-made image already has Copilot CLI; download it only when it is missing.
+		if ! command -v copilot >/dev/null 2>&1; then
+			curl -fsSL https://gh.io/copilot-install | bash
+		fi
 		copilot --version
 		;;
 	browser)
