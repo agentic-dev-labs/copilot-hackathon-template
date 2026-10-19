@@ -33,10 +33,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
       - name: Build the image
         run: |
-          docker build --file .github/codespace-image/Dockerfile \
-            --tag "$IMAGE:latest" --tag "$IMAGE:${{ github.sha }}" .
+          docker buildx build --file .github/codespace-image/Dockerfile \
+            --tag "$IMAGE:latest" --load .
       - name: Check that a Codespace start needs no downloads
         run: |
           docker run --rm --user vscode --network none --volume "$PWD:/src:ro" "$IMAGE:latest" \
@@ -46,15 +47,21 @@ jobs:
               uv sync --locked --extra dev --extra web --offline
               npm ci --offline --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund
               .venv/bin/python -c "import fastapi, pytest, uvicorn, yaml, vendor_assurance"
+              python3 --version
               node --version
               gh --version
+              git --version
             '
-      - name: Check the installed Copilot CLI
-        run: docker run --rm --user vscode "$IMAGE:latest" copilot --version
-      - name: Publish the image
+      - name: Check that Copilot CLI installs after start
+        run: |
+          docker run --rm --user vscode --volume "$PWD:/src:ro" "$IMAGE:latest" \
+            bash -o pipefail -c 'cp -r /src /tmp/work && cd /tmp/work && bash -o pipefail .devcontainer/setup.sh cli'
+      - name: Publish the image with zstd layers
         env:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           printf '%s' "$REGISTRY_TOKEN" | docker login ghcr.io --username "${{ github.actor }}" --password-stdin
-          docker push --all-tags "$IMAGE"
+          # zstd layers unpack faster than gzip on Codespaces machines.
+          docker buildx build --file .github/codespace-image/Dockerfile \
+            --output "type=image,\"name=$IMAGE:latest,$IMAGE:${{ github.sha }}\",push=true,compression=zstd,compression-level=3,force-compression=true,oci-mediatypes=true" .
           printf 'Published %s:latest and %s:%s\n' "$IMAGE" "$IMAGE" "${{ github.sha }}"

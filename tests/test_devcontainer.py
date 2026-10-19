@@ -27,7 +27,7 @@ def test_machine_requirements_and_notes() -> None:
 
 
 def test_codespaces_start_from_the_ready_made_image() -> None:
-    """Attendee copies download one published image instead of installing tools at start-up."""
+    """Attendee copies download one small published image instead of installing tools at start-up."""
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
     workflow = yaml.load(
         Path(".github/workflows/codespace-image.yml").read_text(encoding="utf-8"),
@@ -36,15 +36,26 @@ def test_codespaces_start_from_the_ready_made_image() -> None:
     assert config["image"] == f"{workflow['env']['IMAGE']}:latest"
     # Features would rebuild the image in every Codespace; attendees never use the Azure CLI.
     assert "features" not in config and "build" not in config
+    # Plain Debian carries no dev container metadata, so the user is named here.
+    assert config["remoteUser"] == "vscode"
+    # Copilot CLI is a large download needed from Day 3: it installs after the editor opens.
+    assert config["postCreateCommand"] == "bash -o pipefail .devcontainer/setup.sh cli"
     job = workflow["jobs"]["build"]
     assert job["if"] == "github.repository == 'agentic-dev-labs/copilot-hackathon-template'"
     steps = "\n".join(step.get("run", "") for step in job["steps"])
     assert "--network none" in steps and "--offline" in steps
-    assert steps.index("--network none") < steps.index("docker push")
+    assert steps.index("--network none") < steps.index("push=true")
+    assert steps.index(".devcontainer/setup.sh cli") < steps.index("push=true")
+    assert "compression=zstd" in steps
 
     dockerfile = Path(".github/codespace-image/Dockerfile").read_text(encoding="utf-8")
     assert dockerfile.startswith("# The ready-made Codespace image.")
-    assert "uv/0.9.7/install.sh" in dockerfile and "gh.io/copilot-install" in dockerfile
+    # Measured 19 October 2026: devcontainer base images were mostly unused tools, and GitHub's
+    # default universal image was not cached for derived images, so the image starts from Debian.
+    assert re.findall(r"^FROM (\S+)", dockerfile, re.M) == ["debian:bookworm-slim"]
+    assert "useradd --create-home --shell /bin/bash --uid 1000 vscode" in dockerfile
+    assert "uv/0.9.7/install.sh" in dockerfile and "uv python install 3.12" in dockerfile
+    assert "gh.io/copilot-install" not in dockerfile
     assert "uv sync --locked --extra dev --extra web" in dockerfile
     assert "npm ci --prefix website-preview --ignore-scripts" in dockerfile
     assert "--no-sandbox" not in dockerfile and "insecure" not in dockerfile.lower()
@@ -124,8 +135,8 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     assert "bash .devcontainer/mcp.sh check-browser" in setup
     assert "bash .devcontainer/mcp.sh check-research" in setup
     assert 'case "${1:-core}" in' in setup
-    assert set(config["onCreateCommand"]) == {"uv", "copilot-cli"}
-    assert config["onCreateCommand"]["copilot-cli"] == "bash -o pipefail .devcontainer/setup.sh cli"
+    assert set(config["onCreateCommand"]) == {"uv"}
+    assert config["postCreateCommand"] == "bash -o pipefail .devcontainer/setup.sh cli"
     assert config["remoteEnv"]["UV_NATIVE_TLS"] == "true"
     assert 'export UV_NATIVE_TLS="${UV_NATIVE_TLS:-true}"' in setup
     assert "python -m rehearsal.network" in setup
@@ -147,6 +158,18 @@ def test_python_environment_is_prepared_for_ruff() -> None:
     setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
     for extension in required_extensions:
         assert f'ensure_editor_extension "{extension}"' in setup
+
+
+def test_terminals_are_not_interrupted_while_the_codespace_opens() -> None:
+    """Terminal auto-activation typed Ctrl+C into the preview install (observed 19 October 2026)."""
+    settings = json.loads(Path(".vscode/settings.json").read_text(encoding="utf-8"))
+    # The project environment is already first on PATH, so activation adds nothing.
+    assert settings["python.terminal.activateEnvironment"] is False
+    assert settings["python-envs.terminal.autoActivationType"] == "off"
+    setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
+    preview = setup.split("\tpreview)", 1)[1].split("\t;;", 1)[0]
+    assert "trap '' INT" in preview
+    assert preview.index("trap '' INT") < preview.index("code --install-extension")
 
 
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
@@ -330,7 +353,7 @@ def test_setup_does_not_hide_failures_or_request_day_two_secrets() -> None:
     """The first lab needs working tools, not Dataverse credentials."""
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
 
-    for command in config["onCreateCommand"].values():
+    for command in [*config["onCreateCommand"].values(), config["postCreateCommand"]]:
         assert "pipefail" in command
         assert "||" not in command
     assert "secrets" not in config

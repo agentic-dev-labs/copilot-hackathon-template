@@ -51,7 +51,7 @@ only: no commands. Watch each step, then try it on your own repository.
    at the keyboard makes one, and a helper adds the partner.
 4. **Start your Codespace now, so it is ready later.** On your new repository's page, select the
    green **Code** button, then **Codespaces**, then **Create codespace on main**. It opens in a new
-   tab and takes a few minutes. Leave it loading and come back to this tab.
+   tab and takes about a minute. Leave it loading and come back to this tab.
 5. **Look around your own repository** while it loads:
    - **See every snapshot:** select **Commits** (next to the clock icon). Your first one is there.
    - **Read any file:** select a file name. Pages ending in `.md`, like this one, show nicely.
@@ -80,6 +80,9 @@ loading, and you found its files, its list of commits, and one file's history.
 1. Switch to your Codespace's tab. If you closed it, select the green **Code** button on your
    repository's page, then **Codespaces**, and open the one listed there. Never create a second
    one. If it is still loading or shows an error, tell a helper. Nothing goes on your laptop.
+   If it asks **Do you trust the authors of the files in this folder?**, choose
+   **Trust Folder & Continue**: it is your own copy of the workshop, and your website preview
+   needs it.
 2. In the **Explorer**, the file list on the left, right-click **README.md** and choose
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
    its other tab.

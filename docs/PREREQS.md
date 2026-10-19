@@ -29,10 +29,10 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 - [ ] Confirm `github.com` is reachable from the corporate network.
 - [ ] Confirm GitHub Codespaces is reachable and can create a container from the template, and
       that the organization pays for Codespaces on its repositories, with a spending limit.
-- [ ] Publish the [ready-made Codespace image](../.devcontainer/README.md#ready-made-image): run
-      **Actions > Codespace image**, then make the `copilot-hackathon-codespace` package **public**
-      in its **Package settings**. In a fresh copy made with **Use this template**, time a
-      Codespace creation and confirm concurrent capacity for 40-45 starts.
+- [ ] Keep the [ready-made Codespace image](../.devcontainer/README.md#ready-made-image) public
+      (**Actions > Codespace image** republishes it). In a fresh copy made with **Use this
+      template**, check a Codespace is ready in about a minute, choose **Trust Folder & Continue**,
+      and confirm the Website preview helper installs. Confirm concurrent capacity for 40-45 starts.
 - [ ] Get the SEFR video file and the running times of the welcome and the ASTER Overview teaser
       (HZRW). They share 09:00-09:30 with the GitHub tour; test video playback and sound in the room.
 - [ ] Confirm with David whether attendees are split across rooms MKC 1D412 and 1D413. If so,

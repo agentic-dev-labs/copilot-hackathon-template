@@ -28,24 +28,37 @@ Codespaces start from a ready-made image, `ghcr.io/agentic-dev-labs/copilot-hack
 instead of installing tools each time. GitHub's own prebuilds belong to one repository, so a copy
 made with **Use this template** on Monday would get none; an image works for every copy because
 each inherits this `devcontainer.json`. The [image definition](../.github/codespace-image/Dockerfile)
-holds Node.js 22, the GitHub CLI, uv, Copilot CLI, and package caches filled from `uv.lock` and the
-preview helper's `package-lock.json`. The Azure CLI is no longer included: deployment runs in
-GitHub Actions, and AI pictures sign in with the `FOUNDRY_*` Codespaces secrets. A facilitator who
-wants `az login` installs it in their own Codespace.
+starts from plain `debian:bookworm-slim` and adds a `vscode` user with sudo, Git, the GitHub CLI,
+Node.js 22, uv with Python 3.12, and package caches filled from `uv.lock` and the preview helper's
+`package-lock.json`. The Azure CLI is not included: deployment runs in GitHub Actions, and AI
+pictures sign in with the `FOUNDRY_*` Codespaces secrets. A facilitator who wants `az login`
+installs it in their own Codespace.
+
+Measured on 19 October 2026 (Europe West, 4-core, click to a connected editor): the earlier setup
+took 4 min 10 s, a 0.85 GB image on the Python dev container base 1 min 44-53 s, and this
+minimal image 47-51 s. Building on GitHub's default `universal` image took over 6 minutes, because
+none of its layers were already on the Codespaces machine. About 25 s of each start is GitHub
+allocating the machine and VS Code connecting, which no image changes.
 
 The [Codespace image workflow](../.github/workflows/codespace-image.yml) rebuilds and republishes
 the image on the template repository when that definition or a lockfile changes. Before
-publishing, it proves `uv sync` and `npm ci` work with networking switched off. Attendee copies
-skip that job. The package must be **public**, or new copies cannot download it: after its first
-publication, an organization owner opens the package's **Package settings** and changes its
-visibility. It contains public tools and caches only, never secrets or learner work.
+publishing, it proves `uv sync` and `npm ci` work with networking switched off and that Copilot
+CLI installs on the image, then pushes zstd-compressed layers, which unpack faster. Attendee copies
+skip that job. The package must be **public**, or new copies cannot download it: the organization
+must allow public packages (**Settings > Packages**), and after the first publication an owner
+changes the package's visibility in its **Package settings**. It contains public tools and caches
+only, never secrets or learner work.
 
-Creation installs uv or Copilot CLI only if the image lacks them; the CLI profile always checks
+Creation installs uv only if the image lacks it. Copilot CLI is a large download needed from Day
+3, so `postCreateCommand` installs it just after the editor opens, and the CLI profile checks
 `copilot --version`. Installation does not authenticate
 the attendee. The container requests the Python, Python Environments, and Ruff editor extensions so
 Ruff can use the project environment. Content setup runs `uv sync --locked --extra dev --extra web`
 and `npm ci` from the image's caches, installing the pinned extension packager before normal attachment. The post-attach preview profile
-repairs any missing Python editor extensions and installs the repository-owned editor helper. When it
+repairs any missing Python editor extensions and installs the repository-owned editor helper. Terminal
+auto-activation is off in `.vscode/settings.json` because `.venv/bin` is already first on `PATH`:
+on 19 October 2026 the Python extension typed Ctrl+C into the preview install while the editor
+opened, so the helper was never installed. The preview profile also ignores Ctrl+C. When it
 repairs an older Codespace, run **Developer: Reload Window** once at its prompt. Chromium and research
 packages remain later preparation. Do not ignore a failed creation or core install. CLI teaching and
 sign-in checks remain in Day 3.

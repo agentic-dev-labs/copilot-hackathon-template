@@ -31,6 +31,9 @@ case "${1:-core}" in
 		npm ci --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund
 		;;
 	preview)
+		# The Python extension can type Ctrl+C into this terminal while the editor opens;
+		# ignore it so the helper still gets installed.
+		trap '' INT
 		if ! command -v code >/dev/null 2>&1; then
 			printf 'Preview helper installation needs an attached Codespaces editor.\n' >&2
 			exit 1
@@ -54,7 +57,7 @@ case "${1:-core}" in
 		fi
 		;;
 	cli)
-		# The ready-made image already has Copilot CLI; download it only when it is missing.
+		# Runs just after the editor opens; download Copilot CLI only when it is missing.
 		if ! command -v copilot >/dev/null 2>&1; then
 			curl -fsSL https://gh.io/copilot-install | bash
 		fi

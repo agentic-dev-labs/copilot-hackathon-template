@@ -20,5 +20,7 @@
     "windsurf": false
   },
   "chat.extensionTools.enabled": false,
-  "chat.plugins.enabled": false
+  "chat.plugins.enabled": false,
+  "python.terminal.activateEnvironment": false,
+  "python-envs.terminal.autoActivationType": "off"
 }

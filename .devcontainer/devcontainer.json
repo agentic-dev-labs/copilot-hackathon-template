@@ -1,16 +1,17 @@
 {
   "name": "Copilot Hackathon",
   "image": "ghcr.io/agentic-dev-labs/copilot-hackathon-codespace:latest",
+  "remoteUser": "vscode",
   "hostRequirements": {
     "cpus": 4,
     "memory": "16gb",
     "storage": "32gb"
   },
   "onCreateCommand": {
-    "uv": "bash -o pipefail -c 'if ! command -v uv >/dev/null; then curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh; fi'",
-    "copilot-cli": "bash -o pipefail .devcontainer/setup.sh cli"
+    "uv": "bash -o pipefail -c 'if ! command -v uv >/dev/null; then curl -LsSf https://astral.sh/uv/0.9.7/install.sh | sh; fi'"
   },
   "updateContentCommand": "bash .devcontainer/setup.sh",
+  "postCreateCommand": "bash -o pipefail .devcontainer/setup.sh cli",
   "postAttachCommand": {
     "website-preview": "bash .devcontainer/setup.sh preview",
     "welcome": "printf '\\nWelcome! Follow the presenter. Until 10:30 your guide is README.md; then docs/START-HERE.md.\\n'"

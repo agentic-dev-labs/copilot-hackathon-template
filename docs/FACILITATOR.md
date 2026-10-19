@@ -42,9 +42,11 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
   private preview. A presenter account is not a substitute.
 - Repositories made at 09:00 start their Codespaces from the ready-made image (see the
   [Codespaces setup](../.devcontainer/README.md#ready-made-image)), not from prebuilds, which
-  belong to one repository. Attendees click **Create codespace** right after making their
-  repository, so it loads during the tour. Time a fresh creation in rehearsal, confirm concurrent
-  capacity, and have helpers watch for stuck creations.
+  belong to one repository. Measured on 19 October 2026, a fresh Codespace was ready in about
+  50 seconds. Attendees click **Create codespace** right after making their repository, so it loads
+  during the tour. VS Code then asks **Do you trust the authors of the files in this folder?**;
+  attendees choose **Trust Folder & Continue**, or the Website preview helper is not installed.
+  Confirm concurrent capacity, and have helpers watch for stuck creations.
 - Plan support for **roughly 40-45 attendees**, with the final roster still to be confirmed. Confirm simultaneous Codespace
   capacity, budget, and floor-helper coverage. Aim for one helper per 8-10 beginners in addition
   to the presenter; if staffing is lower, arrange pairs and reduce simultaneous troubleshooting.
