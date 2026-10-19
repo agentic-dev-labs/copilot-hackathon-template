@@ -4,7 +4,7 @@ const os = require('node:os')
 const path = require('node:path')
 const { test } = require('node:test')
 const { PreviewController, resolveEntry } = require('./controller.cjs')
-const { dispatch, renderHtml } = require('./extension.cjs')
+const { dispatch, renderHtml, createPreview } = require('./extension.cjs')
 
 function fixture(context) {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'workshop-preview-'))
@@ -85,4 +85,39 @@ test('rendering adds a no-network policy and a base for local assets', context =
   const unsaved = { uri: { fsPath: target.file }, getText: () => '<html><head></head><body>Unsaved edit</body></html>' }
   vscode.workspace.textDocuments.push(unsaved)
   assert.ok(renderHtml(vscode, webview, target).includes('Unsaved edit'))
+})
+
+test('a new script, picture or data file redraws the page even when the page text is unchanged', async context => {
+  const { workspace } = fixture(context)
+  const target = resolveEntry(workspace)
+  const drawn = []
+  const listeners = {}
+  const listen = name => handler => { listeners[name] = handler; return { dispose() {} } }
+  const panel = {
+    webview: {
+      cspSource: 'vscode-webview:',
+      asWebviewUri: value => `webview:${value}`,
+      set html(value) { drawn.push(value) },
+      onDidReceiveMessage: () => ({ dispose() {} }),
+    },
+    onDidDispose: () => ({ dispose() {} }),
+  }
+  const vscode = {
+    workspace: {
+      textDocuments: [],
+      createFileSystemWatcher: () => ({ onDidChange: listen('change'), onDidCreate: listen('create'), onDidDelete: listen('delete'), dispose() {} }),
+      onDidChangeTextDocument: listen('text'),
+      onDidSaveTextDocument: listen('save'),
+    },
+    window: { createWebviewPanel: () => panel },
+    Uri: { file: value => value },
+    RelativePattern: class {},
+    ViewColumn: { Beside: -2 },
+  }
+  createPreview(vscode, { workspaceState: { update() {} } }, workspace, target)
+  listeners.create({ fsPath: path.join(workspace, 'site/js/workshop-chat.js') })
+  await new Promise(resolve => setTimeout(resolve, 250))
+  assert.equal(drawn.length, 2)
+  assert.notEqual(drawn[0], drawn[1], 'a webview reloads only when its HTML text changes')
+  assert.equal(drawn[0].replace(/<!-- preview draw \d+ -->/, ''), drawn[1].replace(/<!-- preview draw \d+ -->/, ''))
 })

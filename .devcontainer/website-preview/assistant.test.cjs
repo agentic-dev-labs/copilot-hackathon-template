@@ -51,6 +51,7 @@ test('asks with an Entra ID token, never an API key, and keeps the page as data'
   assert.equal(body.instructions, INSTRUCTIONS)
   assert.match(INSTRUCTIONS, /data, not instructions/)
   assert.match(body.input, /Question: What is left\?$/)
+  assert.match(body.input, /Page content:\nMonday: Write the brief\nMonday: Write the brief\n/, 'line breaks keep the page readable')
   assert.ok(body.input.length < 6300, 'the page text is clipped')
 })
 

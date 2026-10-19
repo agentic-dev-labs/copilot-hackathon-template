@@ -41,6 +41,11 @@ function clip(value, limit) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, limit)
 }
 
+/** Like clip, but keeps one line break between lines so the model still sees which text belongs together. */
+function clipLines(value, limit) {
+  return String(value || '').replace(/[^\S\n]+/g, ' ').replace(/ ?\n\s*/g, '\n').trim().slice(0, limit)
+}
+
 /** Create an assistant with its own token cache; settings, fetchImpl and now are injectable for tests. */
 function createAssistant({ settings = null, loadSettings = readSettings, fetchImpl = globalThis.fetch, now = Date.now } = {}) {
   let current = settings
@@ -85,7 +90,7 @@ function createAssistant({ settings = null, loadSettings = readSettings, fetchIm
     if (!current) throw new Error(NOT_READY)
     const asked = clip(question, MAX_QUESTION)
     if (!asked) throw new Error('Type a question first.')
-    const input = `Page title: ${clip(title, 120)}\n\nPage content:\n${clip(page, MAX_PAGE)}\n\nQuestion: ${asked}`
+    const input = `Page title: ${clip(title, 120)}\n\nPage content:\n${clipLines(page, MAX_PAGE)}\n\nQuestion: ${asked}`
     const bearer = await token()
     let denied = false
     for (const model of MODELS) {

@@ -121,6 +121,8 @@ def test_chat_bubble_is_optional_safe_and_holds_no_secret() -> None:
     assert "acquireVsCodeApi()" in chat and chat.count("acquireVsCodeApi()") == 1
     assert "'workshop.ask'" in chat and "'workshop.answer'" in chat
     assert "switched off" in chat
+    assert "box.checked ? 'Ticked' : 'Not ticked'" in chat, "the assistant can tell which boxes are ticked"
+    assert "Picture: ${picture.alt.trim()}" in chat, "the assistant can tell what pictures show"
     assert "window.Workshop = Object.assign(window.Workshop || {}, { addChat })" in chat
     for category in ("project", "calendar", "ideas", "weather"):
         page = (PROJECT_BLUEPRINT.parent / category / "index.html").read_text(encoding="utf-8")

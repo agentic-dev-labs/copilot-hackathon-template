@@ -43,10 +43,13 @@ function createPreview(vscode, context, workspace, target, restoredPanel) {
   let current = target
   let disposed = false
   let timer
+  let draws = 0
   const draw = () => {
     if (disposed) return
     try {
-      panel.webview.html = renderHtml(vscode, panel.webview, current)
+      // A webview reloads only when its HTML text changes. Numbering each draw makes a new
+      // script, picture, style or data file show too, not just edits to the page itself.
+      panel.webview.html = `${renderHtml(vscode, panel.webview, current)}\n<!-- preview draw ${++draws} -->`
     } catch (error) {
       panel.webview.html = `<p style="font-family:sans-serif">Preview needs attention: ${escapeHtml(error.message)}</p>`
     }
@@ -179,4 +182,4 @@ async function deactivate() {
   controllers.clear()
 }
 
-module.exports = { activate, deactivate, dispatch, renderHtml }
+module.exports = { activate, deactivate, dispatch, renderHtml, createPreview }

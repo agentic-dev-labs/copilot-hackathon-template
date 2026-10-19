@@ -63,12 +63,22 @@
         return node
     }
 
-    /** The visible page text the assistant reads: everything on screen except the chat itself. */
+    /** What the assistant reads: the visible text except the chat itself, then the ticked state of
+     *  checkboxes and the descriptions of pictures, which the visible text leaves out. */
     function pageText(widget) {
         widget.style.display = 'none'
         const text = document.body.innerText
         widget.style.display = ''
-        return text
+        const extras = []
+        for (const box of document.querySelectorAll('input[type=checkbox]')) {
+            const label = box.labels && box.labels[0] ? box.labels[0].innerText : ''
+            const name = (box.getAttribute('aria-label') || label).trim()
+            if (name) extras.push(`${box.checked ? 'Ticked' : 'Not ticked'}: ${name}`)
+        }
+        for (const picture of document.querySelectorAll('img[alt]')) {
+            if (picture.alt.trim()) extras.push(`Picture: ${picture.alt.trim()}`)
+        }
+        return extras.length ? `${text}\n\nAlso on the page:\n${extras.join('\n')}` : text
     }
 
     /** Add the chat bubble once; options: title, greeting, placeholder. */

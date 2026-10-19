@@ -17,8 +17,10 @@ network call to the page, and do not edit the preview helper.
    `site/ideas/team-lunch/index.html`. If it does not exist, say **"Let's create your website
    first with /create-website."** and stop.
 2. If the page already contains `Workshop.addChat`, say the chat is already there and stop.
-3. Copy [workshop-chat.js](../create-website/assets/js/workshop-chat.js) unchanged to
-   `site/js/workshop-chat.js`, unless that file already exists.
+3. Before touching the page, copy
+   [workshop-chat.js](../create-website/assets/js/workshop-chat.js) unchanged to
+   `site/js/workshop-chat.js`, unless that file already exists. The preview redraws as soon as the
+   page changes, so the file must already be there.
 4. Right after the page's `js/workshop.js` script tag, add
    `<script src="js/workshop-chat.js"></script>`. From a page in `site/ideas/<name>/` the path is
    `../../js/workshop-chat.js`.
