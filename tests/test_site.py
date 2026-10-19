@@ -361,3 +361,27 @@ def test_photo_helper_talks_only_to_the_preview() -> None:
     for item in gallery["items"]:
         picture = ASSETS / "blueprints/photo" / item["file"]
         assert picture.read_bytes()[:3] == b"\xff\xd8\xff" and picture.stat().st_size < 300 * 1024
+
+
+@pytest.mark.skipif(shutil.which("node") is None, reason="Node runs the browser helper kit")
+def test_photo_helper_trusts_picture_bytes_not_their_label() -> None:
+    """The Website preview labels .jpg files image/jpg; the helper must still accept the sample photos."""
+    helper = ASSETS / "js/workshop-photo.js"
+    harness = f"""
+        const fs = require('node:fs')
+        global.window = {{ addEventListener() {{}} }}
+        global.FileReader = class {{ readAsDataURL() {{ this.result = 'data:image/jpeg;base64,AA=='; this.onload() }} }}
+        global.Image = class {{ set src(value) {{ this.naturalWidth = 2000; this.naturalHeight = 1000; this.onload() }} }}
+        global.document = {{ createElement: () => ({{ getContext: () => ({{ drawImage() {{}} }}), toDataURL: () => 'data:image/jpeg;base64,BB==' }}) }}
+        eval(fs.readFileSync({str(helper)!r}, 'utf8'))
+        const {{ shrink }} = window.Workshop.photo
+        const jpeg = new Blob([new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3])], {{ type: 'image/jpg' }})
+        const text = new Blob(['not a picture'], {{ type: 'image/jpeg' }})
+        Promise.all([
+            shrink(jpeg).then(value => value, error => 'error: ' + error.message),
+            shrink(text).then(value => value, error => 'error: ' + error.message),
+        ]).then(results => console.log(JSON.stringify(results)))
+    """
+    accepted, refused = json.loads(run_node(harness))
+    assert accepted == "data:image/jpeg;base64,BB=="
+    assert refused == "error: Choose a JPEG, PNG or WebP photo."

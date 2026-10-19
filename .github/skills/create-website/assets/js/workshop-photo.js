@@ -32,13 +32,23 @@
         })
     }
 
+    /** The picture kind from a file's first bytes, which is more reliable than its label: the Website
+     *  preview, for example, labels .jpg files "image/jpg". Returns 'jpeg', 'png', 'webp' or null. */
+    async function kindOf(file) {
+        const bytes = new Uint8Array(await file.slice(0, 12).arrayBuffer())
+        const starts = (...values) => values.every((value, index) => bytes[index] === value)
+        if (starts(0xff, 0xd8, 0xff)) return 'jpeg'
+        if (starts(0x89, 0x50, 0x4e, 0x47)) return 'png'
+        if (starts(0x52, 0x49, 0x46, 0x46) && String.fromCharCode(...bytes.slice(8, 12)) === 'WEBP') return 'webp'
+        return null
+    }
+
     /** Read an image file or blob as a JPEG data URL, at most maxSide pixels on its longest side. */
-    function shrink(file, maxSide = 1024) {
+    async function shrink(file, maxSide = 1024) {
+        if (!file || typeof file.slice !== 'function' || !(await kindOf(file))) {
+            throw new Error('Choose a JPEG, PNG or WebP photo.')
+        }
         return new Promise((resolve, reject) => {
-            if (!file || !/^image\/(jpeg|png|webp)$/.test(file.type)) {
-                reject(new Error('Choose a JPEG, PNG or WebP photo.'))
-                return
-            }
             const reader = new FileReader()
             reader.onerror = () => reject(new Error('That file could not be read.'))
             reader.onload = () => {

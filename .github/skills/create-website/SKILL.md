@@ -80,11 +80,12 @@ python3 scripts/website_preview.py start
 
 It opens `site/index.html` in a **Website preview** panel beside Chat. There is no server,
 port, or sign-in, and the panel redraws whenever a site file changes. Require
-`previewOpen: true`, then ask **"Can you see your page beside Chat?"** A command result is
+`previewOpen: true`, then ask **"Can you see your page beside Chat?"** with exactly two answers,
+**Yes** and **Not yet** (never True/False). A command result is
 not proof it rendered, and you cannot see the panel yourself: `previewOpen` and
 `renderingVerified` are separate, and only the learner's answer settles the second one. Never
 write "it looks good" about a page you have not been shown. If the helper is missing, show the
-exact error to the facilitator.
+exact error to the facilitator. On **Not yet**, run `/start-website`'s steps once, then ask a helper.
 
 Then hand over. Keep it to three short lines plus a small menu of ideas:
 

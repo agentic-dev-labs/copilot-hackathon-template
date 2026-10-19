@@ -285,7 +285,7 @@
             if (!rows.length) return
             const axis = data => ({ type: 'category', data, axisLabel: { color: light, fontSize: 12, textStyle: { color: light, fontSize: 12 } }, axisLine: { lineStyle: { color: faint } }, axisTick: { show: false } })
             // A narrow chart needs the camera further back to fit every month in.
-            const distance = box.clientWidth < 500 ? 265 : box.clientWidth < 720 ? 235 : 205
+            const distance = box.clientWidth < 500 ? 310 : box.clientWidth < 720 ? 250 : 210
             chart(box, threeD ? {
                 tooltip, visualMap,
                 xAxis3D: { ...axis(MONTHS), name: '' },

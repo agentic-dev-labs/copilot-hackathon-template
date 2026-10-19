@@ -14,16 +14,24 @@ function reply(status, body) {
   return { ok: status >= 200 && status < 300, status, json: async () => body }
 }
 
-function fakeService(chatStatuses = []) {
+function fakeService(chatStatuses = [], answer = 'Two tasks are left.') {
   const calls = []
   const fetchImpl = async (url, options) => {
     calls.push({ url, options })
     if (url.includes('login.microsoftonline.com')) return reply(200, { access_token: 'synthetic-token', expires_in: 3600 })
     const status = chatStatuses.length ? chatStatuses.shift() : 200
-    return reply(status, { output: [{ type: 'message', content: [{ type: 'output_text', text: 'Two tasks are left.' }] }] })
+    return reply(status, { output: [{ type: 'message', content: [{ type: 'output_text', text: answer }] }] })
   }
   return { calls, fetchImpl }
 }
+
+test('answers are shown as plain text, without Markdown emphasis', async () => {
+  const { fetchImpl } = fakeService([], 'The task already done is **Write the brief**.  \nFriday has __Share the plan__.')
+  const assistant = createAssistant({ settings: SETTINGS, fetchImpl })
+  const answer = await assistant.ask({ question: 'What is done?', page: 'p', title: 't' })
+  assert.equal(answer, 'The task already done is Write the brief.  \nFriday has Share the plan.')
+  assert.match(INSTRUCTIONS, /no Markdown/)
+})
 
 test('settings come from the environment or the Codespace env file, and need a plain resource name', () => {
   assert.deepEqual(readSettings(SETTINGS, '/none', () => ''), SETTINGS)

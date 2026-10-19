@@ -331,6 +331,10 @@ def test_guided_starter_figures_and_shared_assets() -> None:
     assert "prefers-reduced-motion" in css
     assert ":focus-visible" in css
     assert "color-scheme: light" in css
+    # The Website preview's VS Code webview styles body with the editor's colors, font and padding.
+    body_rule = re.search(r"^body \{([^}]*)\}", css, re.MULTILINE).group(1)
+    for setting in ("color: var(--ink)", "padding: 0", "font: inherit", "background: var(--canvas)"):
+        assert setting in body_rule
     assert len(css.encode("utf-8")) < 16 * 1024
     assert "@import" not in css
     assert "prefers-color-scheme: dark" not in css
