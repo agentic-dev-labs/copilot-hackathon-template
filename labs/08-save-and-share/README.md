@@ -63,18 +63,21 @@ works: you check that yourself.
 
 ## Optional extras
 
-### Publish With a Helper
+### Publish Your Page
 
-If your page is ready and a helper is free, you can publish it so others can open it with a
-link. This is optional, and you can also do it on Tuesday or Thursday.
+If your page is ready, you can put it on the internet so others can open it with a link, even
+on a phone. This is optional, and you can also do it on Tuesday or Thursday.
 
-1. Ask a helper to check that your repository is ready to publish.
-2. On GitHub, open **Actions > Deploy my app > Run workflow**. Choose **target: website**, leave
-   **connect_dataverse** unchecked, and select **Run workflow** once.
-3. When it finishes, open the run and select the link to your page.
-4. Try your main feature again on the published page. It starts with the example entries,
-   because your preview entries stay in your preview.
-5. Agree with the helper how long the page stays online.
+1. In Chat, type `/publish-website`. Accept the suggested name or type your own; Copilot writes it
+   into `config.json` and tells you your address.
+2. Save, commit and push as in step 1. Publishing starts by itself.
+3. Wait about three minutes. On GitHub, **Actions > Publish my website** shows progress; when it
+   is green, select the link under **Deployments** on your repository page.
+4. Try your main feature on the published page. It starts with the example entries, because your
+   preview entries stay in your preview. **Ask** and photo editing work only in the preview.
+5. From now on, every push updates your published page by itself.
+
+Published pages stay online until the workshop owner removes them after the workshop.
 
 When you finish for the day, stop your Codespace at [github.com/codespaces](https://github.com/codespaces)
 (**...** > **Stop codespace**). Closing the browser tab does not stop it, and stopping it does

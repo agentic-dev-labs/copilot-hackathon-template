@@ -55,6 +55,8 @@
   `/add-chat` adds an "Ask my page" bubble answered through the Website preview. Never use API keys
   or put credentials in files; pictures stay fictional, with no real people, logos, or text.
 - Lab 08's core is reviewed, pushed work; optional publication uses the learner's `site/` target.
+  `/publish-website` sets `websiteName`; each push publishes through the template's OIDC
+  publisher with no secret (infra/README.md). Never add Azure credentials for it.
   Day 2 follows docs/DAY-2-BUILD.md: own ideas with fictional app-local content, no required
   database, CLI, MCP, or deployment. docs/QUICK-REFERENCE.md supports live demonstrations.
   Preserve Dataverse knowledge and prompts under post-workshop/dataverse; former Lab 05 is a

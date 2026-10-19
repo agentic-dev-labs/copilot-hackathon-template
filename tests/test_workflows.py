@@ -62,9 +62,14 @@ def test_attendee_repos_use_the_explicit_clean_template(monkeypatch: pytest.Monk
 def test_python_environments_use_the_lockfile() -> None:
     """Local, cloud-agent, deployment and CI dependencies must agree."""
     for path in Path(".github/workflows").glob("*.yml"):
-        workflow = yaml.load(path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        text = path.read_text(encoding="utf-8")
+        workflow = yaml.load(text, Loader=yaml.BaseLoader)
         assert "jobs" in workflow
-        assert "uv sync --locked --extra dev --extra web" in path.read_text(encoding="utf-8")
+        if all("uses" in job for job in workflow["jobs"].values()):
+            continue  # It only calls a reusable workflow, which this loop checks on its own.
+        assert ("uv sync --locked --extra dev --extra web" in text
+                or "--file Dockerfile.website" in text), path
+    assert "uv sync --locked" in Path("Dockerfile.website").read_text(encoding="utf-8")
     assert Path("uv.lock").is_file()
 
 
@@ -162,3 +167,95 @@ def test_website_target_is_separate_and_validated_before_build() -> None:
     assert "uv run --no-sync python -m app.site --check" in text
     assert "uv run --no-sync python -m scripts.deployment_result" in text
     assert "uv run --no-sync python -m app.site --check" in Path(".github/workflows/ci.yml").read_text(encoding="utf-8")
+
+
+PUBLISHER = Path(".github/workflows/website-publisher.yml")
+PUBLISHER_REF = "agentic-dev-labs/copilot-hackathon-template/.github/workflows/website-publisher.yml"
+
+
+def test_website_publisher_signs_in_without_a_secret() -> None:
+    """Attendee publishing uses GitHub's signed token, never a stored Azure credential."""
+    text = PUBLISHER.read_text(encoding="utf-8")
+    workflow = yaml.load(text, Loader=yaml.BaseLoader)
+    assert list(workflow["on"]) == ["workflow_call"]
+    assert workflow["permissions"] == {"contents": "read"}
+    jobs = workflow["jobs"]
+    assert jobs["prepare"]["permissions"] == {"contents": "read"}
+    assert jobs["publish"]["permissions"] == {"contents": "read", "id-token": "write"}
+    assert jobs["show-link"]["permissions"] == {}
+    assert "secrets." not in text and "AZURE_CREDENTIALS" not in text and "creds:" not in text
+    login = next(step for step in jobs["publish"]["steps"] if step.get("uses", "").startswith("azure/login@"))
+    assert set(login["with"]) == {"client-id", "tenant-id", "subscription-id"}
+
+
+def test_only_trusted_code_runs_next_to_the_azure_sign_in() -> None:
+    """The signed-in job builds from the template and receives the attendee's site/ only as data."""
+    workflow = yaml.load(PUBLISHER.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    jobs = workflow["jobs"]
+    steps = jobs["publish"]["steps"]
+    checkout = steps[0]
+    assert checkout["uses"].startswith("actions/checkout@")
+    assert checkout["with"] == {
+        "repository": "agentic-dev-labs/copilot-hackathon-template", "ref": "main", "persist-credentials": "false",
+    }
+    assert sum(step.get("uses", "").startswith("actions/checkout@") for step in steps) == 1
+
+    def position(predicate: object) -> int:
+        return next(index for index, step in enumerate(steps) if predicate(step))
+
+    login = position(lambda step: step.get("uses", "").startswith("azure/login@"))
+    assert position(lambda step: "[[ \"$WEBSITE_NAME\" =~" in step.get("run", "")) < login
+    assert position(lambda step: step.get("uses", "").startswith("actions/download-artifact@")) < login
+    assert position(lambda step: "-m app.site --check" in step.get("run", "")) < login
+    assert jobs["prepare"]["steps"][0]["with"]["persist-credentials"] == "false"
+    for job in jobs.values():
+        for step in job["steps"]:
+            assert "${{" not in step.get("run", ""), "untrusted values reach scripts only through env"
+
+
+def test_publisher_protects_other_websites_and_cost() -> None:
+    """A repository can update only its own website, which scales to zero."""
+    text = PUBLISHER.read_text(encoding="utf-8")
+    assert '"github-repository-id=$REPOSITORY_ID"' in text
+    assert "already used by another repository" in text
+    assert text.count('!= "$REPOSITORY_ID"') == 2
+    assert "--min-replicas 0 --max-replicas 1 --cpu 0.25 --memory 0.5Gi" in text
+    assert "--registry-identity" in text
+    assert "az acr build" not in text
+    assert '= "$GITHUB_SHA"' in text and '= "$DIGEST"' in text and '= "$INDEX"' in text
+
+
+def test_publish_caller_only_calls_the_template_publisher() -> None:
+    """The attendee's copy is a short trigger that skips the template itself."""
+    workflow = yaml.load(Path(".github/workflows/publish-website.yml").read_text(encoding="utf-8"),
+                         Loader=yaml.BaseLoader)
+    assert workflow["on"]["push"]["branches"] == ["main"]
+    assert set(workflow["on"]["push"]["paths"]) == {"site/**", "config.json"}
+    assert "workflow_dispatch" in workflow["on"]
+    assert workflow["permissions"] == {"contents": "read", "id-token": "write"}
+    job = workflow["jobs"]["publish"]
+    assert job["uses"] == f"{PUBLISHER_REF}@main"
+    assert job["if"] == "${{ !github.event.repository.is_template }}"
+    assert json.loads(Path("config.json").read_text(encoding="utf-8"))["websiteName"] == ""
+
+
+def test_hosting_trusts_only_the_template_publisher_on_main() -> None:
+    """Azure must accept tokens only from the organisation's main branches and this publisher."""
+    bicep = Path("infra/website-hosting.bicep").read_text(encoding="utf-8")
+    expression = bicep.split("claimsMatchingExpression", 1)[1].split("languageVersion", 1)[0]
+    assert "claims[\\'sub\\'] matches \\'repo:${githubOrganization}@${githubOrganizationId}/*:ref:refs/heads/main\\'" in expression
+    assert "claims[\\'repository_owner_id\\'] eq \\'${githubOrganizationId}\\'" in expression
+    assert "claims[\\'job_workflow_ref\\'] eq \\'${publisherWorkflow}\\'" in expression
+    assert f"'{PUBLISHER_REF}@refs/heads/main'" in bicep
+    assert "adminUserEnabled: false" in bicep
+    assert "'b24988ac-6180-42a0-ab88-20f7382dd24c'" not in bicep  # no broad Contributor role
+
+
+def test_publish_skill_names_the_hosting_domain() -> None:
+    """The skill predicts the same address that the publisher verifies."""
+    workflow = yaml.load(PUBLISHER.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    domain = workflow["env"]["WEBSITE_DOMAIN"]
+    skill = Path(".github/skills/publish-website/SKILL.md").read_text(encoding="utf-8")
+    assert skill.count(f"https://<name>.{domain}") == 2
+    assert "disable-model-invocation: true" in skill
+    assert "Never add credentials" in skill

@@ -72,7 +72,7 @@ checked yourself, your work is visible on GitHub, and your story is written in y
 
 ## Optional extras
 
-1. Publish your page with a helper using [Lab 08's optional route](../labs/08-save-and-share/README.md#publish-with-a-helper).
+1. Publish your page with `/publish-website` using [Lab 08's optional route](../labs/08-save-and-share/README.md#publish-your-page).
 2. Ask a neighbor to try your page without help, and write down where they got stuck.
 3. Add one plain sentence at the top of your page telling a first-time visitor what to do.
 

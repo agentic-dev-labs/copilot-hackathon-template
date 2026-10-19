@@ -69,8 +69,8 @@ Expect -> try -> compare -> improve -> repeat. After each change, check that the
 still work, and save before you try something big. The terminal (CLI), MCP, and browser tools
 come on Wednesday, not today.
 
-From 14:00, helpers can help you publish if you want to, using
-[Lab 08's optional route](../labs/08-save-and-share/README.md#publish-with-a-helper). Your preview is
+From 14:00 you can publish your page if you want to, with `/publish-website` and
+[Lab 08's optional route](../labs/08-save-and-share/README.md#publish-your-page). Your preview is
 enough to finish.
 
 ## Show and Plan the Next Step: 14:45-15:00

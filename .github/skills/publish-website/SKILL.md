@@ -1,0 +1,45 @@
+---
+name: publish-website
+description: 'Put the learner''s workshop website on the internet at its own address. Chooses a website name, saves it in config.json, and explains the push that publishes it. Use /publish-website once the page works in the preview.'
+argument-hint: 'Optional website name, such as ali-planner'
+user-invocable: true
+disable-model-invocation: true
+---
+
+# Publish My Website
+
+Publishing copies the learner's `site/` folder to the workshop's hosting, where anyone with the
+link can open it. GitHub Actions publishes after every push to `main`: nobody signs in to Azure
+and no key or secret exists. Never add credentials, edit workflows, run Azure commands, commit,
+or push for the learner.
+
+1. Check that `site/index.html` exists. If not, say **"Let's create your website first with
+   /create-website."** and stop.
+2. Check that `.github/workflows/publish-website.yml` exists. If not, say this copy cannot publish
+   and a helper can add it, then stop.
+3. Choose the name. If the learner gave one, use it. Otherwise suggest one built from their GitHub
+   user name and page, such as `ali-planner`, and ask one question: use it, or type another.
+   - A name has 2-32 lowercase letters, digits and single hyphens, starts with a letter, and ends
+     with a letter or digit. Turn capitals into lowercase and spaces into hyphens.
+   - A nickname is fine. No customer, patient or other real business names.
+4. In `config.json`, set `"websiteName": "<name>"`. Change nothing else in the file.
+5. Hand over in three short lines:
+   - **"Your address will be https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io"**
+   - **"Now save it: Source Control, sparkle message, Commit, then Sync Changes. Publishing starts
+     by itself and takes about three minutes."**
+   - **"On GitHub, Actions > Publish my website shows progress; the link also appears under
+     Deployments on your repository page."**
+
+When the learner asks whether it is live, run
+`curl -s https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io/healthz` and compare
+its `commit` with `git rev-parse HEAD`. The same value means the latest push is live; anything else
+means wait a minute and ask again. After that, every push of `site/` updates the website by itself.
+
+If the run says **That name is taken**, choose another name and repeat from step 4. For any other
+red run, show the run's message to a helper; do not change the workflow. The published copy
+starts with the page's own example entries, and its Ask chat and photo editing say they are
+switched off: those work only in the Website preview. Everything on the page stays fictional.
+
+Official references: [GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart),
+[OpenID Connect in Azure](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-azure)
+and [Azure Container Apps](https://learn.microsoft.com/azure/container-apps/overview).

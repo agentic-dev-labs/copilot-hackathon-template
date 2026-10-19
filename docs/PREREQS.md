@@ -47,9 +47,9 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
       `python3 scripts/workshop_ai.py status` reports `"ok": true`, one picture appears, and
       **Ask** answers once. Attendees never see a key or sign in to Azure.
 - [ ] Confirm review rules and the first UI-based save/commit/push without bypassing protections.
-      Unique labels in `config.json` are set only for optional publication.
+      A website name in `config.json` is set only for optional publication (`/publish-website`).
 - [ ] Confirm attendees never need an Azure portal login; deployment runs entirely through the workflow.
-- [ ] Rehearse all four categories: add, drag and remove in each, switch the calendar views, add a Weather city on the corporate network, and confirm an emptied page reloads its own examples. Prepare optional assisted **website** publication separately;
+- [ ] Rehearse all four categories: add, drag and remove in each, switch the calendar views, add a Weather city on the corporate network, and confirm an emptied page reloads its own examples. Prepare optional **website** publication with `/publish-website` separately;
       no public URL or localStorage extension is needed to finish Monday.
 - [ ] Check capacity/cost for expected concurrent Codespace starts and builds; do not assume one
       successful rehearsal proves a 40-45-person start. Confirm the final count, helpers, and a labelled fallback.
@@ -124,13 +124,21 @@ These are the prepared training resource names, not a live health check. Verify 
 | -------------------------- | -------------------------------------------------------- |
 | Subscription               | `ME-MngEnvMCAP566671-alfarahn-2`                         |
 | Resource group             | `rg-nn-hackathon-2026-10` (East US)                      |
-| Container Apps environment | `cae-hackathon` — all attendee apps share it             |
-| Registry                   | `acrnnhackathon2026.azurecr.io`                          |
-| Deploy identity            | `nn-hackathon-deploy`, Contributor on the resource group |
+| Container Apps environment | `cae-hackathon`, shared by all attendee websites          |
+| Registry                   | `acrnnhackathon2026.azurecr.io`, no admin user           |
+| Deploy identity            | `nn-hackathon-deploy`, least-privilege roles and GitHub OIDC trust |
+| Website addresses          | `https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io` |
 
-- [ ] Grant each generated repository access to the organization **Actions** secret `AZURE_CREDENTIALS`. New repositories only receive access when the secret's visibility policy includes them.
-- [ ] Verify the deployment identity can build in the registry and create/update apps, and that Container Apps can pull the private image. Do not expose registry credentials to attendees.
-- [ ] Use the approved administrator workflow to manage secrets; no credentials are created by `scripts/create_attendee_repos.py`.
+- [ ] The hosting is defined in [infra/website-hosting.bicep](../infra/website-hosting.bicep) and
+      was deployed on 19 October 2026; [infra/README.md](../infra/README.md) explains its trust,
+      listing, and teardown. Agree the teardown date with David.
+- [ ] Attendee publishing needs **no secret**: in a fresh copy made with **Use this template**,
+      run `/publish-website`, push, and check that **Actions > Publish my website** shows a live
+      link. Keep push access to the template's `main` limited to the workshop owners, because
+      Azure trusts that branch's publisher.
+- [ ] Only the separate **Deploy my app** workflow (vendor app, rehearsals) uses the organization
+      **Actions** secret `AZURE_CREDENTIALS`; grant it only where that workflow is used. No
+      credentials are created by `scripts/create_attendee_repos.py`.
 
 ## Post-Workshop Dataverse Work
 

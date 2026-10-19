@@ -1,0 +1,239 @@
+name: Website publisher
+
+# Reusable workflow. Attendee repositories call the template's copy of this file from
+# publish-website.yml; editing a copy in another repository has no effect, because Azure trusts
+# only this file on the template's main branch (see infra/website-hosting.bicep).
+#
+# Two jobs keep the attendee's files and the Azure sign-in apart. "prepare" reads the attendee
+# repository with no Azure access and passes on only the site/ folder. "publish" runs the
+# template's own code, treats site/ as data, and is the only job that may request a token.
+
+on:
+  workflow_call:
+    inputs:
+      website-name:
+        description: Fallback name, normally the WEBSITE_NAME repository variable. config.json wins.
+        type: string
+        required: false
+        default: ""
+    outputs:
+      url:
+        description: The verified address of the published website.
+        value: ${{ jobs.publish.outputs.url }}
+
+permissions:
+  contents: read
+
+env:
+  # Identifiers, not secrets: the deploy identity accepts only GitHub-signed tokens for this file.
+  AZURE_TENANT_ID: 5dc60c43-d3cf-4449-a4c7-fb73a0534d49
+  AZURE_SUBSCRIPTION_ID: 4bf7667a-1e78-40f4-b84b-08bed8e94602
+  AZURE_CLIENT_ID: 45e5f057-61cc-44b6-b21e-5da2635407ed
+  RESOURCE_GROUP: rg-nn-hackathon-2026-10
+  CONTAINER_ENVIRONMENT: cae-hackathon
+  REGISTRY: acrnnhackathon2026
+  PULL_IDENTITY: nn-hackathon-pull
+  WEBSITE_DOMAIN: thankfulrock-bf005377.eastus.azurecontainerapps.io
+
+jobs:
+  prepare:
+    name: Check the website
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      name: ${{ steps.name.outputs.name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Choose the website name
+        id: name
+        env:
+          VARIABLE_NAME: ${{ inputs.website-name }}
+        run: |
+          CONFIG_NAME=""
+          if [ -f config.json ]; then
+            if ! CONFIG_NAME="$(jq -r 'if type == "object" then (.websiteName // "") | tostring else "" end' config.json)"; then
+              echo "::error file=config.json::config.json is not valid JSON. Ask Copilot to fix config.json, then push again."
+              exit 1
+            fi
+          fi
+          RAW="${CONFIG_NAME:-$VARIABLE_NAME}"
+          if [ -z "$RAW" ]; then
+            printf '### Not published yet\n\nChoose a website name first: in Copilot Chat type `/publish-website`.\n' >> "$GITHUB_STEP_SUMMARY"
+            echo "::notice::No website name yet, so nothing was published."
+            exit 0
+          fi
+          NAME="$(printf '%s' "$RAW" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9]+/-/g; s/^-+//; s/-+$//')"
+          if ! [[ "$NAME" =~ ^[a-z][a-z0-9-]{0,30}[a-z0-9]$ ]]; then
+            echo "::error file=config.json::A website name has 2-32 lowercase letters, digits and hyphens and starts with a letter. Run /publish-website to choose one."
+            exit 1
+          fi
+          if [ ! -f site/index.html ]; then
+            printf '### Nothing to publish yet\n\nCreate your website first: in Copilot Chat type `/create-website`.\n' >> "$GITHUB_STEP_SUMMARY"
+            echo "::notice::site/index.html does not exist yet, so nothing was published."
+            exit 0
+          fi
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Pass on the site folder as data
+        if: ${{ steps.name.outputs.name != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-files
+          path: site/
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Publish to Azure
+    needs: prepare
+    if: ${{ needs.prepare.outputs.name != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      url: ${{ steps.verify.outputs.url }}
+    env:
+      WEBSITE_NAME: ${{ needs.prepare.outputs.name }}
+      REPOSITORY_ID: ${{ github.repository_id }}
+    steps:
+      - name: Get the template's publisher files, never the attendee's code
+        uses: actions/checkout@v4
+        with:
+          repository: agentic-dev-labs/copilot-hackathon-template
+          ref: main
+          persist-credentials: false
+
+      - name: Check the name again
+        run: |
+          if ! [[ "$WEBSITE_NAME" =~ ^[a-z][a-z0-9-]{0,30}[a-z0-9]$ ]] || [[ "$WEBSITE_NAME" == *--* ]]; then
+            echo "::error::The website name is not valid."
+            exit 1
+          fi
+          rm -rf site
+          mkdir site
+
+      - name: Take the attendee's site folder
+        uses: actions/download-artifact@v4
+        with:
+          name: website-files
+          path: site
+
+      - name: Build and check the website image
+        run: |
+          jq -n --arg name "$WEBSITE_NAME" '{displayName: $name}' > config.json
+          IMAGE="$REGISTRY.azurecr.io/websites/repo-$REPOSITORY_ID:$GITHUB_SHA"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+          docker build --file Dockerfile.website --tag "$IMAGE" .
+          docker run --rm --entrypoint python "$IMAGE" -m app.site --check > manifest.json
+
+      - name: Sign in to Azure without a secret
+        uses: azure/login@v2
+        with:
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Make sure the name is free or already yours
+        run: |
+          az containerapp list --resource-group "$RESOURCE_GROUP" \
+            --query '[].{name:name, owner:tags."github-repository-id"}' --output json > apps.json
+          EXISTS="$(jq --arg name "$WEBSITE_NAME" 'any(.[]; .name == $name)' apps.json)"
+          OWNER="$(jq -r --arg name "$WEBSITE_NAME" '.[] | select(.name == $name) | .owner // ""' apps.json)"
+          if [ "$EXISTS" = true ] && [ "$OWNER" != "$REPOSITORY_ID" ]; then
+            printf '### That name is taken\n\n`%s` is already used by another website. Run `/publish-website` and choose a different name.\n' "$WEBSITE_NAME" >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::The website name $WEBSITE_NAME is already used by another repository. Choose a different name."
+            exit 1
+          fi
+          echo "EXISTS=$EXISTS" >> "$GITHUB_ENV"
+
+      - name: Upload the image
+        run: |
+          az acr login --name "$REGISTRY"
+          docker push "$IMAGE"
+
+      - name: Create or update the website
+        run: |
+          if [ "$EXISTS" = true ]; then
+            az containerapp update --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
+              --image "$IMAGE" --set-env-vars "WORKSHOP_COMMIT=$GITHUB_SHA" --output none
+          else
+            PULL_IDENTITY_ID="/subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$PULL_IDENTITY"
+            az containerapp create --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
+              --environment "$CONTAINER_ENVIRONMENT" --image "$IMAGE" \
+              --registry-server "$REGISTRY.azurecr.io" --registry-identity "$PULL_IDENTITY_ID" \
+              --target-port 8000 --ingress external \
+              --min-replicas 0 --max-replicas 1 --cpu 0.25 --memory 0.5Gi \
+              --env-vars "WORKSHOP_COMMIT=$GITHUB_SHA" \
+              --tags "github-repository-id=$REPOSITORY_ID" "github-repository=$GITHUB_REPOSITORY" "workshop=nn-hackathon-2026-10" \
+              --output none
+          fi
+          OWNER="$(az containerapp show --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
+            --query 'tags."github-repository-id"' --output tsv)"
+          if [ "$OWNER" != "$REPOSITORY_ID" ]; then
+            echo "::error::Another repository claimed the name $WEBSITE_NAME at the same moment. Choose a different name."
+            exit 1
+          fi
+
+      - name: Check the live website
+        id: verify
+        run: |
+          FQDN="$(az containerapp show --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
+            --query properties.configuration.ingress.fqdn --output tsv)"
+          if [ "$FQDN" != "$WEBSITE_NAME.$WEBSITE_DOMAIN" ]; then
+            echo "::warning::The address differs from the one /publish-website predicts. Tell the workshop owner to update WEBSITE_DOMAIN."
+          fi
+          URL="https://$FQDN"
+          DIGEST="$(jq -r .digest manifest.json)"
+          INDEX="$(jq -r .index_sha256 manifest.json)"
+          for attempt in $(seq 1 36); do
+            HEALTH="$(curl --silent --max-time 20 "$URL/healthz" || true)"
+            if [ "$(jq -r '.commit // ""' <<<"$HEALTH" 2>/dev/null)" = "$GITHUB_SHA" ] \
+              && [ "$(jq -r '.site_digest // ""' <<<"$HEALTH" 2>/dev/null)" = "$DIGEST" ] \
+              && [ "$(curl --silent --fail --max-time 20 "$URL/" | sha256sum | cut -d ' ' -f 1)" = "$INDEX" ]; then
+              echo "url=$URL" >> "$GITHUB_OUTPUT"
+              {
+                echo "### Your website is live"
+                echo
+                echo "**$URL**"
+                echo
+                echo "Published commit \`${GITHUB_SHA:0:7}\`. Every push to main updates it in about three minutes."
+                echo "After a quiet spell, the first visit takes a few seconds while the website wakes up."
+              } >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::The website did not show this commit within three minutes. Run the workflow again; if it fails twice, ask a helper."
+          exit 1
+
+      - name: Remove this repository's older website names
+        run: |
+          az containerapp list --resource-group "$RESOURCE_GROUP" \
+            --query "[?tags.\"github-repository-id\"=='$REPOSITORY_ID' && name!='$WEBSITE_NAME'].name" --output tsv |
+            while read -r OLD; do
+              [ -n "$OLD" ] || continue
+              az containerapp delete --name "$OLD" --resource-group "$RESOURCE_GROUP" --yes --output none
+              echo "Removed the old address $OLD." >> "$GITHUB_STEP_SUMMARY"
+            done
+
+  show-link:
+    name: Website link
+    needs: publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    environment:
+      name: website
+      url: ${{ needs.publish.outputs.url }}
+    steps:
+      - name: Show the address
+        env:
+          URL: ${{ needs.publish.outputs.url }}
+        run: echo "Your website is live at $URL"

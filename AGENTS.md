@@ -97,7 +97,10 @@ chat model. Both sign in with Entra ID as the workshop identity from Codespaces 
 private repositories only). Never use or add API keys, and never put credentials in files. Complete the
 starter's checks, saving, and neighbour/helper demonstration before a separate own-idea extension.
 
-Lab 08's core is reviewed, pushed work. Its optional website target publishes only `site/`.
+Lab 08's core is reviewed, pushed work. Its optional website target publishes only `site/`:
+`/publish-website` sets `websiteName` in `config.json`, and each push to `main` runs the
+template's reusable publisher, which signs in to the shared Container Apps environment with
+GitHub OIDC and no secret (see infra/README.md). Never add Azure credentials for it.
 Day 2 gives David 09:00-09:30 and Jackie 09:30-10:30 for conceptual overviews, then protects
 10:45-12:15 and the afternoon for participants' own ideas. Follow docs/DAY-2-BUILD.md and the
 printable quick reference. No required database, CLI, MCP, automation, or deployment work on
@@ -154,6 +157,7 @@ Consult it when changing instruction files, not as evidence for an assurance fin
 | `src/vendor_assurance/`         | Chunker, evaluator, report writer, CLI |
 | `src/vendor_assurance/samples/` | Synthetic SOC 2 reports                |
 | `app/`                          | The web application attendees deploy   |
+| `infra/`                        | Shared website hosting (Bicep, OIDC)   |
 | `labs/`                         | Workshop instructions                  |
 | `.github/agents/`               | Custom agents                          |
 

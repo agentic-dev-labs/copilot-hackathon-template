@@ -52,7 +52,7 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
   to the presenter; if staffing is lower, arrange pairs and reduce simultaneous troubleshooting.
 - A pair uses one project, the driver's repository, and rotates the driver; a helper adds the
   partner under **Settings > Collaborators and teams**. Never ask two people to edit the same
-  files concurrently. Unique labels in `config.json` are needed only for optional publication.
+  files concurrently. A website name in `config.json` is needed only for optional publication.
 - Keep the current action and expected result visible while helping somebody. Use quiet checkpoints:
   found Chat; pushed a note; opened a page; checked a behaviour and number; saved an improvement.
 - Provide the [printable quick reference](QUICK-REFERENCE.md). Demonstrate finding the instructions
@@ -174,36 +174,36 @@ saved browser tests, CI, and release verification are [post-workshop reference](
 
 ## Helping With Optional Publication (Lab 08)
 
-Learners see a short, optional publish route. Helpers own the checks behind it. Before a learner
-dispatches **Actions > Deploy my app**, confirm the unique label in `config.json`, the reviewed
-commit on `main`, and deployment access. The workflow keeps its tests, lint, asset validation,
-and revision checks, and any required pull-request review still applies. Run these in the
-learner's Codespace first:
+Learners type `/publish-website`, accept or type a name, and push. That push runs **Actions >
+Publish my website**, which calls the template's
+[publisher](../.github/workflows/website-publisher.yml) and puts `site/` on the shared Container
+Apps environment in about three minutes. Every later push of `site/` updates it. Nobody signs in
+to Azure and no secret exists: Azure trusts only the template's publisher on `main`, through
+GitHub's signed token. [infra/README.md](../infra/README.md) explains the trust, lists the
+websites, and tears them down. Facilitators can preset a name for a repository with the Actions
+variable `WEBSITE_NAME`; `websiteName` in `config.json` wins when both are set.
 
-```bash
-uv run python app/config.py --target website
-uv run python -m app.site --check
-uv run pytest
-uv run ruff check .
-```
+The publisher takes only allowed `site/` assets; Markdown is not served. Limits are 2 MiB per
+asset, 100 files, and 20 MiB in total. Asset validation is not a full security scan, so look at
+JSON and images as well as code. The run checks the exact commit, the site fingerprint, and the
+entry page's bytes through `/healthz` and the page; a healthy older revision is not this
+publication. Each website is tagged with its repository ID: a repository can update or remove only
+its own, and choosing a new name removes its old address. Publication counts only when the run
+succeeded, the link serves the reviewed page, and the learner's chosen interaction works there.
+Pages are public to anyone with the link and stay online until the agreed teardown.
 
-The website target publishes only allowed `site/` assets; Markdown is not served. Limits are
-2 MiB per asset, 100 files, and 20 MiB in total. Asset validation is not a full security scan, so
-look at JSON and images as well as code. The workflow checks the exact commit and the entry page's
-bytes and fingerprint through `/healthz` and the page; a healthy older revision is not this
-deployment. Keep the website and vendor targets separate and never select vendor as a workaround.
-Publication is checked only when the run succeeded, its verified URL serves the reviewed page, and
-the learner's chosen interaction works there. Agree how long it stays online and who removes it;
-never delete shared resources.
+| Symptom                                   | Cause                                                  | Fix                                                                                                    |
+| ----------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| Green run with **Not published yet**      | No `websiteName` in `config.json` and no variable      | Run `/publish-website`, then push.                                                                     |
+| Green run with **Nothing to publish yet** | `site/index.html` does not exist                       | Create the website first with `/create-website`.                                                       |
+| **That name is taken**                    | Another repository owns the name                       | Run `/publish-website` again and choose another name.                                                  |
+| Stops on the website name                 | Not 2-32 lowercase letters, digits and hyphens         | Run `/publish-website`; it writes a valid name.                                                        |
+| **Sign in to Azure** fails                | Not on `main`, a copy outside the organisation, or the hosting was removed | Publish from `main` in the organisation's repository. The owner checks the federated credential in infra/README.md. Never add a secret as a workaround. |
+| Website validation fails                  | Missing entry point, invalid asset, or too large       | Inspect `uv run python -m app.site --check`; keep only intentional web assets under `site/`.           |
+| Times out on **Check the live website**   | Slow first start                                       | Re-run the failed jobs once; if it fails twice, read the revision logs in the Azure portal.            |
 
-| Symptom                               | Cause                                             | Fix                                                                                                    |
-| ------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Stops on **Read config.json**         | The prepared workshop label is missing            | Check the unique label before retrying.                                                                |
-| Deployment rejected on the name       | Derived name is invalid                           | Names are lowercase letters, digits and hyphens, 32 characters at most; `python app/config.py` shows it. |
-| The run cannot sign in to Azure       | Organization secrets are missing                  | The owner checks secret access; nothing on the learner's side is wrong.                                |
-| Stops on prepared access/commit check | Missing Actions configuration or the branch moved | Check the named settings and retest the exact branch. Never sign into Azure as a workaround.            |
-| Page shows the vendor table           | Wrong deployment target or URL                    | Use the website target and its verified run-summary URL; do not overwrite the business app.            |
-| Website validation fails              | Missing entry point, invalid asset, or too large  | Inspect `python -m app.site --check`; keep only intentional web assets under `site/`.                  |
+The separate **Actions > Deploy my app** workflow is for the post-workshop vendor app and
+rehearsals. It still uses the `AZURE_CREDENTIALS` secret; never point learners at it.
 
 ## Idea Intake and Handover
 
@@ -552,7 +552,7 @@ container build, application security review, or live deployment check.
 | Agent cannot update protected branch           | Target branch and ruleset                                                | Verify that the task uses its permitted branch. Have the owner approve only the documented exception needed; do not weaken protection during the session.                   |
 | Dependency setup fails                         | Registry firewall path                                                   | Allowlist the approved registry endpoints and rebuild the container.                                                                                                        |
 | MCP authentication fails                       | Remote URL and browser auth                                              | Use the documented remote URL and confirm the login flow is allowed.                                                                                                        |
-| Azure login fails                              | Actions secret and deployment identity                                   | This workflow uses `AZURE_CREDENTIALS`, not OIDC. Verify its access and validity without printing its value.                                                                |
+| Azure login fails                              | Which workflow, and its identity                                         | **Publish my website** uses GitHub's signed token, no secret: see [infra/README.md](../infra/README.md). **Deploy my app** uses `AZURE_CREDENTIALS`; verify its access and validity without printing its value. |
 | App deploys but does not start                 | Container port or start command                                          | The container listens on 8000; confirm `--target-port 8000` and check revision logs.                                                                                        |
 | Deployment rejected on the name                | `config.json` still says `Your Name`, or the derived name is invalid     | Container App names are lowercase, alphanumeric with hyphens, and 32 characters at most.                                                                                    |
 
