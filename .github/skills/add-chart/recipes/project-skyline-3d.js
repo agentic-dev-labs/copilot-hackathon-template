@@ -4,7 +4,7 @@
  * Check: add a task on Thursday and an amber tower rises in the Thursday row; tick it and it turns green. */
 function drawWeekSkyline() {
     const colors = Workshop.chartColors()
-    const stage = Workshop.stage3D(210)
+    const stage = Workshop.stage3D(document.getElementById('week-skyline').clientWidth > 700 ? 150 : 200)
     const rows = ['To do', 'Done']
     const data = state.columns.flatMap((column, x) => rows.map((row, y) => ({
         value: [x, y, state.items.filter(item => item.column === column && item.done === (row === 'Done')).length],
