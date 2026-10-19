@@ -74,9 +74,23 @@ az containerapp delete -g rg-nn-hackathon-2026-10 --subscription $SUB --name <we
 
 ## Cost and teardown
 
-Websites scale to zero when nobody visits (0.25 vCPU, 0.5 GiB, at most one replica), so idle sites
-cost nothing beyond the monthly free grant. The Basic registry costs about USD 5 a month; the log
-workspace keeps 30 days and stops at 1 GB a day. After the agreed end date, remove everything:
+Websites sleep when nobody visits (0.25 vCPU, 0.5 GiB, at most one replica), so idle sites cost
+nothing beyond the monthly free grant, but the first visit after a quiet spell takes about 30
+seconds while Azure finds a node (measured on 19 October 2026; the 45 MB image pulls in 3 s). The
+Basic registry costs about USD 5 a month; the log workspace keeps 30 days and stops at 1 GB a day.
+
+To keep every website awake during workshop days, at about USD 0.19 per website per day idle
+(about USD 9 a day for 45), set `MIN_REPLICAS: 1` in the
+[publisher](../.github/workflows/website-publisher.yml), push it to `main`, and wake the websites
+that already exist. Reverse both steps with `0` afterwards.
+
+```bash
+for app in $(az containerapp list -g rg-nn-hackathon-2026-10 --subscription $SUB --query '[].name' -o tsv); do
+  az containerapp update -g rg-nn-hackathon-2026-10 --subscription $SUB -n "$app" --min-replicas 1 --output none
+done
+```
+
+After the agreed end date, remove everything:
 
 ```bash
 az group delete -n rg-nn-hackathon-2026-10 --subscription $SUB --yes

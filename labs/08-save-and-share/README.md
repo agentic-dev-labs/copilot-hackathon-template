@@ -72,7 +72,8 @@ on a phone. This is optional, and you can also do it on Tuesday or Thursday.
    into `config.json` and tells you your address.
 2. Save, commit and push as in step 1. Publishing starts by itself.
 3. Wait about three minutes. On GitHub, **Actions > Publish my website** shows progress; when it
-   is green, select the link under **Deployments** on your repository page.
+   is green, select the link under **Deployments** on your repository page. If nobody has opened
+   it for a while, the first visit can take half a minute while it wakes up.
 4. Try your main feature on the published page. It starts with the example entries, because your
    preview entries stay in your preview. **Ask** and photo editing work only in the preview.
 5. From now on, every push updates your published page by itself.

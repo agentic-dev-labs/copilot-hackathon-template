@@ -221,7 +221,8 @@ def test_publisher_protects_other_websites_and_cost() -> None:
     assert "already used by another repository" in text
     assert text.count('!= "$REPOSITORY_ID"') == 2
     assert text.index("already used by another repository") < text.index("az rest --method put")
-    assert "scale: {minReplicas: 0, maxReplicas: 1}" in text
+    assert "scale: {minReplicas: $awake, maxReplicas: 1}" in text
+    assert yaml.load(text, Loader=yaml.BaseLoader)["env"]["MIN_REPLICAS"] in {"0", "1"}
     assert 'resources: {cpu: 0.25, memory: "0.5Gi"}' in text
     assert "registries: [{server: $registry, identity: $identity}]" in text
     assert "az acr build" not in text and "az containerapp create" not in text

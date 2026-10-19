@@ -35,6 +35,9 @@ env:
   REGISTRY: acrnnhackathon2026
   PULL_IDENTITY: nn-hackathon-pull
   WEBSITE_DOMAIN: thankfulrock-bf005377.eastus.azurecontainerapps.io
+  # 0 lets idle websites sleep for free; the first visit then waits about 30 seconds.
+  # 1 keeps each website awake for about USD 0.19 a day (see infra/README.md).
+  MIN_REPLICAS: 0
 
 jobs:
   prepare:
@@ -167,7 +170,7 @@ jobs:
           # which this identity is deliberately not allowed to do.
           jq -n --arg location "$LOCATION" --arg environment "$ENVIRONMENT_ID" --arg identity "$PULL_IDENTITY_ID" \
             --arg registry "$REGISTRY.azurecr.io" --arg image "$IMAGE" --arg commit "$GITHUB_SHA" \
-            --arg owner "$REPOSITORY_ID" --arg repository "$GITHUB_REPOSITORY" '{
+            --arg owner "$REPOSITORY_ID" --arg repository "$GITHUB_REPOSITORY" --argjson awake "$MIN_REPLICAS" '{
               location: $location,
               tags: {"github-repository-id": $owner, "github-repository": $repository, workshop: "nn-hackathon-2026-10"},
               identity: {type: "UserAssigned", userAssignedIdentities: {($identity): {}}},
@@ -185,7 +188,7 @@ jobs:
                     resources: {cpu: 0.25, memory: "0.5Gi"},
                     env: [{name: "WORKSHOP_COMMIT", value: $commit}]
                   }],
-                  scale: {minReplicas: 0, maxReplicas: 1}
+                  scale: {minReplicas: $awake, maxReplicas: 1}
                 }
               }
             }' > app.json
@@ -233,7 +236,7 @@ jobs:
                 echo "**$URL**"
                 echo
                 echo "Published commit \`${GITHUB_SHA:0:7}\`. Every push to main updates it in about three minutes."
-                echo "After a quiet spell, the first visit takes a few seconds while the website wakes up."
+                echo "After a quiet spell, the first visit can take about 30 seconds while the website wakes up."
               } >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
