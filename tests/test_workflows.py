@@ -208,6 +208,7 @@ def test_only_trusted_code_runs_next_to_the_azure_sign_in() -> None:
     assert position(lambda step: step.get("uses", "").startswith("actions/download-artifact@")) < login
     assert position(lambda step: "-m app.site --check" in step.get("run", "")) < login
     assert jobs["prepare"]["steps"][0]["with"]["persist-credentials"] == "false"
+    assert {job["runs-on"] for job in jobs.values()} == {"ubuntu-24.04"}, "pinned for a stable workshop week"
     for job in jobs.values():
         for step in job["steps"]:
             assert "${{" not in step.get("run", ""), "untrusted values reach scripts only through env"

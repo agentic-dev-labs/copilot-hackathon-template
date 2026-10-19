@@ -39,14 +39,14 @@ env:
 jobs:
   prepare:
     name: Check the website
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       contents: read
     outputs:
       name: ${{ steps.name.outputs.name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -82,7 +82,7 @@ jobs:
 
       - name: Pass on the site folder as data
         if: ${{ steps.name.outputs.name != '' }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: website-files
           path: site/
@@ -93,7 +93,7 @@ jobs:
     name: Publish to Azure
     needs: prepare
     if: ${{ needs.prepare.outputs.name != '' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
       contents: read
@@ -105,7 +105,7 @@ jobs:
       REPOSITORY_ID: ${{ github.repository_id }}
     steps:
       - name: Get the template's publisher files, never the attendee's code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: agentic-dev-labs/copilot-hackathon-template
           ref: main
@@ -121,7 +121,7 @@ jobs:
           mkdir site
 
       - name: Take the attendee's site folder
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: website-files
           path: site
@@ -135,7 +135,7 @@ jobs:
           docker run --rm --entrypoint python "$IMAGE" -m app.site --check > manifest.json
 
       - name: Sign in to Azure without a secret
-        uses: azure/login@v2
+        uses: azure/login@v3
         with:
           client-id: ${{ env.AZURE_CLIENT_ID }}
           tenant-id: ${{ env.AZURE_TENANT_ID }}
@@ -255,7 +255,7 @@ jobs:
   show-link:
     name: Website link
     needs: publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions: {}
     environment:
