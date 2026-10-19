@@ -216,12 +216,14 @@ def test_only_trusted_code_runs_next_to_the_azure_sign_in() -> None:
 def test_publisher_protects_other_websites_and_cost() -> None:
     """A repository can update only its own website, which scales to zero."""
     text = PUBLISHER.read_text(encoding="utf-8")
-    assert '"github-repository-id=$REPOSITORY_ID"' in text
+    assert '"github-repository-id": $owner' in text and '--arg owner "$REPOSITORY_ID"' in text
     assert "already used by another repository" in text
     assert text.count('!= "$REPOSITORY_ID"') == 2
-    assert "--min-replicas 0 --max-replicas 1 --cpu 0.25 --memory 0.5Gi" in text
-    assert "--registry-identity" in text
-    assert "az acr build" not in text
+    assert text.index("already used by another repository") < text.index("az rest --method put")
+    assert "scale: {minReplicas: 0, maxReplicas: 1}" in text
+    assert 'resources: {cpu: 0.25, memory: "0.5Gi"}' in text
+    assert "registries: [{server: $registry, identity: $identity}]" in text
+    assert "az acr build" not in text and "az containerapp create" not in text
     assert '= "$GITHUB_SHA"' in text and '= "$DIGEST"' in text and '= "$INDEX"' in text
 
 
