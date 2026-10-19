@@ -3,18 +3,26 @@ const net = require('node:net')
 const path = require('node:path')
 const { PreviewController, resolveEntry } = require('./controller.cjs')
 const { createAssistant, createChatHandler } = require('./assistant.cjs')
+const { createPhotoHandler } = require('./photo.cjs')
 
 const VIEW_TYPE = 'workshopSite'
 const ENTRY_KEY = 'workshopSite.entry'
-// The owner approved Open-Meteo for the Weather starter; everything else stays offline.
-const ALLOWED_APIS = ['https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com']
+// The owner approved Open-Meteo for the Weather starter (forecast, city search and past weather);
+// everything else stays offline.
+const ALLOWED_APIS = ['https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com', 'https://archive-api.open-meteo.com']
 const controllers = new Map()
 const sockets = []
 let chatHandler
+let photoHandler
 // The "Ask my page" bubble posts questions here; answers come from the workshop's chat model.
 const answerQuestion = message => {
   chatHandler = chatHandler || createChatHandler(createAssistant())
   return chatHandler(message)
+}
+// Photo Studio pages post photos here; photo.cjs checks and changes them, and saves pictures to the page's gallery.
+const handlePhoto = (message, folders) => {
+  photoHandler = photoHandler || createPhotoHandler()
+  return photoHandler(message, folders)
 }
 
 function escapeHtml(text) {
@@ -62,7 +70,10 @@ function createPreview(vscode, context, workspace, target, restoredPanel) {
     vscode.workspace.onDidChangeTextDocument(event => { if (event.document.uri.fsPath === current.file) refresh() }),
     vscode.workspace.onDidSaveTextDocument(document => { if (insideSite(document.uri)) refresh() }),
     panel.webview.onDidReceiveMessage(async message => {
-      const reply = await answerQuestion(message)
+      const photo = typeof message?.type === 'string' && message.type.startsWith('workshop.photo.')
+      const reply = photo
+        ? await handlePhoto(message, { pageDirectory: current.directory, siteDirectory: path.join(workspace, 'site') })
+        : await answerQuestion(message)
       if (reply && !disposed) panel.webview.postMessage(reply)
     }),
   ]

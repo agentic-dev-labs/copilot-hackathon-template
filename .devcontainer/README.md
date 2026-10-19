@@ -74,8 +74,9 @@ other internet requests are blocked. Its script channel
 is a user-only Unix socket in ignored `.workshop-preview/`, not an HTTP service.
 
 At Lab 01, run `/create-website` in the built-in coding Agent. It asks only which website to
-make (Project Planner, Calendar, Ideas Wall, or Weather), then copies that tested blueprint,
-the local design kit and animated art into `site/`, names it after the repository, and opens
+make (Project Planner, Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or My own
+idea), then copies that tested blueprint, the local design kit with its chart library, and
+animated art into `site/`, names it after the repository, and opens
 it. The source template never ships a finished `site/`. The learner installs nothing.
 
 The skill opens the panel beside Chat automatically. `/start-website` reopens it and

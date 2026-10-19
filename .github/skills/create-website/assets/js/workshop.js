@@ -167,5 +167,21 @@
 
     const newId = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`)
 
-    window.Workshop = { store, getJSON, loadJSON, useColumns, el, addButton, enableBoard, toast, flash, newId }
+    let previewChannel
+    /**
+     * The Website preview's message channel for the chat bubble and the photo studio, or null
+     * anywhere else (such as a published copy). VS Code allows asking for it only once per page.
+     */
+    function preview() {
+        if (previewChannel === undefined) {
+            try {
+                previewChannel = typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : null
+            } catch {
+                previewChannel = null
+            }
+        }
+        return previewChannel
+    }
+
+    window.Workshop = Object.assign(window.Workshop || {}, { store, getJSON, loadJSON, useColumns, el, addButton, enableBoard, toast, flash, newId, preview })
 })()

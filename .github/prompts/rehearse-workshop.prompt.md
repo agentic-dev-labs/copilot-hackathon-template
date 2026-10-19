@@ -88,10 +88,12 @@ separate and do not invent a human observation or claim a script is that pilot.
 ## 2. Complete the Day 1 Labs
 
 1. [Lab 01](../../labs/01-first-website/README.md): invoke the actual `/create-website` skill.
-  Check it asks exactly one question (Project Planner, Calendar, Ideas Wall, or Weather), treats
+  Check it asks exactly one question (Project Planner, Calendar, Ideas Wall, Weather, Princeton
+  Map, Photo Studio, or My own idea), treats
   the choice as approval, names the page after the repository, copies the tested blueprint and
   local kit, and, when a page already exists, offers the own-idea route without replacing it.
-  Demonstrate the Project Planner; verify the other three categories separately. Require creation to open the Website preview beside Chat,
+  Demonstrate the Project Planner; verify the other categories separately, including the Weather
+  3D chart, the Princeton Map's 3D view, a Photo Studio edit, and one `/add-chart` recipe. Require creation to open the Website preview beside Chat,
   save a heading and CSS change, and observe the live update without Refresh. Test stop closes
   only that panel and start reopens it with added entries still present. Record any blocker
   separately, not as a successful embedded-view test.

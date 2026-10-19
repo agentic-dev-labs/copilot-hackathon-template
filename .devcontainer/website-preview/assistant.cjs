@@ -46,42 +46,52 @@ function clipLines(value, limit) {
   return String(value || '').replace(/[^\S\n]+/g, ' ').replace(/ ?\n\s*/g, '\n').trim().slice(0, limit)
 }
 
-/** Create an assistant with its own token cache; settings, fetchImpl and now are injectable for tests. */
-function createAssistant({ settings = null, loadSettings = readSettings, fetchImpl = globalThis.fetch, now = Date.now } = {}) {
-  let current = settings
-  let cached = { token: '', expires: 0 }
-
-  async function request(url, options) {
-    const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), 30000)
-    try {
-      return await fetchImpl(url, { ...options, signal: controller.signal })
-    } finally {
-      clearTimeout(timer)
-    }
+/** Call fetchImpl, giving up after 30 seconds so a stuck connection never leaves the page waiting. */
+async function fetchWithTimeout(fetchImpl, url, options) {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 30000)
+  try {
+    return await fetchImpl(url, { ...options, signal: controller.signal })
+  } finally {
+    clearTimeout(timer)
   }
+}
 
-  async function token() {
+/** Sign in as the workshop identity with an Entra ID token, never an API key, and reuse the token until
+ * five minutes before it expires. `name` starts the plain-language error messages; they never contain a secret. */
+function createSignIn({ fetchImpl = globalThis.fetch, now = Date.now, name = 'The page assistant' } = {}) {
+  let cached = { token: '', expires: 0 }
+  const failed = `${name} could not sign in. Ask a helper to check the Codespaces secrets.`
+  return async function token(settings) {
     if (cached.token && now() < cached.expires) return cached.token
     const body = new URLSearchParams({
       grant_type: 'client_credentials',
-      client_id: current.FOUNDRY_CLIENT_ID,
-      client_secret: current.FOUNDRY_CLIENT_SECRET,
+      client_id: settings.FOUNDRY_CLIENT_ID,
+      client_secret: settings.FOUNDRY_CLIENT_SECRET,
       scope: 'https://cognitiveservices.azure.com/.default',
     })
     let response
     try {
-      response = await request(`https://login.microsoftonline.com/${encodeURIComponent(current.FOUNDRY_TENANT_ID)}/oauth2/v2.0/token`, {
+      response = await fetchWithTimeout(fetchImpl, `https://login.microsoftonline.com/${encodeURIComponent(settings.FOUNDRY_TENANT_ID)}/oauth2/v2.0/token`, {
         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body,
       })
     } catch {
-      throw new Error('The page assistant could not reach the sign-in service. Try again in a moment.')
+      throw new Error(`${name} could not reach the sign-in service. Try again in a moment.`)
     }
-    if (!response.ok) throw new Error('The page assistant could not sign in. Ask a helper to check the Codespaces secrets.')
-    const data = await response.json()
+    if (!response.ok) throw new Error(failed)
+    let data = null
+    try { data = await response.json() } catch { /* checked just below */ }
+    if (!data?.access_token) throw new Error(failed)
     cached = { token: data.access_token, expires: now() + Math.max(60, (Number(data.expires_in) || 3600) - 300) * 1000 }
     return cached.token
   }
+}
+
+/** Create an assistant with its own token cache; settings, fetchImpl and now are injectable for tests. */
+function createAssistant({ settings = null, loadSettings = readSettings, fetchImpl = globalThis.fetch, now = Date.now } = {}) {
+  let current = settings
+  const token = createSignIn({ fetchImpl, now })
+  const request = (url, options) => fetchWithTimeout(fetchImpl, url, options)
 
   /** Ask one question about the page; returns the answer text or throws a plain-language Error. */
   async function ask({ question, page, title }) {
@@ -91,7 +101,7 @@ function createAssistant({ settings = null, loadSettings = readSettings, fetchIm
     const asked = clip(question, MAX_QUESTION)
     if (!asked) throw new Error('Type a question first.')
     const input = `Page title: ${clip(title, 120)}\n\nPage content:\n${clipLines(page, MAX_PAGE)}\n\nQuestion: ${asked}`
-    const bearer = await token()
+    const bearer = await token(current)
     let denied = false
     for (const model of MODELS) {
       let response
@@ -145,4 +155,4 @@ function createChatHandler(assistant, now = Date.now) {
   }
 }
 
-module.exports = { createAssistant, createChatHandler, readSettings, INSTRUCTIONS, MODELS }
+module.exports = { createAssistant, createChatHandler, createSignIn, readSettings, INSTRUCTIONS, MODELS }

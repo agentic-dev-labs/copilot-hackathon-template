@@ -273,18 +273,24 @@ draws with the first model that has capacity, and saves the file under `site/`. 
 page's **Ask** button hands the question and the page's visible text to the Website preview,
 which asks the chat model and shows the answer. The page holds no credential and makes no network
 call, and a published copy says the chat is switched off. Page text is treated as data, not
-instructions, and attendees still check every answer.
+instructions, and attendees still check every answer. The **Photo Studio** works the same way:
+the page posts the photo to the Website preview, which first checks it with the chat model
+(things, places and animals only; people, documents, screens, badges and number plates are
+refused), repaints it, checks the result again, and saves only pictures it made into the page's
+`gallery/`. Uploaded originals are never saved. A published copy shows the gallery only.
 
-Capacity tested on 17 October 2026 for about 45 people:
+Capacity tested on 17 and 19 October 2026 for about 45 people:
 
 | Feature          | Models, in order                                            | Speed                                          |
 | ---------------- | ----------------------------------------------------------- | ---------------------------------------------- |
 | New picture      | FLUX-1.1-pro and FLUX.1-Kontext-pro, then gpt-image backups | 2-4 seconds; about 60 a minute before backups  |
 | Change a picture | FLUX.1-Kontext-pro, then gpt-image-1.5                      | A few seconds                                  |
 | Ask my page      | gpt-5.6-luna, then gpt-5.5                                  | 1-2 seconds; 20 questions a minute per page    |
+| Photo Studio     | Check: gpt-5.6-luna, then gpt-5.5. Repaint: gpt-image-2, then FLUX.1-Kontext-pro, then gpt-image-1.5 | Check 2-3 seconds; gpt-image-2 about 20 seconds (quota 2), Kontext about 7; 6 a minute per Codespace |
 
 When everyone draws at once, the helper retries once and then says "busy": wait a minute.
-Content filters block unsuitable requests with a plain message.
+Content filters block unsuitable requests with a plain message. gpt-image-2's quota is tiny, so
+in a full room most Photo Studio edits come from FLUX.1-Kontext-pro; that is expected.
 
 After the workshop, and before the client secret expires on 1 November 2026, delete the four
 organization secrets, your personal copies, and the app registration.

@@ -36,7 +36,9 @@
   their own repository, then docs/START-HERE.md is the route. At 09:00 each attendee makes one
   private copy of the template in agentic-dev-labs with Use this template, never a second one.
   Chat comes first. Use the provided /create-website skill: one question (Project Planner,
-  Calendar, Ideas Wall, or Weather), then it builds, so learners see they can build by talking.
+  Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or My own idea), then it builds, so
+  learners see they can build by talking. /add-chart adds ECharts charts, including 3D ones, from
+  the kit (owner-approved 19 October 2026).
   Demonstrate the Project Planner; the skill copies its tested blueprint into one self-contained
   site/index.html with the local kit and a data/*.json pretend API, then personalises it.
   Prepare the skill, kit and editor helper, not a finished site/. The agent calls

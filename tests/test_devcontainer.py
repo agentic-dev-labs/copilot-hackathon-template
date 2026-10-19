@@ -86,15 +86,19 @@ def test_beginner_preview_is_installed_and_scoped_to_the_website() -> None:
     assert manifest["name"] == "workshop-site-preview"
     assert manifest["extensionKind"] == ["workspace"]
     assert manifest["capabilities"]["untrustedWorkspaces"]["supported"] is False
-    assert manifest["files"] == ["extension.cjs", "controller.cjs", "assistant.cjs"]
+    assert manifest["files"] == ["extension.cjs", "controller.cjs", "assistant.cjs", "photo.cjs"]
     extension = Path(".devcontainer/website-preview/extension.cjs").read_text()
     assert "createWebviewPanel" in extension
     assistant = Path(".devcontainer/website-preview/assistant.cjs").read_text()
-    # The preview and its page assistant start no processes, servers, or ports.
-    for source in (extension, assistant):
+    photo = Path(".devcontainer/website-preview/photo.cjs").read_text()
+    # The preview, its page assistant and its photo studio start no processes, servers, or ports.
+    for source in (extension, assistant, photo):
         assert "child_process" not in source and "createServer(" not in source.replace("net.createServer(", "")
     assert "onDidReceiveMessage" in extension and "createChatHandler" in extension
-    assert "api-key" not in assistant.lower() and "Bearer" in assistant
+    assert "createPhotoHandler" in extension
+    for source in (assistant, photo):
+        assert "api-key" not in source.lower()
+    assert "Bearer" in assistant
     assert "connect-src ${resources}" in extension
     assert "localResourceRoots: [site]" in extension
 
@@ -103,7 +107,8 @@ def test_website_helper_ownership_contracts() -> None:
     """Exercise the Node helper without depending on a real editor or browser."""
     result = subprocess.run(
         ["node", "--test", ".devcontainer/website-preview/controller.test.cjs",
-         ".devcontainer/website-preview/assistant.test.cjs"],
+         ".devcontainer/website-preview/assistant.test.cjs",
+         ".devcontainer/website-preview/photo.test.cjs"],
         capture_output=True,
         text=True,
         check=False,

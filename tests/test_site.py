@@ -16,6 +16,7 @@ from app.site import create_app, site_manifest
 HTML = '<!doctype html><html lang="en"><body><h1>Synthetic planner</h1></body></html>'
 KIT = Path(".github/skills/create-website/assets/js/workshop.js")
 PROJECT_BLUEPRINT = Path(".github/skills/create-website/assets/blueprints/project")
+CATEGORIES = ("project", "calendar", "ideas", "weather", "map", "photo")
 
 
 @pytest.fixture
@@ -124,7 +125,7 @@ def test_chat_bubble_is_optional_safe_and_holds_no_secret() -> None:
     assert "box.checked ? 'Ticked' : 'Not ticked'" in chat, "the assistant can tell which boxes are ticked"
     assert "Picture: ${picture.alt.trim()}" in chat, "the assistant can tell what pictures show"
     assert "window.Workshop = Object.assign(window.Workshop || {}, { addChat })" in chat
-    for category in ("project", "calendar", "ideas", "weather"):
+    for category in CATEGORIES:
         page = (PROJECT_BLUEPRINT.parent / category / "index.html").read_text(encoding="utf-8")
         assert "workshop-chat.js" not in page, "chat is added on request, not shipped in every starter"
 
@@ -142,7 +143,7 @@ def test_board_columns_come_from_the_page_not_older_browser_storage() -> None:
     assert {item["column"] for item in data["items"]} <= set(columns)
 
 
-@pytest.mark.parametrize("category", ["project", "calendar", "ideas", "weather"])
+@pytest.mark.parametrize("category", CATEGORIES)
 def test_examples_reload_themselves_without_a_reset_button(category: str) -> None:
     """Beginners get their examples back by emptying the page, not by finding a button."""
     blueprints = PROJECT_BLUEPRINT.parent
@@ -203,7 +204,7 @@ def inline_block(page: str, start: str) -> str:
     return match.group(0)
 
 
-@pytest.mark.parametrize("category", ["project", "calendar", "ideas", "weather"])
+@pytest.mark.parametrize("category", CATEGORIES)
 def test_inline_sample_matches_the_data_file(category: str) -> None:
     """The skill keeps the inline SAMPLE and data/*.json identical, so an offline page looks the same."""
     blueprint = PROJECT_BLUEPRINT.parent / category
@@ -219,7 +220,7 @@ def test_weather_starter_uses_us_units_and_local_cities() -> None:
     """The US audience sees Fahrenheit and mph, starting with Princeton."""
     blueprint = PROJECT_BLUEPRINT.parent / "weather"
     data = json.loads((blueprint / "data/weather.json").read_text(encoding="utf-8"))
-    assert [city["name"] for city in data["cities"]] == ["Princeton", "New York", "Copenhagen"]
+    assert [city["name"] for city in data["cities"]] == ["Princeton", "Copenhagen", "Sydney"]
     page = (blueprint / "index.html").read_text(encoding="utf-8")
     assert "temperature_unit: 'fahrenheit', wind_speed_unit: 'mph'" in page
     assert "\\u00b0F`" in page and " mph`" in page
@@ -275,3 +276,88 @@ def test_target_names_are_distinct_and_vendor_names_stay_stable(label: str) -> N
     assert website == deployment_name(label, "website")
     with pytest.raises(ValueError):
         deployment_name(label, "unknown")
+
+
+ASSETS = PROJECT_BLUEPRINT.parent.parent
+
+
+def test_chart_kit_is_local_licensed_and_runs_without_eval() -> None:
+    """ECharts ships in the kit with its licences, and ECharts GL needs no eval under the preview's policy."""
+    vendor = ASSETS / "js/vendor"
+    echarts = (vendor / "echarts.min.js").read_text(encoding="utf-8")
+    assert "Licensed to the Apache Software Foundation" in echarts[:600]
+    gl = (vendor / "echarts-gl.min.js").read_text(encoding="utf-8")
+    # The one expression parser was replaced, so a strict Content-Security-Policy is enough.
+    assert "workshop patch: no eval" in gl and 'new Function("width","height","dpr"' not in gl
+    licences = (vendor / "CHART-LICENSES.md").read_text(encoding="utf-8")
+    for name in ("Apache License", "ECharts GL LICENSE", "ClayGL LICENSE", "ZRender LICENSE", "d3.js LICENSE"):
+        assert name in licences
+    helper = (ASSETS / "js/workshop-charts.js").read_text(encoding="utf-8")
+    assert "innerHTML" not in helper and "fetch(" not in helper and not re.search(r"https?://", helper)
+    assert "zoomSensitivity: 0" in helper and "prefers-reduced-motion" in helper
+    attributes = Path(".gitattributes").read_text(encoding="utf-8")
+    assert "assets/js/vendor/*.min.js -text -diff" in attributes
+
+
+def test_chart_recipes_are_offered_and_safe() -> None:
+    """Every tested recipe is listed in /add-chart and draws through the kit helper only."""
+    skill = Path(".github/skills/add-chart/SKILL.md").read_text(encoding="utf-8")
+    recipes = sorted(Path(".github/skills/add-chart/recipes").glob("*.js"))
+    assert len(recipes) >= 10
+    for recipe in recipes:
+        assert f"(recipes/{recipe.name})" in skill, recipe.name
+        code = recipe.read_text(encoding="utf-8")
+        assert "Workshop.chart(" in code and "Check:" in code
+        assert "innerHTML" not in code and "fetch(" not in code and not re.search(r"https?://", code)
+        if "3d" in recipe.stem:
+            assert "echarts-gl.min.js" in code and "chart-stage" in code
+
+
+def test_map_places_are_sourced_and_sit_on_the_map() -> None:
+    """Every sample place has a short description, an official source, and lies inside the base map."""
+    blueprint = ASSETS / "blueprints/map"
+    places = json.loads((blueprint / "data/places.json").read_text(encoding="utf-8"))["items"]
+    base = json.loads((blueprint / "data/map.json").read_text(encoding="utf-8"))
+    (west, south), (east, north) = base["bounds"]
+    assert len(places) == 18 and len({place["id"] for place in places}) == 18
+    for place in places:
+        assert place["category"] in {"Campus", "History", "Arts", "Nature", "Town"}
+        assert west < place["lon"] < east and south < place["lat"] < north, place["id"]
+        assert 0 < len(place["description"].split()) <= 22
+        assert place["source"].startswith(("https://", "http://"))
+    kinds = {feature["properties"]["kind"] for feature in base["areas"]["features"]}
+    assert kinds == {"town", "campus", "water"}
+    assert "public domain" in base["about"] and base["roads"] and base["rail"]
+
+
+@pytest.mark.parametrize("category", CATEGORIES)
+def test_every_starter_assembles_into_a_publishable_site(tmp_path: Path, category: str) -> None:
+    """The blueprint plus the whole kit stays inside the website target's file and size limits."""
+    site = tmp_path / "site"
+    shutil.copytree(ASSETS / "blueprints" / category, site)
+    for folder in ("css", "js", "art"):
+        shutil.copytree(ASSETS / folder, site / folder)
+    (site / "fonts").mkdir()
+    shutil.copyfile(ASSETS / "fonts/source-sans-3-latin.woff2", site / "fonts/source-sans-3-latin.woff2")
+    shutil.copyfile(ASSETS / "fonts/OFL.txt", site / "FONT-LICENSE.md")
+    shutil.copyfile(ASSETS / "js/vendor/CHART-LICENSES.md", site / "CHART-LICENSES.md")
+    manifest = site_manifest(site)
+    assert "js/vendor/echarts.min.js" in manifest["files"]
+    page = (site / "index.html").read_text(encoding="utf-8")
+    for local in re.findall(r'(?:src|href)="((?:css|js|art|data|gallery)/[^"]+)"', page):
+        assert (site / local).is_file(), local
+
+
+def test_photo_helper_talks_only_to_the_preview() -> None:
+    """The photo page holds no key and makes pictures only through the Website preview."""
+    helper = (ASSETS / "js/workshop-photo.js").read_text(encoding="utf-8")
+    assert "Workshop.preview()" in helper and "acquireVsCodeApi" not in helper
+    assert "'workshop.photo.edit'" in helper and "'workshop.photo.save'" in helper
+    assert "innerHTML" not in helper and not re.search(r"https?://", helper)
+    assert "switched off" not in helper and "gallery only" in helper
+    kit = KIT.read_text(encoding="utf-8")
+    assert kit.count("acquireVsCodeApi()") == 1 and "function preview()" in kit
+    gallery = json.loads((ASSETS / "blueprints/photo/data/gallery.json").read_text(encoding="utf-8"))
+    for item in gallery["items"]:
+        picture = ASSETS / "blueprints/photo" / item["file"]
+        assert picture.read_bytes()[:3] == b"\xff\xd8\xff" and picture.stat().st_size < 300 * 1024

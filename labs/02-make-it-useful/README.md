@@ -20,6 +20,8 @@ a list to finish. If a feature already works, improve it or pick another one.
 | Calendar | Color notes by type, larger day numbers, a softer today highlight | Start times, a "this week" count, your country's public holidays |
 | Ideas Wall | Larger notes, different sticky-note colors, a bolder headline | A vote button with a count, themes, a search box |
 | Weather | A different color theme, a larger temperature, a friendlier headline | A Fahrenheit/Celsius switch, a "what to wear" tip, sunrise and sunset |
+| Princeton Map | Bigger pins, a calmer map color, your own category color | Your favourite lunch spot, a walking route, a search box |
+| Photo Studio | Larger gallery pictures, a darker studio, rounder buttons | Your own style button, a slideshow, a favourite star |
 
 Ask: "Read my brief and my page. I want to improve [appearance] and [feature]. Suggest two small
 changes, but do not build them yet. Keep the rest working."
@@ -41,11 +43,14 @@ purple with giant text." Look at the preview. Then, in Chat, select **Undo** for
 Copilot shows **Keep** and **Undo** after each change it makes, and **Undo** puts your files back
 the way they were. Your page returns to normal. Now you know you can always go back.
 
-**Two optional wows, if you have time:**
+**Three optional wows, if you have time:**
 
 - **Let Copilot draw a picture.** Ask: "Draw a friendly rocket for the top of my page, in my
   colors." It appears in a few seconds. Not right? Ask again, or select **Undo**. Made-up
   pictures only: no real people, logos, or company names.
+- **Add a chart, even a 3D one.** Type **`/add-chart`** and pick one of the ideas it offers for
+  your page, such as a progress gauge or a 3D skyline. It is drawn from your own entries, so add
+  or tick something and watch it change. Drag a 3D chart to turn it.
 - **Show Copilot a sketch.** Drag **docs > images > sketch-example.png** from the Explorer into the
   chat box and ask: "Make my page look more like this sketch. Keep all my entries and features."
 
@@ -64,6 +69,8 @@ Use one of these, changed to fit your page:
 | Calendar | "Let me give each note a type: meeting, personal, or deadline, each with its own color. Keep the design unchanged." |
 | Ideas Wall | "Add a thumbs-up button with a count to each idea, and a button to sort by most votes. Keep the design unchanged." |
 | Weather | "Add a switch between Fahrenheit and Celsius that remembers my choice. Keep the design unchanged." |
+| Princeton Map | "Add a search box above the list that shows only the places whose name matches. Keep the design unchanged." |
+| Photo Studio | "Add a title box so I can name a picture before I save it to the gallery. Keep the design unchanged." |
 
 Ask for a short plan first, say yes, and let Copilot make the change. Save and watch the preview.
 
@@ -77,6 +84,8 @@ Start from the example entries for your page:
 | Calendar | 3 notes planned. Add one on Friday: 4. Drag it to Monday: still 4, now on Monday. |
 | Ideas Wall | 3 ideas. Add one: 4. Drag it to the front, then remove it: 3 again. |
 | Weather | Pick another city and compare today's temperature with **the raw forecast data** link. |
+| Princeton Map | 18 places. Choose History: 6. Press **+**, name a place and click the map: 19 places. |
+| Photo Studio | 6 pictures. Make one into a watercolour and save it: the gallery shows 7. |
 
 If you changed the entries, write down what you expect first. Also try an empty entry, the
 keyboard (Tab and Enter), and a narrow window. Do the older features still work?

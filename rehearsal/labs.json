@@ -48,7 +48,7 @@
       ],
       "checks": {
         "implementation": "One meaningful interaction implemented in the existing page with fictional input and safe text handling",
-        "personalisation": "Chosen Project Planner, Calendar, Ideas Wall, or Weather page gets one visual improvement and one feature improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
+        "personalisation": "Chosen Project Planner, Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or own-idea page gets one visual improvement and one feature improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
         "manual-checks": "Manual add/remove or equivalent journey, empty input, keyboard access, and narrow layout checked honestly",
         "preview": "Learner reopened the private preview and recorded actual results and remaining limitations",
         "undo": "A deliberately bold Copilot change was reverted with Chat's Undo and the page returned to its previous state"

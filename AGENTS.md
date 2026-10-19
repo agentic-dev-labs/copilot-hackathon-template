@@ -74,8 +74,8 @@ only the repository README, the page GitHub shows them first; the presenter show
 their own repository and attendees repeat it on theirs.
 Then use short show -> try -> personalise -> verify -> share cycles: Chat first, the provided
 `/create-website` workflow, and the live Website preview beside Chat. Offer the Project Planner,
-Calendar, Ideas Wall and Weather starters, demonstrate the Project Planner, and ask only which
-one; choosing is the approval to build. The agent calls the
+Calendar, Ideas Wall, Weather, Princeton Map and Photo Studio starters and My own idea,
+demonstrate the Project Planner, and ask only which one; choosing is the approval to build. The agent calls the
 prepared preview helper; do not introduce attendee terminal or port setup. Continue with personalisation,
 manual behaviour and source checks, and saved work. Demonstrate every essential click, including
 finding the guide and Markdown Open Preview; these are not independent reading assignments.
@@ -84,8 +84,10 @@ skill installation, or presentation requirement. Storage and deployment are opti
 Prepare the skill, its tested category blueprints, the local kit and the editor helper, not a
 completed site/. The skill copies one self-contained index.html plus a data/*.json pretend API
 after approval. Keep pages static and local, and ask before changing frameworks, overwriting
-pages, or adding an external service. The owner approved one exception: the Weather starter
-calls Open-Meteo, and the preview allows only that host. Fast finishers build an own idea from
+pages, or adding an external service. The owner approved these exceptions: the Weather starter
+calls Open-Meteo (forecast, city search and past weather), and the preview allows only those hosts;
+the kit ships Apache ECharts and ECharts GL for `/add-chart` and 3D (19 October 2026); and the
+Photo Studio repaints photos of things, places and pets through the Website preview. Fast finishers build an own idea from
 one sentence in `site/ideas/<name>/`; slower learners move on to the next lab.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate
 branding, diagram tools, or paid image service belongs in the beginner builder. The owner approved

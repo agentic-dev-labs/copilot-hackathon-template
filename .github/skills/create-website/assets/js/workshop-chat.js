@@ -6,9 +6,11 @@
 (function () {
     'use strict'
 
+    // Share the kit's one preview channel; an older workshop.js without it gets its own.
     let preview = null
     try {
-        preview = typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : null
+        preview = window.Workshop && window.Workshop.preview ? window.Workshop.preview()
+            : typeof acquireVsCodeApi === 'function' ? acquireVsCodeApi() : null
     } catch {
         preview = null
     }

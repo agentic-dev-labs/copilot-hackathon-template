@@ -1,6 +1,6 @@
 ---
 name: create-website
-description: 'Build a beautiful fictional website for a first-time user from one choice: Calendar, Weather, Project Planner, or Ideas Wall. Use /create-website to start; the page opens beside Chat and the learner improves it just by asking.'
+description: 'Build a beautiful website for a first-time user from one choice: Project Planner, Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or their own idea. Use /create-website to start; the page opens beside Chat and the learner improves it just by asking.'
 argument-hint: 'Start or continue your website'
 user-invocable: true
 disable-model-invocation: true
@@ -22,12 +22,14 @@ facilitator files.
   your own idea in its own folder?"** Do not reset it. For their own idea, follow
   [Your Own Idea](#your-own-idea); otherwise continue the page through ordinary Chat.
 - Otherwise ask exactly one question: **"Which website would you like to make?"** Offer
-  **Project Planner** (the presenter default), **Calendar**, **Ideas Wall**, and **Weather**,
-  each with its one-line `summary` from [starters.json](./assets/starters.json). Use the
-  question tool when available; otherwise a numbered list.
+  **Project Planner** (the presenter default), **Calendar**, **Ideas Wall**, **Weather**,
+  **Princeton Map**, **Photo Studio**, and **My own idea**, each with its one-line `summary`
+  from [starters.json](./assets/starters.json) (for My own idea, the file's `own_idea`). Use
+  the question tool when available; otherwise a numbered list.
 - Stop after the question and wait. Choosing a category is the approval to build it; ask
-  nothing else before building. If they describe their own idea, pick the closest category,
-  say so in one sentence, and note the idea for later.
+  nothing else before building. If they choose My own idea or describe one, ask only
+  **"Describe your idea in one sentence."**, then build it as their first page, following
+  [Your Own Idea](#your-own-idea) but at `site/index.html`.
 
 ## 2. Build It Straight Away
 
@@ -46,13 +48,18 @@ ships a finished `site/`; this copy happens only after the learner chooses.
 | Calendar | [calendar/index.html](./assets/blueprints/calendar/index.html) | [data/events.json](./assets/blueprints/calendar/data/events.json) |
 | Ideas Wall | [ideas/index.html](./assets/blueprints/ideas/index.html) | [data/ideas.json](./assets/blueprints/ideas/data/ideas.json) |
 | Weather | [weather/index.html](./assets/blueprints/weather/index.html) | [data/weather.json](./assets/blueprints/weather/data/weather.json) |
+| Princeton Map | [map/index.html](./assets/blueprints/map/index.html) | [data/places.json](./assets/blueprints/map/data/places.json) and the base map [data/map.json](./assets/blueprints/map/data/map.json) |
+| Photo Studio | [photo/index.html](./assets/blueprints/photo/index.html) | [data/gallery.json](./assets/blueprints/photo/data/gallery.json) and its [gallery](./assets/blueprints/photo/gallery/) pictures |
 
-1. Copy the chosen blueprint's `index.html` and `data/` folder into `site/`.
+1. Copy everything in the chosen blueprint folder into `site/`: `index.html`, `data/`, and for
+   the Photo Studio its `gallery/` folder.
 2. Copy the kit unchanged: [workshop.css](./assets/css/workshop.css) to `site/css/workshop.css`,
-   [workshop.js](./assets/js/workshop.js) to `site/js/workshop.js`, the [art](./assets/art/)
-   folder to `site/art/`, [the font](./assets/fonts/source-sans-3-latin.woff2) to
-   `site/fonts/source-sans-3-latin.woff2`, and [its license](./assets/fonts/OFL.txt) to
-   `site/FONT-LICENSE.md`. See [the kit notes](./assets/README.md).
+   the whole [js](./assets/js/) folder to `site/js/` (the helper script, the chat, chart and
+   photo helpers, and the `vendor/` chart library), the [art](./assets/art/) folder to
+   `site/art/`, [the font](./assets/fonts/source-sans-3-latin.woff2) to
+   `site/fonts/source-sans-3-latin.woff2`, [its license](./assets/fonts/OFL.txt) to
+   `site/FONT-LICENSE.md`, and [the chart licences](./assets/js/vendor/CHART-LICENSES.md) to
+   `site/CHART-LICENSES.md`. See [the kit notes](./assets/README.md).
 3. In `site/index.html`, replace `My` in the `<title>` and `.logo` text with the repository
    name, and the `.logo-mark` letter with its first letter. Change nothing else.
 4. Write `site/brief.md`: the page name, category, what it does, the starter's `manual_check`,
@@ -81,7 +88,8 @@ exact error to the facilitator.
 
 Then hand over. Keep it to three short lines plus a small menu of ideas:
 
-- **"Try it: press + to add something, drag it, or remove it."**
+- The starter's own `try_it` line from [starters.json](./assets/starters.json), such as
+  **"Try it: press + to add something, drag it, or remove it."**
 - **"Now just tell me what to change. Here are some ideas, or ask for anything else:"**
   then four bullets they could say back word for word: one look change and one layout
   change from `any_page_ideas`, and two features from the starter's `later_ideas`. Use the
@@ -99,7 +107,9 @@ keep everything else, and never restart this interview. See [Start Website](../s
 
 ## How the Pages Work (Keep This When Changing Them)
 
-- One page: kit CSS link, a small `<style>`, the markup, `js/workshop.js`, then one inline script.
+- One page: kit CSS link, a small `<style>`, the markup, `js/workshop.js` and any kit helpers it
+  uses (the chart library and `js/workshop-charts.js`, the chat or photo helper), then one inline
+  script.
 - Entries are remembered in this browser with `Workshop.store`. On first load they come from the
   local JSON file with `Workshop.loadJSON`, with the same items inline as `SAMPLE`. Keep both
   identical when changing sample data. There is no reset button: the examples load themselves
@@ -128,13 +138,10 @@ keep everything else, and never restart this interview. See [Start Website](../s
   `Workshop.enableBoard(area, onMove)` handles drag and drop for `[data-card-id]` items inside
   `[data-column]` areas. Removal uses a `.remove` button with an `aria-label`.
 - Build elements with `Workshop.el` or `textContent`; never put entered text in `innerHTML`.
-- **Building a chart** (one of the later-idea prompts, "add a chart showing..."): `Workshop.el`
-  calls `document.createElement`, which can't make SVG shapes. A literal `<svg>` written in the
-  page's own HTML markup parses fine, but `el('polyline', ...)`, `el('circle', ...)`, and
-  `el('text', ...)` each silently become an inert `HTMLUnknownElement` — nothing draws, and
-  there is no console error to flag it. Give the `<svg>`'s children their own
-  `document.createElementNS('http://www.w3.org/2000/svg', tag)` helper in the page's script,
-  and redraw it from `render()` so it stays in sync with the board's live data.
+- **Building a chart** (one of the later-idea prompts, "add a chart showing..."): use
+  [Add Chart](../add-chart/SKILL.md) (`/add-chart`) and its tested recipes. Charts are drawn by
+  the kit's ECharts library through `Workshop.chart(box, option)` from the page's own state,
+  inside `render()`, so they redraw with every change. Do not hand-draw SVG charts.
 - Beauty comes from the kit: `.app-header` with `.hero` and a `.hero-art` image, weekday icons
   in `art/<weekday>.svg` (`.day-art`, including `saturday.svg`/`sunday.svg` for a full week),
   `.board`/`.column`/`.card`, `.calendar`/`.day`/`.chip`, `.wall`/`.note`,
@@ -149,7 +156,7 @@ keep everything else, and never restart this interview. See [Start Website](../s
   was" means restoring that attribute value and deleting the block you added, never writing a
   `[data-theme="green"]` rule. The header's gradient and every accent-based element (buttons,
   progress bar, chips) follow automatically; never hand-edit `workshop.css` for a one-page
-  color change: the kit is capped at 12 KiB by `tests/test_lab_contracts.py`, so anything
+  color change: the kit is capped at 16 KiB by `tests/test_lab_contracts.py`, so anything
   added there has to be paid for in bytes.
 - **Adding a tag to a card** (a request like "give each task a type" or "a priority label"):
   use `.chip` for the pill and add the kit's `.chip-toggle` class if it is clickable, plus
@@ -185,13 +192,19 @@ keep everything else, and never restart this interview. See [Start Website](../s
   file, so the page stays static. If the helper says pictures are not switched on, say so and
   carry on without one. Never add an image API, key, or remote image address to the page.
 - **A chat bubble** is added by [Add Chat](../add-chat/SKILL.md) (`/add-chat`), not by hand.
+- **The Photo Studio** repaints photos through the Website preview with the workshop picture
+  model (`Workshop.photo` in `js/workshop-photo.js`). The preview checks every photo first and
+  refuses people, documents and screens, and saves only pictures it made, into `gallery/` and
+  `data/gallery.json`; uploaded originals are never saved. Keep those messages and checks.
 - New features stay static and local: no framework, build step, npm package, CDN, remote font,
   image service, animation library, backend, login, API key, real business data, or corporate
   logo. No logo-generation API or paid reference service. No deployment or public port. The
-  owner-approved exceptions are pictures saved by the workshop helper and the `/add-chat` bubble,
-  which asks through the Website preview.
-- The preview allows only the page's own files plus Open-Meteo, which the owner approved for
-  the Weather page. Other internet APIs do not load; record such wishes as questions for IT.
+  owner-approved exceptions are pictures saved by the workshop helper, the `/add-chat` bubble
+  and the Photo Studio, which ask through the Website preview, and the Apache ECharts chart
+  library (with ECharts GL for 3D) copied into `js/vendor/` with its licences.
+- The preview allows only the page's own files plus Open-Meteo (forecast, city search and past
+  weather), which the owner approved for the Weather page. Other internet APIs do not load;
+  record such wishes as questions for IT.
   Open-Meteo's free tier is for non-commercial use. Keep learner-written files below 100 KiB,
   excluding the copied kit. Never overwrite the first page without asking.
 
@@ -211,14 +224,18 @@ When the learner is ready, one check at a time, waiting for their observation:
 
 ## Your Own Idea
 
-On Monday, offer this only after the first page is checked, saved on GitHub, and shown. It is
-optional that day: if time runs out, the learner moves on to the next lab. The first page is the
-finish. From Tuesday it is the main way to start an own idea, and the learner may continue the
-same idea on Wednesday and Thursday.
+A learner can choose **My own idea** in the very first question; then it becomes their first
+page, at `site/index.html`, with the kit copied as in [section 2](#2-build-it-straight-away)
+and shared files at `css/`, `js/` and `art/`. Once a first page exists, an own idea goes in its
+own folder instead. On Monday, offer a second idea only after the first page is checked, saved
+on GitHub, and shown. It is optional that day: if time runs out, the learner
+moves on to the next lab. The first page is the finish. From Tuesday it is the main way to start
+an own idea, and the learner may continue the same idea on Wednesday and Thursday.
 
 1. Ask one question: **"Describe your idea in one sentence."** Then build straight away.
-2. Choose a short folder name from the idea, such as `site/ideas/team-lunch/`, and check it
-   does not exist. Never overwrite the first page; it stays the publication entry point.
+2. For a second idea, choose a short folder name from the idea, such as `site/ideas/team-lunch/`,
+   and check it does not exist. Never overwrite the first page; it stays the publication entry
+   point.
 3. Start from the closest blueprint pattern, then reshape it to fit the idea:
 
    | The idea is mostly... | Start from |
@@ -227,7 +244,11 @@ same idea on Wednesday and Thursday.
    | Things on dates (events, shifts, holidays, deadlines) | Calendar |
    | Collecting, sorting, or voting on items (ideas, wishes, feedback) | Ideas Wall |
    | Looking something up and showing the result | Weather pattern with a local data file |
+   | Places to find on a map (favourite spots, offices, a walking tour) in Princeton | Princeton Map, keeping its base map |
+   | Pictures to change or collect (pets, products, posters) | Photo Studio |
 
+   When the idea has numbers worth seeing, add one chart from [Add Chart](../add-chart/SKILL.md)'s
+   patterns in the same build, so the page looks finished from the start.
 4. Copy the blueprint's `index.html` and `data/` into the new folder. Point shared files one
    level up twice: `../../css/workshop.css`, `../../js/workshop.js`, and `../../art/...`. Keep
    `data/` inside the folder. Use a new storage key, `idea-<folder>`.

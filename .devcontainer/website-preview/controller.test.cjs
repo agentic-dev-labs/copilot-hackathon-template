@@ -80,8 +80,8 @@ test('rendering adds a no-network policy and a base for local assets', context =
   assert.ok(html.includes("default-src 'none'"))
   const policy = html.match(/content="([^"]+)"/)[1]
   const connect = policy.split(';').find(part => part.trim().startsWith('connect-src')).trim().split(/\s+/).slice(1)
-  assert.deepEqual(connect, ['vscode-webview:', 'https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com'])
-  assert.deepEqual(policy.match(/https:\/\/[^\s;]+/g), ['https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com'])
+  assert.deepEqual(connect, ['vscode-webview:', 'https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com', 'https://archive-api.open-meteo.com'])
+  assert.deepEqual(policy.match(/https:\/\/[^\s;]+/g), ['https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com', 'https://archive-api.open-meteo.com'])
   const unsaved = { uri: { fsPath: target.file }, getText: () => '<html><head></head><body>Unsaved edit</body></html>' }
   vscode.workspace.textDocuments.push(unsaved)
   assert.ok(renderHtml(vscode, webview, target).includes('Unsaved edit'))

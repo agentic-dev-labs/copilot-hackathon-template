@@ -80,7 +80,7 @@ Guardrails that outrank any learning from a single run:
   owner's explicit approval.
 - Fixtures, samples, and tests stay synthetic. A rehearsal observation is never a reason to add
   real vendor, patient, customer, or employee data.
-- The design kit is capped at **12 KiB** by `tests/test_lab_contracts.py`, and the art has its
+- The design kit is capped at **16 KiB** by `tests/test_lab_contracts.py`, and the art has its
   own budget. Anything added to `workshop.css` has to be paid for in bytes, so prefer a rule in
   the page's own `<style>` or a sentence of guidance.
 - No product documentation prose in synthetic reports or the privacy review template.

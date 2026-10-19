@@ -8,9 +8,12 @@
 including [your first note](../../README.md#your-first-note), in the same Codespace. Nothing to install.
 
 At 10:45 the presenter shows `/create-website`, then each later step, and you try each one
-straight after. You choose one of four starter websites: **Project Planner**, **Calendar**,
-**Ideas Wall**, or **Weather**. The presenter builds the Project Planner; pick it if you are
-unsure. All four work the same way, and everything on them is made up.
+straight after. You choose one of six starter websites: **Project Planner**, **Calendar**,
+**Ideas Wall**, **Weather** (with a 3D chart of your cities' year), **Princeton Map** (sights
+you can filter and see in 3D), or **Photo Studio** (the workshop AI repaints photos of things,
+places and pets), or pick **My own idea** and describe it in one sentence. The presenter builds
+the Project Planner; pick it if you are unsure. They all work the same way, and everything you
+add stays made up.
 
 ## 1. Pick Your Website (10 minutes)
 

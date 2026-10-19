@@ -44,7 +44,7 @@ repository, attendees do it on theirs alongside him or straight after, then the 
 | 09:30-10:00 | Lab, from the README: find files and Copilot Chat; ask and refine a question                                                                       |
 | 10:00-10:30 | Create an idea note; save, review, commit, push, and verify it on GitHub (README)                                                                   |
 | 10:30-10:45 | Break                                                                                                                                               |
-| 10:45-11:45 | Lab 01: Ali shows /create-website, then attendees create a Project Planner, Calendar, Ideas Wall, or Weather website and preview it |
+| 10:45-11:45 | Lab 01: Ali shows /create-website, then attendees create a Project Planner, Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or own-idea website and preview it |
 | 11:45-12:15 | Trust but verify: check a button and a figure, fix, and recheck                                                                                     |
 | 12:15-13:00 | Lunch                                                                                                                                               |
 | 13:00-14:00 | Lab 02: Add a useful interaction, personalize, and check                                                                                            |
@@ -61,8 +61,9 @@ from 10:45 the [beginner guide](START-HERE.md) is the chronological route. At 09
 attendee (or the driver of a pair) makes one private copy of the template in agentic-dev-labs,
 so nobody pushes to a shared repository.
 The 11:45 verification block is separate from Lab 01.
-The presenter uses the Project Planner; Calendar, Ideas Wall and Weather follow the same guided
-steps. Complete, check, save, and show that page before an own-idea page, preserving
+The presenter uses the Project Planner; Calendar, Ideas Wall, Weather (with a 3D climate chart),
+Princeton Map (2D and 3D) and Photo Studio follow the same guided steps, and My own idea builds a
+first page from one sentence. `/add-chart` is an optional Lab 02 wow. Complete, check, save, and show that page before an own-idea page, preserving
 the first page. Fast finishers may start their own idea on Monday; it is Tuesday's main focus.
 
 ## Day 2 - Tuesday, 6 hours - Line of Business

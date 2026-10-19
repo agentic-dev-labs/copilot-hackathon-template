@@ -77,7 +77,7 @@ def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
 def test_personalisation_lab_follows_the_chosen_category() -> None:
     """Learners improve their own page, with visual and feature changes kept small."""
     text = Path("labs/02-make-it-useful/README.md").read_text(encoding="utf-8")
-    for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather"):
+    for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather", "Princeton Map", "Photo Studio"):
         assert f"| {category} |" in text
     assert "**one appearance change** and **one feature change**" in text
     assert "not a new creation interview" in text
@@ -191,7 +191,7 @@ def test_guided_website_skill_is_explicit_and_preserves_learner_work() -> None:
     assert "Describe your idea in one sentence." in text
     assert "moves on to the next lab" in text
     assert "or build\n  your own idea in its own folder?" in text
-    for name in ("project", "calendar", "ideas", "weather"):
+    for name in ("project", "calendar", "ideas", "weather", "map", "photo"):
         assert f"./assets/blueprints/{name}/index.html" in text
     assert "Workshop.store" in text and "Workshop.loadJSON" in text
     assert "Workshop.enableBoard" in text and "Workshop.addButton" in text
@@ -250,7 +250,7 @@ def test_facilitator_reset_skill_harvests_before_clearing() -> None:
     # The preview socket is prepared machinery; clearing it breaks the next run.
     assert "`.workshop-preview/`: the preview extension and its live `site.sock`" in text
     assert "never that this run created it" in text
-    assert "12 KiB" in text
+    assert "16 KiB" in text
     assert "synthetic" in text
     assert "Never invent one" in text
     assert "not a learning" in text
@@ -286,10 +286,11 @@ def test_guided_starter_figures_and_shared_assets() -> None:
     assets = Path(".github/skills/create-website/assets")
     data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
     assert data["source_mode"] == "synthetic_workshop"
-    assert [starter["id"] for starter in data["starters"]] == ["project", "calendar", "ideas", "weather"]
+    assert [starter["id"] for starter in data["starters"]] == ["project", "calendar", "ideas", "weather", "map", "photo"]
     assert data["default"] == "project"
     allowed_urls = {"http://www.w3.org/2000/svg", "https://api.open-meteo.com/v1/forecast",
-                    "https://geocoding-api.open-meteo.com/v1/search"}
+                    "https://geocoding-api.open-meteo.com/v1/search",
+                    "https://archive-api.open-meteo.com/v1/archive"}
     for starter in data["starters"]:
         assert starter["summary"] and starter["manual_check"]
         assert len(starter["later_ideas"]) >= 4
@@ -306,7 +307,9 @@ def test_guided_starter_figures_and_shared_assets() -> None:
         assert '<link rel="stylesheet" href="css/workshop.css">' in page
         assert "<title>My " in page and "logo-mark" in page
         assert "innerHTML" not in page
-        assert set(re.findall(r"https?://[^`'\"?$\s]+", page)) <= allowed_urls
+        # Places name the page that supports their description: a link to read, never a request.
+        sources = {item["source"] for item in sample[key] if isinstance(item, dict) and item.get("source")}
+        assert set(re.findall(r"https?://[^`'\"?$\s]+", page)) <= allowed_urls | sources
         for art in re.findall(r'src="(art/[^"]+)"', page):
             assert (assets / art).is_file(), art
     kit = (assets / "js/workshop.js").read_text(encoding="utf-8")
@@ -328,7 +331,7 @@ def test_guided_starter_figures_and_shared_assets() -> None:
     assert "prefers-reduced-motion" in css
     assert ":focus-visible" in css
     assert "color-scheme: light" in css
-    assert len(css.encode("utf-8")) < 12 * 1024
+    assert len(css.encode("utf-8")) < 16 * 1024
     assert "@import" not in css
     assert "prefers-color-scheme: dark" not in css
     assert "letter-spacing: 0" in css
