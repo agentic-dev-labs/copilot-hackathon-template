@@ -17,10 +17,13 @@ or push for the learner.
    /create-website."** and stop.
 2. Check that `.github/workflows/publish-website.yml` exists. If not, say this copy cannot publish
    and a helper can add it, then stop.
-3. Choose the name. If the learner gave one, use it. Otherwise suggest one built from their GitHub
-   user name and page, such as `ali-planner`, and ask one question: use it, or type another.
+3. Choose the name. If the learner gave one, use it. If `config.json` already has a `websiteName`,
+   suggest keeping it, because a new name moves the website to a new address. Otherwise suggest
+   the learner's GitHub user name (`echo $GITHUB_USER`) plus one word for the page, such as
+   `ali-planner`. Ask one question: use it, or type another.
    - A name has 2-32 lowercase letters, digits and single hyphens, starts with a letter, and ends
-     with a letter or digit. Turn capitals into lowercase and spaces into hyphens.
+     with a letter or digit. Turn capitals into lowercase, and spaces or other characters into
+     hyphens.
    - A nickname is fine. No customer, patient or other real business names.
 4. In `config.json`, set `"websiteName": "<name>"`. Change nothing else in the file.
 5. Hand over in three short lines:
