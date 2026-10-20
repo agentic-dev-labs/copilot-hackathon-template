@@ -126,5 +126,52 @@
             ]
         }
     ],
+    "idea_patterns": [
+        {
+            "id": "tracker",
+            "title": "Request Tracker",
+            "summary": "A form to add requests, stage filters and search, a stage drop-down on every card, overdue flags, and four counts at the top.",
+            "suits": "Requests, cases or records with an owner, a stage and a due date: a request intake, a contract register, a training roster, a policy tracker.",
+            "data_file": "data/requests.json",
+            "storage_key": "request-tracker",
+            "expected": {
+                "item_count": 5,
+                "done_count": 1,
+                "overdue_count": 1
+            },
+            "try_it": "Try it: add a request with the form, then move it to the next stage with its drop-down.",
+            "manual_check": "5 requests to start: 4 open, 1 overdue in red, 1 done. Set the overdue one to Done: overdue shows 0 and done shows 2.",
+            "later_ideas": [
+                "Rename the stages to your own process, such as Submitted, Assessed, Approved and Closed",
+                "Add a notes box to each request that opens when you click its title",
+                "Add a chart showing how many requests sit in each stage",
+                "Add a filter for priority beside the stage tabs",
+                "Draft a reminder email for each overdue request with one button"
+            ]
+        },
+        {
+            "id": "dashboard",
+            "title": "Team Dashboard",
+            "summary": "Four headline numbers, month-by-month bars with a what-if growth forecast, a share-by-region ring, region filters, and a table where every number can be changed.",
+            "suits": "Numbers to watch and compare: monthly figures, targets, a forecast, or a report someone builds in a spreadsheet today.",
+            "data_file": "data/metrics.json",
+            "storage_key": "team-dashboard",
+            "expected": {
+                "item_count": 6,
+                "total": 2778,
+                "top_group": "Northeast",
+                "top_total": 865
+            },
+            "try_it": "Try it: choose South, then drag the what-if slider and watch the dashed forecast move.",
+            "manual_check": "6 months to start: total requests 2,778 and the biggest region is Northeast with 865. Choose South: the total reads 643. Change June's South from 121 to 221: it reads 743.",
+            "later_ideas": [
+                "Rename the regions to your own teams, products or sites",
+                "Add a target line to the monthly chart and color the months that missed it",
+                "Add a second measure, such as cost, with its own headline number",
+                "Show the on-time percentage as a line across the months",
+                "Add a tab that shows the same numbers as a 3D chart"
+            ]
+        }
+    ],
     "own_idea": "Describe anything in one sentence, such as a team lunch planner, and get it built in the same style."
 }

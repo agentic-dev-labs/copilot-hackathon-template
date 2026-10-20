@@ -241,6 +241,8 @@ an own idea, and the learner may continue the same idea on Wednesday and Thursda
 
    | The idea is mostly... | Start from |
    | --- | --- |
+   | Requests, cases or records with an owner, a stage and a due date (a request intake, a contract register, a training roster, a policy tracker) | Request Tracker |
+   | Numbers to watch and compare (monthly figures, targets, a forecast, a report built in a spreadsheet today) | Team Dashboard |
    | Things moving through stages or days (tasks, orders, a hiring pipeline) | Project Planner |
    | Things on dates (events, shifts, holidays, deadlines) | Calendar |
    | Collecting, sorting, or voting on items (ideas, wishes, feedback) | Ideas Wall |
@@ -248,10 +250,23 @@ an own idea, and the learner may continue the same idea on Wednesday and Thursda
    | Places to find on a map (favourite spots, offices, a walking tour) in Princeton | Princeton Map, keeping its base map |
    | Pictures to change or collect (pets, products, posters) | Photo Studio |
 
+   The Request Tracker ([tracker/index.html](./assets/blueprints/tracker/index.html), sample
+   data [data/requests.json](./assets/blueprints/tracker/data/requests.json)) and the Team
+   Dashboard ([dashboard/index.html](./assets/blueprints/dashboard/index.html), sample data
+   [data/metrics.json](./assets/blueprints/dashboard/data/metrics.json)) are tested patterns for
+   own ideas only, never extra choices in the first question. Their `try_it`, `manual_check` and
+   `later_ideas` are under `idea_patterns` in [starters.json](./assets/starters.json). The
+   tracker's stages are its `columns` (change them like a board's columns); the dashboard's
+   regions are its `groups`, and each month's `values` follow the groups by position, so a
+   renamed group keeps its numbers. The dashboard already loads the chart library. Many ideas
+   name a real system (Outlook, PDFs, a database, live feeds): build the pattern with fictional
+   sample entries and note the real connection as a question for IT.
+
    When the idea has numbers worth seeing, add one chart from [Add Chart](../add-chart/SKILL.md)'s
    patterns in the same build, so the page looks finished from the start.
 4. Copy the blueprint's `index.html` and `data/` into the new folder. Point shared files one
-   level up twice: `../../css/workshop.css`, `../../js/workshop.js`, and `../../art/...`. Keep
+   level up twice: `../../css/workshop.css`, `../../js/workshop.js` (and, for the dashboard,
+   `../../js/vendor/echarts.min.js` and `../../js/workshop-charts.js`), and `../../art/...`. Keep
    `data/` inside the folder. Use a new storage key, `idea-<folder>`.
 5. Rename everything for the idea: the title and logo (repository name plus the idea's name),
    headline, subtitle, column or view names, button labels, and three or four fictional sample

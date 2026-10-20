@@ -1,7 +1,8 @@
 # Workshop Website Kit
 
 Original workshop CSS, small helper scripts, original animated artwork, six tested category
-blueprints, fictional sample data, and two owner-approved additions: the Apache ECharts chart
+blueprints plus two tested own-idea patterns (a Request Tracker and a Team Dashboard), fictional
+sample data, and two owner-approved additions: the Apache ECharts chart
 library and a public-domain base map of Princeton. No Novo name, logo, proprietary imagery,
 corporate stylesheet, or corporate font is included. The skill copies the chosen blueprint and
 kit into `site/` only after the learner picks a category; the source template never ships a
@@ -17,13 +18,14 @@ finished site.
 | [js/workshop-chat.js](js/workshop-chat.js) | `site/js/workshop-chat.js` | `Workshop.addChat()`: an "Ask my page" bubble that asks the Website preview, never the network |
 | [js/workshop-photo.js](js/workshop-photo.js) | `site/js/workshop-photo.js` | `Workshop.photo`: repaint a photo and save it to the gallery through the Website preview |
 | [js/vendor/](js/vendor/) | `site/js/vendor/` | Apache ECharts 6.1.0 and ECharts GL 2.1.0, minified, with [their licences](js/vendor/CHART-LICENSES.md) copied to `site/CHART-LICENSES.md` |
-| [art/](art/) | `site/art/` | Original animated SVGs: six header illustrations and one icon per weekday |
+| [art/](art/) | `site/art/` | Original animated SVGs: eight header illustrations and one icon per weekday |
 | `blueprints/<category>/index.html` | `site/index.html` | Tested self-contained page for the chosen category |
+| `blueprints/tracker/`, `blueprints/dashboard/` | `site/index.html` or `site/ideas/<name>/` | Tested own-idea patterns; never offered in the first question |
 | `blueprints/<category>/data/*.json` | `site/data/*.json` | Sample entries; the page's pretend API |
 | `blueprints/photo/gallery/` | `site/gallery/` | Six fictional sample photos for the Photo Studio |
 | [fonts/source-sans-3-latin.woff2](fonts/source-sans-3-latin.woff2) | `site/fonts/source-sans-3-latin.woff2` | Local, open-source variable font, Latin subset (28,740 bytes) |
 | [fonts/OFL.txt](fonts/OFL.txt) | `site/FONT-LICENSE.md` | Retained font license; Markdown is not published by the static app |
-| [starters.json](starters.json) | Summaries, checks, and idea menus | The category list, each starter's `try_it` line and manual check, per-category `later_ideas`, the shared `any_page_ideas`, and the `own_idea` summary |
+| [starters.json](starters.json) | Summaries, checks, and idea menus | The category list, each starter's `try_it` line and manual check, per-category `later_ideas`, the shared `any_page_ideas`, the `own_idea` summary, and the `idea_patterns` for own ideas |
 
 Neither the CSS, the scripts, nor the art makes external requests; the chat bubble and the photo
 studio only post messages to the Website preview, which signs in as the workshop identity. The

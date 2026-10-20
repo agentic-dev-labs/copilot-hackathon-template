@@ -345,6 +345,59 @@ def test_guided_starter_figures_and_shared_assets() -> None:
     assert len(font) < 40 * 1024
 
 
+def test_own_idea_patterns_are_tested_and_stay_out_of_the_first_question() -> None:
+    """The Request Tracker and Team Dashboard back up common business ideas without lengthening Monday's menu."""
+    assets = Path(".github/skills/create-website/assets")
+    data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
+    patterns = {pattern["id"]: pattern for pattern in data["idea_patterns"]}
+    assert list(patterns) == ["tracker", "dashboard"]
+    starter_ideas = {idea for starter in data["starters"] for idea in starter["later_ideas"]}
+    for pattern in patterns.values():
+        assert pattern["summary"] and pattern["suits"] and pattern["try_it"].startswith("Try it:")
+        assert pattern["manual_check"] and len(pattern["later_ideas"]) >= 4
+        assert len(set(pattern["later_ideas"])) == len(pattern["later_ideas"])
+        assert not set(pattern["later_ideas"]) & (starter_ideas | set(data["any_page_ideas"]))
+        blueprint = assets / "blueprints" / pattern["id"]
+        page = (blueprint / "index.html").read_text(encoding="utf-8")
+        assert f"store('{pattern['storage_key']}')" in page and f"'{pattern['data_file']}'" in page
+        assert '<script src="js/workshop.js"></script>' in page
+        assert '<link rel="stylesheet" href="css/workshop.css">' in page
+        assert "<title>My " in page and "logo-mark" in page and "innerHTML" not in page
+        assert not re.search(r"https?://", page), "own-idea patterns stay offline"
+        for art in re.findall(r'src="(art/[^"]+)"', page):
+            assert (assets / art).is_file(), art
+
+    tracker = json.loads((assets / "blueprints/tracker/data/requests.json").read_text(encoding="utf-8"))
+    expected = patterns["tracker"]["expected"]
+    last = tracker["columns"][-1]
+    assert len(tracker["items"]) == expected["item_count"]
+    assert sum(item["status"] == last for item in tracker["items"]) == expected["done_count"]
+    late = [item for item in tracker["items"] if item["status"] != last and item["dueInDays"] < 0]
+    assert len(late) == expected["overdue_count"]
+    assert {item["status"] for item in tracker["items"]} <= set(tracker["columns"])
+    assert {item["type"] for item in tracker["items"]} <= set(tracker["types"])
+
+    metrics = json.loads((assets / "blueprints/dashboard/data/metrics.json").read_text(encoding="utf-8"))
+    expected = patterns["dashboard"]["expected"]
+    groups = metrics["groups"]
+    assert len(metrics["items"]) == expected["item_count"]
+    assert all(len(item["values"]) == len(groups) for item in metrics["items"])
+    totals = {group: sum(item["values"][index] for item in metrics["items"]) for index, group in enumerate(groups)}
+    assert sum(totals.values()) == expected["total"]
+    assert max(totals, key=totals.get) == expected["top_group"] and totals["Northeast"] == expected["top_total"]
+    assert "2,778" in patterns["dashboard"]["manual_check"] and f"{totals['South']}" in patterns["dashboard"]["manual_check"]
+    dashboard = (assets / "blueprints/dashboard/index.html").read_text(encoding="utf-8")
+    assert '<script src="js/vendor/echarts.min.js"></script>' in dashboard
+    assert '<script src="js/workshop-charts.js"></script>' in dashboard and "chart('#trend-chart'" in dashboard
+
+    skill = Path(".github/skills/create-website/SKILL.md").read_text(encoding="utf-8")
+    first_question = skill.split("## 2. Build It Straight Away")[0]
+    assert "Tracker" not in first_question and "Dashboard" not in first_question
+    for name in ("tracker", "dashboard"):
+        assert f"./assets/blueprints/{name}/index.html" in skill
+    assert "idea_patterns" in skill and "question for IT" in skill
+
+
 def test_agent_frontmatter_and_handoff_targets() -> None:
     """Every checked-in agent should be discoverable and reference an existing role."""
     agents = {}

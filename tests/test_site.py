@@ -17,6 +17,9 @@ HTML = '<!doctype html><html lang="en"><body><h1>Synthetic planner</h1></body></
 KIT = Path(".github/skills/create-website/assets/js/workshop.js")
 PROJECT_BLUEPRINT = Path(".github/skills/create-website/assets/blueprints/project")
 CATEGORIES = ("project", "calendar", "ideas", "weather", "map", "photo")
+# Tested own-idea patterns: same kit and rules, but never offered in the first question.
+PATTERNS = ("tracker", "dashboard")
+PAGES = CATEGORIES + PATTERNS
 
 
 @pytest.fixture
@@ -132,7 +135,7 @@ def test_chat_bubble_is_optional_safe_and_holds_no_secret() -> None:
     assert "box.checked ? 'Ticked' : 'Not ticked'" in chat, "the assistant can tell which boxes are ticked"
     assert "Picture: ${picture.alt.trim()}" in chat, "the assistant can tell what pictures show"
     assert "window.Workshop = Object.assign(window.Workshop || {}, { addChat })" in chat
-    for category in CATEGORIES:
+    for category in PAGES:
         page = (PROJECT_BLUEPRINT.parent / category / "index.html").read_text(encoding="utf-8")
         assert "workshop-chat.js" not in page, "chat is added on request, not shipped in every starter"
 
@@ -150,7 +153,7 @@ def test_board_columns_come_from_the_page_not_older_browser_storage() -> None:
     assert {item["column"] for item in data["items"]} <= set(columns)
 
 
-@pytest.mark.parametrize("category", CATEGORIES)
+@pytest.mark.parametrize("category", PAGES)
 def test_examples_reload_themselves_without_a_reset_button(category: str) -> None:
     """Beginners get their examples back by emptying the page, not by finding a button."""
     blueprints = PROJECT_BLUEPRINT.parent
@@ -211,12 +214,12 @@ def inline_block(page: str, start: str) -> str:
     return match.group(0)
 
 
-@pytest.mark.parametrize("category", CATEGORIES)
+@pytest.mark.parametrize("category", PAGES)
 def test_inline_sample_matches_the_data_file(category: str) -> None:
     """The skill keeps the inline SAMPLE and data/*.json identical, so an offline page looks the same."""
     blueprint = PROJECT_BLUEPRINT.parent / category
     starters = json.loads((blueprint.parent.parent / "starters.json").read_text(encoding="utf-8"))
-    starter = next(item for item in starters["starters"] if item["id"] == category)
+    starter = next(item for item in starters["starters"] + starters["idea_patterns"] if item["id"] == category)
     page = (blueprint / "index.html").read_text(encoding="utf-8")
     literal = inline_block(page, "const SAMPLE = ").removeprefix("const SAMPLE = ")
     inline = json.loads(run_node(f"console.log(JSON.stringify({literal}))"))
@@ -337,7 +340,7 @@ def test_map_places_are_sourced_and_sit_on_the_map() -> None:
     assert "public domain" in base["about"] and base["roads"] and base["rail"]
 
 
-@pytest.mark.parametrize("category", CATEGORIES)
+@pytest.mark.parametrize("category", PAGES)
 def test_every_starter_assembles_into_a_publishable_site(tmp_path: Path, category: str) -> None:
     """The blueprint plus the whole kit stays inside the website target's file and size limits."""
     site = tmp_path / "site"
