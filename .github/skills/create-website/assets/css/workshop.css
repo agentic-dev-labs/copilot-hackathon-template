@@ -175,6 +175,7 @@ h2 { font-size: 1.1rem; font-weight: 700; }
 
 /* Charts (Workshop.chart): .chart sets the size; .chart-stage is a dark showcase, made for 3D. */
 .chart { position: relative; width: 100%; height: 340px; }
+.chart-panel { margin-block: 1rem; }
 .chart-stage { border-radius: var(--radius); background: radial-gradient(120% 100% at 15% 0%, #25596c 0%, #102b37 55%, #0a1b23 100%); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 6%); overflow: hidden; }
 .chart-note { display: grid; place-items: center; height: 100%; margin: 0; padding: 1rem; color: var(--muted); text-align: center; }
 .chart-stage .chart-note { color: #d7e7ee; }
