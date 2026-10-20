@@ -87,9 +87,12 @@ panel's browser storage and survive edits. HTML files under `site/` also show an
 **Ask my page.** `/add-chat` adds `Workshop.addChat` to a page. Its **Ask** button posts the
 question and the page's visible text to this panel through the webview message channel. The
 panel signs in as the workshop identity from the `FOUNDRY_*` Codespaces secrets and asks the chat
-model, one question at a time and at most 20 a minute. The page never holds a credential, and its
-own network rules are unchanged. Without the secrets it answers that it is not switched on. See
-[AI pictures and chat](../docs/FACILITATOR.md#ai-pictures-and-chat).
+model, one question at a time and at most 10 a minute. Requests are kept small so a whole room
+stays far inside the model's per-minute limit: the question (up to 200 characters) and up to
+3,000 characters of the page go in, the answer is one or two sentences (at most 150 tokens) with
+no reasoning, and greetings or thanks are answered at once without asking the model. The page
+never holds a credential, and its own network rules are unchanged. Without the secrets it answers
+that it is not switched on. See [AI pictures and chat](../docs/FACILITATOR.md#ai-pictures-and-chat).
 
 For facilitator diagnosis only:
 

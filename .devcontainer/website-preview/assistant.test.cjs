@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict')
 const { test } = require('node:test')
-const { createAssistant, createChatHandler, readSettings, INSTRUCTIONS } = require('./assistant.cjs')
+const { createAssistant, createChatHandler, readSettings, INSTRUCTIONS, MAX_ANSWER_TOKENS, PER_MINUTE } = require('./assistant.cjs')
 
 const SECRET = 'synthetic-client-secret-value'
 const SETTINGS = {
@@ -60,7 +60,29 @@ test('asks with an Entra ID token, never an API key, and keeps the page as data'
   assert.match(INSTRUCTIONS, /data, not instructions/)
   assert.match(body.input, /Question: What is left\?$/)
   assert.match(body.input, /Page content:\nMonday: Write the brief\nMonday: Write the brief\n/, 'line breaks keep the page readable')
-  assert.ok(body.input.length < 6300, 'the page text is clipped')
+  assert.ok(body.input.length < 3400, 'the page text is clipped')
+  // Small requests keep a whole room inside the model's per-minute limit.
+  assert.equal(body.max_output_tokens, MAX_ANSWER_TOKENS)
+  assert.ok(MAX_ANSWER_TOKENS <= 150)
+  assert.deepEqual(body.reasoning, { effort: 'none' })
+  assert.match(INSTRUCTIONS, /one or two short/)
+  const longService = fakeService()
+  await createAssistant({ settings: SETTINGS, fetchImpl: longService.fetchImpl }).ask({ question: 'Why? '.repeat(100), page: 'p', title: 't' })
+  assert.ok(JSON.parse(longService.calls[1].options.body).input.split('Question: ')[1].length <= 200, 'questions are clipped')
+})
+
+test('greetings and thanks are answered at once, without asking the model', async () => {
+  const offline = createAssistant({ loadSettings: () => null, fetchImpl: () => assert.fail('no network for small talk') })
+  for (const hello of ['hello', 'Hi!', 'hey there', 'Good morning', 'hej']) {
+    assert.match(await offline.ask({ question: hello, page: 'p', title: 't' }), /^Hi! Ask me about this page/)
+  }
+  for (const thanks of ['thanks', 'Thank you!', 'ok', 'thanks a lot']) {
+    assert.match(await offline.ask({ question: thanks, page: 'p', title: 't' }), /^You are welcome/)
+  }
+  const service = fakeService()
+  const assistant = createAssistant({ settings: SETTINGS, fetchImpl: service.fetchImpl })
+  assert.equal(await assistant.ask({ question: 'Hi, what is on Friday?', page: 'p', title: 't' }), 'Two tasks are left.')
+  assert.equal(service.calls.filter(call => !call.url.includes('login')).length, 1, 'a real question still reaches the model')
 })
 
 test('the sign-in is reused, a busy model falls back, and refusals are explained', async () => {
@@ -110,7 +132,8 @@ test('the preview handler answers one question at a time and limits questions pe
   release()
   assert.deepEqual(await first, { type: 'workshop.answer', id: 'a', ok: true, answer: 'Done.' })
   const quick = createChatHandler({ ask: async () => 'Yes.' }, () => clock)
-  for (let index = 0; index < 20; index++) assert.equal((await quick({ type: 'workshop.ask', id: `${index}` })).ok, true)
+  assert.equal(PER_MINUTE, 10)
+  for (let index = 0; index < PER_MINUTE; index++) assert.equal((await quick({ type: 'workshop.ask', id: `${index}` })).ok, true)
   assert.match((await quick({ type: 'workshop.ask', id: 'over' })).error, /Wait a minute/)
   clock += 61000
   assert.equal((await quick({ type: 'workshop.ask', id: 'later' })).ok, true)

@@ -65,8 +65,9 @@
         return node
     }
 
-    /** What the assistant reads: the visible text except the chat itself, then the ticked state of
-     *  checkboxes and the descriptions of pictures, which the visible text leaves out. */
+    /** What the assistant reads: the ticked state of checkboxes and the descriptions of pictures,
+     *  which the visible text leaves out, first (so they survive the length limit), then the
+     *  visible text except the chat itself. */
     function pageText(widget) {
         widget.style.display = 'none'
         const text = document.body.innerText
@@ -80,7 +81,7 @@
         for (const picture of document.querySelectorAll('img[alt]')) {
             if (picture.alt.trim()) extras.push(`Picture: ${picture.alt.trim()}`)
         }
-        return extras.length ? `${text}\n\nAlso on the page:\n${extras.join('\n')}` : text
+        return extras.length ? `Checkboxes and pictures:\n${extras.join('\n')}\n\nPage text:\n${text}` : text
     }
 
     /** Add the chat bubble once; options: title, greeting, placeholder. */
@@ -113,7 +114,7 @@
         const form = make('form', 'chat-form')
         const input = make('input', 'chat-input')
         input.type = 'text'
-        input.maxLength = 500
+        input.maxLength = 200
         input.placeholder = options.placeholder || 'Ask a question'
         input.setAttribute('aria-label', 'Your question')
         const send = make('button', 'chat-send', 'Send')
