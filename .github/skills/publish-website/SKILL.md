@@ -33,6 +33,9 @@ or push for the learner.
    - **"On GitHub, Actions > Publish my website shows progress; the link also appears under
      Deployments on your repository page."**
 
+   If `site/ideas/` holds idea pages, add one line per idea: its address is the same address
+   followed by `/ideas/<folder>/`, such as `.../ideas/team-lunch/`.
+
 When the learner asks whether it is live, run
 `curl -s https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io/healthz` and compare
 its `commit` with `git rev-parse HEAD`. The same value means the latest push is live; anything else

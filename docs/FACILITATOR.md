@@ -397,8 +397,9 @@ and stops if facilitator preparation files are present or the inspection fails.
 
 The template no longer tracks `.facilitator/`: the notes stay in the owner's Codespace and are
 git-ignored, though earlier commits still contain them. The template also ships no finished
-website or learner-made skills, so every attendee starts from the same empty `site/`. CI fails
-on the template repository if learner work is committed there. A demo website you build in the
+website or learner-made skills, so every attendee starts from the same empty `site/`. CI runs
+only on the template repository, so attendee copies never show a red cross they did not cause,
+and it fails there if learner work or a `websiteName` is committed. A demo website you build in the
 template's own Codespace stays out of Source Control automatically (a local Git exclude, not
 `.gitignore`, which attendee copies inherit); clear it with `/workshop-reset`. The script's own
 check confirms the template is clean before it copies anything:

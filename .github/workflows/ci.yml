@@ -10,7 +10,10 @@ permissions:
   contents: read
 
 jobs:
+  # Attendee copies skip CI, like the Codespace image: a red cross they never asked for only
+  # worries a beginner, and publishing runs its own website check.
   test:
+    if: ${{ github.event.repository.is_template }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,11 +24,14 @@ jobs:
         with:
           version: "0.9.7"
       - name: Keep the template free of learner work
-        if: ${{ github.event.repository.is_template }}
         run: |
           learner_work="$(git ls-files site .github/instructions .github/skills/make-image .github/skills/edit-image | grep -vx 'site/README.md' || true)"
           if [ -n "$learner_work" ]; then
             printf '::error::The template ships starters, not finished work. Remove:\n%s\n' "$learner_work"
+            exit 1
+          fi
+          if ! jq -e '.websiteName == ""' config.json > /dev/null; then
+            echo "::error file=config.json::The template ships with an empty websiteName; attendees choose theirs with /publish-website."
             exit 1
           fi
       - run: uv sync --locked --extra dev --extra web
@@ -47,6 +53,7 @@ jobs:
         run: docker run --rm --entrypoint python workshop-website-check -c 'from app.site import site_manifest; assert site_manifest()["index_sha256"]'
 
   research-tools:
+    if: ${{ github.event.repository.is_template }}
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:

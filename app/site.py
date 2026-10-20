@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
@@ -65,7 +65,13 @@ class WebsiteFiles(StaticFiles):
         if any(part.startswith(".") and part != "." for part in relative.parts):
             raise HTTPException(status_code=404)
         if path not in (".", "") and relative.suffix.lower() not in ALLOWED_EXTENSIONS:
-            raise HTTPException(status_code=404)
+            # Only a folder with its own page, such as an idea in site/ideas/, opens by its address.
+            if not (Path(self.directory) / relative / "index.html").is_file():
+                raise HTTPException(status_code=404)
+            if not scope["path"].endswith("/"):
+                # A relative address keeps https behind the hosting proxy, and the page's own
+                # links (css, data) need the trailing slash to resolve.
+                return RedirectResponse(f"{relative.name}/", status_code=307)
         return await super().get_response(path, scope)
 
 

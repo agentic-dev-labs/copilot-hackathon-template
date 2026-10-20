@@ -60,15 +60,22 @@ def test_site_rejects_unintended_publication(website: Path, filename: str) -> No
         site_manifest(website)
 
 
-def test_own_idea_pages_serve_at_their_full_index_path(website: Path) -> None:
-    """A browser opens an own-idea page by its full index.html path, not its folder."""
+def test_own_idea_pages_open_by_their_folder_address(website: Path) -> None:
+    """A shared idea link such as /ideas/team-lunch/ opens the page; other folders stay closed."""
     idea = website / "ideas" / "team-lunch"
     idea.mkdir(parents=True)
     (idea / "index.html").write_text(HTML, encoding="utf-8")
+    (website / "ideas" / "empty").mkdir()
     client = TestClient(create_app(website))
     assert client.get("/ideas/team-lunch/index.html").status_code == 200
-    # Directory URLs are not served, so anyone opening an idea page must give the full path.
-    assert client.get("/ideas/team-lunch/").status_code == 404
+    assert client.get("/ideas/team-lunch/").text == HTML
+    moved = client.get("/ideas/team-lunch", follow_redirects=False)
+    assert moved.status_code == 307 and moved.headers["location"] == "team-lunch/"
+    assert client.get("/ideas/team-lunch").text == HTML
+    assert client.get("/ideas/").status_code == 404
+    assert client.get("/ideas/empty/").status_code == 404
+    assert client.get("/ideas/missing/").status_code == 404
+    assert client.get("/ideas/team-lunch/brief.md").status_code == 404
 
 
 def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> None:

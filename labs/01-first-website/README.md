@@ -82,6 +82,8 @@ and ask for something smaller.
 
 Show a neighbor your page and the file behind it, **site/index.html**. Let them add and move an
 entry. Then save, review, commit, and push, just like your note, and find it on GitHub.
+This first time, **Source Control** lists many files: your page plus the pictures, fonts and
+styles it needs. That is expected, so commit them all. From now on you will see only what changed.
 
 **Done when:** your page opens beside Chat, you changed its headline yourself, one change you
 asked Copilot for is visible, and your saved version is on GitHub.

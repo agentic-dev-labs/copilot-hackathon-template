@@ -240,7 +240,16 @@ def test_publish_caller_only_calls_the_template_publisher() -> None:
     job = workflow["jobs"]["publish"]
     assert job["uses"] == f"{PUBLISHER_REF}@main"
     assert job["if"] == "${{ !github.event.repository.is_template }}"
-    assert json.loads(Path("config.json").read_text(encoding="utf-8"))["websiteName"] == ""
+
+
+def test_template_ships_without_a_website_name() -> None:
+    """Only the template runs CI; it insists on an empty name, which attendees set with /publish-website."""
+    workflow = yaml.load(Path(".github/workflows/ci.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    for job in workflow["jobs"].values():
+        assert job["if"] == "${{ github.event.repository.is_template }}"
+    steps = workflow["jobs"]["test"]["steps"]
+    guard = next(step for step in steps if step.get("name") == "Keep the template free of learner work")
+    assert "jq -e '.websiteName == \"\"' config.json" in guard["run"]
 
 
 def test_hosting_trusts_only_the_template_publisher_on_main() -> None:
