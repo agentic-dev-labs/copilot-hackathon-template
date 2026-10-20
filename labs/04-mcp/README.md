@@ -3,7 +3,8 @@
 **Objective:** Plug a tool into Copilot so it can read your GitHub repository, check what it
 reports, and watch Copilot use a browser.
 
-**Time-box:** 45 minutes
+**Time-box:** 45 minutes, as an **optional extra** for Day 3 or later. The scheduled Day 3 is
+the [Requirements agent day](../../docs/TOOLS-PRACTICE.md).
 
 **Prerequisites:** Your website from Days 1-2 and Agent Chat, in the same browser-based
 Codespace. Nothing to install.

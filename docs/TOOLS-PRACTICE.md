@@ -1,104 +1,166 @@
-# Day 3: More Ways to Use Copilot
+# Day 3: VS Code and a Requirements Agent
 
-Today you keep the same Codespace and the website you already built. You will see three more
-ways to work with Copilot, then pick the idea you will build tomorrow. Nothing is installed on
-your laptop, and everything uses made-up content. The presenter shows each step first, then
-pauses for your turn. You do not need to read ahead.
+Today you write your own **User Requirements agent**, a helper that turns your idea into user
+stories that anyone can check. Then you build one approved story, test it, and show it. You work
+in the same Codespace, on the website and idea you already have, mostly by typing plain
+sentences to **Copilot CLI** in the terminal. Nothing is installed on your laptop, and
+everything stays made up.
 
-**Missed a day, or no website yet?** In Chat choose **Agent**, run `/create-website`, and pick
-the Project Planner. A helper can get you started while the room continues.
+**No website yet?** In Chat choose **Agent**, run `/create-website`, and pick the Project
+Planner. A helper gets you started while the room continues.
 
 ## Today's Route
 
-| When        | Open                                                | You are finished when                                                                   |
-| ----------- | --------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| 09:00-09:45 | [Copilot in the terminal](#copilot-in-the-terminal) | You asked Copilot CLI about your website and saw one change appear.                     |
-| 09:45-10:30 | [Lab 04](../labs/04-mcp/README.md)                  | Copilot read your GitHub history, and you compared a browser check.                     |
-| 10:30-10:45 | Break                                               |                                                                                         |
-| 10:45-11:30 | [Lab 06](../labs/06-teach-copilot/README.md)        | Your rules work, your own `/make-image` skill drew a picture, and your page has a chat. |
-| 11:30-12:15 | [Pick your idea](#pick-your-idea)                   | Your idea has a short brief, a first step, and is saved on GitHub.                      |
-| 12:15-12:30 | [Lab 03](../labs/03-cloud-agent/README.md)          | You watched the cloud agent turn an issue into a pull request.                          |
+Times count from the start of the session.
 
-Lab numbers are just names, so follow this table from top to bottom. For the other days, see
-[your week](../README.md#your-week).
+| Elapsed     | What happens                                                          | You are finished when                                             |
+| ----------- | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 00:00-00:20 | MUKQ: global and Microsoft perspectives on AI development             | You listened; no laptop needed.                                   |
+| 00:20-00:50 | [Workspace setup, repository walkthrough, and agent roles and tools](#1-workspace-and-agent-roles) | Copilot CLI is signed in and answered a question about your page. |
+| 00:50-01:30 | [Build a User Requirements agent](#2-build-your-user-requirements-agent) | Your agent file exists and Copilot CLI lists it.                  |
+| 01:30-01:45 | Break                                                                 |                                                                   |
+| 01:45-02:30 | [Draft user stories and acceptance criteria, then validate](#3-draft-and-validate-user-stories) | Your requirements file has one story marked **Approved**.         |
+| 02:30-03:15 | [Implement the approved story, debug, and verify](#4-build-the-approved-story) | Every acceptance criterion passes your own check.                 |
+| 03:15-03:45 | [Add tests and write down how to build and run](#5-add-tests-and-how-to-run) | `pytest checks` is green, and your brief says how to run it.      |
+| 03:45-04:00 | [Checkpoint](#6-checkpoint)                                           | You showed the agent, the story, and the working feature.        |
 
 ## New Words for Today
 
-| Word              | Plain meaning                                                                         |
-| ----------------- | ------------------------------------------------------------------------------------- |
-| Terminal          | The panel below the editor where you type commands.                                   |
-| CLI               | Copilot inside the terminal. The same assistant as Chat, through a different door.     |
-| MCP               | A standard plug for adding tools to Copilot, such as reading GitHub or using a browser. |
-| Browser tools     | Copilot opening a web page, clicking, and reporting what it sees. The presenter shows this. |
-| Instructions file | A short note of rules Copilot reads before every request about your project.          |
-| Skill             | A reusable recipe you run with a slash command, like `/create-website` on Monday.      |
-| Issue             | A to-do note on GitHub that describes what you want.                                  |
-| Pull request      | A proposed change that you review before accepting it into your project.              |
+| Word                | Plain meaning                                                                          |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| Terminal            | The panel below the editor where you type commands.                                    |
+| Copilot CLI         | Copilot inside the terminal. The same assistant as Chat, through a different door.      |
+| Custom agent        | A helper with one job that you describe in a short file, like a role card.             |
+| User story          | "As a ..., I want ..., so that ..." : who needs what, and why.                         |
+| Acceptance criteria | Checks that say when a story is done: "Given ..., when ..., then ...".                 |
+| Test                | A short file that checks your page for you. Green means pass, red means fail.          |
 
-## Copilot in the Terminal
+## 1. Workspace and Agent Roles
 
-**09:00-09:45.** The presenter shows each step, then you try it.
+**00:20-00:50.** The presenter shows each step, then you try it.
 
-1. Open the menu (the three lines at the top left), then **Terminal > New Terminal**. A panel
-   opens at the bottom of the screen. Type `copilot` and press Enter.
-2. If it asks whether you trust this folder, choose yes: it is your own project.
-3. Sign in once: type `/login` and press Enter, then choose the first option. Copilot shows a
-   short code. Open [github.com/login/device](https://github.com/login/device) in a new browser
-   tab, type the code, and select **Authorize**. Never paste a password or token into Copilot.
-4. Ask:
+1. Open your Codespace with the green **Code** button on your repository's page. Never create a
+   second one.
+2. Open the menu (the three lines at the top left), then **Terminal > New Terminal**. Type
+   `copilot` and press Enter. If it asks whether you trust this folder, choose yes.
+3. Sign in once: type `/login`, press Enter, and choose the first option. Copilot shows a short
+   code. Open [github.com/login/device](https://github.com/login/device) in a new browser tab,
+   type the code, and select **Authorize**. Never paste a password or token into Copilot.
+4. Ask: "Read site/brief.md and site/index.html. In three short bullet points, explain what my
+   website does. Do not change any files." **Check:** compare its answer with your page.
+5. Type `/agent` and press Enter to see the list of agents. It is empty today: you add your own
+   next. Press **Esc** to close it.
 
-   > Read site/brief.md and site/index.html. In three short bullet points, explain what my
-   > website does. Do not change any files.
+When Copilot wants to read a file, change a file, or run a command, it asks first. Read what it
+wants to do, and say yes only to what you understand. **Agent roles:** Chat's **Ask** only
+answers, **Agent** can change files, and a custom agent is a helper you give one job and clear
+rules.
 
-   If it asks permission to read files, allow it. Say no to anything you do not understand.
-   **Check:** compare its answer with your page. Is anything wrong or missing?
-5. Ask: "Suggest one small improvement for someone who opens my page for the first time."
-6. Ask: "Make that one change in site/index.html only. Keep everything else the same."
-   Read what it wants to change before you allow it. In Chat, run `/start-website` if the
-   preview is closed, and watch the change appear. **Check:** does the page still work?
-7. Open **Source Control** to see the change. Keep it, or ask a helper to undo it. Type `/exit`
-   to leave Copilot; the terminal stays open.
+## 2. Build Your User Requirements Agent
 
-**Done when:** you asked Copilot CLI about your own website, compared its answer with the page,
-and saw one change appear in your preview. If sign-in is blocked, follow the presenter's screen
-and tell a helper; it is not a reason to install anything.
+**00:50-01:30.** An agent is a short text file in `.github/agents/`. You describe the job in
+plain words; Copilot writes the file; you read it and make it yours.
 
-**What you just learned:** Chat and the terminal are two doors to the same assistant. Both work
-on the same files, and you check the result the same way.
+1. In Copilot CLI, paste this, and change the parts in brackets to fit your idea:
 
-## Pick Your Idea
+   > Create a custom agent file at .github/agents/user-requirements.agent.md with
+   > `name: user-requirements` and a one-line description. It is a User Requirements agent for
+   > my small website about [my idea]. When I name a brief.md, it writes 3 to 5 user stories,
+   > numbered US-1, US-2, and so on, each as "As a ..., I want ..., so that ...", marked Must,
+   > Should, or Could. Under each story it writes 2 or 3 acceptance criteria as
+   > "Given ..., when ..., then ..." that a person can check by clicking or counting. It lists
+   > open questions instead of guessing. It saves everything to requirements.md next to that
+   > brief. It never writes code or changes other files, and uses made-up people and data only.
 
-**11:30-12:15.** Tomorrow is build day, so choose one idea now. Pick one:
+2. Open **Explorer > .github > agents > user-requirements.agent.md**. The lines between the two
+   `---` lines at the top are its **name** and **description**: they tell Copilot when to use
+   it. Below them are its rules. Change one rule into your own words and save.
+3. Copilot CLI loads agents when it starts, so type `/exit`, then `copilot` again. Type `/agent`:
+   **user-requirements** is now in the list.
 
-- **Keep going with Tuesday's idea.** Most people will choose this.
-- **Start a new idea.** In Agent Chat run `/create-website`, choose to build your own idea, and
-  describe it in one sentence. It gets its own folder under `site/ideas/` and never replaces your
-  first page.
-- **Make a helper for a routine task.** Write a skill like the one in Lab 06, and test it with
-  made-up examples, never real work records.
+**Check:** your agent file exists, and `/agent` lists it. The same file also appears in Chat's
+agent picker in VS Code: one file, two doors.
 
-1. **Answer four questions (10 minutes).** Who is it for? What should they be able to do? What
-   is the smallest first version? How will I check it myself? Tell a neighbor or a helper.
-2. **Write a short brief (10 minutes).** Ask Chat: "Write a short brief for my idea in its
-   folder's brief.md using my four answers. Keep it under 15 lines and end with one check I
-   will do myself." Read it and correct one sentence in your own words.
-3. **Take the first step (20 minutes).** Ask for the smallest first version, or one improvement
-   to Tuesday's idea. Watch the preview and do your check.
-4. **Save (5 minutes).** Save, review, commit, and push. Open GitHub and confirm the brief is there.
+## 3. Draft and Validate User Stories
 
-**Done when:** your idea has a brief with a check you will do yourself, a first step started,
-and your work is visible on GitHub. Tomorrow, follow the [build day guide](DAY-4-BUILD.md).
+**01:45-02:30.**
+
+1. Type `/agent`, choose **user-requirements**, and ask: "Write the requirements for my website
+   from site/brief.md." For an idea in its own folder, name its brief instead, for example
+   `site/ideas/team-lunch/brief.md`.
+2. Open the new **requirements.md** next to the brief. Read every story.
+3. **Validate** each acceptance criterion: can you check it yourself by clicking or counting? If
+   not, ask the agent to rewrite only that one: "Rewrite the criteria of US-2 so that I can check
+   them by counting. Change nothing else."
+4. Choose one small Must story to build today. Under it, type `Approved: yes` and today's date.
+   Ask a neighbor: "Is this story clear enough that you could check it?"
+
+**Check:** one story is marked **Approved**, and you could check every one of its criteria.
+
+## 4. Build the Approved Story
+
+**02:30-03:15.** Now leave the requirements agent: type `/exit`, then `copilot`, so you are back
+to ordinary Copilot.
+
+1. Ask: "Implement US-1 from site/requirements.md in site/index.html. Change only what US-1
+   needs and keep everything else. Then list how I can check each acceptance criterion." Use your
+   own story number and your own files.
+2. Read what it wants to change before you allow it. In Chat, run `/start-website` if the
+   preview is closed, and watch the change appear.
+3. Check every acceptance criterion yourself, by clicking and counting.
+4. **Debug:** if one fails, say exactly what happened: "Criterion 2 of US-1 fails. I expected
+   [this]. I saw [that]. Fix only that." Then check that criterion again, and the others too.
+
+**Check:** every criterion of your approved story passes your own check in the preview.
+
+## 5. Add Tests and How to Run
+
+**03:15-03:45.** Work with your table: compare stories and help each other.
+
+1. Ask Copilot CLI: "Write tests in checks/test_us1.py for the acceptance criteria of US-1 that
+   can be checked from the files, using `from website import Page` as shown in checks/README.md.
+   Add the others to a Manual checks list in my requirements file. Then run `pytest checks`."
+2. **Check:** the terminal says `passed` in green.
+3. **Break it on purpose:** in your page change one word that a test looks for, save, and run
+   `pytest checks` again. It turns red and says what it expected. Undo your change with
+   **Ctrl+Z** (**Cmd+Z** on a Mac), save, and run it again: green.
+4. Ask: "Add a section called How to build and run to my brief, in plain words: how to open the
+   page (/start-website), how to run the tests (pytest checks), and how to run the build check
+   (python -m app.site --check)." Read it and correct anything that is wrong.
+
+## 6. Checkpoint
+
+**03:45-04:00.**
+
+1. Save. Open **Source Control** and review the files: your agent, requirements, page, and test.
+   Commit with a short message, then **... > Push**. Open GitHub and find your agent file.
+2. Show a neighbor or a helper three things: your agent file, your approved story, and the
+   working feature with its green tests.
+
+**Done when:** your own requirements agent is on GitHub, your requirements file has an approved
+story with checkable acceptance criteria, that story works in your preview, and `pytest checks`
+passes. If sign-in is blocked, follow the presenter's screen and tell a helper; it is not a
+reason to install anything.
+
+**What you just learned:** an agent is a short file you write in plain words. User stories make
+"what we want" checkable, and tests keep checking it for you after every change. Tomorrow you
+hand an approved story to Copilot's cloud agent: see the [Day 4 guide](DAY-4-BUILD.md).
 
 ## Optional extras
 
-1. In Copilot CLI, type `/help` and find one command you would like to try later.
-2. Ask the CLI the same question you asked Chat on Monday. Which answer was clearer?
-3. Write down one routine task at work that a skill could help with, for Friday's story.
+1. Choose your agent in VS Code Chat's agent picker and ask the same question there. Compare
+   the two answers.
+2. Ask Copilot CLI to read your recent commits with its built-in GitHub tools, then compare with
+   **Commits** on GitHub. [Lab 04](../labs/04-mcp/README.md) shows the same in Chat.
+3. Write an instructions file and your own `/make-image` picture skill, or add a chat to your
+   page, with [Lab 06](../labs/06-teach-copilot/README.md).
+4. In Copilot CLI, type `/help` and find one command you would like to try later.
 
 ## Official References
 
-- [Copilot CLI quickstart](https://docs.github.com/en/copilot/get-started/cli-quickstart).
-- [CLI command reference](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference).
-- [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and [MCP in VS Code](https://code.visualstudio.com/docs/agent-customization/mcp-servers).
-- [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills).
+- [Copilot CLI quickstart](https://docs.github.com/en/copilot/get-started/cli-quickstart) and
+  [using Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/overview).
+- [Custom agents in Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
+  and [custom agents in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-agents).
+- [Testing in VS Code](https://code.visualstudio.com/docs/debugtest/testing).
 - [Topic map (for presenters)](REFERENCES.md).

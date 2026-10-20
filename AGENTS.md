@@ -10,9 +10,10 @@ A training repository for a hands-on GitHub Copilot workshop. All five days are 
 users with zero GitHub and app-building experience; plan support for roughly 40-45 people and
 confirm the final roster. Keep every day simple.
 Day 1 teaches foundations, Chat, a small learner-created website, and manual verification.
-Day 2 is supported own-idea building with fictional app-local content. Day 3 shows CLI, MCP and
-browser tools, an instructions file, and a small skill on the attendee's own website; Day 4 is
-build day; Day 5 is presentations. The separate post-workshop business case
+Day 2 is supported own-idea building with fictional app-local content. Day 3 has attendees write
+a User Requirements agent with Copilot CLI and build and test one story; Day 4 is cloud agents
+and a Code Review agent; Day 5 is CI/CD with GitHub Actions, team demos and a handoff, all on the
+attendee's own website. The separate post-workshop business case
 reviews **synthetic** vendor reports with deterministic scores and quoted evidence.
 
 ## Non-negotiable rules
@@ -44,7 +45,7 @@ Tests and lint must both pass before opening a pull request.
 
 All attendee work runs in browser-based Codespaces and its Linux/Bash terminal, including
 Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or desktop VS Code
-is required. On Day 3 the presenter demonstrates browser checks with built-in browser tools;
+is required. The browser-tools demonstration in Lab 04 is an optional presenter extra;
 attendees install nothing for it. The repository's only MCP server is the read-only GitHub one in
 `.vscode/mcp.json`, with `chat.mcp.autostart` set to `never`, MCP discovery from other apps,
 other extensions' chat tools, and agent plugins switched off in `.vscode/settings.json`; do not
@@ -112,15 +113,23 @@ or delete them. The technical reference is not authorization for production or l
 Keep WORKSHOP_ALLOW_WRITES private-only and disabled in deployments. The switch and workshop
 label are not authorization. Preserve validation, server-owned labels, unassessed rows, and scores.
 
-The owner approved simplifying Days 3-5 on 14 October 2026 for the same first-time audience.
-Day 3 (docs/TOOLS-PRACTICE.md): Copilot CLI, Lab 04 (read-only GitHub MCP hands-on and a presenter
-browser-tools demonstration), Lab 06 (one instructions file and one small skill), picking an idea, and
-a Lab 03 cloud-agent demonstration. Day 4 (docs/DAY-4-BUILD.md) is supported building with an
-optional cloud-agent try. Day 5 (docs/DAY-5-SHOWCASE.md) is short presentations and a wrap-up.
-Ali presents Day 1, leads Days 3-4, and hosts Day 5; on Day 2 David and Jackie present and Ali
-supports tables. Hooks, automations, multi-agent handoffs, evaluations, saved browser tests, CI,
-release verification, and the vendor app are post-workshop/advanced reference, not workshop
-tasks; the former Lab 07 is a signpost. Preserve that reference and its maintained code/tests.
+The owner approved following David's final slides for Days 3-5 on 20 October 2026, four hours
+each, written in elapsed time. Day 3 (docs/TOOLS-PRACTICE.md): MUKQ opens; attendees sign in to
+Copilot CLI, describe a User Requirements agent that Copilot writes to
+`.github/agents/user-requirements.agent.md`, validate user stories with Given/When/Then criteria,
+build one approved story, and add `pytest checks` tests with the shipped `checks/website.py`.
+Day 4 (docs/DAY-4-BUILD.md): a practice branch and pull request, an approved story delegated to
+the cloud agent with the User story for Copilot template (Lab 03), a Code Review agent whose
+findings the attendee verifies, `@copilot` fixes, and a merge decision. Day 5
+(docs/DAY-5-SHOWCASE.md): CI/CD from the starters in `.github/workflow-starters/`, a red then
+green pull-request check, approval-gated publishing in the attendee's `training` environment
+(still the template's OIDC publisher, no secret), `scripts/smoke_test.py`, a revert rollback,
+team demos, and HANDOFF.md. Ship helpers and starters, never the learner's agents, tests, reviews,
+or active check workflow; CI enforces this. Labs 04 and 06 are optional extras.
+Ali presents Day 1; MUKQ opens Day 3, then Ali; Ali leads Days 4-5; on Day 2 David and Jackie
+present and Ali supports tables. Hooks, automations, multi-agent handoffs, evaluations, saved
+browser tests, the vendor app and its release verification are post-workshop/advanced reference,
+not workshop tasks; the former Lab 07 is a signpost. Preserve that reference and its maintained code/tests.
 Research/HTML briefs, managed plugins, and travel remain optional, not beginner prerequisites.
 Never duplicate a managed specialist locally. The correct vendor-analyst is repository-local
 for the advanced agent-handoff reference. Generated travel output remains ignored.

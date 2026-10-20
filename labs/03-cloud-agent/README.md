@@ -1,16 +1,15 @@
-# Lab 03: Hand a Task to the Cloud Agent
+# Lab 03: Hand an Approved Story to the Cloud Agent
 
-**Objective:** See Copilot take a task from a GitHub issue, work on it by itself in the cloud,
-and return a pull request for a person to review.
+**Objective:** Give Copilot's cloud agent one approved user story in a GitHub issue, follow its
+work, and get back a pull request that a person reviews before anything changes.
 
-**Time-box:** 15 minutes
+**Time-box:** 40 minutes
 
-**Prerequisites:** On Day 3 you only watch. For the optional try on Day 4: your Day 1 website
-saved on GitHub, and a helper's confirmation that the cloud agent is switched on for your repository.
+**Prerequisites:** Day 3's requirements file with an approved story, your website saved on
+GitHub, and a helper's confirmation that the cloud agent is switched on for your repository.
 
-This is a **12:15-12:30 demonstration on Day 3**. On **Day 4** you can try it yourself inside
-the building time; it adds no extra block. Everything happens on the GitHub website and in your
-browser-based Codespace.
+This is Day 4's **delegation lab**, after you practised branches and pull requests yourself.
+Everything happens on the GitHub website and in your browser-based Codespace.
 
 | Word         | Plain meaning                                                                         |
 | ------------ | ------------------------------------------------------------------------------------- |
@@ -19,65 +18,63 @@ browser-based Codespace.
 | Pull request | Its proposed change. Nothing in your project changes until a person accepts it.       |
 | Merge        | Accept the pull request into your project.                                            |
 
-## Watch the Demonstration (Day 3, 15 minutes)
+## 1. Pick the Story (5 minutes)
 
-On a practice repository, the presenter shows:
+Open your requirements file from Day 3 and choose one more story marked **Approved**, small enough
+to check in a few minutes. If none is approved yet, approve one now: check that you could test
+every acceptance criterion by clicking or counting.
 
-1. An issue asking for one small change, what must stay the same, and how to check it.
-2. Assigning the issue to **Copilot**, then its progress log while it works.
-3. The pull request: which file changed, and the change explained in plain words.
-4. Merging it, bringing the change into the Codespace, and checking it in the preview.
+## 2. Write the Issue (10 minutes)
 
-Notice the pattern: you describe the outcome, Copilot does the work in the background, and a
-person reviews before anything is accepted. It also follows the rules in your instructions file
-from [Lab 06](../06-teach-copilot/README.md).
+1. On GitHub open your repository, then **Issues > New issue** and choose **User story for
+   Copilot**.
+2. Title it with the story's number and a few words, for example `US-2: show today's date`.
+3. Paste the story and its acceptance criteria. Fill in what must stay the same and how you will
+   check it. Keep **Only change** as `site/index.html` unless your story lives in an idea folder.
 
-**Done when:** you have seen an issue become a pull request, and the presenter's own check of
-the change before merging.
+**Check:** someone who has never seen your page could tell when the story is done.
 
-## Optional Try on Day 4
+## 3. Assign It to Copilot (5 minutes)
 
-Ask for a change to your **Day 1 page** while you build your idea in its own folder, so you and
-Copilot are not editing the same file at once. If your Day 4 idea is the Day 1 page itself, skip
-this try.
+1. In the issue, select **Assignees > Copilot**. If a small window opens, check that the branch is
+   `main`, then confirm.
+2. The issue shows that Copilot has started. Select the session link to see its progress log.
 
-1. **Write the issue (09:00-09:15).** On GitHub open your repository, then **Issues > New issue**
-   and choose **Website change for Copilot**. Fill in what to change, what must stay the same,
-   and how you will check it. For example: "Show today's date under the page title. Change only
-   site/index.html. I will check that today's date appears and my entries still work."
-2. **Assign it.** In the issue, select **Assignees > Copilot**. If a small window opens, check that
-   the branch is the one your work is on (normally `main`; a helper confirms), then confirm. If
-   Copilot is not listed, it is not switched on for you: skip this try and tell a helper. Check that
-   the issue shows Copilot has started, then go back to building.
-3. **Review it (11:45-12:00).** Open **Pull requests** and select Copilot's pull request, then
-   **Files changed**. Does it change only what you asked for? If not, leave a comment starting
-   with `@copilot` that says exactly what to fix, or close it. Nothing changes until you merge.
-4. **Accept it with a helper.** First save, commit, and push your own work in the Codespace. If the
-   pull request is still a draft, select **Ready for review**. Then select **Merge pull request**.
-5. **Bring it into your Codespace.** In **Source Control** select **... > Pull**. Run
-   `/start-website` and check the change yourself.
+If Copilot is not listed, it is not switched on for you: tell a helper and follow the presenter's
+pull request instead. Never wait idle for it.
 
-**Try finished when:** your merged change works in your own preview after you pulled it, and
-your entries still work.
+## 4. Follow the Work (20 minutes)
+
+Copilot usually needs a few minutes. While it works:
+
+1. Read its progress log. Find one step where it read your files and one where it checked its work.
+2. Open **Pull requests**: its pull request starts as a **draft**. Open **Files changed**. Does it
+   change only `site/index.html`? Does every acceptance criterion appear to be covered?
+3. Leave it open. On Day 4 you review it next with your own Code Review agent, ask for fixes
+   with `@copilot`, and then decide whether to merge. Nothing changes until you merge.
+
+**Done when:** your issue holds an approved story with acceptance criteria, Copilot is assigned
+and working, and its draft pull request changes only what the story asked for.
 
 ## What you just learned
 
-An issue is a clear request, the cloud agent works on it without you watching, and a pull
-request lets a person check the result before accepting it. Delegating work does not delegate
-the checking.
+An issue with a clear story and checkable criteria is a good request. The cloud agent works on
+its own branch, and a pull request lets a person check the result before accepting it.
+Delegating work does not delegate the checking.
 
 ## When It Does Not Work
 
 | What you see                              | Next action                                                                   |
 | ----------------------------------------- | ----------------------------------------------------------------------------- |
-| Copilot is not in the Assignees list      | The feature is not switched on for this repository. Skip the try.             |
+| Copilot is not in the Assignees list      | The feature is not switched on for this repository. Tell a helper.             |
 | The pull request changed too much         | Comment with `@copilot` asking for the smaller change, or close it unmerged.   |
+| GitHub asks you to approve workflows      | Ask a helper first. It is a safeguard: checks on Copilot's work wait for you.  |
 | Pull reports a conflict                   | Stop and show a helper. Never force a push.                                   |
 
 ## Optional extras
 
 1. Ask Chat to write your issue from one sentence, then edit it into your own words.
-2. Open the agent's progress log and find one step where it checked its own work.
+2. Use the simpler **Website change for Copilot** template for a small change that is not a story.
 
 ## Official References
 

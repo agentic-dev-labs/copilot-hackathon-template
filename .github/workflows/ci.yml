@@ -29,7 +29,10 @@ jobs:
           version: "0.9.7"
       - name: Keep the template free of learner work
         run: |
-          learner_work="$(git ls-files site .github/instructions .github/skills/make-image .github/skills/edit-image | grep -vx 'site/README.md' || true)"
+          learner_work="$(git ls-files site .github/instructions .github/skills/make-image .github/skills/edit-image \
+            .github/agents/user-requirements.agent.md .github/agents/code-review.agent.md \
+            '.github/workflows/check-my-website.yml' 'checks/test_*.py' reviews HANDOFF.md \
+            | grep -vx 'site/README.md' || true)"
           if [ -n "$learner_work" ]; then
             printf '::error::The template ships starters, not finished work. Remove:\n%s\n' "$learner_work"
             exit 1

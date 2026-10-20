@@ -3,7 +3,8 @@
 **Objective:** Write one instructions file that Copilot follows for your website, write your own
 `/make-image` skill that draws pictures for your page, and try a ready-made `/add-chat` skill.
 
-**Time-box:** 45 minutes
+**Time-box:** 45 minutes, as an **optional extra** for Day 3 or later. The scheduled Day 3 is
+the [Requirements agent day](../../docs/TOOLS-PRACTICE.md).
 
 **Prerequisites:** Your website and its `site/brief.md` from Days 1-2. Agent Chat in the same
 browser-based Codespace. Nothing to install.

@@ -29,6 +29,12 @@ step instead of racing ahead. Use made-up information only.
 | Add a chat to my page | Type **`/add-chat`**, then select **Ask** at the bottom right of your page. Check its answers yourself. |
 | Paste into the terminal | **Ctrl+V** (Windows) or **Cmd+V** (Mac). Allow clipboard access if the browser asks. |
 | Use Copilot in the terminal (Day 3) | Type `copilot` and press Enter. Type `/exit` to leave. |
+| Use my own agent (Days 3-4) | In Copilot CLI type `/agent` and choose it. After creating a new agent, type `/exit` and `copilot` once so it appears. |
+| Run my tests (Days 3-5) | In the terminal type `pytest checks`. Green means pass; red shows what failed. |
+| Start a branch (Days 4-5) | Select the branch name at the bottom left, then **Create new branch...**. Go back by choosing `main`, then **Pull**. |
+| Hand a story to Copilot (Day 4) | On GitHub: **Issues > New issue > User story for Copilot**, then **Assignees > Copilot**. |
+| Approve a release (Day 5) | On GitHub: **Actions**, open the waiting run, **Review deployments > Approve and deploy**. |
+| Smoke-test my website (Day 5) | `python3 scripts/smoke_test.py https://<my website address>` |
 | Something looks broken | Show a helper the exact message. Do not install anything. |
 
 ## One Good Request
@@ -50,19 +56,20 @@ screenshot alone does not prove a button works.
 **Tuesday:** a first version of your own idea (or a better Monday page), one check, and questions for IT.
 Nothing extra is required on Monday or Tuesday: no database, CLI, MCP, or setup. Publishing is
 optional, with a helper.
-**Wednesday:** one Copilot CLI question, a GitHub tool answer you checked, the presenter's
-browser check compared with your own, your own instructions file and `/make-image` skill, a chat on
-your page, and a chosen idea.
-**Thursday:** a working first version you checked yourself, saved on GitHub, with a three-minute story.
-**Friday:** show what you built or learned in about three minutes.
+**Wednesday:** your own User Requirements agent, a requirements file with an approved story,
+that story working on your page, and green `pytest checks`.
+**Thursday:** a merged practice pull request, a story built by Copilot's cloud agent, your own
+Code Review agent's report with every finding checked by you, and a merge-or-not decision.
+**Friday:** a check that runs on every pull request, a release you approved, a bad release
+rolled back, your team demo, and a HANDOFF.md.
 
 Ask a helper about sign-in, conflicts, permissions, or any command you do not understand. Never
 paste passwords or real work records into Chat. Do not delete accounts or remove training access
 yourself. In pairs, take turns at the keyboard. Before you leave, push your work, then stop your
 Codespace at github.com/codespaces; closing the browser tab does not stop it.
 
-[Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Wednesday](TOOLS-PRACTICE.md) |
-[Thursday building](DAY-4-BUILD.md) | [Friday showcase](DAY-5-SHOWCASE.md) | [Your week](../README.md#your-week)
+[Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Wednesday agents](TOOLS-PRACTICE.md) |
+[Thursday cloud agents](DAY-4-BUILD.md) | [Friday CI/CD](DAY-5-SHOWCASE.md) | [Your week](../README.md#your-week)
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),

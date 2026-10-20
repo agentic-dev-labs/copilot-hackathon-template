@@ -21,8 +21,8 @@ def test_lab_timeboxes_match_the_agenda() -> None:
     """Optional exercises must not silently extend the published core blocks."""
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
     rows = re.findall(r"\| (\d\d):(\d\d)-(\d\d):(\d\d) \| Lab (\d\d):", agenda)
-    assert {row[-1] for row in rows} == {"01", "02", "08", "04", "06", "03"}
-    assert len(rows) == 6
+    assert {row[-1] for row in rows} == {"01", "02", "08", "03"}
+    assert len(rows) == 4
     for start_hour, start_minute, end_hour, end_minute, number in rows:
         minutes = (int(end_hour) - int(start_hour)) * 60 + int(end_minute) - int(start_minute)
         lab = next(Path("labs").glob(f"{number}-*/README.md"))
@@ -123,7 +123,7 @@ def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
     agenda = Path("docs/AGENDA.md").read_text(encoding="utf-8")
     sections = re.split(r"## Day \d[^\n]*\n", agenda)[1:]
     assert len(sections) == 5
-    for section, expected in zip(sections, [360, 360, 210, 210, 210], strict=True):
+    for section, expected in zip(sections, [360, 360, 240, 240, 240], strict=True):
         blocks = re.findall(r"\| (\d\d):(\d\d)-(\d\d):(\d\d) \|", section)
         intervals = [
             (int(start_hour) * 60 + int(start_minute), int(end_hour) * 60 + int(end_minute))
@@ -507,72 +507,109 @@ def agenda_day(number: int) -> str:
     return section.split("\n## ", 1)[0]
 
 
-def test_day_three_guide_follows_the_agenda_on_the_learners_own_page() -> None:
-    """Wednesday's tools stay on the learner's website and keep Tuesday free of tool setup."""
-    tools = Path("docs/TOOLS-PRACTICE.md").read_text(encoding="utf-8")
-    assert tools.startswith("# Day 3: More Ways to Use Copilot")
-    route = tools.split("## Today's Route", 1)[1].split("\n## ", 1)[0]
-    times = re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", route)
-    assert times == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", agenda_day(3))
-    for target in ("../labs/04-mcp/README.md", "../labs/06-teach-copilot/README.md",
-                   "../labs/03-cloud-agent/README.md", "#pick-your-idea", "DAY-4-BUILD.md"):
-        assert target in tools
+def day_route(guide: str) -> list[str]:
+    """Return the elapsed or clock times in a day guide's route table."""
+    text = Path("docs", guide).read_text(encoding="utf-8")
+    route = text.split("## Today's Route", 1)[1].split("\n## ", 1)[0]
+    return re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) +\|", route)
+
+
+def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
+    """Wednesday: the learner describes a requirements agent, builds one story, and tests it."""
+    guide = Path("docs/TOOLS-PRACTICE.md").read_text(encoding="utf-8")
+    assert guide.startswith("# Day 3: VS Code and a Requirements Agent")
+    assert day_route("TOOLS-PRACTICE.md") == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", agenda_day(3))
+    flat = " ".join(guide.replace("\n>", "\n").split())
+    assert "/login" in guide and "Never paste a password or token" in guide
+    assert ".github/agents/user-requirements.agent.md" in flat and "`name: user-requirements`" in flat
+    assert "Given ..., when ..., then ..." in flat and "Approved: yes" in flat
+    assert "type `/exit`, then `copilot`" in flat, "the CLI loads new agents when it starts"
+    assert "pytest checks" in guide and "from website import Page" in guide
+    assert "**Break it on purpose:**" in guide and "How to build and run" in guide
+    for target in ("../labs/04-mcp/README.md", "../labs/06-teach-copilot/README.md", "DAY-4-BUILD.md"):
+        assert target in guide
+    # The template ships the test helper and prompts, never the finished agent or tests.
+    assert not Path(".github/agents/user-requirements.agent.md").exists()
+    assert not list(Path("checks").glob("test_*.py"))
+    assert Path("checks/website.py").is_file() and Path("checks/README.md").is_file()
     # Attendees read only their own steps; the technical helper notes live in the facilitator guide.
     facilitator = Path("docs/FACILITATOR.md").read_text(encoding="utf-8")
     helpers = facilitator.split("## Day 3 Helper Preparation", 1)[1].split("\n## ", 1)[0]
-    assert "Helper Preparation" not in tools
-    assert "setup.sh browser" not in tools and "uvicorn" not in tools and "seccomp" not in tools
-    # Since 14 October attendees install nothing on Day 3; the browser check is a presenter demo.
+    assert "Helper Preparation" not in guide
+    assert "setup.sh browser" not in guide and "uvicorn" not in guide and "seccomp" not in guide
     assert "presenter demonstration" in helpers and "Never add\n  `--no-sandbox`" in helpers
     assert "uv run uvicorn app.site:app --port 8000" in helpers and "never make the\n  port public" in helpers
-    assert "/login" in tools and "Never paste a password or token" in tools
     assert "No Dataverse connection, vendor app, or research download" in helpers
+    assert "workflow-file pushes" in helpers
     old_link = Path("docs/DAY-2-TOOLS.md").read_text(encoding="utf-8")
     assert "TOOLS-PRACTICE.md" in old_link and "DAY-2-BUILD.md" in old_link
     assert "**Time-box:**" not in old_link
 
 
-def test_days_three_to_five_stay_simple_for_first_time_users() -> None:
-    """The 14 October refit drops advanced engineering topics from the scheduled week."""
-    for number, guide in ((3, "TOOLS-PRACTICE.md"), (4, "DAY-4-BUILD.md"), (5, "DAY-5-SHOWCASE.md")):
+def test_days_three_to_five_follow_the_final_slides() -> None:
+    """Owner-approved 20 October: requirements agent, cloud agents, and CI/CD, four hours each."""
+    titles = {3: "VS Code and a Requirements Agent", 4: "GitHub Copilot Cloud Agents",
+              5: "CI/CD with GitHub Actions"}
+    guides = {3: "TOOLS-PRACTICE.md", 4: "DAY-4-BUILD.md", 5: "DAY-5-SHOWCASE.md"}
+    for number, guide in guides.items():
         section = agenda_day(number)
-        assert guide in section
+        assert guide in section and titles[number] in section.splitlines()[0]
+        assert "| 01:30-01:45 | Break" in section and "03:45-04:00" in section
+        assert day_route(guide) == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", section), guide
         lowered = section.lower()
-        for topic in ("hook", "automation", "vendor", "ci ", "evaluation", "handoff", "lab 07"):
+        for topic in ("hook", "automation", "vendor", "evaluation", "lab 07"):
             assert topic not in lowered, (number, topic)
-    assert "Presentations, round 1" in agenda_day(5)
-    for path in (Path("docs/DAY-4-BUILD.md"), Path("docs/DAY-5-SHOWCASE.md")):
-        text = path.read_text(encoding="utf-8")
-        assert "**Done when:**" in text and "## Optional extras" in text, path
-        assert "## Official References\n" in text and "(REFERENCES.md)" in text, path
-    build = Path("docs/DAY-4-BUILD.md").read_text(encoding="utf-8")
-    assert "My story" in build and "No database, login, API keys" in build
-    showcase = Path("docs/DAY-5-SHOWCASE.md").read_text(encoding="utf-8")
-    assert "two minutes to show" in showcase and "fictional" in showcase
+        text = Path("docs", guide).read_text(encoding="utf-8")
+        assert text.startswith(f"# Day {number}: {titles[number]}")
+        assert "**Done when:**" in text and "## Optional extras" in text, guide
+        assert "## Official References\n" in text and "(REFERENCES.md)" in text, guide
+        assert "made up" in text, guide
+    day4 = " ".join(Path("docs/DAY-4-BUILD.md").read_text(encoding="utf-8").replace("\n>", "\n").split())
+    assert "**User story for Copilot**" in day4 and "../labs/03-cloud-agent/README.md" in day4
+    assert ".github/agents/code-review.agent.md" in day4 and "reviews/pr-NUMBER.md" in day4
+    assert "**Confirmed** or **Not a problem**" in day4 and "@copilot" in day4
+    assert "It never changes other files, comments on GitHub, or merges." in day4
+    day5 = " ".join(Path("docs/DAY-5-SHOWCASE.md").read_text(encoding="utf-8").split())
+    for starter in ("check-my-website.yml", "publish-website-with-approval.yml"):
+        assert f".github/workflow-starters/{starter}" in day5
+        assert Path(".github/workflow-starters", starter).is_file()
+    assert "change `contents: write` to `contents: read`" in day5
+    assert "**Required reviewers**" in day5 and "**Approve and deploy**" in day5
+    assert "python3 scripts/smoke_test.py" in day5 and "Revert my last commit" in day5
+    assert "No password, key, or Azure sign-in" in day5 and "HANDOFF.md" in day5
+    assert not Path(".github/workflows/check-my-website.yml").exists()
 
 
-def test_day_three_labs_use_simple_reviewed_tools() -> None:
+def test_cloud_agent_lab_delegates_an_approved_story() -> None:
+    """Lab 03 is Day 4's delegation block, using the story template and keeping human review."""
+    cloud = " ".join(Path("labs/03-cloud-agent/README.md").read_text(encoding="utf-8").split())
+    assert "**Time-box:** 40 minutes" in cloud and "Day 4's **delegation lab**" in cloud
+    assert "**User story for Copilot**" in cloud and "Nothing changes until you merge" in cloud
+    assert "Website change for Copilot" in cloud and "Never wait idle for it" in cloud
+    story = Path(".github/ISSUE_TEMPLATE/user-story.md").read_text(encoding="utf-8")
+    metadata = yaml.safe_load(story.split("---", 2)[1])
+    assert metadata["name"] == "User story for Copilot"
+    assert "## Acceptance criteria" in story and "site/index.html" in story and "fictional" in story
+    template = Path(".github/ISSUE_TEMPLATE/website-change.md").read_text(encoding="utf-8")
+    metadata = yaml.safe_load(template.split("---", 2)[1])
+    assert metadata["name"] == "Website change for Copilot"
+    assert "site/index.html" in template and "fictional" in template
+
+
+def test_optional_day_three_labs_use_simple_reviewed_tools() -> None:
     """MCP is read-only, the browser check uses the learner's page, and the picture skill is learner-written."""
     mcp = Path("labs/04-mcp/README.md").read_text(encoding="utf-8")
-    assert "https://api.githubcopilot.com/mcp/readonly" in mcp
+    assert "https://api.githubcopilot.com/mcp/readonly" in mcp and "**optional extra**" in mcp
     assert "open the **.vscode** folder and select **mcp.json**" in mcp and "Select **Start**" in mcp
     assert "## 2. Watch Copilot Use a Browser" in mcp and "nothing to set up" in mcp
     assert "setup.sh browser" not in mcp and "uvicorn" not in mcp and "Playwright" not in mcp
     customization = Path("labs/06-teach-copilot/README.md").read_text(encoding="utf-8")
+    assert "**optional extra**" in customization
     assert ".github/instructions/my-website.instructions.md" in customization
     assert ".github/skills/make-image/SKILL.md" in customization
     assert "python3 scripts/workshop_ai.py image" in customization and "no real people" in customization
     assert "`/add-chat`" in customization and "it can be wrong, so you check" in customization
     assert Path(".github/skills/add-chat/SKILL.md").is_file(), "the chat skill is prepared; the picture skill is not"
-    cloud = " ".join(Path("labs/03-cloud-agent/README.md").read_text(encoding="utf-8").split())
-    assert "## Optional Try on Day 4" in cloud and "Website change for Copilot" in cloud
-    assert "Nothing changes until you merge" in cloud
-    assert "First save, commit, and push your own work" in cloud
-    assert "If the pull request is still a draft" in cloud
-    template = Path(".github/ISSUE_TEMPLATE/website-change.md").read_text(encoding="utf-8")
-    metadata = yaml.safe_load(template.split("---", 2)[1])
-    assert metadata["name"] == "Website change for Copilot"
-    assert "site/index.html" in template and "fictional" in template
 
 
 def test_advanced_material_is_preserved_outside_the_schedule() -> None:
@@ -600,7 +637,8 @@ def test_attendee_pages_stand_alone_for_first_time_users() -> None:
             assert label == "Topic map (for presenters)", (path, label)
     for path in days:
         route = path.read_text(encoding="utf-8").split("## Today's Route", 1)[1].split("\n## ", 1)[0]
-        assert "| 10:30-10:45 | Break" in route, path
+        # Days 1-2 use clock times; Days 3-5 use elapsed times, as on the final slides.
+        assert "| 10:30-10:45 | Break" in route or "| 01:30-01:45 | Break" in route, path
     words = Path("docs/START-HERE.md").read_text(encoding="utf-8")
     assert "| Ask          | In Chat: Copilot only answers." in words
     assert "| Agent        | In Chat: Copilot can change your files." in words

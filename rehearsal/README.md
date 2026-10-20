@@ -5,8 +5,8 @@ attendee lab. Use a dedicated private/internal copy in Codespaces. The source te
 a starter: the agent completes the exercises in the rehearsal copy so attendees still have work to do.
 
 Run **`/rehearse-workshop`** in Copilot Chat's local VS Code Agent mode. The
-[prompt](../.github/prompts/rehearse-workshop.prompt.md) drives seven active labs and the supported
-daily sessions in timetable order: **00, 01, 02, 08, day-2, day-3, 04, 06, 03, day-4, day-5**, including adjacent coached blocks, actual
+[prompt](../.github/prompts/rehearse-workshop.prompt.md) drives five active labs and the supported
+daily sessions in timetable order: **00, 01, 02, 08, day-2, day-3, day-4, 03, day-5**, including adjacent coached blocks, actual
 implementation, tests, later deployment, and evidence. Keep the [official reference map](../docs/REFERENCES.md) and
 [prerequisites](../docs/PREREQS.md) available. Preview-only extras are tracked separately.
 
@@ -17,17 +17,18 @@ terminal. A CLI-only session cannot prove the learner's editor interactions or t
 
 Day 1 is foundations, Chat, a first website, manual behaviour/source checks, and saved work.
 Storage, research, HTML presentations, and early publication are optional. Day 2 is supported
-own-idea building with fictional app-local content. Day 3 shows CLI, GitHub MCP, an instructions
-file, and a small skill on the learner's own page, plus presenter browser and cloud-agent demonstrations;
-Day 4 is build day and Day 5 is presentations. The post-workshop vendor reader uses local
+own-idea building with fictional app-local content. Day 3 has the learner write a User Requirements
+agent with Copilot CLI, validate stories, build one, and add `pytest checks` tests; Day 4 practises
+pull requests, delegates a story to the cloud agent, and reviews it with a learner-written Code
+Review agent; Day 5 is CI/CD with an approval gate, a smoke test and a rollback, then demos and a
+handoff. Labs 04 and 06 are optional extras. The post-workshop vendor reader uses local
 synthetic samples and stays read-only publicly. Dataverse is not a workshop prerequisite.
 Do not prebuild a completed learner site in the source template or copy a managed specialist.
 
-The manifest keeps seven numbered lab IDs and `day-2` to `day-5` sessions. Lab 00 records the
+The manifest keeps five numbered lab IDs and `day-2` to `day-5` sessions. Lab 00 records the
 README's Monday morning: the GitHub tour, files and Chat, and the first note (its old lab page is
-a signpost); Lab 01 records manual verification; `day-3` records the CLI block
-and picking an idea; Lab 03 records the cloud-agent demonstration and the
-optional Day 4 try. These do not enlarge the individual active lab time-boxes. The former Lab 07
+a signpost); Lab 01 records manual verification; `day-3` records the agent, stories, build and
+tests; Lab 03 records Day 4's delegation lab. These do not enlarge the individual active lab time-boxes. The former Lab 07
 is a signpost to the [advanced post-workshop reference](../post-workshop/advanced/README.md).
 The retired Lab 05 is a signpost to the [post-workshop reference](../post-workshop/dataverse/README.md),
 not a live-service gate. Preserve its existing implementation and offline regression tests.
@@ -254,10 +255,10 @@ unselected or blocked extension does not fail `summary --require-complete`. It n
 missing core check. Prepared facts cannot pass an optional live download or conversion check.
 
 Record Tuesday's own-idea brief, prototype, manual journey, saved work, and handover under `day-2`.
-Record Wednesday's `cli-turn` and `idea-brief` under `day-3`, the GitHub MCP checks and the
-presenter's `browser-demo` under Lab 04, the instructions file and skill under Lab 06, and
-the cloud-agent demonstration under Lab 03. Record Thursday under `day-4`, with publication as an
-optional check, and Friday's logistics and presentation under `day-5`. Report core completion and
+Record Wednesday's `cli-turn`, `requirements-agent`, `stories`, `story-built`, `tests`, and
+`checkpoint` under `day-3`, with Labs 04 and 06 as its optional checks. Record Thursday's
+branch, review agent, report, iteration, and decision under `day-4`, and the delegation itself
+under Lab 03. Record Friday's workflow, CI, CD, recovery, demos, and handoff under `day-5`. Report core completion and
 extension statuses separately.
 
 Existing ledgers retain retired `05` observations unchanged. They do not satisfy any `day-2`

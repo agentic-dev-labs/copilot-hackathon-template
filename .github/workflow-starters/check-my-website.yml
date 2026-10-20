@@ -1,0 +1,46 @@
+name: Check my website
+
+# Day 5 starter: a check that runs your tests on every change (continuous integration).
+# Copy it to .github/workflows/check-my-website.yml, then make two edits:
+#   1. Triggers: under "on:", add pull_request and a push to main, so every change is checked.
+#   2. Permissions: this check only reads your files. Change "write" to "read" below.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    name: Check the website
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Get my files
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the workshop tools
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.7"
+
+      - name: Prepare the test tools
+        run: uv sync --locked --extra dev --extra web
+
+      - name: Build check (the same check publishing runs)
+        run: uv run python -m app.site --check
+
+      - name: Run my tests
+        run: |
+          if ! ls checks/test_*.py > /dev/null 2>&1; then
+            echo "::notice::No tests in checks/ yet. Write one on Day 3, then push again."
+            exit 0
+          fi
+          uv run pytest checks

@@ -74,26 +74,25 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 ## Days 3-5 Access
 
 Days 3-5 use each attendee's own repository and website. No vendor app, database, automation,
-hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md).
+hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md), [the Day 4
+guide](DAY-4-BUILD.md), and [the Day 5 guide](DAY-5-SHOWCASE.md).
 
-- [ ] Confirm the training accounts may use Copilot CLI, and preflight one attendee sign-in path
-      privately. Never collect passwords or tokens. Installed is not authenticated.
-- [ ] Rehearse the presenter's Lab 04 browser demonstration with VS Code's built-in browser tools
-      from VS Code Desktop connected to the presenter's Codespace; the integrated browser is a
-      desktop feature. Attendees install nothing for it. The Playwright browser
-      profile could not start Chromium's sandbox in a default Codespace on 14 October 2026; see
-      the [Day 3 helper notes](FACILITATOR.md#day-3-helper-preparation) and never use `--no-sandbox`.
+- [ ] Confirm the training accounts may use Copilot CLI and custom agents, and preflight one
+      attendee sign-in path privately. Never collect passwords or tokens. Installed is not authenticated.
 - [ ] Verify CLI sandbox/local-network prerequisites; package downloads alone prove neither.
       Do not bypass policy. Browser and CLI sessions do not share chat, cookies, or saved entries.
-- [ ] Permit the remote GitHub MCP server. Attendee repositories ship it in `.vscode/mcp.json`
-      (`https://api.githubcopilot.com/mcp/readonly`) as their only MCP server; test its sign-in and
-      that no write tools appear.
-- [ ] Enable the cloud agent for the presenter's demonstration repository and rehearse one
-      issue-to-merged-change run. Enable it for attendee repositories only if the optional Day 4 try is offered.
-- [ ] Rehearse Lab 06 in an attendee-like private copy: an instructions file applied to `site/`,
-      a learner-written `/make-image` skill that puts a picture on the page, and `/add-chat` with
-      one answer checked against the page.
-- [ ] Agree Friday's room logistics: screen sharing, a timer, the running order, and the host.
+- [ ] Enable the cloud agent for **every attendee repository** before Day 4, and rehearse one
+      **User story for Copilot** issue to a merged change. Note how long a session takes.
+- [ ] Confirm attendees can push a file under `.github/workflows/` from their Codespace and can
+      add themselves as a required reviewer of a `training` environment (Day 5). Fallback for the
+      push: GitHub's web editor. Never hand out personal tokens.
+- [ ] Confirm Actions minutes for about 45 repositories running a check on every pull request and
+      a publish on every release on Day 5.
+- [ ] Agree Friday's room logistics for team demos: screen sharing, a timer, the running order, and the host.
+- [ ] Optional extras only: the presenter's Lab 04 browser demonstration (VS Code Desktop, see
+      the [Day 3 helper notes](FACILITATOR.md#day-3-helper-preparation); never use `--no-sandbox`),
+      the remote GitHub MCP server in `.vscode/mcp.json` with no write tools, and Lab 06 with the
+      FOUNDRY_* secrets.
 - [ ] Keep all work in Codespaces; corporate handover is planning, not a local-workstation exercise.
 
 ## Optional Examples

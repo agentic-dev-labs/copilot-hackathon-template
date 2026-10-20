@@ -1,0 +1,41 @@
+name: Publish my website
+
+# Day 5 starter: the same publishing as before, with one approval step in front of it
+# (continuous delivery with a human gate). Copy this file over
+# .github/workflows/publish-website.yml. Then, on GitHub, open Settings > Environments >
+# training and tick Required reviewers with your own name. From then on every publish waits
+# until you select Review deployments > Approve and deploy. No password or secret is involved.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "site/**"
+      - "config.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-website
+  cancel-in-progress: true
+
+jobs:
+  approve:
+    name: Wait for approval
+    if: ${{ !github.event.repository.is_template }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    environment: training
+    steps:
+      - name: Approved
+        run: echo "Approved. Publishing this commit to the training environment."
+
+  publish:
+    needs: approve
+    if: ${{ !github.event.repository.is_template }}
+    uses: agentic-dev-labs/copilot-hackathon-template/.github/workflows/website-publisher.yml@main
+    with:
+      website-name: ${{ vars.WEBSITE_NAME }}

@@ -102,102 +102,83 @@
     },
     {
       "id": "day-3",
-      "title": "Copilot CLI and picking an idea",
+      "title": "VS Code and a User Requirements agent",
       "guide": "docs/TOOLS-PRACTICE.md",
       "tests": [
         "tests/test_devcontainer.py",
-        "tests/test_lab_contracts.py"
-      ],
-      "checks": {
-        "cli-turn": "Actual Codespaces Copilot CLI sign-in and a question about the learner's own page compared with the page, plus one approved change observed in the Website preview",
-        "idea-brief": "Idea chosen (Tuesday's, a new one in site/ideas/, or a small skill), a brief with a self-check written, a first step started, and work pushed"
-      },
-      "optional_checks": {
-        "playwright-profile": "Only in an owner-approved environment where Chromium's sandbox starts: browser profile completed and added only the reviewed playwright entry; attendees never run it in class"
-      }
-    },
-    {
-      "id": "04",
-      "title": "Copilot uses tools: GitHub MCP and a browser demonstration",
-      "guide": "labs/04-mcp/README.md",
-      "tests": [
         "tests/test_lab_contracts.py",
-        "tests/test_devcontainer.py",
-        "tests/test_site.py"
+        "tests/test_checks_helper.py"
       ],
       "checks": {
-        "configuration": "The repository's prepared .vscode/mcp.json lists only the read-only GitHub server; nothing started before Start was selected; authentication succeeded and only read-only tools are exposed",
-        "invocation": "Actual MCP call listed the rehearsal repository's recent commits and matched GitHub",
-        "browser-demo": "Presenter's built-in browser tools, rehearsed in the presenter Codespace, opened a page and reported a title and a count after adding an item; the report matched a manual check"
+        "cli-turn": "Actual Codespaces Copilot CLI sign-in with /login and the device code, and a question about the learner's own page compared with the page",
+        "requirements-agent": "Learner-described .github/agents/user-requirements.agent.md written by Copilot CLI, edited by the learner, and listed by /agent after a CLI restart",
+        "stories": "Requirements file next to the brief with numbered user stories and Given/When/Then criteria; one story validated and marked Approved",
+        "story-built": "The approved story implemented on the learner's page; every criterion checked by hand in the Website preview, with one debug round recorded truthfully",
+        "tests": "Learner tests in checks/test_*.py written with checks/website.py; pytest checks shown green, red after a deliberate break, and green again; build and run commands written in the brief",
+        "checkpoint": "Agent, requirements, page and tests reviewed, committed, pushed, and read back on GitHub"
       },
       "optional_checks": {
-        "playwright-mcp": "Only in an owner-approved environment where Chromium's sandbox starts: Playwright MCP invoked against app.site on port 8000 and compared with a manual check"
-      }
-    },
-    {
-      "id": "06",
-      "title": "Teach Copilot: an instructions file, a picture skill, and a chat",
-      "guide": "labs/06-teach-copilot/README.md",
-      "tests": [
-        "tests/test_lab_contracts.py",
-        "tests/test_workshop_ai.py",
-        "tests/test_devcontainer.py"
-      ],
-      "checks": {
-        "instructions": "Learner-authored .github/instructions file applied to site/ was used and one of its rules was observably followed",
-        "picture-skill": "Learner-authored make-image skill discovered by its slash command; it ran scripts/workshop_ai.py with the workshop identity, saved a picture under site/art/, and the page showed it",
-        "chat": "Ready-made /add-chat added the Ask bubble; one answer from the Website preview was checked against the page",
-        "commit": "The learner's customization files and page changes reviewed, committed, and pushed"
-      },
-      "optional_checks": {
-        "edit-image": "Optional edit-image skill saved an edited copy beside the original picture"
-      }
-    },
-    {
-      "id": "03",
-      "title": "Cloud agent demonstration and optional try",
-      "guide": "labs/03-cloud-agent/README.md",
-      "tests": [
-        "tests/test_lab_contracts.py",
-        "tests/test_site.py"
-      ],
-      "checks": {
-        "issue-session": "Focused website issue assigned to the actual cloud agent, with its session inspected",
-        "review": "Pull request diff reviewed against the issue before merging; scope limited to the requested file",
-        "merged-check": "Merged change pulled into the Codespace and checked in the Website preview"
-      },
-      "optional_checks": {
-        "attendee-try": "Attendee-style repository: Website change for Copilot template used, Copilot assignable, pull request reviewed and merged with a helper, pulled, and checked"
+        "vscode-agent": "The same agent file chosen in VS Code Chat's agent picker and its answer compared with Copilot CLI",
+        "github-mcp": "Optional Lab 04: read-only GitHub MCP started, no write tools, recent commits matched GitHub",
+        "teach-copilot": "Optional Lab 06: instructions file, learner make-image skill, and /add-chat with the FOUNDRY_* workshop identity",
+        "browser-demo": "Optional presenter browser-tools demonstration rehearsed in the presenter's Codespace"
       }
     },
     {
       "id": "day-4",
-      "title": "Build day",
+      "title": "GitHub Copilot cloud agents and a Code Review agent",
       "guide": "docs/DAY-4-BUILD.md",
       "tests": [
         "tests/test_lab_contracts.py",
-        "tests/test_site.py"
+        "tests/test_workflows.py"
       ],
       "checks": {
-        "build": "A bounded own-idea version or improvement built with fictional local content, without overwriting Monday's page",
-        "self-check": "The learner's own check, empty input, keyboard, and narrow window recorded truthfully in the brief",
-        "story": "Three-minute story written in the brief; work committed, pushed, and read back on GitHub"
+        "branch-pr": "A practice branch created in the Codespace, published, opened as a pull request, merged, deleted, and pulled back into main",
+        "review-agent": "Learner-described .github/agents/code-review.agent.md with review rules and the findings-table report format, listed by /agent",
+        "report": "reviews/pr-N.md written by the review agent for Copilot's pull request; every finding marked Confirmed or Not a problem by the learner with a reason",
+        "iteration": "An @copilot comment on a confirmed finding produced a new commit; the criterion, pytest checks, and a second review were rerun; a neighbour checked one criterion",
+        "decision": "The pull request merged (or closed with a reason), main pulled, the change checked in the preview, and the agent and report pushed"
       },
       "optional_checks": {
         "publication": "Optional Lab 08 website publication verified at the actual URL for the exact commit"
       }
     },
     {
-      "id": "day-5",
-      "title": "Showcase and wrap-up",
-      "guide": "docs/DAY-5-SHOWCASE.md",
+      "id": "03",
+      "title": "Delegate an approved story to the cloud agent",
+      "guide": "labs/03-cloud-agent/README.md",
       "tests": [
-        "tests/test_lab_contracts.py"
+        "tests/test_lab_contracts.py",
+        "tests/test_site.py"
       ],
       "checks": {
-        "logistics": "Screen sharing, timer, running order, and the table-based fallback rehearsed in the actual room setup",
-        "presentation": "A rehearsal presentation shown live from the preview in about three minutes, with a screenshot backup labelled as such",
-        "wrap-up": "Approved tools, who to ask, work retention, and stopping Codespaces covered without deleting accounts or training access"
+        "issue-session": "An approved story with acceptance criteria filed with the User story for Copilot template, assigned to the actual cloud agent, with its session inspected",
+        "review": "The draft pull request's diff compared with the story; scope limited to the requested file",
+        "merged-check": "Merged change pulled into the Codespace and checked in the Website preview"
+      },
+      "optional_checks": {
+        "website-change": "The simpler Website change for Copilot template used for a non-story change"
+      }
+    },
+    {
+      "id": "day-5",
+      "title": "CI/CD with GitHub Actions",
+      "guide": "docs/DAY-5-SHOWCASE.md",
+      "tests": [
+        "tests/test_lab_contracts.py",
+        "tests/test_workflows.py",
+        "tests/test_smoke_test.py"
+      ],
+      "checks": {
+        "workflow": "Starter copied to .github/workflows/check-my-website.yml from the Codespace, pull_request and push triggers added, contents permission reduced to read, and a green run",
+        "ci": "A pull request whose check went red from a deliberate break, its log read (and explained by Copilot CLI), fixed to green, and merged",
+        "cd": "Approval starter in place, the learner a required reviewer of the training environment, and a release published only after Review deployments > Approve",
+        "recovery": "scripts/smoke_test.py passed, failed on a deliberately bad headline, and passed again after a revert, with the content fingerprint back to the known-good value",
+        "demos": "Team demo of requirements, a verified review finding, and CI/CD evidence rehearsed in the actual room setup",
+        "handoff": "HANDOFF.md naming the agents, pipeline steps, release and rollback, and release owner pushed to GitHub"
+      },
+      "optional_checks": {
+        "smoke-in-pipeline": "Optional smoke-test step added to the publishing workflow"
       }
     }
   ]

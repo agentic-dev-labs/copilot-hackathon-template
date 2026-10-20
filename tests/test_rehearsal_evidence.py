@@ -18,10 +18,10 @@ def ledger(monkeypatch: pytest.MonkeyPatch) -> dict:
 
 
 def test_manifest_covers_all_labs_in_workshop_order() -> None:
-    """Keep the seven active labs and the four supported daily sessions discoverable."""
+    """Keep the five active labs and the four supported daily sessions discoverable."""
     labs = evidence.manifest()
     assert [lab["id"] for lab in labs] == [
-        "00", "01", "02", "08", "day-2", "day-3", "04", "06", "03", "day-4", "day-5"
+        "00", "01", "02", "08", "day-2", "day-3", "day-4", "03", "day-5"
     ]
     for lab in labs:
         assert Path(lab["guide"]).is_file()
@@ -101,18 +101,19 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     assert "cli-turn" not in labs["00"]["checks"]
     assert "05" not in labs
     assert "cli-turn" in labs["day-3"]["checks"]
-    assert "browser-demo" in labs["04"]["checks"]
-    assert "playwright-mcp" in labs["04"]["optional_checks"]
+    assert {"requirements-agent", "stories", "story-built", "tests"} <= labs["day-3"]["checks"].keys()
+    assert {"github-mcp", "teach-copilot", "browser-demo"} <= labs["day-3"]["optional_checks"].keys()
+    assert "04" not in labs and "06" not in labs, "Labs 04 and 06 are optional Day 3 extras"
     assert "browser-setup" not in labs["day-3"]["checks"]
     assert not {"seed", "private-journey", "cli-turn", "browser-tools"} & labs["day-2"]["checks"].keys()
     assert "actions" not in labs["08"]["checks"]
     assert "endpoint" in labs["08"]["optional_checks"]
     assert "07" not in labs
-    assert {"instructions", "picture-skill", "chat"} <= labs["06"]["checks"].keys()
-    assert "edit-image" in labs["06"]["optional_checks"] and "ai-picture" in labs["02"]["optional_checks"]
+    assert "ai-picture" in labs["02"]["optional_checks"]
     assert {"issue-session", "review", "merged-check"} <= labs["03"]["checks"].keys()
+    assert {"branch-pr", "review-agent", "report", "iteration", "decision"} <= labs["day-4"]["checks"].keys()
     assert "publication" in labs["day-4"]["optional_checks"]
-    assert "presentation" in labs["day-5"]["checks"]
+    assert {"workflow", "ci", "cd", "recovery", "demos", "handoff"} <= labs["day-5"]["checks"].keys()
     advanced = {"repeatable-browser", "selected-release", "automation", "live-hook", "handoffs"}
     for lab in labs.values():
         assert not advanced & (lab["checks"].keys() | lab.get("optional_checks", {}).keys())

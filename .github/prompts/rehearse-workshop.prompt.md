@@ -23,11 +23,11 @@ Do not stop after generating the checklist or running preflight: continue implem
 
 ## Outcome and Boundaries
 
-Complete the seven active labs and the `day-2` to `day-5` supported sessions, including their
-code changes, learner-written customizations, tests, and real Day 3 tool calls. Publication is
-optional. Produce evidence and any endpoint actually tested. Since 14 October, Days 3-5 use the
-attendee's own website only; the vendor reader, automations, hooks, and release readiness are
-post-workshop reference, not part of this run. Unit tests alone do not pass live product checks.
+Complete the five active labs and the `day-2` to `day-5` supported sessions, including their
+code changes, learner-written agents, tests, workflows, and real Copilot CLI and cloud-agent
+calls. Publication is optional until Day 5's CD lab. Produce evidence and any endpoint actually
+tested. Days 3-5 use the attendee's own website only; the vendor reader, automations, and hooks
+are post-workshop reference, not part of this run. Unit tests alone do not pass live product checks.
 
 - Use a dedicated private/internal rehearsal copy, not the source template or an attendee's app.
   Establish its repository, remote, branch, commit, unique synthetic label, and derived app name.
@@ -46,7 +46,7 @@ post-workshop reference, not part of this run. Unit tests alone do not pass live
   GitHub/Copilot sign-in is still required. If a secret is missing, report its NAME and the owning
   environment; never request or print its value. Stop the affected live stage, not unrelated checks.
 - All attendee work uses browser-based Codespaces and its Bash terminal, including Copilot CLI.
-  Day 3 browser work uses prepared headless Playwright MCP in the Codespace. MarkItDown
+  Optional Lab 04 browser work uses prepared headless Playwright MCP only where Chromium's sandbox starts. MarkItDown
   is only for a selected optional research extension. Neither is a beginner-day prerequisite.
   Use private stdio, not public MCP/debug ports or desktop browser extensions.
   Built-in browser tools are optional. A missing required MCP tool remains `blocked`.
@@ -143,41 +143,38 @@ copy's own learner website. Keep editor/CLI/browser state separate, inspect sand
 local-network prerequisites, and never disable enforced boundaries to force a successful result.
 
 1. Complete a real Copilot CLI sign-in with `/login` and the device code, ask about the page,
-   compare the answer with the page, and observe one approved change in the Website preview.
-2. [Lab 04](../../labs/04-mcp/README.md): start the repository's prepared `github` server from
-   `.vscode/mcp.json` (its `/readonly` endpoint), confirm nothing started on its own beforehand,
-   authenticate normally, confirm no write tools are listed, and invoke it to list recent
-   commits; compare them with GitHub. A `gh` request verifies the fact but does not replace the
-   required MCP call. The browser part is a presenter demonstration with VS Code's built-in
-   browser tools; record it as `browser-demo` only from a real rehearsal in the presenter's
-   Codespace. Attendees run no browser setup. Playwright MCP is optional and only for an
-   owner-approved environment where Chromium's sandbox starts; never add `--no-sandbox`.
-3. [Lab 06](../../labs/06-teach-copilot/README.md): author an instructions file under
-   `.github/instructions/` applied to `site/` and observe one of its rules being followed. Author
-   the `make-image` skill, confirm discovery through its slash command, and verify it runs
-   `scripts/workshop_ai.py`, saves a picture under `site/art/`, and shows it in the page. Run the
-   ready-made `/add-chat` and check one answer against the page. Commit the learner files. Do not
-   ship them in the template. Missing FOUNDRY_* secrets are a recorded blocker, never an API key.
-4. Complete the "pick your idea" block: a brief with a self-check, a first step, and pushed work.
-5. [Lab 03](../../labs/03-cloud-agent/README.md): create one small website issue with the
-   **Website change for Copilot** template, assign it to the real cloud agent, inspect its session
-   and pull request, review the diff against the issue, then merge with the run's approval, pull,
-   and check the change in the Website preview. Do not bypass a required human review; record it
-   as pending if it cannot be completed here. Note how long the session took for the demonstration.
+   and compare the answer with the page.
+2. Paste the guide's prompt so Copilot CLI writes `.github/agents/user-requirements.agent.md`;
+   edit one rule, restart the CLI, and confirm `/agent` lists it. Optionally confirm the same file
+   in VS Code Chat's agent picker.
+3. Select the agent and generate the requirements file from the brief; validate each criterion
+   is checkable and mark one story **Approved**.
+4. Implement that story with ordinary Copilot CLI, check every criterion in the Website preview,
+   and record one debug round truthfully.
+5. Write `checks/test_*.py` with the shipped `checks/website.py`; show `pytest checks` green, red
+   after a deliberate break, and green again; add build and run commands to the brief; push.
+6. Optional extras only: [Lab 04](../../labs/04-mcp/README.md) (read-only GitHub MCP; a `gh`
+   request does not replace the MCP call; the presenter browser demonstration only from a real
+   rehearsal, never `--no-sandbox`) and [Lab 06](../../labs/06-teach-copilot/README.md)
+   (missing FOUNDRY_* secrets are a recorded blocker, never an API key).
 
-## 5. Complete Build Day and the Showcase
+## 5. Complete Day 4 and Day 5
 
-Follow [the build day guide](../../docs/DAY-4-BUILD.md), recorded as `day-4`: build one bounded
-improvement with fictional local content, run the learner's own checks, write the three-minute
-story in the brief, and push. If publication is selected, follow Lab 08's optional route with
-`rehearsal.deploy dispatch` and `collect` for the **website** target with Dataverse disabled;
-verify exact commit, website bytes/fingerprint, and real endpoint behaviour. Never substitute an
-older healthy revision.
+Follow [the Day 4 guide](../../docs/DAY-4-BUILD.md), recorded as `day-4`, and
+[Lab 03](../../labs/03-cloud-agent/README.md), recorded as `03`: a practice branch and pull
+request from the Codespace; an approved story filed with **User story for Copilot** and assigned
+to the real cloud agent; the learner-described `code-review.agent.md` producing
+`reviews/pr-N.md` with every finding checked by hand; an `@copilot` fix with criteria, tests and
+review rerun; then merge or close with a reason. Do not bypass a required human review; record it
+as pending if it cannot be completed here. Note how long the cloud session took.
 
-Follow [the showcase guide](../../docs/DAY-5-SHOWCASE.md), recorded as `day-5`. Automation can
-check the guide and preview, but room logistics and a live presentation need a human rehearsal;
+Follow [the Day 5 guide](../../docs/DAY-5-SHOWCASE.md), recorded as `day-5`: copy the starter
+check workflow, edit its triggers and permissions, push it from the Codespace (record a refused
+workflow push as a blocker with the web-editor fallback), see a pull request go red then green;
+copy the approval starter, make the learner a required reviewer of `training`, approve one release;
+run `scripts/smoke_test.py`, ship a deliberately bad headline, revert it, and confirm the content
+fingerprint returns; write HANDOFF.md. Room logistics and team demos need a human rehearsal;
 record those as pending rather than inventing an observation.
-
 Optional Spaces, managed plugins, travel, SDK/BYOK, fleet, third-party agents, integrations,
 second-model previews, and everything in the [advanced reference](../../post-workshop/advanced/README.md)
 stay outside this run. Do not install optional products or change enterprise settings to turn an

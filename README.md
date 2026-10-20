@@ -3,14 +3,15 @@
 **No coding. Nothing to install. Just your web browser and your ideas.**
 
 In this five-day workshop you tell GitHub Copilot, an AI helper, what you want in plain words,
-and it builds it with you. You will even draw your own pictures with AI and give your website a
-chat assistant that answers questions about it. By Friday you will have made something of your own, checked that it
-really works, and shown it to the room. You have never used GitHub or written code? Perfect.
-This workshop was made for you.
+and it builds it with you. Later in the week you write your own AI helpers, called agents, the
+same way: one that turns your idea into checkable user stories, and one that reviews Copilot's
+work. By Friday GitHub checks every change for you, and you have made something of your own,
+checked that it really works, and shown it to the room. You have never used GitHub or written
+code? Perfect. This workshop was made for you.
 
 **When and where:** October 26-30, 2026, in Princeton, New Jersey. On Monday and Tuesday we
 are in rooms MKC 1D412 and 1D413. Monday and Tuesday are full days, and Wednesday to Friday are
-mornings. Your calendar invitation has the exact times.
+four-hour sessions. Your calendar invitation has the exact times.
 
 ## Your Week
 
@@ -18,9 +19,9 @@ mornings. Your calendar invitation has the exact times.
 | ------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
 | **Monday**    | Meet GitHub and Copilot, build your first website just by asking, and peek at its code | A working website you made your own and checked |
 | **Tuesday**   | Hear how business and IT work together, then build your own idea with help    | The first version of your own idea                  |
-| **Wednesday** | Learn a few more Copilot tricks, then pick the idea you will build            | Your own picture skill, a chat on your page, and a plan |
-| **Thursday**  | Build day, with helpers at every table                                        | Something that works, ready to show                 |
-| **Friday**    | Show what you built or learned, in about three minutes                        | Your story, and ideas for what to try next          |
+| **Wednesday** | Write your own requirements agent with Copilot, turn your idea into user stories, and build one | Your agent, checkable stories, and a tested feature |
+| **Thursday**  | Practise pull requests, hand a story to Copilot's cloud agent, and review it with your own review agent | A reviewed change you decided to merge or not |
+| **Friday**    | Let GitHub check every change, approve each release, and roll back a bad one; then demos | A checked, approved, recoverable website and a handoff note |
 
 Every step follows the same rhythm: **watch, try, make it yours, check it, share it.**
 

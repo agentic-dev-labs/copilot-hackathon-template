@@ -252,6 +252,54 @@ def test_template_ships_without_a_website_name() -> None:
     steps = workflow["jobs"]["test"]["steps"]
     guard = next(step for step in steps if step.get("name") == "Keep the template free of learner work")
     assert "jq -e '.websiteName == \"\"' config.json" in guard["run"]
+    for learner_file in (".github/agents/user-requirements.agent.md", ".github/agents/code-review.agent.md",
+                         "'.github/workflows/check-my-website.yml'", "'checks/test_*.py'", "reviews", "HANDOFF.md"):
+        assert learner_file in guard["run"]
+
+
+STARTERS = Path(".github/workflow-starters")
+
+
+def test_check_starter_is_inert_until_the_learner_edits_it() -> None:
+    """Day 5: the starter runs only by hand and asks for exactly two edits, triggers and permissions."""
+    text = (STARTERS / "check-my-website.yml").read_text(encoding="utf-8")
+    workflow = yaml.load(text, Loader=yaml.BaseLoader)
+    assert workflow["name"] == "Check my website"
+    assert set(workflow["on"]) == {"workflow_dispatch"}
+    assert workflow["permissions"] == {"contents": "write"}, "the learner reduces this to read"
+    assert "add pull_request" in text and 'Change "write" to "read"' in text
+    steps = workflow["jobs"]["check"]["steps"]
+    commands = "\n".join(step.get("run", "") for step in steps)
+    assert "uv run python -m app.site --check" in commands and "uv run pytest checks" in commands
+    assert "secrets." not in text and "id-token" not in text
+    assert steps[0]["with"]["persist-credentials"] == "false"
+    # After the two documented edits the workflow is a least-privilege pull-request check.
+    edited = yaml.load(
+        text.replace("on:\n  workflow_dispatch:\n",
+                     "on:\n  workflow_dispatch:\n  pull_request:\n  push:\n    branches: [main]\n")
+            .replace("contents: write", "contents: read"),
+        Loader=yaml.BaseLoader,
+    )
+    assert {"workflow_dispatch", "pull_request", "push"} == set(edited["on"])
+    assert edited["permissions"] == {"contents": "read"}
+
+
+def test_approval_starter_only_adds_a_gate_before_the_same_publisher() -> None:
+    """Day 5 CD: an environment gate in the learner's caller; the trusted publisher is unchanged."""
+    current = yaml.load(Path(".github/workflows/publish-website.yml").read_text(encoding="utf-8"),
+                        Loader=yaml.BaseLoader)
+    text = (STARTERS / "publish-website-with-approval.yml").read_text(encoding="utf-8")
+    starter = yaml.load(text, Loader=yaml.BaseLoader)
+    for key in ("name", "on", "permissions", "concurrency"):
+        assert starter[key] == current[key], key
+    approve, publish = starter["jobs"]["approve"], starter["jobs"]["publish"]
+    assert approve["environment"] == "training" and "uses" not in approve
+    assert approve["if"] == current["jobs"]["publish"]["if"]
+    assert publish["needs"] == "approve"
+    # The publish job carries no environment, so its OIDC subject stays refs/heads/main.
+    assert "environment" not in publish
+    assert {key: value for key, value in publish.items() if key != "needs"} == current["jobs"]["publish"]
+    assert "secrets." not in text and "Required reviewers" in text
 
 
 def test_hosting_trusts_only_the_template_publisher_on_main() -> None:
