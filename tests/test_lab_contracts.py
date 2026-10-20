@@ -1,5 +1,6 @@
 """Keep executable examples and timetable claims aligned with the labs."""
 
+import hashlib
 import json
 import re
 import xml.etree.ElementTree as ET
@@ -350,7 +351,7 @@ def test_own_idea_patterns_are_tested_and_stay_out_of_the_first_question() -> No
     assets = Path(".github/skills/create-website/assets")
     data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
     patterns = {pattern["id"]: pattern for pattern in data["idea_patterns"]}
-    assert list(patterns) == ["tracker", "dashboard"]
+    assert list(patterns) == ["tracker", "dashboard", "game"]
     starter_ideas = {idea for starter in data["starters"] for idea in starter["later_ideas"]}
     for pattern in patterns.values():
         assert pattern["summary"] and pattern["suits"] and pattern["try_it"].startswith("Try it:")
@@ -396,6 +397,59 @@ def test_own_idea_patterns_are_tested_and_stay_out_of_the_first_question() -> No
     for name in ("tracker", "dashboard"):
         assert f"./assets/blueprints/{name}/index.html" in skill
     assert "idea_patterns" in skill and "question for IT" in skill
+
+
+def test_lab_chase_game_is_playable_original_and_licensed() -> None:
+    """The game pattern's maze works, its library is the approved unchanged three.js, and nothing is borrowed."""
+    assets = Path(".github/skills/create-website/assets")
+    data = json.loads((assets / "starters.json").read_text(encoding="utf-8"))
+    pattern = next(item for item in data["idea_patterns"] if item["id"] == "game")
+    game = json.loads((assets / "blueprints/game/data/game.json").read_text(encoding="utf-8"))
+    maze = game["maze"]
+    assert len({len(row) for row in maze}) == 1 and set("".join(maze)) <= set("#.oSMI")
+    assert all(ch == "#" for ch in maze[0] + maze[-1]) and all(row[0] == row[-1] == "#" for row in maze)
+    cells = {(c, r): ch for r, row in enumerate(maze) for c, ch in enumerate(row)}
+    starts = [cell for cell, ch in cells.items() if ch == "S"]
+    assert len(starts) == 1
+    reachable, queue = {starts[0]}, [starts[0]]
+    while queue:
+        c, r = queue.pop()
+        for step in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            near = (c + step[0], r + step[1])
+            if cells.get(near, "#") not in "#I" and near not in reachable:
+                reachable.add(near)
+                queue.append(near)
+    walkable = {cell for cell, ch in cells.items() if ch not in "#I"}
+    assert reachable == walkable, "every data point, coffee and molecule start can be reached"
+    expected = pattern["expected"]
+    assert sum(ch == "." for ch in cells.values()) == expected["dots"]
+    assert sum(ch == "o" for ch in cells.values()) == expected["coffee"]
+    assert sum(ch == "M" for ch in cells.values()) >= 2 and sum(ch == "I" for ch in cells.values()) == 3
+    assert len(game["items"]) == expected["item_count"]
+    assert f"{expected['dots']} data points" in pattern["manual_check"]
+    assert all(game["lines"][key] for key in ("start", "molecule", "caught", "coffee", "declined", "level", "over"))
+
+    page = (assets / "blueprints/game/index.html").read_text(encoding="utf-8")
+    assert "import * as THREE from './js/vendor/three.module.js'" in page
+    assert "lives: 3" in page and "prefers-reduced-motion" in page
+    assert "cannot draw 3D" in page, "a browser without 3D gets a plain message"
+    text = (page + json.dumps(game)).lower()
+    for borrowed in ("pac-man", "pacman", "pac man", "namco", "blinky", "inky", "clyde"):
+        assert borrowed not in text, borrowed
+
+    readme = (assets / "README.md").read_text(encoding="utf-8")
+    for name in ("three.module.js", "three.core.js"):
+        library = (assets / "game" / name).read_bytes()
+        assert hashlib.sha256(library).hexdigest() in readme, name
+        source = library.decode("utf-8")
+        assert "eval(" not in source and "new Function" not in source, name
+    assert "from './three.core.js'" in (assets / "game/three.module.js").read_text(encoding="utf-8")
+    licence = (assets / "game/THREE-LICENSE.md").read_text(encoding="utf-8")
+    assert "The MIT License" in licence and "three@0.186.1" in licence
+    assert "assets/game/*.js -text -diff" in Path(".gitattributes").read_text(encoding="utf-8")
+    skill = Path(".github/skills/create-website/SKILL.md").read_text(encoding="utf-8")
+    assert "./assets/game/three.module.js" in skill and "site/THREE-LICENSE.md" in skill
+    assert "never use a real game's name" in skill
 
 
 def test_agent_frontmatter_and_handoff_targets() -> None:

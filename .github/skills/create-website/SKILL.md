@@ -201,8 +201,9 @@ keep everything else, and never restart this interview. See [Start Website](../s
   image service, animation library, backend, login, API key, real business data, or corporate
   logo. No logo-generation API or paid reference service. No deployment or public port. The
   owner-approved exceptions are pictures saved by the workshop helper, the `/add-chat` bubble
-  and the Photo Studio, which ask through the Website preview, and the Apache ECharts chart
-  library (with ECharts GL for 3D) copied into `js/vendor/` with its licences.
+  and the Photo Studio, which ask through the Website preview, the Apache ECharts chart
+  library (with ECharts GL for 3D) copied into `js/vendor/` with its licences, and three.js for
+  the Lab Chase game only (owner-approved 20 October 2026).
 - The preview allows only the page's own files plus Open-Meteo (forecast, city search and past
   weather), which the owner approved for the Weather page. Other internet APIs do not load;
   record such wishes as questions for IT.
@@ -249,11 +250,14 @@ an own idea, and the learner may continue the same idea on Wednesday and Thursda
    | Looking something up and showing the result | Weather pattern with a local data file |
    | Places to find on a map (favourite spots, offices, a walking tour) in Princeton | Princeton Map, keeping its base map |
    | Pictures to change or collect (pets, products, posters) | Photo Studio |
+   | A game played with the keyboard: chasing, collecting or escaping something, with a score | Lab Chase game |
 
    The Request Tracker ([tracker/index.html](./assets/blueprints/tracker/index.html), sample
-   data [data/requests.json](./assets/blueprints/tracker/data/requests.json)) and the Team
+   data [data/requests.json](./assets/blueprints/tracker/data/requests.json)), the Team
    Dashboard ([dashboard/index.html](./assets/blueprints/dashboard/index.html), sample data
-   [data/metrics.json](./assets/blueprints/dashboard/data/metrics.json)) are tested patterns for
+   [data/metrics.json](./assets/blueprints/dashboard/data/metrics.json)) and the Lab Chase game
+   ([game/index.html](./assets/blueprints/game/index.html), sample data
+   [data/game.json](./assets/blueprints/game/data/game.json)) are tested patterns for
    own ideas only, never extra choices in the first question. Their `try_it`, `manual_check` and
    `later_ideas` are under `idea_patterns` in [starters.json](./assets/starters.json). The
    tracker's stages are its `columns` (change them like a board's columns); the dashboard's
@@ -262,11 +266,20 @@ an own idea, and the learner may continue the same idea on Wednesday and Thursda
    name a real system (Outlook, PDFs, a database, live feeds): build the pattern with fictional
    sample entries and note the real connection as a question for IT.
 
+   The Lab Chase game is drawn with three.js, which only that page uses: also copy
+   [three.module.js](./assets/game/three.module.js) and [three.core.js](./assets/game/three.core.js)
+   unchanged to `site/js/vendor/`, and [THREE-LICENSE.md](./assets/game/THREE-LICENSE.md) to
+   `site/THREE-LICENSE.md`. Its maze is the `maze` rows (`#` bench, `.` data point, `o` coffee,
+   `S` scientist, `M` molecule, `I` the invites' room), its jokes are `lines`, and the scores are
+   the learner's `items`. Keep every row the same length and every open cell reachable. All
+   characters are original: never use a real game's name, characters, sounds, or artwork.
+
    When the idea has numbers worth seeing, add one chart from [Add Chart](../add-chart/SKILL.md)'s
    patterns in the same build, so the page looks finished from the start.
 4. Copy the blueprint's `index.html` and `data/` into the new folder. Point shared files one
    level up twice: `../../css/workshop.css`, `../../js/workshop.js` (and, for the dashboard,
-   `../../js/vendor/echarts.min.js` and `../../js/workshop-charts.js`), and `../../art/...`. Keep
+   `../../js/vendor/echarts.min.js` and `../../js/workshop-charts.js`; for the game, the import
+   `../../js/vendor/three.module.js`), and `../../art/...`. Keep
    `data/` inside the folder. Use a new storage key, `idea-<folder>`.
 5. Rename everything for the idea: the title and logo (repository name plus the idea's name),
    headline, subtitle, column or view names, button labels, and three or four fictional sample

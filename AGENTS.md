@@ -87,7 +87,8 @@ completed site/. The skill copies one self-contained index.html plus a data/*.js
 after approval. Keep pages static and local, and ask before changing frameworks, overwriting
 pages, or adding an external service. The owner approved these exceptions: the Weather starter
 calls Open-Meteo (forecast, city search and past weather), and the preview allows only those hosts;
-the kit ships Apache ECharts and ECharts GL for `/add-chart` and 3D (19 October 2026); and the
+the kit ships Apache ECharts and ECharts GL for `/add-chart` and 3D (19 October 2026), and
+three.js for the optional Lab Chase game pattern (20 October 2026); and the
 Photo Studio repaints photos of things, places and pets through the Website preview. Fast finishers build an own idea from
 one sentence in `site/ideas/<name>/`; slower learners move on to the next lab.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate

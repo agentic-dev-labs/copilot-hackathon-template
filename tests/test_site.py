@@ -18,7 +18,7 @@ KIT = Path(".github/skills/create-website/assets/js/workshop.js")
 PROJECT_BLUEPRINT = Path(".github/skills/create-website/assets/blueprints/project")
 CATEGORIES = ("project", "calendar", "ideas", "weather", "map", "photo")
 # Tested own-idea patterns: same kit and rules, but never offered in the first question.
-PATTERNS = ("tracker", "dashboard")
+PATTERNS = ("tracker", "dashboard", "game")
 PAGES = CATEGORIES + PATTERNS
 
 
@@ -351,11 +351,18 @@ def test_every_starter_assembles_into_a_publishable_site(tmp_path: Path, categor
     shutil.copyfile(ASSETS / "fonts/source-sans-3-latin.woff2", site / "fonts/source-sans-3-latin.woff2")
     shutil.copyfile(ASSETS / "fonts/OFL.txt", site / "FONT-LICENSE.md")
     shutil.copyfile(ASSETS / "js/vendor/CHART-LICENSES.md", site / "CHART-LICENSES.md")
+    if category == "game":
+        # Only the game page carries three.js, copied beside the chart library.
+        for name in ("three.module.js", "three.core.js"):
+            shutil.copyfile(ASSETS / "game" / name, site / "js/vendor" / name)
+        shutil.copyfile(ASSETS / "game/THREE-LICENSE.md", site / "THREE-LICENSE.md")
     manifest = site_manifest(site)
     assert "js/vendor/echarts.min.js" in manifest["files"]
     page = (site / "index.html").read_text(encoding="utf-8")
     for local in re.findall(r'(?:src|href)="((?:css|js|art|data|gallery)/[^"]+)"', page):
         assert (site / local).is_file(), local
+    for module in re.findall(r"import .* from '\./([^']+)'", page):
+        assert (site / module).is_file(), module
 
 
 def test_photo_helper_talks_only_to_the_preview() -> None:

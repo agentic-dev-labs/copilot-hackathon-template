@@ -171,6 +171,29 @@
                 "Show the on-time percentage as a line across the months",
                 "Add a tab that shows the same numbers as a 3D chart"
             ]
+        },
+        {
+            "id": "game",
+            "title": "Lab Chase game",
+            "summary": "A funny 3D maze game: a scientist chases escaped molecules, collects glowing data points, and dodges meeting invites; a coffee lets you decline them. Keyboard and on-screen arrows, a top view, and a score board.",
+            "suits": "A game played with the keyboard: chasing, collecting or escaping something in a maze, with a score.",
+            "data_file": "data/game.json",
+            "storage_key": "lab-chase",
+            "expected": {
+                "item_count": 3,
+                "dots": 135,
+                "coffee": 4,
+                "lives": 3
+            },
+            "try_it": "Try it: press Start, then use the arrow keys to catch a molecule and grab a coffee.",
+            "manual_check": "3 scores on the board and 135 data points to start. Press Start and run over one data point: 134 left and the score shows 10. Let an invite catch you: lives drop from 3 to 2.",
+            "later_ideas": [
+                "Change the funny lines to your own team's in-jokes",
+                "Redraw the maze so the benches spell your team's initial",
+                "Add a timer and a bonus for finishing a level quickly",
+                "Make the scientist run faster for five seconds after catching a molecule",
+                "Add a fourth invite that only joins from level 3"
+            ]
         }
     ],
     "own_idea": "Describe anything in one sentence, such as a team lunch planner, and get it built in the same style."

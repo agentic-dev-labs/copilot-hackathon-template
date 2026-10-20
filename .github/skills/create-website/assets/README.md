@@ -1,9 +1,9 @@
 # Workshop Website Kit
 
 Original workshop CSS, small helper scripts, original animated artwork, six tested category
-blueprints plus two tested own-idea patterns (a Request Tracker and a Team Dashboard), fictional
-sample data, and two owner-approved additions: the Apache ECharts chart
-library and a public-domain base map of Princeton. No Novo name, logo, proprietary imagery,
+blueprints plus three tested own-idea patterns (a Request Tracker, a Team Dashboard and a Lab
+Chase game), fictional sample data, and three owner-approved additions: the Apache ECharts chart
+library, three.js for the Lab Chase game, and a public-domain base map of Princeton. No Novo name, logo, proprietary imagery,
 corporate stylesheet, or corporate font is included. The skill copies the chosen blueprint and
 kit into `site/` only after the learner picks a category; the source template never ships a
 finished site.
@@ -18,9 +18,10 @@ finished site.
 | [js/workshop-chat.js](js/workshop-chat.js) | `site/js/workshop-chat.js` | `Workshop.addChat()`: an "Ask my page" bubble that asks the Website preview, never the network |
 | [js/workshop-photo.js](js/workshop-photo.js) | `site/js/workshop-photo.js` | `Workshop.photo`: repaint a photo and save it to the gallery through the Website preview |
 | [js/vendor/](js/vendor/) | `site/js/vendor/` | Apache ECharts 6.1.0 and ECharts GL 2.1.0, minified, with [their licences](js/vendor/CHART-LICENSES.md) copied to `site/CHART-LICENSES.md` |
-| [art/](art/) | `site/art/` | Original animated SVGs: eight header illustrations and one icon per weekday |
+| [art/](art/) | `site/art/` | Original animated SVGs: nine header illustrations and one icon per weekday |
 | `blueprints/<category>/index.html` | `site/index.html` | Tested self-contained page for the chosen category |
-| `blueprints/tracker/`, `blueprints/dashboard/` | `site/index.html` or `site/ideas/<name>/` | Tested own-idea patterns; never offered in the first question |
+| `blueprints/tracker/`, `blueprints/dashboard/`, `blueprints/game/` | `site/index.html` or `site/ideas/<name>/` | Tested own-idea patterns; never offered in the first question |
+| [game/](game/) | `site/js/vendor/three.module.js`, `site/js/vendor/three.core.js`, `site/THREE-LICENSE.md` | three.js 0.186.1 (MIT), copied only for the Lab Chase game |
 | `blueprints/<category>/data/*.json` | `site/data/*.json` | Sample entries; the page's pretend API |
 | `blueprints/photo/gallery/` | `site/gallery/` | Six fictional sample photos for the Photo Studio |
 | [fonts/source-sans-3-latin.woff2](fonts/source-sans-3-latin.woff2) | `site/fonts/source-sans-3-latin.woff2` | Local, open-source variable font, Latin subset (28,740 bytes) |
@@ -66,6 +67,18 @@ day; their licences, and those of the parts they bundle (ZRender, d3.js, ClayGL)
 
 Charts are added with `/add-chart`, whose [tested recipes](../../add-chart/recipes/) draw from a
 page's own data. Browsers without 3D get a short note in place of a 3D chart.
+
+## 3D Game Library
+
+The owner approved [three.js](https://threejs.org) for the Lab Chase game on 20 October 2026.
+`three.module.js` and `three.core.js` came unchanged from the npm package `three@0.186.1` through
+the approved package feed on that day, with the MIT licence in [game/THREE-LICENSE.md](game/THREE-LICENSE.md).
+Neither file uses `eval` or `new Function`, so the page runs under the Website preview's strict
+Content-Security-Policy; the page loads them with a relative `import`. They stay out of `js/`
+so the other pages do not carry two megabytes they never use.
+
+- `three.module.js` SHA-256: `9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea`
+- `three.core.js` SHA-256: `9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6`
 
 ## Map and Picture Sources
 
