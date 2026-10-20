@@ -54,7 +54,6 @@ this try.
    with `@copilot` that says exactly what to fix, or close it. Nothing changes until you merge.
 4. **Accept it with a helper.** First save, commit, and push your own work in the Codespace. If the
    pull request is still a draft, select **Ready for review**. Then select **Merge pull request**.
-   If GitHub asks you to approve workflows, ask the helper first.
 5. **Bring it into your Codespace.** In **Source Control** select **... > Pull**. Run
    `/start-website` and check the change yourself.
 

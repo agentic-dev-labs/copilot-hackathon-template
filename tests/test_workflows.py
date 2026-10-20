@@ -247,6 +247,8 @@ def test_template_ships_without_a_website_name() -> None:
     workflow = yaml.load(Path(".github/workflows/ci.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
     for job in workflow["jobs"].values():
         assert job["if"] == "${{ github.event.repository.is_template }}"
+    # A website-only pull request (the cloud agent's) must not ask the attendee to approve a run.
+    assert set(workflow["on"]["pull_request"]["paths-ignore"]) == {"site/**", "config.json"}
     steps = workflow["jobs"]["test"]["steps"]
     guard = next(step for step in steps if step.get("name") == "Keep the template free of learner work")
     assert "jq -e '.websiteName == \"\"' config.json" in guard["run"]
