@@ -30,7 +30,8 @@ every acceptance criterion by clicking or counting.
    Copilot**.
 2. Title it with the story's number and a few words, for example `US-2: show today's date`.
 3. Paste the story and its acceptance criteria. Fill in what must stay the same and how you will
-   check it. Keep **Only change** as `site/index.html` unless your story lives in an idea folder.
+   check it. Keep **Only change** as it is (your page, its sample data, and tests) unless your
+   story lives in an idea folder; then name that folder instead.
 
 **Check:** someone who has never seen your page could tell when the story is done.
 
@@ -49,7 +50,7 @@ Copilot usually needs a few minutes. While it works:
 
 1. Read its progress log. Find one step where it read your files and one where it checked its work.
 2. Open **Pull requests**: its pull request starts as a **draft**. Open **Files changed**. Does it
-   change only `site/index.html`? Does every acceptance criterion appear to be covered?
+   change only your page, its sample data, and tests? Does every acceptance criterion appear to be covered?
 3. Leave it open. On Day 4 you review it next with your own Code Review agent, ask for fixes
    with `@copilot`, and then decide whether to merge. Nothing changes until you merge.
 

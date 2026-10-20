@@ -14,5 +14,6 @@ the Website preview. Write those in your requirements file as **Manual checks**.
 Ask Copilot, for example:
 
 > Write tests in checks/test_us1.py for the acceptance criteria of US-1 in my requirements file
-> that can be checked from the files, using `from website import Page`. List the others under
-> "Manual checks" in the requirements file. Then run `pytest checks` and show me the result.
+> that can be checked from the files, using `from website import Page`. Give every assert a short
+> message saying what I expected. List the others under "Manual checks" in the requirements file.
+> Then run `pytest checks` and show me the result.

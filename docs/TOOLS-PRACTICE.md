@@ -48,8 +48,9 @@ Times count from the start of the session.
    type the code, and select **Authorize**. Never paste a password or token into Copilot.
 4. Ask: "Read site/brief.md and site/index.html. In three short bullet points, explain what my
    website does. Do not change any files." **Check:** compare its answer with your page.
-5. Type `/agent` and press Enter to see the list of agents. It is empty today: you add your own
-   next. Press **Esc** to close it.
+5. Type `/agent` and press Enter to see the list of agents. You see three the workshop keeps for
+   a later business example (**report-writer**, **reviewer**, **vendor-analyst**): leave them
+   alone. Your own agent joins this list next. Press **Esc** to close it.
 
 When Copilot wants to read a file, change a file, or run a command, it asks first. Read what it
 wants to do, and say yes only to what you understand. **Agent roles:** Chat's **Ask** only
@@ -85,13 +86,17 @@ agent picker in VS Code: one file, two doors.
 
 **01:45-02:30.**
 
-1. Type `/agent`, choose **user-requirements**, and ask: "Write the requirements for my website
-   from site/brief.md." For an idea in its own folder, name its brief instead, for example
-   `site/ideas/team-lunch/brief.md`.
-2. Open the new **requirements.md** next to the brief. Read every story.
+1. Type `/agent`, choose **user-requirements**, and ask: "Write the requirements for the next
+   version of my website from site/brief.md: use its later ideas, plus this wish of mine: [one
+   thing you want next]." For an idea in its own folder, name its brief instead, for example
+   `site/ideas/team-lunch/brief.md`. Asking for the *next* version matters: stories about what
+   your page already does leave nothing to build.
+2. Open the new **requirements.md** next to the brief. Read every story and the **Open
+   questions** at the end: the agent lists what it could not decide instead of guessing.
 3. **Validate** each acceptance criterion: can you check it yourself by clicking or counting? If
    not, ask the agent to rewrite only that one: "Rewrite the criteria of US-2 so that I can check
-   them by counting. Change nothing else."
+   them by counting. Change nothing else." Answer one open question about your story the same
+   way: "For US-1, pressing the button again shows every task. Add that as a criterion."
 4. Choose one small Must story to build today. Under it, type `Approved: yes` and today's date.
    Ask a neighbor: "Is this story clear enough that you could check it?"
 
@@ -119,7 +124,8 @@ to ordinary Copilot.
 
 1. Ask Copilot CLI: "Write tests in checks/test_us1.py for the acceptance criteria of US-1 that
    can be checked from the files, using `from website import Page` as shown in checks/README.md.
-   Add the others to a Manual checks list in my requirements file. Then run `pytest checks`."
+   Give every assert a short message saying what I expected. Add the others to a Manual checks
+   list in my requirements file. Then run `pytest checks`."
 2. **Check:** the terminal says `passed` in green.
 3. **Break it on purpose:** in your page change one word that a test looks for, save, and run
    `pytest checks` again. It turns red and says what it expected. Undo your change with

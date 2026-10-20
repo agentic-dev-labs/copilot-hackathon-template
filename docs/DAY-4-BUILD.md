@@ -81,11 +81,15 @@ bracketed part:
 > real data; the page still works with a keyboard and in a narrow window; [one rule of my own].
 > It writes a report to reviews/pr-NUMBER.md as a table with the columns #, Severity (Must fix,
 > Should fix, or Nice to have), File and line, What I found, Evidence (the exact line), and
-> Suggested fix, and ends with "Verdict: Ready to merge" or "Verdict: Not yet". It never changes
+> Suggested fix. Each finding is one or two plain sentences for a beginner. Problems that were
+> already there before this pull request go in a separate table called "Already there before",
+> so they do not block this change. If it cannot check something itself, it says what I should
+> check by hand. It ends with "Verdict: Ready to merge" or "Verdict: Not yet". It never changes
 > other files, comments on GitHub, or merges.
 
 Open **.github > agents > code-review.agent.md**, read its rules, and change one into your own
-words. Then type `/exit` and `copilot` again, and check that `/agent` lists **code-review**.
+words. Then type `/exit` and `copilot` again, and check that `/agent` lists **code-review**. It is
+yours; the workshop's older **reviewer** agent is for a different example, so do not pick that one.
 
 ## 5. Review Copilot's Pull Request
 

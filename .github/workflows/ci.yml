@@ -5,11 +5,17 @@ on:
     branches:
       - main
   pull_request:
-    # Website-only pull requests, such as the cloud agent's in Lab 03, start no run at all,
-    # so attendees never meet an "Approve and run workflows" prompt for a skipped check.
+    # Pull requests that change only learner work, such as the cloud agent's in Days 3-4, start no
+    # run at all, so attendees never meet an "Approve and run workflows" prompt for a skipped check.
+    # Pushes to the template's main still run everything, including the learner-work guard.
     paths-ignore:
       - "site/**"
       - "config.json"
+      - "checks/test_*.py"
+      - "reviews/**"
+      - "HANDOFF.md"
+      - ".github/agents/user-requirements.agent.md"
+      - ".github/agents/code-review.agent.md"
 permissions:
   contents: read
 

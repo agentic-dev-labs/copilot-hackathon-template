@@ -19,7 +19,7 @@ As a team member, I want to hide finished tasks, so that I see only what is left
 
 ## Only change
 
-site/index.html
+site/index.html, its sample data in site/data/, and tests in checks/
 
 ## Keep the same
 
