@@ -36,10 +36,13 @@ or push for the learner.
    If `site/ideas/` holds idea pages, add one line per idea: its address is the same address
    followed by `/ideas/<folder>/`, such as `.../ideas/team-lunch/`.
 
-When the learner asks whether it is live, run
-`curl -s https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io/healthz` and compare
-its `commit` with `git rev-parse HEAD`. The same value means the latest push is live; anything else
-means wait a minute and ask again. After that, every push of `site/` updates the website by itself.
+When the learner asks whether it is live, first check `git status -sb`: if it says **ahead**, the
+change is not pushed yet, so guide the push. Then run
+`curl -s https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io/healthz`, take its
+`commit`, and run `git merge-base --is-ancestor "$(git log -1 --format=%H -- site config.json)" <commit>`.
+Success means the newest change to `site/` is live, even when later commits changed only other
+files, which do not republish. Anything else means wait a minute and ask again. After that, every
+push of `site/` updates the website by itself.
 
 If the run says **That name is taken**, choose another name and repeat from step 4. For any other
 red run, show the run's message to a helper; do not change the workflow. The published copy
