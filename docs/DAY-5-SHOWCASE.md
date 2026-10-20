@@ -3,6 +3,7 @@
 Today GitHub checks every change for you (**CI**) and publishes only what you approve (**CD**).
 You break a release on purpose and bring the good one back. Then teams show their work and hand
 it over. Same Codespace, same website, everything made up. No password, key, or Azure sign-in.
+Stuck in the terminal? Paste the same sentence into Chat with **Agent** chosen; it does the same job.
 
 ## Today's Route
 
@@ -122,7 +123,20 @@ An honest "this part does not work yet" is better than a polished claim nobody c
 **03:45-04:00.** Ask Copilot CLI: "Write HANDOFF.md in plain words: my two agents (file, job,
 and how to run them), my pipeline (Check my website and Publish my website with approval, and
 what starts each), how to release and how to roll back, who owns releases (me), and open
-questions for IT." Read it, correct one sentence, then commit and push.
+questions for IT. Add a short 'To make it real' list: which parts are made up or only in my
+browser today, and the route for each from the table in docs/DAY-5-SHOWCASE.md." Read it,
+correct one sentence, then commit and push.
+
+Your website is a working prototype with made-up data, kept in one browser. That is the point
+of this week: it shows exactly what you need. Making it real is a project with IT, usually:
+
+| Your page needs...                                  | Usual route to ask IT about                 |
+| --------------------------------------------------- | ------------------------------------------- |
+| Shared data, several people, sign-in, approvals     | Power Apps with Dataverse                   |
+| Reminders, emails, or Outlook and Teams steps       | Power Automate                              |
+| Dashboards on real numbers                          | Power BI, on your team's approved data      |
+| Reading PDFs or contracts                           | A document-reading AI service, reviewed by IT |
+| An assistant that answers from company information  | Copilot Studio                              |
 
 **Done when:** your check workflow runs on every pull request, you fixed a red check, publishing
 waits for your approval, you rolled back a bad release and the smoke test proved it, and your
@@ -143,4 +157,9 @@ HANDOFF.md is on GitHub. Stop your Codespace at the end: closing the browser tab
 - [Deployment environments and required reviewers](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
 - [Reverting changes](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/reverting-a-pull-request)
   and [stopping a Codespace](https://docs.github.com/en/codespaces/developing-in-a-codespace/stopping-and-starting-a-codespace).
+- Routes to make a prototype real, to discuss with IT: [Power Apps](https://learn.microsoft.com/power-apps/)
+  with [Dataverse](https://learn.microsoft.com/power-apps/maker/data-platform/data-platform-intro),
+  [Power Automate](https://learn.microsoft.com/power-automate/), [Power BI](https://learn.microsoft.com/power-bi/),
+  [Document Intelligence](https://learn.microsoft.com/azure/ai-services/document-intelligence/), and
+  [Copilot Studio](https://learn.microsoft.com/microsoft-copilot-studio/).
 - [Topic map (for presenters)](REFERENCES.md).

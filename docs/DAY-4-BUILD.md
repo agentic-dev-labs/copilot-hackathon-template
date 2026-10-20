@@ -3,6 +3,7 @@
 Today you hand an approved user story to Copilot's **cloud agent**, write your own **Code
 Review agent**, and decide yourself whether Copilot's work is good enough to accept. You use the
 same Codespace, your website, and the requirements file from Day 3. Everything stays made up.
+Stuck in the terminal? Paste the same sentence into Chat with **Agent** chosen; it does the same job.
 
 ## Today's Route
 

@@ -57,6 +57,10 @@ wants to do, and say yes only to what you understand. **Agent roles:** Chat's **
 answers, **Agent** can change files, and a custom agent is a helper you give one job and clear
 rules.
 
+**Stuck in the terminal?** Every step today also works in Chat: open Chat, choose **Agent**, and
+paste the same sentence. Once your own agent exists, it is in Chat's agent picker too. A helper
+can switch you over in a minute; the result is the same files.
+
 ## 2. Build Your User Requirements Agent
 
 **00:50-01:30.** An agent is a short text file in `.github/agents/`. You describe the job in
