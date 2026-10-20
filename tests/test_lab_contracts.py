@@ -431,6 +431,11 @@ def test_lab_chase_game_is_playable_original_and_licensed() -> None:
 
     page = (assets / "blueprints/game/index.html").read_text(encoding="utf-8")
     assert "import * as THREE from './js/vendor/three.module.js'" in page
+    # The scientist runs only while a direction is held, and stops when it is let go.
+    assert "if (steering()) advance(scientist, dt)" in page
+    assert "window.addEventListener('keyup'" in page and "window.addEventListener('blur', releaseAll)" in page
+    assert "'pointerup', 'pointercancel', 'lostpointercapture'" in page
+    assert "let go to stop" in page and "let go" in pattern["manual_check"]
     assert "lives: 3" in page and "prefers-reduced-motion" in page
     assert "cannot draw 3D" in page, "a browser without 3D gets a plain message"
     text = (page + json.dumps(game)).lower()

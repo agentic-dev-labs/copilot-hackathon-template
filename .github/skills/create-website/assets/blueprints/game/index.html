@@ -73,7 +73,7 @@
                 <button type="button" data-dir="down" aria-label="Down">&#8595;</button>
                 <button type="button" data-dir="right" aria-label="Right">&#8594;</button>
             </div>
-            <p class="legend"><span>Arrow keys or WASD to run</span><span>Data point 10</span><span>Coffee 50</span><span>Declined invite 200</span><span>Molecule 500</span></p>
+            <p class="legend"><span>Hold an arrow key or WASD to run; let go to stop</span><span>Data point 10</span><span>Coffee 50</span><span>Declined invite 200</span><span>Molecule 500</span></p>
         </section>
 
         <section class="panel animate-in" style="--i: 2" aria-label="Top scores">
@@ -442,7 +442,7 @@
         let elapsed = 0
         let resumeAt = 0
         let declinedUntil = 0
-        let wanted = null
+        const held = []
         let view = '3d'
 
         function open(a, c, r) {
@@ -487,7 +487,10 @@
 
         function decide(a) {
             if (a.kind === 'scientist') {
-                if (wanted && open(a, a.c + wanted.dc, a.r + wanted.dr)) return wanted
+                const wanted = steering()
+                if (!wanted) return null
+                if (open(a, a.c + wanted.dc, a.r + wanted.dr)) return wanted
+                // Holding a turn early keeps running straight until the turn opens up.
                 if (a.dir && open(a, a.c + a.dir.dc, a.r + a.dir.dr)) return a.dir
                 return null
             }
@@ -551,17 +554,26 @@
             if (coffee) drinkCoffee(coffee)
         }
 
-        function want(name) {
-            const next = DIRS[name]
-            if (!next || game.state !== 'playing') return
-            wanted = next
+        // The scientist runs only while a direction is held: keys, an on-screen arrow, or a drag.
+        // The newest held direction wins, so pressing a second key turns without letting go.
+        function press(name) {
+            if (!DIRS[name]) return
+            release(name)
+            held.push(name)
+            const next = steering()
             // Turning back is allowed at once, even between two cells.
-            if (scientist.moving && same(next, opposite(scientist.dir))) {
+            if (game.state === 'playing' && scientist.moving && same(next, opposite(scientist.dir))) {
                 scientist.c += scientist.dir.dc
                 scientist.r += scientist.dir.dr
                 scientist.dir = next
             }
         }
+        function release(name) {
+            const index = held.indexOf(name)
+            if (index !== -1) held.splice(index, 1)
+        }
+        const releaseAll = () => { held.length = 0 }
+        const steering = () => (held.length ? DIRS[held[held.length - 1]] : null)
 
         function addScore(points) {
             game.score += points
@@ -592,8 +604,7 @@
 
         function placeAll() {
             const [c, r] = scientistStart
-            Object.assign(scientist, { c, r, x: toX(c), z: toZ(r), dir: null, moving: false })
-            wanted = null
+            Object.assign(scientist, { c, r, x: toX(c), z: toZ(r), dir: null, moving: false, walking: false })
             invites.forEach(inv => sendHome(inv, 1.2 + inv.index * 2.6))
             molecules.forEach((m, index) => {
                 const [mc, mr] = moleculeStarts[index % moleculeStarts.length]
@@ -620,7 +631,9 @@
                 declinedUntil = 0
                 invites.forEach(inv => { inv.declined = false })
             }
-            advance(scientist, dt)
+            const from = { x: scientist.x, z: scientist.z }
+            if (steering()) advance(scientist, dt)
+            scientist.walking = scientist.x !== from.x || scientist.z !== from.z
             invites.filter(inv => !inv.waiting).forEach(inv => advance(inv, dt))
             molecules.forEach(m => {
                 if (m.hidden) {
@@ -724,7 +737,7 @@
         const turnTowards = (from, to, amount) => from + Math.atan2(Math.sin(to - from), Math.cos(to - from)) * amount
         function animate(time, dt) {
             const s = scientist.mesh
-            const running = game.state === 'playing' && scientist.moving
+            const running = game.state === 'playing' && scientist.walking
             if (scientist.dir) scientist.heading = turnTowards(scientist.heading, Math.atan2(scientist.dir.dc, scientist.dir.dr), Math.min(1, dt * 12))
             s.position.set(scientist.x, running && !calm ? Math.abs(Math.sin(time * 12)) * 0.06 : 0, scientist.z)
             s.rotation.y = game.state === 'caught' ? s.rotation.y + dt * 14 : scientist.heading
@@ -810,12 +823,13 @@
 
         function startScreen() {
             game.state = 'ready'
-            card('Lab Chase', 'Escaped molecules are loose in the lab! Catch them, collect every glowing data point, and dodge the meeting invites. Grab a coffee to decline invites for a few seconds.',
+            card('Lab Chase', 'Escaped molecules are loose in the lab! Hold an arrow key to run and let go to stop. Catch the molecules, collect every glowing data point, and dodge the meeting invites. Grab a coffee to decline invites for a few seconds.',
                 el('button', { type: 'button', className: 'primary', onClick: start }, 'Start'))
         }
 
         function start() {
             Object.assign(game, { score: 0, lives: 3, level: 1, chain: 1 })
+            releaseAll()
             resetRound()
             hud()
             overlay.hidden = true
@@ -825,6 +839,7 @@
 
         function gameOver() {
             game.state = 'over'
+            releaseAll()
             const name = el('input', { className: 'field', maxlength: '24', placeholder: 'Your name', 'aria-label': 'Your name for the score board' })
             const form = el('form', {}, name, el('button', { type: 'submit', className: 'primary' }, 'Save my score'))
             form.addEventListener('submit', event => {
@@ -843,6 +858,7 @@
         function setPaused(paused) {
             if (paused && game.state === 'playing') {
                 game.state = 'paused'
+                releaseAll()
                 card('Paused', 'Take a breath. The invites will wait.', el('button', { type: 'button', className: 'primary', onClick: () => setPaused(false) }, 'Resume'))
             } else if (!paused && game.state === 'paused') {
                 overlay.hidden = true
@@ -877,28 +893,64 @@
             const name = KEYS[event.code]
             if (name && game.state === 'playing') {
                 event.preventDefault()
-                want(name)
+                if (!event.repeat) press(name)
             } else if (event.code === 'KeyP' || (event.code === 'Escape' && game.state === 'playing')) {
                 setPaused(game.state === 'playing')
             }
         })
-        document.querySelectorAll('.pad [data-dir]').forEach(button => button.addEventListener('click', () => want(button.dataset.dir)))
-        let swipe = null
-        box.addEventListener('pointerdown', event => { swipe = { x: event.clientX, y: event.clientY } })
-        box.addEventListener('pointerup', event => {
-            if (!swipe) return
-            const dx = event.clientX - swipe.x
-            const dy = event.clientY - swipe.y
-            swipe = null
-            if (Math.max(Math.abs(dx), Math.abs(dy)) < 24) return
-            want(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up'))
+        window.addEventListener('keyup', event => { if (KEYS[event.code]) release(KEYS[event.code]) })
+        // Letting go anywhere, or leaving the page, always stops the scientist.
+        window.addEventListener('blur', releaseAll)
+        document.querySelectorAll('.pad [data-dir]').forEach(button => {
+            const dir = button.dataset.dir
+            button.addEventListener('pointerdown', event => {
+                event.preventDefault()
+                button.setPointerCapture(event.pointerId)
+                press(dir)
+            })
+            ;['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => button.addEventListener(type, () => release(dir)))
+            button.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    if (!event.repeat) press(dir)
+                }
+            })
+            button.addEventListener('keyup', event => { if (event.key === 'Enter' || event.key === ' ') release(dir) })
+            button.addEventListener('contextmenu', event => event.preventDefault())
         })
+        // Touch or mouse: press on the lab and drag towards where the scientist should run.
+        let drag = null
+        box.addEventListener('pointerdown', event => {
+            drag = { x: event.clientX, y: event.clientY, dir: null }
+            box.setPointerCapture(event.pointerId)
+        })
+        box.addEventListener('pointermove', event => {
+            if (!drag) return
+            const dx = event.clientX - drag.x
+            const dy = event.clientY - drag.y
+            if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return
+            const dir = Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up')
+            if (dir !== drag.dir) {
+                if (drag.dir) release(drag.dir)
+                press(dir)
+                drag.dir = dir
+            }
+        })
+        const endDrag = () => {
+            if (drag && drag.dir) release(drag.dir)
+            drag = null
+        }
+        ;['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => box.addEventListener(type, endDrag))
         document.getElementById('pause').addEventListener('click', () => setPaused(game.state === 'playing'))
         document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
             view = button.dataset.view
             document.querySelectorAll('[data-view]').forEach(other => other.setAttribute('aria-pressed', String(other === button)))
         }))
-        document.addEventListener('visibilitychange', () => { if (document.hidden) setPaused(true) })
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) return
+            releaseAll()
+            setPaused(true)
+        })
 
         // ---------- Go ----------
         let last = performance.now()

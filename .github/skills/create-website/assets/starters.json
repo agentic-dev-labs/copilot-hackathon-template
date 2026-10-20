@@ -175,7 +175,7 @@
         {
             "id": "game",
             "title": "Lab Chase game",
-            "summary": "A funny 3D maze game: a scientist chases escaped molecules, collects glowing data points, and dodges meeting invites; a coffee lets you decline them. Keyboard and on-screen arrows, a top view, and a score board.",
+            "summary": "A funny 3D maze game: a scientist chases escaped molecules, collects glowing data points, and dodges meeting invites; a coffee lets you decline them. Hold the arrow keys or on-screen arrows to run, a top view, and a score board.",
             "suits": "A game played with the keyboard: chasing, collecting or escaping something in a maze, with a score.",
             "data_file": "data/game.json",
             "storage_key": "lab-chase",
@@ -185,8 +185,8 @@
                 "coffee": 4,
                 "lives": 3
             },
-            "try_it": "Try it: press Start, then use the arrow keys to catch a molecule and grab a coffee.",
-            "manual_check": "3 scores on the board and 135 data points to start. Press Start and run over one data point: 134 left and the score shows 10. Let an invite catch you: lives drop from 3 to 2.",
+            "try_it": "Try it: press Start, then hold an arrow key to run (let go to stop), catch a molecule and grab a coffee.",
+            "manual_check": "3 scores on the board and 135 data points to start. Press Start and hold an arrow key until you run over one data point: 134 left; let go and the scientist stops and the score shows 10. Let an invite catch you: lives drop from 3 to 2.",
             "later_ideas": [
                 "Change the funny lines to your own team's in-jokes",
                 "Redraw the maze so the benches spell your team's initial",
