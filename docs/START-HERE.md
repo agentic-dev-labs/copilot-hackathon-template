@@ -22,6 +22,7 @@ You do not need to learn these now. Come back here when a word is new.
 | Copilot Chat | The AI assistant you talk to. It is helpful, but it can be wrong. |
 | Ask          | In Chat: Copilot only answers. It never changes your files.       |
 | Agent        | In Chat: Copilot can change your files. You check each change.    |
+| Skill        | A recipe Copilot follows when you type its name, like `/next-word`. |
 | Prompt       | What you type to ask Copilot for something.                       |
 | File         | One piece of your project, such as a note or a web page.          |
 | Save         | Keep your latest change in the file.                              |
@@ -80,19 +81,22 @@ stay saved. This is different from **Open Preview**, which shows a document like
 
 | When        | Open                                          | You are finished when                                   |
 | ----------- | --------------------------------------------- | ------------------------------------------------------- |
-| 09:00-09:30 | [README: This is GitHub](../README.md#this-is-github) | You found your files, commits, and one file's history. |
-| 09:30-10:00 | [README: Files and Chat](../README.md#find-your-files-and-copilot-chat) | You can find your files and ask Chat a question. |
-| 10:00-10:30 | [README: Your first note](../README.md#your-first-note) | Your note is saved on GitHub.                  |
+| 09:00-09:30 | [README: This is GitHub](../README.md#this-is-github) | You know what a repository, a commit, and a push are. |
+| 09:30-10:00 | [README: Files and Chat](../README.md#find-your-files-and-copilot-chat) | Your own copy and its Codespace are open, you saw Copilot guess the next word, and you asked Chat a question. |
+| 10:00-10:30 | [README: Your first website](../README.md#your-first-website) | Your page opens beside Chat and is saved on GitHub. |
 | 10:30-10:45 | Break                                         |                                                         |
-| 10:45-11:45 | [Lab 01](../labs/01-first-website/README.md)  | The presenter showed `/create-website`; your first page opens beside Chat. |
+| 10:45-11:45 | [Lab 01](../labs/01-first-website/README.md)  | You changed your headline by hand and built one idea of your own. |
 | 11:45-12:15 | Lab 01's checking block                       | You checked a button and a number yourself.             |
 | 12:15-13:00 | Lunch                                         |                                                         |
-| 13:00-14:00 | [Lab 02](../labs/02-make-it-useful/README.md) | Your page has your own look and one new feature.        |
+| 13:00-14:00 | [Lab 02](../labs/02-make-it-useful/README.md) | Your page has a chart or a chat you checked, and your own look. |
 | 14:00-14:45 | [Lab 08](../labs/08-save-and-share/README.md) | Your work is saved on GitHub and you keep improving it. |
 | 14:45-15:00 | Pair sharing                                  | You showed one feature and how you checked it.          |
 
 Lab numbers are just names, so follow this table from top to bottom. For the other days, see
 [your week](../README.md#your-week).
+
+**Lost?** Find the row for the time now, open its link, and start there. Raise your hand: a
+helper catches you up on what you skipped.
 
 ## The Habit to Keep
 
@@ -105,7 +109,7 @@ and ask for something smaller. Stopping does not undo changes, but **Undo** in C
 each change Copilot shows **Keep** and **Undo**, and you will practice this in Lab 02. Never
 approve a command you do not understand.
 
-Tomorrow you build your own idea with [Build Your Own Idea](DAY-2-BUILD.md). Your work from today stays.
+Tomorrow you keep building your own idea with [Build Your Own Idea](DAY-2-BUILD.md). Your work from today stays.
 
 ## Official References
 

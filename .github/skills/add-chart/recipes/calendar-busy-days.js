@@ -1,7 +1,7 @@
 /* Recipe: "Busy days" calendar heatmap (flat) for the Calendar: every day of the month shown, darker when it holds more notes.
  * Markup, after the calendar panel:  <section class="panel animate-in chart-panel"><h2>Busy days</h2><div class="chart" id="busy-days" style="height: 300px"></div></section>
  * Script: call drawBusyDays() as the last line of render(), so it follows the month you are looking at.
- * Check: add two notes on one day and that square turns the darkest colour. */
+ * Check: add two notes on one day and that square turns the darkest color. */
 function drawBusyDays() {
     const colors = Workshop.chartColors()
     const pad = number => String(number).padStart(2, '0')

@@ -17,17 +17,18 @@ terminal. A CLI-only session cannot prove the learner's editor interactions or t
 
 Day 1 is foundations, Chat, a first website, manual behaviour/source checks, and saved work.
 Storage, research, HTML presentations, and early publication are optional. Day 2 is supported
-own-idea building with fictional app-local content. Day 3 has the learner write a User Requirements
-agent with Copilot CLI, validate stories, build one, and add `pytest checks` tests; Day 4 practises
-pull requests, delegates a story to the cloud agent, and reviews it with a learner-written Code
+own-idea building with fictional app-local content. Day 3 has the learner turn their idea into
+tickets on a project board, write a User Requirements agent with Copilot CLI that adds checkable
+criteria to each ticket, build one, and add `pytest checks` tests; Day 4 practices pull requests,
+delegates an approved ticket to the cloud agent, and reviews it with a learner-written Code
 Review agent; Day 5 is CI/CD with an approval gate, a smoke test and a rollback, then demos and a
 handoff. Labs 04 and 06 are optional extras. The post-workshop vendor reader uses local
 synthetic samples and stays read-only publicly. Dataverse is not a workshop prerequisite.
 Do not prebuild a completed learner site in the source template or copy a managed specialist.
 
 The manifest keeps five numbered lab IDs and `day-2` to `day-5` sessions. Lab 00 records the
-README's Monday morning: the GitHub tour, files and Chat, and the first note (its old lab page is
-a signpost); Lab 01 records manual verification; `day-3` records the agent, stories, build and
+README's Monday morning: the GitHub tour, files and Chat, and the first website at 10:00 (its old lab page is
+a signpost); Lab 01 records the own idea and manual verification; `day-3` records the agent, stories, build and
 tests; Lab 03 records Day 4's delegation lab. These do not enlarge the individual active lab time-boxes. The former Lab 07
 is a signpost to the [advanced post-workshop reference](../post-workshop/advanced/README.md).
 The retired Lab 05 is a signpost to the [post-workshop reference](../post-workshop/dataverse/README.md),
@@ -255,8 +256,9 @@ unselected or blocked extension does not fail `summary --require-complete`. It n
 missing core check. Prepared facts cannot pass an optional live download or conversion check.
 
 Record Tuesday's own-idea brief, prototype, manual journey, saved work, and handover under `day-2`.
-Record Wednesday's `cli-turn`, `requirements-agent`, `stories`, `story-built`, `tests`, and
-`checkpoint` under `day-3`, with Labs 04 and 06 as its optional checks. Record Thursday's
+Record Wednesday's `tickets`, `cli-turn`, `github-tool`, `skill`, `requirements-agent`,
+`criteria`, `ticket-built`, `tests`, and `checkpoint` under `day-3`, with Labs 04 and 06 as its
+optional checks. Record Thursday's
 branch, review agent, report, iteration, and decision under `day-4`, and the delegation itself
 under Lab 03. Record Friday's workflow, CI, CD, recovery, demos, and handoff under `day-5`. Report core completion and
 extension statuses separately.

@@ -40,7 +40,7 @@ def test_first_lab_requires_chat_not_terminal_setup() -> None:
     assert "copilot --version" not in morning
     assert "gh auth status" not in morning
     for heading in ("### This Is GitHub", "### Find Your Files and Copilot Chat",
-                    "### Your First Note", "### Next: Your First Website"):
+                    "### Your First Website", "### Next: Make It Yours"):
         assert heading in morning
     flat = " ".join(morning.split())
     assert "Concepts only: no commands." in flat
@@ -49,12 +49,21 @@ def test_first_lab_requires_chat_not_terminal_setup() -> None:
     assert "Make only one." in flat
     assert "save -> review -> commit -> push" in flat
     assert "presenter shows `/create-website`" in flat
+    # Agreed 21 October 2026: attendees watch at 09:00, copy the template at 09:30, and build
+    # and push the first website at 10:00; /create-website writes the idea note (brief.md).
+    tour = morning.split("### This Is GitHub", 1)[1].split("### Find Your Files", 1)[0]
+    chat = morning.split("### Find Your Files and Copilot Chat", 1)[1].split("### Your First Website", 1)[0]
+    first_site = morning.split("### Your First Website", 1)[1].split("### Next:", 1)[0]
+    assert "Use this template" not in tour and "Just watch" in tour
+    assert "Use this template" in chat and "Trust Folder & Continue" in chat
+    assert "`/create-website`" in first_site and "brief.md" in first_site
+    assert "`Add my first website`" in first_site and "**... > Push**" in first_site
     signpost = Path("labs/00-setup/README.md").read_text(encoding="utf-8")
     assert "README.md#monday-morning-follow-along" in signpost
     assert "**Time-box:**" not in signpost and "```" not in signpost
     guide = Path("docs/START-HERE.md").read_text(encoding="utf-8")
     assert "README.md#monday-morning-follow-along" in guide
-    assert "## Your First Note" not in guide, "the note steps live only in the README"
+    assert "## Your First Website" not in guide, "the first-website steps live only in the README"
     assert "save -> review -> commit -> push" in guide
     assert "official documentation screenshots" in guide
     assert "Expect -> try -> compare -> improve -> repeat" in guide
@@ -80,11 +89,12 @@ def test_personalisation_lab_follows_the_chosen_category() -> None:
     text = Path("labs/02-make-it-useful/README.md").read_text(encoding="utf-8")
     for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather", "Princeton Map", "Photo Studio"):
         assert f"| {category} |" in text
-    assert "**one appearance change** and **one feature change**" in text
+    flat = " ".join(text.split())
+    assert "You add **one feature**, a chart or a chat, and make **one appearance change**" in flat
+    assert "Type **`/add-chart`**" in text and "Type **`/add-chat`**" in text
     assert "not a new creation interview" in text
     assert "If a feature already works" in text
     assert "Keep the design unchanged" in text
-    assert "own-idea extension in a separate folder" in text
     blocks = re.findall(r"^### \d\. .*\((\d+) minutes\)", text, re.MULTILINE)
     assert sum(map(int, blocks)) == 60
     assert "2 of 4" in text and "3 notes planned" in text
@@ -95,7 +105,19 @@ def test_day_one_teaches_reading_code_undo_and_history() -> None:
     first_page = Path("labs/01-first-website/README.md").read_text(encoding="utf-8")
     blocks = re.findall(r"^## \d\. .*\((\d+) minutes\)", first_page, re.MULTILINE)
     assert sum(map(int, blocks)) == 60
-    assert "## 3. Peek Inside the Code" in first_page
+    assert "## 2. Peek Inside the Code" in first_page
+    assert "## 3. Build One More Idea" in first_page and "site/ideas/" in first_page
+    # The 11:45 checks cover every starter, with the counts the starters really show.
+    checking = first_page.split("## Coached Verification Block", 1)[1].split("\n## ", 1)[0]
+    for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather", "Princeton Map", "Photo Studio"):
+        assert f"| {category}" in checking, category
+    starters = {
+        starter["id"]: starter
+        for starter in json.loads(Path(".github/skills/create-website/assets/starters.json")
+                                  .read_text(encoding="utf-8"))["starters"]
+    }
+    assert "18 places" in starters["map"]["manual_check"] and "**18 places**" in checking
+    assert "6 pictures" in starters["photo"]["manual_check"] and "**6 pictures**" in checking
     assert "Explain the lines I selected" in first_page and "`<h1>`" in first_page
     # The example headline in the lab must be the Project Planner starter's real headline.
     example = re.search(r"for example \*(.+?)\*", first_page).group(1)
@@ -190,7 +212,10 @@ def test_guided_website_skill_is_explicit_and_preserves_learner_work() -> None:
     assert "No logo-generation API" in text
     assert 'git remote get-url origin' in text
     assert "Describe your idea in one sentence." in text
-    assert "moves on to the next lab" in text
+    # Monday 10:45: everyone builds one own idea right after the first page is pushed.
+    assert "Never ask for checks or a demonstration first" in text
+    assert "never replace the first page" in text
+    assert "moves on to the next lab" not in text and "offer a second idea only after" not in text
     assert "or build\n  your own idea in its own folder?" in text
     for name in ("project", "calendar", "ideas", "weather", "map", "photo"):
         assert f"./assets/blueprints/{name}/index.html" in text
@@ -227,6 +252,26 @@ def test_preview_lifecycle_skills_reuse_the_helper_and_preserve_files() -> None:
     assert "Do not edit, delete, reset" in stop
     assert "Do not use `pkill`, `killall`" in stop
     assert "previewOpen: false" in stop
+
+
+def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
+    """Monday's first Chat moment: a slash-only skill that guesses one word and labels its odds."""
+    path = Path(".github/skills/next-word/SKILL.md")
+    text = path.read_text(encoding="utf-8")
+    metadata = yaml.safe_load(text.split("---", 2)[1])
+    assert metadata["name"] == path.parent.name
+    assert metadata["user-invocable"] is True and metadata["disable-model-invocation"] is True
+    assert metadata["description"] and metadata["argument-hint"]
+    flat = " ".join(text.split())
+    # Chat cannot see the model's real probabilities, so its numbers are labelled as an estimate.
+    assert "rough estimate, not a measurement" in flat
+    assert "do not read or change files, use tools, or run commands" in flat
+    assert len(text.splitlines()) < 30, "small enough to read as Day 3's first skill example"
+    readme = " ".join(Path("README.md").read_text(encoding="utf-8").split())
+    chat = readme.split("### Find Your Files and Copilot Chat", 1)[1].split("### Your First Website", 1)[0]
+    assert "`/next-word`" in chat and "What a nice day, let's go to the" in chat
+    assert "**New Chat**" in chat, "the next question starts fresh, without the demo's context"
+    assert "/next-word" in agenda_day(1)
 
 
 def test_facilitator_reset_skill_harvests_before_clearing() -> None:
@@ -626,24 +671,52 @@ def day_route(guide: str) -> list[str]:
     return re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) +\|", route)
 
 
+def quoted_flat(text: str) -> str:
+    """One line of guide text, with prompt quotes unwrapped even when they sit inside a list."""
+    return " ".join(re.sub(r"\n\s*> ?", "\n", text).split())
+
+
 def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
-    """Wednesday: the learner describes a requirements agent, builds one story, and tests it."""
+    """Wednesday: tickets on a board, a learner-written skill and agent add criteria, one ticket is built and tested."""
     guide = Path("docs/TOOLS-PRACTICE.md").read_text(encoding="utf-8")
     assert guide.startswith("# Day 3: VS Code and a Requirements Agent")
     assert day_route("TOOLS-PRACTICE.md") == re.findall(r"\| (\d\d:\d\d-\d\d:\d\d) \|", agenda_day(3))
-    flat = " ".join(guide.replace("\n>", "\n").split())
+    flat = quoted_flat(guide)
     assert "/login" in guide and "Never paste a password or token" in guide
     assert ".github/agents/user-requirements.agent.md" in flat and "`name: user-requirements`" in flat
-    assert "Given ..., when ..., then ..." in flat and "Approved: yes" in flat
+    # 21 October refit: the building blocks, a GitHub tool through MCP, and the learner's own skill.
+    assert ".github/skills/user-stories/SKILL.md" in flat and "`name: user-stories`" in flat
+    assert "uses the user-stories skill" in flat and "Use the GitHub tools" in flat and "**MCP**" in guide
+    assert "Given ..., when ..., then ..." in flat and "**Your own idea.**" in guide
+    # Later on 21 October: requirements live in tickets on a project board, approved by moving to Todo.
+    assert "**Issues > New issue**" in flat and "**Requirement**" in flat
+    assert "**Projects > New project**" in flat and "**Import items from repository**" in flat
+    assert "the `gh issue edit` command" in flat and "Only when I say yes" in flat
+    assert "drag its card into **Todo**" in flat and "If Copilot says it may not update the ticket" in flat
+    assert "`Mark urgent tasks. Closes #1`" in flat and "moved to **Done**" in flat
+    # Monday's 11:45 check already builds "hide finished tasks", so Day 3 needs a new example.
+    assert "Hide finished" not in guide
+    # 21 October review: per-attendee boards, Tuesday's wishes, GxP wording, and a requirements list.
+    assert "`<your username> website`" in flat and "repository's **Projects** tab" in flat
+    assert "under **Next** in your brief" in flat and "It is not GxP validation" in flat
+    assert "add a section called requirements" in flat.lower() and "the validated brief" in flat
+    route = guide.split("## 1. Tickets, Board, and Tools", 1)[1].split("## 2.", 1)[0]
+    assert "Meet the building blocks" not in route, "the building blocks open the 00:50 block"
+    assert "**Meet the building blocks.**" in guide.split("## 2. Build Your User Requirements Agent", 1)[1]
+    day2 = " ".join(Path("docs/DAY-2-BUILD.md").read_text(encoding="utf-8").split())
+    assert "under a heading called **Next**" in day2 and "become your first tickets" in day2
+    assert "Copilot's browser try" not in day2
     assert "type `/exit`, then `copilot`" in flat, "the CLI loads new agents when it starts"
     assert "pytest checks" in guide and "from website import Page" in guide
     assert "**Break it on purpose:**" in guide and "How to build and run" in guide
     for target in ("../labs/04-mcp/README.md", "../labs/06-teach-copilot/README.md", "DAY-4-BUILD.md"):
         assert target in guide
-    # The template ships the test helper and prompts, never the finished agent or tests.
+    # The template ships the test helper, prompts and ticket template, never the finished agent, skill, or tests.
+    assert not Path(".github/skills/user-stories").exists()
     assert not Path(".github/agents/user-requirements.agent.md").exists()
     assert not list(Path("checks").glob("test_*.py"))
     assert Path("checks/website.py").is_file() and Path("checks/README.md").is_file()
+    assert "test_issue1.py" in Path("checks/README.md").read_text(encoding="utf-8")
     # Attendees read only their own steps; the technical helper notes live in the facilitator guide.
     facilitator = Path("docs/FACILITATOR.md").read_text(encoding="utf-8")
     helpers = facilitator.split("## Day 3 Helper Preparation", 1)[1].split("\n## ", 1)[0]
@@ -676,32 +749,55 @@ def test_days_three_to_five_follow_the_final_slides() -> None:
         assert "**Done when:**" in text and "## Optional extras" in text, guide
         assert "## Official References\n" in text and "(REFERENCES.md)" in text, guide
         assert "made up" in text, guide
-    day4 = " ".join(Path("docs/DAY-4-BUILD.md").read_text(encoding="utf-8").replace("\n>", "\n").split())
-    assert "**User story for Copilot**" in day4 and "../labs/03-cloud-agent/README.md" in day4
+    day4 = quoted_flat(Path("docs/DAY-4-BUILD.md").read_text(encoding="utf-8"))
+    assert "pick a ticket in **Todo**" in day4 and "../labs/03-cloud-agent/README.md" in day4
+    assert "drag the ticket into **In Progress**" in day4 and "moved to **Done**" in day4
     assert ".github/agents/code-review.agent.md" in day4 and "reviews/pr-NUMBER.md" in day4
     assert "**Confirmed** or **Not a problem**" in day4 and "@copilot" in day4
     assert "It never changes other files, comments on GitHub, or merges." in day4
+    # 21 October refit: a feature-branch ruleset and a versioned pipeline. Copilot code review stays
+    # off (owner decision, 21 October): the learner's own Code Review agent does the reviewing.
+    assert "**Require a pull request before merging**, with required approvals left at **0**" in day4
+    assert "Leave the bypass list empty" in day4
+    assert "Copilot code review" not in day4 and "re-request" not in day4
+    assert "**Joining today?**" in day4 and "**An agent that starts by itself:**" in day4
+    assert "repository's **Projects** tab" in day4
+    assert "`# version: 1.0.${{ github.run_number }}`" in day4 and "**Version 1.0.**" in day4
+    assert ".github/instructions/review.instructions.md" in day4 and "`applyTo: \"site/**\"`" in day4
     day5 = " ".join(Path("docs/DAY-5-SHOWCASE.md").read_text(encoding="utf-8").split())
     for starter in ("check-my-website.yml", "publish-website-with-approval.yml"):
         assert f".github/workflow-starters/{starter}" in day5
         assert Path(".github/workflow-starters", starter).is_file()
     assert "change `contents: write` to `contents: read`" in day5
     assert "**Required reviewers**" in day5 and "**Approve and deploy**" in day5
-    assert "python3 scripts/smoke_test.py" in day5 and "Revert my last commit" in day5
+    assert "python3 scripts/smoke_test.py" in day5 and "select **Revert**" in day5
+    assert "**Require status checks to pass**" in day5 and "**UI check**" in day5
+    assert "**home-phone.png**" in day5 and "900 pixels wide" in day5
     assert "No password, key, or Azure sign-in" in day5 and "HANDOFF.md" in day5
+    assert "**Joining today?**" in day5 and "Copilot reviews" not in day5
+    # The handoff routes back into Novo's own platforms and its validation process.
+    assert "Novo's own GitHub Enterprise" in day5 and "Power Apps code app" in day5
+    assert "Novo's validation process" in day5
     assert not Path(".github/workflows/check-my-website.yml").exists()
 
 
-def test_cloud_agent_lab_delegates_an_approved_story() -> None:
-    """Lab 03 is Day 4's delegation block, using the story template and keeping human review."""
+def test_cloud_agent_lab_delegates_an_approved_ticket() -> None:
+    """Lab 03 is Day 4's delegation block: an approved ticket from the board, with human review kept."""
     cloud = " ".join(Path("labs/03-cloud-agent/README.md").read_text(encoding="utf-8").split())
     assert "**Time-box:** 40 minutes" in cloud and "Day 4's **delegation lab**" in cloud
-    assert "**User story for Copilot**" in cloud and "Nothing changes until you merge" in cloud
+    assert "choose one ticket in **Todo**" in cloud and "Nothing changes until you merge" in cloud
+    assert "**Requirement**" in cloud and "**Assignees > Copilot**" in cloud
     assert "Website change for Copilot" in cloud and "Never wait idle for it" in cloud
-    story = Path(".github/ISSUE_TEMPLATE/user-story.md").read_text(encoding="utf-8")
-    metadata = yaml.safe_load(story.split("---", 2)[1])
-    assert metadata["name"] == "User story for Copilot"
-    assert "## Acceptance criteria" in story and "site/index.html" in story and "fictional" in story
+    assert "Copilot code review" not in cloud and "practised" not in cloud
+    ticket = Path(".github/ISSUE_TEMPLATE/requirement.md").read_text(encoding="utf-8")
+    metadata = yaml.safe_load(ticket.split("---", 2)[1])
+    assert metadata["name"] == "Requirement" and metadata["labels"] == ["enhancement"]
+    for section in ("## What I want", "## Which page", "## User story", "## Acceptance criteria", "## Only change"):
+        assert section in ticket, section
+    assert "site/index.html" in ticket and "fictional" in ticket
+    # One ticket template replaces the earlier story and idea templates.
+    assert not Path(".github/ISSUE_TEMPLATE/user-story.md").exists()
+    assert not Path(".github/ISSUE_TEMPLATE/idea.md").exists()
     template = Path(".github/ISSUE_TEMPLATE/website-change.md").read_text(encoding="utf-8")
     metadata = yaml.safe_load(template.split("---", 2)[1])
     assert metadata["name"] == "Website change for Copilot"

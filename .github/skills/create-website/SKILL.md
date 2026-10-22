@@ -229,9 +229,9 @@ When the learner is ready, one check at a time, waiting for their observation:
 A learner can choose **My own idea** in the very first question; then it becomes their first
 page, at `site/index.html`, with the kit copied as in [section 2](#2-build-it-straight-away)
 and shared files at `css/`, `js/` and `art/`. Once a first page exists, an own idea goes in its
-own folder instead. On Monday, offer a second idea only after the first page is checked, saved
-on GitHub, and shown. It is optional that day: if time runs out, the learner
-moves on to the next lab. The first page is the finish. From Tuesday it is the main way to start
+own folder instead. Build it as soon as the learner asks: on Monday everyone builds one at 10:45,
+right after the first page is saved on GitHub. Never ask for checks or a demonstration first,
+and never replace the first page. From Tuesday it is the main way to start
 an own idea, and the learner may continue the same idea on Wednesday and Thursday.
 
 1. Ask one question: **"Describe your idea in one sentence."** Then build straight away.
@@ -248,7 +248,7 @@ an own idea, and the learner may continue the same idea on Wednesday and Thursda
    | Things on dates (events, shifts, holidays, deadlines) | Calendar |
    | Collecting, sorting, or voting on items (ideas, wishes, feedback) | Ideas Wall |
    | Looking something up and showing the result | Weather pattern with a local data file |
-   | Places to find on a map (favourite spots, offices, a walking tour) in Princeton | Princeton Map, keeping its base map |
+   | Places to find on a map (favorite spots, offices, a walking tour) in Princeton | Princeton Map, keeping its base map |
    | Pictures to change or collect (pets, products, posters) | Photo Studio |
    | A game played with the keyboard: chasing, collecting or escaping something, with a score | Lab Chase game |
 

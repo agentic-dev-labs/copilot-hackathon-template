@@ -27,8 +27,8 @@ GitHub keeps every snapshot you pushed today, like a time machine for your work.
 
 5. Open your repository on GitHub and select **Commits** (next to the clock icon). These are the
    snapshots of your project, newest first. Yours from today are at the top: how many did you make?
-6. Scroll down to your first own snapshot, **Describe my website idea**, and select it. GitHub
-   shows exactly what changed: green lines were added, red lines were removed.
+6. Select one of your own snapshots, for example **Add my first website**. GitHub shows exactly
+   what changed: green lines were added, red lines were removed.
 7. Go back to your repository, open **site > index.html**, and select **History**. Each entry is
    one version of your page. Find the change you made in Lab 02 by its message.
 
@@ -42,8 +42,8 @@ Pick one level, ask Copilot, and check the result yourself:
 | ---------- | ------------------------------------------------------------------------------------------------------------------ |
 | **Bronze** | Ask for one idea from the "later ideas" list in your brief.                                                        |
 | **Silver** | Make your page phone-friendly: drag the preview narrower, tell Copilot what looks wrong, and check again.          |
-| **Gold**   | Build your own idea: run `/create-website`, choose your own idea, and describe it in one sentence. It gets its own folder. |
-| **Bonus**  | Type `/add-chat`. An **Ask** button appears on your page: ask it a question, then check the answer against your page. |
+| **Gold**   | Give your idea's page a chart or a chat too: `/add-chart lunch-map` or `/add-chat lunch-map`, with your own folder's name. |
+| **Bonus**  | Add the feature you did not pick in Lab 02: a chart, a chat, or a picture. Check it against your page. |
 
 Done, and time left? Take the next level. Then save, commit, and push again.
 

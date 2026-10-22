@@ -10,10 +10,12 @@ A training repository for a hands-on GitHub Copilot workshop. All five days are 
 users with zero GitHub and app-building experience; plan support for roughly 40-45 people and
 confirm the final roster. Keep every day simple.
 Day 1 teaches foundations, Chat, a small learner-created website, and manual verification.
-Day 2 is supported own-idea building with fictional app-local content. Day 3 has attendees write
-a User Requirements agent with Copilot CLI and build and test one story; Day 4 is cloud agents
-and a Code Review agent; Day 5 is CI/CD with GitHub Actions, team demos and a handoff, all on the
-attendee's own website. The separate post-workshop business case
+Day 2 is supported own-idea building with fictional app-local content. Day 3 has attendees turn
+their own idea into tickets (GitHub issues) on a project board, write a user-stories skill and a
+User Requirements agent with Copilot CLI that add acceptance criteria to each ticket, and build
+and test one ticket; Day 4 is feature branches, a versioned pipeline, cloud agents and a Code
+Review agent; Day 5 is CI/CD with GitHub Actions (tests and a browser UI check with screenshots),
+team demos and a handoff, all on the attendee's own website. The separate post-workshop business case
 reviews **synthetic** vendor reports with deterministic scores and quoted evidence.
 
 ## Non-negotiable rules
@@ -68,13 +70,16 @@ Codespaces or Dataverse dry run.
 
 The approved post-meeting 18 September curriculum replaces breadth-first Monday. Its first 30 minutes
 hold the sponsor welcome (SEFR video) and ASTER Overview teaser (HZRW) from David's 18 October
-slide, then a concepts-only GitHub tour: GitHub, a repository, each attendee making one private
-copy of the template in agentic-dev-labs with Use this template (so nobody pushes to a shared
-repository), and save -> commit -> push. Until 10:30 attendees use
+slide, then a concepts-only GitHub tour that attendees watch: GitHub, a repository, and save ->
+commit -> push. At 09:30 (order agreed with the owner on 21 October 2026) each attendee makes one
+private copy of the template in agentic-dev-labs with Use this template (so nobody pushes to a
+shared repository). Until 10:30 attendees use
 only the repository README, the page GitHub shows them first; the presenter shows each step on
 their own repository and attendees repeat it on theirs.
-Then use short show -> try -> personalise -> verify -> share cycles: Chat first, the provided
-`/create-website` workflow, and the live Website preview beside Chat. Offer the Project Planner,
+Then use short show -> try -> personalise -> verify -> share cycles: Chat first, opening with the
+provided `/next-word` demo (owner-approved 22 October 2026: the room guesses the next word, then
+Copilot, and its percentages are labelled as its own estimate), at 10:00 the provided
+`/create-website` workflow and its first push, and the live Website preview beside Chat. Offer the Project Planner,
 Calendar, Ideas Wall, Weather, Princeton Map and Photo Studio starters and My own idea,
 demonstrate the Project Planner, and ask only which one; choosing is the approval to build. The agent calls the
 prepared preview helper; do not introduce attendee terminal or port setup. Continue with personalisation,
@@ -89,22 +94,24 @@ pages, or adding an external service. The owner approved these exceptions: the W
 calls Open-Meteo (forecast, city search and past weather), and the preview allows only those hosts;
 the kit ships Apache ECharts and ECharts GL for `/add-chart` and 3D (19 October 2026), and
 three.js for the optional Lab Chase game pattern (20 October 2026); and the
-Photo Studio repaints photos of things, places and pets through the Website preview. Fast finishers build an own idea from
-one sentence in `site/ideas/<name>/`; slower learners move on to the next lab.
+Photo Studio repaints photos of things, places and pets through the Website preview. At 10:45
+everyone builds one own idea from one sentence in `site/ideas/<name>/`, and `/add-chart` is Lab
+02's main interaction.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate
 branding, diagram tools, or paid image service belongs in the beginner builder. The owner approved
 one AI exception on 17 October 2026: `scripts/workshop_ai.py` draws or edits pictures and saves them
 as files under `site/`, and `/add-chat` adds a bubble the Website preview answers with the workshop
 chat model. Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY_*,
-private repositories only). Never use or add API keys, and never put credentials in files. Complete the
-starter's checks, saving, and neighbour/helper demonstration before a separate own-idea extension.
+private repositories only). Never use or add API keys, and never put credentials in files. Save
+the starter on GitHub before a separate own-idea page, and never replace the first page.
 
 Lab 08's core is reviewed, pushed work. Its optional website target publishes only `site/`:
 `/publish-website` sets `websiteName` in `config.json`, and each push to `main` runs the
 template's reusable publisher, which signs in to the shared Container Apps environment with
 GitHub OIDC and no secret (see infra/README.md). Never add Azure credentials for it.
-Day 2 gives David 09:00-09:30 and Jackie 09:30-10:30 for conceptual overviews, then protects
-10:45-12:15 and the afternoon for participants' own ideas. Follow docs/DAY-2-BUILD.md and the
+Day 2 gives David 09:00-09:30 and Jackie 09:30-10:30 for conceptual overviews and Bill Leeson
+11:45-12:15 for Building a Project Brain (David's slide), then protects 10:45-11:45 and the
+afternoon for participants' own ideas. Follow docs/DAY-2-BUILD.md and the
 printable quick reference. No required database, CLI, MCP, automation, or deployment work on
 Day 1 or Day 2. Use fictional local content; collect integration questions for IT later.
 
@@ -115,20 +122,39 @@ Keep WORKSHOP_ALLOW_WRITES private-only and disabled in deployments. The switch 
 label are not authorization. Preserve validation, server-owned labels, unassessed rows, and scores.
 
 The owner approved following David's final slides for Days 3-5 on 20 October 2026, four hours
-each, written in elapsed time. Day 3 (docs/TOOLS-PRACTICE.md): MUKQ opens; attendees sign in to
-Copilot CLI, describe a User Requirements agent that Copilot writes to
-`.github/agents/user-requirements.agent.md`, validate user stories with Given/When/Then criteria,
-build one approved story, and add `pytest checks` tests with the shipped `checks/website.py`.
-Day 4 (docs/DAY-4-BUILD.md): a practice branch and pull request, an approved story delegated to
-the cloud agent with the User story for Copilot template (Lab 03), a Code Review agent whose
-findings the attendee verifies, `@copilot` fixes, and a merge decision. Day 5
-(docs/DAY-5-SHOWCASE.md): CI/CD from the starters in `.github/workflow-starters/`, a red then
-green pull-request check, approval-gated publishing in the attendee's `training` environment
-(still the template's OIDC publisher, no secret), `scripts/smoke_test.py`, a revert rollback,
-team demos, and HANDOFF.md. Ship helpers and starters, never the learner's agents, tests, reviews,
-or active check workflow; CI enforces this. Labs 04 and 06 are optional extras.
-Ali presents Day 1; MUKQ opens Day 3, then Ali; Ali leads Days 4-5; on Day 2 David and Jackie
-present and Ali supports tables. Hooks, automations, multi-agent handoffs, evaluations, saved
+each, written in elapsed time, and refitted the content inside those blocks on 21 October 2026.
+Day 3 (docs/TOOLS-PRACTICE.md): MUKQ opens; in every block Ali shows a step on a demo website and
+attendees then do the same on their own idea. Attendees write two or three tickets with the
+**Requirement** issue template from the **Next** wishes they wrote in their brief on Day 2, keep
+them on a Board project named after themselves that imports their repository, sign in to Copilot
+CLI, list the tickets with a GitHub tool through MCP, then at 00:50 meet instructions, skills and
+agents, describe a user-stories skill and a User Requirements agent that Copilot writes to
+`.github/skills/user-stories/` and `.github/agents/user-requirements.agent.md`, let the agent add
+a user story and Given/When/Then criteria to each ticket (it reads with the GitHub tools and
+updates with `gh` once the attendee agrees; "validate" there is a practice check, not GxP
+validation), approve a ticket by moving it to **Todo**, build it in the Codespace, add
+`pytest checks` tests with the shipped `checks/website.py`, list the requirements and how to run
+them in the brief, and close the ticket with a `Closes #N` commit so the board shows it **Done**.
+Day 4 (docs/DAY-4-BUILD.md): a presenter demo of an automation that adds criteria to a new ticket
+by itself, a `Protect main` ruleset that requires pull requests (Copilot code review stays off),
+the publisher's `version` input switched on so the live footer shows the build number, the next
+approved ticket from the board assigned to the cloud agent (Lab 03), review rules in
+`.github/instructions/review.instructions.md`
+and a Code Review agent whose findings the attendee verifies, `@copilot` fixes, and a merge that
+deploys. Day 5 (docs/DAY-5-SHOWCASE.md): CI/CD from the starters in `.github/workflow-starters/`,
+tests plus `scripts/ui_check.py` (a browser UI check with desktop and phone screenshots that runs
+in GitHub Actions only, never with `--no-sandbox`) made required in the ruleset, a red then green
+pull-request check, approval-gated publishing in the attendee's `training` environment (still the
+template's OIDC publisher, no secret), `scripts/smoke_test.py`, a **Revert** rollback, team demos,
+and HANDOFF.md. The publisher writes `version.json`, which the content fingerprint ignores, so a
+rollback restores the known-good fingerprint. Ship helpers and starters, never the learner's
+agents, skills, instructions, tests, reviews, or active check workflow; CI enforces this. Labs 04
+and 06 are optional extras; a Copilot automation is a Day 4 presenter demo and an optional extra,
+and Agentic Workflows a presenter demo. Days 4 and 5 open with a short catch-up for attendees who
+join that day, and Day 5's handoff routes include Novo's own GitHub Enterprise, Power Apps code
+apps, and Novo's validation process for anything GxP.
+Ali presents Day 1; MUKQ opens Day 3, then Ali; Ali leads Days 4-5; on Day 2 David, Jackie, and
+Bill Leeson present and Ali supports tables. Hooks, multi-agent handoffs, evaluations, saved
 browser tests, the vendor app and its release verification are post-workshop/advanced reference,
 not workshop tasks; the former Lab 07 is a signpost. Preserve that reference and its maintained code/tests.
 Research/HTML briefs, managed plugins, and travel remain optional, not beginner prerequisites.

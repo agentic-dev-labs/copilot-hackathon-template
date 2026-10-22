@@ -7,6 +7,6 @@ earlier links still work.
 
 - **Attendees:** follow [This Is GitHub](../../README.md#this-is-github),
   [Find Your Files and Copilot Chat](../../README.md#find-your-files-and-copilot-chat), and
-  [Your First Note](../../README.md#your-first-note). At 10:45 continue with
+  [Your First Website](../../README.md#your-first-website). At 10:45 continue with
   [Lab 01](../01-first-website/README.md).
 - **Presenters:** the times and who shows what are in the facilitator runbook's Monday checkpoints.

@@ -19,8 +19,8 @@ four-hour sessions. Your calendar invitation has the exact times.
 | ------------- | ----------------------------------------------------------------------------- | --------------------------------------------------- |
 | **Monday**    | Meet GitHub and Copilot, build your first website just by asking, and peek at its code | A working website you made your own and checked |
 | **Tuesday**   | Hear how business and IT work together, then build your own idea with help    | The first version of your own idea                  |
-| **Wednesday** | Write your own requirements agent with Copilot, turn your idea into user stories, and build one | Your agent, checkable stories, and a tested feature |
-| **Thursday**  | Practise pull requests, hand a story to Copilot's cloud agent, and review it with your own review agent | A reviewed change you decided to merge or not |
+| **Wednesday** | Turn your idea into tickets on a project board, write your own requirements agent that adds checkable criteria, and build one ticket | Your board, your agent, and a tested feature |
+| **Thursday**  | Practice pull requests, hand your next ticket to Copilot's cloud agent, and review it with your own review agent | A reviewed change you decided to merge or not |
 | **Friday**    | Let GitHub check every change, approve each release, and roll back a bad one; then demos | A checked, approved, recoverable website and a handoff note |
 
 Every step follows the same rhythm: **watch, try, make it yours, check it, share it.**
@@ -31,34 +31,24 @@ This page is your only guide until 10:30. The presenter shows each step on their
 repository, and you do the same on yours, alongside them or straight after. Then the next
 step. You do not need to read ahead, and you cannot break anything by looking.
 
+**Lost?** Find the heading below with the time now and start at its first step. Raise your
+hand: a helper catches you up on what you skipped.
+
 ### This Is GitHub
 
 **09:00-09:30, after the welcome, the SEFR video, and the ASTER Overview teaser.** Concepts
-only: no commands. Watch each step, then try it on your own repository.
+only: no commands. Just watch; you make your own copy at 09:30.
 
 1. **This is GitHub:** a website that keeps projects and every saved version of them.
 2. **This is a repository:** a project's folder on GitHub. Open the workshop **template** link
    your facilitator sent you: the starting copy everyone uses. You see a list of files and,
    under them, this page.
-3. **Make your own repository**, step by step with the presenter. On the template, select
-   **Use this template > Create a new repository**, then:
-   - **Owner:** choose **agentic-dev-labs**, not your own name.
-   - **Repository name:** your GitHub username, for example `AliFarahnak`. Your website uses it.
-   - **Visibility:** choose **Private**.
-   - Select **Create repository**.
-
-   **Check:** the top of the page shows **agentic-dev-labs /** your name and a **Private** label.
-   If it shows anything else, raise your hand. Make only one. Working in a pair? Only the person
-   at the keyboard makes one, and a helper adds the partner.
-4. **Start your Codespace now, so it is ready later.** On your new repository's page, select the
-   green **Code** button, then **Codespaces**, then **Create codespace on main**. It opens in a new
-   tab and takes about a minute. Leave it loading and come back to this tab.
-5. **Look around your own repository** while it loads:
-   - **See every snapshot:** select **Commits** (next to the clock icon). Your first one is there.
+3. **Look around** while the presenter shows each part:
+   - **See every snapshot:** **Commits**, next to the clock icon.
    - **Read any file:** select a file name. Pages ending in `.md`, like this one, show nicely.
    - **Look back in time:** open a file and select **History** to see how it changed.
    - **Search:** press **/** on your keyboard and type a word.
-   - **To-do notes:** open **Issues**. Later this week you will see how Copilot can pick one up.
+   - **To-do notes:** **Issues**. Later this week you will see how Copilot can pick one up.
 
 | Word       | Think of it as...                                                           |
 | ---------- | --------------------------------------------------------------------------- |
@@ -71,63 +61,86 @@ only: no commands. Watch each step, then try it on your own repository.
 The order is always **save -> review -> commit -> push**. Saving does not send anything to
 GitHub; pushing does.
 
-**Done when:** you have your own private repository in agentic-dev-labs, its Codespace is
-loading, and you found its files, its list of commits, and one file's history.
+**Done when:** you know the five words above. Nothing to do on your laptop yet.
 
 ### Find Your Files and Copilot Chat
 
 **09:30-10:00.** Do each step with the presenter, or straight after.
 
-1. Switch to your Codespace's tab. If you closed it, select the green **Code** button on your
-   repository's page, then **Codespaces**, and open the one listed there. Never create a second
-   one. If it is still loading or shows an error, tell a helper. Nothing goes on your laptop.
-   If it asks **Do you trust the authors of the files in this folder?**, choose
-   **Trust Folder & Continue**: it is your own copy of the workshop, and your website preview
-   needs it.
-2. In the **Explorer**, the file list on the left, right-click **README.md** and choose
+1. **Make your own repository.** On the template, select
+   **Use this template > Create a new repository**, then:
+   - **Owner:** choose **agentic-dev-labs**, not your own name.
+   - **Repository name:** your GitHub username, for example `AliFarahnak`. Your website uses it.
+   - **Visibility:** choose **Private**.
+   - Select **Create repository**.
+
+   **Check:** the top of the page shows **agentic-dev-labs /** your name and a **Private** label.
+   If it shows anything else, or **agentic-dev-labs** is not in the list, raise your hand.
+   Make only one. Working in a pair? Only the person at the keyboard makes one, and a helper
+   adds the partner.
+2. **This is your repository.** The presenter shows it: the same files as the template, this
+   page under them, and your first snapshot under **Commits**. Everything you make this week
+   lives here.
+3. **Open your Codespace.** Select the green **Code** button, then **Codespaces**, then
+   **Create codespace on main**. It opens in a new tab in about a minute. If it asks
+   **Do you trust the authors of the files in this folder?**, choose **Trust Folder & Continue**:
+   it is your own copy of the workshop, and your website preview needs it. Never create a
+   second Codespace. If it shows an error, tell a helper. Nothing goes on your laptop.
+4. In the **Explorer**, the file list on the left, right-click **README.md** and choose
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
    its other tab.
-3. Open Chat with **View > Chat** and choose **Ask** from the list. **Ask** only answers; it
+5. Open Chat with **View > Chat** and choose **Ask** from the list. **Ask** only answers; it
    never changes your files.
-4. Ask: "Explain the difference between my repository, Codespace, and Copilot in three short
-   sentences. Do not change files or run commands."
+6. **Guess the next word.** The presenter shows how Copilot writes: it picks a likely next word,
+   one word at a time. Now you try. Type `/next-word`, pick it from the list, then type
+   **What a nice day, let's go to the** and press Enter.
+   **Check:** which word did you get? Raise your hand for it when the presenter asks. The
+   percentages are Copilot's own rough estimate, not a measurement.
+7. Select **New Chat** (the **+** at the top of Chat), so it starts fresh. Then ask: "Explain the
+   difference between my repository, Codespace, and Copilot in three short sentences. Do not
+   change files or run commands."
    **Check:** compare the answer with the five words above. Does it match?
-5. Then ask: "Use an everyday example and make it shorter."
-   **Check:** is it clearer now? You can always ask again, or say that something is wrong.
-6. Ask: "Suggest three small features for a made-up team project planner. No logins. Do not
-   create anything yet." Pick one you like.
+8. Then ask: "Use an everyday example and make it shorter."
+   **Check:** is it clearer now? A better question gives Copilot more to go on. You can always
+   ask again, or say that something is wrong.
 
-**Done when:** your Codespace is open, you can find the Explorer and Chat, and you asked Copilot
-a question and a follow-up. If sign-in or Copilot is missing, ask a helper. Never install
-anything on your laptop.
+**Done when:** you have your own private repository in agentic-dev-labs, its Codespace is open,
+you saw Copilot guess the next word, and you asked Copilot a question and a follow-up. If sign-in
+or Copilot is missing, ask a helper. Never install anything on your laptop.
 
-### Your First Note
+### Your First Website
 
-**10:00-10:30.** The presenter makes a note on their repository; you make yours.
+**10:00-10:30.** The presenter shows `/create-website` on their repository; you do the same on
+yours.
 
-1. In Chat, choose **Agent** when the presenter shows it: **Agent** can change your files. Type:
-   "Create site/brief.md with my idea: a made-up project planner for a team week. Include who
-   it is for, three things it should show, and one thing I can check. Do not build the website yet."
-   You may describe a calendar, an ideas wall, or a weather page instead.
-2. Open **Explorer > site > brief.md**. Read it and change one sentence into your own words.
-   **Check:** it describes your idea, not something else.
-3. Choose **File > Save**. Open **Source Control** and select the note to see what changed.
-   **Check:** only your note is listed.
-4. Select the **+** next to it, type `Describe my website idea`, select **Commit**, then
-   **... > Push**.
-   **Check:** open your repository on GitHub in a new browser tab and open **site/brief.md**.
-   Your sentence is there.
+1. In Chat, choose **Agent** instead of **Ask**: **Agent** can change your files. Type
+   **`/create-website`**, pick it from the list, and press Enter.
+2. Copilot asks one question: which website would you like to make? Choose **Project Planner**,
+   **Calendar**, **Ideas Wall**, **Weather**, **Princeton Map**, **Photo Studio**, or
+   **My own idea**. The presenter builds the Project Planner; pick it if you are unsure.
+3. Copilot builds it and opens it in the **Website preview** beside Chat, named after your
+   repository, for example **AliFarahnak Project Planner**. Press **+** and add a made-up entry.
+   **Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the
+   proof, not Copilot saying "done".
+4. Open **Explorer > site > brief.md**. This is your idea note, the README of your website:
+   Copilot wrote what your page is for and how you can check it. You add to it all week.
+5. **Save it on GitHub.** Choose **File > Save All**, then open **Source Control**. This first
+   time it lists many files: your page plus the pictures, fonts and styles it needs. That is
+   expected. Hover over **Changes** and select its **+** to include them all, type
+   `Add my first website`, select **Commit**, then **... > Push**.
+   **Check:** open your repository on GitHub in a new browser tab, open **site**, then
+   **brief.md**. It is there.
 
 You work in your own repository, on the `main` branch unless a helper says otherwise. If
 anything asks you to create another repository, says a push was rejected, or mentions a
 conflict, stop and ask a helper. Never force a push. If you work in a pair, take turns at the
-keyboard.
+keyboard. If `/create-website` is not in the list or the preview does not open, show a helper.
 
-**Done when:** your note is on GitHub.
+**Done when:** your page opens beside Chat and it is on GitHub.
 
-### Next: Your First Website
+### Next: Make It Yours
 
-At **10:45**, after the break, the presenter shows `/create-website`. Then open
+At **10:45**, after the break, the presenter shows more websites you can build. Then open
 [Lab 01](labs/01-first-website/README.md) and follow along. Your route for the rest of the day,
 a picture guide to the screen, and the full word list are in [START-HERE](docs/START-HERE.md).
 Tomorrow, the green **Code** button reopens the same Codespace.

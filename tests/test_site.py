@@ -90,6 +90,21 @@ def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> No
     assert site_manifest(website)["digest"] != initial["digest"]
 
 
+def test_version_file_is_served_but_does_not_change_the_fingerprint(website: Path) -> None:
+    """Day 5 rollback: a rebuilt known-good page keeps its fingerprint while the build number moves on."""
+    initial = site_manifest(website)
+    version = website / "version.json"
+    version.write_text(json.dumps({"version": "1.0.7", "build": 7, "commit": "a" * 40}), encoding="utf-8")
+    assert site_manifest(website) == initial
+    version.write_text(json.dumps({"version": "1.0.8", "build": 8, "commit": "b" * 40}), encoding="utf-8")
+    assert site_manifest(website) == initial
+    assert TestClient(create_app(website)).get("/version.json").json()["build"] == 8
+    nested = website / "ideas" / "team-lunch"
+    nested.mkdir(parents=True)
+    (nested / "version.json").write_text("{}", encoding="utf-8")
+    assert site_manifest(website)["digest"] != initial["digest"], "only the publisher's root file is excluded"
+
+
 def test_guided_kit_assets_fit_the_website_target(website: Path) -> None:
     """A copied blueprint and kit publish as-is, without skill files or license notes."""
     source = Path(".github/skills/create-website/assets")

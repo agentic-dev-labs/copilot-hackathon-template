@@ -101,7 +101,7 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     assert "cli-turn" not in labs["00"]["checks"]
     assert "05" not in labs
     assert "cli-turn" in labs["day-3"]["checks"]
-    assert {"requirements-agent", "stories", "story-built", "tests"} <= labs["day-3"]["checks"].keys()
+    assert {"requirements-agent", "criteria", "ticket-built", "tests"} <= labs["day-3"]["checks"].keys()
     assert {"github-mcp", "teach-copilot", "browser-demo"} <= labs["day-3"]["optional_checks"].keys()
     assert "04" not in labs and "06" not in labs, "Labs 04 and 06 are optional Day 3 extras"
     assert "browser-setup" not in labs["day-3"]["checks"]
@@ -112,8 +112,18 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     assert "ai-picture" in labs["02"]["optional_checks"]
     assert {"issue-session", "review", "merged-check"} <= labs["03"]["checks"].keys()
     assert {"branch-pr", "review-agent", "report", "iteration", "decision"} <= labs["day-4"]["checks"].keys()
+    assert {"ruleset", "version"} <= labs["day-4"]["checks"].keys()
     assert "publication" in labs["day-4"]["optional_checks"]
+    # 21 October 2026: a simple automation on the learner's own website is an optional Day 4 extra.
+    assert "criteria-automation" in labs["day-4"]["optional_checks"]
+    assert "criteria-automation" not in labs["day-4"]["checks"]
+    # Days 3-5 are deep dives people pick and choose: newcomers catch up on Days 4 and 5.
+    assert "joining-today" in labs["day-4"]["optional_checks"]
+    assert "joining-today" in labs["day-5"]["optional_checks"]
     assert {"workflow", "ci", "cd", "recovery", "demos", "handoff"} <= labs["day-5"]["checks"].keys()
+    assert {"required-checks", "ui-check"} <= labs["day-5"]["checks"].keys()
+    # 21 October 2026, later: Day 3 starts from tickets on a project board.
+    assert {"tickets", "github-tool", "skill", "checkpoint"} <= labs["day-3"]["checks"].keys()
     advanced = {"repeatable-browser", "selected-release", "automation", "live-hook", "handoffs"}
     for lab in labs.values():
         assert not advanced & (lab["checks"].keys() | lab.get("optional_checks", {}).keys())

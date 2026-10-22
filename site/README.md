@@ -1,7 +1,7 @@
 # Your Website
 
-This folder holds your website. On Monday your idea note, **brief.md**, arrives first; then in
-Lab 01 you ask Copilot to build your page with `/create-website`.
+This folder holds your website. On Monday you ask Copilot to build your page with
+`/create-website`, and it writes **brief.md** beside it: your idea note, the README of your website.
 
 - **index.html** will be your page, and **brief.md** holds your idea and your checks.
 - Your own ideas get their own folders under **ideas/**, so your first page is never replaced.
@@ -10,4 +10,4 @@ Lab 01 you ask Copilot to build your page with `/create-website`.
   customers, patients, or work records, and no private files.
 
 Your page remembers the entries you add in this browser only; it is not a shared database.
-Publishing is optional. See [Lab 01](../labs/01-first-website/README.md) to get started.
+Publishing is optional. Start with [your first website](../README.md#your-first-website).

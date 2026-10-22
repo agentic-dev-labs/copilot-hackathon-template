@@ -1,47 +1,33 @@
-# Lab 01: Build Your First Page
+# Lab 01: Make It Yours and Try More Ideas
 
-**Objective:** Build a small website by talking to Copilot, see it beside Chat, and change it.
+**Objective:** Read your page's code, change it by hand, and build one more idea of your own
+just by describing it.
 
 **Time-box:** 60 minutes
 
 **Prerequisites:** The morning steps in the [README](../../README.md#monday-morning-follow-along),
-including [your first note](../../README.md#your-first-note), in the same Codespace. Nothing to install.
+including [your first website](../../README.md#your-first-website), in the same Codespace.
+Nothing to install.
 
-At 10:45 the presenter shows `/create-website`, then each later step, and you try each one
-straight after. You choose one of six starter websites: **Project Planner**, **Calendar**,
-**Ideas Wall**, **Weather** (with a 3D chart of your cities' year), **Princeton Map** (sights
-you can filter and see in 3D), or **Photo Studio** (the workshop AI repaints photos of things,
-places and pets), or pick **My own idea** and describe it in one sentence. The presenter builds
-the Project Planner; pick it if you are unsure. They all work the same way, and everything you
-add stays made up.
+At 10:45 the presenter shows more websites you can build, then each later step, and you try
+each one straight after. Everything you add stays made up.
 
-## 1. Pick Your Website (10 minutes)
+## 1. See What Else You Can Build (10 minutes)
 
-1. In Chat, choose **Agent**. Type **`/create-website`**, pick it from the list, and press Enter.
-2. Copilot asks one question: which website would you like to make? Choose one.
-3. It builds the page straight away and names it after your repository, for example
-   **AliFarahnak Project Planner**. You can change anything later just by asking.
+The presenter shows websites made the same way as yours, just by describing them:
 
-**Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the proof,
-not Copilot saying "done". If `/create-website` is not in the list, ask a helper.
+| Website         | What it does                                                            |
+| --------------- | ----------------------------------------------------------------------- |
+| Weather         | Your cities' forecast, and a 3D chart of their year that you can turn. |
+| Princeton Map   | Sights you can filter, add to, and see in 3D.                          |
+| Photo Studio    | The workshop AI repaints photos of things, places and pets.            |
+| Lab Chase       | A funny 3D maze game: a scientist chases escaped molecules.            |
+| Request Tracker | Requests with stages, owners and overdue flags.                        |
+| Team Dashboard  | Monthly numbers with a what-if forecast.                               |
 
-## 2. Open Your Preview (15 minutes)
+Pick one you would like to try, or think of your own.
 
-Copilot opens your page in a **Website preview** panel beside Chat.
-
-1. Find your page beside Chat. Its title uses your repository's name.
-2. Press **+** to add a made-up entry, then drag it somewhere else.
-3. Ask Copilot for one small change, such as "Make the title bigger. Leave the rest alone."
-   Watch the change appear by itself. Your entry is still there.
-4. Type `/stop-website` to close the preview, then `/start-website` to open it again. The same
-   page comes back.
-
-The page remembers your entries in this browser. If you remove them all, the examples come back.
-
-**If the preview does not open,** show a helper the exact message and do not install anything.
-A helper can run `python3 scripts/website_preview.py status` to see what is wrong.
-
-## 3. Peek Inside the Code (15 minutes)
+## 2. Peek Inside the Code (15 minutes)
 
 Your page is made of code: plain text that tells the browser what to show. You do not need to
 learn it. Just take a look, with Copilot as your guide.
@@ -56,47 +42,68 @@ learn it. Just take a look, with Copilot as your guide.
    on a Mac), type `<h1>`, and press Enter. The words between `<h1>` and `</h1>` are the headline you see on
    your page, for example *Plan the week, one card at a time*.
 4. Change one or two of those words yourself, by typing. Leave `<h1>` and `</h1>` exactly as
-   they are. Choose **File > Save** and watch the preview update by itself.
+   they are. Choose **File > Save** and watch the preview update by itself. If the preview is
+   closed, type `/start-website` first.
 
 **Check:** your new words appear on your page. You just changed code with your own hands.
 If the page looks broken, press **Ctrl+Z** (**Cmd+Z** on a Mac) until your typing is undone,
 save again, and ask a helper if it still looks wrong.
 
-## 4. Make One Change (10 minutes)
+## 3. Build One More Idea (20 minutes)
 
-Now let Copilot do the typing. Ask for one change in ordinary words, and add "Leave the rest
-alone." For example:
+1. In Chat, with **Agent** chosen, type **`/create-website`** again. Copilot sees that you
+   already have a page and asks what you would like: choose **your own idea**.
+2. Describe it in one sentence, for example one from the table below. Something from your own
+   work is welcome too, as long as every entry is made up.
+3. Copilot builds it in its own folder, such as `site/ideas/lunch-map/`, and opens it beside
+   Chat. Your first page stays exactly as it is.
+4. Ask for one change in ordinary words, and add "Leave the rest alone." For example: "Make the
+   headline friendlier. Leave the rest alone." Watch the change appear by itself.
 
-| Your website    | Try asking                          |
-| --------------- | ----------------------------------- |
-| Project Planner | "Add a Saturday column."            |
-| Calendar        | "Make today's date stand out more." |
-| Ideas Wall      | "Make the notes bigger."            |
-| Weather         | "Add Paris as a city."              |
+| You would like... | Say                                                                  |
+| ----------------- | -------------------------------------------------------------------- |
+| A weather page    | "A weather page for my three favorite holiday cities."              |
+| A map             | "A map of my favorite lunch spots in Princeton."                    |
+| A game            | "A funny 3D game where a scientist chases escaped molecules."        |
+| A tracker         | "A tracker for team requests with stages Submitted, Doing and Done." |
+| A dashboard       | "A dashboard of made-up monthly sales by region."                    |
 
-Open **Source Control** to see what changed, then save. **Check:** your change is there and
-everything else still works. If Copilot changed too much, select **Stop**, then **Undo** in Chat,
-and ask for something smaller.
+**Check:** a new folder appears in **Explorer > site > ideas**. `/start-website` still opens
+your first page; add the folder's name to open your idea, for example `/start-website lunch-map`.
+If Copilot changed too much, select **Stop**, then **Undo** in Chat, and ask for something smaller.
 
-## 5. Show and Save (10 minutes)
+Rather improve your first page? Ask for one change to it instead:
 
-Show a neighbor your page and the file behind it, **site/index.html**. Let them add and move an
-entry. Then save, review, commit, and push, just like your note, and find it on GitHub.
-This first time, **Source Control** lists many files: your page plus the pictures, fonts and
-styles it needs. That is expected, so commit them all. From now on you will see only what changed.
+| Your website    | Try asking                                 |
+| --------------- | ------------------------------------------ |
+| Project Planner | "Add a Saturday column."                   |
+| Calendar        | "Make today's date stand out more."        |
+| Ideas Wall      | "Make the notes bigger."                   |
+| Weather         | "Add Paris as a city."                     |
+| Princeton Map   | "Add a pin for my favorite coffee place." |
+| Photo Studio    | "Make the gallery pictures bigger."        |
 
-**Done when:** your page opens beside Chat, you changed its headline yourself, one change you
-asked Copilot for is visible, and your saved version is on GitHub.
+## 4. Save and Show (15 minutes)
+
+Show a neighbor your pages and let them try one. Then save, review, commit, and push, just like
+this morning: **File > Save All**, then **Source Control**. This time it lists only what
+changed: your headline and your idea's folder. Type a short message, select **Commit**, then
+**... > Push**, and find your idea's folder on GitHub.
+
+**Done when:** you changed your headline yourself, your own idea opens beside Chat in its own
+folder, your first page still works, and both are on GitHub.
 
 ## Coached Verification Block
 
 **11:45-12:15**, right after this lab: **trust, but verify.** Copilot can be wrong, so you check.
+Use your first page: type `/start-website` to open it beside Chat.
 
 1. **Check a button (10 minutes).** Ask for one new button, such as "hide finished tasks",
    "show only this week", or "shuffle the ideas". Say what you expect, click it twice, and
    compare. If it is wrong, tell Copilot: "I expected ..., but I saw ...". Check again after the fix.
-2. **Check a number (10 minutes).** Count it yourself, using the table below. Do not trust a
-   number you have not checked.
+2. **Check a number (10 minutes).** On your first page, count it yourself, using the table
+   below. If your first page is your own idea, use the check in its **brief.md**. Do not trust
+   a number you have not checked.
 3. **Write it down (10 minutes).** In **site/brief.md**, write what you tried and what happened,
    including anything that does not work yet. Then save, review, commit, and push.
 
@@ -106,25 +113,29 @@ asked Copilot for is visible, and your saved version is on GitHub.
 | Calendar        | **3 notes planned**: today, tomorrow, and in three days. Add one: 4 notes planned.   |
 | Ideas Wall      | **3 ideas**. Add one: 4 ideas. Remove one: back to 3.                                |
 | Weather         | Select **the raw forecast data** link and compare today's temperature with the page. |
+| Princeton Map   | **18 places**. Choose History: 6. Press **+**, name a place and click the map: 19.   |
+| Photo Studio    | **6 pictures**. Make the sleepy cat into a watercolor and save it: the gallery shows 7. |
 
 Weather is the only page with live data. If the internet is blocked, it says it is showing sample weather.
 
 ## When It Does Not Work
 
-| What you see                     | What to do                                                          |
-| -------------------------------- | ------------------------------------------------------------------- |
-| A blank page or no preview       | Show a helper the exact message.                                    |
-| Copilot changed other files      | Select **Stop**, then **Undo** in Chat, and ask for less.           |
-| A button or a number is wrong    | Tell Copilot what you expected and what you saw, then check again.  |
-| Something asks you to install    | Say no and ask a helper.                                            |
+| What you see                             | What to do                                                             |
+| ---------------------------------------- | ---------------------------------------------------------------------- |
+| A blank page or no preview               | Show a helper the exact message.                                       |
+| Copilot changed your first page instead of making a new folder | Select **Stop**, then **Undo** in Chat, and say "Build my own idea in its own folder." |
+| Copilot changed other files              | Select **Stop**, then **Undo** in Chat, and ask for less.              |
+| A button or a number is wrong            | Tell Copilot what you expected and what you saw, then check again.     |
+| Something asks you to install            | Say no and ask a helper.                                               |
+
+**If the preview does not open,** show a helper the exact message and do not install anything.
+A helper can run `python3 scripts/website_preview.py status` to see what is wrong.
 
 ## Optional extras
 
-1. **Your own idea (fast finishers).** After your page is checked, saved, and shown to a
-   neighbor, run `/create-website` again, choose to build your own idea, and describe it in one
-   sentence. It gets its own folder under `site/ideas/`, and your first page stays as it is. If
-   time runs out, stop; Tuesday has more time.
-2. Make the page easy to read in a narrow window.
+1. **One more idea.** Run `/create-website` again and describe another idea in one sentence. It
+   gets its own folder too. If time runs out, stop; Tuesday has more time for your ideas.
+2. Make a page easy to read in a narrow window.
 3. Try one of the later ideas listed in your brief, or a challenge from
    [Lab 08's challenge card](../08-save-and-share/README.md#3-take-a-challenge-15-minutes).
 

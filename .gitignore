@@ -24,6 +24,8 @@ NN-NA-Hackathon-2026-10-Engagement-Brief.md
 *.vsix
 # Facilitator preparation notes stay in the owner's Codespace; they are not part of the template.
 /.facilitator/
+# David's slides and the private week overview stay on the owner's machine too.
+/final-workshop-david/
 # site/ is deliberately NOT ignored: attendees save and push their website there, and every
 # attendee repository gets a copy of this file. The template keeps only site/README.md: in the
 # template's own Codespace, .devcontainer/hide-template-demo.sh hides a demo site locally, and

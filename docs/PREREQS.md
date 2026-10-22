@@ -19,7 +19,7 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
       before the event. Use a small approved pilot group for earlier testing; no bulk invite is implied here.
 - [ ] Confirm those accounts may join an external GitHub organization.
 - [ ] Assign a GitHub Copilot seat to every attendee.
-- [ ] Let attendees make their own copy at 09:00: in agentic-dev-labs **Settings > Member
+- [ ] Let attendees make their own copy at 09:30: in agentic-dev-labs **Settings > Member
       privileges**, allow members to create **private** repositories; flag the clean template as
       a **template** and make sure attendees can see it. Test **Use this template** with an
       attendee-like account: owner agentic-dev-labs, name = GitHub username, **Private**.
@@ -39,7 +39,7 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
       agree how the second room sees and hears the presenter, and who leads the helpers there.
 - [ ] Complete the **core-only** [.devcontainer setup](../.devcontainer/README.md) in a fresh
       Codespace. CLI, Chromium, and document-conversion downloads must not be Monday startup gates.
-- [ ] Rehearse `/create-website` in Agent Chat: it asks only which of the four websites, then builds the tested blueprint, names it after the repository, and opens the preview. Check the starter's manual check yourself.
+- [ ] Rehearse `/create-website` in Agent Chat: it asks only which website (six starters or My own idea), then builds the tested blueprint, names it after the repository, and opens the preview. Check the starter's manual check yourself. Push it, run `/create-website` again, and confirm it builds an own idea in its own folder straight away.
 - [ ] Verify the Website preview helper in a fresh Codespace: creation opens the panel beside Chat, edits appear by themselves, added entries survive an edit, stop closes the panel, and start reopens it. Copilot CLI sign-in stays separate before Day 3.
 - [ ] Switch on [AI pictures and chat](FACILITATOR.md#ai-pictures-and-chat): the four `FOUNDRY_*`
       organization Codespaces secrets have repository access set to **Private repositories**
@@ -58,8 +58,9 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 
 ## Before Tuesday
 
-- [ ] Confirm David's 09:00-09:30 overview and Jackie's 09:30-10:30 conceptual Power Platform
-      session. Attendees are not asked to configure databases, connectors, or the internal marketplace.
+- [ ] Confirm David's 09:00-09:30 overview, Jackie's 09:30-10:30 conceptual Power Platform
+      session, and Bill Leeson's 11:45-12:15 Building a Project Brain talk. Attendees are not asked
+      to configure databases, connectors, or the internal marketplace.
 - [ ] Collect brief ideas with examples and an explicit "no idea yet" option. Request no real records
       or private spreadsheets. Own ideas use `/create-website` in `site/ideas/` of the same repository.
 - [ ] Rehearse [own-idea building](DAY-2-BUILD.md), manual checks, save/push, and handover questions.
@@ -73,26 +74,37 @@ its deployment helper uses GitHub Actions, not attendee Azure sign-in.
 
 ## Days 3-5 Access
 
-Days 3-5 use each attendee's own repository and website. No vendor app, database, automation,
-hook, or extra repository is needed. See [the Day 3 guide](TOOLS-PRACTICE.md), [the Day 4
-guide](DAY-4-BUILD.md), and [the Day 5 guide](DAY-5-SHOWCASE.md).
+Days 3-5 use each attendee's own repository and website. No vendor app, database, hook, or extra
+repository is needed; an automation is a Day 4 presenter demo and an optional extra. See [the Day 3 guide](TOOLS-PRACTICE.md),
+[the Day 4 guide](DAY-4-BUILD.md), and [the Day 5 guide](DAY-5-SHOWCASE.md).
 
-- [ ] Confirm the training accounts may use Copilot CLI and custom agents, and preflight one
-      attendee sign-in path privately. Never collect passwords or tokens. Installed is not authenticated.
+- [ ] Confirm the training accounts may use Copilot CLI, custom agents, and skills, and preflight
+      one attendee sign-in path privately. Never collect passwords or tokens. Installed is not authenticated.
 - [ ] Verify CLI sandbox/local-network prerequisites; package downloads alone prove neither.
       Do not bypass policy. Browser and CLI sessions do not share chat, cookies, or saved entries.
 - [ ] Enable the cloud agent for **every attendee repository** before Day 4, and rehearse one
-      **User story for Copilot** issue to a merged change. Note how long a session takes.
-- [ ] Confirm attendees can push a file under `.github/workflows/` from their Codespace and can
-      add themselves as a required reviewer of a `training` environment (Day 5). Fallback for the
-      push: GitHub's web editor. Never hand out personal tokens.
-- [ ] Confirm Actions minutes for about 45 repositories running a check on every pull request and
-      a publish on every release on Day 5.
+      approved **Requirement** ticket assigned to Copilot through to a merged change. Note how long a session takes.
+- [ ] Confirm organization members may create projects in agentic-dev-labs (Day 3 boards), and
+      that `gh issue edit` in an attendee-style Codespace may update a ticket. Fallback: attendees
+      paste the agent's draft into the ticket themselves.
+- [ ] Keep **Copilot code review** switched off for attendees (decided 21 October 2026): Day 4
+      uses each attendee's own Code Review agent, so nothing needs enabling for it.
+- [ ] Set up the Day 4 presenter demo the day before: the criteria automation from Lab 03's
+      extras on your demo repository. It runs as you and uses your allowance; switch it off afterwards.
+- [ ] Push the publisher's `version` input and the fingerprint change to the template's `main`,
+      then publish one practice website with `version:` switched on and check its footer before Day 4.
+- [ ] Confirm attendees can push a file under `.github/workflows/` from their Codespace on a
+      branch (Days 4-5) and can add themselves as a required reviewer of a `training` environment
+      (Day 5). Fallback for the push: GitHub's web editor on a new branch. Never hand out personal tokens.
+- [ ] Confirm Actions minutes for about 45 repositories running two checks (tests and the browser
+      UI check, a few minutes each) on every pull request, and a publish on every release, on Day 5.
+- [ ] Confirm the template CI's `ui-check` job is green on `main`: it proves the Day 5 browser
+      install and screenshots on a real starter page.
 - [ ] Agree Friday's room logistics for team demos: screen sharing, a timer, the running order, and the host.
 - [ ] Optional extras only: the presenter's Lab 04 browser demonstration (VS Code Desktop, see
       the [Day 3 helper notes](FACILITATOR.md#day-3-helper-preparation); never use `--no-sandbox`),
-      the remote GitHub MCP server in `.vscode/mcp.json` with no write tools, and Lab 06 with the
-      FOUNDRY_* secrets.
+      the remote GitHub MCP server in `.vscode/mcp.json` with no write tools, Lab 06 with the
+      FOUNDRY_* secrets, the Day 4 automation extra, and the Day 5 Agentic Workflows demo.
 - [ ] Keep all work in Codespaces; corporate handover is planning, not a local-workstation exercise.
 
 ## Optional Examples

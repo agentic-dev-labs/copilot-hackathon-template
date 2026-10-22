@@ -16,6 +16,8 @@ on:
       - "HANDOFF.md"
       - ".github/agents/user-requirements.agent.md"
       - ".github/agents/code-review.agent.md"
+      - ".github/skills/user-stories/**"
+      - ".github/instructions/**"
 permissions:
   contents: read
 
@@ -36,7 +38,7 @@ jobs:
       - name: Keep the template free of learner work
         run: |
           learner_work="$(git ls-files site .github/instructions .github/skills/make-image .github/skills/edit-image \
-            .github/agents/user-requirements.agent.md .github/agents/code-review.agent.md \
+            .github/skills/user-stories .github/agents/user-requirements.agent.md .github/agents/code-review.agent.md \
             '.github/workflows/check-my-website.yml' 'checks/test_*.py' reviews HANDOFF.md \
             | grep -vx 'site/README.md' || true)"
           if [ -n "$learner_work" ]; then
@@ -64,6 +66,46 @@ jobs:
         run: docker build --file Dockerfile.website --tag workshop-website-check .
       - name: Import website runtime and inspect actual image assets
         run: docker run --rm --entrypoint python workshop-website-check -c 'from app.site import site_manifest; assert site_manifest()["index_sha256"]'
+
+  # Runs the Day 5 UI check exactly as the learner's starter does, on a real starter page, so a
+  # broken browser install or script shows up here before the workshop.
+  ui-check:
+    if: ${{ github.event.repository.is_template }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.9.7"
+      - run: uv sync --locked --extra dev --extra web
+      - name: Build the Project Planner starter as a CI-only website
+        run: |
+          assets=.github/skills/create-website/assets
+          cp -r "$assets/blueprints/project/." site/
+          cp -r "$assets/css" "$assets/js" "$assets/art" site/
+          mkdir -p site/fonts
+          cp "$assets/fonts/source-sans-3-latin.woff2" site/fonts/
+      - name: Install a browser
+        run: uv run --with playwright==1.64.0 playwright install --with-deps chromium
+      - name: Run the Day 5 UI check
+        run: |
+          uv run uvicorn app.site:app --host 127.0.0.1 --port 8000 > website.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            curl --silent --output /dev/null http://127.0.0.1:8000/ && break
+            sleep 1
+          done
+          uv run --with playwright==1.64.0 python scripts/ui_check.py http://127.0.0.1:8000 --out ui-check
+      - name: Keep the screenshots
+        if: ${{ always() && hashFiles('ui-check/*.png') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-check-screenshots
+          path: ui-check/
+          retention-days: 7
 
   research-tools:
     if: ${{ github.event.repository.is_template }}

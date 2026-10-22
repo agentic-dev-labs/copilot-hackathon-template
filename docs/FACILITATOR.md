@@ -4,10 +4,11 @@ Use the [agenda](AGENDA.md) for timing and the [coverage guide](REFERENCES.md) f
 links for the whole week, not a Monday feature checklist. The priority is confidence for
 first-time GitHub/app users. Day 1 establishes foundations, Chat, a shared first website, manual
 checks, and saved work; Day 2 applies that workflow to participants' own ideas. Days 3-5 follow
-David's final slides (20 October 2026): attendees write a User Requirements agent and test one
-story (Day 3), delegate to the cloud agent and review it with their own Code Review agent (Day 4),
-and run CI/CD with an approval gate and a rollback (Day 5). Every step is a plain sentence typed to
-Copilot CLI or a click, on the attendee's own website.
+David's final slides (20 October 2026): attendees turn their idea into tickets on a project board,
+write a User Requirements agent that adds acceptance criteria, and build and test one ticket
+(Day 3), delegate the next ticket to the cloud agent and review it with their own Code Review
+agent (Day 4), and run CI/CD with an approval gate and a rollback (Day 5). Every step is a plain
+sentence typed to Copilot CLI or a click, on the attendee's own website.
 All attendee steps use browser-based Codespaces and its Bash terminal, never a laptop runtime.
 Start with the 09:00-09:30 block: the sponsor welcome (SEFR video) and the ASTER Overview teaser
 (HZRW), then your GitHub tour, concepts only. After that, show one action for 3-5 minutes, let people
@@ -20,16 +21,16 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 
 | Block               | Live core                                                                                  | Prepared result or fallback                                                         |
 | ------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| Monday foundations  | Welcome, SEFR video and ASTER teaser; then on github.com: GitHub, a repository, everyone's own private copy via **Use this template**, and the README's five words; no commands | Org settings that let attendees create private repositories, tested with an attendee-like account; `scripts/create_attendee_repos.py` for anyone who cannot |
-| Monday first work   | From the README: Codespace, Chat, one idea note, save/review/commit/push                   | Assigned working branch and tested access; no JSON or CLI setup                     |
-| Monday page         | /create-website asks only the category; tested blueprint copied and named; live preview panel; Copilot explains selected code and each learner edits the `<h1>` headline by hand | Helper checks the preview helper; no completed page in the source template |
+| Monday foundations  | Welcome, SEFR video and ASTER teaser; then on github.com: GitHub, a repository, and the README's five words, shown on the template while attendees watch; no commands | Org settings that let attendees create private repositories, tested with an attendee-like account; `scripts/create_attendee_repos.py` for anyone who cannot |
+| Monday first work   | From the README at 09:30: everyone's own private copy via **Use this template**, Codespace, Chat; at 10:00 the first website, whose idea note is `site/brief.md`, then save/review/commit/push | Assigned working branch and tested access; no JSON or CLI setup                     |
+| Monday page         | 10:00: /create-website asks only the category; tested blueprint copied and named; live preview panel. 10:45: more websites shown; Copilot explains selected code; each learner edits the `<h1>` headline by hand and builds one own idea in its own folder | Show the extra websites from a separate demo repository, built beforehand and labelled as prepared; build one live. Helper checks the preview helper; no completed page in the source template |
 | Monday verification | Check a button and the starter's count (or Weather against its raw data) yourself          | Optional single public figure, not a five-report assignment                         |
-| Monday afternoon    | One interaction, personal improvements, a bold change undone with **Undo**, a Copilot-written commit message, a tour of commits and file **History** on GitHub, and the bronze/silver/gold challenge card | Optional sketch-to-design moment (demonstrate it once first); storage and publication only for ready learners with help |
-| Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities | No attendee marketplace, database, or connector setup |
+| Monday afternoon    | A chart with `/add-chart` (or `/add-chat` or a picture) checked against the entries, personal improvements, a bold change undone with **Undo**, a Copilot-written commit message, a tour of commits and file **History** on GitHub, and the bronze/silver/gold challenge card | Optional sketch-to-design moment (demonstrate it once first); storage and publication only for ready learners with help |
+| Tuesday overviews | David first, then Jackie: responsibilities, low-risk uses, approved tools, and shared-data possibilities; Bill Leeson's Building a Project Brain talk at 11:45-12:15 | No attendee marketplace, database, or connector setup |
 | Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | `/create-website` own-idea route in `site/ideas/` with fictional local content; Monday's page for people without an idea |
-| Wednesday agents | Copilot CLI `/login`; the User Requirements agent written from the guide's prompt; stories validated; one story built; `pytest checks` green | A prepared requirements file and agent in a rehearsal copy, labelled as prepared, for anyone whose CLI sign-in is blocked |
-| Thursday cloud agents | A practice pull request; an approved story assigned to Copilot; the Code Review agent; `@copilot` iteration; merge decision | Assign the demonstration story before the session so a pull request is ready; Copilot assignable in attendee repositories |
-| Friday CI/CD | Starter check workflow with edited triggers and permissions; a red then green check; `training` approval; smoke test and revert; demos; HANDOFF.md | A rehearsal copy with each step done, for showing a blocked step; confirm workflow-file pushes from a Codespace beforehand |
+| Wednesday agents | Two or three **Requirement** tickets (from Tuesday's **Next** wishes) and a Board project named after the attendee that imports the repository; Copilot CLI `/login`; a GitHub tool lists the tickets (MCP); at 00:50 the four building blocks, then the **user-stories** skill and the User Requirements agent written from the guide's prompts; criteria added to each ticket with `gh` and validated; approved tickets dragged to **Todo**; one built in the Codespace; `pytest checks` green; the brief lists the requirements; a `Closes #N` commit moves it to **Done** | A demo website with its tickets and board ready, and a rehearsal copy with the skill and agent, labelled as prepared, for anyone whose CLI sign-in is blocked; pasting the agent's draft into the ticket when `gh` may not update it |
+| Thursday cloud agents | A 5-minute presenter demo: an automation adds criteria to a new demo ticket by itself; the `Protect main` ruleset (pull requests only); the `version:` line switched on and shown in the footer; an approved ticket from the board assigned to Copilot; review rules and the Code Review agent; `@copilot` iteration; merge and deploy with the next version, the ticket **Done** | The criteria automation set up on the demo repository the day before (it runs as you, on your allowance); assign the demonstration ticket before the session so a pull request is ready; Copilot assignable in attendee repositories. Copilot code review stays off: no Copilot review appears on attendee pull requests |
+| Friday CI/CD | Starter checks (tests and the UI check) with edited triggers and permissions, then required; a red UI check with its phone screenshot, then green; `training` approval; smoke test and **Revert**; demos; HANDOFF.md | A rehearsal copy with each step done, for showing a blocked step; the template CI's `ui-check` job green on `main` |
 
 Keep public reports and HTML briefs on the optional [extension shelf](RESEARCH.md), separate
 from synthetic vendor evidence. Name tools when they become useful, rather than explaining
@@ -41,11 +42,11 @@ models, roles, and execution environments all at once. GitHub Copilot is the foc
 - Preflight the actual attendee account/browser/network path before the event, including
   creating a private repository from the template in agentic-dev-labs, Chat, first push, and
   private preview. A presenter account is not a substitute.
-- Repositories made at 09:00 start their Codespaces from the ready-made image (see the
+- Repositories made at 09:30 start their Codespaces from the ready-made image (see the
   [Codespaces setup](../.devcontainer/README.md#ready-made-image)), not from prebuilds, which
   belong to one repository. Measured on 19 October 2026, a fresh Codespace was ready in about
   50 seconds. Attendees click **Create codespace** right after making their repository, so it loads
-  during the tour. VS Code then asks **Do you trust the authors of the files in this folder?**;
+  while you explain the repository. VS Code then asks **Do you trust the authors of the files in this folder?**;
   attendees choose **Trust Folder & Continue**, or the Website preview helper is not installed.
   Confirm concurrent capacity, and have helpers watch for stuck creations.
 - Plan support for **roughly 40-45 attendees**, with the final roster still to be confirmed. Confirm simultaneous Codespace
@@ -86,17 +87,19 @@ alongside you or straight after, then the next step.
 
 | Time        | You show                                                                                       | Attendees do                                               |
 | ----------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 09:00-09:30 | After the welcome, SEFR video and ASTER teaser: this is GitHub; this is a repository (the template's files and README); **Use this template > Create a new repository** with owner agentic-dev-labs, your username as the name, and **Private**; straight away **Code > Codespaces > Create codespace on main**, left loading in its tab; then Commits, History, Search, Issues in your new copy; the five words and save -> review -> commit -> push | Make their own private copy with you, check the owner and **Private** label, start its Codespace, then find the same places while it loads |
-| 09:30-10:00 | Switch to the Codespace tab; README with **Open Preview**; Chat in **Ask**; one question and one refinement; three feature ideas | Each step straight after you                               |
-| 10:00-10:30 | Agent mode note in `site/brief.md`; edit one sentence; Source Control; commit; push; find it on GitHub | The same, then helpers check every note is on GitHub       |
-| 10:45       | `/create-website` with the Project Planner, then [START-HERE](START-HERE.md) is the route      | Lab 01 step by step                                        |
+| 09:00-09:30 | After the welcome, SEFR video and ASTER teaser: this is GitHub; this is a repository (the template's files, README, Commits, History, Search, Issues); the five words and save -> review -> commit -> push | Watch; no commands |
+| 09:30-10:00 | **Use this template > Create a new repository** with owner agentic-dev-labs, your username as the name, and **Private**; your new copy (files, README, one commit); **Code > Codespaces > Create codespace on main**; **Trust Folder & Continue**; README with **Open Preview**; Chat in **Ask**; `/next-word` with "What a nice day, let's go to the", then "What a nice day here in Princeton, New Jersey, let's go to the", the room guessing first (its percentages are Copilot's own estimate); one question and one refinement | Make their own private copy with you, check the owner and **Private** label, open its Codespace, try `/next-word` on the first sentence, then each step straight after you |
+| 10:00-10:30 | Chat in **Agent**; `/create-website` with the Project Planner; the preview beside Chat; `site/brief.md`, the idea note it wrote; **File > Save All**; Source Control with every file staged; commit; push; find it on GitHub | The same, then helpers check every page is on GitHub       |
+| 10:45       | More websites from your prepared demo repository, one built live; then [START-HERE](START-HERE.md) is the route | Lab 01 step by step: headline by hand, one own idea in its own folder |
 
 The sponsor welcome, SEFR video and ASTER teaser share the 09:00-09:30 block, so confirm their
-running time with David and use the rest for the tour. The 11:45 manual verification is outside
-Lab 01. Preserve afternoon building
+running time with David and use the rest for the tour. If the 09:30 block runs over, finish the
+first website in the break with helpers rather than shortening Lab 01. The 11:45 manual
+verification is outside Lab 01. Preserve afternoon building
 time; no storage or public URL is needed to finish. End with a neighbour seeing one working feature.
-Use `/create-website` for the first guided choice: Project Planner, Calendar, Ideas Wall, or
-Weather. Demonstrate the Project Planner. It asks only which one, then builds and opens it,
+Use `/create-website` for the first guided choice: Project Planner, Calendar, Ideas Wall,
+Weather, Princeton Map, Photo Studio, or My own idea. Demonstrate the Project Planner. It asks
+only which one, then builds and opens it,
 so attendees see how little they need to say. Do not introduce a React migration
 solely because a starter template was mentioned; framework changes need an explicit decision.
 
@@ -110,8 +113,8 @@ The Python server on 8000 remains for technical examples and deployment.
 Do not require diagram tools, paid image generation, or choosing a frontend framework.
 The skill provides original CSS, original animated SVG art, a licensed font, and synthetic
 starter data. It must preserve existing files and never claim a manual check was done
-without the learner's result. Fast finishers build an own idea from one sentence after checking,
-saving, and showing the first site, in a new subfolder; slower learners move on to the next lab.
+without the learner's result. At 10:45 everyone builds one own idea from one sentence, in a
+new subfolder, after the first site is saved on GitHub; the first site stays in place.
 The Weather starter calls Open-Meteo, approved by the owner; its free tier is non-commercial,
 and the page shows sample weather if the network blocks it. Weather uses Fahrenheit and mph, and
 the Calendar's weeks start on Sunday, for the US audience. In the 11:45 checking block a
@@ -121,20 +124,24 @@ against the labeled [prepared facts](annual-report-facts.json), checking year, u
 That replaces the count check; it is not a PDF research assignment.
 
 Tuesday gives David 09:00-09:30 for responsibilities and approved-tool context, then Jackie
-09:30-10:30 for Power Platform/shared-data examples. Confirm speaker availability. Use
+09:30-10:30 for Power Platform/shared-data examples, and Bill Leeson 11:45-12:15 for Building a
+Project Brain, as on David's slide. Confirm speaker availability. Use
 [DAY-2-BUILD](DAY-2-BUILD.md) at 10:45 and throughout the afternoon; no required integration lab
-or tools hour. At 14:45, allow two short volunteer demonstrations plus wrap-up or pair sharing,
-not five minutes for every attendee. Let people explain how their prototype might help their work.
+or tools hour. The morning build is one hour, so everyone saves a first version before Bill's
+talk. At 14:45, allow two short volunteer demonstrations plus wrap-up or pair sharing,
+not five minutes for every attendee. Let people explain how their prototype might help their work,
+and make sure everyone writes two or three **Next** wishes in their brief: Wednesday's tickets.
 
 **Roles (20 October 2026):** Ali presents Day 1. On Day 2, as agreed with David, Ali does not
-present: David and Jackie give the overviews and Ali is table support with the other helpers.
-Day 3 opens with MUKQ, then Ali; Ali leads Days 4 and 5. Confirm who restarts the room at 10:45
-on Day 2 and who hosts the 14:45 demonstrations.
+present: David, Jackie, and Bill Leeson give the talks and Ali is table support with the other
+helpers. Day 3 opens with MUKQ, then Ali; Ali leads Days 4 and 5. Confirm who restarts the room
+at 10:45 on Day 2 and who hosts the 14:45 demonstrations.
 
 Days 3-5 are four hours each, written as elapsed times exactly as on David's slides; confirm each
-start time with the organizers. Wednesday follows [the Day 3 guide](TOOLS-PRACTICE.md): workspace
-and agent roles 00:20, the User Requirements agent 00:50, stories 01:45, the build lab 02:30, tests
-03:15, and the checkpoint 03:45. Thursday follows [the Day 4 guide](DAY-4-BUILD.md), with the
+start time with the organizers. Wednesday follows [the Day 3 guide](TOOLS-PRACTICE.md): tickets,
+the board, and agent roles 00:20, the User Requirements agent 00:50, criteria on the tickets
+01:45, the build lab 02:30, tests 03:15, and the checkpoint 03:45. In every block show the step
+on your demo website, then attendees do the same on their own idea. Thursday follows [the Day 4 guide](DAY-4-BUILD.md), with the
 delegation lab in [Lab 03](../labs/03-cloud-agent/README.md). Friday follows [the Day 5 guide](DAY-5-SHOWCASE.md);
 team demos run by table, about three minutes each. Every exercise uses the attendee's own website;
 no vendor app, database, or extra repository. Hooks, automations, multi-agent handoffs, saved
@@ -144,18 +151,67 @@ browser tests, and the vendor app's release verification are [post-workshop refe
 
 - Before Day 3, confirm the training accounts may use Copilot CLI, custom agents, and the cloud
   agent. Check one attendee sign-in path privately. Installed is not signed in.
-- **Days 3-5 run on Copilot CLI and agents the attendee writes.** The guides give a plain-English
-  prompt; Copilot writes `.github/agents/user-requirements.agent.md` (Day 3) and
-  `code-review.agent.md` (Day 4). Copilot CLI reads agents when it starts, so after creating one
-  the attendee types `/exit` and `copilot`. The same file appears in VS Code Chat's agent picker.
-  The template ships only the `checks/` test helper, the **User story for Copilot** issue template,
-  the Day 5 starters in `.github/workflow-starters/`, and `scripts/smoke_test.py`; CI keeps
-  learner agents, tests, reviews and HANDOFF.md out of the template.
-- **Day 5 needs workflow-file pushes.** Attendees copy a starter into `.github/workflows/` and
-  push it. Confirm in an attendee-style Codespace that the push is accepted; if the Codespace
-  token refuses workflow files, the fallback is GitHub's web editor (**Add file > Create new
-  file**). The approval step uses the attendee's own `training` environment; required reviewers
+- **Tickets and the board are plain GitHub.** Attendees write two or three tickets with the
+  **Requirement** issue template, starting from the **Next** wishes they wrote in their brief on
+  Tuesday, then create an organization project: the organization's name, **Projects > New
+  project > Board**, named after themselves (`<username> website`, because all boards share the
+  organization's Projects list), **Import items from repository**. Importing makes the repository
+  the board's default, so it also appears in the repository's **Projects** tab, and adds the
+  existing tickets and every new one; the board's default workflows set closed tickets and merged
+  pull requests to **Done**. Todo means approved. Only people with access to a private repository
+  can read its tickets on any board. Before Wednesday, create one board this way with
+  an attendee-style account: confirm the members may create projects, where new tickets land, and
+  that a `Closes #N` commit pushed to `main` moves its card to **Done**. If importing is missing,
+  add cards with **+ Add item** and `#`.
+- **The agent updates tickets with `gh`.** Copilot CLI's built-in GitHub tools read by default and
+  do not write, so the User Requirements agent runs `gh issue edit` in the Codespace, with the
+  Codespace's own token, after the attendee agrees. Confirm in an attendee-style Codespace that
+  `gh issue edit` may change a ticket; if it is refused, attendees paste the agent's draft into
+  the ticket themselves (**...** > **Edit**). Never ask anyone for a personal token.
+- **Days 3-5 run on Copilot CLI and files the attendee writes.** The guides give plain-English
+  prompts; Copilot writes the `.github/skills/user-stories/` skill and
+  `.github/agents/user-requirements.agent.md` (Day 3), then `.github/instructions/review.instructions.md`
+  and `code-review.agent.md` (Day 4). Copilot CLI reads agents and skills when it starts, so after
+  creating one the attendee types `/exit` and `copilot`. The agent also appears in VS Code Chat's
+  agent picker. The template ships only the `checks/` test helper, the **Requirement** and
+  **Website change for Copilot** issue templates, the Day 5 starters in `.github/workflow-starters/`,
+  `scripts/ui_check.py`, and `scripts/smoke_test.py`; CI keeps learner agents, skills,
+  instructions, tests, reviews and HANDOFF.md out of the template.
+- **Day 4 changes how everyone saves.** The `Protect main` ruleset makes every later change a
+  branch and a pull request, including `/publish-website`, which therefore runs first if a
+  website has no address yet. Copilot code review stays switched off (decided 21 October 2026):
+  attendees review with their own Code Review agent and their own eyes. Required approvals stay
+  at 0: attendees are alone in their repositories. Attendees are admins of their own copies, so
+  they can create rulesets; leave the bypass list empty so the rules apply to them too.
+- **People join partway through.** Days 3-5 continue with the people from Days 1-2 who want to
+  take their own idea further (owner's call, 21 October 2026), so expect a smaller group, and some
+  will skip a day.
+  The top of the Day 4 and Day 5 guides has a 5-minute catch-up: on Day 4 one ticket written by
+  hand with Chat's help, on Day 5 an address with `/publish-website` and the ruleset. Helpers do
+  the catch-up with newcomers during the 00:00-00:20 talk.
+- **The "agent that starts by itself" demo (Day 4, 00:00-00:20).** The day before, set up the
+  automation from Lab 03's optional extras on your demo repository, after its user-stories skill
+  is on `main`. At about 00:05 open a new **Requirement** ticket; by 00:15 the story and criteria
+  are on it, or waiting as a suggested change. It runs as you and uses your Copilot allowance;
+  switch it off after the session.
+- **The version on the page comes from the publisher.** Switching on `version:` in the caller
+  passes `1.0.<run number>`; the template's publisher writes `version.json` into the site before
+  building the image, and the content fingerprint ignores that file, so a Day 5 rollback shows the
+  known-good fingerprint with a higher version. Both changes take effect only from the template's
+  `main`: after pushing them, publish one practice website with the version switched on and check
+  its footer and `/healthz` before Thursday.
+- **Days 4-5 need workflow-file pushes.** Attendees edit `publish-website.yml` on Day 4 and copy
+  starters into `.github/workflows/` on Day 5, always on a branch. Confirm in an attendee-style
+  Codespace that the push is accepted; if the Codespace token refuses workflow files, the fallback
+  is GitHub's web editor (the pencil icon, or **Add file > Create new file**) committing to a new
+  branch. The approval step uses the attendee's own `training` environment; required reviewers
   in private repositories need the organization's GitHub plan, which agentic-dev-labs has.
+- **The UI check runs in GitHub Actions only.** Chromium cannot start in a default Codespace, so
+  `scripts/ui_check.py` runs on the runner with `playwright==1.64.0` from PyPI, software graphics
+  for 3D pages, and the browser sandbox on. It checks the first page and up to five idea pages on
+  a desktop and a 390-pixel phone, and keeps `home-desktop.png` and `home-phone.png` as single,
+  unzipped artifacts. The template CI's `ui-check` job runs the same steps on the Project Planner
+  starter; on 21 October every starter and own-idea pattern passed it locally.
 - **This repository keeps attendees' Copilot to its own tools.** `.vscode/mcp.json` lists only the
   read-only GitHub server. `.vscode/settings.json` sets `chat.mcp.autostart` to `never` (nothing
   starts until an attendee selects **Start** in Lab 04), switches off `chat.mcp.discovery.enabled`
@@ -178,7 +234,7 @@ browser tests, and the vendor app's release verification are [post-workshop refe
   that profile for a later owner-approved environment, such as a reviewed
   `"runArgs": ["--security-opt", "seccomp=unconfined"]` tested in a fresh Codespace. Never add
   `--no-sandbox`.
-- On Day 4, assign the demonstration story before the session so its pull request is ready, or
+- On Day 4, assign the demonstration ticket before the session so its pull request is ready, or
   show a prepared one and say that it is prepared. See [Lab 03](../labs/03-cloud-agent/README.md).
 - Never publish MCP or debugger ports, disable the browser sandbox or TLS checks, or print
   credentials. No Dataverse connection, vendor app, or research download is needed today.
@@ -402,7 +458,7 @@ is a presenter fallback, not evidence that the attendee's plugin actually worked
 
 ## Create team repositories
 
-Attendees normally make their own private copy at 09:00 with **Use this template**. Use the
+Attendees normally make their own private copy at 09:30 with **Use this template**. Use the
 script below beforehand or as a fallback, for example for anyone whose account cannot create
 repositories. Repository secrets are **not** copied from a template. The script creates private repositories
 and grants the configured attendee team write access. It first inspects the selected template
@@ -447,18 +503,22 @@ is required; repository access to the prepared Actions identity must already exi
 - Inspect the devcontainer: Python version, dependency lock, minimum host requirements, shared editor settings, and forwarded port. Extension IDs are not version pins; CLI authentication is separate.
 - Run tests and the sample CLI end to end.
 - Use `--as-of 2026-10-26` to confirm sample scores 10, 8, and 2, plus exact source quotations.
-- Complete the first-note save/review/commit/push journey through the browser UI and read back
-  the changed file on GitHub. Check the current screenshots and labels against that client.
-- Invoke `/create-website` in a new session; verify it asks only which of the four websites,
-  builds straight away with the repository name, and preserves an existing page.
+- Complete the first website's save/review/commit/push journey (about 30 new files, all staged
+  at once) through the browser UI and read back `site/brief.md` on GitHub. Check the current
+  screenshots and labels against that client.
+- Invoke `/create-website` in a new session; verify it asks only which website (the six
+  starters or My own idea), builds straight away with the repository name, and preserves an
+  existing page. Run it again after that page is pushed: it must offer an own idea in its own
+  folder at once, without asking for checks first.
   Let creation open the Website preview automatically; change a heading and CSS, and observe
   both update with an added entry kept. Do not substitute an HTTP check
   for actual panel rendering or slash-command discovery.
 - Verify `/stop-website` closes only the Website preview panel and `/start-website`
   reopens the same saved page automatically. Check a missing file, an already-running preview, an already-stopped
   server, and a separate own-idea page; no recreation, deletion, or unrelated process termination.
-- In Lab 02, choose the learner's existing category, ask for one appearance change and one
-  feature change, and verify the matching manual example. Do not repeat the creation interview.
+- In Lab 02, add a chart with `/add-chart` and check that it follows the entries, add `/add-chat`
+  once and check an answer against the page, then one appearance change and an **Undo**. Do
+  not repeat the creation interview.
 - Manually check an interaction and a source figure, record honest results, save/push, and show
   a helper. Test an own-idea extension without losing the first page. Do not ship the finished
   rehearsal website in the source template.
@@ -480,17 +540,27 @@ is required; repository access to the prepared Actions identity must already exi
   require networking helpers and `/dev/net/tun`; inspect effective `/sandbox` settings and the
   official CLI release notes. Package downloads alone do not prove agent access. Do not bypass policy.
 - Check the synthetic Space's sources and permissions; do not attach the whole repository or facilitator notes.
-- Rehearse Day 3 in a fresh attendee-style Codespace: sign in to Copilot CLI with `/login` and
-  the device code, create the User Requirements agent from the guide's prompt, restart the CLI and
-  find it with `/agent`, generate and validate stories, build one, and run `pytest checks` green
-  then red then green.
-- Rehearse Day 4: a practice branch and pull request from the Codespace; a **User story for
-  Copilot** issue assigned to Copilot (note the session's length); the Code Review agent's report
-  on that pull request with each finding checked; an `@copilot` fix; merge, pull, and preview.
-- Rehearse Day 5: copy the starter check workflow, edit its trigger and permissions, push it from
-  the Codespace, see a pull request go red then green; copy the approval starter, add yourself as a
-  required reviewer of `training`, approve one release; run `scripts/smoke_test.py`, ship a bad
-  headline, revert it, and confirm the content fingerprint returns.
+- Rehearse Day 3 in a fresh attendee-style Codespace: write two **Requirement** tickets and
+  create a Board project named after the account that imports the repository; sign in to Copilot CLI with `/login` and
+  the device code, list the tickets with a GitHub tool, create the **user-stories** skill and the
+  User Requirements agent from the guide's prompts, restart the CLI and find the agent with
+  `/agent`, let it add criteria to a ticket with `gh issue edit`, drag the ticket to **Todo**,
+  build it, run `pytest checks` green then red then green, and push a `Closes #N` commit: the
+  card moves to **Done**.
+- Rehearse Day 4: the criteria automation on a new demo ticket; run `/publish-website` first if
+  needed; create the `Protect main` ruleset and confirm a direct push to `main` is refused;
+  switch on `version:` on a feature branch, show it in the footer, merge, and see
+  **Version 1.0.N** live; assign an approved ticket from the board to Copilot (note the session's
+  length); merge the review rules and Code Review agent through a pull request and check the
+  agent's report on Copilot's pull request; an `@copilot` fix; merge, see the feature live with
+  the next version, and the ticket **Done** on the board. Then try the Day 4 catch-up from the
+  guide's top as a newcomer would.
+- Rehearse Day 5: copy the check starter on a branch, edit its trigger and permissions, merge it,
+  and make **Check the website** and **UI check** required; add a 900-pixel banner and see the UI
+  check go red with the banner in `home-phone.png`, then green; copy the approval starter, add
+  yourself as a required reviewer of `training`, approve one release; run `scripts/smoke_test.py`,
+  ship a bad sentence, roll it back with **Revert**, and confirm the content fingerprint returns
+  while the version goes up.
 - In a fresh attendee-style Codespace, confirm no MCP server runs on Day 1 and that the Agent's
   **Configure Tools** list shows no Python, pull-request, Pylance, Azure, or plugin tools. Then
   select **Start** on the `github` server in `.vscode/mcp.json`
@@ -562,8 +632,15 @@ container build, application security review, or live deployment check.
 | Browser profile: Chromium sandbox cannot start | Container seccomp blocks user namespaces                                 | Expected in a default Codespace; attendees do not run this profile. Never add `--no-sandbox`; see the Day 3 helper notes.                                                   |
 | Setup did not add `playwright` to `.vscode/mcp.json` | The file had comments, another shape, or a different playwright entry | Read the message; nothing was overwritten. Add only the entry from `.devcontainer/mcp.example.json` and keep the others. |
 | Copilot missing from an issue's Assignees | Cloud agent not enabled for that repository or account | Enable it for attendee repositories before Day 4; meanwhile the attendee follows the presenter's pull request rather than wait. |
-| Pushing `.github/workflows/...` is refused | The Codespace token may lack workflow permission | Create the file on GitHub with **Add file > Create new file** and paste the starter; never add a personal token. |
+| Pushing `.github/workflows/...` is refused | The Codespace token may lack workflow permission | Make the same change on GitHub with the pencil icon or **Add file > Create new file**, committing to a new branch; never add a personal token. |
+| A push to `main` is refused from Day 4 on | The `Protect main` ruleset requires a pull request | Expected: create a branch, **Publish Branch**, a pull request, and merge. Never add the attendee to the bypass list. |
+| The live footer shows **Preview**, not a version | `version:` still has its `#`, or no release ran since | Merge the uncommented line together with a `site/` change; `/healthz` and `version.json` on the live site show what was published. |
+| A required check never reports | The ruleset names a check the workflow does not have | The job names are **Check the website** and **UI check**; add exactly those, after the starter has run once. |
+| The UI check is red on a page nobody changed | A real problem on a desktop or phone, or a slow first load | Open the log's table and `home-phone.png`; re-run once for a timeout. Never add `--no-sandbox`. |
 | A Day 3 agent is missing from `/agent` | Copilot CLI read agents when it started | Type `/exit`, then `copilot`; check the file is in `.github/agents/` and ends in `.agent.md`. |
+| **New project** is missing, or a ticket is not on the board | Organization project settings, or the repository was not imported | Check that organization members may create projects; on the board add the card with **+ Add item** and `#`, choosing the repository. |
+| The agent may not update a ticket | The Codespace token is refused for issues | The attendee pastes the agent's draft into the ticket (**...** > **Edit**); never add a personal token. |
+| A ticket stays open after its commit | `Closes #N` missing, or the commit is not on `main` | Close it with **Close issue**; the board still moves it to **Done**. |
 | Plugin listed but its task fails               | Component discovery, tool access and runtime                             | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test.                                                                      |
 | AttractionsAgent absent or not Managed         | Entitlement, private-source read access, policy refresh, local shadowing | Inspect source and the actual agent ID. Do not copy it into the learner repo or change enterprise settings live.                                                            |
 | Travel site blocks the agent                   | Site access or bot controls                                              | Use another permitted source or clearly labelled fixture; never call the fallback live browsing.                                                                            |

@@ -21,6 +21,9 @@ ALLOWED_EXTENSIONS = {
 MAX_FILE_BYTES = 2 * 1024 * 1024
 MAX_SITE_BYTES = 20 * 1024 * 1024
 MAX_FILES = 100
+# Build details the publisher writes on each release. They are served but kept out of the content
+# fingerprint, so rolling back to a known-good page shows the known-good fingerprint again.
+VERSION_FILE = "version.json"
 
 
 def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
@@ -48,6 +51,8 @@ def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
         total += size
         if total > MAX_SITE_BYTES or len(files) >= MAX_FILES:
             raise ValueError("The workshop site is limited to 100 files and 20 MiB total")
+        if relative.as_posix() == VERSION_FILE:
+            continue
         files[relative.as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
     index = (root / "index.html").read_text(encoding="utf-8")
     if "<html" not in index.lower() or "<body" not in index.lower():

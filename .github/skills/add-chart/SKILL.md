@@ -50,12 +50,12 @@ build step, API key, or a new internet address, and do not edit the preview help
 | Ideas Wall | **Idea bubbles**: every idea floats as a bubble you can drag ([recipe](recipes/ideas-bubbles.js)) | **Idea galaxy**: the ideas shine as named stars in a turning spiral ([recipe](recipes/ideas-galaxy-3d.js)) |
 | Weather | **Next days**: highs and lows as warm and cool lines with a soft band ([recipe](recipes/weather-next-days.js)) | Already on the page: **Your cities through the year** |
 | Princeton Map | **Places by type**: a flower whose petals grow with each type ([recipe](recipes/map-types-rose.js)); **How far from Palmer Square**: every place, nearest first ([recipe](recipes/map-distances.js)) | Already on the page: the **3D** map view |
-| Photo Studio | Suggest the colour cloud | **Colour cloud**: the chosen photo's colours as dots in a red-green-blue cube ([recipe](recipes/photo-colours-3d.js)) |
+| Photo Studio | Suggest the color cloud | **Color cloud**: the chosen photo's colors as dots in a red-green-blue cube ([recipe](recipes/photo-colours-3d.js)) |
 
 ## Patterns for Own Ideas
 
 Draw from the page's own state, inside its `render()`, with `Workshop.chart(box, option)` and
-the colours from `Workshop.chartColors()`; never fetch new data for a chart.
+the colors from `Workshop.chartColors()`; never fetch new data for a chart.
 
 - A number for each group (tasks per stage, votes per idea): rounded bars, or a rose like
   [Places by type](recipes/map-types-rose.js).

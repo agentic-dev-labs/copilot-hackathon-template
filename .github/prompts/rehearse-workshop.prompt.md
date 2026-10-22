@@ -80,18 +80,21 @@ on-create Copilot CLI and the prepared server-free website preview helper, witho
 Chromium and document-conversion installs remain later profiles. Check repository access and editor Chat
 with the intended identity without printing tokens. Advanced profiles are prepared separately.
 Set the unique synthetic label as facilitator prework. Complete the README's files/Chat journey
-and its separate 10:00 first-note/save/review/commit/push block; read back the same branch on GitHub.
+and its 10:00 first-website block: `/create-website`, then every file staged, committed, and
+pushed; read back `site/brief.md` on the same branch on GitHub.
 Check the concepts-only GitHub tour and the actual UI against [START-HERE](../../docs/START-HERE.md)'s labelled screenshots. Automation can
 inspect an interface, but cannot prove a novice understood it. Keep the human novice pilot
 separate and do not invent a human observation or claim a script is that pilot.
 
 ## 2. Complete the Day 1 Labs
 
-1. [Lab 01](../../labs/01-first-website/README.md): invoke the actual `/create-website` skill.
+1. [Lab 01](../../labs/01-first-website/README.md) and the README's 10:00 block: invoke the actual
+  `/create-website` skill.
   Check it asks exactly one question (Project Planner, Calendar, Ideas Wall, Weather, Princeton
   Map, Photo Studio, or My own idea), treats
   the choice as approval, names the page after the repository, copies the tested blueprint and
-  local kit, and, when a page already exists, offers the own-idea route without replacing it.
+  local kit, and, once that page is pushed, builds an own idea from one sentence in its own
+  folder straight away, without replacing the first page or asking for checks first.
   Demonstrate the Project Planner; verify the other categories separately, including the Weather
   3D chart, the Princeton Map's 3D view, a Photo Studio edit, and one `/add-chart` recipe. Require creation to open the Website preview beside Chat,
   save a heading and CSS change, and observe the live update without Refresh. Test stop closes
@@ -102,9 +105,10 @@ separate and do not invent a human observation or claim a script is that pilot.
   In the separate 11:45 block, check a button and a figure against the supplied source and
   calculate it independently. Record expected versus observed, not a model's self-assessment.
   No research, MCP configuration, presentation, or skill installation is required.
-2. [Lab 02](../../labs/02-make-it-useful/README.md): add one meaningful interaction and a personal
-  improvement to the existing page. Check blank input, safe text, keyboard access, and narrow
-  layout. Record manual results distinctly from any behind-the-scenes automation. Storage is
+2. [Lab 02](../../labs/02-make-it-useful/README.md): add a chart with `/add-chart` (or `/add-chat`)
+  and a personal improvement to the existing page. Check that the chart follows the entries and
+  matches your own count, compare one chat answer with the page, and check safe text, keyboard
+  access, and narrow layout. Record manual results distinctly from any behind-the-scenes automation. Storage is
   optional; only when selected, test add/reload/remove/reload and corrupt/unavailable storage.
   Make one deliberately bold change and revert it with Chat's **Undo**. Optionally attach
   `docs/images/sketch-example.png` and record whether the model could use the image.
@@ -142,18 +146,24 @@ Follow [the Day 3 guide](../../docs/TOOLS-PRACTICE.md), recorded as `day-3`, on 
 copy's own learner website. Keep editor/CLI/browser state separate, inspect sandbox and
 local-network prerequisites, and never disable enforced boundaries to force a successful result.
 
-1. Complete a real Copilot CLI sign-in with `/login` and the device code, ask about the page,
-   and compare the answer with the page.
-2. Paste the guide's prompt so Copilot CLI writes `.github/agents/user-requirements.agent.md`;
-   edit one rule, restart the CLI, and confirm `/agent` lists it. Optionally confirm the same file
-   in VS Code Chat's agent picker.
-3. Select the agent and generate the requirements file from the brief; validate each criterion
-   is checkable and mark one story **Approved**.
-4. Implement that story with ordinary Copilot CLI, check every criterion in the Website preview,
+1. Write two tickets with the **Requirement** issue template and create a Board project named
+   after the rehearsal account that imports the repository; record where new tickets land on the
+   board and that it appears in the repository's **Projects** tab.
+2. Complete a real Copilot CLI sign-in with `/login` and the device code, ask about the page,
+   and compare the answer with the page. List the open tickets with a GitHub tool, allowing it by
+   name, and compare the list with the board.
+3. Paste the guide's prompts so Copilot CLI writes `.github/skills/user-stories/SKILL.md` and
+   `.github/agents/user-requirements.agent.md`; edit one step and one rule, restart the CLI, and
+   confirm `/agent` lists the agent. Optionally confirm the agent in VS Code Chat's agent picker.
+4. Select the agent and let it add a user story and criteria to a ticket: record whether
+   `gh issue edit` was allowed or the draft was pasted by hand. Validate each criterion is
+   checkable and drag the ticket to **Todo**.
+5. Implement that ticket with ordinary Copilot CLI, check every criterion in the Website preview,
    and record one debug round truthfully.
-5. Write `checks/test_*.py` with the shipped `checks/website.py`; show `pytest checks` green, red
-   after a deliberate break, and green again; add build and run commands to the brief; push.
-6. Optional extras only: [Lab 04](../../labs/04-mcp/README.md) (read-only GitHub MCP; a `gh`
+6. Write `checks/test_*.py` with the shipped `checks/website.py`; show `pytest checks` green, red
+   after a deliberate break, and green again; add the requirements list and build and run
+   commands to the brief; push a commit ending `Closes #N` and confirm the card moved to **Done**.
+7. Optional extras only: [Lab 04](../../labs/04-mcp/README.md) (read-only GitHub MCP; a `gh`
    request does not replace the MCP call; the presenter browser demonstration only from a real
    rehearsal, never `--no-sandbox`) and [Lab 06](../../labs/06-teach-copilot/README.md)
    (missing FOUNDRY_* secrets are a recorded blocker, never an API key).
@@ -161,20 +171,29 @@ local-network prerequisites, and never disable enforced boundaries to force a su
 ## 5. Complete Day 4 and Day 5
 
 Follow [the Day 4 guide](../../docs/DAY-4-BUILD.md), recorded as `day-4`, and
-[Lab 03](../../labs/03-cloud-agent/README.md), recorded as `03`: a practice branch and pull
-request from the Codespace; an approved story filed with **User story for Copilot** and assigned
-to the real cloud agent; the learner-described `code-review.agent.md` producing
+[Lab 03](../../labs/03-cloud-agent/README.md), recorded as `03`: the presenter's criteria
+automation on a new demo ticket (optional check); publish first if the website has
+no address; create the `Protect main` ruleset (pull request required, 0 approvals; Copilot code
+review stays off) and confirm a direct push to `main` is refused; on a feature branch switch on
+the `version:` line and show `version.json` in the footer, merge, and confirm the live website
+shows **Version 1.0.N**; an approved ticket from the board assigned to
+the real cloud agent, with its pull request linked to the ticket; the learner-described
+review rules and `code-review.agent.md` merged through a pull request and producing
 `reviews/pr-N.md` with every finding checked by hand; an `@copilot` fix with criteria, tests and
-review rerun; then merge or close with a reason. Do not bypass a required human review; record it
-as pending if it cannot be completed here. Note how long the cloud session took.
+review rerun; then merge and confirm the deployed feature, the next version, and the ticket
+**Done** on the board, or close with a
+reason. Do not bypass a required human review or add the learner to the ruleset's bypass list;
+record anything that cannot be completed here as pending. Note how long the cloud session took.
 
-Follow [the Day 5 guide](../../docs/DAY-5-SHOWCASE.md), recorded as `day-5`: copy the starter
-check workflow, edit its triggers and permissions, push it from the Codespace (record a refused
-workflow push as a blocker with the web-editor fallback), see a pull request go red then green;
-copy the approval starter, make the learner a required reviewer of `training`, approve one release;
-run `scripts/smoke_test.py`, ship a deliberately bad headline, revert it, and confirm the content
-fingerprint returns; write HANDOFF.md. Room logistics and team demos need a human rehearsal;
-record those as pending rather than inventing an observation.
+Follow [the Day 5 guide](../../docs/DAY-5-SHOWCASE.md), recorded as `day-5`, with every change on a
+branch and through a pull request: copy the starter checks, edit their triggers and permissions
+(record a refused workflow push as a blocker with the web-editor fallback), merge them, and make
+**Check the website** and **UI check** required; add a 900-pixel banner and see the UI check go red
+with the banner visible in `home-phone.png`, then green; copy the approval starter, make the
+learner a required reviewer of `training`, approve one release; run `scripts/smoke_test.py`, ship
+a deliberately bad sentence that the checks cannot see, roll it back with **Revert**, and confirm
+the content fingerprint returns while the version rises; write HANDOFF.md. Room logistics and team
+demos need a human rehearsal; record those as pending rather than inventing an observation.
 Optional Spaces, managed plugins, travel, SDK/BYOK, fleet, third-party agents, integrations,
 second-model previews, and everything in the [advanced reference](../../post-workshop/advanced/README.md)
 stay outside this run. Do not install optional products or change enterprise settings to turn an

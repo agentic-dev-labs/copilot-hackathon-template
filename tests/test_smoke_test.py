@@ -68,3 +68,16 @@ def test_unhealthy_or_plain_http_is_rejected(monkeypatch: pytest.MonkeyPatch) ->
     rows = smoke_test.smoke_test(SITE)
     assert rows[0][:2] == ("Website says it is healthy", False)
     assert rows[1][1] is False and len(rows) == 2
+
+
+def test_version_is_shown_but_never_fails_the_test(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    """A Day 4 release shows its version; an odd or missing version.json is simply not shown."""
+    pages = healthy_pages()
+    pages[f"{SITE}/version.json"] = (200, json.dumps({"version": "1.0.12", "build": 12}).encode())
+    monkeypatch.setattr(smoke_test, "fetch", fake_site(pages))
+    assert smoke_test.main([SITE]) == 0
+    assert "(commit aaaaaaa, content bbbbbbbbbbbb, version 1.0.12)" in capsys.readouterr().out
+    pages[f"{SITE}/version.json"] = (200, b"[1, 2]")
+    monkeypatch.setattr(smoke_test, "fetch", fake_site(pages))
+    assert smoke_test.main([SITE]) == 0
+    assert "content bbbbbbbbbbbb)" in capsys.readouterr().out

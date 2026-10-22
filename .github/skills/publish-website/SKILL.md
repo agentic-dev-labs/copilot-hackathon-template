@@ -33,11 +33,16 @@ or push for the learner.
    - **"On GitHub, Actions > Publish my website shows progress; the link also appears under
      Deployments on your repository page."**
 
+   From Day 4 the learner's `main` is protected by a ruleset that requires a pull request. If a
+   push is refused for that reason, or the learner is already on a branch, guide this instead:
+   commit on a new branch, **Publish Branch**, create the pull request, and merge it on GitHub.
+   Publishing starts after the merge.
+
    If `site/ideas/` holds idea pages, add one line per idea: its address is the same address
    followed by `/ideas/<folder>/`, such as `.../ideas/team-lunch/`.
 
 When the learner asks whether it is live, first check `git status -sb`: if it says **ahead**, the
-change is not pushed yet, so guide the push. Then run
+change is not on GitHub yet, so guide the push, or the pull request when `main` is protected. Then run
 `curl -s https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io/healthz`, take its
 `commit`, and run `git merge-base --is-ancestor "$(git log -1 --format=%H -- site config.json)" <commit>`.
 Success means the newest change to `site/` is live, even when later commits changed only other

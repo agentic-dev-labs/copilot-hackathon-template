@@ -108,9 +108,9 @@
             ],
         }
         const STYLES = [
-            { name: 'Watercolour', prompt: 'Turn this photo into a soft watercolour painting with gentle paper texture.' },
+            { name: 'Watercolor', prompt: 'Turn this photo into a soft watercolor painting with gentle paper texture.' },
             { name: 'Comic book', prompt: 'Turn this photo into a bold comic book illustration with clean ink lines and halftone dots.' },
-            { name: 'Pixel art', prompt: 'Turn this photo into colourful 16-bit pixel art.' },
+            { name: 'Pixel art', prompt: 'Turn this photo into colorful 16-bit pixel art.' },
             { name: 'Starry night', prompt: 'Repaint this photo as a swirling post-impressionist oil painting under a starry night sky.' },
             { name: 'Neon night', prompt: 'Make this photo a glowing neon night scene with vivid pink and blue light.' },
             { name: 'Snowy winter', prompt: 'Make this a snowy winter scene with soft falling snow.' },
@@ -119,7 +119,7 @@
         ]
         const saved = store('photo-studio')
         let gallery = SAMPLE
-        let choice = saved.load({ style: 'Watercolour' })
+        let choice = saved.load({ style: 'Watercolor' })
         let source = null
         let sourceName = ''
         let result = null

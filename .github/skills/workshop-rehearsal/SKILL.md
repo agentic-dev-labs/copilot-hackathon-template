@@ -15,9 +15,10 @@ is used in an Agent Host or CLI session. Use tools available in the current clie
 - **Day 1** — concepts, Chat, a learner-created website, manual behaviour/source checks, and
   save/commit/push. Storage, research, presentations, and early publication are optional.
 - **Day 2** — supported own-idea building with fictional app-local content, not an integration lab.
-- **Day 3** — Copilot CLI sign-in, a learner-described User Requirements agent, validated user
-  stories, one approved story built, and `pytest checks` tests. Labs 04 and 06 are optional.
-- **Day 4** — a practice pull request, an approved story delegated to the cloud agent (Lab 03), a
+- **Day 3** — tickets on a project board, Copilot CLI sign-in, a learner-described User
+  Requirements agent that adds criteria to each ticket, one approved ticket built, `pytest checks`
+  tests, and the ticket closed by its commit. Labs 04 and 06 are optional.
+- **Day 4** — a practice pull request, an approved ticket delegated to the cloud agent (Lab 03), a
   learner-described Code Review agent whose findings are verified, `@copilot` fixes, a merge decision.
 - **Day 5** — CI/CD: starter check workflow, red then green pull request, approval-gated publish
   in `training`, smoke test and revert, team demos (human rehearsal), and HANDOFF.md.

@@ -300,8 +300,39 @@ def test_approval_starter_only_adds_a_gate_before_the_same_publisher() -> None:
     assert publish["needs"] == "approve"
     # The publish job carries no environment, so its OIDC subject stays refs/heads/main.
     assert "environment" not in publish
-    assert {key: value for key, value in publish.items() if key != "needs"} == current["jobs"]["publish"]
+    # The only other difference: the version learners switched on during Day 4 stays on.
+    expected = dict(current["jobs"]["publish"])
+    expected["with"] = {**expected["with"], "version": "1.0.${{ github.run_number }}"}
+    assert {key: value for key, value in publish.items() if key != "needs"} == expected
     assert "secrets." not in text and "Required reviewers" in text
+
+
+def test_day_four_version_line_is_one_hash_away_from_the_publisher() -> None:
+    """Day 4: removing one # makes the caller pass its run number as the website version."""
+    text = Path(".github/workflows/publish-website.yml").read_text(encoding="utf-8")
+    assert "      # version: 1.0.${{ github.run_number }}\n" in text
+    switched_on = yaml.load(text.replace("      # version:", "      version:"), Loader=yaml.BaseLoader)
+    assert switched_on["jobs"]["publish"]["with"]["version"] == "1.0.${{ github.run_number }}"
+    publisher = yaml.load(PUBLISHER.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    version_input = publisher["on"]["workflow_call"]["inputs"]["version"]
+    assert version_input["required"] == "false" and version_input["default"] == ""
+
+
+def test_publisher_writes_the_version_as_data_before_the_build() -> None:
+    """The version is validated, written by jq from env, and lands in the image it verifies."""
+    workflow = yaml.load(PUBLISHER.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    job = workflow["jobs"]["publish"]
+    assert job["env"]["WEBSITE_VERSION"] == "${{ inputs.version }}"
+    steps = job["steps"]
+    stamp = next(index for index, step in enumerate(steps) if "site/version.json" in step.get("run", ""))
+    download = next(index for index, step in enumerate(steps)
+                    if step.get("uses", "").startswith("actions/download-artifact@"))
+    build = next(index for index, step in enumerate(steps) if "docker build" in step.get("run", ""))
+    assert download < stamp < build
+    assert steps[stamp]["if"] == "${{ inputs.version != '' }}"
+    script = steps[stamp]["run"]
+    assert '[[ "$WEBSITE_VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z.+_-]{0,39}$ ]]' in script
+    assert '--arg version "$WEBSITE_VERSION"' in script and '--argjson build "$GITHUB_RUN_NUMBER"' in script
 
 
 def test_hosting_trusts_only_the_template_publisher_on_main() -> None:

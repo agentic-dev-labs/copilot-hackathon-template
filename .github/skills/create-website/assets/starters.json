@@ -108,21 +108,21 @@
         {
             "id": "photo",
             "title": "Photo Studio",
-            "summary": "Pick a photo of a thing, place or pet, choose a style like watercolour or pixel art, and the workshop AI repaints it; save the best to a gallery.",
+            "summary": "Pick a photo of a thing, place or pet, choose a style like watercolor or pixel art, and the workshop AI repaints it; save the best to a gallery.",
             "data_file": "data/gallery.json",
             "storage_key": "photo-studio",
             "ai": "Workshop picture model through the Website preview; photos of people, documents and screens are refused.",
             "expected": {
                 "item_count": 6
             },
-            "try_it": "Try it: pick the sleepy cat, choose Watercolour, and press Make it.",
-            "manual_check": "6 pictures in the gallery to start. Make the sleepy cat into a watercolour and save it: the gallery shows 7.",
+            "try_it": "Try it: pick the sleepy cat, choose Watercolor, and press Make it.",
+            "manual_check": "6 pictures in the gallery to start. Make the sleepy cat into a watercolor and save it: the gallery shows 7.",
             "later_ideas": [
                 "Add your own style button, such as 'make it look like a postcard'",
                 "Show the newest picture large at the top of the gallery",
                 "Add a title box so you can name a picture before saving it",
                 "Add a slideshow button that shows the gallery one picture at a time",
-                "Add a favourite star to each picture and show favourites first"
+                "Add a favorite star to each picture and show favorites first"
             ]
         }
     ],

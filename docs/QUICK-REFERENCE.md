@@ -6,9 +6,11 @@ step instead of racing ahead. Use made-up information only.
 | I want to... | Where to go |
 | --- | --- |
 | Find today's guide | Monday until 10:30: the **README** on your repository's GitHub page. Then, in the Explorer, **docs > START-HERE.md**, or the guide the presenter names. |
+| Get back on track when I am lost | Find the row the room is on in **Today's Route** at the top of today's guide (Monday morning: the README's headings), open its link, and start there. Raise your hand: a helper catches you up. |
 | Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
 | Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |
+| See how Copilot writes | Type **`/next-word`** and an unfinished sentence, such as "What a nice day, let's go to the". It guesses the next word; its percentages are its own rough estimate. |
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
 | Undo Copilot's change | Select **Undo** in Chat after the change. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
 | Ask what code means | Select a few lines in a file, then ask Chat: "Explain the lines I selected in plain English." |
@@ -18,7 +20,7 @@ step instead of racing ahead. Use made-up information only.
 | Let Copilot write the message | Select the **sparkle icon** in the Source Control message box. Read it and fix anything untrue. |
 | See my history on GitHub | On your repository page select **Commits**. On a file, select **History**. |
 | Send it to GitHub | **Source Control > ... > Push**. Then open your repository on GitHub to see it. |
-| Build my first website | In Chat choose **Agent**, then type **`/create-website`** and pick one of the four websites. |
+| Build my first website | In Chat choose **Agent**, then type **`/create-website`** and pick one of the six websites, or **My own idea**. |
 | Build my own idea | Run **`/create-website`** again and choose your own idea. It gets its own folder under `site/ideas/`. |
 | See my website | **`/start-website`** opens it beside Chat. For an idea, add its folder name: `/start-website team-lunch`. |
 | Close my website | **`/stop-website`**. Your files and entries stay. |
@@ -27,13 +29,24 @@ step instead of racing ahead. Use made-up information only.
 | Draw a picture for my page | Ask: "Draw a picture for my header: a friendly rocket, in my colors." It appears in a few seconds. |
 | Change a picture | Ask: "Change my header picture: make it a night scene." The old picture stays, so you can go back. |
 | Add a chat to my page | Type **`/add-chat`**, then select **Ask** at the bottom right of your page. Check its answers yourself. |
+| Add a chart | Type **`/add-chart`** and pick one. For an idea's page, add its folder name: `/add-chart team-lunch`. |
+| Publish my website (optional) | Type **`/publish-website`**, then save, commit, and push. When **Actions** is green, open the link under **Deployments**. |
 | Paste into the terminal | **Ctrl+V** (Windows) or **Cmd+V** (Mac). Allow clipboard access if the browser asks. |
 | Use Copilot in the terminal (Day 3) | Type `copilot` and press Enter. Type `/exit` to leave. |
-| Use my own agent (Days 3-4) | In Copilot CLI type `/agent` and choose it. After creating a new agent, type `/exit` and `copilot` once so it appears. |
+| Use my own agent (Days 3-4) | In Copilot CLI type `/agent` and choose it. After creating a new agent or skill, type `/exit` and `copilot` once so it appears. |
+| Use my skill (Day 3) | Name it in your request, for example "Use the user-stories skill on issue #1". |
+| Write a ticket (Day 3) | On GitHub: **Issues > New issue > Requirement**. Write what you want in plain words; your agent adds the story and the criteria. |
+| Make my board (Day 3) | Select the organization's name above your repository, then **Projects > New project > Board**, name it `<your username> website`, and **Import items from repository**. Later, open it from your repository's **Projects** tab. |
+| Approve a ticket (Days 3-4) | On your board, drag its card into **Todo**. |
+| Close a ticket with a commit (Day 3) | End the commit message with `Closes #1`, using the ticket's number. When it reaches `main`, the card moves to **Done**. |
 | Run my tests (Days 3-5) | In the terminal type `pytest checks`. Green means pass; red shows what failed. |
 | Start a branch (Days 4-5) | Select the branch name at the bottom left, then **Create new branch...**. Go back by choosing `main`, then **Pull**. |
-| Hand a story to Copilot (Day 4) | On GitHub: **Issues > New issue > User story for Copilot**, then **Assignees > Copilot**. |
+| Save a change from Day 4 on | `main` takes only pull requests: a branch, commit, **Publish Branch**, create the pull request, merge it on GitHub, then `main` and **Pull**. |
+| Protect `main` (Day 4) | On GitHub: **Settings > Rules > Rulesets > New ruleset > New branch ruleset**, as in the Day 4 guide. |
+| Hand a ticket to Copilot (Day 4) | Open an approved ticket from **Todo**, then **Assignees > Copilot**, and drag it to **In Progress**. |
+| See my screenshots (Day 5) | On GitHub: **Actions**, open the run, then **Summary > Artifacts > home-phone.png** or **home-desktop.png**. |
 | Approve a release (Day 5) | On GitHub: **Actions**, open the waiting run, **Review deployments > Approve and deploy**. |
+| Roll back a release (Day 5) | On GitHub: open the merged pull request, select **Revert**, then merge the new pull request. |
 | Smoke-test my website (Day 5) | `python3 scripts/smoke_test.py https://<my website address>` |
 | Something looks broken | Show a helper the exact message. Do not install anything. |
 
@@ -42,7 +55,7 @@ step instead of racing ahead. Use made-up information only.
 "Change **this one thing** for **this audience**. Keep **these things** unchanged. Explain the
 small plan first. I will check it by **this action and expected result**."
 
-[Lab 02](../labs/02-make-it-useful/README.md) has ideas for each of the four websites.
+[Lab 02](../labs/02-make-it-useful/README.md) has a check for each of the six websites.
 
 ## Trust, but Verify
 
@@ -52,16 +65,20 @@ screenshot alone does not prove a button works.
 
 ## Your Finish Each Day
 
-**Monday:** your first website, made your own and checked, saved on GitHub, and shown to a neighbor.
-**Tuesday:** a first version of your own idea (or a better Monday page), one check, and questions for IT.
+**Monday:** your first website with a chart or a chat you checked, one idea of your own, all
+saved on GitHub and shown to a neighbor.
+**Tuesday:** a first version of your own idea (or a better Monday page), one check, questions for
+IT, and two or three wishes under **Next** in your brief.
 Nothing extra is required on Monday or Tuesday: no database, CLI, MCP, or setup. Publishing is
 optional, with a helper.
-**Wednesday:** your own User Requirements agent, a requirements file with an approved story,
-that story working on your page, and green `pytest checks`.
-**Thursday:** a merged practice pull request, a story built by Copilot's cloud agent, your own
-Code Review agent's report with every finding checked by you, and a merge-or-not decision.
-**Friday:** a check that runs on every pull request, a release you approved, a bad release
-rolled back, your team demo, and a HANDOFF.md.
+**Wednesday:** your idea as tickets on your own board, your own user-stories skill and User
+Requirements agent, acceptance criteria on every ticket, one ticket working on your page with
+green `pytest checks` and **Done** on your board.
+**Thursday:** `main` protected by your ruleset, your live website showing its version number, a
+ticket built by Copilot's cloud agent, your own Code Review agent's report with every finding
+checked by you, and a merge-or-not decision.
+**Friday:** your tests and a browser UI check required on every pull request, a release you
+approved, a bad release rolled back with **Revert**, your team demo, and a HANDOFF.md.
 
 Ask a helper about sign-in, conflicts, permissions, or any command you do not understand. Never
 paste passwords or real work records into Chat. Do not delete accounts or remove training access

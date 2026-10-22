@@ -5,8 +5,8 @@ Usage (from the repository root):
     python3 scripts/smoke_test.py https://<name>.<domain>
     python3 scripts/smoke_test.py https://<name>.<domain> --expect-text "Plan our team week"
 
-It checks that /healthz says ok, prints the live commit and content fingerprint, opens the
-page, optionally looks for words on it, and loads every picture, style and script the page
+It checks that /healthz says ok, prints the live commit, content fingerprint and version, opens
+the page, optionally looks for words on it, and loads every picture, style and script the page
 uses. It exits with 0 when every check passed and 1 otherwise. It only reads; it never
 changes the website.
 """
@@ -73,6 +73,15 @@ def smoke_test(base_url: str, expect_text: str = "", page: str = "/") -> list[tu
         health = {}
     healthy = status == 200 and health.get("status") == "ok"
     detail = f"commit {health.get('commit', '?')[:7]}, content {health.get('site_digest', '?')[:12]}"
+    if healthy:
+        # Day 4 releases carry a version; it moves on with every build, unlike the content.
+        version_status, version_body = fetch(f"{base}/version.json")
+        try:
+            version = json.loads(version_body).get("version") if version_status == 200 else None
+        except (ValueError, AttributeError):
+            version = None
+        if isinstance(version, str) and version:
+            detail += f", version {version}"
     results.append(("Website says it is healthy", healthy, detail if healthy else f"HTTP {status}"))
 
     page_url = urljoin(f"{base}/", page.lstrip("/"))

@@ -16,6 +16,11 @@ on:
         type: string
         required: false
         default: ""
+      version:
+        description: Optional version to show on the website, such as 1.0.42. Written to site/version.json.
+        type: string
+        required: false
+        default: ""
     outputs:
       url:
         description: The verified address of the published website.
@@ -105,6 +110,7 @@ jobs:
       url: ${{ steps.verify.outputs.url }}
     env:
       WEBSITE_NAME: ${{ needs.prepare.outputs.name }}
+      WEBSITE_VERSION: ${{ inputs.version }}
       REPOSITORY_ID: ${{ github.repository_id }}
     steps:
       - name: Get the template's publisher files, never the attendee's code
@@ -128,6 +134,18 @@ jobs:
         with:
           name: website-files
           path: site
+
+      # Day 4: the caller can pass a version, such as 1.0.<run number>. The page can show it from
+      # version.json; the content fingerprint ignores this file (see app/site.py).
+      - name: Write the version into the website
+        if: ${{ inputs.version != '' }}
+        run: |
+          if ! [[ "$WEBSITE_VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z.+_-]{0,39}$ ]]; then
+            echo "::error::A version has up to 40 letters, digits, dots, plus signs, hyphens and underscores, such as 1.0.42."
+            exit 1
+          fi
+          jq -n --arg version "$WEBSITE_VERSION" --argjson build "$GITHUB_RUN_NUMBER" --arg commit "$GITHUB_SHA" \
+            '{version: $version, build: $build, commit: $commit}' > site/version.json
 
       - name: Build and check the website image
         run: |
@@ -235,6 +253,10 @@ jobs:
                 echo
                 echo "**$URL**"
                 echo
+                if [ -n "$WEBSITE_VERSION" ]; then
+                  echo "Version **$WEBSITE_VERSION**, build $GITHUB_RUN_NUMBER."
+                  echo
+                fi
                 echo "Published commit \`${GITHUB_SHA:0:7}\`. Every push to main updates it in about three minutes."
                 echo "After a quiet spell, the first visit can take about 30 seconds while the website wakes up."
               } >> "$GITHUB_STEP_SUMMARY"

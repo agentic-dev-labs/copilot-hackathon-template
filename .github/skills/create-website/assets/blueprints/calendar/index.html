@@ -6,8 +6,9 @@
     <title>My Calendar</title>
     <link rel="stylesheet" href="css/workshop.css">
     <style>
-        .nav { display: flex; align-items: center; gap: 0.4rem; }
+        .nav { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
         .nav h2 { min-width: 11rem; text-align: center; }
+        @media (max-width: 480px) { .nav h2 { min-width: 0; } }
         .day-list { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; }
     </style>
 </head>

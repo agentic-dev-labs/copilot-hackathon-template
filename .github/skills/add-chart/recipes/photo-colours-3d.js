@@ -1,8 +1,8 @@
-/* Recipe: "Colour cloud" (3D) for the Photo Studio: the colours of the chosen photo as a cloud of dots in a red-green-blue cube.
- * Markup, after the studio panel:  <section class="panel animate-in chart-panel"><h2>The colours in your photo</h2><div class="chart chart-stage" id="colour-cloud" style="height: 380px"></div></section>
+/* Recipe: "Color cloud" (3D) for the Photo Studio: the colors of the chosen photo as a cloud of dots in a red-green-blue cube.
+ * Markup, after the studio panel:  <section class="panel animate-in chart-panel"><h2>The colors in your photo</h2><div class="chart chart-stage" id="colour-cloud" style="height: 380px"></div></section>
  * Script: add <script src="js/vendor/echarts.min.js"></script>, <script src="js/vendor/echarts-gl.min.js"></script> and
  * <script src="js/workshop-charts.js"></script> after workshop.js; call drawColourCloud(source) at the end of renderStage().
- * Check: pick the misty lake and the cloud turns mostly blue and grey; pick the fruit bowl and orange and green appear. */
+ * Check: pick the misty lake and the cloud turns mostly blue and gray; pick the fruit bowl and orange and green appear. */
 function drawColourCloud(picture) {
     if (!picture) return
     const image = new Image()
