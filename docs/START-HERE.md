@@ -105,8 +105,9 @@ what you see, and ask for one fix if needed. "Copilot says it works" is not a ch
 check is useful information, not lost work.
 
 If Copilot starts changing more than you asked, select **Stop** in Chat, look at what changed,
-and ask for something smaller. Stopping does not undo changes, but **Undo** in Chat does: after
-each change Copilot shows **Keep** and **Undo**, and you will practice this in Lab 02. Never
+and ask for something smaller. Stopping does not undo changes, but **Undo** in Chat does. After
+each change Copilot shows **Keep** and **Undo**: select **Keep** when you like a change, because
+**Undo** takes back every change you have not kept. You will practice this in Lab 02. Never
 approve a command you do not understand.
 
 Tomorrow you keep building your own idea with [Build Your Own Idea](DAY-2-BUILD.md). Your work from today stays.

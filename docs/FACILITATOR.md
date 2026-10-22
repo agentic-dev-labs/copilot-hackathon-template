@@ -526,7 +526,8 @@ is required; repository access to the prepared Actions identity must already exi
 - Rehearse stop/steer and inspection on a disposable small change. Keep Monday to these essentials.
 - In VS Code in the browser (Codespaces), rehearse the four Monday additions: Chat explains
   selected lines in `site/index.html` and a hand edit of the `<h1>` headline updates the preview;
-  **Keep** and **Undo** appear after a Copilot change and **Undo** restores the page; the
+  **Keep** and **Undo** appear after a Copilot change, and after the chart and look are kept,
+  **Undo** removes only the wild change (it takes back every change not yet kept); the
   **sparkle icon** in Source Control writes a commit message; and the commit list, a commit's
   changes, and the file **History** are easy to find on GitHub.
 - Rehearse the optional sketch moment: drag `docs/images/sketch-example.png` from the Explorer
@@ -625,6 +626,9 @@ container build, application security review, or live deployment check.
 | ---------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Codespace creation fails                       | Network and Codespaces policy                                            | Allow required GitHub endpoints and enable Codespaces.                                                                                                                      |
 | Copilot icon or agent missing                  | Seat and organization policy                                             | Assign the seat, enable the feature, then reload the Codespace.                                                                                                             |
+| Only **Agent** in the picker, or **Sign In** at the bottom right | Copilot has not signed in to this Codespace yet | Select **Sign In** once; it uses the GitHub account already signed in. Seen on 22 October 2026 after four minutes of waiting. |
+| Allow prompts, **Manual permissions**, slow answers, no **Keep** or **Undo** | A **New Chat** opened the Copilot harness, not Local | Go back to the first chat, or start a new one and choose **Local** before typing. |
+| **Undo** also removed the chart or the new look | **Undo** takes back every change not kept yet | Ask for the chart again and select **Keep**; keep the changes you like before the wild one. |
 | `copilot` command not found | CLI profile not prepared | Before Day 3, the helper runs `bash .devcontainer/setup.sh cli` and verifies sign-in. This is not a Monday/Tuesday blocker. |
 | Old duplicate vendor-analyst still appears     | Cached organization discovery                                            | The shared copy is retired; refresh/reload the client. Keep the local analyst used by the advanced reference.                                                                      |
 | Learner agent or skill missing                 | File location, frontmatter, client                                       | Inspect discovery diagnostics; use skills for Agent Host, not unsupported prompt files.                                                                                     |

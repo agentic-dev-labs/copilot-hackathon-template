@@ -25,8 +25,9 @@ moves to pair sharing. The presenter shows each step, then pauses for your turn.
 
 GitHub keeps every snapshot you pushed today, like a time machine for your work.
 
-5. Open your repository on GitHub and select **Commits** (next to the clock icon). These are the
-   snapshots of your project, newest first. Yours from today are at the top: how many did you make?
+5. Open your repository on GitHub and select **Commits** (next to the clock icon; a narrow window
+   shows only the clock). These are the snapshots of your project, newest first. Yours from
+   today are at the top: how many did you make?
 6. Select one of your own snapshots, for example **Add my first website**. GitHub shows exactly
    what changed: green lines were added, red lines were removed.
 7. Go back to your repository, open **site > index.html**, and select **History**. Each entry is

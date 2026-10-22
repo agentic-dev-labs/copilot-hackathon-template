@@ -40,7 +40,9 @@ build step, API key, or a new internet address, and do not edit the preview help
    relative to `site/`) and require `previewOpen: true`.
 9. Hand over in three short lines:
    - **"Scroll down: your <chart name> is drawn from your own <entries>."**
-   - The recipe's **Check**, written as something to try.
+   - The recipe's **Check**, written as something to try with the page's numbers right now.
+     Count its entries first: the learner may have added, ticked or removed some since it was
+     made.
    - For 3D: **"Drag the chart to turn it."** Otherwise: **"Point at the chart to see the numbers."**
 
 | Starter | Flat ideas | 3D idea |

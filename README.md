@@ -71,8 +71,9 @@ GitHub; pushing does.
    **Use this template > Create a new repository**, then:
    - **Owner:** choose **agentic-dev-labs**, not your own name.
    - **Repository name:** your GitHub username, for example `AliFarahnak`. Your website uses it.
-   - **Visibility:** choose **Private**.
-   - Select **Create repository**.
+   - **Visibility:** choose **Private**. It may start on **Internal**.
+   - Leave everything else as it is, including the optional **Jumpstart** box, and select
+     **Create repository**.
 
    **Check:** the top of the page shows **agentic-dev-labs /** your name and a **Private** label.
    If it shows anything else, or **agentic-dev-labs** is not in the list, raise your hand.
@@ -90,15 +91,16 @@ GitHub; pushing does.
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
    its other tab.
 5. Open Chat with **View > Chat** and choose **Ask** from the list. **Ask** only answers; it
-   never changes your files.
+   never changes your files. In the browser, **View** is in the menu with three lines at the top
+   left. Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
 6. **Guess the next word.** The presenter shows how Copilot writes: it picks a likely next word,
    one word at a time. Now you try. Type `/next-word`, pick it from the list, then type
    **What a nice day, let's go to the** and press Enter.
    **Check:** which word did you get? Raise your hand for it when the presenter asks. The
    percentages are Copilot's own rough estimate, not a measurement.
-7. Select **New Chat** (the **+** at the top of Chat), so it starts fresh. Then ask: "Explain the
-   difference between my repository, Codespace, and Copilot in three short sentences. Do not
-   change files or run commands."
+7. Stay in this chat all day; you do not need a new one. Ask: "Explain the difference between my
+   repository, Codespace, and Copilot in three short sentences. Do not change files or run
+   commands."
    **Check:** compare the answer with the five words above. Does it match?
 8. Then ask: "Use an everyday example and make it shorter."
    **Check:** is it clearer now? A better question gives Copilot more to go on. You can always
@@ -121,13 +123,15 @@ yours.
 3. Copilot builds it and opens it in the **Website preview** beside Chat, named after your
    repository, for example **AliFarahnak Project Planner**. Press **+** and add a made-up entry.
    **Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the
-   proof, not Copilot saying "done".
+   proof, not Copilot saying "done". Then select **Keep** under the chat box: it accepts the
+   change. Do this whenever you like a change, because **Undo** takes back every change you
+   have not kept.
 4. Open **Explorer > site > brief.md**. This is your idea note, the README of your website:
    Copilot wrote what your page is for and how you can check it. You add to it all week.
-5. **Save it on GitHub.** Choose **File > Save All**, then open **Source Control**. This first
-   time it lists many files: your page plus the pictures, fonts and styles it needs. That is
-   expected. Hover over **Changes** and select its **+** to include them all, type
-   `Add my first website`, select **Commit**, then **... > Push**.
+5. **Save it on GitHub.** Choose **File > Save All**; if it is grey, everything is already
+   saved. Then open **Source Control**. This first time it lists many files: your page plus the
+   pictures, fonts and styles it needs. That is expected. Hover over **Changes** and select its
+   **+** to include them all, type `Add my first website`, select **Commit**, then **... > Push**.
    **Check:** open your repository on GitHub in a new browser tab, open **site**, then
    **brief.md**. It is there.
 

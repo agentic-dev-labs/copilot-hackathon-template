@@ -12,13 +12,15 @@ step instead of racing ahead. Use made-up information only.
 | Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |
 | See how Copilot writes | Type **`/next-word`** and an unfinished sentence, such as "What a nice day, let's go to the". It guesses the next word; its percentages are its own rough estimate. |
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
-| Undo Copilot's change | Select **Undo** in Chat after the change. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
+| Keep Copilot's change | Select **Keep** in Chat when you like it. Selecting **+** for the file in Source Control keeps it too. |
+| Undo Copilot's change | Select **Undo** in Chat, then **Yes**. It takes back every change you have not kept. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
+| Start a new chat | Rarely needed: your first chat keeps working all week. If you do, select **+**, then, before typing, choose **Local** in the list at the bottom of Chat. |
 | Ask what code means | Select a few lines in a file, then ask Chat: "Explain the lines I selected in plain English." |
 | See what changed | **Source Control**, the branching-lines icon. Select a file to compare before and after. |
 | Save | **File > Save**. This keeps the change in the file, not on GitHub yet. |
 | Take a snapshot | In Source Control, select **+** next to the files you checked, type a short message, then **Commit**. |
 | Let Copilot write the message | Select the **sparkle icon** in the Source Control message box. Read it and fix anything untrue. |
-| See my history on GitHub | On your repository page select **Commits**. On a file, select **History**. |
+| See my history on GitHub | On your repository page select **Commits**, beside the clock icon (a narrow window shows only the clock). On a file, select **History**. |
 | Send it to GitHub | **Source Control > ... > Push**. Then open your repository on GitHub to see it. |
 | Build my first website | In Chat choose **Agent**, then type **`/create-website`** and pick one of the six websites, or **My own idea**. |
 | Build my own idea | Run **`/create-website`** again and choose your own idea. It gets its own folder under `site/ideas/`. |

@@ -52,13 +52,14 @@ save again, and ask a helper if it still looks wrong.
 ## 3. Build One More Idea (20 minutes)
 
 1. In Chat, with **Agent** chosen, type **`/create-website`** again. Copilot sees that you
-   already have a page and asks what you would like: choose **your own idea**.
+   already have a page and asks what you would like: answer **build my own idea**.
 2. Describe it in one sentence, for example one from the table below. Something from your own
    work is welcome too, as long as every entry is made up.
 3. Copilot builds it in its own folder, such as `site/ideas/lunch-map/`, and opens it beside
    Chat. Your first page stays exactly as it is.
 4. Ask for one change in ordinary words, and add "Leave the rest alone." For example: "Make the
-   headline friendlier. Leave the rest alone." Watch the change appear by itself.
+   headline friendlier. Leave the rest alone." Watch the change appear by itself. Like it?
+   Select **Keep**.
 
 | You would like... | Say                                                                  |
 | ----------------- | -------------------------------------------------------------------- |
@@ -102,8 +103,9 @@ Use your first page: type `/start-website` to open it beside Chat.
    "show only this week", or "shuffle the ideas". Say what you expect, click it twice, and
    compare. If it is wrong, tell Copilot: "I expected ..., but I saw ...". Check again after the fix.
 2. **Check a number (10 minutes).** On your first page, count it yourself, using the table
-   below. If your first page is your own idea, use the check in its **brief.md**. Do not trust
-   a number you have not checked.
+   below. The table counts the example entries, so add the ones you made: with the task you
+   added at 10:00, the planner shows **1 of 5 done**. If your first page is your own idea, use
+   the check in its **brief.md**. Do not trust a number you have not checked.
 3. **Write it down (10 minutes).** In **site/brief.md**, write what you tried and what happened,
    including anything that does not work yet. Then save, review, commit, and push.
 

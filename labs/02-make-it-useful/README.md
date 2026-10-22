@@ -26,7 +26,8 @@ Pick one. It goes on your first page; for your idea's page, add its folder name,
 1. In Chat, with **Agent** chosen, start your feature. For a chart, Copilot asks one question:
    which chart? Choose one, such as the Project Planner's **Progress gauge** or its 3D
    **Week skyline**.
-2. Watch it appear on your page by itself. Drag a 3D chart to turn it.
+2. Watch it appear on your page by itself. Drag a 3D chart to turn it. When it looks right,
+   select **Keep** in Chat.
 3. For a chat, select **Ask** at the bottom right of your page and ask: "What is on this page?"
 
 Not right? Ask again, or select **Undo** in Chat. Pictures stay made up: no real people, logos,
@@ -66,13 +67,15 @@ Describe what you want in ordinary words. For example:
 
 > Give the cards more space and make the + buttons easier to see. Keep my colors.
 
-Look at the change in **Source Control**, save, and watch the preview update. You do not need
-any design words or codes. If the preview is closed, type `/start-website`.
+Look at the change in **Source Control**, save, and watch the preview update. Like it? Select
+**Keep**. You do not need any design words or codes. If the preview is closed, type
+`/start-website`.
 
 **Be brave once, then undo it.** Ask for something wild, such as "Make the whole page bright
-purple with giant text." Look at the preview. Then, in Chat, select **Undo** for that change:
-Copilot shows **Keep** and **Undo** after each change it makes, and **Undo** puts your files back
-the way they were. Your page returns to normal. Now you know you can always go back.
+purple with giant text." Look at the preview. Then, in Chat, select **Undo** and then **Yes**:
+Copilot shows **Keep** and **Undo** after each change it makes, and **Undo** takes back every
+change you have not kept. That is why you kept your chart and your look first: your page returns
+to them. Now you know you can always go back.
 
 **Optional: show Copilot a sketch.** Drag **docs > images > sketch-example.png** from the
 Explorer into the chat box and ask: "Make my page look more like this sketch. Keep all my

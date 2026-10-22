@@ -270,8 +270,25 @@ def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
     readme = " ".join(Path("README.md").read_text(encoding="utf-8").split())
     chat = readme.split("### Find Your Files and Copilot Chat", 1)[1].split("### Your First Website", 1)[0]
     assert "`/next-word`" in chat and "What a nice day, let's go to the" in chat
-    assert "**New Chat**" in chat, "the next question starts fresh, without the demo's context"
+    # Rehearsed 22 October 2026: New Chat opens the Copilot harness, with manual approvals and no
+    # Keep or Undo, so Monday stays in the first (Local) chat.
+    assert "**New Chat**" not in chat and "Stay in this chat" in chat
     assert "/next-word" in agenda_day(1)
+
+
+def test_keep_comes_before_undo() -> None:
+    """Undo in Chat takes back every change not kept yet, so learners keep what they like first."""
+    readme = " ".join(Path("README.md").read_text(encoding="utf-8").split())
+    first_site = readme.split("### Your First Website", 1)[1].split("### Next:", 1)[0]
+    assert "select **Keep**" in first_site
+    assert "**Undo** takes back every change you have not kept" in first_site
+    interaction = " ".join(Path("labs/02-make-it-useful/README.md").read_text(encoding="utf-8").split())
+    bold = interaction.split("**Be brave once, then undo it.**", 1)
+    assert "select **Keep**" in bold[0], "the chart and look are kept before the wild change"
+    assert "takes back every change you have not kept" in bold[1]
+    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
+    assert "| Keep Copilot's change |" in quick_reference
+    assert "choose **Local**" in quick_reference
 
 
 def test_facilitator_reset_skill_harvests_before_clearing() -> None:
