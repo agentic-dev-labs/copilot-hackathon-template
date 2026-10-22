@@ -12,7 +12,7 @@ All attendee work remains in browser-based Codespaces. No laptop installation or
 - **Day 2:** build your own idea with help at the tables, around the business/IT, Power Platform, and Project Brain talks.
 - **Day 3:** turn your idea into tickets on a project board, write your own User Requirements agent with Copilot CLI that adds checkable acceptance criteria to each ticket, build one, and test it.
 - **Day 4:** practice branches and pull requests, hand an approved ticket to the cloud agent, and review it with your own Code Review agent.
-- **Day 5:** CI/CD with GitHub Actions: check every change, approve each release, roll back a bad one, then demos and handoff.
+- **Day 5:** CI/CD with GitHub Actions: check every change, try each pull request in a feature slot, approve each release to production, roll back a bad one, then demos and handoff.
 
 The habit is **show -> try -> personalize -> verify -> share**. After the first concepts-only
 block, show one action for 3-5 minutes, allow 8-12 minutes to try it, then check progress.
@@ -173,11 +173,13 @@ Ali. Times count from the start of the session.
 
 **Finish:** the attendee's own checks required on every pull request (their tests, plus a UI
 check that opens their pages on a desktop and a phone and keeps the screenshots), a red UI check
-fixed from its log and screenshot, publishing gated by their own approval in the `training`
-environment, a bad release rolled back with GitHub's **Revert** and proven by
+fixed from its log and screenshot, a feature slot that shows every checked pull request with its
+pull request, version, and build in a strip at the top, Copilot's ticket tried there, then
+released to the production slot only after their own approval in the `production` environment,
+a bad release rolled back with GitHub's **Revert** and proven by
 `scripts/smoke_test.py`, team demos, and a HANDOFF.md. Follow the
-[Day 5 guide](DAY-5-SHOWCASE.md). Starters live in `.github/workflow-starters/`; publishing still
-uses the template's OIDC publisher, so nobody needs a secret or an Azure sign-in.
+[Day 5 guide](DAY-5-SHOWCASE.md). Starters live in `.github/workflow-starters/`; both slots still
+use the template's OIDC publisher, so nobody needs a secret or an Azure sign-in.
 
 ## Optional Extension Shelf
 

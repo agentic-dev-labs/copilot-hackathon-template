@@ -2,12 +2,15 @@
 
 import argparse
 import hashlib
+import html
 import json
 import os
+import re
+from collections.abc import Mapping
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
@@ -24,6 +27,31 @@ MAX_FILES = 100
 # Build details the publisher writes on each release. They are served but kept out of the content
 # fingerprint, so rolling back to a known-good page shows the known-good fingerprint again.
 VERSION_FILE = "version.json"
+# Day 5: the publisher runs the same files in two slots. The production slot is the website's own
+# address; the feature slot is a test copy of a pull request, marked by a strip at the top.
+FEATURE_SLOT = "feature"
+BODY_TAG = re.compile(rb"<body\b[^>]*>", re.IGNORECASE)
+
+
+def website_slot(environment: Mapping[str, str] = os.environ) -> str:
+    """Return "feature" for a pull request's test copy, otherwise "production"."""
+    return FEATURE_SLOT if environment.get("WEBSITE_SLOT") == FEATURE_SLOT else "production"
+
+
+def slot_banner(environment: Mapping[str, str] = os.environ) -> str:
+    """The strip a feature slot shows above every page; the production slot shows none."""
+    if website_slot(environment) != FEATURE_SLOT:
+        return ""
+    parts = ["Feature slot"]
+    for label, name in (("Pull request #", "WEBSITE_PULL_REQUEST"), ("Version ", "WEBSITE_VERSION"),
+                        ("Build ", "WEBSITE_BUILD")):
+        if environment.get(name):
+            parts.append(label + environment[name])
+    parts.append("Test copy, not your live website")
+    text = " &middot; ".join(html.escape(part) for part in parts)
+    return ('<div data-workshop-slot="feature" role="note" style="margin:0;padding:8px 12px;'
+            'background:#ffd84d;color:#1b1b1b;font:600 15px/1.4 system-ui,sans-serif;'
+            f'text-align:center;border-bottom:2px solid #1b1b1b">{text}</div>')
 
 
 def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
@@ -64,6 +92,22 @@ def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
 class WebsiteFiles(StaticFiles):
     """Serve intended web assets only, without directory listings or Markdown notes."""
 
+    def __init__(self, *args, banner: str = "", **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.banner = banner.encode("utf-8")
+
+    def file_response(self, full_path, stat_result, scope, status_code: int = 200) -> Response:
+        """Put the feature slot's strip at the top of each page; serve everything else unchanged."""
+        if not self.banner or not str(full_path).lower().endswith(".html"):
+            return super().file_response(full_path, stat_result, scope, status_code)
+        page = Path(full_path).read_bytes()
+        opening = BODY_TAG.search(page)
+        if opening:
+            page = page[:opening.end()] + self.banner + page[opening.end():]
+        # Never cached, so a new build's strip shows at once.
+        return Response(page, status_code=status_code, media_type="text/html; charset=utf-8",
+                        headers={"Cache-Control": "no-store"})
+
     async def get_response(self, path: str, scope: dict):
         """Keep hidden files, research documents, and planning notes off the preview URL."""
         relative = Path(path)
@@ -83,10 +127,11 @@ class WebsiteFiles(StaticFiles):
 def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None) -> FastAPI:
     """Use the same static serving and health contract in Codespaces and Container Apps."""
     application = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+    slot = website_slot()
 
     @application.get("/healthz")
     def health() -> JSONResponse:
-        """Identify the actual target, commit, label, and deployed asset content."""
+        """Identify the actual target, slot, commit, label, and deployed asset content."""
         try:
             settings = load(config_path)
             manifest = site_manifest(directory)
@@ -94,11 +139,11 @@ def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None
             return JSONResponse({"status": "not-ready", "target": "website"}, status_code=503)
         return JSONResponse({
             "status": "ok", "target": "website", "label": settings["displayName"],
-            "commit": os.environ.get("WORKSHOP_COMMIT", "unknown"),
+            "commit": os.environ.get("WORKSHOP_COMMIT", "unknown"), "slot": slot,
             "site_digest": manifest["digest"], "index_sha256": manifest["index_sha256"],
         })
 
-    application.mount("/", WebsiteFiles(directory=directory, html=True, check_dir=False))
+    application.mount("/", WebsiteFiles(directory=directory, html=True, check_dir=False, banner=slot_banner()))
     return application
 
 

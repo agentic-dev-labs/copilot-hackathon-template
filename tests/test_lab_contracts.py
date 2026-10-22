@@ -255,7 +255,7 @@ def test_preview_lifecycle_skills_reuse_the_helper_and_preserve_files() -> None:
 
 
 def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
-    """Monday's first Chat moment: a slash-only skill that guesses one word and labels its odds."""
+    """Monday's first Chat moment: a slash-only skill that answers with one word and its chance."""
     path = Path(".github/skills/next-word/SKILL.md")
     text = path.read_text(encoding="utf-8")
     metadata = yaml.safe_load(text.split("---", 2)[1])
@@ -263,13 +263,16 @@ def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
     assert metadata["user-invocable"] is True and metadata["disable-model-invocation"] is True
     assert metadata["description"] and metadata["argument-hint"]
     flat = " ".join(text.split())
-    # Chat cannot see the model's real probabilities, so its numbers are labelled as an estimate.
-    assert "rough estimate, not a measurement" in flat
+    # Owner, 22 October 2026: the whole point is one word with its percentage, nothing explained.
+    assert "Reply with exactly one line" in flat and "**beach** (45%)" in flat
+    assert "Never explain" in flat and "Also possible" not in flat
     assert "do not read or change files, use tools, or run commands" in flat
     assert len(text.splitlines()) < 30, "small enough to read as Day 3's first skill example"
     readme = " ".join(Path("README.md").read_text(encoding="utf-8").split())
     chat = readme.split("### Find Your Files and Copilot Chat", 1)[1].split("### Your First Website", 1)[0]
     assert "`/next-word`" in chat and "What a nice day, let's go to the" in chat
+    # Chat cannot see the model's real probabilities, so the guide labels the number an estimate.
+    assert "percentage is Copilot's own rough estimate, not a measurement" in chat
     # Rehearsed 22 October 2026: New Chat opens the Copilot harness, with manual approvals and no
     # Keep or Undo, so Monday stays in the first (Local) chat.
     assert "**New Chat**" not in chat and "Stay in this chat" in chat
@@ -788,11 +791,16 @@ def test_days_three_to_five_follow_the_final_slides() -> None:
     assert "`# version: 1.0.${{ github.run_number }}`" in day4 and "**Version 1.0.**" in day4
     assert ".github/instructions/review.instructions.md" in day4 and "`applyTo: \"site/**\"`" in day4
     day5 = " ".join(Path("docs/DAY-5-SHOWCASE.md").read_text(encoding="utf-8").split())
-    for starter in ("check-my-website.yml", "publish-website-with-approval.yml"):
+    starters = ("check-my-website.yml", "deploy-feature-slot.yml", "publish-website-with-approval.yml")
+    assert sorted(path.name for path in Path(".github/workflow-starters").iterdir()) == list(starters)
+    for starter in starters:
         assert f".github/workflow-starters/{starter}" in day5
-        assert Path(".github/workflow-starters", starter).is_file()
     assert "change `contents: write` to `contents: read`" in day5
     assert "**Required reviewers**" in day5 and "**Approve and deploy**" in day5
+    # Owner, 22 October: Copilot's ticket is tried in a feature slot, then approved into production.
+    assert "**Assign to Agent**" in day5 and "**Approve and run workflows**" in day5
+    assert "next to **Feature slot**, select **Details**" in day5.replace("Next to", "next to")
+    assert "name it `production`" in day5 and "plus `-feature`" in day5 and "`training`" not in day5
     assert "python3 scripts/smoke_test.py" in day5 and "select **Revert**" in day5
     assert "**Require status checks to pass**" in day5 and "**UI check**" in day5
     assert "**home-phone.png**" in day5 and "900 pixels wide" in day5

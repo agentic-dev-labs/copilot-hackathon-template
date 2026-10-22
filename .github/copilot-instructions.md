@@ -40,8 +40,8 @@
   private copy of the template in agentic-dev-labs with Use this template, never a second one.
   Chat comes first, opening with the provided /next-word demo (owner-approved 22 October 2026):
   the room guesses the next word of "What a nice day, let's go to the", then of the same sentence
-  in Princeton, New Jersey, before Copilot answers; its percentages are labelled as Copilot's own
-  estimate. At 10:00 use the provided /create-website skill: one question (Project Planner,
+  in Princeton, New Jersey, before Copilot answers with only one word and its percentage, which the
+  guide labels as Copilot's own estimate. At 10:00 use the provided /create-website skill: one question (Project Planner,
   Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or My own idea), then it builds, so
   learners see they can build by talking; its brief.md is the idea note, and the first push follows.
   /add-chart adds ECharts charts, including 3D ones, from the kit (owner-approved 19 October
@@ -89,8 +89,9 @@
   .github/instructions/review.instructions.md and a Code Review agent whose findings the attendee
   verifies, `@copilot` fixes, and a merge that deploys. Day 5 (docs/DAY-5-SHOWCASE.md): starters in
   .github/workflow-starters/ for checks (tests plus scripts/ui_check.py, a browser UI check with
-  desktop and phone screenshots, Actions only) made required in the ruleset, an approval-gated
-  publish in a `training` environment, scripts/smoke_test.py, a **Revert** rollback, team demos,
+  desktop and phone screenshots, Actions only) made required in the ruleset, a feature slot that
+  shows every checked pull request (Copilot's ticket tried there), an approval-gated production
+  publish in a `production` environment, scripts/smoke_test.py, a **Revert** rollback, team demos,
   and HANDOFF.md, every change through a pull request. Ship helpers and starters, never the
   learner's agents, skills, instructions, tests, reviews, or active workflows; CI enforces this.
   Labs 04 and 06 are optional extras; a Copilot automation is a Day 4 presenter demo and an

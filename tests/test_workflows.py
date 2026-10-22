@@ -10,6 +10,7 @@ from urllib.parse import urlsplit
 import pytest
 import yaml
 
+from app.site import slot_banner
 from scripts import create_attendee_repos
 
 
@@ -207,7 +208,10 @@ def test_only_trusted_code_runs_next_to_the_azure_sign_in() -> None:
     assert position(lambda step: "[[ \"$WEBSITE_NAME\" =~" in step.get("run", "")) < login
     assert position(lambda step: step.get("uses", "").startswith("actions/download-artifact@")) < login
     assert position(lambda step: "-m app.site --check" in step.get("run", "")) < login
-    assert jobs["prepare"]["steps"][0]["with"]["persist-credentials"] == "false"
+    prepare_checkout = next(step for step in jobs["prepare"]["steps"]
+                            if step.get("uses", "").startswith("actions/checkout@"))
+    assert prepare_checkout["with"] == {"ref": "${{ inputs.commit }}", "persist-credentials": "false"}
+    assert "The slot is production or feature" in jobs["prepare"]["steps"][0]["run"], "inputs checked first"
     assert {job["runs-on"] for job in jobs.values()} == {"ubuntu-24.04"}, "pinned for a stable workshop week"
     for job in jobs.values():
         for step in job["steps"]:
@@ -226,7 +230,9 @@ def test_publisher_protects_other_websites_and_cost() -> None:
     assert 'resources: {cpu: 0.25, memory: "0.5Gi"}' in text
     assert "registries: [{server: $registry, identity: $identity}]" in text
     assert "az acr build" not in text and "az containerapp create" not in text
-    assert '= "$GITHUB_SHA"' in text and '= "$DIGEST"' in text and '= "$INDEX"' in text
+    assert '= "$PUBLISH_COMMIT"' in text and '= "$DIGEST"' in text and '= "$INDEX"' in text
+    # Cleaning up a renamed website stays inside one slot: production never removes the feature slot.
+    assert '(.slot // "production") == $slot' in text and '"website-slot": $slot' in text
 
 
 def test_publish_caller_only_calls_the_template_publisher() -> None:
@@ -255,7 +261,8 @@ def test_template_ships_without_a_website_name() -> None:
     guard = next(step for step in steps if step.get("name") == "Keep the template free of learner work")
     assert "jq -e '.websiteName == \"\"' config.json" in guard["run"]
     for learner_file in (".github/agents/user-requirements.agent.md", ".github/agents/code-review.agent.md",
-                         "'.github/workflows/check-my-website.yml'", "'checks/test_*.py'", "reviews", "HANDOFF.md"):
+                         "'.github/workflows/check-my-website.yml'", "'.github/workflows/deploy-feature-slot.yml'",
+                         "'checks/test_*.py'", "reviews", "HANDOFF.md"):
         assert learner_file in guard["run"]
 
 
@@ -295,7 +302,7 @@ def test_approval_starter_only_adds_a_gate_before_the_same_publisher() -> None:
     for key in ("name", "on", "permissions", "concurrency"):
         assert starter[key] == current[key], key
     approve, publish = starter["jobs"]["approve"], starter["jobs"]["publish"]
-    assert approve["environment"] == "training" and "uses" not in approve
+    assert approve["environment"] == "production" and "uses" not in approve
     assert approve["if"] == current["jobs"]["publish"]["if"]
     assert publish["needs"] == "approve"
     # The publish job carries no environment, so its OIDC subject stays refs/heads/main.
@@ -305,6 +312,50 @@ def test_approval_starter_only_adds_a_gate_before_the_same_publisher() -> None:
     expected["with"] = {**expected["with"], "version": "1.0.${{ github.run_number }}"}
     assert {key: value for key, value in publish.items() if key != "needs"} == expected
     assert "secrets." not in text and "Required reviewers" in text
+
+
+def test_feature_slot_starter_deploys_checked_pull_requests_from_main() -> None:
+    """Day 5: each pull request whose checks pass gets a test copy; Azure's trust is unchanged."""
+    text = (STARTERS / "deploy-feature-slot.yml").read_text(encoding="utf-8")
+    workflow = yaml.load(text, Loader=yaml.BaseLoader)
+    checks = yaml.load((STARTERS / "check-my-website.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+    # workflow_run runs main's copy of this file on main, so the OIDC subject is still refs/heads/main.
+    assert workflow["on"] == {"workflow_run": {"workflows": [checks["name"]], "types": ["completed"]}}
+    assert workflow["permissions"] == {}
+    publish, link = workflow["jobs"]["publish"], workflow["jobs"]["link"]
+    assert publish["uses"] == f"{PUBLISHER_REF}@main" and "environment" not in publish
+    assert publish["permissions"] == {"contents": "read", "id-token": "write"}
+    for condition in ("!github.event.repository.is_template", "github.event.workflow_run.event == 'pull_request'",
+                      "github.event.workflow_run.conclusion == 'success'"):
+        assert condition in publish["if"]
+    assert publish["with"] == {
+        "website-name": "${{ vars.WEBSITE_NAME }}", "slot": "feature",
+        "commit": "${{ github.event.workflow_run.head_sha }}",
+        "pull-request": "${{ github.event.workflow_run.pull_requests[0].number }}",
+        "version": "1.0.${{ github.run_number }}-feature",
+    }
+    # Only deploying runs share the slot, so a skipped run for a push to main cancels nothing.
+    assert publish["concurrency"] == {"group": "feature-slot", "cancel-in-progress": "true"}
+    assert link["permissions"] == {"statuses": "write"} and link["needs"] == "publish"
+    assert "context=\"Feature slot\"" in link["steps"][0]["run"] and "${{" not in link["steps"][0]["run"]
+    assert "secrets." not in text and "id-token" not in str(link)
+
+
+def test_publisher_keeps_the_slots_apart() -> None:
+    """The feature slot has its own name, image, strip check, and link; production is unchanged."""
+    text = PUBLISHER.read_text(encoding="utf-8")
+    workflow = yaml.load(text, Loader=yaml.BaseLoader)
+    inputs = workflow["on"]["workflow_call"]["inputs"]
+    assert inputs["slot"]["default"] == "production"
+    assert inputs["commit"]["default"] == "" and inputs["pull-request"]["default"] == ""
+    assert workflow["jobs"]["publish"]["env"]["PUBLISH_COMMIT"] == "${{ inputs.commit || github.sha }}"
+    assert 'NAME="$(printf \'%s\' "${NAME:0:24}" | sed -E \'s/-+$//\')-feature"' in text, "32 characters at most"
+    assert ":feature-$PUBLISH_COMMIT" in text, "waking production never loads a feature build"
+    # The publisher looks for the same strip the website server adds.
+    assert 'data-workshop-slot="feature"' in text and 'data-workshop-slot="feature"' in slot_banner(
+        {"WEBSITE_SLOT": "feature"})
+    show_link = workflow["jobs"]["show-link"]
+    assert show_link["environment"]["name"] == "${{ inputs.slot == 'feature' && 'feature-slot' || 'website' }}"
 
 
 def test_day_four_version_line_is_one_hash_away_from_the_publisher() -> None:

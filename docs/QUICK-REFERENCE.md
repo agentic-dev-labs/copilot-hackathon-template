@@ -10,7 +10,7 @@ step instead of racing ahead. Use made-up information only.
 | Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
 | Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |
-| See how Copilot writes | Type **`/next-word`** and an unfinished sentence, such as "What a nice day, let's go to the". It guesses the next word; its percentages are its own rough estimate. |
+| See how Copilot writes | Type **`/next-word`** and an unfinished sentence, such as "What a nice day, let's go to the". It answers with one word and its chance; the percentage is its own rough estimate. |
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
 | Keep Copilot's change | Select **Keep** in Chat when you like it. Selecting **+** for the file in Source Control keeps it too. |
 | Undo Copilot's change | Select **Undo** in Chat, then **Yes**. It takes back every change you have not kept. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
@@ -47,7 +47,9 @@ step instead of racing ahead. Use made-up information only.
 | Protect `main` (Day 4) | On GitHub: **Settings > Rules > Rulesets > New ruleset > New branch ruleset**, as in the Day 4 guide. |
 | Hand a ticket to Copilot (Day 4) | Open an approved ticket from **Todo**, then **Assign to Agent** (or **Assignees > Copilot**), keep `main` and **Copilot**, and select **Assign**. The board moves it to **In Progress** by itself. |
 | See my screenshots (Day 5) | On GitHub: **Actions**, open the run, then **Summary > Artifacts > home-phone.png** or **home-desktop.png**. |
-| Approve a release (Day 5) | On GitHub: **Actions**, open the waiting run, **Review deployments > Approve and deploy**. |
+| Let Copilot's work run (Day 5) | On Copilot's pull request, read **Files changed**, then select **Approve and run workflows** in the merge box. |
+| Open my feature slot (Day 5) | On the pull request, next to **Feature slot** in the checks list, select **Details**. Its address is your website's name plus `-feature`. |
+| Approve a release (Day 5) | On GitHub: **Actions**, open the waiting run, **Review deployments**, tick **production**, then **Approve and deploy**. |
 | Roll back a release (Day 5) | On GitHub: open the merged pull request, select **Revert**, then merge the new pull request. |
 | Smoke-test my website (Day 5) | `python3 scripts/smoke_test.py https://<my website address>` |
 | Something looks broken | Show a helper the exact message. Do not install anything. |
@@ -82,8 +84,9 @@ green `pytest checks` and **Done** on your board.
 **Thursday:** `main` protected by your ruleset, your live website showing its version number, a
 ticket built by Copilot's cloud agent, your own Code Review agent's report with every finding
 checked by you, and a merge-or-not decision.
-**Friday:** your tests and a browser UI check required on every pull request, a release you
-approved, a bad release rolled back with **Revert**, your team demo, and a HANDOFF.md.
+**Friday:** your tests and a browser UI check required on every pull request, Copilot's ticket
+tried in your feature slot and released to production after you approved, a bad release rolled
+back with **Revert**, your team demo, and a HANDOFF.md.
 
 Ask a helper about sign-in, conflicts, permissions, or any command you do not understand. Never
 paste passwords or real work records into Chat. Do not delete accounts or remove training access

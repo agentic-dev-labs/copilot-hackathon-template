@@ -11,7 +11,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.config import deployment_name, slugify
-from app.site import create_app, site_manifest
+from app.site import create_app, site_manifest, slot_banner
 
 HTML = '<!doctype html><html lang="en"><body><h1>Synthetic planner</h1></body></html>'
 KIT = Path(".github/skills/create-website/assets/js/workshop.js")
@@ -103,6 +103,44 @@ def test_version_file_is_served_but_does_not_change_the_fingerprint(website: Pat
     nested.mkdir(parents=True)
     (nested / "version.json").write_text("{}", encoding="utf-8")
     assert site_manifest(website)["digest"] != initial["digest"], "only the publisher's root file is excluded"
+
+
+def test_feature_slot_marks_every_page_and_keeps_the_fingerprint(website: Path, monkeypatch) -> None:
+    """Day 5: a pull request's test copy names its build at the top; production serves the page as is."""
+    idea = website / "ideas" / "team-lunch"
+    idea.mkdir(parents=True)
+    (idea / "index.html").write_text(HTML, encoding="utf-8")
+    (website / "main.js").write_text("const answer = 42;", encoding="utf-8")
+    config = website.parent / "config.json"
+    config.write_text(json.dumps({"displayName": "Synthetic Web Team"}), encoding="utf-8")
+    monkeypatch.delenv("WEBSITE_SLOT", raising=False)
+    production = TestClient(create_app(website, config))
+    assert production.get("/").text == HTML
+    assert production.get("/healthz").json()["slot"] == "production"
+    for name, value in {"WEBSITE_SLOT": "feature", "WEBSITE_PULL_REQUEST": "5",
+                        "WEBSITE_VERSION": "1.0.3-feature", "WEBSITE_BUILD": "3"}.items():
+        monkeypatch.setenv(name, value)
+    feature = TestClient(create_app(website, config))
+    page = feature.get("/")
+    assert page.headers["cache-control"] == "no-store"
+    strip = page.text.split("<body>", 1)[1].split("<h1>", 1)[0]
+    assert 'data-workshop-slot="feature"' in strip
+    for words in ("Feature slot", "Pull request #5", "Version 1.0.3-feature", "Build 3", "not your live website"):
+        assert words in strip
+    assert 'data-workshop-slot="feature"' in feature.get("/ideas/team-lunch/").text
+    assert feature.get("/main.js").text == "const answer = 42;"
+    health = feature.get("/healthz").json()
+    assert health["slot"] == "feature"
+    # The same files in both slots: what you tested is exactly what production gets.
+    assert health["site_digest"] == production.get("/healthz").json()["site_digest"]
+    assert health["index_sha256"] == hashlib.sha256(HTML.encode()).hexdigest()
+
+
+def test_feature_strip_shows_values_as_text_only() -> None:
+    """Build details reach the page as text, never as markup, and production has no strip."""
+    strip = slot_banner({"WEBSITE_SLOT": "feature", "WEBSITE_VERSION": "<script>alert(1)</script>"})
+    assert "<script>" not in strip and "&lt;script&gt;" in strip
+    assert slot_banner({"WEBSITE_SLOT": "production"}) == "" and slot_banner({}) == ""
 
 
 def test_guided_kit_assets_fit_the_website_target(website: Path) -> None:

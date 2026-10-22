@@ -20,8 +20,9 @@ is used in an Agent Host or CLI session. Use tools available in the current clie
   tests, and the ticket closed by its commit. Labs 04 and 06 are optional.
 - **Day 4** — a practice pull request, an approved ticket delegated to the cloud agent (Lab 03), a
   learner-described Code Review agent whose findings are verified, `@copilot` fixes, a merge decision.
-- **Day 5** — CI/CD: starter check workflow, red then green pull request, approval-gated publish
-  in `training`, smoke test and revert, team demos (human rehearsal), and HANDOFF.md.
+- **Day 5** — CI/CD: starter check workflow, red then green pull request, Copilot's ticket tried
+  in a feature slot, approval-gated publish to the `production` slot, smoke test and revert, team
+  demos (human rehearsal), and HANDOFF.md.
 
 Use browser-based Codespaces and Bash throughout. Presenter-local tools do not prove availability.
 
