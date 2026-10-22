@@ -261,19 +261,26 @@ def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
     metadata = yaml.safe_load(text.split("---", 2)[1])
     assert metadata["name"] == path.parent.name
     assert metadata["user-invocable"] is True and metadata["disable-model-invocation"] is True
-    assert metadata["description"] and metadata["argument-hint"]
+    assert metadata["description"] and metadata["argument-hint"] == "an unfinished sentence"
     flat = " ".join(text.split())
     # Owner, 22 October 2026: the whole point is one word with its percentage, nothing explained.
-    assert "Reply with exactly one line" in flat and "**coffee** (70%)" in flat
-    # Rehearsed 22 October: with **beach** (45%) as its example, the first answer was exactly
-    # "beach (45%)". The example must not hold a word the room's sentences could get.
-    assert not {"beach", "park", "university", "lake", "pool", "campus"} & set(re.findall(r"[a-z]+", text.lower()))
+    assert "Reply with exactly one line" in flat and "whole-number percentage" in flat
+    # Owner, 22 October 2026: the skill names no words at all. No example answer, sample sentence,
+    # or hint, so nothing in it can steer which word Copilot predicts.
+    body = text.split("---", 2)[2]
+    assert "**" not in text and not re.search(r"\d+\s*%", text) and '"' not in body
+    answers = {"beach", "park", "university", "lake", "pool", "campus", "coffee"}
+    assert not answers & set(re.findall(r"[a-z]+", text.lower()))
+    # Copilot reads these with every chat, so they must not suggest an answer either.
+    for always_read in (".github/copilot-instructions.md", "AGENTS.md"):
+        assert not answers & set(re.findall(r"[a-z]+", Path(always_read).read_text(encoding="utf-8").lower()))
     assert "Never explain" in flat and "Also possible" not in flat
     assert "do not read or change files, use tools, or run commands" in flat
     assert len(text.splitlines()) < 30, "small enough to read as Day 3's first skill example"
     readme = " ".join(Path("README.md").read_text(encoding="utf-8").split())
     chat = readme.split("### Find Your Files and Copilot Chat", 1)[1].split("### Your First Website", 1)[0]
     assert "`/next-word`" in chat and "What a nice day, let's go to the" in chat
+    assert not answers & set(re.findall(r"[a-z]+", chat.lower())), "an open README can join the chat"
     # Chat cannot see the model's real probabilities, so the guide labels the number an estimate.
     assert "percentage is Copilot's own rough estimate, not a measurement" in chat
     # Rehearsed 22 October 2026: New Chat opens the Copilot harness, with manual approvals and no
