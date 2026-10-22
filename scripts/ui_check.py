@@ -31,10 +31,13 @@ SETTLE_MILLISECONDS = 1200
 TIMEOUT_MILLISECONDS = 30_000
 LONGEST_DETAIL = 160
 # Software graphics, so 3D pages (charts, the Lab Chase game) draw on a runner without a graphics
-# card. The browser sandbox stays on.
+# card. The browser sandbox stays on: run() asks for it, because Playwright otherwise starts
+# Chromium with --no-sandbox.
 BROWSER_ARGS = ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"]
-# Browsers ask for this by themselves; a workshop page does not need one.
-IGNORED_PATHS = {"/favicon.ico"}
+# Browsers ask for /favicon.ico by themselves, and a workshop page does not need one. The publisher
+# writes /version.json only when it releases (Day 4), so a footer that shows the version asks for
+# it here in vain and falls back to "Preview".
+IGNORED_PATHS = {"/favicon.ico", "/version.json"}
 # Visible buttons without words, a screen-reader label, or a tooltip.
 UNNAMED_BUTTONS = """() => [...document.querySelectorAll('button')].filter((button) => {
   const shown = button.getClientRects().length > 0 && getComputedStyle(button).visibility !== 'hidden';
@@ -160,7 +163,7 @@ def run(base: str, out: Path, site: Path = SITE) -> list[ScreenResult]:
     out.mkdir(parents=True, exist_ok=True)
     results: list[ScreenResult] = []
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(args=BROWSER_ARGS)
+        browser = playwright.chromium.launch(args=BROWSER_ARGS, chromium_sandbox=True)
         try:
             for name, path in pages_to_check(site):
                 for screen in SCREENS:

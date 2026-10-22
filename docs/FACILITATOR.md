@@ -208,7 +208,8 @@ browser tests, and the vendor app's release verification are [post-workshop refe
   in private repositories need the organization's GitHub plan, which agentic-dev-labs has.
 - **The UI check runs in GitHub Actions only.** Chromium cannot start in a default Codespace, so
   `scripts/ui_check.py` runs on the runner with `playwright==1.64.0` from PyPI, software graphics
-  for 3D pages, and the browser sandbox on. It checks the first page and up to five idea pages on
+  for 3D pages, and the browser sandbox on: one step lets the throwaway runner use the user
+  namespaces Ubuntu 24.04 blocks by default. It checks the first page and up to five idea pages on
   a desktop and a 390-pixel phone, and keeps `home-desktop.png` and `home-phone.png` as single,
   unzipped artifacts. The template CI's `ui-check` job runs the same steps on the Project Planner
   starter; on 21 October every starter and own-idea pattern passed it locally.
@@ -637,6 +638,8 @@ container build, application security review, or live deployment check.
 | The live footer shows **Preview**, not a version | `version:` still has its `#`, or no release ran since | Merge the uncommented line together with a `site/` change; `/healthz` and `version.json` on the live site show what was published. |
 | A required check never reports | The ruleset names a check the workflow does not have | The job names are **Check the website** and **UI check**; add exactly those, after the starter has run once. |
 | The UI check is red on a page nobody changed | A real problem on a desktop or phone, or a slow first load | Open the log's table and `home-phone.png`; re-run once for a timeout. Never add `--no-sandbox`. |
+| The CI lab's banner leaves the UI check green | The banner went inside the page's header, which cuts it off | Ask Copilot to move it to the very top of the first page, above its header; the check compares the page's width with the phone's. |
+| The live footer shows the version on the wrong page | The footer change went into an idea page | Ask for it in the first page, `site/index.html`: the website's address opens that page, and `/version.json` sits beside it. |
 | A Day 3 agent is missing from `/agent` | Copilot CLI read agents when it started | Type `/exit`, then `copilot`; check the file is in `.github/agents/` and ends in `.agent.md`. |
 | **New project** is missing, or a ticket is not on the board | Organization project settings, or the repository was not imported | Check that organization members may create projects; on the board add the card with **+ Add item** and `#`, choosing the repository. |
 | The agent may not update a ticket | The Codespace token is refused for issues | The attendee pastes the agent's draft into the ticket (**...** > **Edit**); never add a personal token. |

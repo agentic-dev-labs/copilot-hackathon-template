@@ -1,6 +1,6 @@
 ---
 name: rehearse-workshop
-description: Rehearse the guided first website, Tuesday own-idea building, and the simplified Days 3-5 (tools, build day, showcase) in a disposable browser-based Codespace, without Dataverse prerequisites or attendee Azure login.
+description: Rehearse the guided first website, Tuesday own-idea building, and Days 3-5 (a Requirements agent, cloud agents with a Code Review agent, and CI/CD with GitHub Actions) in a disposable browser-based Codespace, without Dataverse prerequisites or attendee Azure login.
 agent: agent
 ---
 

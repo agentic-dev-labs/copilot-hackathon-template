@@ -73,6 +73,11 @@ jobs:
       - name: Install a browser
         run: uv run --with playwright==1.64.0 playwright install --with-deps chromium
 
+      # Ubuntu 24.04 blocks what Chromium's sandbox needs. This runner is thrown away after the
+      # job, so allow it here instead of ever switching the browser's sandbox off.
+      - name: Let the browser keep its sandbox
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
       - name: Open my pages on a desktop and a phone
         run: |
           uv run uvicorn app.site:app --host 127.0.0.1 --port 8000 > website.log 2>&1 &

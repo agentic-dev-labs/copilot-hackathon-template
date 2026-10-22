@@ -311,6 +311,8 @@ def test_day_four_version_line_is_one_hash_away_from_the_publisher() -> None:
     """Day 4: removing one # makes the caller pass its run number as the website version."""
     text = Path(".github/workflows/publish-website.yml").read_text(encoding="utf-8")
     assert "      # version: 1.0.${{ github.run_number }}\n" in text
+    # The file's own comment must give the same edit as the guide: the # and the space after it.
+    assert "on the next line, delete the # and the space after it" in text
     switched_on = yaml.load(text.replace("      # version:", "      version:"), Loader=yaml.BaseLoader)
     assert switched_on["jobs"]["publish"]["with"]["version"] == "1.0.${{ github.run_number }}"
     publisher = yaml.load(PUBLISHER.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)

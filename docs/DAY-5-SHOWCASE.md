@@ -80,8 +80,8 @@ half: checks before every merge, and your approval before every release.
 
 1. Create a branch named `try-ci`.
 2. Break your page on purpose, in a way only a browser notices. Ask Copilot CLI: "Add a banner
-   900 pixels wide above my headline that says Sale. Change nothing else." Commit, select
-   **Publish Branch**, and create a pull request.
+   900 pixels wide that says Sale at the very top of my first page, above its header. Change
+   nothing else." Commit, select **Publish Branch**, and create a pull request.
 3. On the pull request, **Check the website** stays green, but **UI check** turns red, and
    **Merge** is blocked: your ruleset requires it. Select **Details** and read the table at the
    end of the log: it says what is wrong, such as **Wider than a phone screen**.

@@ -83,9 +83,10 @@ changes only through pull requests.
    `# version: 1.0.${{ github.run_number }}`. Delete the `#` and the space after it, and keep the
    line's indentation. From now on every release writes `version.json` into your website, and
    `github.run_number` is the build number: it goes up by one with every run.
-4. **Show it on the page.** Ask Copilot CLI: "In my page's footer, show the version from
-   version.json, like Version 1.0.7. In my preview there is no version.json yet, so show
-   Preview there. Change nothing else." **Check:** your preview's footer says **Preview**.
+4. **Show it on the page.** Ask Copilot CLI: "In the footer of my first page, site/index.html,
+   show the version from version.json, like Version 1.0.7. In my preview there is no
+   version.json yet, so show Preview there. Change nothing else." Your website's address opens
+   this first page. **Check:** your preview's footer says **Preview**.
 5. Commit, select **Publish Branch**, then **Create Pull Request**. If the push is refused
    because it changes a workflow file, show a helper: they make the same edit on GitHub with the
    pencil icon, on a new branch.
