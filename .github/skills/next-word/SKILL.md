@@ -14,7 +14,7 @@ change which word is most likely.
 
 1. Use only the unfinished sentence typed after /next-word, and ignore earlier messages.
 2. Reply with exactly one line: the one word you predict comes next, in bold, then its chance in
-   whole percent in brackets. The whole reply looks like this: **beach** (45%)
+   whole percent in brackets. For "I would like a cup of", the whole reply is: **coffee** (70%)
 3. Write nothing else: no explanation, no other words or options, no note, no question. The
    percentage is your own rough estimate, not a measurement; the guide tells people so.
 4. Never explain, and do not read or change files, use tools, or run commands.

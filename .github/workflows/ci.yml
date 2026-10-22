@@ -6,12 +6,14 @@ on:
       - main
   pull_request:
     # Pull requests that change only learner work, such as the cloud agent's on Day 4, start no
-    # run at all, so attendees never meet an "Approve and run workflows" prompt for a skipped check.
+    # run at all, so attendees never meet an "Approve workflows to run" prompt for a skipped check.
     # Pushes to the template's main still run everything, including the learner-work guard.
     paths-ignore:
       - "site/**"
       - "config.json"
       - "checks/test_*.py"
+      # pytest also collects *_test.py: the cloud agent wrote checks/issue1_test.py on 22 October.
+      - "checks/*_test.py"
       - "reviews/**"
       - "HANDOFF.md"
       - ".github/agents/user-requirements.agent.md"
@@ -40,7 +42,7 @@ jobs:
           learner_work="$(git ls-files site .github/instructions .github/skills/make-image .github/skills/edit-image \
             .github/skills/user-stories .github/agents/user-requirements.agent.md .github/agents/code-review.agent.md \
             '.github/workflows/check-my-website.yml' '.github/workflows/deploy-feature-slot.yml' 'checks/test_*.py' \
-            reviews HANDOFF.md \
+            'checks/*_test.py' reviews HANDOFF.md \
             | grep -vx 'site/README.md' || true)"
           if [ -n "$learner_work" ]; then
             printf '::error::The template ships starters, not finished work. Remove:\n%s\n' "$learner_work"

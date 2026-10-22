@@ -47,8 +47,9 @@ step instead of racing ahead. Use made-up information only.
 | Protect `main` (Day 4) | On GitHub: **Settings > Rules > Rulesets > New ruleset > New branch ruleset**, as in the Day 4 guide. |
 | Hand a ticket to Copilot (Day 4) | Open an approved ticket from **Todo**, then **Assign to Agent** (or **Assignees > Copilot**), keep `main` and **Copilot**, and select **Assign**. The board moves it to **In Progress** by itself. |
 | See my screenshots (Day 5) | On GitHub: **Actions**, open the run, then **Summary > Artifacts > home-phone.png** or **home-desktop.png**. |
-| Let Copilot's work run (Day 5) | On Copilot's pull request, read **Files changed**, then select **Approve and run workflows** in the merge box. |
-| Open my feature slot (Day 5) | On the pull request, next to **Feature slot** in the checks list, select **Details**. Its address is your website's name plus `-feature`. |
+| Let Copilot's work run (Day 5) | On Copilot's pull request, read **Files changed**, then select **Approve workflows to run** in the merge box. |
+| Approve a build for the feature slot (Day 5) | **Actions > Deploy feature slot**, open the newest run that says **Action required**, then **Approve and run**. Only Copilot's pull requests ask. |
+| Open my feature slot (Day 5) | On the pull request, next to "deployed to feature-slot", select **View deployment**. Its address is your website's name plus `-feature`. |
 | Approve a release (Day 5) | On GitHub: **Actions**, open the waiting run, **Review deployments**, tick **production**, then **Approve and deploy**. |
 | Roll back a release (Day 5) | On GitHub: open the merged pull request, select **Revert**, then merge the new pull request. |
 | Smoke-test my website (Day 5) | `python3 scripts/smoke_test.py https://<my website address>` |

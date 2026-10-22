@@ -264,7 +264,10 @@ def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
     assert metadata["description"] and metadata["argument-hint"]
     flat = " ".join(text.split())
     # Owner, 22 October 2026: the whole point is one word with its percentage, nothing explained.
-    assert "Reply with exactly one line" in flat and "**beach** (45%)" in flat
+    assert "Reply with exactly one line" in flat and "**coffee** (70%)" in flat
+    # Rehearsed 22 October: with **beach** (45%) as its example, the first answer was exactly
+    # "beach (45%)". The example must not hold a word the room's sentences could get.
+    assert not {"beach", "park", "university", "lake", "pool", "campus"} & set(re.findall(r"[a-z]+", text.lower()))
     assert "Never explain" in flat and "Also possible" not in flat
     assert "do not read or change files, use tools, or run commands" in flat
     assert len(text.splitlines()) < 30, "small enough to read as Day 3's first skill example"
@@ -798,8 +801,9 @@ def test_days_three_to_five_follow_the_final_slides() -> None:
     assert "change `contents: write` to `contents: read`" in day5
     assert "**Required reviewers**" in day5 and "**Approve and deploy**" in day5
     # Owner, 22 October: Copilot's ticket is tried in a feature slot, then approved into production.
-    assert "**Assign to Agent**" in day5 and "**Approve and run workflows**" in day5
-    assert "next to **Feature slot**, select **Details**" in day5.replace("Next to", "next to")
+    # Rehearsed 22 October: GitHub asks twice for Copilot's pull requests, with these labels.
+    assert "**Assign to Agent**" in day5 and "**Approve workflows to run**" in day5
+    assert "**Approve and run**" in day5 and "**View deployment**" in day5
     assert "name it `production`" in day5 and "plus `-feature`" in day5 and "`training`" not in day5
     assert "python3 scripts/smoke_test.py" in day5 and "select **Revert**" in day5
     assert "**Require status checks to pass**" in day5 and "**UI check**" in day5
