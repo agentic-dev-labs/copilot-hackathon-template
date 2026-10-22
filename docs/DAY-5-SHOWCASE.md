@@ -118,8 +118,9 @@ Copilot is working on your next ticket.
 
 **01:45-02:30.** Everything this week runs in the workshop's training environment. In it your
 website now gets two slots: the **feature slot**, a test copy for each pull request, and the
-**production slot**, your website's own address. You try Copilot's change in the feature slot,
-approve it, merge it, and then approve its release to production.
+**production slot**, your website's own address. You let Copilot's work run, approve its build
+into the feature slot, test it there, approve and merge it, and then approve its release to
+production. Four approvals, each a person deciding.
 
 1. **Add the two slots.** Create a branch named `slots`. Ask Copilot CLI: "Copy
    .github/workflow-starters/deploy-feature-slot.yml to .github/workflows/deploy-feature-slot.yml,
@@ -133,30 +134,37 @@ approve it, merge it, and then approve its release to production.
    reviewers**, add yourself, and select **Save protection rules**.
 3. **Let Copilot's work run.** Open **Pull requests** and select Copilot's pull request. Read
    **Files changed** first: GitHub runs nothing on Copilot's code until you allow it. In the merge
-   box at the bottom of **Conversation**, select **Approve and run workflows**. Your two checks
-   run, about three minutes. When both are green, **Deploy feature slot** starts by itself (see
-   the **Actions** tab), and about three minutes later the checks list shows **Feature slot**.
-4. **Test in the feature slot.** Next to **Feature slot**, select **Details**. Your feature slot
-   opens at your website's name plus `-feature`. The yellow strip at the top names the pull
-   request, version, and build: a test copy, not your live website. Check the ticket's acceptance
-   criteria there, one by one. Then smoke-test it with its own address and write down the
-   **content** number on the first line:
+   box at the bottom of **Conversation**, under "workflows awaiting approval", select **Approve
+   workflows to run**. Your two checks run, about two minutes.
+4. **Approve the build for the feature slot.** When both checks are green, open **Actions >
+   Deploy feature slot**. The newest run says **Action required**: open it and select **Approve
+   and run**. This is your approval to deploy Copilot's build to your feature slot; it takes about
+   three minutes. (Your own pull requests deploy there without asking.)
+5. **Test in the feature slot.** Back on the pull request, "deployed to feature-slot" now has a
+   **View deployment** button: select it. Your feature slot opens at your website's name plus
+   `-feature`. The yellow strip at the top names the pull request, version, and build: a test
+   copy, not your live website. Check the ticket's acceptance criteria there, one by one. Then
+   smoke-test it with its own address and write down the **content** number on the first line:
 
    ```bash
    python3 scripts/smoke_test.py https://<name>-feature.thankfulrock-bf005377.eastus.azurecontainerapps.io
    ```
 
-5. **Approve and merge.** On the pull request open **Files changed**, select **Review changes**,
-   choose **Approve**, and select **Submit review**. Then select **Ready for review** and **Merge
-   pull request**. Your approval of Copilot's work is your record that you tested it.
-6. **Approve the release.** Open **Actions > Publish my website**: it says **Waiting**. Select
+6. **Approve and merge.** On the pull request open **Files changed**, select **Submit review**
+   (or **Review changes**), choose **Approve**, write what you tested, and submit. GitHub notes
+   that your approval does not count as a required review, because you worked with Copilot on it;
+   your ruleset requires none, so it is your record. Then select **Ready for review** and **Merge
+   pull request**.
+7. **Approve the release.** Open **Actions > Publish my website**: it says **Waiting**. Select
    **Review deployments**, tick **production**, and select **Approve and deploy**. When it is
    green, open your website's own address: the change is there, without the strip, with a new
    version. Smoke-test that address too: its **content** number is the same as the feature
-   slot's. Production got exactly what you tested.
+   slot's. Production got exactly what you tested. After the merge, an older **Deploy feature
+   slot** run from Copilot's first draft may say **Action required** again: leave it, it does
+   nothing.
 
-**Check:** Copilot's work ran only after you allowed it, you tried it in the feature slot, and it
-reached production only after you approved.
+**Check:** Copilot's work ran only after you allowed it, its build reached the feature slot only
+after you approved, you tested it there, and it reached production only after you approved.
 
 ## 5. Recovery Lab
 
@@ -172,13 +180,13 @@ reached production only after you approved.
    content number is the fingerprint of your good version.
 2. **Ship a bad build on purpose:** on a new branch, ask Copilot to change the sentence under
    your headline to "Oops, wrong words". Create the pull request. Your checks stay green, because
-   no check knows your words, and the **Feature slot** shows the oops: that is where a tester
-   catches it. Merge it anyway, on purpose, and approve the release. Run the smoke test on your
-   website's own address again: **FAIL** on your sentence. That is why you test before and after
-   every release.
+   no check knows your words, and a few minutes later its **View deployment** shows the oops in
+   your feature slot: that is where a tester catches it. Merge it anyway, on purpose, and approve
+   the release. Run the smoke test on your website's own address again: **FAIL** on your
+   sentence. That is why you test before and after every release.
 3. **Roll back:** on GitHub open the pull request you just merged and select **Revert**. GitHub
    fills in a new pull request that undoes it: select **Create pull request**. When its checks
-   are green, its **Feature slot** shows your good sentence again. Merge it, then approve the
+   are green, its **View deployment** shows your good sentence again. Merge it, then approve the
    release.
 4. Run the smoke test again: all **PASS**. The **content** number is the same as in step 1, and
    the **version** is higher: a new build of your known-good page.
@@ -252,7 +260,7 @@ HANDOFF.md is merged. Stop your Codespace at the end: closing the browser tab do
 - [Deployment environments and required reviewers](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
 - [The workflow_run trigger](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run):
   how the feature slot starts after your checks, and
-  [Approve and run workflows on Copilot's pull requests](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output#manage-github-actions-workflow-runs).
+  [approving workflow runs on Copilot's pull requests](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output#manage-github-actions-workflow-runs).
 - [Reverting changes](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/reverting-a-pull-request)
   and [stopping a Codespace](https://docs.github.com/en/codespaces/developing-in-a-codespace/stopping-and-starting-a-codespace).
 - [Required status checks in rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets#require-status-checks-to-pass-before-merging)

@@ -212,10 +212,15 @@ browser tests, and the vendor app's release verification are [post-workshop refe
   `main`, on `main`, so its token has the same `refs/heads/main` subject Azure already trusts:
   no Azure change. It publishes the pull request's head commit to `<name>-feature` (the first 24
   characters of the name), whose server adds a yellow strip with the pull request, version
-  (`1.0.<run>-feature`), and build, and it adds a **Feature slot** status with the address to the
-  pull request. The files and the content fingerprint are the same as production's. One feature
-  slot per attendee shows whichever pull request was checked last. A rename removes only older
-  names in the same slot, and each slot has its own image tag.
+  (`1.0.<run>-feature`), and build, and it marks the pull request "deployed to feature-slot" with
+  a **View deployment** button and a **Feature slot** status. The files and the content
+  fingerprint are the same as production's. One feature slot per attendee shows whichever pull
+  request was checked last. A rename removes only older names in the same slot, and each slot
+  has its own image tag. Rehearsed 22 October 2026: for Copilot's pull requests GitHub asks twice,
+  **Approve workflows to run** in the merge box and then **Approve and run** on the **Deploy
+  feature slot** run, because the follow-up run is Copilot's too; that second click is Day 5's
+  "approve and deploy a build to a training environment". The approver's own review of Copilot's
+  pull request does not count as a required review, which is fine with the ruleset's 0.
 - **The UI check runs in GitHub Actions only.** Chromium cannot start in a default Codespace, so
   `scripts/ui_check.py` runs on the runner with `playwright==1.64.0` from PyPI, software graphics
   for 3D pages, and the browser sandbox on: one step lets the throwaway runner use the user
@@ -574,7 +579,8 @@ is required; repository access to the prepared Actions identity must already exi
   and make **Check the website** and **UI check** required; add a 900-pixel banner and see the UI
   check go red with the banner in `home-phone.png`, then green; assign a ticket to Copilot; copy
   both slot starters, add yourself as a required reviewer of `production`; on Copilot's pull
-  request select **Approve and run workflows**, open the **Feature slot** link and see the strip,
+  request select **Approve workflows to run**, then **Approve and run** on the **Deploy feature
+  slot** run, open **View deployment** and see the strip,
   approve and merge, approve the release; run `scripts/smoke_test.py` on both addresses and
   compare the content numbers; ship a bad sentence, roll it back with **Revert**, and confirm the
   content fingerprint returns while the version goes up.
@@ -662,7 +668,8 @@ container build, application security review, or live deployment check.
 | The UI check is red on a page nobody changed | A real problem on a desktop or phone, or a slow first load | Open the log's table and `home-phone.png`; re-run once for a timeout. Never add `--no-sandbox`. |
 | The CI lab's banner leaves the UI check green | The banner went inside the page's header, which cuts it off, or Copilot added `max-width: 100%` so it shrinks to fit (seen on 22 October 2026) | Ask Copilot to move it to the very top of the first page, above its header, and to remove the `max-width` line; the check compares the page's width with the phone's. |
 | The UI check stays yellow for many minutes | Before the 22 October fix the starter used `--with-deps`, which fetched system packages from Ubuntu's mirror at 47 kB/s (up to 14 minutes); a run can also wait for a free runner when [githubstatus.com](https://www.githubstatus.com/) shows **Actions** degraded | Check that the attendee's copy says `playwright install chromium` without `--with-deps`, and check the status page. Carry on with the next step and come back; show the presenter's earlier run if the room is waiting. Never re-run in a loop. |
-| No **Feature slot** line appears on a pull request | `deploy-feature-slot.yml` is not on `main` yet, a check is red, or Copilot's checks still wait for **Approve and run workflows** | Merge the `slots` pull request first; the slot starts only after both checks are green. Look under **Actions > Deploy feature slot**: a skipped run means the checks did not pass. |
+| No **View deployment** on a pull request | `deploy-feature-slot.yml` is not on `main` yet, a check is red, or (Copilot's pull requests) a run still waits for approval: **Approve workflows to run** in the merge box, then **Actions > Deploy feature slot > Approve and run** | Merge the `slots` pull request first; the slot starts only after both checks are green. A skipped **Deploy feature slot** run means the checks did not pass. |
+| An extra **Deploy feature slot** run says **Action required** after the merge | Copilot's first "Initial plan" commit had its own check run, never approved; GitHub closes it at the merge, and that starts one more feature-slot run (seen 22 October 2026) | Leave it, or approve it: it skips, because its checks did not pass. |
 | The feature slot shows another pull request | One feature slot per attendee, and the last checked pull request wins | Read the strip: it names the pull request. Re-run that pull request's checks to bring it back. |
 | **Publish my website** waits and nobody can approve | The `production` environment has no required reviewer, or the attendee is not one | **Settings > Environments > production**: add the attendee under **Required reviewers**, then **Review deployments**. |
 | A red error on line 2 of the new `check-my-website.yml` | The editor checked the file while Copilot was still writing it | Close and reopen the file; the error goes. The check on the pull request is what counts. |

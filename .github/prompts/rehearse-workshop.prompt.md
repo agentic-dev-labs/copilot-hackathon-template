@@ -190,8 +190,9 @@ branch and through a pull request: copy the starter checks, edit their triggers 
 (record a refused workflow push as a blocker with the web-editor fallback), merge them, and make
 **Check the website** and **UI check** required; add a 900-pixel banner and see the UI check go red
 with the banner visible in `home-phone.png`, then green; assign a ticket to Copilot, copy both slot
-starters, make the learner a required reviewer of `production`, select **Approve and run
-workflows** on Copilot's pull request, open its **Feature slot** link and check the strip, approve
+starters, make the learner a required reviewer of `production`, select **Approve workflows to
+run** on Copilot's pull request and **Approve and run** on its **Deploy feature slot** run, open
+**View deployment** and check the strip, approve
 and merge, and approve the release; run `scripts/smoke_test.py` on both addresses and compare the
 content numbers, ship
 a deliberately bad sentence that the checks cannot see, roll it back with **Revert**, and confirm

@@ -254,7 +254,7 @@ def test_template_ships_without_a_website_name() -> None:
     for job in workflow["jobs"].values():
         assert job["if"] == "${{ github.event.repository.is_template }}"
     # A learner-work pull request (the cloud agent's) must not ask the attendee to approve a run.
-    assert {"site/**", "config.json", "checks/test_*.py", "reviews/**"} <= set(
+    assert {"site/**", "config.json", "checks/test_*.py", "checks/*_test.py", "reviews/**"} <= set(
         workflow["on"]["pull_request"]["paths-ignore"])
     assert "paths-ignore" not in (workflow["on"]["push"] or {}), "pushes to main always run the guard"
     steps = workflow["jobs"]["test"]["steps"]
@@ -262,7 +262,7 @@ def test_template_ships_without_a_website_name() -> None:
     assert "jq -e '.websiteName == \"\"' config.json" in guard["run"]
     for learner_file in (".github/agents/user-requirements.agent.md", ".github/agents/code-review.agent.md",
                          "'.github/workflows/check-my-website.yml'", "'.github/workflows/deploy-feature-slot.yml'",
-                         "'checks/test_*.py'", "reviews", "HANDOFF.md"):
+                         "'checks/test_*.py'", "'checks/*_test.py'", "reviews", "HANDOFF.md"):
         assert learner_file in guard["run"]
 
 
@@ -336,8 +336,11 @@ def test_feature_slot_starter_deploys_checked_pull_requests_from_main() -> None:
     }
     # Only deploying runs share the slot, so a skipped run for a push to main cancels nothing.
     assert publish["concurrency"] == {"group": "feature-slot", "cancel-in-progress": "true"}
-    assert link["permissions"] == {"statuses": "write"} and link["needs"] == "publish"
-    assert "context=\"Feature slot\"" in link["steps"][0]["run"] and "${{" not in link["steps"][0]["run"]
+    assert link["permissions"] == {"deployments": "write", "statuses": "write"} and link["needs"] == "publish"
+    script = link["steps"][0]["run"]
+    # A deployment for the pull request's own commit gives it a View deployment button.
+    assert '{ref: $ref, environment: "feature-slot"' in script and "required_contexts: []" in script
+    assert "context=\"Feature slot\"" in script and "${{" not in script
     assert "secrets." not in text and "id-token" not in str(link)
 
 

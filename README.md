@@ -21,7 +21,7 @@ four-hour sessions. Your calendar invitation has the exact times.
 | **Tuesday**   | Hear how business and IT work together, then build your own idea with help    | The first version of your own idea                  |
 | **Wednesday** | Turn your idea into tickets on a project board, write your own requirements agent that adds checkable criteria, and build one ticket | Your board, your agent, and a tested feature |
 | **Thursday**  | Practice pull requests, hand your next ticket to Copilot's cloud agent, and review it with your own review agent | A reviewed change you decided to merge or not |
-| **Friday**    | Let GitHub check every change, approve each release, and roll back a bad one; then demos | A checked, approved, recoverable website and a handoff note |
+| **Friday**    | Let GitHub check every change, try each pull request in a feature slot, approve each release to production, and roll back a bad one; then demos | A checked, approved, recoverable website and a handoff note |
 
 Every step follows the same rhythm: **watch, try, make it yours, check it, share it.**
 
