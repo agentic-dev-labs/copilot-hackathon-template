@@ -7,6 +7,10 @@ name: Website publisher
 # Two jobs keep the attendee's files and the Azure sign-in apart. "prepare" reads the attendee
 # repository with no Azure access and passes on only the site/ folder. "publish" runs the
 # template's own code, treats site/ as data, and is the only job that may request a token.
+#
+# Two slots (Day 5): production is the website's own address, published from main. The feature
+# slot, <name>-feature, shows a pull request's commit after its checks pass. Its caller starts from
+# workflow_run, which runs main's workflow file on main, so Azure's trust stays exactly the same.
 
 on:
   workflow_call:
@@ -18,6 +22,21 @@ on:
         default: ""
       version:
         description: Optional version to show on the website, such as 1.0.42. Written to site/version.json.
+        type: string
+        required: false
+        default: ""
+      slot:
+        description: production (the website's own address) or feature (a pull request's test copy at <name>-feature).
+        type: string
+        required: false
+        default: production
+      commit:
+        description: The full commit to publish. Empty means the commit that started this run.
+        type: string
+        required: false
+        default: ""
+      pull-request:
+        description: The pull request a feature slot shows, such as 5.
         type: string
         required: false
         default: ""
@@ -54,14 +73,31 @@ jobs:
     outputs:
       name: ${{ steps.name.outputs.name }}
     steps:
+      - name: Check the slot and commit
+        env:
+          WEBSITE_SLOT: ${{ inputs.slot }}
+          PUBLISH_COMMIT: ${{ inputs.commit }}
+          PULL_REQUEST: ${{ inputs.pull-request }}
+        run: |
+          if [ "$WEBSITE_SLOT" != production ] && [ "$WEBSITE_SLOT" != feature ]; then
+            echo "::error::The slot is production or feature."
+            exit 1
+          fi
+          if ! [[ "$PUBLISH_COMMIT" =~ ^([0-9a-f]{40})?$ ]] || ! [[ "$PULL_REQUEST" =~ ^([0-9]{1,6})?$ ]]; then
+            echo "::error::The commit is a full 40-character commit and the pull request is a number."
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
         with:
+          ref: ${{ inputs.commit }}
           persist-credentials: false
 
       - name: Choose the website name
         id: name
         env:
           VARIABLE_NAME: ${{ inputs.website-name }}
+          WEBSITE_SLOT: ${{ inputs.slot }}
         run: |
           CONFIG_NAME=""
           if [ -f config.json ]; then
@@ -85,6 +121,10 @@ jobs:
             printf '### Nothing to publish yet\n\nCreate your website first: in Copilot Chat type `/create-website`.\n' >> "$GITHUB_STEP_SUMMARY"
             echo "::notice::site/index.html does not exist yet, so nothing was published."
             exit 0
+          fi
+          if [ "$WEBSITE_SLOT" = feature ]; then
+            # The test copy lives next door: the first 24 characters of the name plus -feature.
+            NAME="$(printf '%s' "${NAME:0:24}" | sed -E 's/-+$//')-feature"
           fi
           echo "name=$NAME" >> "$GITHUB_OUTPUT"
 
@@ -111,6 +151,9 @@ jobs:
     env:
       WEBSITE_NAME: ${{ needs.prepare.outputs.name }}
       WEBSITE_VERSION: ${{ inputs.version }}
+      WEBSITE_SLOT: ${{ inputs.slot }}
+      PUBLISH_COMMIT: ${{ inputs.commit || github.sha }}
+      PULL_REQUEST: ${{ inputs.pull-request }}
       REPOSITORY_ID: ${{ github.repository_id }}
     steps:
       - name: Get the template's publisher files, never the attendee's code
@@ -124,6 +167,11 @@ jobs:
         run: |
           if ! [[ "$WEBSITE_NAME" =~ ^[a-z][a-z0-9-]{0,30}[a-z0-9]$ ]] || [[ "$WEBSITE_NAME" == *--* ]]; then
             echo "::error::The website name is not valid."
+            exit 1
+          fi
+          if ! [[ "$WEBSITE_SLOT" =~ ^(production|feature)$ ]] || ! [[ "$PUBLISH_COMMIT" =~ ^[0-9a-f]{40}$ ]] \
+            || ! [[ "$PULL_REQUEST" =~ ^([0-9]{1,6})?$ ]]; then
+            echo "::error::The slot, commit or pull request is not valid."
             exit 1
           fi
           rm -rf site
@@ -144,13 +192,18 @@ jobs:
             echo "::error::A version has up to 40 letters, digits, dots, plus signs, hyphens and underscores, such as 1.0.42."
             exit 1
           fi
-          jq -n --arg version "$WEBSITE_VERSION" --argjson build "$GITHUB_RUN_NUMBER" --arg commit "$GITHUB_SHA" \
+          jq -n --arg version "$WEBSITE_VERSION" --argjson build "$GITHUB_RUN_NUMBER" --arg commit "$PUBLISH_COMMIT" \
             '{version: $version, build: $build, commit: $commit}' > site/version.json
 
       - name: Build and check the website image
         run: |
           jq -n --arg name "$WEBSITE_NAME" '{displayName: $name}' > config.json
-          IMAGE="$REGISTRY.azurecr.io/websites/repo-$REPOSITORY_ID:$GITHUB_SHA"
+          # Each slot keeps its own image, so waking one website never loads the other's build.
+          if [ "$WEBSITE_SLOT" = feature ]; then
+            IMAGE="$REGISTRY.azurecr.io/websites/repo-$REPOSITORY_ID:feature-$PUBLISH_COMMIT"
+          else
+            IMAGE="$REGISTRY.azurecr.io/websites/repo-$REPOSITORY_ID:$PUBLISH_COMMIT"
+          fi
           echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
           docker build --file Dockerfile.website --tag "$IMAGE" .
           docker run --rm --entrypoint python "$IMAGE" -m app.site --check > manifest.json
@@ -187,10 +240,13 @@ jobs:
           # The whole definition in one request: the CLI's create would also try to grant AcrPull,
           # which this identity is deliberately not allowed to do.
           jq -n --arg location "$LOCATION" --arg environment "$ENVIRONMENT_ID" --arg identity "$PULL_IDENTITY_ID" \
-            --arg registry "$REGISTRY.azurecr.io" --arg image "$IMAGE" --arg commit "$GITHUB_SHA" \
+            --arg registry "$REGISTRY.azurecr.io" --arg image "$IMAGE" --arg commit "$PUBLISH_COMMIT" \
+            --arg slot "$WEBSITE_SLOT" --arg version "$WEBSITE_VERSION" --arg build "$GITHUB_RUN_NUMBER" \
+            --arg pullRequest "$PULL_REQUEST" \
             --arg owner "$REPOSITORY_ID" --arg repository "$GITHUB_REPOSITORY" --argjson awake "$MIN_REPLICAS" '{
               location: $location,
-              tags: {"github-repository-id": $owner, "github-repository": $repository, workshop: "nn-hackathon-2026-10"},
+              tags: {"github-repository-id": $owner, "github-repository": $repository, "website-slot": $slot,
+                     workshop: "nn-hackathon-2026-10"},
               identity: {type: "UserAssigned", userAssignedIdentities: {($identity): {}}},
               properties: {
                 environmentId: $environment,
@@ -204,7 +260,11 @@ jobs:
                   containers: [{
                     name: "website", image: $image,
                     resources: {cpu: 0.25, memory: "0.5Gi"},
-                    env: [{name: "WORKSHOP_COMMIT", value: $commit}]
+                    env: [
+                      {name: "WORKSHOP_COMMIT", value: $commit}, {name: "WEBSITE_SLOT", value: $slot},
+                      {name: "WEBSITE_VERSION", value: $version}, {name: "WEBSITE_BUILD", value: $build},
+                      {name: "WEBSITE_PULL_REQUEST", value: $pullRequest}
+                    ]
                   }],
                   scale: {minReplicas: $awake, maxReplicas: 1}
                 }
@@ -242,12 +302,37 @@ jobs:
           URL="https://$FQDN"
           DIGEST="$(jq -r .digest manifest.json)"
           INDEX="$(jq -r .index_sha256 manifest.json)"
+          page_is_right() {
+            if [ "$WEBSITE_SLOT" = feature ]; then
+              # The feature slot adds its strip to every page, so it looks for the strip instead.
+              PAGE="$(curl --silent --fail --max-time 20 "$URL/" || true)"
+              [[ "$PAGE" == *'data-workshop-slot="feature"'* ]]
+            else
+              [ "$(curl --silent --fail --max-time 20 "$URL/" | sha256sum | cut -d ' ' -f 1)" = "$INDEX" ]
+            fi
+          }
           for attempt in $(seq 1 36); do
             HEALTH="$(curl --silent --max-time 20 "$URL/healthz" || true)"
-            if [ "$(jq -r '.commit // ""' <<<"$HEALTH" 2>/dev/null)" = "$GITHUB_SHA" ] \
+            if [ "$(jq -r '.commit // ""' <<<"$HEALTH" 2>/dev/null)" = "$PUBLISH_COMMIT" ] \
               && [ "$(jq -r '.site_digest // ""' <<<"$HEALTH" 2>/dev/null)" = "$DIGEST" ] \
-              && [ "$(curl --silent --fail --max-time 20 "$URL/" | sha256sum | cut -d ' ' -f 1)" = "$INDEX" ]; then
+              && [ "$(jq -r '.slot // ""' <<<"$HEALTH" 2>/dev/null)" = "$WEBSITE_SLOT" ] \
+              && page_is_right; then
               echo "url=$URL" >> "$GITHUB_OUTPUT"
+              if [ "$WEBSITE_SLOT" = feature ]; then
+                {
+                  echo "### Your feature slot is ready"
+                  echo
+                  echo "**$URL**"
+                  echo
+                  if [ -n "$PULL_REQUEST" ]; then
+                    echo "Pull request **#$PULL_REQUEST**, version **$WEBSITE_VERSION**, build $GITHUB_RUN_NUMBER."
+                    echo
+                  fi
+                  echo "A test copy of commit \`${PUBLISH_COMMIT:0:7}\`, with a strip at the top that says so."
+                  echo "Your live website changes only from main, after you approve."
+                } >> "$GITHUB_STEP_SUMMARY"
+                exit 0
+              fi
               {
                 echo "### Your website is live"
                 echo
@@ -257,7 +342,7 @@ jobs:
                   echo "Version **$WEBSITE_VERSION**, build $GITHUB_RUN_NUMBER."
                   echo
                 fi
-                echo "Published commit \`${GITHUB_SHA:0:7}\`. Every push to main updates it in about three minutes."
+                echo "Published commit \`${PUBLISH_COMMIT:0:7}\`. Every push to main updates it in about three minutes."
                 echo "After a quiet spell, the first visit can take about 30 seconds while the website wakes up."
               } >> "$GITHUB_STEP_SUMMARY"
               exit 0
@@ -269,8 +354,11 @@ jobs:
 
       - name: Remove this repository's older website names
         run: |
+          # Only names in the same slot: publishing production never removes the feature slot.
           az containerapp list --resource-group "$RESOURCE_GROUP" \
-            --query "[?tags.\"github-repository-id\"=='$REPOSITORY_ID' && name!='$WEBSITE_NAME'].name" --output tsv |
+            --query '[].{name:name, owner:tags."github-repository-id", slot:tags."website-slot"}' --output json |
+            jq -r --arg owner "$REPOSITORY_ID" --arg name "$WEBSITE_NAME" --arg slot "$WEBSITE_SLOT" \
+              '.[] | select(.owner == $owner and .name != $name and (.slot // "production") == $slot) | .name' |
             while read -r OLD; do
               [ -n "$OLD" ] || continue
               az containerapp delete --name "$OLD" --resource-group "$RESOURCE_GROUP" --yes --output none
@@ -284,10 +372,10 @@ jobs:
     timeout-minutes: 5
     permissions: {}
     environment:
-      name: website
+      name: ${{ inputs.slot == 'feature' && 'feature-slot' || 'website' }}
       url: ${{ needs.publish.outputs.url }}
     steps:
       - name: Show the address
         env:
           URL: ${{ needs.publish.outputs.url }}
-        run: echo "Your website is live at $URL"
+        run: echo "Published at $URL"

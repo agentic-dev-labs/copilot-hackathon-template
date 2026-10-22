@@ -78,7 +78,8 @@ only the repository README, the page GitHub shows them first; the presenter show
 their own repository and attendees repeat it on theirs.
 Then use short show -> try -> personalise -> verify -> share cycles: Chat first, opening with the
 provided `/next-word` demo (owner-approved 22 October 2026: the room guesses the next word, then
-Copilot, and its percentages are labelled as its own estimate), at 10:00 the provided
+Copilot answers with only that one word and its percentage, which the guide labels as Copilot's own
+estimate), at 10:00 the provided
 `/create-website` workflow and its first push, and the live Website preview beside Chat. Offer the Project Planner,
 Calendar, Ideas Wall, Weather, Princeton Map and Photo Studio starters and My own idea,
 demonstrate the Project Planner, and ask only which one; choosing is the approval to build. The agent calls the
@@ -144,11 +145,14 @@ and a Code Review agent whose findings the attendee verifies, `@copilot` fixes, 
 deploys. Day 5 (docs/DAY-5-SHOWCASE.md): CI/CD from the starters in `.github/workflow-starters/`,
 tests plus `scripts/ui_check.py` (a browser UI check with desktop and phone screenshots that runs
 in GitHub Actions only, never with `--no-sandbox`) made required in the ruleset, a red then green
-pull-request check, approval-gated publishing in the attendee's `training` environment (still the
-template's OIDC publisher, no secret), `scripts/smoke_test.py`, a **Revert** rollback, team demos,
+pull-request check, a feature slot (`<name>-feature`, a yellow strip with pull request, version,
+and build) for every checked pull request through `workflow_run`, Copilot's ticket tried there,
+then approval-gated publishing to the production slot in the attendee's `production` environment
+(both slots still the template's OIDC publisher, no secret), `scripts/smoke_test.py`, a
+**Revert** rollback, team demos,
 and HANDOFF.md. The publisher writes `version.json`, which the content fingerprint ignores, so a
 rollback restores the known-good fingerprint. Ship helpers and starters, never the learner's
-agents, skills, instructions, tests, reviews, or active check workflow; CI enforces this. Labs 04
+agents, skills, instructions, tests, reviews, or active check and feature-slot workflows; CI enforces this. Labs 04
 and 06 are optional extras; a Copilot automation is a Day 4 presenter demo and an optional extra,
 and Agentic Workflows a presenter demo. Days 4 and 5 open with a short catch-up for attendees who
 join that day, and Day 5's handoff routes include Novo's own GitHub Enterprise, Power Apps code

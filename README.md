@@ -97,7 +97,7 @@ GitHub; pushing does.
    one word at a time. Now you try. Type `/next-word`, pick it from the list, then type
    **What a nice day, let's go to the** and press Enter.
    **Check:** which word did you get? Raise your hand for it when the presenter asks. The
-   percentages are Copilot's own rough estimate, not a measurement.
+   percentage is Copilot's own rough estimate, not a measurement.
 7. Stay in this chat all day; you do not need a new one. Ask: "Explain the difference between my
    repository, Codespace, and Copilot in three short sentences. Do not change files or run
    commands."

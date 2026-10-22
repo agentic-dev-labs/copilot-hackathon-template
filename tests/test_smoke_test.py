@@ -83,6 +83,21 @@ def test_version_is_shown_but_never_fails_the_test(monkeypatch: pytest.MonkeyPat
     assert "content bbbbbbbbbbbb)" in capsys.readouterr().out
 
 
+def test_slot_is_shown_so_both_addresses_can_be_compared(monkeypatch: pytest.MonkeyPatch, capsys) -> None:
+    """Day 5: the feature slot and production report the same content number for the same files."""
+    pages = healthy_pages()
+    health = {"status": "ok", "commit": "a" * 40, "site_digest": "b" * 64, "slot": "feature"}
+    pages[f"{SITE}/healthz"] = (200, json.dumps(health).encode())
+    pages[f"{SITE}/version.json"] = (200, json.dumps({"version": "1.0.3-feature", "build": 3}).encode())
+    monkeypatch.setattr(smoke_test, "fetch", fake_site(pages))
+    assert smoke_test.main([SITE]) == 0
+    assert "(commit aaaaaaa, content bbbbbbbbbbbb, version 1.0.3-feature, feature slot)" in capsys.readouterr().out
+    pages[f"{SITE}/healthz"] = (200, json.dumps({**health, "slot": "<b>odd</b>"}).encode())
+    monkeypatch.setattr(smoke_test, "fetch", fake_site(pages))
+    assert smoke_test.main([SITE]) == 0
+    assert "version 1.0.3-feature)" in capsys.readouterr().out
+
+
 class _Answer:
     """A minimal urlopen response."""
 

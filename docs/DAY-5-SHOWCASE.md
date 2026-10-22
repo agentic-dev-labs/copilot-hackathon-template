@@ -1,10 +1,13 @@
 # Day 5: CI/CD with GitHub Actions
 
 Today GitHub checks every pull request for you (**CI**): your tests, and a browser that opens
-your pages on a desktop and a phone and keeps screenshots. Then it publishes only what you
-approve (**CD**). You break a release on purpose and bring the good one back, and then teams
-present their work and hand it over. Same Codespace, same website, everything made up. No
-password, key, or Azure sign-in. Since Day 4 every change reaches `main` through a pull request.
+your pages on a desktop and a phone and keeps screenshots. Then it delivers (**CD**): every
+checked pull request gets its own test copy of your website, the **feature slot**, and your real
+website, the **production slot**, changes only from `main` and only after you approve. Copilot
+builds a ticket, you try it in the feature slot, approve it, merge it, and release it. You break a
+release on purpose and bring the good one back, and then teams present their work and hand it
+over. Same Codespace, same website, everything made up. No password, key, or Azure sign-in. Since
+Day 4 every change reaches `main` through a pull request.
 Stuck in the terminal? Paste the same sentence into Chat with **Agent** chosen; it does the same job.
 
 **Joining today?** Before the workflow lab at 00:20, your website needs an address and a
@@ -23,7 +26,7 @@ Times count from the start of the session.
 | 00:20-00:50 | [Workflow lab: edit a starter YAML file, triggers and permissions](#2-workflow-lab) | Your checks are merged, and your ruleset requires them.            |
 | 00:50-01:30 | [CI lab: build and test a pull request, inspect logs, fix failures](#3-ci-lab) | You saw red, read the log and a screenshot, fixed it, and merged on green. |
 | 01:30-01:45 | Break                                                                |                                                                    |
-| 01:45-02:30 | [CD lab: approve and deploy a build to the training environment](#4-cd-lab) | Your website was published only after you approved it.             |
+| 01:45-02:30 | [CD lab: approve and deploy a build to the training environment](#4-cd-lab) | Copilot's change was tried in your feature slot and reached production only after you approved. |
 | 02:30-03:15 | [Recovery lab: smoke-test and redeploy a known-good build](#5-recovery-lab) | The smoke test is green again after your rollback.                 |
 | 03:15-03:45 | [Team demos: requirements, review report, and CI/CD evidence](#6-team-demos) | Your table showed its work.                                        |
 | 03:45-04:00 | [Handoff: agent profiles, pipeline steps, and release ownership](#7-handoff) | Your HANDOFF.md is merged.                                         |
@@ -40,6 +43,8 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
 | UI check       | A browser opens your pages, checks what a person would see, and takes screenshots.      |
 | Required check | A check your ruleset insists on: a pull request cannot be merged while it is red.       |
 | CD             | Continuous delivery: a checked change is published, here only after a person approves. |
+| Feature slot   | A test copy of your website for a pull request, at your website's name plus `-feature`. A yellow strip at the top shows its pull request, version, and build. |
+| Production slot | Your website's own address, the one everyone uses. It changes only from `main`, after you approve. |
 | Smoke test     | A quick check that the published website is alive and shows the right thing.          |
 | Rollback       | Going back to the last known-good version. GitHub's **Revert** button does it for you. |
 
@@ -49,7 +54,8 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
 and each merge publishes a numbered version. Open **.github > workflows > publish-website.yml**.
 Find `on:` (when it runs: a push to `main` that changes `site/`), `permissions:` (it may only read
 your files and prove who it is), and `version:` (your build number). Today you add the missing
-half: checks before every merge, and your approval before every release.
+half: checks before every merge, a feature slot to try every pull request, and your approval
+before every release to production.
 
 ## 2. Workflow Lab
 
@@ -100,27 +106,57 @@ half: checks before every merge, and your approval before every release.
 6. Fix it on the same branch: "Remove the banner you just added." Commit and push. Both checks
    run again and turn green. Merge the pull request, delete the branch (never **Delete
    codespace**), then switch to `main` in the Codespace and **Pull**.
+7. **Before the break, give Copilot a ticket.** On your board, open your next approved ticket in
+   **Todo** and select **Assign to Agent**, as on Day 4. No approved ticket left? Create one with
+   the **Requirement** template for one small visible change, such as "Show a short welcome line
+   under my headline", and move it to **Todo** first. Copilot builds it during the break.
 
-**Check:** you saw red, read the log, looked at a screenshot, fixed it, saw green, and merged.
+**Check:** you saw red, read the log, looked at a screenshot, fixed it, saw green, merged, and
+Copilot is working on your next ticket.
 
 ## 4. CD Lab
 
-**01:45-02:30.** Your website is your **training environment**. Now publishing waits for you.
+**01:45-02:30.** Everything this week runs in the workshop's training environment. In it your
+website now gets two slots: the **feature slot**, a test copy for each pull request, and the
+**production slot**, your website's own address. You try Copilot's change in the feature slot,
+approve it, merge it, and then approve its release to production.
 
-1. Create a branch named `approval`. Ask Copilot CLI: "Copy
-   .github/workflow-starters/publish-website-with-approval.yml over
-   .github/workflows/publish-website.yml. Show me what changed." Read the new **Wait for
-   approval** job, and see that your `version:` line is still there. Commit, publish the branch,
-   create the pull request, and merge it when its checks are green.
-2. On GitHub open **Settings > Environments > training** (if it is missing, select **New
-   environment** and name it `training`). Tick **Required reviewers**, add yourself, and select
-   **Save protection rules**.
-3. On a new branch, make one small visible change to your page, then pull request, green checks,
-   merge. Open **Actions > Publish my website**: it says **Waiting**. Select **Review
-   deployments**, tick **training**, and select **Approve and deploy**.
-4. When it is green, open your website's address. Your change is there, with a new version number.
+1. **Add the two slots.** Create a branch named `slots`. Ask Copilot CLI: "Copy
+   .github/workflow-starters/deploy-feature-slot.yml to .github/workflows/deploy-feature-slot.yml,
+   and copy .github/workflow-starters/publish-website-with-approval.yml over
+   .github/workflows/publish-website.yml. Then explain in plain sentences what starts each
+   workflow and what it may do. Change nothing else." Read the new **Wait for approval** job, and
+   see that your `version:` line is still there. Commit, select **Publish Branch**, create the
+   pull request, and merge it when its checks are green.
+2. **Protect production.** On GitHub open **Settings > Environments**, select **New
+   environment**, name it `production`, and select **Configure environment**. Tick **Required
+   reviewers**, add yourself, and select **Save protection rules**.
+3. **Let Copilot's work run.** Open **Pull requests** and select Copilot's pull request. Read
+   **Files changed** first: GitHub runs nothing on Copilot's code until you allow it. In the merge
+   box at the bottom of **Conversation**, select **Approve and run workflows**. Your two checks
+   run, about three minutes. When both are green, **Deploy feature slot** starts by itself (see
+   the **Actions** tab), and about three minutes later the checks list shows **Feature slot**.
+4. **Test in the feature slot.** Next to **Feature slot**, select **Details**. Your feature slot
+   opens at your website's name plus `-feature`. The yellow strip at the top names the pull
+   request, version, and build: a test copy, not your live website. Check the ticket's acceptance
+   criteria there, one by one. Then smoke-test it with its own address and write down the
+   **content** number on the first line:
 
-**Check:** nothing was published until you approved it.
+   ```bash
+   python3 scripts/smoke_test.py https://<name>-feature.thankfulrock-bf005377.eastus.azurecontainerapps.io
+   ```
+
+5. **Approve and merge.** On the pull request open **Files changed**, select **Review changes**,
+   choose **Approve**, and select **Submit review**. Then select **Ready for review** and **Merge
+   pull request**. Your approval of Copilot's work is your record that you tested it.
+6. **Approve the release.** Open **Actions > Publish my website**: it says **Waiting**. Select
+   **Review deployments**, tick **production**, and select **Approve and deploy**. When it is
+   green, open your website's own address: the change is there, without the strip, with a new
+   version. Smoke-test that address too: its **content** number is the same as the feature
+   slot's. Production got exactly what you tested.
+
+**Check:** Copilot's work ran only after you allowed it, you tried it in the feature slot, and it
+reached production only after you approved.
 
 ## 5. Recovery Lab
 
@@ -135,12 +171,15 @@ half: checks before every merge, and your approval before every release.
    Every line says **PASS**. Write down the **content** and **version** on the first line: the
    content number is the fingerprint of your good version.
 2. **Ship a bad build on purpose:** on a new branch, ask Copilot to change the sentence under
-   your headline to "Oops, wrong words". Pull request, merge, and approve the release. Your checks
-   stay green, because no check knows your words. Run the smoke test again: **FAIL** on your
-   sentence. That is why you test the live website after every release.
+   your headline to "Oops, wrong words". Create the pull request. Your checks stay green, because
+   no check knows your words, and the **Feature slot** shows the oops: that is where a tester
+   catches it. Merge it anyway, on purpose, and approve the release. Run the smoke test on your
+   website's own address again: **FAIL** on your sentence. That is why you test before and after
+   every release.
 3. **Roll back:** on GitHub open the pull request you just merged and select **Revert**. GitHub
-   fills in a new pull request that undoes it: select **Create pull request**. Merge it when its
-   checks are green, then approve the release.
+   fills in a new pull request that undoes it: select **Create pull request**. When its checks
+   are green, its **Feature slot** shows your good sentence again. Merge it, then approve the
+   release.
 4. Run the smoke test again: all **PASS**. The **content** number is the same as in step 1, and
    the **version** is higher: a new build of your known-good page.
 
@@ -154,8 +193,8 @@ live again.
 1. Your **requirements**: your board, one ticket with its acceptance criteria, and how you
    checked it.
 2. Your **review report**: one finding you confirmed, and one you rejected.
-3. Your **CI/CD evidence**: a red then green check with its screenshot, an approval, your version
-   number, and a rollback.
+3. Your **CI/CD evidence**: a red then green check with its screenshot, your feature slot with its
+   strip, an approval, your version number, and a rollback.
 
 An honest "this part does not work yet" is better than a polished claim nobody checked.
 
@@ -164,8 +203,9 @@ An honest "this part does not work yet" is better than a polished claim nobody c
 **03:45-04:00.** Ask Copilot CLI: "Write HANDOFF.md in plain words: my agent profiles
 (user-requirements and code-review: file, job, and how to run them), my user-stories skill, my
 board and how a ticket moves from Todo to Done, my review rules, my ruleset (what it requires
-before a merge), my pipeline (Check my website with its tests and UI check, and Publish my
-website with approval and a version number, and what starts each), how to release and how to
+before a merge), my pipeline (Check my website with its tests and UI check, Deploy feature slot
+for every checked pull request, and Publish my website to production with approval and a version
+number, and what starts each), how to release and how to
 roll back with Revert, who owns releases (me), and open questions for IT. Add a short 'To make
 it real' list: which parts are made up or only in my browser today, and the route for each from
 the table in docs/DAY-5-SHOWCASE.md." Read it, correct one sentence, then save it the Day 4 way:
@@ -186,21 +226,23 @@ of this week: it shows exactly what you need. Making it real is a project with I
 | To be used in GxP work, such as regulated processes or records | Novo's validation process, with your Quality team, before any real use. This week's website is a prototype, not a validated system |
 
 **Done when:** your ruleset requires your two checks, you fixed a red check from its log and a
-screenshot, publishing waits for your approval, you rolled back a bad release with **Revert** and
-the smoke test proved it, and your HANDOFF.md is merged. Stop your Codespace at the end: closing
-the browser tab does not stop it.
+screenshot, you tried Copilot's change in your feature slot before you approved its release to
+production, you rolled back a bad release with **Revert** and the smoke test proved it, and your
+HANDOFF.md is merged. Stop your Codespace at the end: closing the browser tab does not stop it.
 
 ## Optional extras
 
 1. Add a **Smoke test** step to the publishing workflow that runs `scripts/smoke_test.py` after
    each release.
-2. Break a test word from Day 3 on a branch and watch **Check the website** turn red too: tests
+2. Open two pull requests at once and watch your feature slot: it shows whichever was checked
+   last, and its strip tells you which.
+3. Break a test word from Day 3 on a branch and watch **Check the website** turn red too: tests
    and the UI check catch different problems.
-3. Ask your Code Review agent to review the pull request from the CI lab.
-4. **Agentic Workflows (presenter demo, public preview):** an agent that runs inside GitHub
+4. Ask your Code Review agent to review the pull request from the CI lab.
+5. **Agentic Workflows (presenter demo, public preview):** an agent that runs inside GitHub
    Actions, for example when a check fails, and comments what went wrong. It is written in plain
    words like your agents, and the organization pays for it with no personal token.
-5. Write a five-line summary of what you built and learned this week for your manager.
+6. Write a five-line summary of what you built and learned this week for your manager.
 
 ## Official References
 
@@ -208,6 +250,9 @@ the browser tab does not stop it.
   [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax).
 - [Permissions for the GITHUB_TOKEN](https://docs.github.com/en/actions/tutorials/authenticate-with-github_token).
 - [Deployment environments and required reviewers](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments).
+- [The workflow_run trigger](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run):
+  how the feature slot starts after your checks, and
+  [Approve and run workflows on Copilot's pull requests](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output#manage-github-actions-workflow-runs).
 - [Reverting changes](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/reverting-a-pull-request)
   and [stopping a Codespace](https://docs.github.com/en/codespaces/developing-in-a-codespace/stopping-and-starting-a-codespace).
 - [Required status checks in rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets#require-status-checks-to-pass-before-merging)

@@ -7,7 +7,7 @@ checks, and saved work; Day 2 applies that workflow to participants' own ideas. 
 David's final slides (20 October 2026): attendees turn their idea into tickets on a project board,
 write a User Requirements agent that adds acceptance criteria, and build and test one ticket
 (Day 3), delegate the next ticket to the cloud agent and review it with their own Code Review
-agent (Day 4), and run CI/CD with an approval gate and a rollback (Day 5). Every step is a plain
+agent (Day 4), and run CI/CD with a feature slot, an approval gate, and a rollback (Day 5). Every step is a plain
 sentence typed to Copilot CLI or a click, on the attendee's own website.
 All attendee steps use browser-based Codespaces and its Bash terminal, never a laptop runtime.
 Start with the 09:00-09:30 block: the sponsor welcome (SEFR video) and the ASTER Overview teaser
@@ -30,7 +30,7 @@ Prepare these results before Day 1 so network waits and preview setup do not con
 | Tuesday building | One own-idea prototype, manual checks, saved work, and questions for IT | `/create-website` own-idea route in `site/ideas/` with fictional local content; Monday's page for people without an idea |
 | Wednesday agents | Two or three **Requirement** tickets (from Tuesday's **Next** wishes) and a Board project named after the attendee that imports the repository; Copilot CLI `/login`; a GitHub tool lists the tickets (MCP); at 00:50 the four building blocks, then the **user-stories** skill and the User Requirements agent written from the guide's prompts; criteria added to each ticket with `gh` and validated; approved tickets dragged to **Todo**; one built in the Codespace; `pytest checks` green; the brief lists the requirements; a `Closes #N` commit moves it to **Done** | A demo website with its tickets and board ready, and a rehearsal copy with the skill and agent, labelled as prepared, for anyone whose CLI sign-in is blocked; pasting the agent's draft into the ticket when `gh` may not update it |
 | Thursday cloud agents | A 5-minute presenter demo: an automation adds criteria to a new demo ticket by itself; the `Protect main` ruleset (pull requests only); the `version:` line switched on and shown in the footer; an approved ticket from the board assigned to Copilot; review rules and the Code Review agent; `@copilot` iteration; merge and deploy with the next version, the ticket **Done** | The criteria automation set up on the demo repository the day before (it runs as you, on your allowance); assign the demonstration ticket before the session so a pull request is ready; Copilot assignable in attendee repositories. Copilot code review stays off: no Copilot review appears on attendee pull requests |
-| Friday CI/CD | Starter checks (tests and the UI check) with edited triggers and permissions, then required; a red UI check with its phone screenshot, then green; `training` approval; smoke test and **Revert**; demos; HANDOFF.md | A rehearsal copy with each step done, for showing a blocked step; the template CI's `ui-check` job green on `main` |
+| Friday CI/CD | Starter checks (tests and the UI check) with edited triggers and permissions, then required; a red UI check with its phone screenshot, then green; a ticket assigned to Copilot before the break; the feature-slot and production starters; Copilot's pull request run, tried in the feature slot, approved, merged, and released after a `production` approval; smoke test and **Revert**; demos; HANDOFF.md | A rehearsal copy with each step done, for showing a blocked step; the template CI's `ui-check` job green on `main`; a demonstration pull request from Copilot ready before the break |
 
 Keep public reports and HTML briefs on the optional [extension shelf](RESEARCH.md), separate
 from synthetic vendor evidence. Name tools when they become useful, rather than explaining
@@ -88,7 +88,7 @@ alongside you or straight after, then the next step.
 | Time        | You show                                                                                       | Attendees do                                               |
 | ----------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
 | 09:00-09:30 | After the welcome, SEFR video and ASTER teaser: this is GitHub; this is a repository (the template's files, README, Commits, History, Search, Issues); the five words and save -> review -> commit -> push | Watch; no commands |
-| 09:30-10:00 | **Use this template > Create a new repository** with owner agentic-dev-labs, your username as the name, and **Private**; your new copy (files, README, one commit); **Code > Codespaces > Create codespace on main**; **Trust Folder & Continue**; README with **Open Preview**; Chat in **Ask**; `/next-word` with "What a nice day, let's go to the", then "What a nice day here in Princeton, New Jersey, let's go to the", the room guessing first (its percentages are Copilot's own estimate); one question and one refinement | Make their own private copy with you, check the owner and **Private** label, open its Codespace, try `/next-word` on the first sentence, then each step straight after you |
+| 09:30-10:00 | **Use this template > Create a new repository** with owner agentic-dev-labs, your username as the name, and **Private**; your new copy (files, README, one commit); **Code > Codespaces > Create codespace on main**; **Trust Folder & Continue**; README with **Open Preview**; Chat in **Ask**; `/next-word` with "What a nice day, let's go to the", then "What a nice day here in Princeton, New Jersey, let's go to the", the room guessing first (its percentage is Copilot's own estimate); one question and one refinement | Make their own private copy with you, check the owner and **Private** label, open its Codespace, try `/next-word` on the first sentence, then each step straight after you |
 | 10:00-10:30 | Chat in **Agent**; `/create-website` with the Project Planner; the preview beside Chat; `site/brief.md`, the idea note it wrote; **File > Save All**; Source Control with every file staged; commit; push; find it on GitHub | The same, then helpers check every page is on GitHub       |
 | 10:45       | More websites from your prepared demo repository, one built live; then [START-HERE](START-HERE.md) is the route | Lab 01 step by step: headline by hand, one own idea in its own folder |
 
@@ -204,8 +204,18 @@ browser tests, and the vendor app's release verification are [post-workshop refe
   starters into `.github/workflows/` on Day 5, always on a branch. Confirm in an attendee-style
   Codespace that the push is accepted; if the Codespace token refuses workflow files, the fallback
   is GitHub's web editor (the pencil icon, or **Add file > Create new file**) committing to a new
-  branch. The approval step uses the attendee's own `training` environment; required reviewers
-  in private repositories need the organization's GitHub plan, which agentic-dev-labs has.
+  branch. The production slot's approval uses the attendee's own `production` environment;
+  required reviewers in private repositories need the organization's GitHub plan, which
+  agentic-dev-labs has.
+- **Two slots, one trusted publisher (Day 5).** `deploy-feature-slot.yml` starts from
+  `workflow_run` after **Check my website** passes on a pull request. GitHub runs that file from
+  `main`, on `main`, so its token has the same `refs/heads/main` subject Azure already trusts:
+  no Azure change. It publishes the pull request's head commit to `<name>-feature` (the first 24
+  characters of the name), whose server adds a yellow strip with the pull request, version
+  (`1.0.<run>-feature`), and build, and it adds a **Feature slot** status with the address to the
+  pull request. The files and the content fingerprint are the same as production's. One feature
+  slot per attendee shows whichever pull request was checked last. A rename removes only older
+  names in the same slot, and each slot has its own image tag.
 - **The UI check runs in GitHub Actions only.** Chromium cannot start in a default Codespace, so
   `scripts/ui_check.py` runs on the runner with `playwright==1.64.0` from PyPI, software graphics
   for 3D pages, and the browser sandbox on: one step lets the throwaway runner use the user
@@ -562,10 +572,12 @@ is required; repository access to the prepared Actions identity must already exi
   guide's top as a newcomer would.
 - Rehearse Day 5: copy the check starter on a branch, edit its trigger and permissions, merge it,
   and make **Check the website** and **UI check** required; add a 900-pixel banner and see the UI
-  check go red with the banner in `home-phone.png`, then green; copy the approval starter, add
-  yourself as a required reviewer of `training`, approve one release; run `scripts/smoke_test.py`,
-  ship a bad sentence, roll it back with **Revert**, and confirm the content fingerprint returns
-  while the version goes up.
+  check go red with the banner in `home-phone.png`, then green; assign a ticket to Copilot; copy
+  both slot starters, add yourself as a required reviewer of `production`; on Copilot's pull
+  request select **Approve and run workflows**, open the **Feature slot** link and see the strip,
+  approve and merge, approve the release; run `scripts/smoke_test.py` on both addresses and
+  compare the content numbers; ship a bad sentence, roll it back with **Revert**, and confirm the
+  content fingerprint returns while the version goes up.
 - In a fresh attendee-style Codespace, confirm no MCP server runs on Day 1 and that the Agent's
   **Configure Tools** list shows no Python, pull-request, Pylance, Azure, or plugin tools. Then
   select **Start** on the `github` server in `.vscode/mcp.json`
@@ -650,6 +662,9 @@ container build, application security review, or live deployment check.
 | The UI check is red on a page nobody changed | A real problem on a desktop or phone, or a slow first load | Open the log's table and `home-phone.png`; re-run once for a timeout. Never add `--no-sandbox`. |
 | The CI lab's banner leaves the UI check green | The banner went inside the page's header, which cuts it off, or Copilot added `max-width: 100%` so it shrinks to fit (seen on 22 October 2026) | Ask Copilot to move it to the very top of the first page, above its header, and to remove the `max-width` line; the check compares the page's width with the phone's. |
 | The UI check stays yellow for many minutes | Before the 22 October fix the starter used `--with-deps`, which fetched system packages from Ubuntu's mirror at 47 kB/s (up to 14 minutes); a run can also wait for a free runner when [githubstatus.com](https://www.githubstatus.com/) shows **Actions** degraded | Check that the attendee's copy says `playwright install chromium` without `--with-deps`, and check the status page. Carry on with the next step and come back; show the presenter's earlier run if the room is waiting. Never re-run in a loop. |
+| No **Feature slot** line appears on a pull request | `deploy-feature-slot.yml` is not on `main` yet, a check is red, or Copilot's checks still wait for **Approve and run workflows** | Merge the `slots` pull request first; the slot starts only after both checks are green. Look under **Actions > Deploy feature slot**: a skipped run means the checks did not pass. |
+| The feature slot shows another pull request | One feature slot per attendee, and the last checked pull request wins | Read the strip: it names the pull request. Re-run that pull request's checks to bring it back. |
+| **Publish my website** waits and nobody can approve | The `production` environment has no required reviewer, or the attendee is not one | **Settings > Environments > production**: add the attendee under **Required reviewers**, then **Review deployments**. |
 | A red error on line 2 of the new `check-my-website.yml` | The editor checked the file while Copilot was still writing it | Close and reopen the file; the error goes. The check on the pull request is what counts. |
 | Chat says "2 workspace customizations need an update to keep working" | VS Code offers to convert the facilitator's `rehearse-workshop.prompt.md` into a skill and to move `.vscode/mcp.json` to `.mcp.json` (seen on 22 October 2026) | Select the **X**. Do not migrate: tests and the guides rely on both files. |
 | `/agent` lists **code-review** on `main` but not on Copilot's branch | Copilot's branch started before the agent was merged | Review from `main`: `/exit`, choose `main` in the status bar, `copilot`, then `/agent`. |

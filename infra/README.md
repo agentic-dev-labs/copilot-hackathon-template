@@ -29,7 +29,7 @@ controls the publisher, so keep that list to the workshop owners.
 The [publisher](../.github/workflows/website-publisher.yml) reads the attendee repository in a job
 with no Azure access and passes on only `site/`. The signed-in job runs the template's own
 Dockerfile and code, tags each website with its repository ID, refuses a name another repository
-owns, and removes the repository's older names. The deploy identity holds only:
+owns, and removes the repository's older names in the same slot. The deploy identity holds only:
 
 | Role                       | Scope                  |
 | -------------------------- | ---------------------- |
@@ -41,6 +41,21 @@ owns, and removes the repository's older names. The deploy identity holds only:
 Websites pull their image with a separate identity that can only pull. The registry has no admin
 user. The separate **Deploy my app** workflow (vendor app and rehearsals) still uses the
 `AZURE_CREDENTIALS` secret and is unaffected.
+
+## Two slots on Day 5
+
+On Day 5 each attendee website gets a second app: the **feature slot**, `<name>-feature` (the
+first 24 characters of the name), which shows a pull request before it is merged. The attendee's
+copy of
+[deploy-feature-slot.yml](../.github/workflow-starters/deploy-feature-slot.yml) starts from
+[`workflow_run`](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run)
+when **Check my website** passes on a pull request. GitHub runs that event from the workflow file
+on `main`, with `main` as its ref, so the token's `sub` still ends in `ref:refs/heads/main` and
+the trust above needs no change. A pull request cannot alter how it is deployed. The publisher
+builds the pull request's head commit, tags the app `website-slot: feature`, and its server adds
+a yellow strip with the pull request, version, and build. The production slot is the website's
+own address, published from `main` after the attendee's approval in their `production`
+environment. Both slots serve the same files, so their content fingerprints match.
 
 ## Deploy
 

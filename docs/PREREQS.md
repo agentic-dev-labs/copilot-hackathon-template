@@ -94,10 +94,13 @@ repository is needed; an automation is a Day 4 presenter demo and an optional ex
 - [ ] Push the publisher's `version` input and the fingerprint change to the template's `main`,
       then publish one practice website with `version:` switched on and check its footer before Day 4.
 - [ ] Confirm attendees can push a file under `.github/workflows/` from their Codespace on a
-      branch (Days 4-5) and can add themselves as a required reviewer of a `training` environment
+      branch (Days 4-5) and can add themselves as a required reviewer of a `production` environment
       (Day 5). Fallback for the push: GitHub's web editor on a new branch. Never hand out personal tokens.
 - [ ] Confirm Actions minutes for about 45 repositories running two checks (tests and the browser
-      UI check, a few minutes each) on every pull request, and a publish on every release, on Day 5.
+      UI check, a few minutes each) and a feature-slot deploy on every pull request, and a publish
+      on every release, on Day 5. Each attendee then has two websites (production and `-feature`),
+      both sleeping when idle: about 90 apps, at most about 23 of the environment's 500
+      consumption cores even if all are awake (checked 22 October 2026).
 - [ ] Confirm the template CI's `ui-check` job is green on `main`: it proves the Day 5 browser
       install and screenshots on a real starter page.
 - [ ] Agree Friday's room logistics for team demos: screen sharing, a timer, the running order, and the host.
