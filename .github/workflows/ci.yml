@@ -89,8 +89,9 @@ jobs:
           cp -r "$assets/css" "$assets/js" "$assets/art" site/
           mkdir -p site/fonts
           cp "$assets/fonts/source-sans-3-latin.woff2" site/fonts/
+      # Same step as the starter: the runner image already has the browser's system libraries.
       - name: Install a browser
-        run: uv run --with playwright==1.64.0 playwright install --with-deps chromium
+        run: uv run --with playwright==1.64.0 playwright install chromium
       # Same step as the starter: Ubuntu 24.04 blocks what Chromium's sandbox needs, and the
       # sandbox stays on.
       - name: Let the browser keep its sandbox

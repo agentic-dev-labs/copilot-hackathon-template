@@ -81,3 +81,46 @@ def test_version_is_shown_but_never_fails_the_test(monkeypatch: pytest.MonkeyPat
     monkeypatch.setattr(smoke_test, "fetch", fake_site(pages))
     assert smoke_test.main([SITE]) == 0
     assert "content bbbbbbbbbbbb)" in capsys.readouterr().out
+
+
+class _Answer:
+    """A minimal urlopen response."""
+
+    status = 200
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *details) -> None:
+        return None
+
+    def read(self) -> bytes:
+        return b'{"status": "ok"}'
+
+
+def test_a_resting_website_gets_a_second_try(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Seen on 22 October 2026: the first request after a quiet spell got no answer."""
+    attempts = []
+
+    def wakes_up_slowly(request, timeout):
+        attempts.append(request.full_url)
+        if len(attempts) == 1:
+            raise smoke_test.urllib.error.URLError("connection reset")
+        return _Answer()
+
+    monkeypatch.setattr(smoke_test.urllib.request, "urlopen", wakes_up_slowly)
+    monkeypatch.setattr(smoke_test.time, "sleep", lambda seconds: None)
+    assert smoke_test.fetch(f"{SITE}/healthz") == (200, b'{"status": "ok"}')
+    assert len(attempts) == 2
+
+
+def test_no_answer_says_why_instead_of_http_zero(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A website that never answers is reported in words, after one retry."""
+    def never_answers(request, timeout):
+        raise TimeoutError("timed out")
+
+    monkeypatch.setattr(smoke_test.urllib.request, "urlopen", never_answers)
+    monkeypatch.setattr(smoke_test.time, "sleep", lambda seconds: None)
+    rows = smoke_test.smoke_test(SITE)
+    assert rows[0] == ("Website says it is healthy", False, "no answer: timed out")
+    assert rows[1][2] == f"no answer: timed out {SITE}/"

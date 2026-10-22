@@ -1,10 +1,13 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
+const net = require('node:net')
 const os = require('node:os')
 const path = require('node:path')
 const { test } = require('node:test')
 const { PreviewController, resolveEntry } = require('./controller.cjs')
-const { dispatch, renderHtml, createPreview } = require('./extension.cjs')
+const { dispatch, renderHtml, createPreview, listen } = require('./extension.cjs')
+
+const unixOnly = { skip: process.platform === 'win32' && 'Unix sockets only' }
 
 function fixture(context) {
   const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'workshop-preview-'))
@@ -120,4 +123,86 @@ test('a new script, picture or data file redraws the page even when the page tex
   assert.equal(drawn.length, 2)
   assert.notEqual(drawn[0], drawn[1], 'a webview reloads only when its HTML text changes')
   assert.equal(drawn[0].replace(/<!-- preview draw \d+ -->/, ''), drawn[1].replace(/<!-- preview draw \d+ -->/, ''))
+})
+
+test('the preview always opens in the second column and starting it again keeps it there', context => {
+  const { workspace } = fixture(context)
+  const target = resolveEntry(workspace)
+  const created = []
+  const revealed = []
+  const panel = {
+    webview: { cspSource: 'vscode-webview:', asWebviewUri: value => `webview:${value}`, set html(value) {}, onDidReceiveMessage: () => ({ dispose() {} }) },
+    onDidDispose: () => ({ dispose() {} }),
+    reveal: (...args) => revealed.push(args),
+  }
+  const quiet = () => ({ dispose() {} })
+  const vscode = {
+    workspace: {
+      textDocuments: [],
+      createFileSystemWatcher: () => ({ onDidChange: quiet, onDidCreate: quiet, onDidDelete: quiet, dispose() {} }),
+      onDidChangeTextDocument: quiet,
+      onDidSaveTextDocument: quiet,
+    },
+    window: { createWebviewPanel: (...args) => { created.push(args); return panel } },
+    Uri: { file: value => value },
+    RelativePattern: class {},
+    ViewColumn: { Beside: -2, Two: 2 },
+  }
+  const preview = createPreview(vscode, { workspaceState: { update() {} } }, workspace, target)
+  assert.deepEqual(created[0][2], { viewColumn: 2, preserveFocus: true }, 'Beside the active column can add a third one')
+  preview.show(target)
+  assert.deepEqual(revealed, [[undefined, true]], 'moving it would add a column and unpin the tab')
+})
+
+function ask(endpoint, payload) {
+  return new Promise((resolve, reject) => {
+    const connection = net.createConnection(endpoint)
+    let buffer = ''
+    connection.once('connect', () => connection.write(JSON.stringify(payload) + '\n'))
+    connection.on('data', chunk => { buffer += chunk })
+    connection.once('end', () => resolve(JSON.parse(buffer.split('\n')[0])))
+    connection.once('error', reject)
+  })
+}
+
+test('the editor window focused most recently answers the preview helper', unixOnly, async context => {
+  const { workspace } = fixture(context)
+  const quiet = { appendLine() {} }
+  const window = name => ({ status: () => ({ window: name }), run: async () => ({ window: name }) })
+  let focusA = 0
+  let focusB = 0
+  const a = listen(workspace, window('A'), quiet, () => focusA, 1)
+  const b = listen(workspace, window('B'), quiet, () => focusB, 2)
+  context.after(() => { a.close(); b.close() })
+  const endpoint = path.join(workspace, '.workshop-preview', 'site.sock')
+  const answeredBy = async () => (await ask(endpoint, { action: 'status' })).result.window
+
+  await a.settle()
+  assert.equal(await answeredBy(), 'A')
+  assert.equal(fs.statSync(endpoint).mode & 0o777, 0o600)
+  await b.settle()
+  await a.settle()
+  assert.equal(await answeredBy(), 'B', 'when nobody has focused either, the newer window wins, as after a reload')
+
+  focusA = 100
+  await a.settle()
+  await b.settle()
+  assert.equal(await answeredBy(), 'A', 'the window in use takes over, and the other does not take it back')
+
+  a.close()
+  await new Promise(resolve => setTimeout(resolve, 50))
+  await b.settle()
+  assert.equal(await answeredBy(), 'B', 'a closed window hands over to one that is still open')
+  assert.deepEqual(fs.readdirSync(path.dirname(endpoint)), ['site.sock'], 'no private socket names are left behind')
+})
+
+test('the preview helper never replaces a file it did not create', unixOnly, async context => {
+  const { workspace } = fixture(context)
+  const endpoint = path.join(workspace, '.workshop-preview', 'site.sock')
+  fs.mkdirSync(path.dirname(endpoint))
+  fs.writeFileSync(endpoint, 'not a socket')
+  const helper = listen(workspace, {}, { appendLine() {} }, () => 0)
+  context.after(() => helper.close())
+  await assert.rejects(helper.settle(), /occupied by another file/)
+  assert.equal(fs.readFileSync(endpoint, 'utf8'), 'not a socket')
 })

@@ -12,14 +12,17 @@ changes the website.
 """
 
 import argparse
+import http.client
 import json
 import sys
+import time
 import urllib.error
 import urllib.request
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
 
 TIMEOUT_SECONDS = 45
+RETRY_PAUSE_SECONDS = 5
 
 
 class _Assets(HTMLParser):
@@ -36,15 +39,31 @@ class _Assets(HTMLParser):
 
 
 def fetch(url: str) -> tuple[int, bytes]:
-    """Return the status and body of one HTTPS request, never raising for HTTP errors."""
+    """Return the status and body of one HTTPS request, never raising for HTTP errors.
+
+    A website that has been resting can drop the first connection while it wakes up, so a request
+    that gets no answer is tried once more. Status 0 means no answer; the body holds the reason.
+    """
     request = urllib.request.Request(url, headers={"User-Agent": "workshop-smoke-test"})
-    try:
-        with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-            return response.status, response.read()
-    except urllib.error.HTTPError as error:
-        return error.code, b""
-    except (urllib.error.URLError, TimeoutError) as error:
-        return 0, str(getattr(error, "reason", error)).encode()
+    reason = ""
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
+                return response.status, response.read()
+        except urllib.error.HTTPError as error:
+            return error.code, b""
+        except (OSError, http.client.HTTPException) as error:
+            reason = str(getattr(error, "reason", error)) or type(error).__name__
+            if attempt == 0:
+                time.sleep(RETRY_PAUSE_SECONDS)
+    return 0, reason.encode()
+
+
+def _why(status: int, body: bytes) -> str:
+    """Describe a failed request in words a beginner can act on."""
+    if status == 0:
+        return f"no answer: {body.decode('utf-8', errors='replace')}"
+    return f"HTTP {status}"
 
 
 def local_files(page_url: str, html: str) -> list[str]:
@@ -82,18 +101,18 @@ def smoke_test(base_url: str, expect_text: str = "", page: str = "/") -> list[tu
             version = None
         if isinstance(version, str) and version:
             detail += f", version {version}"
-    results.append(("Website says it is healthy", healthy, detail if healthy else f"HTTP {status}"))
+    results.append(("Website says it is healthy", healthy, detail if healthy else _why(status, body)))
 
     page_url = urljoin(f"{base}/", page.lstrip("/"))
     status, body = fetch(page_url)
-    html = body.decode("utf-8", errors="replace")
-    results.append(("Page opens", status == 200 and "<html" in html.lower(), f"HTTP {status} {page_url}"))
+    html = body.decode("utf-8", errors="replace") if status else ""
+    results.append(("Page opens", status == 200 and "<html" in html.lower(), f"{_why(status, body)} {page_url}"))
     if expect_text:
         results.append((f'Page shows "{expect_text}"', expect_text in html, ""))
     for address in local_files(page_url, html) if status == 200 else []:
-        file_status, _ = fetch(address)
+        file_status, file_body = fetch(address)
         name = urlsplit(address).path
-        results.append((f"Loads {name}", file_status == 200, f"HTTP {file_status}"))
+        results.append((f"Loads {name}", file_status == 200, _why(file_status, file_body)))
     return results
 
 

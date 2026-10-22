@@ -45,12 +45,15 @@ step instead of racing ahead. Use made-up information only.
 | Start a branch (Days 4-5) | Select the branch name at the bottom left, then **Create new branch...**. Go back by choosing `main`, then **Pull**. |
 | Save a change from Day 4 on | `main` takes only pull requests: a branch, commit, **Publish Branch**, create the pull request, merge it on GitHub, then `main` and **Pull**. |
 | Protect `main` (Day 4) | On GitHub: **Settings > Rules > Rulesets > New ruleset > New branch ruleset**, as in the Day 4 guide. |
-| Hand a ticket to Copilot (Day 4) | Open an approved ticket from **Todo**, then **Assignees > Copilot**, and drag it to **In Progress**. |
+| Hand a ticket to Copilot (Day 4) | Open an approved ticket from **Todo**, then **Assign to Agent** (or **Assignees > Copilot**), keep `main` and **Copilot**, and select **Assign**. The board moves it to **In Progress** by itself. |
 | See my screenshots (Day 5) | On GitHub: **Actions**, open the run, then **Summary > Artifacts > home-phone.png** or **home-desktop.png**. |
 | Approve a release (Day 5) | On GitHub: **Actions**, open the waiting run, **Review deployments > Approve and deploy**. |
 | Roll back a release (Day 5) | On GitHub: open the merged pull request, select **Revert**, then merge the new pull request. |
 | Smoke-test my website (Day 5) | `python3 scripts/smoke_test.py https://<my website address>` |
 | Something looks broken | Show a helper the exact message. Do not install anything. |
+| My Codespace says "Codespace is stopped" | Select **Restart codespace** and wait a minute. Your files are kept: it stops by itself when nobody types for a while, for example over lunch. |
+| Copilot CLI asks to "curate this memory" | It wants to remember a fact about your repository for next time. Read it: either answer is fine. |
+| Chat says "workspace customizations need an update" | Select the **X** beside it. The workshop files are fine as they are; do not select **Migrate**. |
 
 ## One Good Request
 

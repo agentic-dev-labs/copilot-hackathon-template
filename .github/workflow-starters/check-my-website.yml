@@ -70,8 +70,11 @@ jobs:
       - name: Prepare the website server
         run: uv sync --locked --extra dev --extra web
 
+      # GitHub's Ubuntu machine already has everything a browser needs, so this downloads only the
+      # browser itself, in seconds. (Adding --with-deps reinstalls those parts from Ubuntu's
+      # servers, which took up to 14 minutes on 22 October 2026.)
       - name: Install a browser
-        run: uv run --with playwright==1.64.0 playwright install --with-deps chromium
+        run: uv run --with playwright==1.64.0 playwright install chromium
 
       # Ubuntu 24.04 blocks what Chromium's sandbox needs. This runner is thrown away after the
       # job, so allow it here instead of ever switching the browser's sandbox off.

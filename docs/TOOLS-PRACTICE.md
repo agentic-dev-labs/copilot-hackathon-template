@@ -204,8 +204,9 @@ to ordinary Copilot, which can change files.
 
 1. On your board, drag the ticket you build today into **In Progress**.
 2. Ask: "Read issue #1 with the GitHub tools and build it in site/ideas/team-lunch/index.html.
-   Change only what it needs and keep everything else. Then list how I can check each acceptance
-   criterion." Use your own ticket's number and your own page.
+   Change only what it needs and keep everything else. Do not run tests or scripts: I check it
+   myself. Then list how I can check each acceptance criterion." Use your own ticket's number
+   and your own page.
 3. Read what it wants to change before you allow it. In Chat, run `/start-website team-lunch`
    (your own folder's name) if the preview is closed, and watch the change appear.
 4. Check every acceptance criterion yourself, by clicking and counting.
@@ -223,7 +224,9 @@ to ordinary Copilot, which can change files.
    that can be checked from the files, using `from website import Page` as shown in
    checks/README.md. Give every assert a short message saying what I expected. Tell me which
    criteria stay manual checks. Then run `pytest checks`."
-2. **Check:** the terminal says `passed` in green.
+2. Copilot asks before it runs anything, such as `pytest checks`: read each request and choose
+   **Yes**. A request waits until you answer, so look at the terminal if nothing seems to happen.
+   **Check:** the terminal says `passed` in green.
 3. **Break it on purpose:** in your page change one word that a test looks for, save, and run
    `pytest checks` again. It turns red and says what it expected. Undo your change with
    **Ctrl+Z** (**Cmd+Z** on a Mac), save, and run it again: green.
@@ -232,7 +235,9 @@ to ordinary Copilot, which can change files.
    the build check (python -m app.site --check), and the manual checks for issue #1. Then add a
    section called Requirements: one line per ticket with its number, title, user story, and
    status today (Todo, In Progress, or Done)." Use your own idea's brief, or `site/brief.md` if
-   you build on your Monday page. Read both sections and correct anything that is wrong. Your
+   you build on your Monday page. Copilot cannot read your board, so it asks you each ticket's
+   status: pick it from the list, or choose **Other** and type, for example, "Not approved yet".
+   Read both sections and correct anything that is wrong. Your
    brief is now the validated brief: your idea, your checked requirements, each one traced to its
    ticket, and how to run it.
 

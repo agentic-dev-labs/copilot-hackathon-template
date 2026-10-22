@@ -43,9 +43,11 @@ into **Todo**.
 
 ## 3. Assign It to Copilot (5 minutes)
 
-1. In the ticket, select **Assignees > Copilot**. If a small window opens, check that the branch
-   is `main`, then confirm.
-2. On your board, drag the ticket into **In Progress**.
+1. In the ticket, under **Assignees**, select **Assign to Agent** (in some views it is
+   **Assignees > Copilot**). A window opens: keep the base branch `main` and the agent
+   **Copilot**, leave the prompt empty, and select **Assign**.
+2. Within a minute Copilot opens a draft pull request, and your board moves the ticket to
+   **In Progress** by itself. If it does not, drag the ticket there.
 3. The ticket shows that Copilot has started. Select the session link to see its progress log.
 
 If Copilot is not listed, it is not switched on for you: tell a helper and follow the presenter's
@@ -78,6 +80,7 @@ before accepting it. Delegating work does not delegate the checking.
 | What you see                              | Next action                                                                   |
 | ----------------------------------------- | ----------------------------------------------------------------------------- |
 | Copilot is not in the Assignees list      | The feature is not switched on for this repository. Tell a helper.             |
+| You chose Copilot, but nobody is assigned | The list closed without saving. Use **Assign to Agent** and its **Assign** button instead. |
 | The pull request changed too much         | Comment with `@copilot` asking for the smaller change, or close it unmerged.   |
 | GitHub asks you to approve workflows      | Ask a helper first. It is a safeguard: checks on Copilot's work wait for you.  |
 | Pull reports a conflict                   | Stop and show a helper. Never force a push.                                   |

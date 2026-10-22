@@ -11,7 +11,8 @@ const ENTRY_KEY = 'workshopSite.entry'
 // everything else stays offline.
 const ALLOWED_APIS = ['https://api.open-meteo.com', 'https://geocoding-api.open-meteo.com', 'https://archive-api.open-meteo.com']
 const controllers = new Map()
-const sockets = []
+const helpers = []
+let claimTimer
 let chatHandler
 let photoHandler
 // The "Ask my page" bubble posts questions here; answers come from the workshop's chat model.
@@ -44,7 +45,9 @@ function createPreview(vscode, context, workspace, target, restoredPanel) {
   const options = { enableScripts: true, localResourceRoots: [site] }
   const panel = restoredPanel || vscode.window.createWebviewPanel(
     VIEW_TYPE, 'Website preview',
-    { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true },
+    // Always the second column, so the layout stays "files left, website right" and a
+    // learner's open file never pushes the preview into a third, narrower column.
+    { viewColumn: vscode.ViewColumn.Two, preserveFocus: true },
     { ...options, retainContextWhenHidden: true },
   )
   panel.webview.options = options
@@ -90,7 +93,9 @@ function createPreview(vscode, context, workspace, target, restoredPanel) {
     async show(next) {
       current = next
       context.workspaceState.update(ENTRY_KEY, next.entry)
-      panel.reveal(vscode.ViewColumn.Beside, true)
+      // Reveal in place: moving it Beside the active group adds columns and unpins the tab,
+      // so the next file a learner opens there replaces the preview.
+      panel.reveal(undefined, true)
       draw()
     },
     close: () => panel.dispose(),
@@ -104,22 +109,35 @@ function dispatch(controller, request) {
   return controller.run(request.action, request.entry)
 }
 
-async function listen(workspace, controller, output) {
+// A Codespace can run several editor windows at once: a second browser tab, a page that was
+// reloaded (its old window lingers for minutes), or a window the learner never sees. Every
+// window runs this helper, and the one the learner focused most recently answers site.sock.
+const CLAIM_INTERVAL_MS = 3000
+
+function ask(endpoint, request) {
+  return new Promise(resolve => {
+    const connection = net.createConnection(endpoint)
+    let buffer = ''
+    connection.setTimeout(2000, () => { connection.destroy(); resolve(null) })
+    connection.once('connect', () => connection.write(JSON.stringify(request) + '\n'))
+    connection.on('data', chunk => { buffer += chunk })
+    connection.once('end', () => {
+      try { resolve(JSON.parse(buffer.split('\n')[0]).result ?? null) } catch { resolve(null) }
+    })
+    connection.once('error', () => resolve(null))
+  })
+}
+
+function listen(workspace, controller, output, focusedAt, startedAt = Date.now()) {
   const directory = path.join(workspace, '.workshop-preview')
   if (fs.existsSync(directory) && fs.lstatSync(directory).isSymbolicLink()) throw new Error('Preview control directory must not be a symlink.')
   fs.mkdirSync(directory, { recursive: true, mode: 0o700 })
-  const filename = path.join(directory, 'site.sock')
-  if (fs.existsSync(filename)) {
-    if (!fs.lstatSync(filename).isSocket()) throw new Error('Preview socket path is occupied by another file.')
-    const active = await new Promise((resolve, reject) => {
-      const probe = net.createConnection(filename)
-      probe.once('connect', () => { probe.destroy(); resolve(true) })
-      probe.once('error', error => error.code === 'ECONNREFUSED' ? resolve(false) : reject(error))
-    })
-    if (active) throw new Error('Another preview helper already owns this workspace socket.')
-    fs.unlinkSync(filename)
-  }
-  const server = net.createServer(connection => {
+  const endpoint = path.join(directory, 'site.sock')
+  let owned = null
+  let claims = 0
+  let busy = Promise.resolve()
+
+  const handle = connection => {
     connection.setTimeout(30000, () => connection.destroy())
     let buffer = ''
     let received = false
@@ -131,20 +149,60 @@ async function listen(workspace, controller, output) {
       if (!buffer.includes('\n')) return
       received = true
       try {
-        const result = await dispatch(controller, JSON.parse(buffer.split('\n')[0]))
+        const request = JSON.parse(buffer.split('\n')[0])
+        const result = request?.action === 'owner' && Object.keys(request).length === 1
+          ? { focusedAt: focusedAt(), startedAt }
+          : await dispatch(controller, request)
         connection.end(JSON.stringify({ ok: true, result }) + '\n')
       } catch (error) {
         connection.end(JSON.stringify({ ok: false, error: error.message }) + '\n')
       }
     })
-  })
-  await new Promise((resolve, reject) => {
-    server.once('error', reject)
-    server.listen(filename, resolve)
-  })
-  fs.chmodSync(filename, 0o600)
-  server.on('error', error => output.appendLine(error.message))
-  sockets.push(server)
+  }
+
+  const isOwner = () => {
+    try { return Boolean(owned) && fs.lstatSync(endpoint).ino === owned.ino } catch { return false }
+  }
+
+  // Bind a private name, then rename it over site.sock in one step. Closing a socket deletes the
+  // name it was bound to, so an older window shutting down can never remove the current one.
+  async function claim() {
+    if (fs.existsSync(endpoint) && !fs.lstatSync(endpoint).isSocket()) throw new Error('Preview socket path is occupied by another file.')
+    const temporary = path.join(directory, `c${process.pid}-${++claims}.sock`)
+    const server = net.createServer(handle)
+    await new Promise((resolve, reject) => {
+      server.once('error', reject)
+      server.listen(temporary, resolve)
+    })
+    server.on('error', error => output.appendLine(error.message))
+    try {
+      fs.chmodSync(temporary, 0o600)
+      const ino = fs.lstatSync(temporary).ino
+      fs.renameSync(temporary, endpoint)
+      const previous = owned
+      owned = { server, ino }
+      if (previous) previous.server.close()
+    } catch (error) {
+      server.close()
+      throw error
+    }
+  }
+
+  // Focus wins; between windows nobody has focused, the newer one wins, so a window left
+  // behind by a reload never keeps the preview.
+  async function settle() {
+    if (isOwner()) return
+    const owner = fs.existsSync(endpoint) ? await ask(endpoint, { action: 'owner' }) : null
+    if (isOwner()) return
+    const newer = owner && (focusedAt() > owner.focusedAt || (focusedAt() === owner.focusedAt && startedAt > owner.startedAt))
+    if (!owner || typeof owner.focusedAt !== 'number' || newer) await claim()
+  }
+
+  return {
+    settle: () => (busy = busy.then(settle, settle)),
+    isOwner,
+    close: () => owned?.server.close(),
+  }
 }
 
 async function activate(context) {
@@ -152,6 +210,10 @@ async function activate(context) {
   if (!vscode.workspace.isTrusted) return
   const output = vscode.window.createOutputChannel('Workshop Website')
   context.subscriptions.push(output)
+  let focusedAt = vscode.window.state.focused ? Date.now() : 0
+  const settleAll = () => {
+    for (const helper of helpers) helper.settle().catch(error => output.appendLine(error.message))
+  }
   for (const folder of vscode.workspace.workspaceFolders || []) {
     const workspace = folder.uri.fsPath
     if (!fs.existsSync(path.join(workspace, '.github/skills/create-website/SKILL.md'))) continue
@@ -159,8 +221,16 @@ async function activate(context) {
       open: target => createPreview(vscode, context, workspace, target),
     })
     controllers.set(workspace, controller)
-    try { await listen(workspace, controller, output) } catch (error) { output.appendLine(error.message) }
+    try { helpers.push(listen(workspace, controller, output, () => focusedAt)) } catch (error) { output.appendLine(error.message) }
   }
+  settleAll()
+  context.subscriptions.push(vscode.window.onDidChangeWindowState(state => {
+    if (!state.focused) return
+    focusedAt = Date.now()
+    settleAll()
+  }))
+  claimTimer = setInterval(settleAll, CLAIM_INTERVAL_MS)
+  claimTimer.unref?.()
   const only = () => {
     if (controllers.size === 1) return [...controllers.entries()][0]
     throw new Error('Open exactly one workshop workspace to use the website preview.')
@@ -189,8 +259,10 @@ async function activate(context) {
 }
 
 async function deactivate() {
-  for (const server of sockets) server.close()
+  clearInterval(claimTimer)
+  for (const helper of helpers) helper.close()
+  helpers.length = 0
   controllers.clear()
 }
 
-module.exports = { activate, deactivate, dispatch, renderHtml, createPreview }
+module.exports = { activate, deactivate, dispatch, renderHtml, createPreview, listen }

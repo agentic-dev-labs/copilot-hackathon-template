@@ -67,10 +67,12 @@ half: checks before every merge, and your approval before every release.
    - **Permissions:** these checks only read your files, so change `contents: write` to
      `contents: read`.
 4. Commit, select **Publish Branch**, and create a pull request. The pull request runs your new
-   checks on itself. When both are green, merge it and delete the branch.
+   checks on itself. When both are green, merge it and delete the branch (never **Delete
+   codespace**: that is your own Codespace).
 5. **Make the checks required.** On GitHub open **Settings > Rules > Rulesets > Protect main**.
    Tick **Require status checks to pass**, select **Add checks**, and add **Check the website**
-   and **UI check**. Select **Save changes**.
+   and **UI check**. Select **Save changes**. GitHub asks you to **Confirm access** again, as on
+   Day 4: have your phone ready.
 
 **Check:** both checks were green on your pull request, and your ruleset lists them as required.
 
@@ -80,19 +82,24 @@ half: checks before every merge, and your approval before every release.
 
 1. Create a branch named `try-ci`.
 2. Break your page on purpose, in a way only a browser notices. Ask Copilot CLI: "Add a banner
-   900 pixels wide that says Sale at the very top of my first page, above its header. Change
-   nothing else." Commit, select **Publish Branch**, and create a pull request.
+   that says Sale at the very top of my first page, above its header. This is a test, so make it
+   900 pixels wide on every screen, even a phone: use min-width: 900px and do not let it shrink.
+   Change nothing else." Copilot likes to make things fit, so read its change: if you see
+   `max-width`, ask it to remove that line. Commit, select **Publish Branch**, and create a pull
+   request.
 3. On the pull request, **Check the website** stays green, but **UI check** turns red, and
-   **Merge** is blocked: your ruleset requires it. Select **Details** and read the table at the
+   **Merge** is blocked: your ruleset requires it. The UI check takes about two minutes, because
+   it installs a browser first. Select **Details** and read the table at the
    end of the log: it says what is wrong, such as **Wider than a phone screen**.
-4. Open the run's summary page (**Summary**, top left). Under **Artifacts**, open
-   **home-phone.png**: the banner sticks out of the phone screen. **home-desktop.png** shows the
-   desktop, and **all-screenshots** holds every page, idea pages too.
+4. Open the run's summary page (**Summary**, top left). Under **Artifacts**, select
+   **home-phone.png**: it downloads, so open it from your browser's downloads. The banner sticks
+   out of the phone screen. **home-desktop.png** shows the desktop, and **all-screenshots** holds
+   every page, idea pages too.
 5. Ask Copilot CLI: "Why did the UI check on my pull request fail? Read its log and explain in
    two sentences." Compare its answer with what you read and saw.
 6. Fix it on the same branch: "Remove the banner you just added." Commit and push. Both checks
-   run again and turn green. Merge the pull request, delete the branch, then switch to `main` in
-   the Codespace and **Pull**.
+   run again and turn green. Merge the pull request, delete the branch (never **Delete
+   codespace**), then switch to `main` in the Codespace and **Pull**.
 
 **Check:** you saw red, read the log, looked at a screenshot, fixed it, saw green, and merged.
 
@@ -132,8 +139,8 @@ half: checks before every merge, and your approval before every release.
    stay green, because no check knows your words. Run the smoke test again: **FAIL** on your
    sentence. That is why you test the live website after every release.
 3. **Roll back:** on GitHub open the pull request you just merged and select **Revert**. GitHub
-   opens a new pull request that undoes it. Merge it when its checks are green, then approve the
-   release.
+   fills in a new pull request that undoes it: select **Create pull request**. Merge it when its
+   checks are green, then approve the release.
 4. Run the smoke test again: all **PASS**. The **content** number is the same as in step 1, and
    the **version** is higher: a new build of your known-good page.
 

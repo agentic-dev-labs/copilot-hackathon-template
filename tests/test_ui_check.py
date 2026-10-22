@@ -101,7 +101,10 @@ def test_starter_and_template_ci_run_the_same_pinned_check() -> None:
     template = yaml.load(Path(".github/workflows/ci.yml").read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
     for steps in (starter["jobs"]["ui"]["steps"], template["jobs"]["ui-check"]["steps"]):
         script = "\n".join(step.get("run", "") for step in steps)
-        assert f"uv run --with {PINNED} playwright install --with-deps chromium" in script
+        assert f"uv run --with {PINNED} playwright install chromium" in script
+        # 22 October 2026: --with-deps fetched 26 MB from Ubuntu's mirror at 47 kB/s, so the UI
+        # check took up to 14 minutes; the runner image already has the browser's libraries.
+        assert "--with-deps" not in script
         assert f"uv run --with {PINNED} python scripts/ui_check.py http://127.0.0.1:8000 --out ui-check" in script
         assert "uv run uvicorn app.site:app --host 127.0.0.1 --port 8000" in script
         assert "--no-sandbox" not in script

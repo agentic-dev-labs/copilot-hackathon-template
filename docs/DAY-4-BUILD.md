@@ -76,7 +76,9 @@ changes only through pull requests.
    **Require a pull request before merging**, with required approvals left at **0**: you are the
    only person in your repository, so you check each change yourself before you merge it.
 
-   Leave the bypass list empty, so the rules apply to you too, and select **Create**.
+   Leave the bypass list empty, so the rules apply to you too, and select **Create**. GitHub may
+   ask you to **Confirm access** with your authentication app, GitHub Mobile, or password: that
+   is normal for settings, so keep your phone at hand. Never share that code.
 2. **A feature branch.** In your Codespace, select the branch name `main` at the bottom left.
    Choose **Create new branch...**, type `feature/version-number`, and press Enter.
 3. **The pipeline change.** Open **.github > workflows > publish-website.yml** and find the line
@@ -87,11 +89,15 @@ changes only through pull requests.
    show the version from version.json, like Version 1.0.7. In my preview there is no
    version.json yet, so show Preview there. Change nothing else." Your website's address opens
    this first page. **Check:** your preview's footer says **Preview**.
-5. Commit, select **Publish Branch**, then **Create Pull Request**. If the push is refused
+5. Commit, select **Publish Branch**, then **Create Pull Request**. If VS Code asks you to sign in
+   instead, open your repository on GitHub and select **Compare & pull request** in the yellow
+   banner. If the push is refused
    because it changes a workflow file, show a helper: they make the same edit on GitHub with the
    pencil icon, on a new branch.
 6. On GitHub, open the pull request and select **Files changed**: read the green and red lines
-   yourself. Then select **Merge pull request**, **Confirm merge**, and **Delete branch**.
+   yourself. Then select **Merge pull request**, **Confirm merge**, and **Delete branch**. GitHub
+   may then offer **Delete codespace**: never select it. That is your own Codespace, with your
+   work in it; it only still shows the old branch until step 8.
 7. Open **Actions > Publish my website**: your merge started it. When it is green, open your
    website. Its footer shows **Version 1.0.** and the run's number from the Actions page.
 8. Back in the Codespace, select the branch name again, choose `main`, then in **Source
@@ -111,9 +117,12 @@ online. Step-by-step help and what to do when something goes wrong:
    agent on a ticket first, as on Day 3, check its criteria, and drag it into **Todo**.
 2. Open the ticket and read it once more: could someone who has never seen your page tell when
    it is done? Does **Which page** name the right page?
-3. Select **Assignees > Copilot**. If a small window opens, keep the branch `main` and confirm.
-   If Copilot is not listed, tell a helper and follow the presenter's pull request instead.
-4. On your board, drag the ticket into **In Progress**. Open the ticket again: it shows that
+3. Under **Assignees**, select **Assign to Agent** (or **Assignees > Copilot**). In the window,
+   keep the base branch `main` and the agent **Copilot**, leave the prompt empty, and select
+   **Assign**. If Copilot is not listed, tell a helper and follow the presenter's pull request
+   instead.
+4. Within a minute your board moves the ticket to **In Progress** by itself; if it does not,
+   drag the ticket into **In Progress**. Open the ticket again: it shows that
    Copilot started. Select the session link to watch its progress log. It usually takes a few
    minutes, so go on to the next part.
 
@@ -149,9 +158,9 @@ ticket.
    > Should fix, or Nice to have), File and line, What I found, Evidence (the exact line), and
    > Suggested fix. Each finding is one or two plain sentences for a beginner. Problems that were
    > already there before this pull request go in a separate table called "Already there before",
-   > so they do not block this change. If it cannot check something itself, it says what I should
-   > check by hand. It ends with "Verdict: Ready to merge" or "Verdict: Not yet". It never changes
-   > other files, comments on GitHub, or merges.
+   > so they do not block this change. If it cannot check something itself, it lists at most
+   > three short checks I can do by hand in the Website preview. It ends with "Verdict: Ready to
+   > merge" or "Verdict: Not yet". It never changes other files, comments on GitHub, or merges.
 
 3. Open **.github > agents > code-review.agent.md**, read its rules, and change one into your own
    words. Then type `/exit` and `copilot` again, and check that `/agent` lists **code-review**
@@ -172,9 +181,14 @@ and a helper checks why Copilot did not start.
 1. Open Copilot's pull request for your ticket, for example **#5**: tickets and pull requests
    share one list of numbers. Select **Files changed** and read what it changed.
 2. In Copilot CLI type `/agent`, choose **code-review**, and ask: "Review pull request #5."
+   It asks before each command: read it and choose **Yes**. For the read-only `gh` and `git`
+   commands, option 2 stops it asking again in your repository. If it offers to remember a fact
+   about your repository, either answer is fine. A review takes about five minutes.
 3. Open **reviews/pr-5.md**. For every finding, find the line on GitHub under **Files changed**.
    Add a column called **My check** and write **Confirmed** or **Not a problem**, with one reason.
-   Did your agent miss anything you noticed yourself?
+   Did your agent miss anything you noticed yourself? **No findings?** That happens with a small,
+   clean change. Then do the agent's checks by hand in step 4 and write what you saw under
+   **My check**. **Verdict: Not yet** often only means the agent could not try the page itself.
 4. Check the change yourself, too: type `/exit` and `copilot` to leave the review agent, then
    ask "Check out pull request #5 so I can try it". In Chat run `/start-website` and try each
    acceptance criterion. Run `pytest checks` in the terminal.
@@ -187,11 +201,16 @@ An agent's report can be wrong, just like any other answer. Your checks decide.
 
 1. On the pull request on GitHub, write a comment that starts with `@copilot` and names one
    confirmed finding: "@copilot Fix finding 1 from my review: [what is wrong]. Change nothing
-   else." Copilot starts again and pushes a new commit to the same pull request. It takes a few
-   minutes: do step 3 with your neighbor while you wait.
+   else." No confirmed finding? Ask for one small thing you noticed when you tried it, for
+   example "@copilot The Today label is small and easy to miss: make it a little bigger. Change
+   nothing else." Copilot starts again and pushes a new commit to the same pull request. It
+   takes a few minutes: do step 3 with your neighbor while you wait.
 2. When it is done, ask Copilot CLI: "Pull the latest changes of this branch." Check the
-   criterion again in the preview, run `pytest checks`, and ask **code-review** to review the
-   pull request again.
+   criterion again in the preview and run `pytest checks`. Then switch back to `main` (type
+   `/exit`, select the branch name in the status bar, choose **main**, and type `copilot`) and ask
+   **code-review** to review the pull request again: Copilot's branch started before you made
+   your agent, so `/agent` lists it only on `main`. Then check that your **My check** notes are
+   still in the report.
 3. **Peer review:** show your neighbor the pull request and your report. Ask them to check one
    criterion on your screen and say whether they agree.
 
@@ -200,8 +219,9 @@ An agent's report can be wrong, just like any other answer. Your checks decide.
 **03:45-04:00.**
 
 1. Decide. **Merge** if every criterion passes and no **Must fix** is left: select **Ready for
-   review**, then **Merge pull request**. If GitHub asks you to approve and run workflows, ask
-   a helper first. Otherwise **Close pull request** with a comment saying why.
+   review**, then **Merge pull request**. Leave the **Reviewers** box as it is: your agent and you
+   are the reviewers. If GitHub asks you to approve and run workflows, ask a helper first.
+   Otherwise **Close pull request** with a comment saying why.
 2. **Deployed.** A merge starts **Actions > Publish my website**. When it is green, open your
    website: the new feature is there, and the footer shows the next version number. On your
    board the ticket moved to **Done**: Copilot linked its pull request to the ticket, so the
