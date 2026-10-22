@@ -38,7 +38,7 @@ step instead of racing ahead. Use made-up information only.
 | Use my own agent (Days 3-4) | In Copilot CLI type `/agent` and choose it. After creating a new agent or skill, type `/exit` and `copilot` once so it appears. |
 | Use my skill (Day 3) | Name it in your request, for example "Use the user-stories skill on issue #1". |
 | Write a ticket (Day 3) | On GitHub: **Issues > New issue > Requirement**. Write what you want in plain words; your agent adds the story and the criteria. |
-| Make my board (Day 3) | Select the organization's name above your repository, then **Projects > New project > Board**, name it `<your username> website`, and **Import items from repository**. Later, open it from your repository's **Projects** tab. |
+| Make my board (Day 3) | Select the organization's name above your repository, then **Projects > New project > Board**, name it `<your username> website`, keep **Import items from repository** and choose your own repository. Then **Workflows > Item added to project > Off**, so new tickets wait under **No Status**. Later, open it from your repository's **Projects** tab. |
 | Approve a ticket (Days 3-4) | On your board, drag its card into **Todo**. |
 | Close a ticket with a commit (Day 3) | End the commit message with `Closes #1`, using the ticket's number. When it reaches `main`, the card moves to **Done**. |
 | Run my tests (Days 3-5) | In the terminal type `pytest checks`. Green means pass; red shows what failed. |

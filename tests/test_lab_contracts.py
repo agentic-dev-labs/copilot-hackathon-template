@@ -709,6 +709,12 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     assert "**Issues > New issue**" in flat and "**Requirement**" in flat
     assert "**Projects > New project**" in flat and "**Import items from repository**" in flat
     assert "the `gh issue edit` command" in flat and "Only when I say yes" in flat
+    # Rehearsed 22 October 2026: a short prompt let the agent rebuild the whole ticket inside a
+    # quoted shell argument and lose the learner's words; the raw read and stdin write keep them.
+    assert "`gh issue view NUMBER --json body --jq .body`" in flat
+    assert "`gh issue edit NUMBER --body-file -` through standard input" in flat
+    assert "whether my own words under What I want are unchanged" in flat
+    assert "your own words under What I want are unchanged" in flat
     assert "drag its card into **Todo**" in flat and "If Copilot says it may not update the ticket" in flat
     assert "`Mark urgent tasks. Closes #1`" in flat and "moved to **Done**" in flat
     # Monday's 11:45 check already builds "hide finished tasks", so Day 3 needs a new example.

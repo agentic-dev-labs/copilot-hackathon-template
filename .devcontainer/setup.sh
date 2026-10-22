@@ -62,6 +62,12 @@ case "${1:-core}" in
 			curl -fsSL https://gh.io/copilot-install | bash
 		fi
 		copilot --version
+		# Day 3 lists and reads tickets through the built-in GitHub MCP server, whose issue tools
+		# are not in the CLI's default set. Attendees type plain `copilot`; this adds them.
+		ISSUE_TOOLS="alias copilot='copilot --add-github-mcp-toolset issues'"
+		if ! grep -qxF "$ISSUE_TOOLS" "$HOME/.bashrc" 2>/dev/null; then
+			printf '%s\n' "$ISSUE_TOOLS" >> "$HOME/.bashrc"
+		fi
 		;;
 	browser)
 		# Playwright installs Chromium's Linux libraries with apt. The base image's Yarn package

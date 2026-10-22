@@ -50,37 +50,44 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
 
 **00:20-00:50.** The presenter shows each step on the demo website, then you do it on yours.
 
-1. **Write a ticket.** On GitHub open your repository, then **Issues > New issue**, and choose
+1. **Make your board.** At the top of your repository's page, select the organization's name,
+   the part before the slash. Open **Projects > New project**, choose **Board**, and name it after
+   yourself, such as `<your username> website`: everyone's board lives in the same organization.
+   Leave **Import items from repository** ticked, and under **Repository** choose your own
+   repository: it may show the workshop template at first. Select **Create project**.
+2. **Approving stays your decision.** On your board, select **Workflows** at the top right, then
+   **Item added to project**, and switch it **Off**; otherwise GitHub puts every new ticket
+   straight into **Todo**. From now on, open the board from your repository's **Projects** tab.
+   **Todo** means approved and ready to build, **In Progress** means being built, and **Done**
+   means finished. Only people who can open your repository can read your tickets.
+3. **Write a ticket.** On GitHub open your repository, then **Issues > New issue**, and choose
    **Requirement**. Give it a short title in plain words, such as `Mark urgent tasks`. Under
    **What I want**, write one or two sentences: who it is for, what they want, and why. Under
    **Which page**, keep `site/index.html`, or name your idea's folder instead, such as
    `site/ideas/team-lunch/`. Leave the story and the criteria to your agent, and select
-   **Create**. The ticket gets a number, such as **#1**.
-2. **Your own idea.** Write two or three tickets like this for the idea you started on Monday or
+   **Create**. The ticket gets a number, such as **#1**, and joins your board by itself under
+   **No Status**: written, not approved yet.
+4. **Your own idea.** Write two or three tickets like this for the idea you started on Monday or
    Tuesday, each about one thing you want *next*: the wishes you wrote under **Next** in your
    brief on Tuesday are a good start. A ticket about something your page already does leaves
    nothing to build.
-3. **Make your board.** At the top of your repository's page, select the organization's name,
-   the part before the slash. Open **Projects > New project**, choose **Board**, and name it after
-   yourself, such as `<your username> website`: everyone's board lives in the same organization.
-   Select **Import items from repository**, choose your repository, and select **Create
-   project**. From now on, open it from your repository's **Projects** tab. Your tickets appear
-   as cards, still without a status, and every new ticket joins the board by itself. **Todo**
-   means approved and ready to build, **In Progress** means being built, and **Done** means
-   finished. Only people who can open your repository can read your tickets.
-4. **Open your Codespace** with the green **Code** button on your repository's page. Never create
+5. **Open your Codespace** with the green **Code** button on your repository's page. Never create
    a second one. Open the menu (the three lines at the top left), then **Terminal > New
-   Terminal**. Type `copilot` and press Enter. If it asks whether you trust this folder, choose
-   yes.
-5. Sign in once: type `/login`, press Enter, and choose the first option. Copilot shows a short
-   code. Open [github.com/login/device](https://github.com/login/device) in a new browser tab,
-   type the code, and select **Authorize**. Never paste a password or token into Copilot.
-6. **Use a tool.** Ask: "Use the GitHub tools to list the open issues in my repository, with
-   their numbers. Do not change anything." Copilot asks to use a tool from **github**, such as
-   **list_issues**: that is **MCP**, a plug that lets Copilot act on GitHub. Read the tool's name
-   and allow it. **Check:** compare its list with your board.
+   Terminal**. Make it tall enough to read Copilot's questions: drag the line above it upwards,
+   or select **Maximize Panel Size** (the square at its top right). Type `copilot` and press
+   Enter. If it asks whether you trust this folder, choose yes.
+6. **Signed in?** The bottom line shows a model name, such as **GPT-6.1 Sol**, when Copilot is
+   ready. If it asks you to sign in instead, type `/login`, press Enter, and choose the first
+   option. Copilot shows a short code. Open [github.com/login/device](https://github.com/login/device)
+   in a new browser tab, type the code, and select **Authorize**. Never paste a password or token
+   into Copilot.
+7. **Use a tool.** Ask: "Use the GitHub tools to list the open issues in my repository, with
+   their numbers. Do not change anything." Above the answer Copilot shows the tool it used,
+   **List issues**, from the GitHub **MCP** server: a plug that lets Copilot act on GitHub. A tool
+   that only reads may run straight away. **Check:** compare its list with your board.
 
-When Copilot wants to read a file, change a file, use a tool, or run a command, it asks first.
+When Copilot wants to change a file, change something on GitHub, or run a command that could
+change something, it asks first.
 Read what it wants to do, and say yes only to what you understand. **Agent roles:** Chat's
 **Ask** only answers, **Agent** can change files, a custom agent is a helper you give one job and
 clear rules, and tomorrow the **cloud agent** works by itself on GitHub.
@@ -103,9 +110,10 @@ builds the demo website's pair.
    | Custom agent   | A helper with one job, its own rules and tools    | `.github/agents/`, where yours arrives next   |
    | Tools (MCP)    | Plugs that let Copilot act, like the GitHub tools | `.vscode/mcp.json` in Chat; built into the CLI |
 
-2. Type `/agent` and press Enter to see the list of agents. You see three the workshop keeps for
-   a later business example (**report-writer**, **reviewer**, **vendor-analyst**): leave them
-   alone. Your own agent joins this list next. Press **Esc** to close it.
+2. Type `/agent` and press Enter to see the list of agents. It says there are none yet: your own
+   agent joins this list next. It may also warn about two files the workshop keeps for a later
+   business example (**report-writer** and **vendor-analyst**): ignore that. Press **Esc** to
+   close it.
 
 A **skill** in `.github/skills/` says *how* the job is done: the steps and the exact output
 format. An **agent** in `.github/agents/` says *who* does it: its role and its rules. You
@@ -121,6 +129,10 @@ describe both in plain words; Copilot writes them; you read them and make them y
    > list open questions instead of guessing. Its output fills the ticket's User story and
    > Acceptance criteria sections, followed by Open questions. Made-up people and data only.
 
+   It may ask to read **docs.github.com** pages: that is GitHub's own help, so choose **2**, which
+   allows those pages for the rest of this session. Then it shows the new file beside the
+   terminal and asks to create it: choose **Yes**.
+
 4. Open **Explorer > .github > skills > user-stories > SKILL.md**. The **name** and
    **description** between the two `---` lines tell Copilot when to load it. Change one step
    into your own words and save.
@@ -131,9 +143,16 @@ describe both in plain words; Copilot writes them; you read them and make them y
    > my small website about [my idea]. When I name a ticket by its number, it reads the ticket
    > with the GitHub tools and uses the user-stories skill to draft its user story and acceptance
    > criteria. It shows me the draft first. Only when I say yes does it update that ticket with
-   > the `gh issue edit` command, keeping my own words under What I want. When something is
-   > unclear it asks me one question at a time. It never writes code, never changes files, and
-   > uses made-up people and data only.
+   > the `gh issue edit` command: it reads the ticket's exact text with
+   > `gh issue view NUMBER --json body --jq .body`, changes only the User story and Acceptance
+   > criteria sections, keeps every other line exactly as it is, and gives the new text to
+   > `gh issue edit NUMBER --body-file -` through standard input, so quotes cannot break it. Then
+   > it reads the ticket again and tells me whether my own words under What I want are
+   > unchanged. When something is unclear it asks me one question at a time. It never writes
+   > code, never changes files, and uses made-up people and data only.
+
+   The long part about `gh` keeps your own words safe: in a rehearsal, a shorter prompt let
+   Copilot rewrite a whole ticket and lose them. Paste it as it is.
 
 6. Open **Explorer > .github > agents > user-requirements.agent.md**. Its **name** and
    **description** tell Copilot when to use it; below them are its rules. Change one rule into
@@ -148,22 +167,26 @@ in Chat's agent picker in VS Code: one file, two doors.
 
 **01:45-02:30.** The presenter runs the agent on a demo ticket, then you run yours.
 
-**Behind?** No ticket yet? Write one first, as in [section 1](#1-tickets-board-and-tools), step 1.
+**Behind?** No ticket yet? Write one first, as in [section 1](#1-tickets-board-and-tools), step 3.
 No agent yet? Ask Chat: "Write a user story and two Given/When/Then acceptance criteria for this
 wish: [your ticket's What I want]." Paste the answer into the ticket (**...** > **Edit**), and a
 helper adds your agent with you at the next break.
 
 1. Type `/agent`, choose **user-requirements**, and ask: "Write the user story and acceptance
-   criteria for issue #1." Use your own ticket's number. It asks to read the ticket with a
-   GitHub tool: allow it. Then it shows you a draft.
+   criteria for issue #1." Use your own ticket's number; if a list of tickets pops up while you
+   type `#1`, press **Esc** once, then Enter. It reads the ticket and shows you a draft. It may
+   ask you a question first: answer in plain words.
 2. **Validate** each acceptance criterion: can you check it yourself by clicking or counting? If
    not, ask for a new version of only that one: "Rewrite criterion 2 so that I can check it by
    counting. Change nothing else." Answer its open questions the same way, one at a time. Here
    *validate* means checking that every criterion can be checked. It is not GxP validation: your
    practice website is a prototype with made-up data, not a validated system.
-3. When you agree, say: "Yes, update issue #1." Copilot asks to run `gh issue edit`, GitHub's own
-   command: read it and allow it. Open the ticket on GitHub: the story and the criteria are
-   there, under your own words. If Copilot says it may not update the ticket, copy its draft,
+3. When you agree, choose **Yes** when it asks, or say: "Yes, update issue #1." Copilot reads the
+   ticket again and asks to run the command that saves it with `gh issue edit`, GitHub's own
+   command; it may be a short Python script that also checks your words stay the same. Allow it.
+   Open the ticket on GitHub: the story and the criteria are there, and **your own words under
+   What I want are unchanged**. If they are not, tell a helper: the ticket's **edited** menu
+   keeps every earlier version. If Copilot says it may not update the ticket, copy its draft,
    then on the ticket select **...** and **Edit**, paste the draft under **User story** and
    **Acceptance criteria**, and save.
 4. Do the same for your other tickets.

@@ -534,7 +534,10 @@ is required; repository access to the prepared Actions identity must already exi
   into Chat with the model attendees will use. Image input depends on the model and policy; if
   Copilot cannot see pictures, keep it as a presenter demonstration or skip it.
 - Before Day 3, verify the preinstalled CLI and its authentication separately; rerun
-  `bash .devcontainer/setup.sh cli` only if repair/reinstall is needed.
+  `bash .devcontainer/setup.sh cli` only if repair/reinstall is needed. In a new terminal,
+  `type copilot` must show the alias with `--add-github-mcp-toolset issues`; without it, the
+  "list the open issues" step falls back to `gh` and shows no MCP tool. Codespaces created
+  before 22 October 2026 need that rerun once, then a new terminal.
 - Only if selected, follow [the optional research guide](RESEARCH.md), prepare its separate
   profile, and record live downloads/conversion versus labelled prepared facts. Test visual-brief
   and any selected community skill in Linux without overwriting the learner's existing page.
@@ -646,7 +649,10 @@ container build, application security review, or live deployment check.
 | The live footer shows the version on the wrong page | The footer change went into an idea page | Ask for it in the first page, `site/index.html`: the website's address opens that page, and `/version.json` sits beside it. |
 | A Day 3 agent is missing from `/agent` | Copilot CLI read agents when it started | Type `/exit`, then `copilot`; check the file is in `.github/agents/` and ends in `.agent.md`. |
 | **New project** is missing, or a ticket is not on the board | Organization project settings, or the repository was not imported | Check that organization members may create projects; on the board add the card with **+ Add item** and `#`, choosing the repository. |
+| Every new ticket lands in **Todo** by itself | GitHub's default **Item added to project** workflow sets Status to Todo | On the board, **Workflows > Item added to project > Off**. Write the next ticket (it lands in **No Status**), then drag the other cards there, gripping the card beside its title. |
+| The board imported nothing | **Repository** in the new-project dialog still showed the workshop template | On the board, **+ Add item**, `#`, choose the attendee's repository, and add each ticket. Then in **Workflows > Auto-add to project** select **Edit**, choose the attendee's repository, and save, so new tickets join by themselves. |
 | The agent may not update a ticket | The Codespace token is refused for issues | The attendee pastes the agent's draft into the ticket (**...** > **Edit**); never add a personal token. |
+| A ticket lost the attendee's own words after the agent saved it | The agent was made from a shortened prompt and rebuilt the whole ticket inside a quoted shell argument (seen on 22 October 2026) | Copy the words back from the ticket's **edited** history. Recreate the agent with the guide's full prompt, which reads the raw text with `gh issue view` and saves through `gh issue edit --body-file -`. |
 | A ticket stays open after its commit | `Closes #N` missing, or the commit is not on `main` | Close it with **Close issue**; the board still moves it to **Done**. |
 | Plugin listed but its task fails               | Component discovery, tool access and runtime                             | Inspect the actual invoked component and tool error; manifest presence alone is not a successful test.                                                                      |
 | AttractionsAgent absent or not Managed         | Entitlement, private-source read access, policy refresh, local shadowing | Inspect source and the actual agent ID. Do not copy it into the learner repo or change enterprise settings live.                                                            |

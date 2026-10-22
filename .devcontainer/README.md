@@ -51,7 +51,10 @@ only, never secrets or learner work.
 
 Creation installs uv only if the image lacks it. Copilot CLI is a large download needed from Day
 3, so `postCreateCommand` installs it just after the editor opens, and the CLI profile checks
-`copilot --version`. Installation does not authenticate
+`copilot --version`. It also adds one line to `~/.bashrc` so that a plain `copilot` starts with the
+built-in GitHub MCP server's **issues** toolset (`--add-github-mcp-toolset issues`): the CLI's
+default set has no issue tools, and on 22 October 2026 Day 3's "list the open issues" fell back to
+`gh` instead of showing MCP. Installation does not authenticate
 the attendee. The container requests the Python, Python Environments, and Ruff editor extensions so
 Ruff can use the project environment. Content setup runs `uv sync --locked --extra dev --extra web`
 and `npm ci` from the image's caches, installing the pinned extension packager before normal attachment. The post-attach preview profile

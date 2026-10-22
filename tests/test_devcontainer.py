@@ -352,6 +352,19 @@ def test_cli_install_and_version_failures_propagate(
     if not install_status:
         expected.append("copilot --version")
     assert log.read_text(encoding="utf-8").splitlines() == expected
+    # Day 3's ticket tools: a plain `copilot` gets the GitHub MCP issues toolset, written once.
+    alias = "alias copilot='copilot --add-github-mcp-toolset issues'"
+    bashrc = tmp_path / ".bashrc"
+    if result.returncode == 0:
+        subprocess.run(
+            ["bash", "-o", "pipefail", ".devcontainer/setup.sh", "cli"],
+            env={**os.environ, "HOME": str(tmp_path), "SETUP_CALL_LOG": str(log)},
+            capture_output=True,
+            check=True,
+        )
+        assert bashrc.read_text(encoding="utf-8").splitlines().count(alias) == 1
+    else:
+        assert not bashrc.exists()
 
 
 def test_setup_does_not_hide_failures_or_request_day_two_secrets() -> None:

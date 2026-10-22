@@ -8,14 +8,16 @@ assignees: []
 
 ## What I want
 
-<!-- One or two sentences in plain words: who it is for, what they want, and why. Example:
-Team members want to mark a task as urgent, so that the most important work stands out. -->
+<!-- This note is hidden on GitHub: write below it, in one or two plain sentences, who it is for,
+what they want, and why. Example: A team lead wants a Print button, so that the week's plan can
+go on the wall. -->
 
 ## Which page
 
 site/index.html
 
-<!-- For an idea page, write its folder instead, for example site/ideas/team-lunch/. -->
+<!-- Keep site/index.html for your first page. For an idea page, write its folder instead, for
+example site/ideas/team-lunch/. -->
 
 ## User story
 
