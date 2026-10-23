@@ -104,8 +104,7 @@ ways to use Copilot on this same work: see the [Day 3 guide](TOOLS-PRACTICE.md).
 
 Keep working in this Codespace. Moving an idea to company tools later needs your technical
 owner's approval, so save your work and ask first. Never remove training access or delete an
-account yourself. Technical owners use the [Dataverse reference](../post-workshop/dataverse/README.md)
-for that later step.
+account yourself.
 
 ## Optional extras
 
@@ -118,4 +117,3 @@ for that later step.
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI-generated edits](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [Topic map (for presenters)](REFERENCES.md).

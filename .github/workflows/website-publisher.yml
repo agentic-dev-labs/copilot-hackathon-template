@@ -60,7 +60,7 @@ env:
   PULL_IDENTITY: nn-hackathon-pull
   WEBSITE_DOMAIN: thankfulrock-bf005377.eastus.azurecontainerapps.io
   # 0 lets idle websites sleep for free; the first visit then waits about 30 seconds.
-  # 1 keeps each website awake for about USD 0.19 a day (see infra/README.md).
+  # 1 keeps each website awake for about USD 0.19 a day.
   MIN_REPLICAS: 0
 
 jobs:

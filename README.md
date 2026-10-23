@@ -169,12 +169,6 @@ Tomorrow, the green **Code** button reopens the same Codespace.
 | `site/`         | Your website lives here once you build it.                        |
 | Everything else | Behind-the-scenes tools that make the workshop run. Ignore them.  |
 
-## For Facilitators
-
-[Agenda](docs/AGENDA.md) · [Facilitator runbook](docs/FACILITATOR.md) ·
-[Prerequisites](docs/PREREQS.md) · [Rehearsal](rehearsal/README.md) ·
-[Topic map](docs/REFERENCES.md) · [Advanced post-workshop reference](post-workshop/advanced/README.md)
-
 **Learn more:** [About GitHub Copilot](https://docs.github.com/en/copilot/get-started/about-github-copilot) ·
 [What is a Codespace?](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces) ·
 [How work flows on GitHub](https://docs.github.com/en/get-started/using-github/github-flow)

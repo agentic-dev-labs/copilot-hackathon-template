@@ -111,9 +111,7 @@ builds the demo website's pair.
    | Tools (MCP)    | Plugs that let Copilot act, like the GitHub tools | `.vscode/mcp.json` in Chat; built into the CLI |
 
 2. Type `/agent` and press Enter to see the list of agents. It says there are none yet: your own
-   agent joins this list next. It may also warn about two files the workshop keeps for a later
-   business example (**report-writer** and **vendor-analyst**): ignore that. Press **Esc** to
-   close it.
+   agent joins this list next. Press **Esc** to close it.
 
 A **skill** in `.github/skills/` says *how* the job is done: the steps and the exact output
 format. An **agent** in `.github/agents/` says *who* does it: its role and its rules. You
@@ -294,4 +292,3 @@ Tomorrow Copilot's cloud agent builds your next ticket on GitHub: see the
 - [MCP concepts](https://docs.github.com/en/copilot/concepts/context/mcp) and the
   [customization comparison](https://docs.github.com/en/copilot/reference/customization-cheat-sheet).
 - [Testing in VS Code](https://code.visualstudio.com/docs/debugtest/testing).
-- [Topic map (for presenters)](REFERENCES.md).

@@ -29,11 +29,10 @@ def test_cli_stdout_is_json_and_report_is_written(
 def test_agent_handoff_reference_command_preserves_the_agent_report(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
 ) -> None:
-    """Run the documented baseline command and keep its comparison artifact separate."""
-    lab = Path("post-workshop/advanced/agent-authoring-handoffs.md").read_text(encoding="utf-8")
-    command = next(
-        line.strip() for line in lab.splitlines()
-        if line.strip().startswith("uv run vendor-assurance ")
+    """The baseline command from the post-workshop handoff guide keeps the agent's report separate."""
+    command = (
+        "uv run vendor-assurance src/vendor_assurance/samples/synthetic_soc2_meridian_outreach.md"
+        " --as-of 2026-10-26 --output-directory reports/baseline/ > reports/evaluation.json"
     )
     arguments = shlex.split(command)
     redirect = arguments.index(">")
@@ -44,7 +43,6 @@ def test_agent_handoff_reference_command_preserves_the_agent_report(
     argv[directory_index] = str(tmp_path / "reports" / "baseline")
 
     filename = "PrivacyReview_Meridian_Patient_Outreach_2026_10_26.md"
-    assert f"reports/baseline/{filename}" in lab
     agent_report = tmp_path / "reports" / filename
     agent_report.parent.mkdir()
     agent_report.write_text("Separate synthetic agent report.", encoding="utf-8")

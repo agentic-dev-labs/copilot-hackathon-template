@@ -118,4 +118,3 @@ Tomorrow you keep building your own idea with [Build Your Own Idea](DAY-2-BUILD.
 - [Copilot prompting](https://docs.github.com/en/copilot/get-started/best-practices).
 - [Review AI changes](https://code.visualstudio.com/docs/agents/run/review-code-edits).
 - [Source control in Codespaces](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
-- [Topic map (for presenters)](REFERENCES.md).

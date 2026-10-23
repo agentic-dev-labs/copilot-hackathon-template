@@ -108,4 +108,3 @@ before accepting it. Delegating work does not delegate the checking.
 - [About projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) and [their built-in automations](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations).
 - [Copilot automations](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-automations) and [creating them](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/create-automations), for the optional extra.
 - [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow): issues, pull requests, and merging.
-- [Topic map (for presenters)](../../docs/REFERENCES.md).

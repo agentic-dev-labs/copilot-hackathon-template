@@ -131,4 +131,3 @@ are a bonus, not a requirement.
 - [Adding a picture to Chat](https://code.visualstudio.com/docs/chat/copilot-chat-context).
 - [Apache ECharts](https://echarts.apache.org/en/index.html): the chart library behind `/add-chart`.
 - [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage): how your page remembers entries.
-- [Topic map (for presenters)](../../docs/REFERENCES.md).
