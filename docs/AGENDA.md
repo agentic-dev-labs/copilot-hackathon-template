@@ -43,7 +43,7 @@ theirs alongside him or straight after, then the next step.
 | Time        | Activity                                                                                                                                            |
 | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 09:00-09:30 | Sponsor welcome (SEFR video), ASTER Overview teaser (HZRW), glossary and GitHub basics (concepts only): Ali shows GitHub and a repository on the template; attendees watch, no commands |
-| 09:30-10:00 | Lab, from the README: everyone makes their own private copy of the template in agentic-dev-labs with Use this template, opens its Codespace, finds files and Copilot Chat, watches Copilot guess the next word with /next-word, and asks and refines a question |
+| 09:30-10:00 | Lab, from the README: everyone makes their own private copy of the template in agentic-dev-labs with Use this template, opens its Codespace, finds files and Copilot Chat, sees the same question give different answers (a fun table name, compared with a neighbour), and asks and refines a question |
 | 10:00-10:30 | Create the first website with /create-website, which writes its idea note (site/brief.md); save, review, commit, push, and verify it on GitHub (README) |
 | 10:30-10:45 | Break                                                                                                                                               |
 | 10:45-11:45 | Lab 01: Ali shows more websites (Weather in 3D, Princeton Map, Photo Studio, Lab Chase, a tracker from one sentence); attendees read the code, change the headline by hand, and build one idea of their own in its own folder |

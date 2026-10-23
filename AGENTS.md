@@ -76,10 +76,7 @@ private copy of the template in agentic-dev-labs with Use this template (so nobo
 shared repository). Until 10:30 attendees use
 only the repository README, the page GitHub shows them first; the presenter shows each step on
 their own repository and attendees repeat it on theirs.
-Then use short show -> try -> personalise -> verify -> share cycles: Chat first, opening with the
-provided `/next-word` demo (owner-approved 22 October 2026: the room guesses the next word, then
-Copilot answers with only that one word and its percentage, which the guide labels as Copilot's own
-estimate), at 10:00 the provided
+Then use short show -> try -> personalise -> verify -> share cycles: Chat first, at 10:00 the provided
 `/create-website` workflow and its first push, and the live Website preview beside Chat. Offer the Project Planner,
 Calendar, Ideas Wall, Weather, Princeton Map and Photo Studio starters and My own idea,
 demonstrate the Project Planner, and ask only which one; choosing is the approval to build. The agent calls the

@@ -22,7 +22,7 @@ You do not need to learn these now. Come back here when a word is new.
 | Copilot Chat | The AI assistant you talk to. It is helpful, but it can be wrong. |
 | Ask          | In Chat: Copilot only answers. It never changes your files.       |
 | Agent        | In Chat: Copilot can change your files. You check each change.    |
-| Skill        | A recipe Copilot follows when you type its name, like `/next-word`. |
+| Skill        | A recipe Copilot follows when you type its name, like `/create-website`. |
 | Prompt       | What you type to ask Copilot for something.                       |
 | File         | One piece of your project, such as a note or a web page.          |
 | Save         | Keep your latest change in the file.                              |
@@ -82,7 +82,7 @@ stay saved. This is different from **Open Preview**, which shows a document like
 | When        | Open                                          | You are finished when                                   |
 | ----------- | --------------------------------------------- | ------------------------------------------------------- |
 | 09:00-09:30 | [README: This is GitHub](../README.md#this-is-github) | You know what a repository, a commit, and a push are. |
-| 09:30-10:00 | [README: Files and Chat](../README.md#find-your-files-and-copilot-chat) | Your own copy and its Codespace are open, you saw Copilot guess the next word, and you asked Chat a question. |
+| 09:30-10:00 | [README: Files and Chat](../README.md#find-your-files-and-copilot-chat) | Your own copy and its Codespace are open, you compared Copilot's table name with someone else's, and you asked Chat a question. |
 | 10:00-10:30 | [README: Your first website](../README.md#your-first-website) | Your page opens beside Chat and is saved on GitHub. |
 | 10:30-10:45 | Break                                         |                                                         |
 | 10:45-11:45 | [Lab 01](../labs/01-first-website/README.md)  | You changed your headline by hand and built one idea of your own. |

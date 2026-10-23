@@ -56,6 +56,9 @@ def test_first_lab_requires_chat_not_terminal_setup() -> None:
     first_site = morning.split("### Your First Website", 1)[1].split("### Next:", 1)[0]
     assert "Use this template" not in tour and "Just watch" in tour
     assert "Use this template" in chat and "Trust Folder & Continue" in chat
+    # Rehearsed 22 October 2026: New Chat opens the Copilot harness, with manual approvals and no
+    # Keep or Undo, so Monday stays in the first (Local) chat.
+    assert "**New Chat**" not in chat and "Stay in this chat" in chat
     assert "`/create-website`" in first_site and "brief.md" in first_site
     assert "`Add my first website`" in first_site and "**... > Push**" in first_site
     signpost = Path("labs/00-setup/README.md").read_text(encoding="utf-8")
@@ -254,39 +257,28 @@ def test_preview_lifecycle_skills_reuse_the_helper_and_preserve_files() -> None:
     assert "previewOpen: false" in stop
 
 
-def test_next_word_demo_is_a_small_skill_that_changes_nothing() -> None:
-    """Monday's first Chat moment: a slash-only skill that answers with one word and its chance."""
-    path = Path(".github/skills/next-word/SKILL.md")
-    text = path.read_text(encoding="utf-8")
-    metadata = yaml.safe_load(text.split("---", 2)[1])
-    assert metadata["name"] == path.parent.name
-    assert metadata["user-invocable"] is True and metadata["disable-model-invocation"] is True
-    assert metadata["description"] and metadata["argument-hint"] == "an unfinished sentence"
-    flat = " ".join(text.split())
-    # Owner, 22 October 2026: the whole point is one word with its percentage, nothing explained.
-    assert "Reply with exactly one line" in flat and "whole-number percentage" in flat
-    # Owner, 22 October 2026: the skill names no words at all. No example answer, sample sentence,
-    # or hint, so nothing in it can steer which word Copilot predicts.
-    body = text.split("---", 2)[2]
-    assert "**" not in text and not re.search(r"\d+\s*%", text) and '"' not in body
-    answers = {"beach", "park", "university", "lake", "pool", "campus", "coffee"}
-    assert not answers & set(re.findall(r"[a-z]+", text.lower()))
-    # Copilot reads these with every chat, so they must not suggest an answer either.
-    for always_read in (".github/copilot-instructions.md", "AGENTS.md"):
-        assert not answers & set(re.findall(r"[a-z]+", Path(always_read).read_text(encoding="utf-8").lower()))
-    assert "Never explain" in flat and "Also possible" not in flat
-    assert "do not read or change files, use tools, or run commands" in flat
-    assert len(text.splitlines()) < 30, "small enough to read as Day 3's first skill example"
+def test_monday_chat_starts_with_same_question_different_answers() -> None:
+    """Owner, 23 October 2026: a plain shared prompt replaces /next-word: no skill, no made-up numbers."""
+    assert not Path(".github/skills/next-word").exists()
+    guides = [Path("README.md"), Path("AGENTS.md"), *Path(".github").rglob("*.md"),
+              *Path("docs").glob("*.md"), *Path("labs").glob("*/README.md")]
+    for path in guides:
+        assert "next-word" not in path.read_text(encoding="utf-8"), path
     readme = " ".join(Path("README.md").read_text(encoding="utf-8").split())
     chat = readme.split("### Find Your Files and Copilot Chat", 1)[1].split("### Your First Website", 1)[0]
-    assert "`/next-word`" in chat and "What a nice day, let's go to the" in chat
-    assert not answers & set(re.findall(r"[a-z]+", chat.lower())), "an open README can join the chat"
-    # Chat cannot see the model's real probabilities, so the guide labels the number an estimate.
-    assert "percentage is Copilot's own rough estimate, not a measurement" in chat
-    # Rehearsed 22 October 2026: New Chat opens the Copilot harness, with manual approvals and no
-    # Keep or Undo, so Monday stays in the first (Local) chat.
-    assert "**New Chat**" not in chat and "Stay in this chat" in chat
-    assert "/next-word" in agenda_day(1)
+    prompt = "Invent a fun name for my workshop table. Reply with the name only."
+    assert f'"{prompt}"' in chat and chat.index(prompt) < chat.index("Stay in this chat")
+    assert "the same question can give different answers" in chat and "check its work" in chat
+    assert "table name" in agenda_day(1)
+    # Tried through Copilot CLI with these instructions loaded on 23 October 2026: Auto, Claude
+    # Haiku 5.5 and GPT-5.6 Luna gave 3-4 different names in 5 tries. Copilot reads the instruction
+    # files with every chat, and an open README can join it, so none of them may suggest a name.
+    tried = ("brainy bunch", "idea forge", "prompt posse", "table tornado")
+    for path in ("README.md", "AGENTS.md", ".github/copilot-instructions.md"):
+        text = Path(path).read_text(encoding="utf-8").lower()
+        assert not any(name in text for name in tried), path
+    for path in ("AGENTS.md", ".github/copilot-instructions.md"):
+        assert "workshop table" not in Path(path).read_text(encoding="utf-8"), path
 
 
 def test_keep_comes_before_undo() -> None:

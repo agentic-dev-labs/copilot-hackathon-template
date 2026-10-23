@@ -93,11 +93,12 @@ GitHub; pushing does.
 5. Open Chat with **View > Chat** and choose **Ask** from the list. **Ask** only answers; it
    never changes your files. In the browser, **View** is in the menu with three lines at the top
    left. Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
-6. **Guess the next word.** The presenter shows how Copilot writes: it picks a likely next word,
-   one word at a time. Now you try. Type `/next-word`, pick it from the list, then type
-   **What a nice day, let's go to the** and press Enter.
-   **Check:** which word did you get? Raise your hand for it when the presenter asks. The
-   percentage is Copilot's own rough estimate, not a measurement.
+6. **Same question, different answers.** Everyone asks Copilot the same thing. Type
+   "Invent a fun name for my workshop table. Reply with the name only." and press Enter.
+   **Check:** compare it with your neighbour's, or the presenter's on screen. Did you get the same
+   name? Raise your hand when the presenter asks. Copilot does not look the name up: it writes a
+   new answer each time, so the same question can give different answers. That is why you check
+   its work.
 7. Stay in this chat all day; you do not need a new one. Ask: "Explain the difference between my
    repository, Codespace, and Copilot in three short sentences. Do not change files or run
    commands."
@@ -107,8 +108,8 @@ GitHub; pushing does.
    ask again, or say that something is wrong.
 
 **Done when:** you have your own private repository in agentic-dev-labs, its Codespace is open,
-you saw Copilot guess the next word, and you asked Copilot a question and a follow-up. If sign-in
-or Copilot is missing, ask a helper. Never install anything on your laptop.
+you compared Copilot's table name with someone else's, and you asked Copilot a question and a
+follow-up. If sign-in or Copilot is missing, ask a helper. Never install anything on your laptop.
 
 ### Your First Website
 
