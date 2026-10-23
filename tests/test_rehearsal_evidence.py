@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 import pytest
-import yaml
 
 from rehearsal import evidence
 
@@ -192,30 +191,3 @@ def test_references_reject_unsafe_or_missing_evidence(reference: str) -> None:
     """Do not preserve private files, signed tokens, or nonexistent attachments."""
     with pytest.raises(ValueError):
         evidence.validate_reference(reference)
-
-
-def test_prompt_is_discoverable_and_has_every_lab() -> None:
-    """The comprehensive prompt must cover every active lab and supported session."""
-    text = Path(".github/prompts/rehearse-workshop.prompt.md").read_text(encoding="utf-8")
-    metadata = yaml.safe_load(text.split("---", 2)[1])
-    assert metadata["name"] == "rehearse-workshop"
-    assert metadata["agent"] == "agent"
-    assert metadata["description"]
-    for lab in evidence.manifest():
-        assert lab["guide"] in text
-    # Day 1 asks exactly one question; the retired multi-question flow must not come back.
-    assert "exactly one question" in text
-    assert "budget" not in text and "name/colour" not in text
-    assert "az login" in text
-    assert "Do not run" in text
-    assert "Playwright MCP" in text
-    assert json.loads(Path("rehearsal/labs.json").read_text(encoding="utf-8"))["schema_version"] == 1
-
-
-def test_agent_host_has_a_skill_entrypoint() -> None:
-    """Prompt files alone are insufficient in Agent Host sessions."""
-    text = Path(".github/skills/workshop-rehearsal/SKILL.md").read_text(encoding="utf-8")
-    metadata = yaml.safe_load(text.split("---", 2)[1])
-    assert metadata["name"] == "workshop-rehearsal"
-    assert metadata["description"]
-    assert "../../prompts/rehearse-workshop.prompt.md" in text

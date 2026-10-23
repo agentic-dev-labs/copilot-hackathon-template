@@ -25,7 +25,7 @@ case "${1:-core}" in
 		if ! uv sync --locked --extra dev --extra web; then
 			printf '\nDependency setup failed; TLS verification remains enabled.\n' >&2
 			printf 'Facilitator: run python -m rehearsal.network --fresh-install\n' >&2
-			printf 'See rehearsal/README.md for package-host and approved certificate guidance.\n' >&2
+			printf 'Package-host and approved certificate guidance: the facilitator rehearsal notes.\n' >&2
 			exit 1
 		fi
 		npm ci --prefix .devcontainer/website-preview --ignore-scripts --no-audit --no-fund

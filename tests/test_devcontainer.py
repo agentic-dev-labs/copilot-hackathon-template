@@ -23,7 +23,6 @@ def test_machine_requirements_and_notes() -> None:
 
     assert config["hostRequirements"] == {"cpus": 4, "memory": "16gb", "storage": "32gb"}
     assert "//" not in config
-    assert Path(".devcontainer/README.md").is_file()
 
 
 def test_codespaces_start_from_the_ready_made_image() -> None:

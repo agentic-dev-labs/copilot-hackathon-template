@@ -148,4 +148,3 @@ A helper can run `python3 scripts/website_preview.py status` to see what is wron
 - [Chat context](https://code.visualstudio.com/docs/agents/concepts/context): how Copilot reads your selected lines.
 - [Source control](https://docs.github.com/en/codespaces/developing-in-a-codespace/using-source-control-in-your-codespace).
 - [Agent Skills](https://code.visualstudio.com/docs/agent-customization/agent-skills): how `/create-website` works.
-- [Topic map (for presenters)](../../docs/REFERENCES.md).

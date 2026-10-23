@@ -4,7 +4,7 @@
 // Trust model: only the template's own publisher workflow (website-publisher.yml on the
 // template's main branch), running for a repository owned by the GitHub organisation, can sign
 // in as the deploy identity. Attendees never sign in to Azure and hold no credentials.
-// Deploy and tear down: see infra/README.md.
+// Deploy and tear down: see the hosting notes in the presenter's private folder (HOSTING.md).
 
 targetScope = 'resourceGroup'
 

@@ -265,4 +265,3 @@ checks and decides. Tomorrow GitHub checks every pull request for you, in a brow
   and [Copilot writing tickets](https://docs.github.com/en/copilot/how-tos/copilot-on-github/copilot-for-github-tasks/use-copilot-to-create-or-update-issues) (public preview).
 - [Branches and pull requests in VS Code](https://code.visualstudio.com/docs/sourcecontrol/overview)
   and [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow).
-- [Topic map (for presenters)](REFERENCES.md).

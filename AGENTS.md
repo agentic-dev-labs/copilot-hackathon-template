@@ -59,9 +59,10 @@ open it beside Chat automatically; stop closes it. It needs no server, port, or 
 Laptop localhost is not Codespace localhost. Copilot CLI is installed on creation,
 but sign-in and teaching remain separate. Keep service
 credentials and other private notes out of commits.
-Facilitator preparation notes live only in the git-ignored `.facilitator/` folder: they were
-untracked on 17 October 2026, as its README reminder required, and earlier commits still contain
-them. Keep that folder out of commits and Docker build contexts. The template is a starting
+Presenter material (the delivery script, facilitator guide, agenda, prerequisites, topic map,
+rehearsal and hosting notes, post-workshop guides and agents, and facilitator skills) lives only
+in the git-ignored `final-workshop-david/` folder; it left the template on 23 October 2026, and
+earlier commits still contain it. Keep that folder out of commits and Docker build contexts. The template is a starting
 point, not the solution: it ships an empty `site/` (README only) and no learner-made skills or
 instructions; CI checks this on the template repository. A green offline suite is not a live
 Codespaces or Dataverse dry run.
@@ -106,14 +107,14 @@ the starter on GitHub before a separate own-idea page, and never replace the fir
 Lab 08's core is reviewed, pushed work. Its optional website target publishes only `site/`:
 `/publish-website` sets `websiteName` in `config.json`, and each push to `main` runs the
 template's reusable publisher, which signs in to the shared Container Apps environment with
-GitHub OIDC and no secret (see infra/README.md). Never add Azure credentials for it.
+GitHub OIDC and no secret. Never add Azure credentials for it.
 Day 2 gives David 09:00-09:30 and Jackie 09:30-10:30 for conceptual overviews and Bill Leeson
 11:45-12:15 for Building a Project Brain (David's slide), then protects 10:45-11:45 and the
 afternoon for participants' own ideas. Follow docs/DAY-2-BUILD.md and the
 printable quick reference. No required database, CLI, MCP, automation, or deployment work on
 Day 1 or Day 2. Use fictional local content; collect integration questions for IT later.
 
-The former Lab 05 is a signpost to post-workshop/dataverse/README.md and PROMPTS.md. Preserve
+The Dataverse post-workshop guide and prompts live in the presenter's private folder. Preserve
 the maintained app/client/provisioning/seed/tests and deployment safeguards; do not duplicate
 or delete them. The technical reference is not authorization for production or live setup.
 Keep WORKSHOP_ALLOW_WRITES private-only and disabled in deployments. The switch and workshop
@@ -156,11 +157,10 @@ join that day, and Day 5's handoff routes include Novo's own GitHub Enterprise, 
 apps, and Novo's validation process for anything GxP.
 Ali presents Day 1; MUKQ opens Day 3, then Ali; Ali leads Days 4-5; on Day 2 David, Jackie, and
 Bill Leeson present and Ali supports tables. Hooks, multi-agent handoffs, evaluations, saved
-browser tests, the vendor app and its release verification are post-workshop/advanced reference,
-not workshop tasks; the former Lab 07 is a signpost. Preserve that reference and its maintained code/tests.
-Research/HTML briefs, managed plugins, and travel remain optional, not beginner prerequisites.
-Never duplicate a managed specialist locally. The correct vendor-analyst is repository-local
-for the advanced agent-handoff reference. Generated travel output remains ignored.
+browser tests, the vendor app and its release verification are post-workshop reference, not
+workshop tasks: their guides and agents live in the presenter's private folder, and their
+maintained code and tests stay. Research, HTML briefs, managed plugins, and travel are not part
+of the template. Never duplicate a managed specialist locally.
 
 Keep the published day boundaries and active lab lengths. The reported 09:00-16:00 invitation
 is not approval to extend the 09:00-15:00 beginner timetable. No corporate workstation/account
@@ -173,8 +173,7 @@ An installed skill is not a granted tool, a service entitlement, or evidence of 
 Within the optional presentation exercise HTML is the default; PPTX export is separate. All learner instructions use Bash
 and workspace paths, never Windows Desktop/OneDrive paths or a local-workstation exercise.
 
-Use [docs/REFERENCES.md](docs/REFERENCES.md) for feature coverage and official product links.
-Do not turn the coverage map into a Monday feature tour. Keep clock times and core lab
+Do not turn Monday into a feature tour. Keep clock times and core lab
 durations unchanged unless the owner approves a change. Distinguish live work, prepared results,
 optional previews, and reference-only topics; do not turn every feature into an attendee prerequisite.
 Every lab needs direct official references, an observable finish, and separate optional work.
@@ -196,7 +195,7 @@ Consult it when changing instruction files, not as evidence for an assurance fin
 | `app/`                          | The web application attendees deploy   |
 | `infra/`                        | Shared website hosting (Bicep, OIDC)   |
 | `labs/`                         | Workshop instructions                  |
-| `.github/agents/`               | Custom agents                          |
+| `.github/agents/`               | Learners' own agents (none shipped)    |
 
 ## Style
 

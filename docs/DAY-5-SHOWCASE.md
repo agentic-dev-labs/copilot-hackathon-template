@@ -275,4 +275,3 @@ HANDOFF.md is merged. Stop your Codespace at the end: closing the browser tab do
   [Power Automate](https://learn.microsoft.com/power-automate/), [Power BI](https://learn.microsoft.com/power-bi/),
   [Document Intelligence](https://learn.microsoft.com/azure/ai-services/document-intelligence/), and
   [Copilot Studio](https://learn.microsoft.com/microsoft-copilot-studio/).
-- [Topic map (for presenters)](REFERENCES.md).
