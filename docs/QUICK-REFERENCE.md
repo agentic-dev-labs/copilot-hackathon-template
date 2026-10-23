@@ -10,7 +10,6 @@ step instead of racing ahead. Use made-up information only.
 | Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
 | Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |
-| See how Copilot writes | Type **`/next-word`** and an unfinished sentence, such as "What a nice day, let's go to the". It answers with one word and its chance; the percentage is its own rough estimate. |
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
 | Keep Copilot's change | Select **Keep** in Chat when you like it. Selecting **+** for the file in Source Control keeps it too. |
 | Undo Copilot's change | Select **Undo** in Chat, then **Yes**. It takes back every change you have not kept. To go back further, hover over an earlier question and select **Restore Checkpoint**. |

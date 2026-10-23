@@ -106,7 +106,7 @@ builds the demo website's pair.
    | Building block | What it does                                     | In your repository                             |
    | -------------- | ------------------------------------------------ | ---------------------------------------------- |
    | Instructions   | Standing rules Copilot reads before every request | `.github/copilot-instructions.md`             |
-   | Skill          | A recipe Copilot loads when the job fits          | `.github/skills/next-word/` and `create-website/`, used Monday |
+   | Skill          | A recipe Copilot loads when the job fits          | `.github/skills/create-website/`, used Monday |
    | Custom agent   | A helper with one job, its own rules and tools    | `.github/agents/`, where yours arrives next   |
    | Tools (MCP)    | Plugs that let Copilot act, like the GitHub tools | `.vscode/mcp.json` in Chat; built into the CLI |
 

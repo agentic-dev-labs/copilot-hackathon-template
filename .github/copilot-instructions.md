@@ -38,10 +38,7 @@
   the presenter shows on their own repository, then docs/START-HERE.md is the route (order agreed
   with the owner on 21 October 2026). At 09:30 each attendee makes one
   private copy of the template in agentic-dev-labs with Use this template, never a second one.
-  Chat comes first, opening with the provided /next-word demo (owner-approved 22 October 2026):
-  the room guesses the next word of "What a nice day, let's go to the", then of the same sentence
-  in Princeton, New Jersey, before Copilot answers with only one word and its percentage, which the
-  guide labels as Copilot's own estimate. At 10:00 use the provided /create-website skill: one question (Project Planner,
+  Chat comes first. At 10:00 use the provided /create-website skill: one question (Project Planner,
   Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or My own idea), then it builds, so
   learners see they can build by talking; its brief.md is the idea note, and the first push follows.
   /add-chart adds ECharts charts, including 3D ones, from the kit (owner-approved 19 October
