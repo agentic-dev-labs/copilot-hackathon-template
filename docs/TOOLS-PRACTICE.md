@@ -110,8 +110,9 @@ builds the demo website's pair.
    | Custom agent   | A helper with one job, its own rules and tools    | `.github/agents/`, where yours arrives next   |
    | Tools (MCP)    | Plugs that let Copilot act, like the GitHub tools | `.vscode/mcp.json` in Chat; built into the CLI |
 
-2. Type `/agent` and press Enter to see the list of agents. It says there are none yet: your own
-   agent joins this list next. Press **Esc** to close it.
+2. Type `/agent` and press Enter to see the list of agents. It shows only **GenericAgent**, the
+   blank helper from Monday's demo: your own agent joins this list next. Press **Esc** to close
+   it.
 
 A **skill** in `.github/skills/` says *how* the job is done: the steps and the exact output
 format. An **agent** in `.github/agents/` says *who* does it: its role and its rules. You

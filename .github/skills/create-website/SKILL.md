@@ -232,7 +232,7 @@ and shared files at `css/`, `js/` and `art/`. Once a first page exists, an own i
 own folder instead. Build it as soon as the learner asks: on Monday everyone builds one at 10:45,
 right after the first page is saved on GitHub. Never ask for checks or a demonstration first,
 and never replace the first page. From Tuesday it is the main way to start
-an own idea, and the learner may continue the same idea on Wednesday and Thursday.
+an own idea, and the learner may continue the same idea from Wednesday to Friday.
 
 1. Ask one question: **"Describe your idea in one sentence."** Then build straight away.
 2. For a second idea, choose a short folder name from the idea, such as `site/ideas/team-lunch/`,

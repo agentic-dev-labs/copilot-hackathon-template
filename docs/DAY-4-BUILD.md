@@ -164,8 +164,7 @@ ticket.
 
 3. Open **.github > agents > code-review.agent.md**, read its rules, and change one into your own
    words. Then type `/exit` and `copilot` again, and check that `/agent` lists **code-review**
-   next to your **user-requirements** agent. It is yours: the workshop's own **reviewer** file is
-   for a different example and never appears in that list.
+   next to your **user-requirements** agent.
 4. **Send both down the road.** `main` takes only pull requests now: create a branch named
    `review-tools`, commit both files, select **Publish Branch**, create the pull request, read
    its **Files changed**, and merge it. Then switch to `main` and **Pull**. From now on GitHub has

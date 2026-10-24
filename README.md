@@ -90,22 +90,25 @@ GitHub; pushing does.
 4. In the **Explorer**, the file list on the left, right-click **README.md** and choose
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
    its other tab.
-5. Open Chat with **View > Chat** and choose **Ask** from the list. **Ask** only answers; it
-   never changes your files. In the browser, **View** is in the menu with three lines at the top
-   left. Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
+5. Open the menu with three lines at the top left and choose **View > Chat**. In the list at the
+   bottom of the chat box, choose **Ask**: it only answers and never changes your files.
+   Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
 6. **Same question, different answers.** Everyone asks Copilot the same thing. Type
    "Invent a fun name for my workshop table. Reply with the name only." and press Enter.
    **Check:** compare it with your neighbour's, or the presenter's on screen. Did you get the same
    name? Raise your hand when the presenter asks. Copilot does not look the name up: it writes a
    new answer each time, so the same question can give different answers. That is why you check
    its work.
-7. Stay in this chat all day; you do not need a new one. Ask: "Explain the difference between my
-   repository, Codespace, and Copilot in three short sentences. Do not change files or run
-   commands."
-   **Check:** compare the answer with the five words above. Does it match?
-8. Then ask: "Use an everyday example and make it shorter."
-   **Check:** is it clearer now? A better question gives Copilot more to go on. You can always
-   ask again, or say that something is wrong.
+7. Stay in this chat all day; you do not need a new one. Ask: "What is in the docs folder?"
+   **Check:** open the **docs** folder in the **Explorer**. Does Copilot's list match the files
+   you see?
+8. Now ask it better: "Say that as 3 short bullets for a beginner."
+   **Check:** is it shorter and clearer now? You did not start over: you told Copilot what you
+   wanted. You can always ask again, or say that something is wrong.
+
+Then just watch: the presenter shows that **Ask** cannot change a file, then gives
+**GenericAgent**, a blank helper in every copy, a new tool and a new job. You make your own
+helpers on Wednesday.
 
 **Done when:** you have your own private repository in agentic-dev-labs, its Codespace is open,
 you compared Copilot's table name with someone else's, and you asked Copilot a question and a
@@ -139,10 +142,10 @@ yours.
    **Check:** open your repository on GitHub in a new browser tab, open **site**, then
    **brief.md**. It is there.
 
-You work in your own repository, on the `main` branch unless a helper says otherwise. If
-anything asks you to create another repository, says a push was rejected, or mentions a
-conflict, stop and ask a helper. Never force a push. If you work in a pair, take turns at the
-keyboard. If `/create-website` is not in the list or the preview does not open, show a helper.
+Work only in your own repository. If anything asks you to create another repository, says a push
+was rejected, or mentions a conflict, stop and ask a helper. Never force a push. Working in a
+pair? Take turns at the keyboard. If `/create-website` is not in the list or the preview does not
+open, show a helper.
 
 **Done when:** your page opens beside Chat and it is on GitHub.
 
@@ -167,6 +170,7 @@ Tomorrow, the green **Code** button reopens the same Codespace.
 | `docs/`         | Your daily guides. After this page, Monday's is `docs/START-HERE.md`. |
 | `labs/`         | Step-by-step exercises. The daily guides tell you which to open.  |
 | `site/`         | Your website lives here once you build it.                        |
+| `.github/`      | Instructions, skills and agents that guide Copilot. You add your own from Wednesday. |
 | Everything else | Behind-the-scenes tools that make the workshop run. Ignore them.  |
 
 **Learn more:** [About GitHub Copilot](https://docs.github.com/en/copilot/get-started/about-github-copilot) ·

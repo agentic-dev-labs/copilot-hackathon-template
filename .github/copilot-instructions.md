@@ -91,6 +91,8 @@
   publish in a `production` environment, scripts/smoke_test.py, a **Revert** rollback, team demos,
   and HANDOFF.md, every change through a pull request. Ship helpers and starters, never the
   learner's agents, skills, instructions, tests, reviews, or active workflows; CI enforces this.
+  The only shipped agent is the blank GenericAgent placeholder, which Monday's demo turns into
+  a Joker.
   Labs 04 and 06 are optional extras; a Copilot automation is a Day 4 presenter demo and an
   optional extra, and Agentic Workflows a presenter demo. Days 4 and 5 open with a short catch-up
   for attendees who join that day. Hooks, multi-agent handoffs,

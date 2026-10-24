@@ -63,8 +63,10 @@ Presenter material (the delivery script, facilitator guide, agenda, prerequisite
 rehearsal and hosting notes, post-workshop guides and agents, and facilitator skills) lives only
 in the git-ignored `final-workshop-david/` folder; it left the template on 23 October 2026, and
 earlier commits still contain it. Keep that folder out of commits and Docker build contexts. The template is a starting
-point, not the solution: it ships an empty `site/` (README only) and no learner-made skills or
-instructions; CI checks this on the template repository. A green offline suite is not a live
+point, not the solution: it ships an empty `site/` (README only), no learner-made skills or
+instructions, and one agent: the blank `GenericAgent` placeholder that Monday's demo turns into a
+Joker (owner-approved 23 October 2026). CI checks this on the template repository. A green
+offline suite is not a live
 Codespaces or Dataverse dry run.
 
 ## Maintaining workshop content
@@ -195,7 +197,7 @@ Consult it when changing instruction files, not as evidence for an assurance fin
 | `app/`                          | The web application attendees deploy   |
 | `infra/`                        | Shared website hosting (Bicep, OIDC)   |
 | `labs/`                         | Workshop instructions                  |
-| `.github/agents/`               | Learners' own agents (none shipped)    |
+| `.github/agents/`               | Learners' agents; ships GenericAgent   |
 
 ## Style
 

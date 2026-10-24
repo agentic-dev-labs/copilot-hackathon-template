@@ -4,7 +4,7 @@
 
 **Time-box:** 45 minutes
 
-**Prerequisites:** Your page and checks from Labs 00-02, in the same Codespace.
+**Prerequisites:** Your pages and checks from this morning and Labs 01-02, in the same Codespace.
 
 This lab runs on **Day 1**, right after Lab 02; the lab numbers are just names. At 14:45 everyone
 moves to pair sharing. The presenter shows each step, then pauses for your turn.

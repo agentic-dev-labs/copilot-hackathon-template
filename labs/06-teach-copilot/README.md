@@ -49,7 +49,9 @@ drawing; your skill is the recipe that tells Copilot when and how to use it.
 
 5. Open `SKILL.md`. Read the `name` and `description` at the top: they tell Copilot what the skill
    is for. Read the steps below them and change anything that is not what you meant.
-6. Start a new chat with **+**, type `/make-image a friendly rocket for my header`, and send it.
+6. Start a new chat with **+** and, before typing, choose **Local** in the list at the bottom of
+   Chat, so **Keep** and **Undo** still appear. Type `/make-image a friendly rocket for my header`
+   and send it.
    For a page in its own folder, add where it goes, for example
    `/make-image a picnic table for my team-lunch page`.
    **Check:** a new picture file appears in **site > art**, and your page shows it in the preview.

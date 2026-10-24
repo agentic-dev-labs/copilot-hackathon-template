@@ -289,8 +289,16 @@ def test_template_ships_no_presenter_material() -> None:
                  "labs/07-automations-hooks", "rehearsal/README.md", "infra/README.md",
                  ".devcontainer/README.md"):
         assert not Path(path).exists(), path
-    # Attendees write their own agents on Days 3 and 4, so the template ships none.
-    assert not list(Path(".github/agents").glob("*.agent.md"))
+    # Attendees write their own agents on Days 3 and 4. Owner, 23 October 2026: the only agent
+    # shipped is the blank GenericAgent. Monday's demo adds the web tool by hand and turns it
+    # into a Joker, so it ships able only to read, and nothing picks it by itself.
+    agents = [path.name for path in Path(".github/agents").glob("*.agent.md")]
+    assert agents == ["generic-agent.agent.md"], agents
+    placeholder = Path(".github/agents/generic-agent.agent.md").read_text(encoding="utf-8")
+    header = yaml.safe_load(placeholder.split("---", 2)[1])
+    assert header["name"] == "GenericAgent" and "joke" not in placeholder.lower()
+    assert header["tools"] == ["read", "search"]
+    assert header["disable-model-invocation"] is True
     for ignore in (".gitignore", ".dockerignore"):
         assert "/final-workshop-david/" in Path(ignore).read_text(encoding="utf-8").splitlines()
 
