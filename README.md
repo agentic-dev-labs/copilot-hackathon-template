@@ -95,7 +95,7 @@ GitHub; pushing does.
    Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
 6. **Same question, different answers.** Everyone asks Copilot the same thing. Type
    "Invent a fun name for my workshop table. Reply with the name only." and press Enter.
-   **Check:** compare it with your neighbour's, or the presenter's on screen. Did you get the same
+   **Check:** compare it with your neighbor's, or the presenter's on screen. Did you get the same
    name? Raise your hand when the presenter asks. Copilot does not look the name up: it writes a
    new answer each time, so the same question can give different answers. That is why you check
    its work.

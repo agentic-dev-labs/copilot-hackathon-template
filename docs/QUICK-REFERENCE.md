@@ -36,15 +36,15 @@ step instead of racing ahead. Use made-up information only.
 | Use Copilot in the terminal (Day 3) | Type `copilot` and press Enter. Type `/exit` to leave. |
 | Use my own agent (Days 3-4) | In Copilot CLI type `/agent` and choose it. After creating a new agent or skill, type `/exit` and `copilot` once so it appears. |
 | Use my skill (Day 3) | Name it in your request, for example "Use the user-stories skill on issue #1". |
-| Write a ticket (Day 3) | On GitHub: **Issues > New issue > Requirement**. Write what you want in plain words; your agent adds the story and the criteria. |
+| Write a ticket (Days 3-5) | On GitHub: **Issues > New issue > Requirement**. Write what you want in plain words; your agent adds the story and the criteria. |
 | Make my board (Day 3) | Select the organization's name above your repository, then **Projects > New project > Board**, name it `<your username> website`, keep **Import items from repository** and choose your own repository. Then **Workflows > Item added to project > Off**, so new tickets wait under **No Status**. Later, open it from your repository's **Projects** tab. |
-| Approve a ticket (Days 3-4) | On your board, drag its card into **Todo**. |
+| Approve a ticket (Days 3-5) | On your board, drag its card into **Todo**. |
 | Close a ticket with a commit (Day 3) | End the commit message with `Closes #1`, using the ticket's number. When it reaches `main`, the card moves to **Done**. |
 | Run my tests (Days 3-5) | In the terminal type `pytest checks`. Green means pass; red shows what failed. |
 | Start a branch (Days 4-5) | Select the branch name at the bottom left, then **Create new branch...**. Go back by choosing `main`, then **Pull**. |
 | Save a change from Day 4 on | `main` takes only pull requests: a branch, commit, **Publish Branch**, create the pull request, merge it on GitHub, then `main` and **Pull**. |
 | Protect `main` (Day 4) | On GitHub: **Settings > Rules > Rulesets > New ruleset > New branch ruleset**, as in the Day 4 guide. |
-| Hand a ticket to Copilot (Day 4) | Open an approved ticket from **Todo**, then **Assign to Agent** (or **Assignees > Copilot**), keep `main` and **Copilot**, and select **Assign**. The board moves it to **In Progress** by itself. |
+| Hand a ticket to Copilot (Days 4-5) | Open an approved ticket from **Todo**, then **Assign to Agent** (or **Assignees > Copilot**), keep `main` and **Copilot**, and select **Assign**. The board moves it to **In Progress** by itself. |
 | See my screenshots (Day 5) | On GitHub: **Actions**, open the run, then **Summary > Artifacts > home-phone.png** or **home-desktop.png**. |
 | Let Copilot's work run (Day 5) | On Copilot's pull request, read **Files changed**, then select **Approve workflows to run** in the merge box. |
 | Approve a build for the feature slot (Day 5) | **Actions > Deploy feature slot**, open the newest run that says **Action required**, then **Approve and run**. Only Copilot's pull requests ask. |
