@@ -125,17 +125,17 @@ yours.
    **Calendar**, **Ideas Wall**, **Weather**, **Princeton Map**, **Photo Studio**, or
    **My own idea**. The presenter builds the Project Planner; pick it if you are unsure.
 3. Copilot builds it and opens it in the **Website preview** beside Chat, named after your
-   repository, for example **AliFarahnak Project Planner**. While it builds, Copilot may ask to
-   run `python3 scripts/website_preview.py start`, the helper that opens your preview: select
-   **Allow**. If it asks to run anything else you do not understand, raise your hand. Press **+**
-   and add a made-up entry.
+   repository, for example **AliFarahnak Project Planner**. If Copilot asks to run
+   `python3 scripts/website_preview.py start`, the helper that opens your preview, select
+   **Allow**. If it asks to run anything else you do not understand, raise your hand.
+4. Press **+** and add a made-up entry.
    **Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the
    proof, not Copilot saying "done". Then select **Keep** under the chat box: it accepts the
    change. Do this whenever you like a change, because **Undo** takes back every change you
    have not kept.
-4. Open **Explorer > site > brief.md**. This is your idea note, the README of your website:
+5. Open **Explorer > site > brief.md**. This is your idea note, the README of your website:
    Copilot wrote what your page is for and how you can check it. You add to it all week.
-5. **Save it on GitHub.** Choose **File > Save All**; if it is grey, everything is already
+6. **Save it on GitHub.** Choose **File > Save All**; if it is grey, everything is already
    saved. Then open **Source Control**. This first time it lists many files: your page plus the
    pictures, fonts and styles it needs. That is expected. Hover over **Changes** and select its
    **+** to include them all, type `Add my first website`, select **Commit**, then **... > Push**.

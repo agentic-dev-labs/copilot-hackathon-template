@@ -180,13 +180,14 @@ helper adds your agent with you at the next break.
    counting. Change nothing else." Answer its open questions the same way, one at a time. Here
    *validate* means checking that every criterion can be checked. It is not GxP validation: your
    practice website is a prototype with made-up data, not a validated system.
-3. When you agree, choose **Yes** when it asks, or say: "Yes, update issue #1." Copilot reads the
-   ticket again and asks to run the command that saves it with `gh issue edit`, GitHub's own
-   command; it may be a short Python script that also checks your words stay the same. Allow it.
-   Open the ticket on GitHub: the story and the criteria are there, and **your own words under
-   What I want are unchanged**. If they are not, tell a helper: the ticket's **edited** menu
-   keeps every earlier version. If Copilot says it may not update the ticket, copy its draft,
-   then on the ticket select **...** and **Edit**, paste the draft under **User story** and
+3. When you agree, choose **Yes** when it asks, or say: "Yes, update issue #1." Copilot asks to
+   run the command that saves it, `gh issue edit`, sometimes inside a short Python script that
+   checks your words stay the same: allow it. Then open the ticket on GitHub: the story and the
+   criteria are there, and **your own words under What I want are unchanged**.
+
+   **If something goes wrong:** your own words changed? Tell a helper: the ticket's **edited**
+   menu keeps every earlier version. If Copilot says it may not update the ticket, copy its
+   draft, select **...** and **Edit** on the ticket, paste the draft under **User story** and
    **Acceptance criteria**, and save.
 4. Do the same for your other tickets.
 5. **Approve.** Choose one small ticket to build today. On your board, drag its card into
