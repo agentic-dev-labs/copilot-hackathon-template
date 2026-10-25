@@ -40,7 +40,6 @@ case "${1:-core}" in
 		fi
 		ensure_editor_extension "ms-python.python"
 		ensure_editor_extension "ms-python.vscode-python-envs"
-		ensure_editor_extension "charliermarsh.ruff"
 		VERSION="$(node -p 'require("./.devcontainer/website-preview/package.json").version')"
 		if code --list-extensions --show-versions | grep -Fxq "workshop-local.workshop-site-preview@$VERSION"; then
 			printf 'Workshop preview helper %s is already prepared.\n' "$VERSION"
@@ -53,7 +52,7 @@ case "${1:-core}" in
 			printf 'Preview helper installed. Existing editor sessions may need one Reload Window.\n'
 		fi
 		if "$EDITOR_RELOAD_REQUIRED"; then
-			printf 'Run Developer: Reload Window once so Ruff can use the project environment.\n'
+			printf 'Run Developer: Reload Window once so Python can use the project environment.\n'
 		fi
 		;;
 	cli)

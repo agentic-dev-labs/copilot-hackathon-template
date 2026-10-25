@@ -149,19 +149,23 @@ def test_terminal_uses_the_installed_virtual_environment() -> None:
     assert config["remoteEnv"]["PATH"].startswith("${containerWorkspaceFolder}/.venv/bin:")
 
 
-def test_python_environment_is_prepared_for_ruff() -> None:
-    """Fresh and existing Codespaces provide Ruff with the active Python environment."""
-    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
-    required_extensions = {
-        "ms-python.python",
-        "ms-python.vscode-python-envs",
-        "charliermarsh.ruff",
-    }
+def test_python_environment_is_prepared_without_ruff_editor_extension() -> None:
+    """Python tooling is ready, and no Ruff editor pop-up greets beginners (25 October 2026).
 
-    assert required_extensions <= set(config["customizations"]["vscode"]["extensions"])
+    Ruff still lints through `uv run ruff check .` and CI; only the editor extension is gone,
+    because it showed a startup notice in every fresh Codespace.
+    """
+    config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
+    extensions = set(config["customizations"]["vscode"]["extensions"])
+    required_extensions = {"ms-python.python", "ms-python.vscode-python-envs"}
+
+    assert required_extensions <= extensions
+    assert "charliermarsh.ruff" not in extensions
+    assert "[python]" not in config["customizations"]["vscode"]["settings"]
     setup = Path(".devcontainer/setup.sh").read_text(encoding="utf-8")
     for extension in required_extensions:
         assert f'ensure_editor_extension "{extension}"' in setup
+    assert "charliermarsh.ruff" not in setup
 
 
 def test_terminals_are_not_interrupted_while_the_codespace_opens() -> None:
@@ -186,7 +190,7 @@ def test_preview_setup_repairs_python_environment_provider(
     tools.mkdir(parents=True)
     log = tmp_path / "calls.log"
     version = json.loads(Path(".devcontainer/website-preview/package.json").read_text())["version"]
-    extensions = ["ms-python.python", "ms-python.vscode-python-envs", "charliermarsh.ruff"]
+    extensions = ["ms-python.python", "ms-python.vscode-python-envs"]
     if missing_environment_provider:
         extensions.remove("ms-python.vscode-python-envs")
     installed = "\\n".join(extensions)

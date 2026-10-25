@@ -89,7 +89,7 @@ GitHub; pushing does.
    second Codespace. If it shows an error, tell a helper. Nothing goes on your laptop.
 
    **A message pops up in a corner?** For example "workspace customizations need an update", or
-   a message about **Python** or **Ruff**. Close it with its **X**. Never select **Migrate**:
+   a message about **Python**. Close it with its **X**. Never select **Migrate**:
    the workshop files are fine as they are.
 4. In the **Explorer**, the file list on the left, right-click **README.md** and choose
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
