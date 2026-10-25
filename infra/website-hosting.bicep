@@ -1,6 +1,11 @@
 // Website hosting for the workshop: one Azure Container Apps environment that attendee
 // repositories publish to from GitHub Actions, without any secret.
 //
+// Capacity: each website is its own container app with 0.25 CPU that sleeps when nobody visits
+// (minReplicas 0, maxReplicas 1). 80 attendees with a production and a feature slot each are 160
+// apps and at most 40 cores, well under the environment's consumption-core quota (500 when
+// checked on 25 October 2026 with az containerapp env list-usages).
+//
 // Trust model: only the template's own publisher workflow (website-publisher.yml on the
 // template's main branch), running for a repository owned by the GitHub organisation, can sign
 // in as the deploy identity. Attendees never sign in to Azure and hold no credentials.
@@ -16,6 +21,9 @@ param environmentName string = 'cae-hackathon'
 
 @description('Private registry for the website images (globally unique, 5-50 letters and digits).')
 param registryName string = 'acrnnhackathon2026'
+
+@description('Registry tier. Standard gives 100 GiB and more transfer speed than Basic for about USD 0.67 a day, so 80 attendees (160 websites with feature slots) can publish at once.')
+param registrySku string = 'Standard'
 
 @description('Log Analytics workspace for the environment, capped at 1 GB a day.')
 param workspaceName string = 'log-nn-hackathon'
@@ -85,7 +93,7 @@ resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   name: registryName
   location: location
   tags: tags
-  sku: { name: 'Basic' }
+  sku: { name: registrySku }
   properties: {
     adminUserEnabled: false
   }
