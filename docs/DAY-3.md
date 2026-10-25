@@ -271,11 +271,8 @@ Tomorrow Copilot's cloud agent builds your next ticket on GitHub: see the
    the two answers.
 2. On your board, add a field called **Priority** with the options Must, Should, and Could, and
    set it on every ticket.
-3. Plug the same GitHub tools into Chat, and watch the presenter's browser tool, with
-   [extra 1](EXTRAS.md#1-copilot-uses-tools-mcp).
-4. Write an instructions file and your own `/make-image` picture skill, or add a chat to your
-   page, with [extra 2](EXTRAS.md#2-teach-copilot-about-your-project).
-5. In Copilot CLI, type `/help` and find one command you would like to try later.
+3. Add a chat to your page with `/add-chat`, then check one of its answers against your page.
+4. In Copilot CLI, type `/help` and find one command you would like to try later.
 
 ## Official References
 

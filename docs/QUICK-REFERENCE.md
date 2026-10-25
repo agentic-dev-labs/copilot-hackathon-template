@@ -64,36 +64,15 @@ step instead of racing ahead. Use made-up information only.
 | My live footer still says **Preview** (Day 4) | The `#` is still in front of `version:` in publish-website.yml, or the merge changed nothing in `site/`. Show a helper. |
 | No Copilot review on my pull request (Days 4-5) | Expected: Copilot code review is off. You and your own Code Review agent review. |
 
-## Get Unstuck: Paste One of These
-
-Paste the sentence into Chat with **Agent** chosen, or into Copilot CLI. Copilot asks before it
-runs anything: read what it wants to do, then allow it. None of these ever force-push or delete
-your saved history.
-
-| When                                       | Paste this                                                                 |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| The presenter says the guides were fixed   | "Get the latest workshop fixes: run python3 scripts/update_from_template.py and tell me in plain words what changed." Then save, review, commit, and push as usual (from Day 4: on a new branch, through a pull request). |
-| Is my work safe?                           | "Is all my work committed and pushed to GitHub, and which branch am I on? Answer in plain words and change nothing." |
-| I want to see what I changed               | "List the files I changed since my last commit, with one plain sentence for each. Change nothing." |
-| I made a mess and want my last commit back | "Undo every change since my last commit. First list each file that would change, including new files that would be deleted, and wait for my yes." |
-| One file is broken                         | "Put site/index.html back the way it was in my last commit. Change no other file." Use your own file's name. |
-| It worked yesterday                        | "Show my last 5 commits in plain words. After I pick one, put site/index.html back the way it was in that commit, as a new change I can review. Never rewrite my history." |
-| My push was refused                        | "My push was refused. Explain why in one sentence, then fix it safely: pull first, and never force-push. If main takes only pull requests, move my commits to a new branch and help me open a pull request." |
-| I am on the wrong branch                   | "Take me back to main with the newest version from GitHub. Keep any unfinished work safe first, and tell me where it is." |
-| Git says there is a conflict               | "There is a merge conflict. For each file, show me both versions in plain words and ask me which to keep, one file at a time." |
-
-## One Good Request
-
-"Change **this one thing** for **this audience**. Keep **these things** unchanged. Explain the
-small plan first. I will check it by **this action and expected result**."
-
-[Day 1, section 5](DAY-1.md#5-check-it-yourself) has a check for each of the six websites.
+**Prompts to paste**, including the one that gets the workshop's latest fixes, are in
+[Quick Commands](QUICK-COMMANDS.md).
 
 ## Trust, but Verify
 
 **Expect -> try -> compare -> improve -> repeat.** Click the button yourself. Try an empty entry.
 Count a number yourself. Check again after a fix. "Copilot says it works" is not a check, and a
-screenshot alone does not prove a button works.
+screenshot alone does not prove a button works. [Day 1, section 5](DAY-1.md#5-check-it-yourself)
+has a check for each of the six websites.
 
 ## Your Finish Each Day
 
@@ -119,7 +98,7 @@ yourself. In pairs, take turns at the keyboard. Before you leave, push your work
 Codespace at github.com/codespaces; closing the browser tab does not stop it.
 
 [Day 1](DAY-1.md) | [Day 2](DAY-2.md) | [Day 3](DAY-3.md) | [Day 4](DAY-4.md) | [Day 5](DAY-5.md) |
-[Optional extras](EXTRAS.md) | [Your week](../README.md#your-week)
+[Quick Commands](QUICK-COMMANDS.md) | [Your week](../README.md#your-week)
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),

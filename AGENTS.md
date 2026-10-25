@@ -17,7 +17,8 @@ and test one ticket; Day 4 is feature branches, a versioned pipeline, cloud agen
 Review agent; Day 5 is CI/CD with GitHub Actions (tests and a browser UI check with screenshots),
 team demos and a handoff, all on the attendee's own website. Attendees follow one guide per day,
 `docs/DAY-1.md` to `docs/DAY-5.md`, linked from a minimal README, plus `docs/QUICK-REFERENCE.md`
-and the optional `docs/EXTRAS.md` (owner, 25 October 2026: no `labs/` folder). The separate post-workshop business case
+and `docs/QUICK-COMMANDS.md` with prompts to paste, including the one that brings template
+fixes into an attendee copy (owner, 25 October 2026: no `labs/` folder and no extras page). The separate post-workshop business case
 reviews **synthetic** vendor reports with deterministic scores and quoted evidence.
 
 ## Non-negotiable rules
@@ -49,7 +50,7 @@ Tests and lint must both pass before opening a pull request.
 
 All attendee work runs in browser-based Codespaces and its Linux/Bash terminal, including
 Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or desktop VS Code
-is required. The browser-tools demonstration in the MCP extra is an optional presenter extra;
+is required. A browser-tools demonstration is an optional presenter extra;
 attendees install nothing for it. The repository's only MCP server is the read-only GitHub one in
 `.vscode/mcp.json`, with `chat.mcp.autostart` set to `never`, MCP discovery from other apps,
 other extensions' chat tools, and agent plugins switched off in `.vscode/settings.json`, which
@@ -159,8 +160,8 @@ then approval-gated publishing to the production slot in the attendee's `product
 **Revert** rollback, team demos,
 and HANDOFF.md. The publisher writes `version.json`, which the content fingerprint ignores, so a
 rollback restores the known-good fingerprint. Ship helpers and starters, never the learner's
-agents, skills, instructions, tests, reviews, or active check and feature-slot workflows; CI enforces this. The two
-extras in docs/EXTRAS.md are optional; a Copilot automation is a Day 4 presenter demo and an optional extra,
+agents, skills, instructions, tests, reviews, or active check and feature-slot workflows; CI enforces this. A
+Copilot automation is a Day 4 presenter demo and an optional extra,
 and Agentic Workflows a presenter demo. Days 4 and 5 open with a short catch-up for attendees who
 join that day, and Day 5's handoff routes include Novo's own GitHub Enterprise, Power Apps code
 apps, and Novo's validation process for anything GxP.

@@ -421,7 +421,7 @@ def test_browser_profile_connects_only_the_reviewed_playwright_entry(tmp_path: P
     assert browser.index(set_aside) < browser.index("install --with-deps chromium")
     assert "apt-key" not in setup and "--allow-unauthenticated" not in setup
     assert "if ! bash .devcontainer/mcp.sh check-browser; then" in browser
-    assert "follow the presenter for the browser part of the MCP extra" in browser
+    assert "follow the presenter for the browser demonstration" in browser
     assert "--no-sandbox" not in setup and "chromiumSandbox: false" not in setup
 
     example = Path(".devcontainer/mcp.example.json")

@@ -81,7 +81,7 @@ case "${1:-core}" in
 		node .devcontainer/browser/node_modules/playwright/cli.js install --with-deps chromium
 		if ! bash .devcontainer/mcp.sh check-browser; then
 			printf '\nThe browser could not start in this Codespace. Show a helper this message,\n' >&2
-			printf 'then follow the presenter for the browser part of the MCP extra.\n' >&2
+			printf 'then follow the presenter for the browser demonstration.\n' >&2
 			exit 1
 		fi
 		python3 scripts/enable_playwright_mcp.py

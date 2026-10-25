@@ -21,8 +21,8 @@ Open only today's guide. The presenter shows each step first, then you do the sa
 | **Thursday**  | [Day 4: Cloud Agents](docs/DAY-4.md)           | A change Copilot built, reviewed by your own review agent |
 | **Friday**    | [Day 5: CI/CD and Demos](docs/DAY-5.md)        | A checked, approved, recoverable website and a handoff note |
 
-Keep the [Quick Reference](docs/QUICK-REFERENCE.md) beside you. Finished early from Wednesday
-on? Try the [optional extras](docs/EXTRAS.md).
+Keep the [Quick Reference](docs/QUICK-REFERENCE.md) beside you. Prompts to paste, including the
+one that gets the workshop's latest fixes, are in [Quick Commands](docs/QUICK-COMMANDS.md).
 
 ## Four Golden Rules
 

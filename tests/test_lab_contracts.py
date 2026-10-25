@@ -16,8 +16,8 @@ SLIDE_SLOTS = ["00:00-00:20", "00:20-00:50", "00:50-01:30", "01:30-01:45",
 
 
 def active_lab_guides() -> list[Path]:
-    """Every attendee guide the template ships: one per day, plus the optional extras."""
-    return [*(Path(f"docs/DAY-{day}.md") for day in range(1, 6)), Path("docs/EXTRAS.md")]
+    """Every attendee guide the template ships: one per day."""
+    return [Path(f"docs/DAY-{day}.md") for day in range(1, 6)]
 
 
 def day_one_section(number: int) -> str:
@@ -47,7 +47,7 @@ def test_lab_timeboxes_match_the_day_routes() -> None:
     readme = Path("README.md").read_text(encoding="utf-8")
     for day in range(1, 6):
         assert f"](docs/DAY-{day}.md)" in readme, day
-    assert "](docs/QUICK-REFERENCE.md)" in readme and "](docs/EXTRAS.md)" in readme
+    assert "](docs/QUICK-REFERENCE.md)" in readme and "](docs/QUICK-COMMANDS.md)" in readme
     assert len(readme.splitlines()) < 40, "the README stays a short front page"
 
 
@@ -534,8 +534,7 @@ def test_labs_have_completion_checks_and_optional_work() -> None:
     for path in active_lab_guides():
         text = path.read_text(encoding="utf-8")
         assert "**Done when:**" in text, path
-        # The extras page is optional work in itself.
-        assert "## Optional extras" in text or path.name == "EXTRAS.md", path
+        assert "## Optional extras" in text, path
 
 
 def test_labs_link_official_references() -> None:
@@ -668,8 +667,7 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     assert "type `/exit`, then `copilot`" in flat, "the CLI loads new agents when it starts"
     assert "pytest checks" in guide and "from website import Page" in guide
     assert "**Break it on purpose:**" in guide and "How to build and run" in guide
-    for target in ("EXTRAS.md#1-copilot-uses-tools-mcp", "EXTRAS.md#2-teach-copilot-about-your-project",
-                   "DAY-4.md"):
+    for target in ("DAY-4.md",):
         assert target in guide
     # The template ships the test helper, prompts and ticket template, never the finished agent, skill, or tests.
     assert not Path(".github/skills/user-stories").exists()
@@ -756,27 +754,29 @@ def test_cloud_agent_lab_delegates_an_approved_ticket() -> None:
     assert "site/index.html" in template and "fictional" in template
 
 
-def test_optional_day_three_labs_use_simple_reviewed_tools() -> None:
-    """MCP is read-only, the browser check uses the learner's page, and the picture skill is learner-written."""
-    extras = Path("docs/EXTRAS.md").read_text(encoding="utf-8")
-    mcp = extras.split("\n## 1. Copilot Uses Tools (MCP)", 1)[1].split("\n## ", 1)[0]
-    assert "https://api.githubcopilot.com/mcp/readonly" in mcp and "**An optional extra" in mcp
-    assert "open the **.vscode** folder and select **mcp.json**" in mcp and "Select **Start**" in mcp
-    assert "### Watch Copilot Use a Browser" in mcp and "nothing to set up" in mcp
-    assert "setup.sh browser" not in extras and "uvicorn" not in extras and "Playwright" not in extras
-    customization = extras.split("\n## 2. Teach Copilot About Your Project", 1)[1].split("\n## ", 1)[0]
-    assert "**An optional extra" in customization
-    assert ".github/instructions/my-website.instructions.md" in customization
-    assert ".github/skills/make-image/SKILL.md" in customization
-    assert "python3 scripts/workshop_ai.py image" in customization and "no real people" in customization
-    assert "`/add-chat`" in customization and "it can be wrong, so you check" in customization
-    assert Path(".github/skills/add-chat/SKILL.md").is_file(), "the chat skill is prepared; the picture skill is not"
+def test_quick_commands_bring_template_fixes_safely() -> None:
+    """Owner, 25 October 2026: one prompts page replaces the extras, led by the template-fixes prompt."""
+    commands = " ".join(re.sub(r"\n\s*> ?", "\n", Path("docs/QUICK-COMMANDS.md").read_text(encoding="utf-8")).split())
+    fixes = commands.split("## Get the Workshop's Latest Fixes", 1)[1].split("## ", 1)[0]
+    assert "run python3 scripts/update_from_template.py" in fixes
+    assert "Create a new branch called workshop-fixes" in fixes and "From Thursday on" in fixes
+    assert "never force-push" in commands and "None of these ever force-push" in commands
+    for command in ("/create-website", "/start-website", "/stop-website", "/add-chart", "/add-chat",
+                    "/publish-website", "pytest checks"):
+        assert f"`{command}" in commands, command
+    assert Path("scripts/update_from_template.py").is_file()
+    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
+    assert "](QUICK-COMMANDS.md)" in quick_reference and "update_from_template" not in quick_reference
+    # The read-only GitHub server stays the repository's only MCP server.
+    assert "https://api.githubcopilot.com/mcp/readonly" in Path(".vscode/mcp.json").read_text(encoding="utf-8")
+    assert Path(".github/skills/add-chat/SKILL.md").is_file()
 
 
 def test_attendee_pages_stand_alone_for_first_time_users() -> None:
     """Beginners never need the presenter's pages, which live outside the template."""
     days = [Path(f"docs/DAY-{day}.md") for day in range(1, 6)]
-    for path in [Path("README.md"), Path("docs/QUICK-REFERENCE.md"), *active_lab_guides()]:
+    for path in [Path("README.md"), Path("docs/QUICK-REFERENCE.md"), Path("docs/QUICK-COMMANDS.md"),
+                 *active_lab_guides()]:
         text = path.read_text(encoding="utf-8")
         for presenter_page in ("AGENDA.md", "FACILITATOR.md", "REFERENCES.md", "PREREQS.md"):
             assert presenter_page not in text, (path, presenter_page)
@@ -788,5 +788,5 @@ def test_attendee_pages_stand_alone_for_first_time_users() -> None:
     assert "| Ask | In Chat: Copilot only answers." in words
     assert "| Agent | In Chat: Copilot can change your files." in words
     assert sorted(path.name for path in Path("docs").glob("*.md")) == [
-        "DAY-1.md", "DAY-2.md", "DAY-3.md", "DAY-4.md", "DAY-5.md", "EXTRAS.md", "QUICK-REFERENCE.md"
-    ], "attendees get one guide per day, the quick reference, and the extras"
+        "DAY-1.md", "DAY-2.md", "DAY-3.md", "DAY-4.md", "DAY-5.md", "QUICK-COMMANDS.md", "QUICK-REFERENCE.md"
+    ], "attendees get one guide per day, the quick reference, and the quick commands"

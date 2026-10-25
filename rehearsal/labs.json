@@ -122,8 +122,8 @@
       },
       "optional_checks": {
         "vscode-agent": "The same agent file chosen in VS Code Chat's agent picker and its answer compared with Copilot CLI",
-        "github-mcp": "Optional MCP extra: read-only GitHub MCP started, no write tools, recent commits matched GitHub",
-        "teach-copilot": "Optional Teach Copilot extra: instructions file, learner make-image skill, and /add-chat with the FOUNDRY_* workshop identity",
+        "github-mcp": "Optional: the read-only GitHub MCP server in .vscode/mcp.json started in VS Code Chat, no write tools, recent commits matched GitHub",
+        "teach-copilot": "Optional Day 3 extra: /add-chat added to the page and one answer checked against the page, with the FOUNDRY_* workshop identity",
         "browser-demo": "Optional presenter browser-tools demonstration rehearsed in the presenter's Codespace"
       }
     },
