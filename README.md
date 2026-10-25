@@ -110,15 +110,16 @@ GitHub; pushing does.
 7. Stay in this chat all day; you do not need a new one. Ask: "What is in the docs folder?"
    **Check:** open the **docs** folder in the **Explorer**. Does Copilot's list match the files
    you see?
-8. Now ask it precisely: "Outline each day in a maximum of 5 words."
-   **Check:** one line per day, and count the words: 5 or fewer each? Compare with your
-   neighbor: much closer than the table names. A precise question gets you what you asked for.
-   You did not start over: you told Copilot what you wanted. You can always ask again, or say
-   that something is wrong.
+8. Now ask it precisely: "Reply with exactly 5 bullet points, Monday to Friday, one per day,
+   each 5 words or fewer. No other text."
+   **Check:** 5 bullets, one per day, and count the words: 5 or fewer each? Compare with your
+   neighbor: the same shape, much closer than the table names. A precise question gets you what
+   you asked for. You did not start over: you told Copilot what you wanted. You can always ask
+   again, or say that something is wrong.
 
-Then just watch: the presenter shows that **Ask** cannot change a file, then gives
-**GenericAgent**, a blank helper in every copy, a new tool and a new job. You make your own
-helpers on Wednesday.
+Then just watch: the presenter shows that **Ask** cannot change a file, then shows that
+**GenericAgent**, a blank helper in every copy, cannot go online until it is given one more
+tool. You make your own helpers on Wednesday.
 
 **Done when:** you have your own private repository in agentic-dev-labs, its Codespace is open,
 you compared Copilot's table name with someone else's, and you asked Copilot a question and a

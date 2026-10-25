@@ -66,8 +66,9 @@ rehearsal and hosting notes, post-workshop guides and agents, and facilitator sk
 in the git-ignored `final-workshop-david/` folder; it left the template on 23 October 2026, and
 earlier commits still contain it. Keep that folder out of commits and Docker build contexts. The template is a starting
 point, not the solution: it ships an empty `site/` (README only), no learner-made skills or
-instructions, and one agent: the blank `GenericAgent` placeholder that Monday's demo turns into a
-Joker (owner-approved 23 October 2026). CI checks this on the template repository. A green
+instructions, and one agent: the blank `GenericAgent` placeholder (`tools: ["read", "search"]`)
+that Monday's guardrail demo shows cannot go online until `"execute"` is added (owner, 25 October
+2026; Day 1 has no Joker or instructions demo). CI checks this on the template repository. A green
 offline suite is not a live
 Codespaces or Dataverse dry run.
 
