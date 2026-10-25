@@ -9,12 +9,13 @@ import re
 from collections.abc import Mapping
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
 from app.config import load
+from app.page_chat import ChatError, PageChat
 
 SITE_DIRECTORY = Path(__file__).resolve().parents[1] / "site"
 # What a website may publish. The publisher leaves anything else in site/ out, with a note.
@@ -137,10 +138,23 @@ class WebsiteFiles(StaticFiles):
             return await super().get_response(str(Path(*parts[2:])), scope)
 
 
-def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None) -> FastAPI:
+def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None,
+               chat: PageChat | None = None) -> FastAPI:
     """Use the same static serving and health contract in Codespaces and Container Apps."""
     application = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     slot = website_slot()
+    page_chat = chat or PageChat()
+
+    @application.post("/api/ask")
+    def ask(question: dict, request: Request) -> JSONResponse:
+        """The "Ask my page" bubble on a published website: one short question about the page."""
+        if int(request.headers.get("content-length") or 0) > 32 * 1024:
+            return JSONResponse({"ok": False, "error": "That question is too long."}, status_code=413)
+        try:
+            answer = page_chat.ask(question.get("question"), question.get("page"), question.get("title"))
+        except ChatError as error:
+            return JSONResponse({"ok": False, "error": str(error)})
+        return JSONResponse({"ok": True, "answer": answer})
 
     @application.get("/healthz")
     def health() -> JSONResponse:

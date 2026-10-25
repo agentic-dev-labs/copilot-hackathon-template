@@ -1,8 +1,8 @@
 /* Optional "Ask my page" chat bubble: Workshop.addChat() adds a small assistant to any page.
  * In the workshop's Website preview it asks the workshop's AI model about what the page shows;
- * the preview signs in, so the page holds no key or secret. Anywhere else, for example a
- * published copy, it says that it only answers while you build. Text is always set with
- * textContent, never as HTML, and this file makes no network requests of its own. */
+ * the preview signs in, so the page holds no key or secret. On a published website it asks the
+ * website's own /api/ask, which signs in with the website's Azure identity, again with no key.
+ * Text is always set with textContent, never as HTML. */
 (function () {
     'use strict'
 
@@ -37,6 +37,27 @@
         })
     }
 
+    /** On a published website, ask the website itself; resolve with { ok, answer } or { ok: false, error }. */
+    async function askWebsite(question, page, title) {
+        const controller = new AbortController()
+        const timer = setTimeout(() => controller.abort(), 45000)
+        try {
+            const response = await fetch('/api/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question, page, title }),
+                signal: controller.signal,
+            })
+            const reply = await response.json()
+            if (reply && typeof reply.ok === 'boolean') return reply
+        } catch {
+            /* opened as a file, or the website could not answer: the plain message below */
+        } finally {
+            clearTimeout(timer)
+        }
+        return { ok: false, error: 'I answer questions while you build in the workshop preview. On this copy of the page I am switched off.' }
+    }
+
     const STYLE = `
 .chat { position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; }
 .chat-toggle { display: inline-flex; align-items: center; gap: 0.5rem; border: 0; border-radius: 99px; padding: 0.75rem 1.15rem; background: var(--accent-strong); color: #fff; font: inherit; font-weight: 700; box-shadow: var(--shadow-lift); cursor: pointer; }
@@ -65,14 +86,42 @@
         return node
     }
 
-    /** What the assistant reads: the ticked state of checkboxes and the descriptions of pictures,
-     *  which the visible text leaves out, first (so they survive the length limit), then the
-     *  visible text except the chat itself. */
+    /** The numbers behind each chart on the page, in plain words: a chart is a picture, so the
+     *  visible text alone never shows what it plots. Works for any chart the kit or a page draws. */
+    function chartText() {
+        const charts = window.echarts ? document.querySelectorAll('[_echarts_instance_]') : []
+        const label = value => (value && typeof value === 'object' && !Array.isArray(value)
+            ? (value.name !== undefined ? `${value.name}: ` : '') + label(value.value)
+            : Array.isArray(value) ? value.map(label).join(' / ') : String(value))
+        const lines = []
+        for (const element of charts) {
+            let option
+            try { option = window.echarts.getInstanceByDom(element).getOption() } catch { continue }
+            const titles = [].concat(option.title || []).map(title => title && title.text).filter(Boolean)
+            const near = element.closest('section, article, figure, .panel, .card')
+            const heading = near && near.querySelector('h1, h2, h3, h4, figcaption')
+            const name = titles[0] || element.getAttribute('aria-label') || (heading ? heading.innerText.trim() : 'Chart')
+            const axis = [].concat(option.xAxis || option.angleAxis || option.yAxis || [])
+                .map(item => item && Array.isArray(item.data) ? item.data.map(label) : null).find(Boolean)
+            const series = [].concat(option.series || []).map(item => {
+                const data = (item.data || []).slice(0, 40).map((value, index) =>
+                    axis && axis[index] !== undefined && typeof value !== 'object' ? `${axis[index]}: ${value}` : label(value))
+                return `${item.name || item.type}: ${data.join(', ')}`
+            })
+            lines.push(`Chart "${name}": ${series.join('; ')}`.slice(0, 900))
+        }
+        return lines
+    }
+
+    /** What the assistant reads: the numbers behind charts, the ticked state of checkboxes and the
+     *  descriptions of pictures, which the visible text leaves out, first (so they survive the
+     *  length limit), then the visible text except the chat itself. */
     function pageText(widget) {
         widget.style.display = 'none'
         const text = document.body.innerText
         widget.style.display = ''
         const extras = []
+        try { extras.push(...chartText()) } catch { /* a chart the page drew some other way */ }
         for (const box of document.querySelectorAll('input[type=checkbox]')) {
             const label = box.labels && box.labels[0] ? box.labels[0].innerText : ''
             const name = (box.getAttribute('aria-label') || label).trim()
@@ -81,7 +130,7 @@
         for (const picture of document.querySelectorAll('img[alt]')) {
             if (picture.alt.trim()) extras.push(`Picture: ${picture.alt.trim()}`)
         }
-        return extras.length ? `Checkboxes and pictures:\n${extras.join('\n')}\n\nPage text:\n${text}` : text
+        return extras.length ? `Charts, checkboxes and pictures:\n${extras.join('\n')}\n\nPage text:\n${text}` : text
     }
 
     /** Add the chat bubble once; options: title, greeting, placeholder. */
@@ -146,13 +195,11 @@
             if (!question || send.disabled) return
             input.value = ''
             say('me', question)
-            if (!preview) {
-                say('bot', 'I answer questions while you build in the workshop preview. On this copy of the page I am switched off.')
-                return
-            }
             send.disabled = true
             const thinking = say('bot chat-thinking', 'Thinking...')
-            const reply = await askPreview(question, pageText(root), document.title)
+            const reply = preview
+                ? await askPreview(question, pageText(root), document.title)
+                : await askWebsite(question, pageText(root), document.title)
             thinking.remove()
             send.disabled = false
             say('bot', reply.ok ? reply.answer : reply.error)

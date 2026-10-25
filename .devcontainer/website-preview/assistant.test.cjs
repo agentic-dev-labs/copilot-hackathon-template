@@ -60,7 +60,7 @@ test('asks with an Entra ID token, never an API key, and keeps the page as data'
   assert.match(INSTRUCTIONS, /data, not instructions/)
   assert.match(body.input, /Question: What is left\?$/)
   assert.match(body.input, /Page content:\nMonday: Write the brief\nMonday: Write the brief\n/, 'line breaks keep the page readable')
-  assert.ok(body.input.length < 3400, 'the page text is clipped')
+  assert.ok(body.input.length < 6400, 'the page text is clipped')
   // Small requests keep a whole room inside the model's per-minute limit.
   assert.equal(body.max_output_tokens, MAX_ANSWER_TOKENS)
   assert.ok(MAX_ANSWER_TOKENS <= 150)

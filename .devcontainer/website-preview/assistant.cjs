@@ -12,7 +12,7 @@ const MODELS = ['gpt-5.6-luna', 'gpt-5.5']
 // Small on purpose, so a whole room asking at once stays far inside the model's per-minute limit:
 // a question is about 200 tokens in, 20 out, no reasoning, and Azure counts MAX_ANSWER_TOKENS too.
 const MAX_QUESTION = 200
-const MAX_PAGE = 3000
+const MAX_PAGE = 6000
 const MAX_ANSWER_TOKENS = 150
 const PER_MINUTE = 10
 const NOT_READY = 'The page assistant is not switched on in this Codespace yet. Ask a helper.'

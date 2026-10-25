@@ -58,6 +58,10 @@ env:
   CONTAINER_ENVIRONMENT: cae-hackathon
   REGISTRY: acrnnhackathon2026
   PULL_IDENTITY: nn-hackathon-pull
+  # "Ask my page" on published websites: the websites' identity (nn-hackathon-pull, client ID below)
+  # holds only the Cognitive Services OpenAI User role on this Foundry resource. Both are names only.
+  PULL_IDENTITY_CLIENT_ID: 8558abbe-ffc6-41a1-b984-b9534eac8962
+  FOUNDRY_RESOURCE: foundry-sweden-alfarahn
   WEBSITE_DOMAIN: thankfulrock-bf005377.eastus.azurecontainerapps.io
   # Workshop week: 1 keeps every website awake (about USD 0.19 a day each), so a publish is checked
   # straight away and the first visit never waits. Set it back to 0 after the workshop to let idle
@@ -277,7 +281,7 @@ jobs:
           jq -n --arg location "$LOCATION" --arg environment "$ENVIRONMENT_ID" --arg identity "$PULL_IDENTITY_ID" \
             --arg registry "$REGISTRY.azurecr.io" --arg image "$IMAGE" --arg commit "$PUBLISH_COMMIT" \
             --arg slot "$WEBSITE_SLOT" --arg version "$WEBSITE_VERSION" --arg build "$GITHUB_RUN_NUMBER" \
-            --arg pullRequest "$PULL_REQUEST" \
+            --arg pullRequest "$PULL_REQUEST" --arg foundry "$FOUNDRY_RESOURCE" --arg chatIdentity "$PULL_IDENTITY_CLIENT_ID" \
             --arg owner "$REPOSITORY_ID" --arg repository "$GITHUB_REPOSITORY" --argjson awake "$MIN_REPLICAS" '{
               location: $location,
               tags: {"github-repository-id": $owner, "github-repository": $repository, "website-slot": $slot,
@@ -298,6 +302,7 @@ jobs:
                     env: [
                       {name: "WORKSHOP_COMMIT", value: $commit}, {name: "WEBSITE_SLOT", value: $slot},
                       {name: "WEBSITE_VERSION", value: $version}, {name: "WEBSITE_BUILD", value: $build},
+                      {name: "FOUNDRY_RESOURCE", value: $foundry}, {name: "AZURE_CLIENT_ID", value: $chatIdentity},
                       {name: "WEBSITE_PULL_REQUEST", value: $pullRequest}
                     ]
                   }],

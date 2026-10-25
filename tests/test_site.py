@@ -213,13 +213,14 @@ def board_columns(page: Path) -> list[str]:
 
 
 def test_chat_bubble_is_optional_safe_and_holds_no_secret() -> None:
-    """The chat kit file talks only to the preview; it never calls a service or renders HTML."""
+    """The chat kit talks to the preview, or on a published website only to its own /api/ask."""
     chat = (KIT.parent / "workshop-chat.js").read_text(encoding="utf-8")
     assert "innerHTML" not in chat and "eval(" not in chat and not re.search(r"https?://", chat)
-    assert "fetch(" not in chat and "XMLHttpRequest" not in chat
+    assert re.findall(r"fetch\(([^,]+),", chat) == ["'/api/ask'"], "only its own website, never another service"
+    assert "XMLHttpRequest" not in chat
     assert "acquireVsCodeApi()" in chat and chat.count("acquireVsCodeApi()") == 1
     assert "'workshop.ask'" in chat and "'workshop.answer'" in chat
-    assert "switched off" in chat
+    assert "switched off" in chat, "a page opened as a file says so plainly"
     assert "box.checked ? 'Ticked' : 'Not ticked'" in chat, "the assistant can tell which boxes are ticked"
     assert "Picture: ${picture.alt.trim()}" in chat, "the assistant can tell what pictures show"
     assert "window.Workshop = Object.assign(window.Workshop || {}, { addChat })" in chat

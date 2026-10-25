@@ -6,7 +6,7 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-dev --extra web --no-install-project
 
-COPY app/__init__.py app/config.py app/site.py ./app/
+COPY app/__init__.py app/config.py app/site.py app/page_chat.py ./app/
 COPY config.json ./
 COPY site ./site
 
