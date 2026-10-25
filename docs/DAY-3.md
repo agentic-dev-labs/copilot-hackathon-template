@@ -76,7 +76,7 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
    Terminal**. Make it tall enough to read Copilot's questions: drag the line above it upwards,
    or select **Maximize Panel Size** (the square at its top right). Type `copilot` and press
    Enter. If it asks whether you trust this folder, choose yes.
-6. **Signed in?** The bottom line shows a model name, such as **GPT-6.1 Sol**, when Copilot is
+6. **Signed in?** The bottom line shows a model name when Copilot is
    ready. If it asks you to sign in instead, type `/login`, press Enter, and choose the first
    option. Copilot shows a short code. Open [github.com/login/device](https://github.com/login/device)
    in a new browser tab, type the code, and select **Authorize**. Never paste a password or token
