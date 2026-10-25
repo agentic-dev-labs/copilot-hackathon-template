@@ -184,6 +184,40 @@ jobs:
           name: website-files
           path: site
 
+      # Attendees can put anything in site/. Publish only what a website can use and leave the rest
+      # out with a note, instead of failing. The list matches ALLOWED_EXTENSIONS in app/site.py,
+      # plus Markdown notes, which are never served.
+      - name: Leave out files a website cannot use
+        run: |
+          cd site
+          LEFT_OUT=()
+          while IFS= read -r -d '' path; do
+            LEFT_OUT+=("${path#./}")
+            rm -rf -- "$path"
+          done < <(find . -mindepth 1 \( -name '.*' -o -type l \) -prune -print0)
+          while IFS= read -r -d '' path; do
+            name="${path#./}"
+            extension=".${name##*.}"
+            case "${extension,,}" in
+              .html|.css|.js|.json|.png|.jpg|.jpeg|.gif|.webp|.avif|.svg|.ico|.woff|.woff2|.ttf|.mp3|.mp4|.webm|.ogg|.wav|.csv|.txt|.md) ;;
+              *) LEFT_OUT+=("$name"); rm -f -- "$path"; continue ;;
+            esac
+            size="$(stat -c %s -- "$path")"
+            if [ "$size" -eq 0 ] || [ "$size" -gt $((8 * 1024 * 1024)) ]; then
+              LEFT_OUT+=("$name (empty or over 8 MiB)")
+              rm -f -- "$path"
+            fi
+          done < <(find . -type f -print0)
+          if [ "${#LEFT_OUT[@]}" -gt 0 ]; then
+            {
+              echo "### Left out of your website"
+              echo
+              echo "These files in site/ are not web files, so they were not published. Your copies are unchanged:"
+              printf -- '- `%s`\n' "${LEFT_OUT[@]}"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "::notice::${#LEFT_OUT[@]} file(s) in site/ were left out of the website. See the run summary."
+          fi
+
       # Day 4: the caller can pass a version, such as 1.0.<run number>. The page can show it from
       # version.json; the content fingerprint ignores this file (see app/site.py).
       - name: Write the version into the website

@@ -10,6 +10,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
+from app import site as site_module
 from app.config import deployment_name, slugify
 from app.site import create_app, site_manifest, slot_banner
 
@@ -82,24 +83,37 @@ def test_own_idea_pages_open_by_their_folder_address(website: Path) -> None:
 
 
 def test_idea_pages_find_the_shared_kit_without_rewritten_paths(website: Path) -> None:
-    """A page in site/ideas/ asking for css/, js/, art/ or fonts/ next to itself gets the kit's file."""
+    """A page in site/ideas/ asking for any shared file next to itself gets site/'s file, never its data."""
     idea = website / "ideas" / "team-lunch"
     (idea / "data").mkdir(parents=True)
     (idea / "index.html").write_text(HTML, encoding="utf-8")
     (idea / "data" / "items.json").write_text("{}", encoding="utf-8")
-    for folder, name in (("css", "workshop.css"), ("js", "workshop.js"), ("art", "monday.svg")):
+    for folder, name in (("css", "workshop.css"), ("js", "workshop.js"), ("art", "monday.svg"),
+                         ("images", "my-photo.jpg")):
         (website / folder).mkdir(exist_ok=True)
         (website / folder / name).write_text(f"/* {name} */", encoding="utf-8")
+    (website / "logo.png").write_text("logo", encoding="utf-8")
     (website / "data").mkdir()
     (website / "data" / "tasks.json").write_text("[]", encoding="utf-8")
     client = TestClient(create_app(website))
     assert client.get("/ideas/team-lunch/css/workshop.css").text == "/* workshop.css */"
     assert client.get("/ideas/team-lunch/js/workshop.js").status_code == 200
     assert client.get("/ideas/team-lunch/art/monday.svg").status_code == 200
+    assert client.get("/ideas/team-lunch/images/my-photo.jpg").status_code == 200, "the learner's own pictures"
+    assert client.get("/ideas/team-lunch/logo.png").text == "logo"
     assert client.get("/ideas/team-lunch/data/items.json").text == "{}"
     assert client.get("/ideas/team-lunch/data/tasks.json").status_code == 404, "never another page's data"
     assert client.get("/ideas/team-lunch/art/missing.svg").status_code == 404
     assert client.get("/ideas/team-lunch/.env").status_code == 404
+
+
+def test_publisher_leaves_out_what_the_server_would_never_publish() -> None:
+    """The publisher's keep-list matches the server's, so attendee files never fail a publish."""
+    publisher = Path(".github/workflows/website-publisher.yml").read_text(encoding="utf-8")
+    kept = re.search(r"case \"\$\{extension,,\}\" in\n\s+([^)]+)\)", publisher).group(1).split("|")
+    assert set(kept) == site_module.ALLOWED_EXTENSIONS | {".md"}
+    assert "Leave out files a website cannot use" in publisher and "$((8 * 1024 * 1024))" in publisher
+    assert site_module.MAX_FILE_BYTES == 8 * 1024 * 1024
 
 
 def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> None:
@@ -345,7 +359,7 @@ def test_missing_site_and_invalid_markup_are_not_ready(tmp_path: Path, website: 
 def test_oversized_asset_is_rejected(website: Path, monkeypatch) -> None:
     """Bound asset reads and deployment validation responses."""
     monkeypatch.setattr("app.site.MAX_FILE_BYTES", 10)
-    with pytest.raises(ValueError, match="2 MiB"):
+    with pytest.raises(ValueError, match="nonempty and at most"):
         site_manifest(website)
 
 

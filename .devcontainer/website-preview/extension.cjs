@@ -30,23 +30,25 @@ function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, character => `&#${character.charCodeAt(0)};`)
 }
 
-// A second website in site/ideas/<name>/ shares the kit in site/css, js, art and fonts. Point any
-// shared file the page cannot find next to itself to the kit, so a missed ../../ never breaks it.
-// The page's own data/ folder is never redirected.
+// A second website in site/ideas/<name>/ shares files with the first page: the kit in css/, js/,
+// art/ and fonts/, and any picture or file the learner added to site/. Point any file the page
+// cannot find next to itself to site/, so a missed ../../ never breaks it. The page's own data/
+// folder is never redirected, so it never shows another page's entries.
 function pointSharedFiles(source, pageDirectory, siteDirectory) {
   if (path.resolve(pageDirectory) === path.resolve(siteDirectory)) return source
   const shared = path.relative(pageDirectory, siteDirectory).split(path.sep).join('/')
-  const kitFile = value => {
+  const sharedFile = value => {
+    if (/^(?:[a-z][a-z0-9+.-]*:|\/|#|\.\.\/)/i.test(value)) return false
     const file = value.replace(/^\.\//, '').split(/[?#]/)[0]
-    return /^(?:css|js|art|fonts)\/[^/]/.test(file) && !fs.existsSync(path.join(pageDirectory, file))
-      && fs.existsSync(path.join(siteDirectory, file))
+    return Boolean(file) && !/^data\//.test(file) && !file.split('/').some(part => part === '..')
+      && !fs.existsSync(path.join(pageDirectory, file)) && fs.existsSync(path.join(siteDirectory, file))
   }
   return source
-    .replace(/(\s(?:src|href)=")([^"]+)"/gi, (match, prefix, value) =>
-      kitFile(value) ? `${prefix}${shared}/${value.replace(/^\.\//, '')}"` : match)
+    .replace(/(\s(?:src|href|poster)=")([^"]+)"/gi, (match, prefix, value) =>
+      sharedFile(value) ? `${prefix}${shared}/${value.replace(/^\.\//, '')}"` : match)
     // The game imports three.js with an ES module import rather than a src attribute.
     .replace(/(\bfrom\s*|\bimport\s*\(\s*)(['"])(\.\/[^'"]+)\2/g, (match, prefix, quote, value) =>
-      kitFile(value) ? `${prefix}${quote}${shared}/${value.slice(2)}${quote}` : match)
+      sharedFile(value) ? `${prefix}${quote}${shared}/${value.slice(2)}${quote}` : match)
 }
 
 function siteDirectoryOf(target) {
@@ -60,7 +62,7 @@ function renderHtml(vscode, webview, target) {
     target.directory, siteDirectoryOf(target))
   const base = `${webview.asWebviewUri(vscode.Uri.file(target.directory))}/`
   const resources = webview.cspSource
-  const policy = `default-src 'none'; img-src ${resources} data:; font-src ${resources}; style-src ${resources} 'unsafe-inline'; script-src ${resources} 'unsafe-inline'; connect-src ${resources} ${ALLOWED_APIS.join(' ')}; form-action 'none'`
+  const policy = `default-src 'none'; img-src ${resources} data:; media-src ${resources}; font-src ${resources}; style-src ${resources} 'unsafe-inline'; script-src ${resources} 'unsafe-inline'; connect-src ${resources} ${ALLOWED_APIS.join(' ')}; form-action 'none'`
   const head = `<meta http-equiv="Content-Security-Policy" content="${policy}"><base href="${base}">`
   return /<head[^>]*>/i.test(source) ? source.replace(/<head[^>]*>/i, match => match + head) : head + source
 }

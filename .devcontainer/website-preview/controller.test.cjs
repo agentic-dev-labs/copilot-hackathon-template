@@ -211,7 +211,7 @@ test('an idea page finds the shared kit even when its paths were not rewritten',
   const { workspace } = fixture(context)
   const site = path.join(fs.realpathSync(workspace), 'site')
   const idea = path.join(site, 'ideas', 'team-lunch')
-  for (const file of ['css/workshop.css', 'js/workshop.js', 'js/vendor/three.module.js', 'art/monday.svg']) {
+  for (const file of ['css/workshop.css', 'js/workshop.js', 'js/vendor/three.module.js', 'art/monday.svg', 'images/my-photo.jpg', 'data/items.json']) {
     fs.mkdirSync(path.dirname(path.join(site, file)), { recursive: true })
     fs.writeFileSync(path.join(site, file), 'kit')
   }
@@ -219,6 +219,7 @@ test('an idea page finds the shared kit even when its paths were not rewritten',
   fs.writeFileSync(path.join(idea, 'data', 'items.json'), '{}')
   const page = '<link rel="stylesheet" href="css/workshop.css"><script src="./js/workshop.js"></script>'
     + '<img src="art/monday.svg"><img src="../../art/monday.svg"><a href="data/items.json">data</a>'
+    + '<img src="images/my-photo.jpg"><a href="https://example.com/x">link</a>'
     + "<script type=\"module\">import * as THREE from './js/vendor/three.module.js'</script>"
   fs.writeFileSync(path.join(idea, 'index.html'), `<html><head></head><body>${page}</body></html>`)
   const fixed = pointSharedFiles(page, idea, site)
@@ -226,7 +227,9 @@ test('an idea page finds the shared kit even when its paths were not rewritten',
   assert.ok(fixed.includes('src="../../js/workshop.js"'))
   assert.equal((fixed.match(/src="\.\.\/\.\.\/art\/monday\.svg"/g) || []).length, 2, 'already-correct paths stay as they are')
   assert.ok(fixed.includes("from '../../js/vendor/three.module.js'"))
-  assert.ok(fixed.includes('href="data/items.json"'), 'the page keeps its own data')
+  assert.ok(fixed.includes('href="data/items.json"'), 'the page keeps its own data, even when site/ has one too')
+  assert.ok(fixed.includes('src="../../images/my-photo.jpg"'), "the learner's own pictures are found too")
+  assert.ok(fixed.includes('href="https://example.com/x"'), 'web addresses are never changed')
   assert.equal(pointSharedFiles(page, site, site), page, 'the first page is never changed')
   const vscode = { workspace: { textDocuments: [] }, Uri: { file: value => value } }
   const webview = { cspSource: 'vscode-webview:', asWebviewUri: value => `webview:${value}` }

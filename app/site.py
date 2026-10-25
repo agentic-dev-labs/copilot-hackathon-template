@@ -17,15 +17,16 @@ from starlette.exceptions import HTTPException
 from app.config import load
 
 SITE_DIRECTORY = Path(__file__).resolve().parents[1] / "site"
+# What a website may publish. The publisher leaves anything else in site/ out, with a note.
 ALLOWED_EXTENSIONS = {
-    ".html", ".css", ".js", ".json", ".png", ".jpg", ".jpeg", ".gif", ".webp",
-    ".svg", ".ico", ".woff", ".woff2", ".ttf",
+    ".html", ".css", ".js", ".json", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif",
+    ".svg", ".ico", ".woff", ".woff2", ".ttf", ".mp3", ".mp4", ".webm", ".ogg", ".wav",
+    ".csv", ".txt",
 }
-MAX_FILE_BYTES = 2 * 1024 * 1024
-MAX_SITE_BYTES = 20 * 1024 * 1024
-MAX_FILES = 100
-# The kit folders every page shares, from the first page and from site/ideas/<name>/.
-SHARED_KIT_FOLDERS = {"css", "js", "art", "fonts"}
+# Room for many AI pictures and gallery photos across a first page and several ideas.
+MAX_FILE_BYTES = 8 * 1024 * 1024
+MAX_SITE_BYTES = 80 * 1024 * 1024
+MAX_FILES = 400
 # Build details the publisher writes on each release. They are served but kept out of the content
 # fingerprint, so rolling back to a known-good page shows the known-good fingerprint again.
 VERSION_FILE = "version.json"
@@ -77,10 +78,10 @@ def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
             raise ValueError("Only HTML, CSS, JS, JSON, images, and fonts belong in site/")
         size = path.stat().st_size
         if not 0 < size <= MAX_FILE_BYTES:
-            raise ValueError("Every published asset must be nonempty and at most 2 MiB")
+            raise ValueError(f"Every published file must be nonempty and at most {MAX_FILE_BYTES // 2**20} MiB")
         total += size
         if total > MAX_SITE_BYTES or len(files) >= MAX_FILES:
-            raise ValueError("The workshop site is limited to 100 files and 20 MiB total")
+            raise ValueError(f"The workshop site is limited to {MAX_FILES} files and {MAX_SITE_BYTES // 2**20} MiB total")
         if relative.as_posix() == VERSION_FILE:
             continue
         files[relative.as_posix()] = hashlib.sha256(path.read_bytes()).hexdigest()
@@ -126,12 +127,12 @@ class WebsiteFiles(StaticFiles):
         try:
             return await super().get_response(path, scope)
         except HTTPException as missing:
-            # A second website in site/ideas/<name>/ shares the kit in site/css, js, art and fonts.
-            # A shared file it asks for next to itself (a missed ../../) comes from the kit instead.
-            # Its own data/ folder is never redirected.
+            # A second website in site/ideas/<name>/ shares files with the first page: the kit in
+            # css/, js/, art/ and fonts/, and any picture or file the learner added to site/. A file
+            # it asks for next to itself (a missed ../../) comes from site/ instead. Its own data/
+            # folder is never redirected, so it never shows another page's entries.
             parts = relative.parts
-            if missing.status_code != 404 or len(parts) < 4 or parts[0] != "ideas" \
-                    or parts[2] not in SHARED_KIT_FOLDERS:
+            if missing.status_code != 404 or len(parts) < 3 or parts[0] != "ideas" or parts[2] == "data":
                 raise
             return await super().get_response(str(Path(*parts[2:])), scope)
 

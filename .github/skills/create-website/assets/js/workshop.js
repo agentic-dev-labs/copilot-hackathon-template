@@ -12,15 +12,15 @@
         return kitRoot ? new URL(file, kitRoot).href : file
     }
 
-    // Safety net: a picture built as 'art/...' in a page's own code that fails to load is tried once
-    // more from the shared kit folder.
+    // Safety net: a picture in a second website (site/ideas/<name>/) that fails to load is tried
+    // once more from site/, where the first page and the kit keep their pictures.
     if (kitRoot && typeof window.addEventListener === 'function') window.addEventListener('error', event => {
         const image = event.target
         if (!(image instanceof HTMLImageElement) || image.dataset.kitRetry) return
-        const shared = /\/((?:art|fonts)\/[^/?#]+)$/.exec(new URL(image.src, location.href).pathname)
-        if (!shared || asset(shared[1]) === image.src) return
+        const retry = image.src.replace(/\/ideas\/[^/]+\/(?!data\/)/, '/')
+        if (retry === image.src) return
         image.dataset.kitRetry = 'yes'
-        image.src = asset(shared[1])
+        image.src = retry
     }, true)
 
     /** Remember one value in this browser. load() returns the fallback when nothing valid is saved. */
