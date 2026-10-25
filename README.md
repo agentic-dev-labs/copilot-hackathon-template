@@ -94,13 +94,12 @@ GitHub; pushing does.
 4. In the **Explorer**, the file list on the left, right-click **README.md** and choose
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
    its other tab.
-5. Open the menu with three lines at the top left and choose **View > Chat**. In the list at the
-   bottom of the chat box, choose **Ask**: it only answers and never changes your files.
-   Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
-   **Check:** the bottom of the chat box says **Local**. It says **Copilot** or **Manual
-   permissions** instead? Select **+** at the top of Chat, choose **Local** before you type
-   anything, then choose **Ask** again. Only a **Local** chat has a real **Ask** that cannot
-   change files.
+5. Open the menu with three lines at the top left and choose **View > Chat**. **Make it a Local
+   chat:** under the chat box, select the button that says **Copilot** and choose **Local**. Only
+   a Local chat keeps each helper inside its limits, so **Ask** cannot change files and a helper
+   without the right tools cannot go online. **Check:** that button now says **Local**. Then, in
+   the list at the bottom of the chat box, choose **Ask**: it only answers and never changes your
+   files. Only **Agent** in the list, or **Sign In** at the bottom right? Select **Sign In** once.
 6. **Same question, different answers.** Everyone asks Copilot the same thing. Type
    "Invent a fun name for my workshop table. Reply with the name only." and press Enter.
    **Check:** compare it with your neighbor's, or the presenter's on screen. Did you get the same
