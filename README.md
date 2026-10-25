@@ -44,11 +44,9 @@ only: no commands. Just watch; you make your own copy at 09:30.
    your facilitator sent you: the starting copy everyone uses. You see a list of files and,
    under them, this page.
 3. **Look around** while the presenter shows each part:
-   - **See every snapshot:** **Commits**, next to the clock icon.
    - **Read any file:** select a file name. Pages ending in `.md`, like this one, show nicely.
+   - **See every snapshot:** **Commits**, next to the clock icon.
    - **Look back in time:** open a file and select **History** to see how it changed.
-   - **Search:** press **/** on your keyboard and type a word.
-   - **To-do notes:** **Issues**. Later this week you will see how Copilot can pick one up.
 
 | Word       | Think of it as...                                                           |
 | ---------- | --------------------------------------------------------------------------- |
