@@ -103,9 +103,22 @@
             const name = titles[0] || element.getAttribute('aria-label') || (heading ? heading.innerText.trim() : 'Chart')
             const axis = [].concat(option.xAxis || option.angleAxis || option.yAxis || [])
                 .map(item => item && Array.isArray(item.data) ? item.data.map(label) : null).find(Boolean)
-            const series = [].concat(option.series || []).map(item => {
+            // 3D charts place each value at category positions: turn [x, y, height] into words.
+            const axis3D = key => [].concat(option[key] || [])
+                .map(item => item && Array.isArray(item.data) ? item.data.map(label) : null).find(Boolean)
+            const x3D = axis3D('xAxis3D')
+            const y3D = axis3D('yAxis3D')
+            const point = value => {
+                const raw = value && typeof value === 'object' && !Array.isArray(value) ? value.value : value
+                if (x3D && Array.isArray(raw) && raw.length >= 3) {
+                    const where = [x3D[raw[0]] ?? raw[0], y3D ? (y3D[raw[1]] ?? raw[1]) : null].filter(part => part !== null)
+                    return `${value.name ? `${value.name} ` : ''}${where.join(', ')}: ${label(raw[2])}`
+                }
+                return label(value)
+            }
+            const series = [].concat(option.series || []).filter(item => !item.silent).map(item => {
                 const data = (item.data || []).slice(0, 40).map((value, index) =>
-                    axis && axis[index] !== undefined && typeof value !== 'object' ? `${axis[index]}: ${value}` : label(value))
+                    axis && axis[index] !== undefined && typeof value !== 'object' ? `${axis[index]}: ${value}` : point(value))
                 return `${item.name || item.type}: ${data.join(', ')}`
             })
             lines.push(`Chart "${name}": ${series.join('; ')}`.slice(0, 900))

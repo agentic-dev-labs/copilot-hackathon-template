@@ -112,8 +112,8 @@ as files under `site/`, and `/add-chat` adds a bubble the Website preview answer
 chat model. Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY_*,
 private repositories only). On a published website the same bubble asks the website's own
 `/api/ask` (`app/page_chat.py`), which signs in with the websites' managed identity (Cognitive
-Services OpenAI User only) and limits each page to 20 short questions a minute and 400 a day
-(owner, 25 October 2026). Never use or add API keys, and never put credentials in files. Save
+Services OpenAI User only) and limits each page to 120 short questions a minute and 5,000 a day,
+so a whole room can ask one demo page at once (owner, 25 October 2026). Never use or add API keys, and never put credentials in files. Save
 the starter on GitHub before a separate own-idea page, and never replace the first page.
 
 Day 1's last block is reviewed, pushed work. Its optional website target publishes only `site/`:
