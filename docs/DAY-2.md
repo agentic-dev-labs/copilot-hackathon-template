@@ -47,19 +47,18 @@ Monday's page is never replaced. From Wednesday to Friday you can keep building 
 1. **Agree the first version (10 minutes).** Tell your helper your four answers and agree the
    smallest first version. Do not create any files yet.
 2. **Build or continue one page (35 minutes).** Keeping Monday's idea? Open it with
-   `/start-website` and its folder's name, such as `/start-website team-lunch`, and add your four
-   answers to its `brief.md`. A new idea? Run `/create-website` once, choose your own idea, and
-   describe it in one sentence. Copilot builds it in its own folder, such as
-   `site/ideas/team-lunch/`, with its own `brief.md`, and opens it beside Chat. Add your four
-   answers to that brief. To open it again later, type `/start-website` with your folder's name.
-3. **Save (15 minutes).** Save, review, commit, and push, then find your folder on GitHub. In your
-   brief, write one thing that works, one thing that does not work yet, and your next step.
+   `/start-website` and its folder's name, such as `/start-website team-lunch`. A new idea?
+   Run `/create-website` once, choose your own idea, and describe it in one sentence. Copilot
+   builds it in its own folder, such as `site/ideas/team-lunch/`, and opens it beside Chat. To
+   open it again later, type `/start-website` with your folder's name.
+3. **Save (15 minutes).** Save, review, commit, and push, then find your folder on GitHub. Tell
+   your helper one thing that works, one thing that does not work yet, and your next step.
 
 Save before 11:45: then Bill Leeson's talk, Building a Project Brain, runs until lunch.
 
 If you are not sure what to ask, try:
 
-> Read the brief.md in my idea's folder. Suggest the smallest first version of this page using
+> My idea: [your idea in one sentence]. Suggest the smallest first version of this page using
 > made-up sample data in the page. No database, login, API keys, integrations, or publishing.
 > Ask before replacing a file. After I say yes, build one feature and tell me how to check it myself.
 
@@ -92,13 +91,12 @@ volunteers show the room.
 Then write down your questions for IT: what real data it would need, who should have access,
 which systems it would connect to, and what approval it needs to become a real app.
 
-Last, write two or three things you want your page to do next, one sentence each, in your idea's
-brief (for example `site/ideas/team-lunch/brief.md`, or `site/brief.md` if you kept building your
-Monday page) under a heading called **Next**. Save, commit, and push. On Wednesday they become
-your first tickets.
+Last, open **Explorer > site > README.md**, your website's own notes. At the end, under a heading
+called **Next**, write two or three things you want your page to do next, one sentence each.
+Save, commit, and push. On Wednesday they become your first tickets.
 
 **Done when:** you have a checked first version of your idea (or a better Monday page), your work
-is on GitHub, and your brief lists what you want next. Database connections, automated browser
+is on GitHub, and `site/README.md` lists what you want next. Database connections, automated browser
 checks, and public deployment are not completion gates. On Wednesday you will learn a few more
 ways to use Copilot on this same work: see the [Day 3 guide](DAY-3.md).
 

@@ -63,8 +63,8 @@ very first commit, and compare with GitHub. To see where new tools come from, pr
 
 ## 2. Teach Copilot About Your Project
 
-**An optional extra, 45 minutes.** You need your website and its `site/brief.md` from Days 1-2,
-and Agent Chat in the same browser-based Codespace.
+**An optional extra, 45 minutes.** You need your website from Days 1-2, and Agent Chat in the
+same browser-based Codespace.
 
 On Monday you used a skill someone else wrote: `/create-website`. Here you write your own, plus a
 short instructions file that Copilot reads before every request about your website. Both are
@@ -81,9 +81,9 @@ ordinary text files that you can read, change, and save to GitHub.
 1. In Agent Chat, ask:
 
    > Create .github/instructions/my-website.instructions.md that applies to every file under
-   > site/. Use my site/brief.md. Include who my website is for, three short rules I want you to
-   > keep (for example colors, tone, and keeping it simple), and a rule to explain every change
-   > in one plain sentence. Keep it under 15 lines.
+   > site/. Read my site/index.html to see what my website does. Include who it is for, three
+   > short rules I want you to keep (for example colors, tone, and keeping it simple), and a rule
+   > to explain every change in one plain sentence. Keep it under 15 lines.
 
 2. Open the new file. The first lines name `site/`: that is how Copilot knows when to use it.
    Change one rule into your own words and save.

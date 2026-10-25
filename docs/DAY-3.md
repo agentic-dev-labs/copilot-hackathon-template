@@ -24,7 +24,7 @@ Times count from the start of the session.
 | 01:30-01:45 | Break                                                                 |                                                                   |
 | 01:45-02:30 | [Draft user stories and acceptance criteria, then validate](#3-draft-and-validate-the-criteria) | Every ticket has criteria you can check, and your approved tickets are in **Todo**. |
 | 02:30-03:15 | [Implement the approved ticket, debug, and verify](#4-build-the-approved-ticket) | Every acceptance criterion passes your own check.                 |
-| 03:15-03:45 | [Add tests and write down how to build and run](#5-add-tests-and-how-to-run) | `pytest checks` is green, and your brief lists your requirements and how to run it. |
+| 03:15-03:45 | [Add tests and write down how to build and run](#5-add-tests-and-how-to-run) | `pytest checks` is green, and `site/README.md` lists your requirements and how to run it. |
 | 03:45-04:00 | [Checkpoint](#6-checkpoint)                                           | Your ticket closed itself and moved to **Done**.                  |
 
 **Lost?** Find the row the room is on (the presenter names it at the start of every block),
@@ -68,8 +68,8 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
    **Create**. The ticket gets a number, such as **#1**, and joins your board by itself under
    **No Status**: written, not approved yet.
 4. **Your own idea.** Write two or three tickets like this for the idea you started on Monday or
-   Tuesday, each about one thing you want *next*: the wishes you wrote under **Next** in your
-   brief on Tuesday are a good start. A ticket about something your page already does leaves
+   Tuesday, each about one thing you want *next*: the wishes you wrote under **Next** in
+   `site/README.md` on Tuesday are a good start. A ticket about something your page already does leaves
    nothing to build.
 5. **Open your Codespace** with the green **Code** button on your repository's page. Never create
    a second one. Open the menu (the three lines at the top left), then **Terminal > New
@@ -230,23 +230,22 @@ to ordinary Copilot, which can change files.
 3. **Break it on purpose:** in your page change one word that a test looks for, save, and run
    `pytest checks` again. It turns red and says what it expected. Undo your change with
    **Ctrl+Z** (**Cmd+Z** on a Mac), save, and run it again: green.
-4. Ask: "Add a section called How to build and run to site/ideas/team-lunch/brief.md, in plain
+4. Ask: "Add a section called How to build and run to the end of site/README.md, in plain
    words: how to open the page (/start-website), how to run the tests (pytest checks), how to run
    the build check (python -m app.site --check), and the manual checks for issue #1. Then add a
    section called Requirements: one line per ticket with its number, title, user story, and
-   status today (Todo, In Progress, or Done)." Use your own idea's brief, or `site/brief.md` if
-   you build on your Monday page. Copilot cannot read your board, so it asks you each ticket's
+   status today (Todo, In Progress, or Done)." Copilot cannot read your board, so it asks you each ticket's
    status: pick it from the list, or choose **Other** and type, for example, "Not approved yet".
-   Read both sections and correct anything that is wrong. Your
-   brief is now the validated brief: your idea, your checked requirements, each one traced to its
-   ticket, and how to run it.
+   Read both sections and correct anything that is wrong. `site/README.md` is now your
+   website's validated README: your checked requirements, each one traced to its ticket, and how
+   to run it.
 
 ## 6. Checkpoint
 
 **03:45-04:00.**
 
 1. Save. Open **Source Control** and review the files: your skill, your agent, your page, your
-   test, and your brief. Commit with a message that ends with `Closes` and your ticket's number,
+   test, and `site/README.md`. Commit with a message that ends with `Closes` and your ticket's number,
    for example `Mark urgent tasks. Closes #1`, then **... > Push**.
 2. Open your board: the ticket closed itself and moved to **Done**. `Closes #1` in a commit that
    reaches `main` closes the ticket, and the board moves closed tickets to **Done** by itself.
@@ -254,7 +253,7 @@ to ordinary Copilot, which can change files.
    ticket with its criteria, and the working feature with its green tests.
 
 **Done when:** your own **user-stories** skill and User Requirements agent are on GitHub, your
-tickets have user stories with checkable acceptance criteria, your brief lists them, one ticket
+tickets have user stories with checkable acceptance criteria, `site/README.md` lists them, one ticket
 works in your preview with green `pytest checks` and is **Done** on your board, and another
 approved ticket waits in **Todo** for tomorrow. If sign-in is blocked, follow the presenter's
 screen and tell a helper; it is not a reason to install anything.

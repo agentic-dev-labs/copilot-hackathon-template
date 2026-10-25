@@ -101,7 +101,8 @@ calls Open-Meteo (forecast, city search and past weather), and the preview allow
 the kit ships Apache ECharts and ECharts GL for `/add-chart` and 3D (19 October 2026), and
 three.js for the optional Lab Chase game pattern (20 October 2026); and the
 Photo Studio repaints photos of things, places and pets through the Website preview. At 10:45
-everyone builds one own idea from one sentence in `site/ideas/<name>/`, and `/add-chart` is Day
+everyone builds a second website (another starter or an own idea) from one sentence in
+`site/ideas/<name>/`; reading code is an optional extra. `/add-chart` is Day
 1's main afternoon interaction.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate
 branding, diagram tools, or paid image service belongs in the beginner builder. The owner approved
@@ -131,7 +132,7 @@ The owner approved following David's final slides for Days 3-5 on 20 October 202
 each, written in elapsed time, and refitted the content inside those blocks on 21 October 2026.
 Day 3 (docs/DAY-3.md): MUKQ opens; in every block Ali shows a step on a demo website and
 attendees then do the same on their own idea. Attendees write two or three tickets with the
-**Requirement** issue template from the **Next** wishes they wrote in their brief on Day 2, keep
+**Requirement** issue template from the **Next** wishes they wrote in `site/README.md` on Day 2, keep
 them on a Board project named after themselves that imports their repository, sign in to Copilot
 CLI, list the tickets with a GitHub tool through MCP, then at 00:50 meet instructions, skills and
 agents, describe a user-stories skill and a User Requirements agent that Copilot writes to
@@ -140,7 +141,8 @@ a user story and Given/When/Then criteria to each ticket (it reads with the GitH
 updates with `gh` once the attendee agrees; "validate" there is a practice check, not GxP
 validation), approve a ticket by moving it to **Todo**, build it in the Codespace, add
 `pytest checks` tests with the shipped `checks/website.py`, list the requirements and how to run
-them in the brief, and close the ticket with a `Closes #N` commit so the board shows it **Done**.
+them in `site/README.md`, and close the ticket with a `Closes #N` commit so the board shows it **Done**.
+There is no `brief.md`: owner, 25 October 2026, it confused beginners on Monday.
 Day 4 (docs/DAY-4.md): a presenter demo of an automation that adds criteria to a new ticket
 by itself, a `Protect main` ruleset that requires pull requests (Copilot code review stays off),
 the publisher's `version` input switched on so the live footer shows the build number, the next

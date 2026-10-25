@@ -16,7 +16,7 @@ build step, API key, or a new internet address, and do not edit the preview help
 1. Find the page. Default to `site/index.html`; an idea name such as `team-lunch` means
    `site/ideas/team-lunch/index.html`. If it does not exist, say **"Let's create your website
    first with /create-website."** and stop.
-2. Work out which starter it came from: `site/brief.md` names it, and so does the page's title.
+2. Work out which starter it came from: the page's title and headline name it.
 3. Ask exactly one question: **"Which chart would you like?"** Offer that starter's ideas from
    the table, each with its one-line description, using the question tool when available. For
    an own idea, offer three that fit its data from [Patterns for Own Ideas](#patterns-for-own-ideas),
@@ -34,11 +34,9 @@ build step, API key, or a new internet address, and do not edit the preview help
 6. Open the chosen recipe. Add its markup where it says, add its function at the end of the
    page's own inline script, and call it where it says. Rename only what the page names
    differently, such as a renamed column list. Change nothing else on the page.
-7. Add one line to the brief under `## Changes so far`, in plain words, such as "Added a
-   progress gauge".
-8. Run `python3 scripts/website_preview.py start` yourself (for an idea page add its path
+7. Run `python3 scripts/website_preview.py start` yourself (for an idea page add its path
    relative to `site/`) and require `previewOpen: true`.
-9. Hand over in three short lines:
+8. Hand over in three short lines:
    - **"Scroll down: your <chart name> is drawn from your own <entries>."**
    - The recipe's **Check**, written as something to try with the page's numbers right now.
      Count its entries first: the learner may have added, ticked or removed some since it was

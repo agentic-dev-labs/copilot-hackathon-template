@@ -10,7 +10,7 @@ for you, so you do not have to look again after every change.
 
 A test checks what is written in your files: titles, buttons, sample data, and that every
 picture and style the page uses exists. Clicking and counting stays your own manual check in
-the Website preview. List those as **Manual checks** under "How to build and run" in your brief.
+the Website preview. List those as **Manual checks** under "How to build and run" in `site/README.md`.
 
 Ask Copilot, for example:
 

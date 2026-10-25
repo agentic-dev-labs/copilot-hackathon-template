@@ -68,7 +68,7 @@ def test_first_lab_requires_chat_not_terminal_setup() -> None:
     assert "save -> review -> commit -> push" in flat
     assert "presenter shows `/create-website`" in flat
     # Agreed 21 October 2026: attendees watch at 09:00, copy the template at 09:30, and build
-    # and push the first website at 10:00; /create-website writes the idea note (brief.md).
+    # and push the first website at 10:00. Owner, 25 October 2026: no brief.md notes file.
     tour = day_one_section(1)
     chat = day_one_section(2)
     first_site = day_one_section(3)
@@ -78,15 +78,25 @@ def test_first_lab_requires_chat_not_terminal_setup() -> None:
     # Rehearsed 22 October 2026: New Chat opens the Copilot harness, with manual approvals and no
     # Keep or Undo, so Monday stays in the first (Local) chat.
     assert "**New Chat**" not in chat and "Stay in this chat" in chat
-    assert "`/create-website`" in first_site and "brief.md" in first_site
+    assert "`/create-website`" in first_site
     assert "`Add my first website`" in first_site and "**... > Push**" in first_site
     assert "expect -> try -> compare -> improve -> repeat" in guide
+
+
+def test_no_brief_notes_file() -> None:
+    """Owner, 25 October 2026: brief.md confused beginners, so no guide or skill mentions it."""
+    texts = [Path("README.md"), Path("site/README.md"), Path("checks/README.md"),
+             *Path("docs").glob("*.md"), *Path(".github/skills").rglob("SKILL.md")]
+    for path in texts:
+        assert "brief.md" not in path.read_text(encoding="utf-8"), path
+    assert "Write no notes file" in " ".join(
+        Path(".github/skills/create-website/SKILL.md").read_text(encoding="utf-8").split())
 
 
 def test_monday_build_checks_are_manual_and_extensions_are_optional() -> None:
     """Tool configuration, persistence and publication must not gate a first website."""
     guide = Path("docs/DAY-1.md").read_text(encoding="utf-8")
-    first_page = day_one_section(4) + day_one_section(5)
+    first_page = " ".join((day_one_section(4) + day_one_section(5)).split())
     interaction = day_one_section(6)
     sharing = day_one_section(7)
     assert "python3 scripts/website_preview.py status" in guide
@@ -117,10 +127,11 @@ def test_personalisation_lab_follows_the_chosen_category() -> None:
 
 
 def test_day_one_teaches_reading_code_undo_and_history() -> None:
-    """First-timers peek at code, undo a change, and find their history, within the same times."""
-    first_page = day_one_section(4)
-    assert "### Peek Inside the Code" in first_page
-    assert "### Build One More Idea" in first_page and "site/ideas/" in first_page
+    """First-timers build a second website, undo a change, and find their history; reading code is optional."""
+    second_site = day_one_section(4)
+    assert "### Build It" in second_site and "site/ideas/" in second_site
+    assert "Peek" not in second_site, "owner, 25 October 2026: the code peek is an optional extra"
+    extras = Path("docs/DAY-1.md").read_text(encoding="utf-8").split("## Optional extras", 1)[1]
     # The 11:45 checks cover every starter, with the counts the starters really show.
     checking = day_one_section(5)
     for category in ("Project Planner", "Calendar", "Ideas Wall", "Weather", "Princeton Map", "Photo Studio"):
@@ -132,9 +143,10 @@ def test_day_one_teaches_reading_code_undo_and_history() -> None:
     }
     assert "18 places" in starters["map"]["manual_check"] and "**18 places**" in checking
     assert "6 pictures" in starters["photo"]["manual_check"] and "**6 pictures**" in checking
-    assert "Explain the lines I selected" in first_page and "`<h1>`" in first_page
-    # The example headline in the lab must be the Project Planner starter's real headline.
-    example = re.search(r"for example \*(.+?)\*", first_page).group(1)
+    assert "**Peek inside the code.**" in extras
+    assert "Explain the lines I selected" in extras and "`<h1>`" in extras
+    # The example headline in the extra must be the Project Planner starter's real headline.
+    example = re.search(r"for example \*(.+?)\*", extras).group(1)
     planner = Path(".github/skills/create-website/assets/blueprints/project/index.html")
     assert f"<h1>{example}</h1>" in planner.read_text(encoding="utf-8")
 
@@ -645,8 +657,8 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     assert "Hide finished" not in guide
     # 21 October review: per-attendee boards, Tuesday's wishes, GxP wording, and a requirements list.
     assert "`<your username> website`" in flat and "repository's **Projects** tab" in flat
-    assert "under **Next** in your brief" in flat and "It is not GxP validation" in flat
-    assert "add a section called requirements" in flat.lower() and "the validated brief" in flat
+    assert "under **Next** in `site/README.md`" in flat and "It is not GxP validation" in flat
+    assert "add a section called requirements" in flat.lower() and "validated README" in flat
     route = guide.split("## 1. Tickets, Board, and Tools", 1)[1].split("## 2.", 1)[0]
     assert "Meet the building blocks" not in route, "the building blocks open the 00:50 block"
     assert "**Meet the building blocks.**" in guide.split("## 2. Build Your User Requirements Agent", 1)[1]

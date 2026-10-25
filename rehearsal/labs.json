@@ -14,24 +14,24 @@
         "access": "GitHub and editor Chat work with the intended attendee account",
         "orientation": "Concepts-only GitHub tour from the Day 1 guide that attendees watch; at 09:30 an attendee-like account made a private copy of the template in agentic-dev-labs with Use this template, and the guide was opened with Open Preview in browser-based Codespaces before terminal use",
         "chat-turn": "A real editor Chat request and refinement completed without terminal setup",
-        "first-website": "10:00 block from the Day 1 guide: actual /create-website invocation asked only which website (six starters or My own idea), built the tested blueprint named after the repository with its idea note site/brief.md; every file staged, committed, pushed, and site/brief.md read back on the same branch on GitHub"
+        "first-website": "10:00 block from the Day 1 guide: actual /create-website invocation asked only which website (six starters or My own idea) and built the tested blueprint named after the repository, with no notes file; every file staged, committed, pushed, and site/index.html read back on the same branch on GitHub"
       }
     },
     {
       "id": "01",
-      "title": "More websites, one own idea, and manual verification",
+      "title": "A second website and manual verification",
       "guide": "docs/DAY-1.md",
       "tests": [
         "tests/test_lab_contracts.py"
       ],
       "checks": {
-        "own-idea": "After the first page was pushed, /create-website built one own idea from one sentence in site/ideas/<name>/ straight away, without asking for checks first; the first page was unchanged and /start-website still opened it",
+        "own-idea": "After the first page was pushed, /create-website built a second website (another starter by description, or an own idea) from one sentence in site/ideas/<name>/ straight away, without asking for checks first; the first page was unchanged and /start-website still opened it",
         "preview": "Actual Website preview panel renders beside Chat, updates by itself on changes with added entries kept, and stop/start reopens the same saved page without file changes; blockers recorded truthfully",
         "manual-behaviour": "Coached 11:45 block: expected-versus-observed manual button check, with real fixes rechecked",
-        "source-check": "Coached 11:45 block: the starter's count, or Weather against its raw forecast data, checked by the learner, not the model's confidence",
-        "read-code": "Chat explained selected lines of site/index.html, and the learner changed the <h1> headline by hand; the preview updated after saving and a broken edit was recoverable with Ctrl+Z"
+        "source-check": "Coached 11:45 block: the starter's count, or Weather against its raw forecast data, checked by the learner, not the model's confidence"
       },
       "optional_checks": {
+        "read-code": "Optional: Chat explained selected lines of site/index.html, and the learner changed the <h1> headline by hand; the preview updated after saving and a broken edit was recoverable with Ctrl+Z",
         "research-mcp": "Selected optional browser and document tools actually invoked; installation alone is insufficient",
         "browser-download": "Playwright inspected the official archive and at least one actual PDF download and reporting year; remaining years and blockers recorded truthfully",
         "conversion": "A real MarkItDown conversion inspected; complete file output retained and any CLI fallback or truncation distinguished from MCP success",
@@ -110,15 +110,15 @@
         "tests/test_checks_helper.py"
       ],
       "checks": {
-        "tickets": "Two or three tickets written with the Requirement issue template from the brief's Next wishes, and a Board project named after the learner that imports the repository and shows in its Projects tab; new tickets appeared on the board by themselves",
+        "tickets": "Two or three tickets written with the Requirement issue template from the Next wishes in site/README.md, and a Board project named after the learner that imports the repository and shows in its Projects tab; new tickets appeared on the board by themselves",
         "cli-turn": "Actual Codespaces Copilot CLI sign-in with /login and the device code, and a question about the learner's own page compared with the page",
         "github-tool": "A GitHub tool through MCP listed the open tickets in Copilot CLI after the learner allowed it by name, and the list matched the board",
         "skill": "Learner-described .github/skills/user-stories/SKILL.md with the ticket's user story and acceptance criteria format, written by Copilot CLI and edited by the learner",
         "requirements-agent": "Learner-described .github/agents/user-requirements.agent.md that reads a ticket with the GitHub tools, uses the user-stories skill, and updates the ticket with gh only after the learner agrees; written by Copilot CLI, edited by the learner, and listed by /agent after a CLI restart",
         "criteria": "Every ticket holds a user story and Given/When/Then criteria from the agent, through gh issue edit or pasted by hand (recorded truthfully); each criterion validated as checkable; approved tickets moved to Todo",
         "ticket-built": "The approved ticket moved to In Progress and implemented on the learner's page; every criterion checked by hand in the Website preview, with one debug round recorded truthfully",
-        "tests": "Learner tests in checks/test_*.py written with checks/website.py; pytest checks shown green, red after a deliberate break, and green again; the requirements list and build and run commands written in the brief",
-        "checkpoint": "Skill, agent, page, tests and brief reviewed, committed with Closes #N, and pushed; the ticket closed itself and the board moved it to Done"
+        "tests": "Learner tests in checks/test_*.py written with checks/website.py; pytest checks shown green, red after a deliberate break, and green again; the requirements list and build and run commands written in site/README.md",
+        "checkpoint": "Skill, agent, page, tests and site/README.md reviewed, committed with Closes #N, and pushed; the ticket closed itself and the board moved it to Done"
       },
       "optional_checks": {
         "vscode-agent": "The same agent file chosen in VS Code Chat's agent picker and its answer compared with Copilot CLI",

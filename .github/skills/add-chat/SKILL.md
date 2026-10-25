@@ -25,8 +25,7 @@ network call to the page, and do not edit the preview helper.
    `<script src="js/workshop-chat.js"></script>`. From a page in `site/ideas/<name>/` the path is
    `../../js/workshop-chat.js`.
 5. At the very end of the page's own inline script, add one line that names the bubble after the
-   page, for example `Workshop.addChat({ title: 'Ask my planner' })`. Change nothing else. Add one
-   line to the brief under `## Changes so far`: "Added an Ask my page chat".
+   page, for example `Workshop.addChat({ title: 'Ask my planner' })`. Change nothing else.
 6. Run `python3 scripts/website_preview.py start` yourself (for an idea page add its path relative
    to `site/`, such as `ideas/team-lunch/index.html`) and require `previewOpen: true`.
 7. Hand over in three short lines:

@@ -97,10 +97,10 @@ screenshot alone does not prove a button works.
 
 ## Your Finish Each Day
 
-**Monday:** your first website with a chart or a chat you checked, one idea of your own, all
+**Monday:** your first website with a chart or a chat you checked, a second website, all
 saved on GitHub and shown to a neighbor.
 **Tuesday:** a first version of your own idea (or a better Monday page), one check, questions for
-IT, and two or three wishes under **Next** in your brief.
+IT, and two or three wishes under **Next** in `site/README.md`.
 Nothing extra is required on Monday or Tuesday: no database, CLI, MCP, or setup. Publishing is
 optional, with a helper.
 **Wednesday:** your idea as tickets on your own board, your own user-stories skill and User

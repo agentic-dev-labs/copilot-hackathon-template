@@ -36,12 +36,12 @@ def test_website_serves_assets_and_identifies_revision(website: Path, monkeypatc
     config = website.parent / "config.json"
     config.write_text(json.dumps({"displayName": "Synthetic Web Team"}), encoding="utf-8")
     (website / "main.js").write_text('document.title = "Synthetic";', encoding="utf-8")
-    (website / "brief.md").write_text("Draft notes", encoding="utf-8")
+    (website / "README.md").write_text("Draft notes", encoding="utf-8")
     monkeypatch.setenv("WORKSHOP_COMMIT", "b" * 40)
     client = TestClient(create_app(website, config))
     assert client.get("/").text == HTML
     assert client.get("/main.js").status_code == 200
-    assert client.get("/brief.md").status_code == 404
+    assert client.get("/README.md").status_code == 404
     assert client.get("/../config.json").status_code == 404
     result = client.get("/healthz").json()
     assert result["target"] == "website"
@@ -78,13 +78,13 @@ def test_own_idea_pages_open_by_their_folder_address(website: Path) -> None:
     assert client.get("/ideas/").status_code == 404
     assert client.get("/ideas/empty/").status_code == 404
     assert client.get("/ideas/missing/").status_code == 404
-    assert client.get("/ideas/team-lunch/brief.md").status_code == 404
+    assert client.get("/ideas/team-lunch/README.md").status_code == 404
 
 
 def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> None:
-    """The fingerprint covers shipped bytes but excludes the unserved Markdown brief."""
+    """The fingerprint covers shipped bytes but excludes unserved Markdown notes such as site/README.md."""
     initial = site_manifest(website)
-    (website / "brief.md").write_text("Synthetic planning", encoding="utf-8")
+    (website / "README.md").write_text("Synthetic planning", encoding="utf-8")
     assert site_manifest(website) == initial
     (website / "main.css").write_text("body { color: black; }", encoding="utf-8")
     assert site_manifest(website)["digest"] != initial["digest"]

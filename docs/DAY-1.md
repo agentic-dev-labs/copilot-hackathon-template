@@ -16,7 +16,7 @@ cannot break anything by looking. Keep the [Quick Reference](QUICK-REFERENCE.md)
 | 09:30-10:00 | [2. Your copy, your Codespace, and Chat](#2-your-copy-your-codespace-and-chat) | Your own copy and its Codespace are open, you compared Copilot's table name with someone else's, and you asked Chat a question. |
 | 10:00-10:30 | [3. Your first website](#3-your-first-website)                             | Your page opens beside Chat and is saved on GitHub.      |
 | 10:30-10:45 | Break                                                                      |                                                          |
-| 10:45-11:45 | [4. Make it yours](#4-make-it-yours)                                       | You changed your headline by hand and built one idea of your own. |
+| 10:45-11:45 | [4. Build another website](#4-build-another-website)                     | Your second website opens in its own folder and is on GitHub. |
 | 11:45-12:15 | [5. Check it yourself](#5-check-it-yourself)                               | You checked a button and a number yourself.              |
 | 12:15-13:00 | Lunch                                                                      |                                                          |
 | 13:00-14:00 | [6. Make it useful](#6-make-it-useful)                                     | Your page has a chart or a chat you checked, and your own look. |
@@ -139,15 +139,13 @@ yours.
    proof, not Copilot saying "done". Then select **Keep** under the chat box: it accepts the
    change. Do this whenever you like a change, because **Undo** takes back every change you
    have not kept.
-5. Open **Explorer > site > brief.md**. This is your idea note, the README of your website:
-   Copilot wrote what your page is for and how you can check it. You add to it all week.
-6. **Save it on GitHub.** Choose **File > Save All**; if it is grey, everything is already
+5. **Save it on GitHub.** Choose **File > Save All**; if it is grey, everything is already
    saved. Then open **Source Control**, the icon that looks like branching lines. This first
    time it lists many files: your page plus the pictures, fonts and styles it needs. That is
    expected. Hover over **Changes** and select its **+** to include them all, type
    `Add my first website`, select **Commit**, then **... > Push**.
    **Check:** open your repository on GitHub in a new browser tab, open **site**, then
-   **brief.md**. It is there.
+   **index.html**. It is there.
 
 Work only in your own repository. If anything asks you to create another repository, says a push
 was rejected, or mentions a conflict, stop and ask a helper. Never force a push. Working in a
@@ -157,10 +155,10 @@ open, show a helper.
 **Done when:** your page opens beside Chat and it is on GitHub. After the break, at 10:45, the
 presenter shows more websites you can build.
 
-## 4. Make It Yours
+## 4. Build Another Website
 
-**10:45-11:45.** Read your page's code, change it by hand, and build one more idea of your own
-just by describing it. Everything you add stays made up.
+**10:45-11:45.** Build a second website, any of the others or your own idea, just by describing
+it. Your first page stays exactly as it is. Everything you add stays made up.
 
 ### See What Else You Can Build (10 minutes)
 
@@ -177,29 +175,7 @@ The presenter shows websites made the same way as yours, just by describing them
 
 Pick one you would like to try, or think of your own.
 
-### Peek Inside the Code (15 minutes)
-
-Your page is made of code: plain text that tells the browser what to show. You do not need to
-learn it. Just take a look, with Copilot as your guide.
-
-1. In the **Explorer**, open **site > index.html**. This is the code behind your page. Scroll
-   through it. It is only text.
-2. Select about five lines near the top: click at the start of the first line, then hold
-   **Shift** and click at the end of the fifth. In Chat, ask: "Explain the lines I selected in
-   plain English, one short sentence per line. I have never seen code before." Copilot reads
-   your selected lines automatically.
-3. Find your page's big headline: click anywhere inside index.html, press **Ctrl+F** (**Cmd+F**
-   on a Mac), type `<h1>`, and press Enter. The words between `<h1>` and `</h1>` are the headline you see on
-   your page, for example *Plan the week, one card at a time*.
-4. Change one or two of those words yourself, by typing. Leave `<h1>` and `</h1>` exactly as
-   they are. Choose **File > Save** and watch the preview update by itself. If the preview is
-   closed, type `/start-website` first.
-
-**Check:** your new words appear on your page. You just changed code with your own hands.
-If the page looks broken, press **Ctrl+Z** (**Cmd+Z** on a Mac) until your typing is undone,
-save again, and ask a helper if it still looks wrong.
-
-### Build One More Idea (20 minutes)
+### Build It (35 minutes)
 
 1. In Chat, with **Agent** chosen, type **`/create-website`** again. Copilot sees that you
    already have a page and asks what you would like: answer **build my own idea**.
@@ -207,42 +183,34 @@ save again, and ask a helper if it still looks wrong.
    work is welcome too, as long as every entry is made up.
 3. Copilot builds it in its own folder, such as `site/ideas/lunch-map/`, and opens it beside
    Chat. Your first page stays exactly as it is.
-4. Ask for one change in ordinary words, and add "Leave the rest alone." For example: "Make the
-   headline friendlier. Leave the rest alone." Watch the change appear by itself. Like it?
-   Select **Keep**.
+4. Try it, then ask for one change in ordinary words and add "Leave the rest alone." For
+   example: "Make the headline friendlier. Leave the rest alone." Watch the change appear by
+   itself. Like it? Select **Keep**.
 
 | You would like... | Say                                                                  |
 | ----------------- | -------------------------------------------------------------------- |
 | A weather page    | "A weather page for my three favorite holiday cities."              |
 | A map             | "A map of my favorite lunch spots in Princeton."                    |
+| A photo studio    | "A photo studio that repaints pictures of my pets."                 |
+| A calendar        | "A calendar for my team's made-up birthdays."                       |
+| An ideas wall     | "An ideas wall for our next team outing."                            |
 | A game            | "A funny 3D game where a scientist chases escaped molecules."        |
 | A tracker         | "A tracker for team requests with stages Submitted, Doing and Done." |
 | A dashboard       | "A dashboard of made-up monthly sales by region."                    |
 
 **Check:** a new folder appears in **Explorer > site > ideas**. `/start-website` still opens
-your first page; add the folder's name to open your idea, for example `/start-website lunch-map`.
+your first page; add the folder's name to open the new one, for example `/start-website lunch-map`.
 If Copilot changed too much, select **Stop**, then **Undo** in Chat, and ask for something smaller.
-
-Rather improve your first page? Ask for one change to it instead:
-
-| Your website    | Try asking                                 |
-| --------------- | ------------------------------------------ |
-| Project Planner | "Add a Saturday column."                   |
-| Calendar        | "Make today's date stand out more."        |
-| Ideas Wall      | "Make the notes bigger."                   |
-| Weather         | "Add Paris as a city."                     |
-| Princeton Map   | "Add a pin for my favorite coffee place." |
-| Photo Studio    | "Make the gallery pictures bigger."        |
 
 ### Save and Show (15 minutes)
 
 Show a neighbor your pages and let them try one. Then save, review, commit, and push, just like
 this morning: **File > Save All**, then **Source Control**. This time it lists only what
-changed: your headline and your idea's folder. Type a short message, select **Commit**, then
-**... > Push**, and find your idea's folder on GitHub.
+changed: your new website's folder. Type a short message, select **Commit**, then
+**... > Push**, and find the folder on GitHub.
 
-**Done when:** you changed your headline yourself, your own idea opens beside Chat in its own
-folder, your first page still works, and both are on GitHub.
+**Done when:** your second website opens beside Chat in its own folder, your first page still
+works, and both are on GitHub.
 
 ## 5. Check It Yourself
 
@@ -255,9 +223,9 @@ type `/start-website` to open it beside Chat.
 2. **Check a number (10 minutes).** On your first page, count it yourself, using the table
    below. The table counts the example entries, so add the ones you made: with the task you
    added at 10:00, the planner shows **1 of 5 done**. If your first page is your own idea, use
-   the check in its **brief.md**. Do not trust a number you have not checked.
-3. **Write it down (10 minutes).** In **site/brief.md**, write what you tried and what happened,
-   including anything that does not work yet. Then save, review, commit, and push.
+   the check Copilot gave you when it built the page. Do not trust a number you have not checked.
+3. **Save it (10 minutes).** Tell a neighbor what you checked and what happened, including
+   anything that does not work yet. Then save, review, commit, and push.
 
 | Your website    | Check it yourself                                                                    |
 | --------------- | ------------------------------------------------------------------------------------ |
@@ -270,7 +238,7 @@ type `/start-website` to open it beside Chat.
 
 Weather is the only page with live data. If the internet is blocked, it says it is showing sample weather.
 
-**Done when:** you checked one button and one number yourself and wrote down what happened.
+**Done when:** you checked one button and one number yourself and your work is on GitHub.
 
 ## 6. Make It Useful
 
@@ -305,7 +273,7 @@ or company names.
 ### Check Your Feature (15 minutes)
 
 Start from the example entries and use the table in [section 5](#5-check-it-yourself). For your
-idea's page, use the check in its **brief.md**.
+other pages, use the check Copilot gave you when it built them.
 
 - **A chart:** do the check and watch the chart follow. Does it agree with your own count?
 - **A chat:** ask something you can count yourself, such as "How many tasks are done?", and
@@ -345,14 +313,13 @@ entries and features."
 If Copilot says it cannot see pictures, skip the sketch. A photo of your own sketch works too,
 but never a picture with real work information in it.
 
-### Write It Down (10 minutes)
+### Show a Neighbor (10 minutes)
 
-Show a neighbor your new feature and your new look. In **site/brief.md**, write what you tried,
-what happened, and what you would improve next. Save. The next section saves it to GitHub.
+Show a neighbor your new feature and your new look, and tell them how you checked it. Save. The
+next section saves it to GitHub.
 
 **Done when:** your page has a chart or a chat (or a new picture) that you checked yourself,
-one design change, and an honest check written in your brief. Entries that stay after a refresh
-are a bonus, not a requirement.
+and one design change. Entries that stay after a refresh are a bonus, not a requirement.
 
 ## 7. Save, Share, and Keep Building
 
@@ -389,7 +356,7 @@ Pick one level, ask Copilot, and check the result yourself:
 
 | Level      | Challenge                                                                                                          |
 | ---------- | ------------------------------------------------------------------------------------------------------------------ |
-| **Bronze** | Ask for one idea from the "later ideas" list in your brief.                                                        |
+| **Bronze** | Ask Copilot: "Suggest three small ideas for my page." Pick one and ask for it.                                     |
 | **Silver** | Make your page phone-friendly: drag the preview narrower, tell Copilot what looks wrong, and check again.          |
 | **Gold**   | Give your idea's page a chart or a chat too: `/add-chart lunch-map` or `/add-chat lunch-map`, with your own folder's name. |
 | **Bonus**  | Add the feature you did not pick after lunch: a chart, a chat, or a picture. Check it against your page.           |
@@ -399,7 +366,7 @@ Done, and time left? Take the next level. Then save, commit, and push again.
 ### Show It (10 minutes)
 
 8. Show one feature to a neighbor. Explain what you expected, what you saw, and anything that
-   does not work yet. Write your next idea in your brief instead of starting something big.
+   does not work yet. Tell them your next idea instead of starting something big.
 
 **Done when:** your work is on GitHub, you found your own history there, your page still works
 in the preview, and you can explain one real check. A deployment or saved browser state is not required.
@@ -434,9 +401,21 @@ When you finish for the day, stop your Codespace at [github.com/codespaces](http
 
 ## Optional extras
 
-1. **One more idea.** Run `/create-website` again and describe another idea in one sentence. It
+1. **Peek inside the code.** Your page is made of code: plain text that tells the browser what
+   to show. You do not need to learn it; just take a look, with Copilot as your guide.
+   - In the **Explorer**, open **site > index.html** and scroll through it. It is only text.
+   - Select about five lines near the top: click at the start of the first line, then hold
+     **Shift** and click at the end of the fifth. In Chat, ask: "Explain the lines I selected in
+     plain English, one short sentence per line. I have never seen code before."
+   - Find your page's big headline: click inside index.html, press **Ctrl+F** (**Cmd+F** on a
+     Mac), type `<h1>`, and press Enter. The words between `<h1>` and `</h1>` are the headline
+     on your page, for example *Plan the week, one card at a time*.
+   - Change one or two of those words yourself, leaving `<h1>` and `</h1>` as they are. Choose
+     **File > Save** and watch the preview update by itself. Looks broken? Press **Ctrl+Z**
+     (**Cmd+Z** on a Mac) until your typing is undone, and save again.
+2. **One more idea.** Run `/create-website` again and describe another idea in one sentence. It
    gets its own folder too. If time runs out, stop; Tuesday has more time for your ideas.
-2. **One more feature.** Ask for one of these category-specific ideas, changed to fit your page.
+3. **One more feature.** Ask for one of these category-specific ideas, changed to fit your page.
    Ask for a short plan first, say yes, then check it.
 
    | Category | Ask Copilot |
@@ -448,9 +427,9 @@ When you finish for the day, stop your Codespace at [github.com/codespaces](http
    | Princeton Map | "Add a search box above the list that shows only the places whose name matches. Keep the design unchanged." |
    | Photo Studio | "Add a title box so I can name a picture before I save it to the gallery. Keep the design unchanged." |
 
-3. Add sorting, a theme switch, or favorites, or ask for a smaller or clearer version of one
+4. Add sorting, a theme switch, or favorites, or ask for a smaller or clearer version of one
    button. Then repeat your checks.
-4. Your entries are remembered with localStorage, in this browser only. It is not a shared
+5. Your entries are remembered with localStorage, in this browser only. It is not a shared
    database: another browser, or a published page, starts with the examples again.
 
 ### Publish Your Page

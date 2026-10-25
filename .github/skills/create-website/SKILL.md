@@ -61,12 +61,8 @@ ships a finished `site/`; this copy happens only after the learner chooses.
    `site/FONT-LICENSE.md`, and [the chart licences](./assets/js/vendor/CHART-LICENSES.md) to
    `site/CHART-LICENSES.md`. See [the kit notes](./assets/README.md).
 3. In `site/index.html`, replace `My` in the `<title>` and `.logo` text with the repository
-   name, and the `.logo-mark` letter with its first letter. Change nothing else.
-4. Write `site/brief.md`: the page name, category, what it does, the starter's `manual_check`,
-   each check marked **not yet checked**, and the starter's `later_ideas`. Keep an existing
-   brief's writing and add to it. Record every later change the learner asks for as one line
-   under a `## Changes so far` heading, in their words rather than file names, so the next
-   session can see what the page already does. Never rewrite an observation they made.
+   name, and the `.logo-mark` letter with its first letter. Change nothing else. Write no notes
+   file: the page itself is the record of what it does.
 
 Then open the preview immediately (next section). Do not stop to summarize the files first.
 
@@ -87,10 +83,12 @@ not proof it rendered, and you cannot see the panel yourself: `previewOpen` and
 write "it looks good" about a page you have not been shown. If the helper is missing, show the
 exact error to the facilitator. On **Not yet**, run `/start-website`'s steps once, then ask a helper.
 
-Then hand over. Keep it to three short lines plus a small menu of ideas:
+Then hand over. Keep it to four short lines plus a small menu of ideas:
 
 - The starter's own `try_it` line from [starters.json](./assets/starters.json), such as
   **"Try it: press + to add something, drag it, or remove it."**
+- **"Check it yourself:"** then the starter's `manual_check` in one sentence. It stays
+  **not yet checked** until the learner does it; never say it passed.
 - **"Now just tell me what to change. Here are some ideas, or ask for anything else:"**
   then four bullets they could say back word for word: one look change and one layout
   change from `any_page_ideas`, and two features from the starter's `later_ideas`. Use the
@@ -219,7 +217,7 @@ When the learner is ready, one check at a time, waiting for their observation:
    An assistant's "looks good" is not verification.
 3. Ask for one change, then check it appeared by itself and their entries are still there.
    Try a narrow window and keyboard Tab/Enter.
-4. Record their actual observations in the brief. If unchecked, write **not yet checked**.
+4. Say plainly which checks they did and which are still **not yet checked**.
 5. Guide **save -> review -> commit -> push** through Source Control. Never stage unrelated work,
    commit, push, or deploy automatically. Ask them to confirm the same files on GitHub.
 6. Ask them to show one feature to a neighbor or helper.
@@ -238,7 +236,10 @@ an own idea, and the learner may continue the same idea from Wednesday to Friday
 2. For a second idea, choose a short folder name from the idea, such as `site/ideas/team-lunch/`,
    and check it does not exist. Never overwrite the first page; it stays the publication entry
    point.
-3. Start from the closest blueprint pattern, then reshape it to fit the idea:
+3. If the sentence asks for one of the six starters by what it does (for example "a weather page
+   for my holiday cities" or "a photo studio for my pets"), start from that starter's blueprint
+   and keep its features, such as live weather from Open-Meteo. Otherwise start from the closest
+   blueprint pattern, then reshape it to fit the idea:
 
    | The idea is mostly... | Start from |
    | --- | --- |
@@ -291,11 +292,11 @@ an own idea, and the learner may continue the same idea from Wednesday to Friday
    `.animate-in` with a stagger, `Workshop.toast()` after every action, `Workshop.flash()` on
    the changed item, one clear number to check (a count or `.progress` bar), and the learner's
    `data-theme`. Everything must work with a keyboard and in a narrow window.
-7. Write `brief.md` in the folder with the one-sentence idea and one manual check marked
-   **not yet checked**. Open it with
+7. Open it with
    `python3 scripts/website_preview.py start ideas/<folder>/index.html`, confirm it is visible,
-   and hand over exactly as for the first page: try it, then the same four-idea menu, with the
-   two feature ideas written for their idea rather than the blueprint it started from.
+   and hand over exactly as for the first page: try it, one manual check that stays
+   **not yet checked** until they do it, then the same four-idea menu, with the two feature
+   ideas written for their idea rather than the blueprint it started from.
 
 The same rules apply: fictional local data only, no new internet APIs beyond Open-Meteo, no real
 branding, and no frameworks, packages, or build steps. If an idea needs real systems or data,
