@@ -64,8 +64,10 @@ case "${1:-core}" in
 		fi
 		copilot --version
 		# Day 3 lists and reads tickets through the built-in GitHub MCP server, whose issue tools
-		# are not in the CLI's default set. Attendees type plain `copilot`; this adds them.
-		ISSUE_TOOLS="alias copilot='copilot --add-github-mcp-toolset issues'"
+		# are not in the CLI's default set. Attendees type plain `copilot`; this adds them, and starts
+		# on the workshop's model (the one the enterprise enables), so nobody lands on another one.
+		ISSUE_TOOLS="alias copilot='copilot --add-github-mcp-toolset issues --model claude-sonnet-5.5'"
+		sed -i "/^alias copilot='copilot --add-github-mcp-toolset issues'$/d" "$HOME/.bashrc" 2>/dev/null || true
 		if ! grep -qxF "$ISSUE_TOOLS" "$HOME/.bashrc" 2>/dev/null; then
 			printf '%s\n' "$ISSUE_TOOLS" >> "$HOME/.bashrc"
 		fi

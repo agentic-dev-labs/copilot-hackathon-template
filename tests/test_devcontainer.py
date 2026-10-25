@@ -358,8 +358,8 @@ def test_cli_install_and_version_failures_propagate(
     if not install_status:
         expected.append("copilot --version")
     assert log.read_text(encoding="utf-8").splitlines() == expected
-    # Day 3's ticket tools: a plain `copilot` gets the GitHub MCP issues toolset, written once.
-    alias = "alias copilot='copilot --add-github-mcp-toolset issues'"
+    # Day 3's ticket tools and the workshop's model: a plain `copilot` gets both, written once.
+    alias = "alias copilot='copilot --add-github-mcp-toolset issues --model claude-sonnet-5.5'"
     bashrc = tmp_path / ".bashrc"
     if result.returncode == 0:
         subprocess.run(
