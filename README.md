@@ -87,6 +87,10 @@ GitHub; pushing does.
    **Do you trust the authors of the files in this folder?**, choose **Trust Folder & Continue**:
    it is your own copy of the workshop, and your website preview needs it. Never create a
    second Codespace. If it shows an error, tell a helper. Nothing goes on your laptop.
+
+   **A message pops up in a corner?** For example "workspace customizations need an update", or
+   a message about **Python** or **Ruff**. Close it with its **X**. Never select **Migrate**:
+   the workshop files are fine as they are.
 4. In the **Explorer**, the file list on the left, right-click **README.md** and choose
    **Open Preview**. It is this page, now inside your Codespace. To see the plain text, select
    its other tab.
@@ -102,9 +106,11 @@ GitHub; pushing does.
 7. Stay in this chat all day; you do not need a new one. Ask: "What is in the docs folder?"
    **Check:** open the **docs** folder in the **Explorer**. Does Copilot's list match the files
    you see?
-8. Now ask it better: "Say that as 3 short bullets for a beginner."
-   **Check:** is it shorter and clearer now? You did not start over: you told Copilot what you
-   wanted. You can always ask again, or say that something is wrong.
+8. Now ask it precisely: "Outline each day in a maximum of 5 words."
+   **Check:** one line per day, and count the words: 5 or fewer each? Compare with your
+   neighbor: much closer than the table names. A precise question gets you what you asked for.
+   You did not start over: you told Copilot what you wanted. You can always ask again, or say
+   that something is wrong.
 
 Then just watch: the presenter shows that **Ask** cannot change a file, then gives
 **GenericAgent**, a blank helper in every copy, a new tool and a new job. You make your own

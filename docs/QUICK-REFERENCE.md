@@ -55,7 +55,14 @@ step instead of racing ahead. Use made-up information only.
 | Something looks broken | Show a helper the exact message. Do not install anything. |
 | My Codespace says "Codespace is stopped" | Select **Restart codespace** and wait a minute. Your files are kept: it stops by itself when nobody types for a while, for example over lunch. |
 | Copilot CLI asks to "curate this memory" | It wants to remember a fact about your repository for next time. Read it: either answer is fine. |
-| Chat says "workspace customizations need an update" | Select the **X** beside it. The workshop files are fine as they are; do not select **Migrate**. |
+| A pop-up in a corner: "workspace customizations need an update", or about Python or Ruff | Select the **X** beside it. The workshop files are fine as they are; never select **Migrate**. |
+| I chose not to trust the folder | Open the menu with three lines, **View > Command Palette**, type `Reload Window`, press Enter, then choose **Trust Folder & Continue**. |
+| A tab called `COMMIT_EDITMSG` opened | Your commit message was empty. Close that tab, type a message in the Source Control box, then **Commit**. |
+| No **New project** button, or my board is empty (Day 3) | On your board select **+ Add item**, type `#`, and pick each ticket. Still nothing? Show a helper. |
+| I pushed without `Closes #1` (Day 3) | Open the ticket on GitHub and select **Close issue**. The board moves it to **Done**. |
+| My typing lands in a file, not in Copilot CLI | Click in the terminal first, then type. This happens after Copilot shows a change beside the terminal. |
+| My live footer still says **Preview** (Day 4) | The `#` is still in front of `version:` in publish-website.yml, or the merge changed nothing in `site/`. Show a helper. |
+| No Copilot review on my pull request (Days 4-5) | Expected: Copilot code review is off. You and your own Code Review agent review. |
 
 ## One Good Request
 

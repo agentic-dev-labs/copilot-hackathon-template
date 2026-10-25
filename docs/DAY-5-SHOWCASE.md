@@ -77,8 +77,9 @@ before every release to production.
    codespace**: that is your own Codespace).
 5. **Make the checks required.** On GitHub open **Settings > Rules > Rulesets > Protect main**.
    Tick **Require status checks to pass**, select **Add checks**, and add **Check the website**
-   and **UI check**. Select **Save changes**. GitHub asks you to **Confirm access** again, as on
-   Day 4: have your phone ready.
+   and **UI check**. They appear in that list only after they have run once, in step 4. Select
+   **Save changes**. GitHub asks you to **Confirm access** again, as on Day 4: have your phone
+   ready.
 
 **Check:** both checks were green on your pull request, and your ruleset lists them as required.
 
@@ -96,7 +97,10 @@ before every release to production.
 3. On the pull request, **Check the website** stays green, but **UI check** turns red, and
    **Merge** is blocked: your ruleset requires it. The UI check takes about two minutes, because
    it installs a browser first. Select **Details** and read the table at the
-   end of the log: it says what is wrong, such as **Wider than a phone screen**.
+   end of the log: it says what is wrong, such as **Wider than a phone screen**. Much slower than
+   five minutes? Look at [githubstatus.com](https://www.githubstatus.com) for **Actions**, carry
+   on, and come back; never re-run it again and again. Red on a page you did not change? Open
+   **home-phone.png** (step 4) first, then select **Re-run jobs** once.
 4. Open the run's summary page (**Summary**, top left). Under **Artifacts**, select
    **home-phone.png**: it downloads, so open it from your browser's downloads. The banner sticks
    out of the phone screen. **home-desktop.png** shows the desktop, and **all-screenshots** holds
@@ -135,7 +139,9 @@ production. Four approvals, each a person deciding.
 3. **Let Copilot's work run.** Open **Pull requests** and select Copilot's pull request. Read
    **Files changed** first: GitHub runs nothing on Copilot's code until you allow it. In the merge
    box at the bottom of **Conversation**, under "workflows awaiting approval", select **Approve
-   workflows to run**. Your two checks run, about two minutes.
+   workflows to run**. Your two checks run, about two minutes. No such button yet? Copilot is
+   still working: its pull request title starts with **[WIP]**. Wait for "Copilot finished work"
+   on the pull request, then look again.
 4. **Approve the build for the feature slot.** When both checks are green, open **Actions >
    Deploy feature slot**. The newest run says **Action required**: open it and select **Approve
    and run**. This is your approval to deploy Copilot's build to your feature slot; it takes about
@@ -179,8 +185,9 @@ after you approved, you tested it there, and it reached production only after yo
    Every line says **PASS**. Write down the **content** and **version** on the first line: the
    content number is the fingerprint of your good version.
 2. **Ship a bad build on purpose:** on a new branch, ask Copilot to change the sentence under
-   your headline to "Oops, wrong words". Create the pull request. Your checks stay green, because
-   no check knows your words, and a few minutes later its **View deployment** shows the oops in
+   your headline to "Oops, wrong words". Create the pull request. Your checks usually stay green,
+   because no check knows your words (if a Day 3 test checks that sentence, it turns red: your
+   tests caught it, so pick another sentence). A few minutes later its **View deployment** shows the oops in
    your feature slot: that is where a tester catches it. Merge it anyway, on purpose, and approve
    the release. Run the smoke test on your website's own address again: **FAIL** on your
    sentence. That is why you test before and after every release.
