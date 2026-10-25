@@ -64,6 +64,24 @@ step instead of racing ahead. Use made-up information only.
 | My live footer still says **Preview** (Day 4) | The `#` is still in front of `version:` in publish-website.yml, or the merge changed nothing in `site/`. Show a helper. |
 | No Copilot review on my pull request (Days 4-5) | Expected: Copilot code review is off. You and your own Code Review agent review. |
 
+## Get Unstuck: Paste One of These
+
+Paste the sentence into Chat with **Agent** chosen, or into Copilot CLI. Copilot asks before it
+runs anything: read what it wants to do, then allow it. None of these ever force-push or delete
+your saved history.
+
+| When                                       | Paste this                                                                 |
+| ------------------------------------------ | -------------------------------------------------------------------------- |
+| The presenter says the guides were fixed   | "Get the latest workshop fixes: run python3 scripts/update_from_template.py and tell me in plain words what changed." Then save, review, commit, and push as usual (from Day 4: on a new branch, through a pull request). |
+| Is my work safe?                           | "Is all my work committed and pushed to GitHub, and which branch am I on? Answer in plain words and change nothing." |
+| I want to see what I changed               | "List the files I changed since my last commit, with one plain sentence for each. Change nothing." |
+| I made a mess and want my last commit back | "Undo every change since my last commit. First list each file that would change, including new files that would be deleted, and wait for my yes." |
+| One file is broken                         | "Put site/index.html back the way it was in my last commit. Change no other file." Use your own file's name. |
+| It worked yesterday                        | "Show my last 5 commits in plain words. After I pick one, put site/index.html back the way it was in that commit, as a new change I can review. Never rewrite my history." |
+| My push was refused                        | "My push was refused. Explain why in one sentence, then fix it safely: pull first, and never force-push. If main takes only pull requests, move my commits to a new branch and help me open a pull request." |
+| I am on the wrong branch                   | "Take me back to main with the newest version from GitHub. Keep any unfinished work safe first, and tell me where it is." |
+| Git says there is a conflict               | "There is a merge conflict. For each file, show me both versions in plain words and ask me which to keep, one file at a time." |
+
 ## One Good Request
 
 "Change **this one thing** for **this audience**. Keep **these things** unchanged. Explain the
