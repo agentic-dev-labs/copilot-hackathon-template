@@ -59,9 +59,10 @@ env:
   REGISTRY: acrnnhackathon2026
   PULL_IDENTITY: nn-hackathon-pull
   WEBSITE_DOMAIN: thankfulrock-bf005377.eastus.azurecontainerapps.io
-  # 0 lets idle websites sleep for free; the first visit then waits about 30 seconds.
-  # 1 keeps each website awake for about USD 0.19 a day.
-  MIN_REPLICAS: 0
+  # Workshop week: 1 keeps every website awake (about USD 0.19 a day each), so a publish is checked
+  # straight away and the first visit never waits. Set it back to 0 after the workshop to let idle
+  # websites sleep for free; the first visit then waits about 30 seconds.
+  MIN_REPLICAS: 1
 
 jobs:
   prepare:
@@ -279,7 +280,7 @@ jobs:
             exit 1
           fi
           # After a quiet spell Azure can take about 15 minutes to wake the hosting, so wait patiently.
-          for attempt in $(seq 1 150); do
+          for attempt in $(seq 1 375); do
             STATE="$(az containerapp show --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
               --query properties.provisioningState --output tsv)"
             if [ "$STATE" = Succeeded ]; then
@@ -289,7 +290,7 @@ jobs:
               echo "::error::Azure could not start the website ($STATE). Ask a helper to read its revision logs."
               exit 1
             fi
-            sleep 5
+            sleep 2
           done
           if [ "$STATE" != Succeeded ]; then
             echo "::error::Azure is still starting the website hosting. Wait 10 minutes, then select Re-run all jobs. If it fails twice, ask a helper."
@@ -320,7 +321,7 @@ jobs:
               [ "$(curl --silent --fail --max-time 20 "$URL/" | sha256sum | cut -d ' ' -f 1)" = "$INDEX" ]
             fi
           }
-          for attempt in $(seq 1 36); do
+          for attempt in $(seq 1 90); do
             HEALTH="$(curl --silent --max-time 20 "$URL/healthz" || true)"
             if [ "$(jq -r '.commit // ""' <<<"$HEALTH" 2>/dev/null)" = "$PUBLISH_COMMIT" ] \
               && [ "$(jq -r '.site_digest // ""' <<<"$HEALTH" 2>/dev/null)" = "$DIGEST" ] \
@@ -351,12 +352,14 @@ jobs:
                   echo "Version **$WEBSITE_VERSION**, build $GITHUB_RUN_NUMBER."
                   echo
                 fi
-                echo "Published commit \`${PUBLISH_COMMIT:0:7}\`. Every push to main updates it in about three minutes."
-                echo "After a quiet spell, the first visit can take about 30 seconds while the website wakes up."
+                echo "Published commit \`${PUBLISH_COMMIT:0:7}\`. Every push to main updates it in about two minutes."
+                if [ "$MIN_REPLICAS" = 0 ]; then
+                  echo "After a quiet spell, the first visit can take about 30 seconds while the website wakes up."
+                fi
               } >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
-            sleep 5
+            sleep 2
           done
           echo "::error::The website did not show this commit within three minutes. Run the workflow again; if it fails twice, ask a helper."
           exit 1

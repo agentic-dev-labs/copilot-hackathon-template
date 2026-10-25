@@ -29,7 +29,7 @@ or push for the learner.
 5. Hand over in three short lines:
    - **"Your address will be https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io"**
    - **"Now save it as usual: Source Control, sparkle message, Commit, then ... > Push. Publishing
-     starts by itself and takes about three minutes."**
+     starts by itself and takes about two minutes."**
    - **"On GitHub, Actions > Publish my website shows progress; the link also appears under
      Deployments on your repository page."**
 
