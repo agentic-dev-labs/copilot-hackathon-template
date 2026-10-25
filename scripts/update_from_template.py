@@ -5,7 +5,8 @@ Usage (from the repository root, in your Codespace):
     python3 scripts/update_from_template.py
 
 It downloads the template's newest version and copies only the workshop's own files: the
-daily guides, prepared skills, helper scripts, workflow starters and ticket templates. It never
+daily guides, prepared skills, helper scripts, workflow starters and ticket templates. A workshop
+file the template has since deleted is removed too, but only one that came with the copy. It never
 touches your website (site/), config.json, your own agents, skills or instructions, your
 workflows, or your tests. Nothing is committed or pushed: review the changes in Source Control,
 then commit and push them yourself, through a pull request from Day 4 on.
@@ -45,6 +46,12 @@ def _git(repository: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(["git", *args], cwd=repository, capture_output=True, text=True, check=False)
 
 
+def _workshop_files(repository: Path, tree: str) -> set[str]:
+    """List the workshop files in one commit or fetched tree."""
+    listed = _git(repository, "ls-tree", "-r", "--name-only", tree, "--", *WORKSHOP_PATHS)
+    return set(listed.stdout.splitlines())
+
+
 def update(repository: Path, source: str = TEMPLATE_URL, branch: str = "main") -> list[str]:
     """Copy the template's newest workshop files into the repository; return what changed."""
     edited = _git(repository, "diff", "--name-only", "HEAD", "--", *WORKSHOP_PATHS)
@@ -70,7 +77,22 @@ def update(repository: Path, source: str = TEMPLATE_URL, branch: str = "main") -
         # checkout stages the files; unstage them so the attendee reviews and commits as usual.
         _git(repository, "reset", "--quiet", "--", *present)
 
-    status = _git(repository, "status", "--porcelain", "--untracked-files=all", "--", *present)
+    # Files the copy started with (its first commit) that the template no longer has. Files the
+    # attendee added later were never in that first commit, so they are never removed.
+    shipped: set[str] = set()
+    for first in _git(repository, "rev-list", "--max-parents=0", "HEAD").stdout.split():
+        shipped |= _workshop_files(repository, first)
+    retired = sorted(path for path in shipped - _workshop_files(repository, "FETCH_HEAD")
+                     if (repository / path).is_file())
+    if retired:
+        removed = _git(repository, "rm", "--quiet", "--", *retired)
+        if removed.returncode != 0:
+            raise UpdateError(f"Could not remove the old files: {removed.stderr.strip()}")
+        _git(repository, "reset", "--quiet", "--", *retired)
+
+    if not present and not retired:
+        return []
+    status = _git(repository, "status", "--porcelain", "--untracked-files=all", "--", *present, *retired)
     return [line[3:] for line in status.stdout.splitlines() if line.strip()]
 
 
@@ -92,7 +114,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     print(f"Updated {len(changed)} workshop file(s) from the template:")
     for path in changed:
-        print(f"  {path}")
+        print(f"  {path}" if (repository / path).exists() else f"  {path} (removed: the template no longer has it)")
     print("Your website, config.json, agents, skills, instructions, workflows and tests are unchanged.")
     print("Next: review them in Source Control, then commit with the message")
     print("'Get the latest workshop fixes' and push. From Day 4 on, do it on a new branch")

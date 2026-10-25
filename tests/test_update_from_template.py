@@ -97,6 +97,21 @@ def test_uncommitted_workshop_edits_stop_the_update(template: Path, attendee: Pa
     assert (attendee / "README.md").read_text(encoding="utf-8") == "my own note\n"
 
 
+def test_update_removes_retired_workshop_files_but_never_attendee_files(tmp_path: Path) -> None:
+    """A guide the template deleted disappears; a file the attendee added later stays."""
+    template = make_repository(tmp_path / "template", {"docs/DAY-1.md": "day one\n"})
+    attendee = make_repository(tmp_path / "attendee", {"docs/DAY-1.md": "day one\n",
+                                                       "docs/EXTRAS.md": "old extras\n"})
+    (attendee / "docs/my-notes.md").write_text("mine\n", encoding="utf-8")
+    git(attendee, "add", "--all")
+    git(attendee, "commit", "--quiet", "-m", "My notes")
+
+    assert update_from_template.update(attendee, source=str(template)) == ["docs/EXTRAS.md"]
+    assert not (attendee / "docs/EXTRAS.md").exists()
+    assert (attendee / "docs/my-notes.md").read_text(encoding="utf-8") == "mine\n"
+    assert git(attendee, "diff", "--cached", "--name-only") == "", "nothing is staged for them"
+
+
 def test_main_explains_the_next_step(template: Path, attendee: Path, monkeypatch, capsys) -> None:
     """The output tells a beginner what changed and how to save it."""
     monkeypatch.chdir(attendee)
