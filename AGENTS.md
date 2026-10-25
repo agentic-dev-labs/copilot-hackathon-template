@@ -15,7 +15,9 @@ their own idea into tickets (GitHub issues) on a project board, write a user-sto
 User Requirements agent with Copilot CLI that add acceptance criteria to each ticket, and build
 and test one ticket; Day 4 is feature branches, a versioned pipeline, cloud agents and a Code
 Review agent; Day 5 is CI/CD with GitHub Actions (tests and a browser UI check with screenshots),
-team demos and a handoff, all on the attendee's own website. The separate post-workshop business case
+team demos and a handoff, all on the attendee's own website. Attendees follow one guide per day,
+`docs/DAY-1.md` to `docs/DAY-5.md`, linked from a minimal README, plus `docs/QUICK-REFERENCE.md`
+and the optional `docs/EXTRAS.md` (owner, 25 October 2026: no `labs/` folder). The separate post-workshop business case
 reviews **synthetic** vendor reports with deterministic scores and quoted evidence.
 
 ## Non-negotiable rules
@@ -47,7 +49,7 @@ Tests and lint must both pass before opening a pull request.
 
 All attendee work runs in browser-based Codespaces and its Linux/Bash terminal, including
 Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or desktop VS Code
-is required. The browser-tools demonstration in Lab 04 is an optional presenter extra;
+is required. The browser-tools demonstration in the MCP extra is an optional presenter extra;
 attendees install nothing for it. The repository's only MCP server is the read-only GitHub one in
 `.vscode/mcp.json`, with `chat.mcp.autostart` set to `never`, MCP discovery from other apps,
 other extensions' chat tools, and agent plugins switched off in `.vscode/settings.json`, which
@@ -79,8 +81,8 @@ hold the sponsor welcome (SEFR video) and ASTER Overview teaser (HZRW) from Davi
 slide, then a concepts-only GitHub tour that attendees watch: GitHub, a repository, and save ->
 commit -> push. At 09:30 (order agreed with the owner on 21 October 2026) each attendee makes one
 private copy of the template in agentic-dev-labs with Use this template (so nobody pushes to a
-shared repository). Until 10:30 attendees use
-only the repository README, the page GitHub shows them first; the presenter shows each step on
+shared repository). On Monday attendees use only `docs/DAY-1.md`, which the README's first link
+opens; the presenter shows each step on
 their own repository and attendees repeat it on theirs.
 Then use short show -> try -> personalise -> verify -> share cycles: Chat first, at 10:00 the provided
 `/create-website` workflow and its first push, and the live Website preview beside Chat. Offer the Project Planner,
@@ -89,7 +91,7 @@ demonstrate the Project Planner, and ask only which one; choosing is the approva
 prepared preview helper; do not introduce attendee terminal or port setup. Continue with personalisation,
 manual behaviour and source checks, and saved work. Demonstrate every essential click, including
 finding the guide and Markdown Open Preview; these are not independent reading assignments.
-Use the README until 10:30, then [docs/START-HERE.md](docs/START-HERE.md). No Monday CLI/MCP configuration, research downloads,
+No Monday CLI/MCP configuration, research downloads,
 skill installation, or presentation requirement. Storage and deployment are optional extensions.
 Prepare the skill, its tested category blueprints, the local kit and the editor helper, not a
 completed site/. The skill copies one self-contained index.html plus a data/*.json pretend API
@@ -99,8 +101,8 @@ calls Open-Meteo (forecast, city search and past weather), and the preview allow
 the kit ships Apache ECharts and ECharts GL for `/add-chart` and 3D (19 October 2026), and
 three.js for the optional Lab Chase game pattern (20 October 2026); and the
 Photo Studio repaints photos of things, places and pets through the Website preview. At 10:45
-everyone builds one own idea from one sentence in `site/ideas/<name>/`, and `/add-chart` is Lab
-02's main interaction.
+everyone builds one own idea from one sentence in `site/ideas/<name>/`, and `/add-chart` is Day
+1's main afternoon interaction.
 The neutral CSS and licensed font/icons are dependencies, not a completed website. No corporate
 branding, diagram tools, or paid image service belongs in the beginner builder. The owner approved
 one AI exception on 17 October 2026: `scripts/workshop_ai.py` draws or edits pictures and saves them
@@ -109,13 +111,13 @@ chat model. Both sign in with Entra ID as the workshop identity from Codespaces 
 private repositories only). Never use or add API keys, and never put credentials in files. Save
 the starter on GitHub before a separate own-idea page, and never replace the first page.
 
-Lab 08's core is reviewed, pushed work. Its optional website target publishes only `site/`:
+Day 1's last block is reviewed, pushed work. Its optional website target publishes only `site/`:
 `/publish-website` sets `websiteName` in `config.json`, and each push to `main` runs the
 template's reusable publisher, which signs in to the shared Container Apps environment with
 GitHub OIDC and no secret. Never add Azure credentials for it.
 Day 2 gives David 09:00-09:30 and Jackie 09:30-10:30 for conceptual overviews and Bill Leeson
 11:45-12:15 for Building a Project Brain (David's slide), then protects 10:45-11:45 and the
-afternoon for participants' own ideas. Follow docs/DAY-2-BUILD.md and the
+afternoon for participants' own ideas. Follow docs/DAY-2.md and the
 printable quick reference. No required database, CLI, MCP, automation, or deployment work on
 Day 1 or Day 2. Use fictional local content; collect integration questions for IT later.
 
@@ -127,7 +129,7 @@ label are not authorization. Preserve validation, server-owned labels, unassesse
 
 The owner approved following David's final slides for Days 3-5 on 20 October 2026, four hours
 each, written in elapsed time, and refitted the content inside those blocks on 21 October 2026.
-Day 3 (docs/TOOLS-PRACTICE.md): MUKQ opens; in every block Ali shows a step on a demo website and
+Day 3 (docs/DAY-3.md): MUKQ opens; in every block Ali shows a step on a demo website and
 attendees then do the same on their own idea. Attendees write two or three tickets with the
 **Requirement** issue template from the **Next** wishes they wrote in their brief on Day 2, keep
 them on a Board project named after themselves that imports their repository, sign in to Copilot
@@ -139,13 +141,13 @@ updates with `gh` once the attendee agrees; "validate" there is a practice check
 validation), approve a ticket by moving it to **Todo**, build it in the Codespace, add
 `pytest checks` tests with the shipped `checks/website.py`, list the requirements and how to run
 them in the brief, and close the ticket with a `Closes #N` commit so the board shows it **Done**.
-Day 4 (docs/DAY-4-BUILD.md): a presenter demo of an automation that adds criteria to a new ticket
+Day 4 (docs/DAY-4.md): a presenter demo of an automation that adds criteria to a new ticket
 by itself, a `Protect main` ruleset that requires pull requests (Copilot code review stays off),
 the publisher's `version` input switched on so the live footer shows the build number, the next
-approved ticket from the board assigned to the cloud agent (Lab 03), review rules in
+approved ticket from the board assigned to the cloud agent (its delegation block), review rules in
 `.github/instructions/review.instructions.md`
 and a Code Review agent whose findings the attendee verifies, `@copilot` fixes, and a merge that
-deploys. Day 5 (docs/DAY-5-SHOWCASE.md): CI/CD from the starters in `.github/workflow-starters/`,
+deploys. Day 5 (docs/DAY-5.md): CI/CD from the starters in `.github/workflow-starters/`,
 tests plus `scripts/ui_check.py` (a browser UI check with desktop and phone screenshots that runs
 in GitHub Actions only, never with `--no-sandbox`) made required in the ruleset, a red then green
 pull-request check, a feature slot (`<name>-feature`, a yellow strip with pull request, version,
@@ -155,8 +157,8 @@ then approval-gated publishing to the production slot in the attendee's `product
 **Revert** rollback, team demos,
 and HANDOFF.md. The publisher writes `version.json`, which the content fingerprint ignores, so a
 rollback restores the known-good fingerprint. Ship helpers and starters, never the learner's
-agents, skills, instructions, tests, reviews, or active check and feature-slot workflows; CI enforces this. Labs 04
-and 06 are optional extras; a Copilot automation is a Day 4 presenter demo and an optional extra,
+agents, skills, instructions, tests, reviews, or active check and feature-slot workflows; CI enforces this. The two
+extras in docs/EXTRAS.md are optional; a Copilot automation is a Day 4 presenter demo and an optional extra,
 and Agentic Workflows a presenter demo. Days 4 and 5 open with a short catch-up for attendees who
 join that day, and Day 5's handoff routes include Novo's own GitHub Enterprise, Power Apps code
 apps, and Novo's validation process for anything GxP.
@@ -181,7 +183,7 @@ and workspace paths, never Windows Desktop/OneDrive paths or a local-workstation
 Do not turn Monday into a feature tour. Keep clock times and core lab
 durations unchanged unless the owner approves a change. Distinguish live work, prepared results,
 optional previews, and reference-only topics; do not turn every feature into an attendee prerequisite.
-Every lab needs direct official references, an observable finish, and separate optional work.
+Every day guide needs direct official references, an observable finish, and separate optional work.
 
 Do not append product documentation to synthetic reports or the privacy review template:
 they are evaluator inputs and output structure, not teaching guides. Keep generated baselines
@@ -199,7 +201,7 @@ Consult it when changing instruction files, not as evidence for an assurance fin
 | `src/vendor_assurance/samples/` | Synthetic SOC 2 reports                |
 | `app/`                          | The web application attendees deploy   |
 | `infra/`                        | Shared website hosting (Bicep, OIDC)   |
-| `labs/`                         | Workshop instructions                  |
+| `docs/`                         | One attendee guide per day, extras     |
 | `.github/agents/`               | Learners' agents; ships GenericAgent   |
 
 ## Style

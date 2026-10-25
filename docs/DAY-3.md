@@ -264,7 +264,7 @@ ticket stands. Tools (MCP) let Copilot read and act on GitHub, instructions are 
 skill is a recipe with a fixed format, and an agent is a role: all short files you write in plain
 words. Acceptance criteria make "done" checkable, and tests keep checking it after every change.
 Tomorrow Copilot's cloud agent builds your next ticket on GitHub: see the
-[Day 4 guide](DAY-4-BUILD.md).
+[Day 4 guide](DAY-4.md).
 
 ## Optional extras
 
@@ -273,9 +273,9 @@ Tomorrow Copilot's cloud agent builds your next ticket on GitHub: see the
 2. On your board, add a field called **Priority** with the options Must, Should, and Could, and
    set it on every ticket.
 3. Plug the same GitHub tools into Chat, and watch the presenter's browser tool, with
-   [Lab 04](../labs/04-mcp/README.md).
+   [extra 1](EXTRAS.md#1-copilot-uses-tools-mcp).
 4. Write an instructions file and your own `/make-image` picture skill, or add a chat to your
-   page, with [Lab 06](../labs/06-teach-copilot/README.md).
+   page, with [extra 2](EXTRAS.md#2-teach-copilot-about-your-project).
 5. In Copilot CLI, type `/help` and find one command you would like to try later.
 
 ## Official References

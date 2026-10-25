@@ -55,7 +55,7 @@ case "${1:-core}" in
 		if "$EDITOR_RELOAD_REQUIRED"; then
 			printf 'Run Developer: Reload Window once so Python can use the project environment.\n'
 		fi
-		printf '\nWelcome! Follow the presenter. Until 10:30 your guide is README.md; then docs/START-HERE.md.\n'
+		printf '\nWelcome! Follow the presenter. Your guide for each day is in docs: DAY-1.md on Monday, DAY-2.md on Tuesday, and so on.\n'
 		;;
 	cli)
 		# Runs just after the editor opens; download Copilot CLI only when it is missing.
@@ -81,7 +81,7 @@ case "${1:-core}" in
 		node .devcontainer/browser/node_modules/playwright/cli.js install --with-deps chromium
 		if ! bash .devcontainer/mcp.sh check-browser; then
 			printf '\nThe browser could not start in this Codespace. Show a helper this message,\n' >&2
-			printf 'then follow the presenter for the browser part of Lab 04.\n' >&2
+			printf 'then follow the presenter for the browser part of the MCP extra.\n' >&2
 			exit 1
 		fi
 		python3 scripts/enable_playwright_mcp.py

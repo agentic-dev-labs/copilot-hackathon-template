@@ -2,7 +2,7 @@
 
 On Day 3 each attendee runs ``bash .devcontainer/setup.sh browser`` once. That profile installs
 the pinned, sandboxed browser and then calls this script, so nobody edits JSON by hand. Other
-servers already in ``.vscode/mcp.json``, such as the GitHub server from Lab 04, are kept.
+servers already in ``.vscode/mcp.json``, such as the GitHub server from the MCP extra, are kept.
 """
 
 import json

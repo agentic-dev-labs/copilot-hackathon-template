@@ -5,8 +5,8 @@ step instead of racing ahead. Use made-up information only.
 
 | I want to... | Where to go |
 | --- | --- |
-| Find today's guide | Monday until 10:30: the **README** on your repository's GitHub page. Then, in the Explorer, **docs > START-HERE.md**, or the guide the presenter names. |
-| Get back on track when I am lost | Find the row the room is on in **Today's Route** at the top of today's guide (Monday morning: the README's headings), open its link, and start there. Raise your hand: a helper catches you up. |
+| Find today's guide | In the Explorer, **docs > DAY-1.md** on Monday, **DAY-2.md** on Tuesday, and so on. On GitHub, your repository's **README** links to each day. |
+| Get back on track when I am lost | Find the row the room is on in **Today's Route** at the top of today's guide, open its link, and start there. Raise your hand: a helper catches you up. |
 | Read a guide nicely | Right-click the `.md` file in the Explorer and choose **Open Preview**. It is the same file. |
 | Find a file | The **Explorer** is the files icon on the left. Select a folder to open it. |
 | Ask Copilot | **View > Chat**. Choose **Ask** for questions, or **Agent** when Copilot should change files. Start with a question, then ask for one small change. |
@@ -87,7 +87,7 @@ your saved history.
 "Change **this one thing** for **this audience**. Keep **these things** unchanged. Explain the
 small plan first. I will check it by **this action and expected result**."
 
-[Lab 02](../labs/02-make-it-useful/README.md) has a check for each of the six websites.
+[Day 1, section 5](DAY-1.md#5-check-it-yourself) has a check for each of the six websites.
 
 ## Trust, but Verify
 
@@ -118,8 +118,8 @@ paste passwords or real work records into Chat. Do not delete accounts or remove
 yourself. In pairs, take turns at the keyboard. Before you leave, push your work, then stop your
 Codespace at github.com/codespaces; closing the browser tab does not stop it.
 
-[Monday guide](START-HERE.md) | [Tuesday building](DAY-2-BUILD.md) | [Wednesday agents](TOOLS-PRACTICE.md) |
-[Thursday cloud agents](DAY-4-BUILD.md) | [Friday CI/CD](DAY-5-SHOWCASE.md) | [Your week](../README.md#your-week)
+[Day 1](DAY-1.md) | [Day 2](DAY-2.md) | [Day 3](DAY-3.md) | [Day 4](DAY-4.md) | [Day 5](DAY-5.md) |
+[Optional extras](EXTRAS.md) | [Your week](../README.md#your-week)
 
 Official help: [Codespaces](https://docs.github.com/en/codespaces/about-codespaces/what-are-codespaces),
 [Markdown preview](https://code.visualstudio.com/docs/languages/markdown),

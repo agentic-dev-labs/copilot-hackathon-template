@@ -81,7 +81,7 @@ Wednesday, not today.
 
 Fix what you found, one thing at a time, and check it again. Then save, commit, and push. You can
 publish your page if you want to, with `/publish-website` and
-[Lab 08's optional route](../labs/08-save-and-share/README.md#publish-your-page); a helper can
+[Day 1's optional route](DAY-1.md#publish-your-page); a helper can
 help. Your preview is enough to finish.
 
 ## Show and Plan the Next Step: 14:45-15:00
@@ -100,7 +100,7 @@ your first tickets.
 **Done when:** you have a checked first version of your idea (or a better Monday page), your work
 is on GitHub, and your brief lists what you want next. Database connections, automated browser
 checks, and public deployment are not completion gates. On Wednesday you will learn a few more
-ways to use Copilot on this same work: see the [Day 3 guide](TOOLS-PRACTICE.md).
+ways to use Copilot on this same work: see the [Day 3 guide](DAY-3.md).
 
 Keep working in this Codespace. Moving an idea to company tools later needs your technical
 owner's approval, so save your work and ask first. Never remove training access or delete an

@@ -10,4 +10,4 @@ This folder holds your website. On Monday you ask Copilot to build your page wit
   customers, patients, or work records, and no private files.
 
 Your page remembers the entries you add in this browser only; it is not a shared database.
-Publishing is optional. Start with [your first website](../README.md#your-first-website).
+Publishing is optional. Start with [your first website](../docs/DAY-1.md#3-your-first-website).

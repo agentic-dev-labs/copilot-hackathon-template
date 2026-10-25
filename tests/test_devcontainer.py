@@ -226,7 +226,7 @@ def test_preview_setup_repairs_python_environment_provider(
     assert calls == (expected if missing_environment_provider else [])
     assert ("Run Developer: Reload Window once" in result.stdout) is missing_environment_provider
     # The one terminal beginners see ends with the welcome, not packaging output.
-    assert result.stdout.rstrip().endswith("then docs/START-HERE.md.")
+    assert result.stdout.rstrip().endswith("DAY-2.md on Tuesday, and so on.")
     assert "Reload Window." not in result.stdout.replace("Reload Window once", "")
 
 
@@ -421,7 +421,7 @@ def test_browser_profile_connects_only_the_reviewed_playwright_entry(tmp_path: P
     assert browser.index(set_aside) < browser.index("install --with-deps chromium")
     assert "apt-key" not in setup and "--allow-unauthenticated" not in setup
     assert "if ! bash .devcontainer/mcp.sh check-browser; then" in browser
-    assert "follow the presenter for the browser part of Lab 04" in browser
+    assert "follow the presenter for the browser part of the MCP extra" in browser
     assert "--no-sandbox" not in setup and "chromiumSandbox: false" not in setup
 
     example = Path(".devcontainer/mcp.example.json")

@@ -4,7 +4,7 @@
     {
       "id": "00",
       "title": "Foundations, files, Chat, and the first saved website",
-      "guide": "README.md",
+      "guide": "docs/DAY-1.md",
       "tests": [
         "tests/test_devcontainer.py",
         "tests/test_app_config.py"
@@ -12,15 +12,15 @@
       "checks": {
         "fresh-install": "Fresh-cache locked core installation succeeds; on-create Copilot CLI and the Website preview helper verified separately; no Chromium or research dependency startup requirement",
         "access": "GitHub and editor Chat work with the intended attendee account",
-        "orientation": "Concepts-only GitHub tour from the README that attendees watch; at 09:30 an attendee-like account made a private copy of the template in agentic-dev-labs with Use this template, and the labelled visual guide was checked in browser-based Codespaces before terminal use",
+        "orientation": "Concepts-only GitHub tour from the Day 1 guide that attendees watch; at 09:30 an attendee-like account made a private copy of the template in agentic-dev-labs with Use this template, and the guide was opened with Open Preview in browser-based Codespaces before terminal use",
         "chat-turn": "A real editor Chat request and refinement completed without terminal setup",
-        "first-website": "10:00 block from the README: actual /create-website invocation asked only which website (six starters or My own idea), built the tested blueprint named after the repository with its idea note site/brief.md; every file staged, committed, pushed, and site/brief.md read back on the same branch on GitHub"
+        "first-website": "10:00 block from the Day 1 guide: actual /create-website invocation asked only which website (six starters or My own idea), built the tested blueprint named after the repository with its idea note site/brief.md; every file staged, committed, pushed, and site/brief.md read back on the same branch on GitHub"
       }
     },
     {
       "id": "01",
       "title": "More websites, one own idea, and manual verification",
-      "guide": "labs/01-first-website/README.md",
+      "guide": "docs/DAY-1.md",
       "tests": [
         "tests/test_lab_contracts.py"
       ],
@@ -42,7 +42,7 @@
     {
       "id": "02",
       "title": "Useful interaction and personal improvement",
-      "guide": "labs/02-make-it-useful/README.md",
+      "guide": "docs/DAY-1.md",
       "tests": [
         "tests/test_site.py"
       ],
@@ -62,7 +62,7 @@
     {
       "id": "08",
       "title": "Save, share, and keep building",
-      "guide": "labs/08-save-and-share/README.md",
+      "guide": "docs/DAY-1.md",
       "tests": [
         "tests/test_workflows.py",
         "tests/test_app_config.py",
@@ -81,13 +81,13 @@
         "deployed-behaviour": "Chosen interaction verified at the actual new deployment URL, not just the health endpoint",
         "deployed-storage": "Only if storage was selected, its journey repeated at the deployment origin without assuming preview state transfers",
         "challenge": "A bronze, silver, or gold challenge-card level completed and checked by the learner",
-        "bonus": "Optional bonus: the Lab 02 feature not picked first (a chart, /add-chat, or a picture) added and checked against the page"
+        "bonus": "Optional bonus: the afternoon feature not picked first (a chart, /add-chat, or a picture) added and checked against the page"
       }
     },
     {
       "id": "day-2",
       "title": "Supported own-idea build and handover",
-      "guide": "docs/DAY-2-BUILD.md",
+      "guide": "docs/DAY-2.md",
       "tests": [
         "tests/test_lab_contracts.py",
         "tests/test_site.py"
@@ -103,7 +103,7 @@
     {
       "id": "day-3",
       "title": "VS Code and a User Requirements agent",
-      "guide": "docs/TOOLS-PRACTICE.md",
+      "guide": "docs/DAY-3.md",
       "tests": [
         "tests/test_devcontainer.py",
         "tests/test_lab_contracts.py",
@@ -122,15 +122,15 @@
       },
       "optional_checks": {
         "vscode-agent": "The same agent file chosen in VS Code Chat's agent picker and its answer compared with Copilot CLI",
-        "github-mcp": "Optional Lab 04: read-only GitHub MCP started, no write tools, recent commits matched GitHub",
-        "teach-copilot": "Optional Lab 06: instructions file, learner make-image skill, and /add-chat with the FOUNDRY_* workshop identity",
+        "github-mcp": "Optional MCP extra: read-only GitHub MCP started, no write tools, recent commits matched GitHub",
+        "teach-copilot": "Optional Teach Copilot extra: instructions file, learner make-image skill, and /add-chat with the FOUNDRY_* workshop identity",
         "browser-demo": "Optional presenter browser-tools demonstration rehearsed in the presenter's Codespace"
       }
     },
     {
       "id": "day-4",
       "title": "Feature branches, a versioned pipeline, cloud agents and a Code Review agent",
-      "guide": "docs/DAY-4-BUILD.md",
+      "guide": "docs/DAY-4.md",
       "tests": [
         "tests/test_lab_contracts.py",
         "tests/test_workflows.py",
@@ -154,7 +154,7 @@
     {
       "id": "03",
       "title": "Delegate an approved ticket to the cloud agent",
-      "guide": "labs/03-cloud-agent/README.md",
+      "guide": "docs/DAY-4.md",
       "tests": [
         "tests/test_lab_contracts.py",
         "tests/test_site.py"
@@ -171,7 +171,7 @@
     {
       "id": "day-5",
       "title": "CI/CD with GitHub Actions",
-      "guide": "docs/DAY-5-SHOWCASE.md",
+      "guide": "docs/DAY-5.md",
       "tests": [
         "tests/test_lab_contracts.py",
         "tests/test_workflows.py",

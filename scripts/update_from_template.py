@@ -5,7 +5,7 @@ Usage (from the repository root, in your Codespace):
     python3 scripts/update_from_template.py
 
 It downloads the template's newest version and copies only the workshop's own files: the
-guides, labs, prepared skills, helper scripts, workflow starters and ticket templates. It never
+daily guides, prepared skills, helper scripts, workflow starters and ticket templates. It never
 touches your website (site/), config.json, your own agents, skills or instructions, your
 workflows, or your tests. Nothing is committed or pushed: review the changes in Source Control,
 then commit and push them yourself, through a pull request from Day 4 on.
@@ -22,7 +22,6 @@ TEMPLATE_URL = "https://github.com/agentic-dev-labs/copilot-hackathon-template.g
 WORKSHOP_PATHS = (
     "README.md",
     "docs",
-    "labs",
     "scripts",
     "checks/README.md",
     "checks/website.py",

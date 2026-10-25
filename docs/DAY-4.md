@@ -12,7 +12,7 @@ does the same job.
 the delegation lab at 00:50. On GitHub open **Issues > New issue > Requirement** and write what
 you want in plain words. Then ask Chat: "Write a user story and two Given/When/Then acceptance
 criteria for this wish: [your wish]." Paste the answer under **User story** and **Acceptance
-criteria**, and save. A board is optional today; the [Day 3 guide](TOOLS-PRACTICE.md#1-tickets-board-and-tools)
+criteria**, and save. A board is optional today; the [Day 3 guide](DAY-3.md#1-tickets-board-and-tools)
 shows how to make one.
 
 ## Today's Route
@@ -37,6 +37,7 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
 | -------------- | ------------------------------------------------------------------------------------- |
 | Branch         | A separate line of work, so `main` stays safe while you try something.                |
 | Pull request   | A proposed change from a branch. Nothing changes in `main` until a person merges it. |
+| Merge          | Accept a pull request into `main`.                                                    |
 | Ruleset        | Rules GitHub applies to a branch, such as "changes arrive only by pull request".      |
 | Pipeline       | The workflow that runs by itself after a merge and publishes your website.            |
 | Version number | The label of a release. Yours ends with the pipeline's run number, the build number.  |
@@ -109,25 +110,40 @@ live website shows its version number.
 ## 3. Delegate an Approved Ticket
 
 **00:50-01:30.** This is the delegation lab: Copilot's cloud agent builds your next ticket
-online. Step-by-step help and what to do when something goes wrong:
-[Lab 03](../labs/03-cloud-agent/README.md).
+online. The presenter delegates a demo ticket first; then you delegate yours. A helper confirms
+that the cloud agent is switched on for your repository.
 
 1. Open your board from your repository's **Projects** tab and pick a ticket in **Todo**:
-   approved, with its user story and acceptance criteria. None there? Run your User Requirements
-   agent on a ticket first, as on Day 3, check its criteria, and drag it into **Todo**.
+   approved, with its user story and acceptance criteria, and small enough to check in a few
+   minutes. None there? Run your User Requirements agent on a ticket first, as on Day 3, check
+   that you could test every criterion by clicking or counting, and drag it into **Todo**.
 2. Open the ticket and read it once more: could someone who has never seen your page tell when
-   it is done? Does **Which page** name the right page?
+   it is done? **Which page** must name the right page: `site/index.html`, or your idea's
+   folder, such as `site/ideas/team-lunch/`. Keep **Only change** as it is. To change anything,
+   select **...** and **Edit** on the ticket, then save.
 3. Under **Assignees**, select **Assign to Agent** (or **Assignees > Copilot**). In the window,
    keep the base branch `main` and the agent **Copilot**, leave the prompt empty, and select
    **Assign**. If Copilot is not listed, tell a helper and follow the presenter's pull request
-   instead.
+   instead. Never wait idle for it.
 4. Within a minute your board moves the ticket to **In Progress** by itself; if it does not,
    drag the ticket into **In Progress**. Open the ticket again: it shows that
-   Copilot started. Select the session link to watch its progress log. It usually takes a few
-   minutes, so go on to the next part.
+   Copilot started. Select the session link to watch its progress log.
+5. **Follow the work.** It usually takes a few minutes. Find one step in the log where Copilot
+   read your files and one where it checked its work. Then open **Pull requests**: its pull
+   request starts as a **draft**, linked to your ticket. Open **Files changed**: does it change
+   only your page, its sample data, and tests? Leave it open; you review it in section 5.
+   Nothing changes until you merge.
 
 **Check:** a draft pull request from Copilot appears under **Pull requests**, linked to your
-ticket.
+ticket, and changes only what the ticket asked for.
+
+| What you see                              | Next action                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------------- |
+| Copilot is not in the Assignees list      | The feature is not switched on for this repository. Tell a helper.            |
+| You chose Copilot, but nobody is assigned | The list closed without saving. Use **Assign to Agent** and its **Assign** button instead. |
+| The pull request changed too much         | Comment with `@copilot` asking for the smaller change, or close it unmerged.  |
+| GitHub asks you to approve workflows      | Ask a helper first. It is a safeguard: checks on Copilot's work wait for you. |
+| Pull reports a conflict                   | Stop and show a helper. Never force a push.                                   |
 
 ## 4. Build Your Code Review Agent
 
@@ -237,23 +253,32 @@ the next version number and **Done** on your board, or closed it with a reason.
 labels every release with its build number. Agents build and review, but they follow what you
 wrote: your ticket's acceptance criteria, your review rules, and your agent. A person still
 checks and decides. Tomorrow GitHub checks every pull request for you, in a browser too: see the
-[Day 5 guide](DAY-5-SHOWCASE.md).
+[Day 5 guide](DAY-5.md).
 
 ## Optional extras
 
-1. **An agent that starts by itself.** With an automation, Copilot adds a user story and
-   acceptance criteria to every new **Requirement** ticket, using your Day 3 skill. See
-   [Lab 03's extras](../labs/03-cloud-agent/README.md#optional-extras).
-2. Ask Copilot on GitHub to write a ticket for you: open [github.com/copilot](https://github.com/copilot)
+1. **An agent that starts by itself.** On GitHub open **Agents > Automations > Create new**. Name
+   it `Criteria for new tickets`, choose the trigger **When an issue is created** with the filter
+   `label:enhancement`, and use this prompt: "Read this new ticket. Use the user-stories skill to
+   write its user story and acceptance criteria into the ticket's User story and Acceptance
+   criteria sections, keeping the author's own words. Change nothing else." Select **Suggest
+   tools** and keep only reading the ticket and updating it. Then open **Issues > New issue >
+   Requirement**: nobody assigns it, yet a session starts, and the criteria arrive on the ticket
+   or as a suggested change for you to approve. Turn the automation off afterwards under
+   **Agents > Automations**, because each run uses your Copilot allowance.
+2. Use the simpler **Website change for Copilot** template for a small change that is not a
+   ticket from your board.
+3. Ask Copilot on GitHub to write a ticket for you: open [github.com/copilot](https://github.com/copilot)
    and ask "In my repository, create a Requirement ticket: show which tasks are late." Read the
    draft before you select **Create**.
-3. Read Copilot's progress log and find one step where it checked its own work.
 4. Ask your review agent to review your own pull request from section 2.
 
 ## Official References
 
-- [About the cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent)
+- [About the cloud agent](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-cloud-agent),
+  [start a task](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/kick-off-a-task),
   and [review its output](https://docs.github.com/en/copilot/how-tos/copilot-on-github/use-copilot-agents/review-copilot-output).
+- [The board's built-in automations](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations).
 - [Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets),
   and [the instructions each Copilot reads](https://docs.github.com/en/copilot/reference/custom-instructions-support).
 - [The run number and other workflow values](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context).

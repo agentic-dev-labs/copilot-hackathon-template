@@ -13,7 +13,7 @@ Stuck in the terminal? Paste the same sentence into Chat with **Agent** chosen; 
 **Joining today?** Before the workflow lab at 00:20, your website needs an address and a
 protected `main`. If it has no address yet, type `/publish-website` in Chat, then save, commit,
 and push. Then create the `Protect main` ruleset as in
-[Day 4, section 2, step 1](DAY-4-BUILD.md#2-protect-main-and-version-your-releases). No tests from
+[Day 4, section 2, step 1](DAY-4.md#2-protect-main-and-version-your-releases). No tests from
 Day 3? Your checks say so and stay green.
 
 ## Today's Route
@@ -223,7 +223,7 @@ for every checked pull request, and Publish my website to production with approv
 number, and what starts each), how to release and how to
 roll back with Revert, who owns releases (me), and open questions for IT. Add a short 'To make
 it real' list: which parts are made up or only in my browser today, and the route for each from
-the table in docs/DAY-5-SHOWCASE.md." Read it, correct one sentence, then save it the Day 4 way:
+the table in docs/DAY-5.md." Read it, correct one sentence, then save it the Day 4 way:
 a branch, a pull request, and a merge. If you tried an automation, switch it off: on GitHub open
 **Agents > Automations**, select it, and choose **Disable**.
 
