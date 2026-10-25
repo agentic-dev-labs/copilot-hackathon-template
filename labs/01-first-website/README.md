@@ -139,7 +139,7 @@ A helper can run `python3 scripts/website_preview.py status` to see what is wron
    gets its own folder too. If time runs out, stop; Tuesday has more time for your ideas.
 2. Make a page easy to read in a narrow window.
 3. Try one of the later ideas listed in your brief, or a challenge from
-   [Lab 08's challenge card](../08-save-and-share/README.md#3-take-a-challenge-15-minutes).
+   [Lab 08's Take a Challenge section](../08-save-and-share/README.md#3-take-a-challenge-15-minutes).
 
 ## Official References
 

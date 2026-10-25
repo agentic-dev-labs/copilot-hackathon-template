@@ -40,7 +40,7 @@ Start from the example entries for your page. For your idea's page, use the chec
 
 | Your Website | One Example Check |
 | --- | --- |
-| Project Planner | 1 of 4 done. Tick a second task: 2 of 4, and the bar grows. Untick it: 1 of 4 again. |
+| Project Planner | Examples only: 1 of 4 done; tick a second task: 2 of 4. With the task you added this morning: 1 of 5, then 2 of 5. The bar grows; untick it and it goes back. |
 | Calendar | 3 notes planned. Add one on Friday: 4. Drag it to Monday: still 4, now on Monday. |
 | Ideas Wall | 3 ideas. Add one: 4. Drag it to the front, then remove it: 3 again. |
 | Weather | Pick another city and compare today's temperature with **the raw forecast data** link. |
