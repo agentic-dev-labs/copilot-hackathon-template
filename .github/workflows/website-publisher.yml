@@ -142,7 +142,7 @@ jobs:
     needs: prepare
     if: ${{ needs.prepare.outputs.name != '' }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     permissions:
       contents: read
       id-token: write
@@ -278,7 +278,8 @@ jobs:
             echo "::error::Another repository claimed the name $WEBSITE_NAME at the same moment. Choose a different name."
             exit 1
           fi
-          for attempt in $(seq 1 60); do
+          # After a quiet spell Azure can take about 15 minutes to wake the hosting, so wait patiently.
+          for attempt in $(seq 1 150); do
             STATE="$(az containerapp show --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
               --query properties.provisioningState --output tsv)"
             if [ "$STATE" = Succeeded ]; then
@@ -290,12 +291,20 @@ jobs:
             fi
             sleep 5
           done
+          if [ "$STATE" != Succeeded ]; then
+            echo "::error::Azure is still starting the website hosting. Wait 10 minutes, then select Re-run all jobs. If it fails twice, ask a helper."
+            exit 1
+          fi
 
       - name: Check the live website
         id: verify
         run: |
           FQDN="$(az containerapp show --name "$WEBSITE_NAME" --resource-group "$RESOURCE_GROUP" \
             --query properties.configuration.ingress.fqdn --output tsv)"
+          if [ -z "$FQDN" ]; then
+            echo "::error::Azure has not given the website an address yet. Wait 10 minutes, then select Re-run all jobs. If it fails twice, ask a helper."
+            exit 1
+          fi
           if [ "$FQDN" != "$WEBSITE_NAME.$WEBSITE_DOMAIN" ]; then
             echo "::warning::The address differs from the one /publish-website predicts. Tell the workshop owner to update WEBSITE_DOMAIN."
           fi

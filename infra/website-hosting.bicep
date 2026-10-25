@@ -89,6 +89,36 @@ resource environment 'Microsoft.App/managedEnvironments@2024-03-01' = {
   }
 }
 
+// Keeps the environment's compute awake. With no running app, Azure suspended it (seen on
+// 25 October 2026) and the first publish then waited about 13 minutes. One tiny always-on replica,
+// about USD 0.20 a day, prevents that. It has no ingress and no repository tag, so the publisher
+// never removes it, and an attendee cannot take its name.
+resource keepWarm 'Microsoft.App/containerApps@2024-03-01' = {
+  name: 'keep-warm'
+  location: location
+  tags: union(tags, { role: 'keep-environment-awake' })
+  properties: {
+    environmentId: environment.id
+    workloadProfileName: 'Consumption'
+    template: {
+      containers: [
+        {
+          name: 'keep-warm'
+          image: 'mcr.microsoft.com/k8se/quickstart:latest'
+          resources: {
+            cpu: json('0.25')
+            memory: '0.5Gi'
+          }
+        }
+      ]
+      scale: {
+        minReplicas: 1
+        maxReplicas: 1
+      }
+    }
+  }
+}
+
 resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   name: registryName
   location: location
