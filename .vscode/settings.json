@@ -21,6 +21,10 @@
   },
   "chat.extensionTools.enabled": false,
   "chat.plugins.enabled": false,
+  "chat.defaultToCopilotHarness": false,
+  "chat.editor.preferCopilotHarness": false,
+  "chat.harnessSwitchFeedbackSurvey.enabled": false,
+  "chat.copilotHarnessIntroduction.mode": "off",
   "python.terminal.activateEnvironment": false,
   "python-envs.terminal.autoActivationType": "off"
 }

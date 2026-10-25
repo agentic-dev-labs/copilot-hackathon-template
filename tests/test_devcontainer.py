@@ -447,6 +447,10 @@ def test_repository_ships_only_the_read_only_github_mcp_server(tmp_path: Path) -
     # Other extensions' chat tools and agent plugins stay out; Copilot's built-in tools remain.
     assert settings["chat.extensionTools.enabled"] is False
     assert settings["chat.plugins.enabled"] is False
+    # New chats start in the Local harness, which enforces each custom agent's tools list
+    # (tested in a browser Codespace, 25 October 2026); the Copilot harness did not.
+    assert settings["chat.defaultToCopilotHarness"] is False
+    assert settings["chat.editor.preferCopilotHarness"] is False
     config = json.loads(Path(".devcontainer/devcontainer.json").read_text(encoding="utf-8"))
     assert not any("azure" in name.lower() for name in config["customizations"]["vscode"]["extensions"])
     assert config["customizations"]["vscode"]["settings"]["github.copilot.chat.organizationCustomAgents.enabled"] is False

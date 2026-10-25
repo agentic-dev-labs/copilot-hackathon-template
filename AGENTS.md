@@ -50,7 +50,9 @@ Copilot CLI, downloads, conversion, and MCP processes. No laptop installation or
 is required. The browser-tools demonstration in Lab 04 is an optional presenter extra;
 attendees install nothing for it. The repository's only MCP server is the read-only GitHub one in
 `.vscode/mcp.json`, with `chat.mcp.autostart` set to `never`, MCP discovery from other apps,
-other extensions' chat tools, and agent plugins switched off in `.vscode/settings.json`; do not
+other extensions' chat tools, and agent plugins switched off in `.vscode/settings.json`, which
+also starts new chats in the Local harness (`chat.defaultToCopilotHarness: false`) so a custom
+agent's `tools` list is enforced; do not
 add servers or tools attendees cannot use. Prepared headless Playwright MCP via private stdio is kept for
 an owner-approved environment where Chromium's sandbox starts; never add --no-sandbox. MarkItDown
 is an optional later research tool. Neither installation blocks Monday's core setup.

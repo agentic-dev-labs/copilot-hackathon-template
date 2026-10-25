@@ -16,7 +16,7 @@
 - Use `uv sync --locked --extra dev --extra web`, `uv run pytest`, and `uv run ruff check .`.
 - The browser-tools demonstration in Lab 04 is an optional presenter extra; attendees install
   nothing for it. The repository's only MCP server is the read-only GitHub one in `.vscode/mcp.json`;
-  `.vscode/settings.json` keeps autostart, outside discovery, other extensions' tools, and plugins off. Prepared headless Playwright MCP with private stdio is kept for an owner-approved
+  `.vscode/settings.json` keeps autostart, outside discovery, other extensions' tools, and plugins off, and starts new chats in the Local harness so custom agents keep to their `tools` list. Prepared headless Playwright MCP with private stdio is kept for an owner-approved
   environment where Chromium's sandbox starts; never --no-sandbox. MarkItDown is an optional later
   conversion tool. Beginners use the prepared server-free Website preview panel:
   create/start open it beside Chat, stop closes it, and it redraws on every change. No ports.

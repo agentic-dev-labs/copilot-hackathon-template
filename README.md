@@ -96,10 +96,10 @@ GitHub; pushing does.
    its other tab.
 5. Open the menu with three lines at the top left and choose **View > Chat**. **Sign in first:**
    if **Sign In** shows at the bottom right, select it once and follow the GitHub prompts, or
-   Chat cannot answer. **Make it a Local chat:** under the chat box, select the button that says
-   **Copilot** and choose **Local**. Only a Local chat keeps each helper inside its limits, so
-   **Ask** cannot change files and a helper without the right tools cannot go online.
-   **Check:** that button now says **Local**. Then, in the list at the bottom of the chat box,
+   Chat cannot answer. **Check it is a Local chat:** the button under the chat box says
+   **Local**. If it says **Copilot**, select it and choose **Local**. Only a Local chat keeps each
+   helper inside its limits, so **Ask** cannot change files and a helper without the right tools
+   cannot go online. Then, in the list at the bottom of the chat box,
    choose **Ask**: it only answers and never changes your files.
 6. **Same question, different answers.** Everyone asks Copilot the same thing. Type
    "Invent a fun name for my workshop table. Reply with the name only." and press Enter.
