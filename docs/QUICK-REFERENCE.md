@@ -13,7 +13,7 @@ step instead of racing ahead. Use made-up information only.
 | Stop Copilot | Select **Stop** in Chat, then look at what already changed. Stopping does not undo it. |
 | Keep Copilot's change | Select **Keep** in Chat when you like it. Selecting **+** for the file in Source Control keeps it too. |
 | Undo Copilot's change | Select **Undo** in Chat, then **Yes**. It takes back every change you have not kept. To go back further, hover over an earlier question and select **Restore Checkpoint**. |
-| Start a new chat | Rarely needed: your first chat keeps working all week. If you do, select **+**, then, before typing, choose **Local** in the list at the bottom of Chat. |
+| Start a new chat | Rarely needed: your first chat keeps working all week. If you do, select **+**, then, before typing, check the button under the chat box: if it says **Copilot**, select it and choose **Local**. |
 | Ask what code means | Select a few lines in a file, then ask Chat: "Explain the lines I selected in plain English." |
 | See what changed | **Source Control**, the branching-lines icon. Select a file to compare before and after. |
 | Save | **File > Save**. This keeps the change in the file, not on GitHub yet. |

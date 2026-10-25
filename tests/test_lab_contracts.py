@@ -290,8 +290,9 @@ def test_template_ships_no_presenter_material() -> None:
                  ".devcontainer/README.md"):
         assert not Path(path).exists(), path
     # Attendees write their own agents on Days 3 and 4. Owner, 23 October 2026: the only agent
-    # shipped is the blank GenericAgent. Monday's demo adds the web tool by hand and turns it
-    # into a Joker, so it ships able only to read, and nothing picks it by itself.
+    # shipped is the blank GenericAgent. Monday's demo proves the guardrail: it cannot reach the
+    # internet, then "execute" is added by hand and it can. It ships able only to read, and
+    # nothing picks it by itself.
     agents = [path.name for path in Path(".github/agents").glob("*.agent.md")]
     assert agents == ["generic-agent.agent.md"], agents
     placeholder = Path(".github/agents/generic-agent.agent.md").read_text(encoding="utf-8")
