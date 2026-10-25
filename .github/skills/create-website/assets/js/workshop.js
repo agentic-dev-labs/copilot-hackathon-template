@@ -2,6 +2,27 @@
 (function () {
     'use strict'
 
+    // The kit lives in site/js/. Shared files (art/, fonts/) sit next to that folder, wherever the
+    // page is, so a second website in site/ideas/<name>/ finds them too.
+    const kitRoot = typeof document !== 'undefined' && document.currentScript && document.currentScript.src
+        ? new URL('..', document.currentScript.src) : null
+
+    /** The address of a shared kit file, such as asset('art/monday.svg'), from any page. */
+    function asset(file) {
+        return kitRoot ? new URL(file, kitRoot).href : file
+    }
+
+    // Safety net: a picture built as 'art/...' in a page's own code that fails to load is tried once
+    // more from the shared kit folder.
+    if (kitRoot && typeof window.addEventListener === 'function') window.addEventListener('error', event => {
+        const image = event.target
+        if (!(image instanceof HTMLImageElement) || image.dataset.kitRetry) return
+        const shared = /\/((?:art|fonts)\/[^/?#]+)$/.exec(new URL(image.src, location.href).pathname)
+        if (!shared || asset(shared[1]) === image.src) return
+        image.dataset.kitRetry = 'yes'
+        image.src = asset(shared[1])
+    }, true)
+
     /** Remember one value in this browser. load() returns the fallback when nothing valid is saved. */
     function store(key) {
         return {
@@ -183,5 +204,5 @@
         return previewChannel
     }
 
-    window.Workshop = Object.assign(window.Workshop || {}, { store, getJSON, loadJSON, useColumns, el, addButton, enableBoard, toast, flash, newId, preview })
+    window.Workshop = Object.assign(window.Workshop || {}, { store, getJSON, loadJSON, useColumns, el, addButton, enableBoard, toast, flash, newId, preview, asset })
 })()

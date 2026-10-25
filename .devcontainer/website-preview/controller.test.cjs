@@ -5,7 +5,7 @@ const os = require('node:os')
 const path = require('node:path')
 const { test } = require('node:test')
 const { PreviewController, resolveEntry } = require('./controller.cjs')
-const { dispatch, renderHtml, createPreview, listen } = require('./extension.cjs')
+const { dispatch, renderHtml, createPreview, listen, pointSharedFiles } = require('./extension.cjs')
 
 const unixOnly = { skip: process.platform === 'win32' && 'Unix sockets only' }
 
@@ -205,4 +205,31 @@ test('the preview helper never replaces a file it did not create', unixOnly, asy
   context.after(() => helper.close())
   await assert.rejects(helper.settle(), /occupied by another file/)
   assert.equal(fs.readFileSync(endpoint, 'utf8'), 'not a socket')
+})
+
+test('an idea page finds the shared kit even when its paths were not rewritten', context => {
+  const { workspace } = fixture(context)
+  const site = path.join(fs.realpathSync(workspace), 'site')
+  const idea = path.join(site, 'ideas', 'team-lunch')
+  for (const file of ['css/workshop.css', 'js/workshop.js', 'js/vendor/three.module.js', 'art/monday.svg']) {
+    fs.mkdirSync(path.dirname(path.join(site, file)), { recursive: true })
+    fs.writeFileSync(path.join(site, file), 'kit')
+  }
+  fs.mkdirSync(path.join(idea, 'data'), { recursive: true })
+  fs.writeFileSync(path.join(idea, 'data', 'items.json'), '{}')
+  const page = '<link rel="stylesheet" href="css/workshop.css"><script src="./js/workshop.js"></script>'
+    + '<img src="art/monday.svg"><img src="../../art/monday.svg"><a href="data/items.json">data</a>'
+    + "<script type=\"module\">import * as THREE from './js/vendor/three.module.js'</script>"
+  fs.writeFileSync(path.join(idea, 'index.html'), `<html><head></head><body>${page}</body></html>`)
+  const fixed = pointSharedFiles(page, idea, site)
+  assert.ok(fixed.includes('href="../../css/workshop.css"'))
+  assert.ok(fixed.includes('src="../../js/workshop.js"'))
+  assert.equal((fixed.match(/src="\.\.\/\.\.\/art\/monday\.svg"/g) || []).length, 2, 'already-correct paths stay as they are')
+  assert.ok(fixed.includes("from '../../js/vendor/three.module.js'"))
+  assert.ok(fixed.includes('href="data/items.json"'), 'the page keeps its own data')
+  assert.equal(pointSharedFiles(page, site, site), page, 'the first page is never changed')
+  const vscode = { workspace: { textDocuments: [] }, Uri: { file: value => value } }
+  const webview = { cspSource: 'vscode-webview:', asWebviewUri: value => `webview:${value}` }
+  const html = renderHtml(vscode, webview, resolveEntry(workspace, 'ideas/team-lunch/index.html'))
+  assert.ok(html.includes('href="../../css/workshop.css"'), 'the preview applies it')
 })

@@ -24,6 +24,8 @@ ALLOWED_EXTENSIONS = {
 MAX_FILE_BYTES = 2 * 1024 * 1024
 MAX_SITE_BYTES = 20 * 1024 * 1024
 MAX_FILES = 100
+# The kit folders every page shares, from the first page and from site/ideas/<name>/.
+SHARED_KIT_FOLDERS = {"css", "js", "art", "fonts"}
 # Build details the publisher writes on each release. They are served but kept out of the content
 # fingerprint, so rolling back to a known-good page shows the known-good fingerprint again.
 VERSION_FILE = "version.json"
@@ -121,7 +123,17 @@ class WebsiteFiles(StaticFiles):
                 # A relative address keeps https behind the hosting proxy, and the page's own
                 # links (css, data) need the trailing slash to resolve.
                 return RedirectResponse(f"{relative.name}/", status_code=307)
-        return await super().get_response(path, scope)
+        try:
+            return await super().get_response(path, scope)
+        except HTTPException as missing:
+            # A second website in site/ideas/<name>/ shares the kit in site/css, js, art and fonts.
+            # A shared file it asks for next to itself (a missed ../../) comes from the kit instead.
+            # Its own data/ folder is never redirected.
+            parts = relative.parts
+            if missing.status_code != 404 or len(parts) < 4 or parts[0] != "ideas" \
+                    or parts[2] not in SHARED_KIT_FOLDERS:
+                raise
+            return await super().get_response(str(Path(*parts[2:])), scope)
 
 
 def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None) -> FastAPI:

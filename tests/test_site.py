@@ -81,6 +81,27 @@ def test_own_idea_pages_open_by_their_folder_address(website: Path) -> None:
     assert client.get("/ideas/team-lunch/README.md").status_code == 404
 
 
+def test_idea_pages_find_the_shared_kit_without_rewritten_paths(website: Path) -> None:
+    """A page in site/ideas/ asking for css/, js/, art/ or fonts/ next to itself gets the kit's file."""
+    idea = website / "ideas" / "team-lunch"
+    (idea / "data").mkdir(parents=True)
+    (idea / "index.html").write_text(HTML, encoding="utf-8")
+    (idea / "data" / "items.json").write_text("{}", encoding="utf-8")
+    for folder, name in (("css", "workshop.css"), ("js", "workshop.js"), ("art", "monday.svg")):
+        (website / folder).mkdir(exist_ok=True)
+        (website / folder / name).write_text(f"/* {name} */", encoding="utf-8")
+    (website / "data").mkdir()
+    (website / "data" / "tasks.json").write_text("[]", encoding="utf-8")
+    client = TestClient(create_app(website))
+    assert client.get("/ideas/team-lunch/css/workshop.css").text == "/* workshop.css */"
+    assert client.get("/ideas/team-lunch/js/workshop.js").status_code == 200
+    assert client.get("/ideas/team-lunch/art/monday.svg").status_code == 200
+    assert client.get("/ideas/team-lunch/data/items.json").text == "{}"
+    assert client.get("/ideas/team-lunch/data/tasks.json").status_code == 404, "never another page's data"
+    assert client.get("/ideas/team-lunch/art/missing.svg").status_code == 404
+    assert client.get("/ideas/team-lunch/.env").status_code == 404
+
+
 def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> None:
     """The fingerprint covers shipped bytes but excludes unserved Markdown notes such as site/README.md."""
     initial = site_manifest(website)

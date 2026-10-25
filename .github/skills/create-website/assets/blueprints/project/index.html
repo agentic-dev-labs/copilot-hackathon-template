@@ -97,7 +97,7 @@
         // A column called "In Progress" simply shows its name instead of requesting a missing file.
         const DAY_ART = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
         const columnArt = column => DAY_ART.includes(column.toLowerCase())
-            ? el('img', { className: 'day-art', src: `art/${column.toLowerCase()}.svg`, alt: '' })
+            ? el('img', { className: 'day-art', src: Workshop.asset(`art/${column.toLowerCase()}.svg`), alt: '' })
             : null
 
         function render() {

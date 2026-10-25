@@ -280,7 +280,8 @@ an own idea, and the learner may continue the same idea from Wednesday to Friday
 4. Copy the blueprint's `index.html` and `data/` into the new folder. Point shared files one
    level up twice: `../../css/workshop.css`, `../../js/workshop.js` (and, for the dashboard,
    `../../js/vendor/echarts.min.js` and `../../js/workshop-charts.js`; for the game, the import
-   `../../js/vendor/three.module.js`), and `../../art/...`. Keep
+   `../../js/vendor/three.module.js`), and `../../art/...`. Pictures built in code use
+   `Workshop.asset('art/...')`, which finds the kit from any folder. Keep
    `data/` inside the folder. Use a new storage key, `idea-<folder>`.
 5. Rename everything for the idea: the title and logo (repository name plus the idea's name),
    headline, subtitle, column or view names, button labels, and three or four fictional sample

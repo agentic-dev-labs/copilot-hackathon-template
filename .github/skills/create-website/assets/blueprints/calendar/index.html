@@ -118,7 +118,7 @@
             const calendar = document.getElementById('calendar')
             calendar.style.setProperty('--days', columns)
             const names = days.slice(0, columns).map(day => el('div', { className: 'weekday' },
-                el('img', { className: 'day-art', src: `art/${DAY_ART[day.getDay()]}.svg`, alt: '', onError: event => event.target.remove() }),
+                el('img', { className: 'day-art', src: Workshop.asset(`art/${DAY_ART[day.getDay()]}.svg`), alt: '', onError: event => event.target.remove() }),
                 day.toLocaleDateString(undefined, { weekday: 'short' })))
             calendar.replaceChildren(...names, ...days.map((day, index) => {
                 const key = iso(day)

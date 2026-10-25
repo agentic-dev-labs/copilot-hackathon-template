@@ -30,9 +30,34 @@ function escapeHtml(text) {
   return String(text).replace(/[&<>"']/g, character => `&#${character.charCodeAt(0)};`)
 }
 
+// A second website in site/ideas/<name>/ shares the kit in site/css, js, art and fonts. Point any
+// shared file the page cannot find next to itself to the kit, so a missed ../../ never breaks it.
+// The page's own data/ folder is never redirected.
+function pointSharedFiles(source, pageDirectory, siteDirectory) {
+  if (path.resolve(pageDirectory) === path.resolve(siteDirectory)) return source
+  const shared = path.relative(pageDirectory, siteDirectory).split(path.sep).join('/')
+  const kitFile = value => {
+    const file = value.replace(/^\.\//, '').split(/[?#]/)[0]
+    return /^(?:css|js|art|fonts)\/[^/]/.test(file) && !fs.existsSync(path.join(pageDirectory, file))
+      && fs.existsSync(path.join(siteDirectory, file))
+  }
+  return source
+    .replace(/(\s(?:src|href)=")([^"]+)"/gi, (match, prefix, value) =>
+      kitFile(value) ? `${prefix}${shared}/${value.replace(/^\.\//, '')}"` : match)
+    // The game imports three.js with an ES module import rather than a src attribute.
+    .replace(/(\bfrom\s*|\bimport\s*\(\s*)(['"])(\.\/[^'"]+)\2/g, (match, prefix, quote, value) =>
+      kitFile(value) ? `${prefix}${quote}${shared}/${value.slice(2)}${quote}` : match)
+}
+
+function siteDirectoryOf(target) {
+  const depth = path.posix.dirname(target.entry).split('/').filter(part => part && part !== '.').length
+  return path.resolve(target.directory, ...Array(depth).fill('..'))
+}
+
 function renderHtml(vscode, webview, target) {
   const open = vscode.workspace.textDocuments.find(document => document.uri.fsPath === target.file)
-  const source = open ? open.getText() : fs.readFileSync(target.file, 'utf8')
+  const source = pointSharedFiles(open ? open.getText() : fs.readFileSync(target.file, 'utf8'),
+    target.directory, siteDirectoryOf(target))
   const base = `${webview.asWebviewUri(vscode.Uri.file(target.directory))}/`
   const resources = webview.cspSource
   const policy = `default-src 'none'; img-src ${resources} data:; font-src ${resources}; style-src ${resources} 'unsafe-inline'; script-src ${resources} 'unsafe-inline'; connect-src ${resources} ${ALLOWED_APIS.join(' ')}; form-action 'none'`
@@ -265,4 +290,4 @@ async function deactivate() {
   controllers.clear()
 }
 
-module.exports = { activate, deactivate, dispatch, renderHtml, createPreview, listen }
+module.exports = { activate, deactivate, dispatch, renderHtml, createPreview, listen, pointSharedFiles }
