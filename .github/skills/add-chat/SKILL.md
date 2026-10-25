@@ -31,7 +31,8 @@ network call to the page, and do not edit the preview helper.
 7. Hand over in three short lines:
    - **"Select Ask at the bottom right and ask: What is on this page?"**
    - **"Check the answer against the page yourself. The assistant can be wrong."**
-   - **"It answers while you build here; a published copy says it is switched off."**
+   - **"It answers here and on your published website too, about everything the page shows,
+     including your chart's numbers."**
 
 If the bubble replies that the assistant is not switched on, this Codespace lacks the workshop
 secrets or needs a restart: show the exact message to a helper. Do not install anything, add keys,

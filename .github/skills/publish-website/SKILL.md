@@ -51,8 +51,9 @@ push of `site/` updates the website by itself.
 
 If the run says **That name is taken**, choose another name and repeat from step 4. For any other
 red run, show the run's message to a helper; do not change the workflow. The published copy
-starts with the page's own example entries, and its Ask chat and photo editing say they are
-switched off: those work only in the Website preview. Everything on the page stays fictional.
+starts with the page's own example entries. Its **Ask** chat answers there too, about what the
+page shows, including chart numbers; photo editing works only in the Website preview. Everything
+on the page stays fictional.
 
 Official references: [GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart),
 [OpenID Connect in Azure](https://docs.github.com/en/actions/how-tos/secure-your-work/security-harden-deployments/oidc-in-azure)

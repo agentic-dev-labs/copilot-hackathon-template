@@ -122,6 +122,15 @@
         widget.style.display = ''
         const extras = []
         try { extras.push(...chartText()) } catch { /* a chart the page drew some other way */ }
+        // Values typed into boxes, tables and choices are not part of the visible text either.
+        const fields = document.querySelectorAll('input:not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=password]):not([type=file]), select, textarea')
+        for (const field of [...fields].slice(0, 120)) {
+            if (widget.contains(field) || !String(field.value || '').trim()) continue
+            const label = field.labels && field.labels[0] ? field.labels[0].innerText : ''
+            const name = (field.getAttribute('aria-label') || label || field.placeholder || field.name || 'Field').trim()
+            const value = field.tagName === 'SELECT' && field.selectedOptions[0] ? field.selectedOptions[0].text : field.value
+            extras.push(`${name}: ${String(value).trim().slice(0, 120)}`)
+        }
         for (const box of document.querySelectorAll('input[type=checkbox]')) {
             const label = box.labels && box.labels[0] ? box.labels[0].innerText : ''
             const name = (box.getAttribute('aria-label') || label).trim()
@@ -130,7 +139,7 @@
         for (const picture of document.querySelectorAll('img[alt]')) {
             if (picture.alt.trim()) extras.push(`Picture: ${picture.alt.trim()}`)
         }
-        return extras.length ? `Charts, checkboxes and pictures:\n${extras.join('\n')}\n\nPage text:\n${text}` : text
+        return extras.length ? `Charts, typed values, checkboxes and pictures:\n${extras.join('\n')}\n\nPage text:\n${text}` : text
     }
 
     /** Add the chat bubble once; options: title, greeting, placeholder. */

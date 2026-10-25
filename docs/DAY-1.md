@@ -443,7 +443,7 @@ on a phone. This is optional, and you can also do it on Tuesday or Thursday.
 3. Wait about two minutes. On GitHub, **Actions > Publish my website** shows progress; when it
    is green, select the link under **Deployments** on your repository page.
 4. Try your main feature on the published page. It starts with the example entries, because your
-   preview entries stay in your preview. **Ask** and photo editing work only in the preview.
+   preview entries stay in your preview. **Ask** answers on the published page too; photo editing works only in the preview.
 5. From now on, every push updates your published page by itself.
 
 Published pages stay online until the workshop owner removes them after the workshop. Stopping
