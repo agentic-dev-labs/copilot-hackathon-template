@@ -76,7 +76,7 @@ def test_a_public_page_is_limited_and_long_input_is_cut(tmp_path: Path) -> None:
         website.post("/api/ask", json={"question": "How many?"})
     limited = website.post("/api/ask", json={"question": "How many?"}).json()
     assert limited["ok"] is False and "Wait a minute" in limited["error"]
-    assert website.post("/api/ask", content=b'{"question": "' + b"x" * 40000 + b'"}',
+    assert website.post("/api/ask", content=b'{"question": "' + b"x" * 300000 + b'"}',
                         headers={"Content-Type": "application/json"}).status_code == 413
 
 
@@ -86,3 +86,20 @@ def test_a_busy_or_refused_model_gives_a_plain_message(tmp_path: Path) -> None:
                                         get=lambda url, headers: {"access_token": "t"}))
     reply = website.post("/api/ask", json={"question": "How many tasks?"}).json()
     assert reply == {"ok": False, "error": "The page assistant is busy right now. Please try again in a moment."}
+
+
+def test_the_page_code_reaches_the_model_so_it_can_explain_how_the_page_works(tmp_path: Path) -> None:
+    """Learners ask how a button works: the page's own HTML, CSS and JavaScript go with the question."""
+    asked = []
+
+    def post(url: str, body: dict, headers: dict) -> tuple[int, dict]:
+        asked.append(body)
+        return 200, ANSWER
+
+    chat = PageChat(SWITCHED_ON, post=post, get=lambda url, headers: {"access_token": "t", "expires_on": "4102444800"})
+    website = client(tmp_path, chat)
+    code = "Scripts:\n<script>function addTask(day) { state.items.push({ day }) }</script>" + "x" * 70000
+    website.post("/api/ask", json={"question": "How does the + button work?", "page": "Monday", "code": code})
+    assert "function addTask(day)" in asked[0]["input"] and "Page code" in asked[0]["input"]
+    assert len(asked[0]["input"]) < MAX_PAGE + 60000 + 1000, "very long code is clipped"
+    assert "how something works" in asked[0]["instructions"]

@@ -25,7 +25,7 @@
     })
 
     /** Ask the Website preview; resolve with { ok, answer } or { ok: false, error }. */
-    function askPreview(question, page, title) {
+    function askPreview(question, page, title, code) {
         return new Promise(resolve => {
             const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
             const timer = setTimeout(() => {
@@ -33,19 +33,19 @@
                 resolve({ ok: false, error: 'No answer this time. Please try again.' })
             }, 45000)
             waiting.set(id, reply => { clearTimeout(timer); resolve(reply) })
-            preview.postMessage({ type: 'workshop.ask', id, question, page, title })
+            preview.postMessage({ type: 'workshop.ask', id, question, page, title, code })
         })
     }
 
     /** On a published website, ask the website itself; resolve with { ok, answer } or { ok: false, error }. */
-    async function askWebsite(question, page, title) {
+    async function askWebsite(question, page, title, code) {
         const controller = new AbortController()
         const timer = setTimeout(() => controller.abort(), 45000)
         try {
             const response = await fetch('/api/ask', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question, page, title }),
+                body: JSON.stringify({ question, page, title, code }),
                 signal: controller.signal,
             })
             const reply = await response.json()
@@ -124,6 +124,23 @@
             lines.push(`Chart "${name}": ${series.join('; ')}`.slice(0, 900))
         }
         return lines
+    }
+
+    /** The page's own code, so the assistant can explain how the page works: its scripts and styles
+     *  first (so they survive the length limit), then the markup. The chat bubble itself and what the
+     *  Website preview adds are left out. Shared kit files are not included, only this page. */
+    function pageCode() {
+        const copy = document.documentElement.cloneNode(true)
+        for (const node of copy.querySelectorAll('#workshop-chat, base, meta[http-equiv]')) node.remove()
+        const scripts = [...copy.querySelectorAll('script')].map(script => {
+            const source = script.getAttribute('src')
+            script.remove()
+            return source ? `<script src="${source}"></script>` : `<script${script.type ? ` type="${script.type}"` : ''}>${script.textContent}</script>`
+        })
+        const styles = [...copy.querySelectorAll('style')].filter(style => !style.textContent.includes('.chat-toggle'))
+            .map(style => { style.remove(); return `<style>${style.textContent}</style>` })
+        for (const style of copy.querySelectorAll('style')) style.remove()
+        return `Scripts:\n${scripts.join('\n')}\n\nStyles:\n${styles.join('\n')}\n\nMarkup:\n${copy.outerHTML}`.slice(0, 60000)
     }
 
     /** What the assistant reads: the numbers behind charts, the ticked state of checkboxes and the
@@ -219,9 +236,12 @@
             say('me', question)
             send.disabled = true
             const thinking = say('bot chat-thinking', 'Thinking...')
+            const page = pageText(root)
+            let code = ''
+            try { code = pageCode() } catch { /* the answer can still use what the page shows */ }
             const reply = preview
-                ? await askPreview(question, pageText(root), document.title)
-                : await askWebsite(question, pageText(root), document.title)
+                ? await askPreview(question, page, document.title, code)
+                : await askWebsite(question, page, document.title, code)
             thinking.remove()
             send.disabled = false
             say('bot', reply.ok ? reply.answer : reply.error)

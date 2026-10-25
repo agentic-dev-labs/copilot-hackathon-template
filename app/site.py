@@ -148,10 +148,11 @@ def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None
     @application.post("/api/ask")
     def ask(question: dict, request: Request) -> JSONResponse:
         """The "Ask my page" bubble on a published website: one short question about the page."""
-        if int(request.headers.get("content-length") or 0) > 32 * 1024:
+        if int(request.headers.get("content-length") or 0) > 256 * 1024:
             return JSONResponse({"ok": False, "error": "That question is too long."}, status_code=413)
         try:
-            answer = page_chat.ask(question.get("question"), question.get("page"), question.get("title"))
+            answer = page_chat.ask(question.get("question"), question.get("page"), question.get("title"),
+                                   question.get("code"))
         except ChatError as error:
             return JSONResponse({"ok": False, "error": str(error)})
         return JSONResponse({"ok": True, "answer": answer})
