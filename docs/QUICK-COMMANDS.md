@@ -4,22 +4,28 @@ Short commands and prompts to type or paste during the week. In Chat choose **Ag
 Wednesday you can also paste them into Copilot CLI. Copilot asks before it runs anything: read
 what it wants to do, then allow it. None of these ever force-push or delete your saved history.
 
-## Get the Workshop's Latest Fixes
+## Fetch Updates From the Main Workshop Repository
 
-When the presenter says the workshop template was updated, paste:
+Your repository is a copy of the main workshop repository (the template,
+`agentic-dev-labs/copilot-hackathon-template`), often called **upstream**. When the presenter
+says the main repository was updated, paste this to fetch those updates into your own copy:
 
-> Get the latest workshop fixes: run python3 scripts/update_from_template.py and tell me in plain
-> words what changed.
+> Fetch the latest updates from the main workshop repository: run
+> python3 scripts/update_from_template.py and tell me in plain words what changed.
 
-It copies only the workshop's own files: the guides, the ready-made skills, and the helper
-scripts. Your website, `config.json`, and your own agents, skills, tests, and workflows stay
-exactly as they are. Then save, review the files in **Source Control**, commit with the message
-`Get the latest workshop fixes`, and push.
+It downloads the main repository's newest version and copies in only the workshop's own files:
+the guides, the ready-made skills, and the helper scripts. Your website, `config.json`, and your
+own agents, skills, tests, and workflows stay exactly as they are. Then save, review the files in
+**Source Control**, commit with the message `Fetch workshop updates`, and push.
+
+A plain `git pull` from upstream does not work here: your copy started with its own history, so
+Git would report conflicts in almost every file. The script is the safe way to do it.
 
 **From Thursday on**, `main` takes changes only through pull requests, so paste this instead:
 
-> Create a new branch called workshop-fixes, then run python3 scripts/update_from_template.py and
-> tell me in plain words what changed.
+> Create a new branch called workshop-updates, then fetch the latest updates from the main
+> workshop repository: run python3 scripts/update_from_template.py and tell me in plain words
+> what changed.
 
 Commit, select **Publish Branch**, create the pull request, and merge it on GitHub. Then switch
 back to `main` and **Pull**.

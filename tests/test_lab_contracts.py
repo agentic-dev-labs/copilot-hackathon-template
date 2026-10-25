@@ -757,9 +757,11 @@ def test_cloud_agent_lab_delegates_an_approved_ticket() -> None:
 def test_quick_commands_bring_template_fixes_safely() -> None:
     """Owner, 25 October 2026: one prompts page replaces the extras, led by the template-fixes prompt."""
     commands = " ".join(re.sub(r"\n\s*> ?", "\n", Path("docs/QUICK-COMMANDS.md").read_text(encoding="utf-8")).split())
-    fixes = commands.split("## Get the Workshop's Latest Fixes", 1)[1].split("## ", 1)[0]
+    fixes = commands.split("## Fetch Updates From the Main Workshop Repository", 1)[1].split("## ", 1)[0]
+    assert "fetch the latest updates from the main workshop repository" in fixes.lower()
+    assert "upstream" in fixes and "agentic-dev-labs/copilot-hackathon-template" in fixes
     assert "run python3 scripts/update_from_template.py" in fixes
-    assert "Create a new branch called workshop-fixes" in fixes and "From Thursday on" in fixes
+    assert "Create a new branch called workshop-updates" in fixes and "From Thursday on" in fixes
     assert "never force-push" in commands and "None of these ever force-push" in commands
     for command in ("/create-website", "/start-website", "/stop-website", "/add-chart", "/add-chat",
                     "/publish-website", "pytest checks"):

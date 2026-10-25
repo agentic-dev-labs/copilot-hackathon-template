@@ -117,7 +117,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {path}" if (repository / path).exists() else f"  {path} (removed: the template no longer has it)")
     print("Your website, config.json, agents, skills, instructions, workflows and tests are unchanged.")
     print("Next: review them in Source Control, then commit with the message")
-    print("'Get the latest workshop fixes' and push. From Day 4 on, do it on a new branch")
+    print("'Fetch workshop updates' and push. From Day 4 on, do it on a new branch")
     print("and merge it with a pull request.")
     return 0
 

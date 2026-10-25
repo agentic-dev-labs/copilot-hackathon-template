@@ -64,8 +64,8 @@ step instead of racing ahead. Use made-up information only.
 | My live footer still says **Preview** (Day 4) | The `#` is still in front of `version:` in publish-website.yml, or the merge changed nothing in `site/`. Show a helper. |
 | No Copilot review on my pull request (Days 4-5) | Expected: Copilot code review is off. You and your own Code Review agent review. |
 
-**Prompts to paste**, including the one that gets the workshop's latest fixes, are in
-[Quick Commands](QUICK-COMMANDS.md).
+**Prompts to paste**, including the one that fetches updates from the main workshop repository,
+are in [Quick Commands](QUICK-COMMANDS.md).
 
 ## Trust, but Verify
 

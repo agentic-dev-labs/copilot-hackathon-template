@@ -22,7 +22,7 @@ Open only today's guide. The presenter shows each step first, then you do the sa
 | **Friday**    | [Day 5: CI/CD and Demos](docs/DAY-5.md)        | A checked, approved, recoverable website and a handoff note |
 
 Keep the [Quick Reference](docs/QUICK-REFERENCE.md) beside you. Prompts to paste, including the
-one that gets the workshop's latest fixes, are in [Quick Commands](docs/QUICK-COMMANDS.md).
+one that fetches updates from the main workshop repository, are in [Quick Commands](docs/QUICK-COMMANDS.md).
 
 ## Four Golden Rules
 
