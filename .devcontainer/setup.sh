@@ -41,19 +41,21 @@ case "${1:-core}" in
 		ensure_editor_extension "ms-python.python"
 		ensure_editor_extension "ms-python.vscode-python-envs"
 		VERSION="$(node -p 'require("./.devcontainer/website-preview/package.json").version')"
-		if code --list-extensions --show-versions | grep -Fxq "workshop-local.workshop-site-preview@$VERSION"; then
-			printf 'Workshop preview helper %s is already prepared.\n' "$VERSION"
-		else
+		if ! code --list-extensions --show-versions | grep -Fxq "workshop-local.workshop-site-preview@$VERSION"; then
+			# Package and install quietly: beginners only need the welcome line below.
 			mkdir -p .workshop-preview
-			pushd .devcontainer/website-preview >/dev/null
-			node_modules/.bin/vsce package --no-dependencies --allow-missing-repository --skip-license --out "$ROOT/.workshop-preview/workshop-site-preview.vsix"
-			popd >/dev/null
-			code --install-extension "$ROOT/.workshop-preview/workshop-site-preview.vsix" --force
-			printf 'Preview helper installed. Existing editor sessions may need one Reload Window.\n'
+			if ! (cd .devcontainer/website-preview \
+				&& node_modules/.bin/vsce package --no-dependencies --allow-missing-repository --skip-license --out "$ROOT/.workshop-preview/workshop-site-preview.vsix" \
+				&& code --install-extension "$ROOT/.workshop-preview/workshop-site-preview.vsix" --force) \
+				>"$ROOT/.workshop-preview/install.log" 2>&1; then
+				printf 'Website preview setup failed; show a helper .workshop-preview/install.log.\n' >&2
+				exit 1
+			fi
 		fi
 		if "$EDITOR_RELOAD_REQUIRED"; then
 			printf 'Run Developer: Reload Window once so Python can use the project environment.\n'
 		fi
+		printf '\nWelcome! Follow the presenter. Until 10:30 your guide is README.md; then docs/START-HERE.md.\n'
 		;;
 	cli)
 		# Runs just after the editor opens; download Copilot CLI only when it is missing.

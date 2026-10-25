@@ -13,8 +13,7 @@
   "updateContentCommand": "bash .devcontainer/setup.sh",
   "postCreateCommand": "bash -o pipefail .devcontainer/setup.sh cli",
   "postAttachCommand": {
-    "website-preview": "bash .devcontainer/setup.sh preview",
-    "welcome": "printf '\\nWelcome! Follow the presenter. Until 10:30 your guide is README.md; then docs/START-HERE.md.\\n'"
+    "website-preview": "bash .devcontainer/setup.sh preview"
   },
   "waitFor": "updateContentCommand",
   "remoteEnv": {

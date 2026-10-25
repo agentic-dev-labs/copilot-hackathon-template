@@ -225,6 +225,9 @@ def test_preview_setup_repairs_python_environment_provider(
     expected = ["--install-extension ms-python.vscode-python-envs"]
     assert calls == (expected if missing_environment_provider else [])
     assert ("Run Developer: Reload Window once" in result.stdout) is missing_environment_provider
+    # The one terminal beginners see ends with the welcome, not packaging output.
+    assert result.stdout.rstrip().endswith("then docs/START-HERE.md.")
+    assert "Reload Window." not in result.stdout.replace("Reload Window once", "")
 
 
 @pytest.mark.skipif(os.name == "nt", reason="Codespaces startup executes in Linux Bash")
