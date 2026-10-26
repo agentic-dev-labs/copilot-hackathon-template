@@ -14,19 +14,25 @@ screenshot the page yourself, and never improvise extra steps.
 
 Site: `https://showcase.thankfulrock-bf005377.eastus.azurecontainerapps.io/`
 
+Nothing is deployed when this runs: it only opens the already-published site.
+
 ## Steps
 
-1. Open the site with the browser tool `openBrowserPage` (url above), or reuse a page already
-   shared in this chat. Tell the presenter in one line: "Make the browser panel big; it starts
-   in 3 seconds."
-2. For each row of the table, in order (or only the rows the presenter named), call
-   `runPlaywrightCode` with `timeoutMs: 75000` and exactly this code, with PATH from the table:
+1. Open the site in the VS Code browser with the browser tool that opens a page
+   (`openBrowserPage` or `open_browser_page`, url above), or reuse a page already shared in this
+   chat. Tell the presenter in one line: "Make the browser panel big; it starts in 3 seconds."
+2. For each row of the table, in order (or only the rows the presenter named), call the browser
+   tool that runs Playwright code on that page (`runPlaywrightCode` or `run_playwright_code`) with
+   `timeoutMs: 75000` and exactly this code, with PATH from the table:
 
    ```js
    await page.goto('https://showcase.thankfulrock-bf005377.eastus.azurecontainerapps.io/PATH?demo=1'); await page.waitForFunction(() => window.ShowcaseTour && window.ShowcaseTour.done, null, { timeout: 70000 }); return await page.evaluate(() => window.ShowcaseTour.summary)
    ```
 
-   If the call returns a `deferredResultId`, call `runPlaywrightCode` again with it until it ends.
+   If the call returns a `deferredResultId`, call the same tool again with it until it ends.
+   If no Playwright-code tool exists, open
+   `https://showcase.thankfulrock-bf005377.eastus.azurecontainerapps.io/?tour=1` instead (it plays
+   all nine pages by itself), say "Watch: nine websites, about 5 minutes", and stop.
 3. After each page, write only the **Say** line in chat, then go straight to the next page.
 4. If a page fails or times out, say "Skipping that one" and continue. Mention it once at the end.
 5. Finish with: "Nine websites, each started from one sentence to Copilot. Now you build one."
