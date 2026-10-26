@@ -132,9 +132,10 @@ them; they click through by themselves, about 5 minutes. Then the presenter show
    **Calendar**, **Ideas Wall**, **Weather**, **Princeton Map**, **Photo Studio**, or
    **My own idea**. The presenter builds the Project Planner; pick it if you are unsure.
 3. Copilot builds it and opens it in the **Website preview** beside Chat, named after your
-   repository, for example **AliFarahnak Project Planner**. If Copilot asks to run
-   `python3 scripts/website_preview.py start`, the helper that opens your preview, select
-   **Allow**. If it asks to run anything else you do not understand, raise your hand.
+   repository, for example **AliFarahnak Project Planner**. On the way it asks two or three
+   times to run a command that lists, copies or renames your website's files, or
+   `python3 scripts/website_preview.py start`, the helper that opens your preview: select
+   **Allow** each time. If it asks to delete or install something, raise your hand.
 4. Press **+** and add a made-up entry.
    **Check:** a new **index.html** appears in **Explorer > site**. Seeing the file is the
    proof, not Copilot saying "done". Then select **Keep** under the chat box: it accepts the
