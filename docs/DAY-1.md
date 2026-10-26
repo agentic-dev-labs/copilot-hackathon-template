@@ -122,8 +122,9 @@ follow-up. If sign-in or Copilot is missing, ask a helper. Never install anythin
 
 ## 3. Your First Website
 
-**10:00-10:30.** The presenter shows `/create-website` on their repository; you do the same on
-yours.
+**10:00-10:30.** First the presenter shows nine websites that people built just by describing
+them; they click through by themselves, about 5 minutes. Then the presenter shows
+`/create-website` on their repository; you do the same on yours.
 
 1. In Chat, choose **Agent** instead of **Ask**: **Agent** can change your files. Type
    **`/create-website`**, pick it from the list, and press Enter.
@@ -152,17 +153,17 @@ was rejected, or mentions a conflict, stop and ask a helper. Never force a push.
 pair? Take turns at the keyboard. If `/create-website` is not in the list or the preview does not
 open, show a helper.
 
-**Done when:** your page opens beside Chat and it is on GitHub. After the break, at 10:45, the
-presenter shows more websites you can build.
+**Done when:** your page opens beside Chat and it is on GitHub. After the break, at 10:45, you
+build a second website.
 
 ## 4. Build Another Website
 
 **10:45-11:45.** Build a second website, any of the others or your own idea, just by describing
 it. Your first page stays exactly as it is. Everything you add stays made up.
 
-### See What Else You Can Build (10 minutes)
+### Pick What to Build (5 minutes)
 
-The presenter shows websites made the same way as yours, just by describing them:
+You saw these at 10:00, all made the same way as yours, just by describing them:
 
 | Website         | What it does                                                            |
 | --------------- | ----------------------------------------------------------------------- |
@@ -175,7 +176,7 @@ The presenter shows websites made the same way as yours, just by describing them
 
 Pick one you would like to try, or think of your own.
 
-### Build It (35 minutes)
+### Build It (40 minutes)
 
 1. In Chat, with **Agent** chosen, type **`/create-website`** again. Copilot sees that you
    already have a page and asks what you would like: answer **build my own idea**.
