@@ -39,6 +39,7 @@ back to `main` and **Pull**.
 | Close my website      | `/stop-website` (your files stay)                                                    |
 | Add a chart           | `/add-chart`, or `/add-chart lunch-map`                                              |
 | Add a chat            | `/add-chat`, or `/add-chat lunch-map`                                                |
+| Teach my chat a fact  | "Add to my page's knowledge.md: [your fact]." Then ask the chat about it.            |
 | Publish (optional)    | `/publish-website`, then save, commit, and push                                     |
 | Ask for one change    | "Change [this one thing]. Keep everything else the same. Tell me how to check it."   |
 | Report a problem      | "I expected [this]. I saw [that]. Fix only that, and keep everything else unchanged." |

@@ -30,6 +30,7 @@ step instead of racing ahead. Use made-up information only.
 | Draw a picture for my page | Ask: "Draw a picture for my header: a friendly rocket, in my colors." It appears in a few seconds. |
 | Change a picture | Ask: "Change my header picture: make it a night scene." The old picture stays, so you can go back. |
 | Add a chat to my page | Type **`/add-chat`**, then select **Ask** at the bottom right of your page. Check its answers yourself. |
+| Teach my chat more | Write facts in `knowledge.md` next to your page, or ask: "Add to my page's knowledge.md: lunch is every Friday at 12:00." |
 | Add a chart | Type **`/add-chart`** and pick one. For an idea's page, add its folder name: `/add-chart team-lunch`. |
 | Publish my website (optional) | Type **`/publish-website`**, then save, commit, and push. When **Actions** is green, open the link under **Deployments**. |
 | Paste into the terminal | **Ctrl+V** (Windows) or **Cmd+V** (Mac). Allow clipboard access if the browser asks. |

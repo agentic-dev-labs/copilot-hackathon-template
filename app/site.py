@@ -24,6 +24,8 @@ ALLOWED_EXTENSIONS = {
     ".svg", ".ico", ".woff", ".woff2", ".ttf", ".mp3", ".mp4", ".webm", ".ogg", ".wav",
     ".csv", ".txt",
 }
+# The one Markdown file a website serves: the owner's notes that its chat bubble reads.
+KNOWLEDGE_FILE = "knowledge.md"
 # Room for many AI pictures and gallery photos across a first page and several ideas.
 MAX_FILE_BYTES = 8 * 1024 * 1024
 MAX_SITE_BYTES = 80 * 1024 * 1024
@@ -73,9 +75,9 @@ def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
             raise ValueError("Hidden files and folders must not be placed in site/")
         if path.is_dir():
             continue
-        if path.suffix.lower() == ".md":
+        if path.suffix.lower() == ".md" and path.name.lower() != KNOWLEDGE_FILE:
             continue
-        if path.suffix.lower() not in ALLOWED_EXTENSIONS:
+        if path.suffix.lower() not in ALLOWED_EXTENSIONS | {".md"}:
             raise ValueError("Only HTML, CSS, JS, JSON, images, and fonts belong in site/")
         size = path.stat().st_size
         if not 0 < size <= MAX_FILE_BYTES:
@@ -94,7 +96,7 @@ def site_manifest(directory: Path = SITE_DIRECTORY) -> dict:
 
 
 class WebsiteFiles(StaticFiles):
-    """Serve intended web assets only, without directory listings or Markdown notes."""
+    """Serve intended web assets only, without directory listings or Markdown notes (except knowledge.md)."""
 
     def __init__(self, *args, banner: str = "", **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -117,7 +119,8 @@ class WebsiteFiles(StaticFiles):
         relative = Path(path)
         if any(part.startswith(".") and part != "." for part in relative.parts):
             raise HTTPException(status_code=404)
-        if path not in (".", "") and relative.suffix.lower() not in ALLOWED_EXTENSIONS:
+        if path not in (".", "") and relative.suffix.lower() not in ALLOWED_EXTENSIONS \
+                and relative.name.lower() != KNOWLEDGE_FILE:
             # Only a folder with its own page, such as an idea in site/ideas/, opens by its address.
             if not (Path(self.directory) / relative / "index.html").is_file():
                 raise HTTPException(status_code=404)
@@ -131,9 +134,11 @@ class WebsiteFiles(StaticFiles):
             # A second website in site/ideas/<name>/ shares files with the first page: the kit in
             # css/, js/, art/ and fonts/, and any picture or file the learner added to site/. A file
             # it asks for next to itself (a missed ../../) comes from site/ instead. Its own data/
-            # folder is never redirected, so it never shows another page's entries.
+            # folder is never redirected, so it never shows another page's entries, and neither is
+            # its knowledge.md, so its chat never reads the first page's notes.
             parts = relative.parts
-            if missing.status_code != 404 or len(parts) < 3 or parts[0] != "ideas" or parts[2] == "data":
+            if (missing.status_code != 404 or len(parts) < 3 or parts[0] != "ideas" or parts[2] == "data"
+                    or relative.name.lower() == KNOWLEDGE_FILE):
                 raise
             return await super().get_response(str(Path(*parts[2:])), scope)
 
@@ -152,7 +157,7 @@ def create_app(directory: Path = SITE_DIRECTORY, config_path: Path | None = None
             return JSONResponse({"ok": False, "error": "That question is too long."}, status_code=413)
         try:
             answer = page_chat.ask(question.get("question"), question.get("page"), question.get("title"),
-                                   question.get("code"))
+                                   question.get("code"), question.get("knowledge"))
         except ChatError as error:
             return JSONResponse({"ok": False, "error": str(error)})
         return JSONResponse({"ok": True, "answer": answer})

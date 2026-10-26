@@ -4,7 +4,7 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from app.page_chat import MAX_PAGE, MAX_QUESTION, PER_MINUTE, SWITCHED_OFF, PageChat
+from app.page_chat import MAX_KNOWLEDGE, MAX_PAGE, MAX_QUESTION, PER_MINUTE, SWITCHED_OFF, PageChat
 from app.site import create_app
 
 HTML = '<!doctype html><html lang="en"><body><h1>Synthetic planner</h1></body></html>'
@@ -103,3 +103,22 @@ def test_the_page_code_reaches_the_model_so_it_can_explain_how_the_page_works(tm
     assert "function addTask(day)" in asked[0]["input"] and "Page code" in asked[0]["input"]
     assert len(asked[0]["input"]) < MAX_PAGE + 60000 + 1000, "very long code is clipped"
     assert "how something works" in asked[0]["instructions"]
+
+
+def test_the_owners_knowledge_md_reaches_the_model(tmp_path: Path) -> None:
+    """Facts a learner writes in knowledge.md go with every question, clipped to a fair size."""
+    asked = []
+
+    def post(url: str, body: dict, headers: dict) -> tuple[int, dict]:
+        asked.append(body)
+        return 200, ANSWER
+
+    chat = PageChat(SWITCHED_ON, post=post, get=lambda url, headers: {"access_token": "t", "expires_on": "4102444800"})
+    website = client(tmp_path, chat)
+    notes = "Synthetic team lunch is every Friday at 12:00." + "n" * 30000
+    website.post("/api/ask", json={"question": "When is lunch?", "page": "Monday", "knowledge": notes})
+    assert "Owner's notes (knowledge.md):\nSynthetic team lunch is every Friday" in asked[0]["input"]
+    assert asked[0]["input"].count("n" * 100) and len(asked[0]["input"]) < MAX_PAGE + MAX_KNOWLEDGE + 1000
+    assert "owner's notes" in asked[0]["instructions"]
+    website.post("/api/ask", json={"question": "When is lunch?", "page": "Monday"})
+    assert "Owner's notes" not in asked[1]["input"], "no file, no notes section"

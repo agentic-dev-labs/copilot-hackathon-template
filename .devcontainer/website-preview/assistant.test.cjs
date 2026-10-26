@@ -71,6 +71,18 @@ test('asks with an Entra ID token, never an API key, and keeps the page as data'
   assert.ok(JSON.parse(longService.calls[1].options.body).input.split('Question: ')[1].length <= 200, 'questions are clipped')
 })
 
+test('the owner\'s knowledge.md notes go with the question, clipped, and only when present', async () => {
+  const { calls, fetchImpl } = fakeService()
+  const assistant = createAssistant({ settings: SETTINGS, fetchImpl })
+  await assistant.ask({ question: 'When is lunch?', page: 'p', title: 't', knowledge: 'Synthetic lunch is on Fridays.' + 'n'.repeat(30000) })
+  const body = JSON.parse(calls[1].options.body)
+  assert.match(body.input, /Owner's notes \(knowledge\.md\):\nSynthetic lunch is on Fridays\./)
+  assert.ok(body.input.length < 21000, 'long notes are clipped')
+  assert.match(INSTRUCTIONS, /owner's notes/)
+  await assistant.ask({ question: 'When is lunch?', page: 'p', title: 't' })
+  assert.doesNotMatch(JSON.parse(calls[2].options.body).input, /Owner's notes/)
+})
+
 test('greetings and thanks are answered at once, without asking the model', async () => {
   const offline = createAssistant({ loadSettings: () => null, fetchImpl: () => assert.fail('no network for small talk') })
   for (const hello of ['hello', 'Hi!', 'hey there', 'Good morning', 'hej']) {

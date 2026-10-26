@@ -125,6 +125,24 @@ def test_site_digest_changes_with_assets_not_planning_notes(website: Path) -> No
     assert site_manifest(website)["digest"] != initial["digest"]
 
 
+def test_knowledge_md_is_served_next_to_its_page_and_counts_in_the_fingerprint(website: Path) -> None:
+    """The chat reads knowledge.md beside its page; an idea page never gets the first page's notes."""
+    initial = site_manifest(website)
+    (website / "knowledge.md").write_text("Synthetic lunch is on Fridays.", encoding="utf-8")
+    assert site_manifest(website)["digest"] != initial["digest"], "a notes-only change still publishes"
+    idea = website / "ideas" / "team-lunch"
+    idea.mkdir(parents=True)
+    (idea / "index.html").write_text(HTML, encoding="utf-8")
+    (idea / "README.md").write_text("Synthetic planning", encoding="utf-8")
+    client = TestClient(create_app(website))
+    assert client.get("/knowledge.md").text == "Synthetic lunch is on Fridays."
+    assert client.get("/ideas/team-lunch/knowledge.md").status_code == 404, "never another page's notes"
+    assert client.get("/ideas/team-lunch/README.md").status_code == 404
+    (idea / "knowledge.md").write_text("Synthetic idea notes.", encoding="utf-8")
+    assert client.get("/ideas/team-lunch/knowledge.md").text == "Synthetic idea notes."
+    assert "!site/**/knowledge.md" in Path(".dockerignore").read_text(encoding="utf-8").splitlines()
+
+
 def test_version_file_is_served_but_does_not_change_the_fingerprint(website: Path) -> None:
     """Day 5 rollback: a rebuilt known-good page keeps its fingerprint while the build number moves on."""
     initial = site_manifest(website)
@@ -216,7 +234,8 @@ def test_chat_bubble_is_optional_safe_and_holds_no_secret() -> None:
     """The chat kit talks to the preview, or on a published website only to its own /api/ask."""
     chat = (KIT.parent / "workshop-chat.js").read_text(encoding="utf-8")
     assert "innerHTML" not in chat and "eval(" not in chat and not re.search(r"https?://", chat)
-    assert re.findall(r"fetch\(([^,]+),", chat) == ["'/api/ask'"], "only its own website, never another service"
+    assert re.findall(r"fetch\(([^,]+),", chat) == ["'/api/ask'", "'knowledge.md'"], \
+        "only its own website and the owner's notes next to the page, never another service"
     assert "XMLHttpRequest" not in chat
     assert "acquireVsCodeApi()" in chat and chat.count("acquireVsCodeApi()") == 1
     assert "'workshop.ask'" in chat and "'workshop.answer'" in chat

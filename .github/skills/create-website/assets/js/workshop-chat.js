@@ -1,5 +1,6 @@
 /* Optional "Ask my page" chat bubble: Workshop.addChat() adds a small assistant to any page.
- * In the workshop's Website preview it asks the workshop's AI model about what the page shows;
+ * It knows what the page shows, the page's own code, and the owner's notes in knowledge.md next
+ * to the page. In the workshop's Website preview it asks the workshop's AI model;
  * the preview signs in, so the page holds no key or secret. On a published website it asks the
  * website's own /api/ask, which signs in with the website's Azure identity, again with no key.
  * Text is always set with textContent, never as HTML. */
@@ -25,7 +26,7 @@
     })
 
     /** Ask the Website preview; resolve with { ok, answer } or { ok: false, error }. */
-    function askPreview(question, page, title, code) {
+    function askPreview(question, page, title, code, knowledge) {
         return new Promise(resolve => {
             const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
             const timer = setTimeout(() => {
@@ -33,19 +34,19 @@
                 resolve({ ok: false, error: 'No answer this time. Please try again.' })
             }, 45000)
             waiting.set(id, reply => { clearTimeout(timer); resolve(reply) })
-            preview.postMessage({ type: 'workshop.ask', id, question, page, title, code })
+            preview.postMessage({ type: 'workshop.ask', id, question, page, title, code, knowledge })
         })
     }
 
     /** On a published website, ask the website itself; resolve with { ok, answer } or { ok: false, error }. */
-    async function askWebsite(question, page, title, code) {
+    async function askWebsite(question, page, title, code, knowledge) {
         const controller = new AbortController()
         const timer = setTimeout(() => controller.abort(), 45000)
         try {
             const response = await fetch('/api/ask', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question, page, title, code }),
+                body: JSON.stringify({ question, page, title, code, knowledge }),
                 signal: controller.signal,
             })
             const reply = await response.json()
@@ -141,6 +142,18 @@
             .map(style => { style.remove(); return `<style>${style.textContent}</style>` })
         for (const style of copy.querySelectorAll('style')) style.remove()
         return `Scripts:\n${scripts.join('\n')}\n\nStyles:\n${styles.join('\n')}\n\nMarkup:\n${copy.outerHTML}`.slice(0, 60000)
+    }
+
+    /** Extra facts the page's owner wrote in knowledge.md, next to the page. Read again for every
+     *  question, so an edit counts at once; no file, or only comments, means no extra facts. */
+    async function pageKnowledge() {
+        try {
+            const response = await fetch('knowledge.md', { cache: 'no-store' })
+            if (!response.ok) return ''
+            return (await response.text()).replace(/<!--[\s\S]*?-->/g, '').trim().slice(0, 20000)
+        } catch {
+            return ''
+        }
     }
 
     /** What the assistant reads: the numbers behind charts, the ticked state of checkboxes and the
@@ -239,9 +252,10 @@
             const page = pageText(root)
             let code = ''
             try { code = pageCode() } catch { /* the answer can still use what the page shows */ }
+            const knowledge = await pageKnowledge()
             const reply = preview
-                ? await askPreview(question, page, document.title, code)
-                : await askWebsite(question, page, document.title, code)
+                ? await askPreview(question, page, document.title, code, knowledge)
+                : await askWebsite(question, page, document.title, code, knowledge)
             thinking.remove()
             send.disabled = false
             say('bot', reply.ok ? reply.answer : reply.error)

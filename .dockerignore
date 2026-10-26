@@ -24,5 +24,6 @@ docs
 .devcontainer
 .vscode
 site/**/*.md
+!site/**/knowledge.md
 dist
 build

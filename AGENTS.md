@@ -109,7 +109,8 @@ The neutral CSS and licensed font/icons are dependencies, not a completed websit
 branding, diagram tools, or paid image service belongs in the beginner builder. The owner approved
 one AI exception on 17 October 2026: `scripts/workshop_ai.py` draws or edits pictures and saves them
 as files under `site/`, and `/add-chat` adds a bubble the Website preview answers with the workshop
-chat model. Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY_*,
+chat model, from what the page shows, its code, and the learner's `knowledge.md` next to the page.
+Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY_*,
 private repositories only). On a published website the same bubble asks the website's own
 `/api/ask` (`app/page_chat.py`), which signs in with the websites' managed identity (Cognitive
 Services OpenAI User only) and limits each page to 120 short questions a minute and 5,000 a day,

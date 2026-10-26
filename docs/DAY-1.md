@@ -255,7 +255,7 @@ Pick one. It goes on your first page; for your idea's page, add its folder name,
 | Feature   | How to start                                                        | What you get                                                                   |
 | --------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | A chart   | Type **`/add-chart`**                                               | A chart drawn from your own entries, even a 3D one, that follows every change. |
-| A chat    | Type **`/add-chat`**                                                | An **Ask** button on your page that answers questions about it.                |
+| A chat    | Type **`/add-chat`**                                                | An **Ask** button that knows your page, its code, and the facts you write in `knowledge.md`. |
 | A picture | Ask: "Draw a friendly rocket for the top of my page, in my colors." | A new picture for your page, drawn by the workshop AI in a few seconds.        |
 
 ### Add It (15 minutes)
