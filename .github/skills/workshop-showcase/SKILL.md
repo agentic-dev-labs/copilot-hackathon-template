@@ -33,6 +33,9 @@ Nothing is deployed when this runs: it only opens the already-published site.
    If no Playwright-code tool exists, open
    `https://showcase.thankfulrock-bf005377.eastus.azurecontainerapps.io/?tour=1` instead (it plays
    all nine pages by itself), say "Watch: nine websites, about 5 minutes", and stop.
+   If no browser tool exists at all (a Codespace opened in a web browser has none), reply only:
+   "Open this in a new browser tab; it plays all nine websites by itself, about 5 minutes:" and
+   that link, then stop.
 3. After each page, write only the **Say** line in chat, then go straight to the next page.
 4. If a page fails or times out, say "Skipping that one" and continue. Mention it once at the end.
 5. Finish with: "Nine websites, each started from one sentence to Copilot. Now you build one."
