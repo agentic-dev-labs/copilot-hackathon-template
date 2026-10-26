@@ -67,7 +67,10 @@ credentials and other private notes out of commits.
 Presenter material (the delivery script, facilitator guide, agenda, prerequisites, topic map,
 rehearsal and hosting notes, post-workshop guides and agents, and facilitator skills) lives only
 in the git-ignored `final-workshop-david/` folder; it left the template on 23 October 2026, and
-earlier commits still contain it. Keep that folder out of commits and Docker build contexts. The template is a starting
+earlier commits still contain it. Keep that folder out of commits and Docker build contexts. One
+exception (owner, 25 October 2026): `.github/skills/workshop-showcase/` ships in the template so
+the presenter can type `/workshop-showcase` at Monday 10:45; it only plays the separately
+published showcase site and changes nothing. The template is a starting
 point, not the solution: it ships an empty `site/` (README only), no learner-made skills or
 instructions, and one agent: the blank `GenericAgent` placeholder (`tools: ["read", "search"]`)
 that Monday's guardrail demo shows cannot go online until `"execute"` is added (owner, 25 October
