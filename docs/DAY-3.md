@@ -55,11 +55,19 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
    yourself, such as `<your username> website`: everyone's board lives in the same organization.
    Leave **Import items from repository** ticked, and under **Repository** choose your own
    repository: it may show the workshop template at first. Select **Create project**.
-2. **Approving stays your decision.** On your board, select **Workflows** at the top right, then
+2. **Approving stays your decision.** On your board, open **... > Workflows**, then
    **Item added to project**, and switch it **Off**; otherwise GitHub puts every new ticket
-   straight into **Todo**. From now on, open the board from your repository's **Projects** tab.
+   straight into **Todo**. Open **Auto-add to project > Edit**, choose your own repository,
+   set the filter to `is:issue is:open`, then **Save and turn on workflow**. Check that
+   **Item closed** is on and sets the status to **Done**. Back in your repository, open
+   **Projects > Link a project** and select your board if it is not already listed.
+   From now on, open the board from your repository's **Projects** tab.
    **Todo** means approved and ready to build, **In Progress** means being built, and **Done**
    means finished. Only people who can open your repository can read your tickets.
+
+   **No New project button?** Ask a helper to create your board or give you access. You can
+   write tickets while you wait. **Ticket missing from the board?** Use **+ Add item**, search
+   for your repository's ticket, and select it. Auto-add does not import older tickets.
 3. **Write a ticket.** On GitHub open your repository, then **Issues > New issue**, and choose
    **Requirement**. Give it a short title in plain words, such as `Mark urgent tasks`. Under
    **What I want**, write one or two sentences: who it is for, what they want, and why. Under
@@ -86,9 +94,9 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
    **List issues**, from the GitHub **MCP** server: a plug that lets Copilot act on GitHub. A tool
    that only reads may run straight away. **Check:** compare its list with your board.
 
-When Copilot wants to change a file, change something on GitHub, or run a command that could
-change something, it asks first.
-Read what it wants to do, and say yes only to what you understand. **Agent roles:** Chat's
+Copilot may ask permission before changing a file or running a command. An action you already
+allowed for this session may not ask again. Read the choices and allow only what you understand;
+do not enable approval for every tool. **Agent roles:** Chat's
 **Ask** only answers, **Agent** can change files, a custom agent is a helper you give one job and
 clear rules, and tomorrow the **cloud agent** works by itself on GitHub.
 
@@ -110,7 +118,7 @@ builds the demo website's pair.
    | Custom agent   | A helper with one job, its own rules and tools    | `.github/agents/`, where yours arrives next   |
    | Tools (MCP)    | Plugs that let Copilot act, like the GitHub tools | `.vscode/mcp.json` in Chat; built into the CLI |
 
-2. Type `/agent` and press Enter to see the list of agents. It shows only **GenericAgent**, the
+2. Type `/agent` and press Enter to see the list of agents. Look for **GenericAgent**, the
    blank helper from Monday's demo: your own agent joins this list next. Press **Esc** to close
    it.
 
@@ -125,12 +133,12 @@ describe both in plain words; Copilot writes them; you read them and make them y
    > criteria. Its steps: read the ticket's What I want and Which page; write one user story as
    > "As a ..., I want ..., so that ..."; under it write 2 or 3 acceptance criteria as "Given ...,
    > when ..., then ..." that a person can check by clicking or counting, each with a checkbox;
-   > list open questions instead of guessing. Its output fills the ticket's User story and
-   > Acceptance criteria sections, followed by Open questions. Made-up people and data only.
+   > list open questions instead of guessing. Show Open questions in the draft only; resolve
+   > them before updating the ticket. The saved output fills only the ticket's User story and
+   > Acceptance criteria sections. Made-up people and data only.
 
-   It may ask to read **docs.github.com** pages: that is GitHub's own help, so choose **2**, which
-   allows those pages for the rest of this session. Then it shows the new file beside the
-   terminal and asks to create it: choose **Yes**.
+   It may ask to read **docs.github.com** pages: that is GitHub's own help. Read the choices
+   and allow that site, not every tool. Review the proposed new file and approve its creation.
 
 4. Open **Explorer > .github > skills > user-stories > SKILL.md**. The **name** and
    **description** between the two `---` lines tell Copilot when to load it. Change one step
@@ -139,7 +147,8 @@ describe both in plain words; Copilot writes them; you read them and make them y
 
    > Create a custom agent file at .github/agents/user-requirements.agent.md with
    > `name: user-requirements` and a one-line description. It is a User Requirements agent for
-   > my small website about [my idea]. When I name a ticket by its number, it reads the ticket
+   > my small website about [my idea]. Leave out the tools field: it needs the GitHub reading
+   > tools and the terminal for the approved gh commands. When I name a ticket by its number, it reads the ticket
    > with the GitHub tools and uses the user-stories skill to draft its user story and acceptance
    > criteria. It shows me the draft first. Only when I say yes does it update that ticket with
    > the `gh issue edit` command: it reads the ticket's exact text with
@@ -147,8 +156,10 @@ describe both in plain words; Copilot writes them; you read them and make them y
    > criteria sections, keeps every other line exactly as it is, and gives the new text to
    > `gh issue edit NUMBER --body-file -` through standard input, so quotes cannot break it. Then
    > it reads the ticket again and tells me whether my own words under What I want are
-   > unchanged. When something is unclear it asks me one question at a time. It never writes
-   > code, never changes files, and uses made-up people and data only.
+   > unchanged. When something is unclear it asks me one question at a time and resolves open
+   > questions before saving. It never writes website code, never changes local files, and
+   > uses made-up people and data only. It may run a short helper script for the approved
+   > ticket update without saving that script to a file.
 
    The long part about `gh` keeps your own words safe: in a rehearsal, a shorter prompt let
    Copilot rewrite a whole ticket and lose them. Paste it as it is.
@@ -223,32 +234,40 @@ to ordinary Copilot, which can change files.
 1. Ask Copilot CLI: "Write tests in checks/test_issue1.py for the acceptance criteria of issue #1
    that can be checked from the files, using `from website import Page` as shown in
    checks/README.md. Give every assert a short message saying what I expected. Tell me which
-   criteria stay manual checks. Then run `pytest checks`."
-2. Copilot asks before it runs anything, such as `pytest checks`: read each request and choose
-   **Yes**. A request waits until you answer, so look at the terminal if nothing seems to happen.
+   criteria stay manual checks. Include one check for an existing heading or button label in
+   my page's HTML, and tell me the exact text to change for the red-test exercise. Do not
+   change the website to make a test pass. Then run `pytest checks`." Use your own ticket's
+   number and name the test file to match, such as `checks/test_issue7.py` for #7.
+2. If Copilot asks to run `pytest checks`, read the request and choose **Yes**.
+   A request waits until you answer, so look at the terminal if nothing seems to happen.
    **Check:** the terminal says `passed` in green.
-3. **Break it on purpose:** in your page change one word that a test looks for, save, and run
+3. **Break it on purpose:** in your page's HTML, change the exact text Copilot identified,
+   leaving the test unchanged. Save and run
    `pytest checks` again. It turns red and says what it expected. Undo your change with
    **Ctrl+Z** (**Cmd+Z** on a Mac), save, and run it again: green.
 4. Ask: "Add a section called How to build and run to the end of site/README.md, in plain
    words: how to open the page (/start-website), how to run the tests (pytest checks), how to run
    the build check (python -m app.site --check), and the manual checks for issue #1. Then add a
    section called Requirements: one line per ticket with its number, title, user story, and
-   status today (Todo, In Progress, or Done)." Copilot cannot read your board, so it asks you each ticket's
-   status: pick it from the list, or choose **Other** and type, for example, "Not approved yet".
+   status expected after today's closing commit (Done for issue #1, Todo for the approved
+   ticket for tomorrow, or No Status for an unapproved ticket). Do not guess the board's
+   statuses; ask me to confirm them." Use your own ticket's number and page. Confirm each
+   status against your board and the ticket you are about to finish.
    Read both sections and correct anything that is wrong. `site/README.md` is now your
    website's validated README: your checked requirements, each one traced to its ticket, and how
-   to run it.
+   to run it. Here too, checked does not mean GxP validated.
 
 ## 6. Checkpoint
 
 **03:45-04:00.**
 
-1. Save. Open **Source Control** and review the files: your skill, your agent, your page, your
+1. Check that the branch at the bottom left is **main**. Save all files. Open **Source Control** and review the files: your skill, your agent, your page, your
    test, and `site/README.md`. Commit with a message that ends with `Closes` and your ticket's number,
    for example `Mark urgent tasks. Closes #1`, then **... > Push**.
 2. Open your board: the ticket closed itself and moved to **Done**. `Closes #1` in a commit that
    reaches `main` closes the ticket, and the board moves closed tickets to **Done** by itself.
+   If it stays open, check the ticket number and that your commit reached `main`; ask a helper
+   before trying again. Check that the status in `site/README.md` now matches the board.
 3. Show a neighbor or a helper four things: your agent and skill, your board, the finished
    ticket with its criteria, and the working feature with its green tests.
 
@@ -282,6 +301,8 @@ Tomorrow Copilot's cloud agent builds your next ticket on GitHub: see the
   [about projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects),
   [creating a project](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project),
   and [the board's built-in automations](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations).
+- [Adding new tickets automatically](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/adding-items-automatically)
+   and [linking your board to your repository](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-your-project/adding-your-project-to-a-repository).
 - [Closing a ticket with `Closes #1`](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue).
 - [Custom agents in Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
   and [custom agents in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-agents).

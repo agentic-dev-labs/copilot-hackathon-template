@@ -38,7 +38,7 @@ step instead of racing ahead. Use made-up information only.
 | Use my own agent (Days 3-4) | In Copilot CLI type `/agent` and choose it. After creating a new agent or skill, type `/exit` and `copilot` once so it appears. |
 | Use my skill (Day 3) | Name it in your request, for example "Use the user-stories skill on issue #1". |
 | Write a ticket (Days 3-5) | On GitHub: **Issues > New issue > Requirement**. Write what you want in plain words; your agent adds the story and the criteria. |
-| Make my board (Day 3) | Select the organization's name above your repository, then **Projects > New project > Board**, name it `<your username> website`, keep **Import items from repository** and choose your own repository. Then **Workflows > Item added to project > Off**, so new tickets wait under **No Status**. Later, open it from your repository's **Projects** tab. |
+| Make my board (Day 3) | Organization **Projects > New project > Board**, name it `<your username> website`, import from your own repository. Under **... > Workflows**, switch **Item added to project** Off; set **Auto-add to project** to your own repo with `is:issue is:open` and turn it on; check **Item closed** sets **Done**. Repository **Projects > Link a project** adds the board if missing. Full steps: [Day 3, section 1](DAY-3.md#1-tickets-board-and-tools). |
 | Approve a ticket (Days 3-5) | On your board, drag its card into **Todo**. |
 | Close a ticket with a commit (Day 3) | End the commit message with `Closes #1`, using the ticket's number. When it reaches `main`, the card moves to **Done**. |
 | Run my tests (Days 3-5) | In the terminal type `pytest checks`. Green means pass; red shows what failed. |
@@ -59,7 +59,8 @@ step instead of racing ahead. Use made-up information only.
 | A pop-up in a corner: "workspace customizations need an update", or about Python | Select the **X** beside it. The workshop files are fine as they are; never select **Migrate**. |
 | I chose not to trust the folder | Open the menu with three lines, **View > Command Palette**, type `Reload Window`, press Enter, then choose **Trust Folder & Continue**. |
 | A tab called `COMMIT_EDITMSG` opened | Your commit message was empty. Close that tab, type a message in the Source Control box, then **Commit**. |
-| No **New project** button, or my board is empty (Day 3) | On your board select **+ Add item**, type `#`, and pick each ticket. Still nothing? Show a helper. |
+| No **New project** button (Day 3) | Ask a helper to create your board or arrange access. Write tickets while you wait. |
+| My board is empty (Day 3) | On your board select **+ Add item**, search your repository's tickets and select them. Auto-add does not import older tickets. |
 | I pushed without `Closes #1` (Day 3) | Open the ticket on GitHub and select **Close issue**. The board moves it to **Done**. |
 | My typing lands in a file, not in Copilot CLI | Click in the terminal first, then type. This happens after Copilot shows a change beside the terminal. |
 | My live footer still says **Preview** (Day 4) | The `#` is still in front of `version:` in publish-website.yml, or the merge changed nothing in `site/`. Show a helper. |
@@ -85,7 +86,8 @@ Nothing extra is required on Monday or Tuesday: no database, CLI, MCP, or setup.
 optional, with a helper.
 **Wednesday:** your idea as tickets on your own board, your own user-stories skill and User
 Requirements agent, acceptance criteria on every ticket, one ticket working on your page with
-green `pytest checks` and **Done** on your board.
+green `pytest checks` and **Done** on your board, requirements and run instructions in
+`site/README.md`, and another approved ticket in **Todo** for Thursday.
 **Thursday:** `main` protected by your ruleset, your live website showing its version number, a
 ticket built by Copilot's cloud agent, your own Code Review agent's report with every finding
 checked by you, and a merge-or-not decision.

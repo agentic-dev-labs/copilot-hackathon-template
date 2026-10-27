@@ -1,8 +1,9 @@
 # Quick Commands
 
 Short commands and prompts to type or paste during the week. In Chat choose **Agent**; from
-Wednesday you can also paste them into Copilot CLI. Copilot asks before it runs anything: read
-what it wants to do, then allow it. None of these ever force-push or delete your saved history.
+Wednesday you can also paste them into Copilot CLI. Read permission requests before allowing
+them; actions already allowed for the session may not ask again. Do not approve every tool.
+None of these ever force-push or delete your saved history.
 
 ## Fetch Updates From the Main Workshop Repository
 

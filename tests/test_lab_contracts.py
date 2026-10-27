@@ -643,6 +643,10 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     # Later on 21 October: requirements live in tickets on a project board, approved by moving to Todo.
     assert "**Issues > New issue**" in flat and "**Requirement**" in flat
     assert "**Projects > New project**" in flat and "**Import items from repository**" in flat
+    assert "**Auto-add to project > Edit**" in flat and "`is:issue is:open`" in flat
+    assert "**Save and turn on workflow**" in flat and "**Item closed**" in flat
+    assert "**Projects > Link a project**" in flat
+    assert "Auto-add does not import older tickets" in flat
     assert "the `gh issue edit` command" in flat and "Only when I say yes" in flat
     # Rehearsed 22 October 2026: a short prompt let the agent rebuild the whole ticket inside a
     # quoted shell argument and lose the learner's words; the raw read and stdin write keep them.
@@ -667,6 +671,14 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     assert "type `/exit`, then `copilot`" in flat, "the CLI loads new agents when it starts"
     assert "pytest checks" in guide and "from website import Page" in guide
     assert "**Break it on purpose:**" in guide and "How to build and run" in guide
+    assert "leaving the test unchanged" in flat
+    assert "Do not change the website to make a test pass" in flat
+    assert "Show Open questions in the draft only" in flat
+    assert "status expected after today's closing commit" in flat
+    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
+    assert "**Auto-add to project**" in quick_reference and "`is:issue is:open`" in quick_reference
+    assert "**Projects > Link a project**" in quick_reference
+    assert "Ask a helper to create your board or arrange access" in quick_reference
     for target in ("DAY-4.md",):
         assert target in guide
     # The template ships the test helper, prompts and ticket template, never the finished agent, skill, or tests.
