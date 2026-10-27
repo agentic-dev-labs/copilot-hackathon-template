@@ -16,35 +16,35 @@ Planner. A helper gets you started while the room continues.
 
 Times count from the start of the session.
 
-| Elapsed     | What happens                                                          | You are finished when                                             |
-| ----------- | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 00:00-00:20 | MUKQ: global and Microsoft perspectives on AI development             | You listened; no laptop needed.                                   |
-| 00:20-00:50 | [Workspace setup, repository walkthrough, and agent roles and tools](#1-tickets-board-and-tools) | Your tickets are on your board, Copilot CLI is signed in, and a GitHub tool listed your tickets. |
-| 00:50-01:30 | [Build a User Requirements agent: instructions and output format](#2-build-your-user-requirements-agent) | Your **user-stories** skill and your agent exist, and Copilot CLI lists the agent. |
-| 01:30-01:45 | Break                                                                 |                                                                   |
-| 01:45-02:30 | [Draft user stories and acceptance criteria, then validate](#3-draft-and-validate-the-criteria) | Every ticket has criteria you can check, and your approved tickets are in **Todo**. |
-| 02:30-03:15 | [Implement the approved ticket, debug, and verify](#4-build-the-approved-ticket) | Every acceptance criterion passes your own check.                 |
-| 03:15-03:45 | [Add tests and write down how to build and run](#5-add-tests-and-how-to-run) | `pytest checks` is green, and `site/README.md` lists your requirements and how to run it. |
-| 03:45-04:00 | [Checkpoint](#6-checkpoint)                                           | Your ticket closed itself and moved to **Done**.                  |
+| Elapsed     | What happens                                                                                             | You are finished when                                                                            |
+| ----------- | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 00:00-00:20 | MUKQ: global and Microsoft perspectives on AI development                                                | You listened; no laptop needed.                                                                  |
+| 00:20-00:50 | [Workspace setup, repository walkthrough, and agent roles and tools](#1-tickets-board-and-tools)         | Your tickets are on your board, Copilot CLI is signed in, and a GitHub tool listed your tickets. |
+| 00:50-01:30 | [Build a User Requirements agent: instructions and output format](#2-build-your-user-requirements-agent) | Your **user-stories** skill and your agent exist, and Copilot CLI lists the agent.               |
+| 01:30-01:45 | Break                                                                                                    |                                                                                                  |
+| 01:45-02:30 | [Draft user stories and acceptance criteria, then validate](#3-draft-and-validate-the-criteria)          | Every ticket has criteria you can check, and your approved tickets are in **Todo**.              |
+| 02:30-03:15 | [Implement the approved ticket, debug, and verify](#4-build-the-approved-ticket)                         | Every acceptance criterion passes your own check.                                                |
+| 03:15-03:45 | [Add tests and write down how to build and run](#5-add-tests-and-how-to-run)                             | `pytest checks` is green, and `site/README.md` lists your requirements and how to run it.        |
+| 03:45-04:00 | [Checkpoint](#6-checkpoint)                                                                              | Your ticket closed itself and moved to **Done**.                                                 |
 
 **Lost?** Find the row the room is on (the presenter names it at the start of every block),
 select its link, and start there. Raise your hand: a helper catches you up on what you skipped.
 
 ## New Words for Today
 
-| Word                | Plain meaning                                                                          |
-| ------------------- | -------------------------------------------------------------------------------------- |
-| Ticket (issue)      | One thing you want, written on GitHub under **Issues**, with a number such as #1.       |
-| Project board       | A page of cards, one per ticket, in columns: Todo, In Progress, and Done.               |
-| Terminal            | The panel below the editor where you type commands.                                    |
-| Copilot CLI         | Copilot inside the terminal. The same assistant as Chat, through a different door.      |
-| Tool (MCP)          | A plug that lets Copilot do something, such as read your tickets on GitHub.             |
-| Instructions        | Standing rules Copilot reads before every request, in a short file.                    |
-| Skill               | A recipe in a folder: how to do one job, step by step, in a fixed format.              |
-| Custom agent        | A helper with one job that you describe in a short file, like a role card.             |
-| User story          | "As a ..., I want ..., so that ..." : who needs what, and why.                         |
-| Acceptance criteria | Checks that say when a ticket is done: "Given ..., when ..., then ...".                |
-| Test                | A short file that checks your page for you. Green means pass, red means fail.          |
+| Word                | Plain meaning                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------- |
+| Ticket (issue)      | One thing you want, written on GitHub under **Issues**, with a number such as #1.  |
+| Project board       | A page of cards, one per ticket, in columns: Todo, In Progress, and Done.          |
+| Terminal            | The panel below the editor where you type commands.                                |
+| Copilot CLI         | Copilot inside the terminal. The same assistant as Chat, through a different door. |
+| Tool (MCP)          | A plug that lets Copilot do something, such as read your tickets on GitHub.        |
+| Instructions        | Standing rules Copilot reads before every request, in a short file.                |
+| Skill               | A recipe in a folder: how to do one job, step by step, in a fixed format.          |
+| Custom agent        | A helper with one job that you describe in a short file, like a role card.         |
+| User story          | "As a ..., I want ..., so that ..." : who needs what, and why.                     |
+| Acceptance criteria | Checks that say when a ticket is done: "Given ..., when ..., then ...".            |
+| Test                | A short file that checks your page for you. Green means pass, red means fail.      |
 
 ## 1. Tickets, Board, and Tools
 
@@ -68,6 +68,7 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
    **No New project button?** Ask a helper to create your board or give you access. You can
    write tickets while you wait. **Ticket missing from the board?** Use **+ Add item**, search
    for your repository's ticket, and select it. Auto-add does not import older tickets.
+
 3. **Write a ticket.** On GitHub open your repository, then **Issues > New issue**, and choose
    **Requirement**. Give it a short title in plain words, such as `Mark urgent tasks`. Under
    **What I want**, write one or two sentences: who it is for, what they want, and why. Under
@@ -76,7 +77,7 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
    **Create**. The ticket gets a number, such as **#1**, and joins your board by itself under
    **No Status**: written, not approved yet.
 4. **Your own idea.** Write two or three tickets like this for the idea you started on Monday or
-   Tuesday, each about one thing you want *next*: the wishes you wrote under **Next** in
+   Tuesday, each about one thing you want _next_: the wishes you wrote under **Next** in
    `site/README.md` on Tuesday are a good start. A ticket about something your page already does leaves
    nothing to build.
 5. **Open your Codespace** with the green **Code** button on your repository's page. Never create
@@ -111,19 +112,19 @@ builds the demo website's pair.
 
 1. **Meet the building blocks.** The presenter opens each one in the Explorer:
 
-   | Building block | What it does                                     | In your repository                             |
-   | -------------- | ------------------------------------------------ | ---------------------------------------------- |
-   | Instructions   | Standing rules Copilot reads before every request | `.github/copilot-instructions.md`             |
-   | Skill          | A recipe Copilot loads when the job fits          | `.github/skills/create-website/`, used Monday |
-   | Custom agent   | A helper with one job, its own rules and tools    | `.github/agents/`, where yours arrives next   |
+   | Building block | What it does                                      | In your repository                             |
+   | -------------- | ------------------------------------------------- | ---------------------------------------------- |
+   | Instructions   | Standing rules Copilot reads before every request | `.github/copilot-instructions.md`              |
+   | Skill          | A recipe Copilot loads when the job fits          | `.github/skills/create-website/`, used Monday  |
+   | Custom agent   | A helper with one job, its own rules and tools    | `.github/agents/`, where yours arrives next    |
    | Tools (MCP)    | Plugs that let Copilot act, like the GitHub tools | `.vscode/mcp.json` in Chat; built into the CLI |
 
 2. Type `/agent` and press Enter to see the list of agents. Look for **GenericAgent**, the
    blank helper from Monday's demo: your own agent joins this list next. Press **Esc** to close
    it.
 
-A **skill** in `.github/skills/` says *how* the job is done: the steps and the exact output
-format. An **agent** in `.github/agents/` says *who* does it: its role and its rules. You
+A **skill** in `.github/skills/` says _how_ the job is done: the steps and the exact output
+format. An **agent** in `.github/agents/` says _who_ does it: its role and its rules. You
 describe both in plain words; Copilot writes them; you read them and make them yours.
 
 3. **The skill: the output format.** In Copilot CLI, paste this:
@@ -189,7 +190,7 @@ helper adds your agent with you at the next break.
 2. **Validate** each acceptance criterion: can you check it yourself by clicking or counting? If
    not, ask for a new version of only that one: "Rewrite criterion 2 so that I can check it by
    counting. Change nothing else." Answer its open questions the same way, one at a time. Here
-   *validate* means checking that every criterion can be checked. It is not GxP validation: your
+   _validate_ means checking that every criterion can be checked. It is not GxP validation: your
    practice website is a prototype with made-up data, not a validated system.
 3. When you agree, choose **Yes** when it asks, or say: "Yes, update issue #1." Copilot asks to
    run the command that saves it, `gh issue edit`, sometimes inside a short Python script that
@@ -200,6 +201,7 @@ helper adds your agent with you at the next break.
    menu keeps every earlier version. If Copilot says it may not update the ticket, copy its
    draft, select **...** and **Edit** on the ticket, paste the draft under **User story** and
    **Acceptance criteria**, and save.
+
 4. Do the same for your other tickets.
 5. **Approve.** Choose one small ticket to build today. On your board, drag its card into
    **Todo**: approved, ready to build. Ask a neighbor: "Could you check this ticket's criteria?"
@@ -302,7 +304,7 @@ Tomorrow Copilot's cloud agent builds your next ticket on GitHub: see the
   [creating a project](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project),
   and [the board's built-in automations](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/using-the-built-in-automations).
 - [Adding new tickets automatically](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/adding-items-automatically)
-   and [linking your board to your repository](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-your-project/adding-your-project-to-a-repository).
+  and [linking your board to your repository](https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-your-project/adding-your-project-to-a-repository).
 - [Closing a ticket with `Closes #1`](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue).
 - [Custom agents in Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
   and [custom agents in VS Code](https://code.visualstudio.com/docs/agent-customization/custom-agents).

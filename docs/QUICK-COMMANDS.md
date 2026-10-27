@@ -33,42 +33,42 @@ back to `main` and **Pull**.
 
 ## Every Day
 
-| I want to...          | Type or paste                                                                        |
-| --------------------- | ------------------------------------------------------------------------------------ |
-| Build a website       | `/create-website`                                                                    |
-| Open my website       | `/start-website`, or for a second website its folder: `/start-website lunch-map`    |
-| Close my website      | `/stop-website` (your files stay)                                                    |
-| Add a chart           | `/add-chart`, or `/add-chart lunch-map`                                              |
-| Add a chat            | `/add-chat`, or `/add-chat lunch-map`                                                |
-| Teach my chat a fact  | "Add to my page's knowledge.md: [your fact]." Then ask the chat about it.            |
-| Publish (optional)    | `/publish-website`, then save, commit, and push                                     |
-| Ask for one change    | "Change [this one thing]. Keep everything else the same. Tell me how to check it."   |
-| Report a problem      | "I expected [this]. I saw [that]. Fix only that, and keep everything else unchanged." |
-| Get ideas             | "Suggest three small ideas for my page."                                             |
-| Understand some code  | Select a few lines, then: "Explain the lines I selected in plain English, one short sentence per line." |
+| I want to...         | Type or paste                                                                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------- |
+| Build a website      | `/create-website`                                                                                       |
+| Open my website      | `/start-website`, or for a second website its folder: `/start-website lunch-map`                        |
+| Close my website     | `/stop-website` (your files stay)                                                                       |
+| Add a chart          | `/add-chart`, or `/add-chart lunch-map`                                                                 |
+| Add a chat           | `/add-chat`, or `/add-chat lunch-map`                                                                   |
+| Teach my chat a fact | "Add to my page's knowledge.md: [your fact]." Then ask the chat about it.                               |
+| Publish (optional)   | `/publish-website`, then save, commit, and push                                                         |
+| Ask for one change   | "Change [this one thing]. Keep everything else the same. Tell me how to check it."                      |
+| Report a problem     | "I expected [this]. I saw [that]. Fix only that, and keep everything else unchanged."                   |
+| Get ideas            | "Suggest three small ideas for my page."                                                                |
+| Understand some code | Select a few lines, then: "Explain the lines I selected in plain English, one short sentence per line." |
 
 ## Something Went Wrong
 
-| When                                       | Paste this                                                                 |
-| ------------------------------------------ | -------------------------------------------------------------------------- |
-| Is my work safe?                           | "Is all my work committed and pushed to GitHub, and which branch am I on? Answer in plain words and change nothing." |
-| I want to see what I changed               | "List the files I changed since my last commit, with one plain sentence for each. Change nothing." |
-| I made a mess and want my last commit back | "Undo every change since my last commit. First list each file that would change, including new files that would be deleted, and wait for my yes." |
-| One file is broken                         | "Put site/index.html back the way it was in my last commit. Change no other file." Use your own file's name. |
-| It worked yesterday                        | "Show my last 5 commits in plain words. After I pick one, put site/index.html back the way it was in that commit, as a new change I can review. Never rewrite my history." |
+| When                                       | Paste this                                                                                                                                                                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Is my work safe?                           | "Is all my work committed and pushed to GitHub, and which branch am I on? Answer in plain words and change nothing."                                                                                         |
+| I want to see what I changed               | "List the files I changed since my last commit, with one plain sentence for each. Change nothing."                                                                                                           |
+| I made a mess and want my last commit back | "Undo every change since my last commit. First list each file that would change, including new files that would be deleted, and wait for my yes."                                                            |
+| One file is broken                         | "Put site/index.html back the way it was in my last commit. Change no other file." Use your own file's name.                                                                                                 |
+| It worked yesterday                        | "Show my last 5 commits in plain words. After I pick one, put site/index.html back the way it was in that commit, as a new change I can review. Never rewrite my history."                                   |
 | My push was refused                        | "My push was refused. Explain why in one sentence, then fix it safely: pull first, and never force-push. If main takes only pull requests, move my commits to a new branch and help me open a pull request." |
-| I am on the wrong branch                   | "Take me back to main with the newest version from GitHub. Keep any unfinished work safe first, and tell me where it is." |
-| Git says there is a conflict               | "There is a merge conflict. For each file, show me both versions in plain words and ask me which to keep, one file at a time." |
+| I am on the wrong branch                   | "Take me back to main with the newest version from GitHub. Keep any unfinished work safe first, and tell me where it is."                                                                                    |
+| Git says there is a conflict               | "There is a merge conflict. For each file, show me both versions in plain words and ask me which to keep, one file at a time."                                                                               |
 
 ## Copilot in the Terminal (Wednesday to Friday)
 
-| Type            | What it does                                                      |
-| --------------- | ----------------------------------------------------------------- |
-| `copilot`       | Starts Copilot CLI in the terminal.                               |
-| `/login`        | Signs in, if the bottom line shows no model name.                 |
-| `/agent`        | Picks one of your own agents.                                     |
+| Type            | What it does                                                          |
+| --------------- | --------------------------------------------------------------------- |
+| `copilot`       | Starts Copilot CLI in the terminal.                                   |
+| `/login`        | Signs in, if the bottom line shows no model name.                     |
+| `/agent`        | Picks one of your own agents.                                         |
 | `/exit`         | Leaves Copilot CLI. Type `copilot` again to see a new agent or skill. |
-| `pytest checks` | Runs your tests (type it in the terminal, outside Copilot CLI).   |
+| `pytest checks` | Runs your tests (type it in the terminal, outside Copilot CLI).       |
 
 ## One Good Request
 
