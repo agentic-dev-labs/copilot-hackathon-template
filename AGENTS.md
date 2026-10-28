@@ -10,10 +10,11 @@ A training repository for a hands-on GitHub Copilot workshop. All five days are 
 users with zero GitHub and app-building experience; plan support for roughly 40-45 people and
 confirm the final roster. Keep every day simple.
 Day 1 teaches foundations, Chat, a small learner-created website, and manual verification.
-Day 2 is supported own-idea building with fictional app-local content. Day 3 has attendees turn
-their own idea into tickets (GitHub issues) on a project board, write a user-stories skill and a
-User Requirements agent with Copilot CLI that add acceptance criteria to each ticket, and build
-and test one ticket; Day 4 is feature branches, a versioned pipeline, cloud agents and a Code
+Day 2 is supported own-idea building with fictional app-local content. Day 3 has attendees use
+the GitHub Copilot app with plugins from Awesome Copilot and Anthropic's marketplace, turn a
+made-up trip into their own skill, create a User Requirements agent that writes tickets for
+their Monday website, let AI triage catch a duplicate on their project board, and build and
+test one ticket; Day 4 is feature branches, a versioned pipeline, cloud agents and a Code
 Review agent; Day 5 is CI/CD with GitHub Actions (tests and a browser UI check with screenshots),
 team demos and a handoff, all on the attendee's own website. Attendees follow one guide per day,
 `docs/DAY-1.md` to `docs/DAY-5.md`, linked from a minimal README, plus `docs/QUICK-REFERENCE.md`
@@ -98,7 +99,7 @@ finding the guide and Markdown Open Preview; these are not independent reading a
 No Monday CLI/MCP configuration, research downloads,
 skill installation, or presentation requirement. Storage and deployment are optional extensions.
 Prepare the skill, its tested category blueprints, the local kit and the editor helper, not a
-completed site/. The skill copies one self-contained index.html plus a data/*.json pretend API
+completed site/. The skill copies one self-contained index.html plus a data/\_.json pretend API
 after approval. Keep pages static and local, and ask before changing frameworks, overwriting
 pages, or adding an external service. The owner approved these exceptions: the Weather starter
 calls Open-Meteo (forecast, city search and past weather), and the preview allows only those hosts;
@@ -113,7 +114,7 @@ branding, diagram tools, or paid image service belongs in the beginner builder. 
 one AI exception on 17 October 2026: `scripts/workshop_ai.py` draws or edits pictures and saves them
 as files under `site/`, and `/add-chat` adds a bubble the Website preview answers with the workshop
 chat model, from what the page shows, its code, and the learner's `knowledge.md` next to the page.
-Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY_*,
+Both sign in with Entra ID as the workshop identity from Codespaces secrets (FOUNDRY\_\_,
 private repositories only). On a published website the same bubble asks the website's own
 `/api/ask` (`app/page_chat.py`), which signs in with the websites' managed identity (Cognitive
 Services OpenAI User only) and limits each page to 120 short questions a minute and 5,000 a day,

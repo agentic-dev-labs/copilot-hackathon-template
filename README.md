@@ -13,13 +13,13 @@ invitation has the exact times.
 
 Open only today's guide. The presenter shows each step first, then you do the same.
 
-| Day           | Your guide                                     | What you take home                                  |
-| ------------- | ---------------------------------------------- | --------------------------------------------------- |
-| **Monday**    | [Day 1: Your First Website](docs/DAY-1.md)     | A website you built by asking, made your own, and checked |
-| **Tuesday**   | [Day 2: Build Your Own Idea](docs/DAY-2.md)    | The first version of your own idea                  |
-| **Wednesday** | [Day 3: A Requirements Agent](docs/DAY-3.md)   | Tickets on your board, your own agent, and a tested feature |
-| **Thursday**  | [Day 4: Cloud Agents](docs/DAY-4.md)           | A change Copilot built, reviewed by your own review agent |
-| **Friday**    | [Day 5: CI/CD and Demos](docs/DAY-5.md)        | A checked, approved, recoverable website and a handoff note |
+| Day           | Your guide                                   | What you take home                                                    |
+| ------------- | -------------------------------------------- | --------------------------------------------------------------------- |
+| **Monday**    | [Day 1: Your First Website](docs/DAY-1.md)   | A website you built by asking, made your own, and checked             |
+| **Tuesday**   | [Day 2: Build Your Own Idea](docs/DAY-2.md)  | The first version of your own idea                                    |
+| **Wednesday** | [Day 3: A Requirements Agent](docs/DAY-3.md) | Your own skill and agent, an AI-triaged backlog, and a tested feature |
+| **Thursday**  | [Day 4: Cloud Agents](docs/DAY-4.md)         | A change Copilot built, reviewed by your own review agent             |
+| **Friday**    | [Day 5: CI/CD and Demos](docs/DAY-5.md)      | A checked, approved, recoverable website and a handoff note           |
 
 Keep the [Quick Reference](docs/QUICK-REFERENCE.md) beside you. Prompts to paste, including the
 one that fetches updates from the main workshop repository, are in [Quick Commands](docs/QUICK-COMMANDS.md).

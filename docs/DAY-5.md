@@ -20,33 +20,33 @@ Day 3? Your checks say so and stay green.
 
 Times count from the start of the session.
 
-| Elapsed     | What happens                                                         | You are finished when                                              |
-| ----------- | -------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| 00:00-00:20 | [CI/CD concepts](#1-cicd-in-plain-words)                             | You can point to your pipeline's trigger, permissions, and version. |
-| 00:20-00:50 | [Workflow lab: edit a starter YAML file, triggers and permissions](#2-workflow-lab) | Your checks are merged, and your ruleset requires them.            |
-| 00:50-01:30 | [CI lab: build and test a pull request, inspect logs, fix failures](#3-ci-lab) | You saw red, read the log and a screenshot, fixed it, and merged on green. |
-| 01:30-01:45 | Break                                                                |                                                                    |
-| 01:45-02:30 | [CD lab: approve and deploy a build to the training environment](#4-cd-lab) | Copilot's change was tried in your feature slot and reached production only after you approved. |
-| 02:30-03:15 | [Recovery lab: smoke-test and redeploy a known-good build](#5-recovery-lab) | The smoke test is green again after your rollback.                 |
-| 03:15-03:45 | [Team demos: requirements, review report, and CI/CD evidence](#6-team-demos) | Your table showed its work.                                        |
-| 03:45-04:00 | [Handoff: agent profiles, pipeline steps, and release ownership](#7-handoff) | Your HANDOFF.md is merged.                                         |
+| Elapsed     | What happens                                                                        | You are finished when                                                                           |
+| ----------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| 00:00-00:20 | [CI/CD concepts](#1-cicd-in-plain-words)                                            | You can point to your pipeline's trigger, permissions, and version.                             |
+| 00:20-00:50 | [Workflow lab: edit a starter YAML file, triggers and permissions](#2-workflow-lab) | Your checks are merged, and your ruleset requires them.                                         |
+| 00:50-01:30 | [CI lab: build and test a pull request, inspect logs, fix failures](#3-ci-lab)      | You saw red, read the log and a screenshot, fixed it, and merged on green.                      |
+| 01:30-01:45 | Break                                                                               |                                                                                                 |
+| 01:45-02:30 | [CD lab: approve and deploy a build to the training environment](#4-cd-lab)         | Copilot's change was tried in your feature slot and reached production only after you approved. |
+| 02:30-03:15 | [Recovery lab: smoke-test and redeploy a known-good build](#5-recovery-lab)         | The smoke test is green again after your rollback.                                              |
+| 03:15-03:45 | [Team demos: requirements, review report, and CI/CD evidence](#6-team-demos)        | Your table showed its work.                                                                     |
+| 03:45-04:00 | [Handoff: agent profiles, pipeline steps, and release ownership](#7-handoff)        | Your HANDOFF.md is merged.                                                                      |
 
 **Lost?** Find the row the room is on (the presenter names it at the start of every block),
 select its link, and start there. Raise your hand: a helper catches you up on what you skipped.
 
-| Word           | Plain meaning                                                                           |
-| -------------- | --------------------------------------------------------------------------------------- |
-| Workflow       | A YAML file in `.github/workflows/` that tells GitHub what to do and when.              |
-| Trigger        | The `on:` part: what starts the workflow, such as a push or a pull request.             |
-| Permissions    | What the workflow may do with your repository. Give it only what it needs.              |
-| CI             | Continuous integration: every change is built and tested automatically.                |
-| UI check       | A browser opens your pages, checks what a person would see, and takes screenshots.      |
-| Required check | A check your ruleset insists on: a pull request cannot be merged while it is red.       |
-| CD             | Continuous delivery: a checked change is published, here only after a person approves. |
-| Feature slot   | A test copy of your website for a pull request, at your website's name plus `-feature`. A yellow strip at the top shows its pull request, version, and build. |
-| Production slot | Your website's own address, the one everyone uses. It changes only from `main`, after you approve. |
-| Smoke test     | A quick check that the published website is alive and shows the right thing.          |
-| Rollback       | Going back to the last known-good version. GitHub's **Revert** button does it for you. |
+| Word            | Plain meaning                                                                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Workflow        | A YAML file in `.github/workflows/` that tells GitHub what to do and when.                                                                                    |
+| Trigger         | The `on:` part: what starts the workflow, such as a push or a pull request.                                                                                   |
+| Permissions     | What the workflow may do with your repository. Give it only what it needs.                                                                                    |
+| CI              | Continuous integration: every change is built and tested automatically.                                                                                       |
+| UI check        | A browser opens your pages, checks what a person would see, and takes screenshots.                                                                            |
+| Required check  | A check your ruleset insists on: a pull request cannot be merged while it is red.                                                                             |
+| CD              | Continuous delivery: a checked change is published, here only after a person approves.                                                                        |
+| Feature slot    | A test copy of your website for a pull request, at your website's name plus `-feature`. A yellow strip at the top shows its pull request, version, and build. |
+| Production slot | Your website's own address, the one everyone uses. It changes only from `main`, after you approve.                                                            |
+| Smoke test      | A quick check that the published website is alive and shows the right thing.                                                                                  |
+| Rollback        | Going back to the last known-good version. GitHub's **Revert** button does it for you.                                                                        |
 
 ## 1. CI/CD in Plain Words
 
@@ -184,6 +184,7 @@ after you approved, you tested it there, and it reached production only after yo
 
    Every line says **PASS**. Write down the **content** and **version** on the first line: the
    content number is the fingerprint of your good version.
+
 2. **Ship a bad build on purpose:** on a new branch, ask Copilot to change the sentence under
    your headline to "Oops, wrong words". Create the pull request. Your checks usually stay green,
    because no check knows your words (if a Day 3 test checks that sentence, it turns red: your
@@ -216,7 +217,7 @@ An honest "this part does not work yet" is better than a polished claim nobody c
 ## 7. Handoff
 
 **03:45-04:00.** Ask Copilot CLI: "Write HANDOFF.md in plain words: my agent profiles
-(user-requirements and code-review: file, job, and how to run them), my user-stories skill, my
+(user-requirements and code-review: file, job, and how to run them), my travel-planner skill and the plugins I installed, my
 board and how a ticket moves from Todo to Done, my review rules, my ruleset (what it requires
 before a merge), my pipeline (Check my website with its tests and UI check, Deploy feature slot
 for every checked pull request, and Publish my website to production with approval and a version
@@ -230,15 +231,15 @@ a branch, a pull request, and a merge. If you tried an automation, switch it off
 Your website is a working prototype with made-up data, kept in one browser. That is the point
 of this week: it shows exactly what you need. Making it real is a project with IT, usually:
 
-| Your page needs...                                  | Usual route to ask IT about                 |
-| --------------------------------------------------- | ------------------------------------------- |
-| Shared data, several people, sign-in, approvals     | Power Apps with Dataverse; a Power Apps code app can keep your page's code |
-| Reminders, emails, or Outlook and Teams steps       | Power Automate                              |
-| Dashboards on real numbers                          | Power BI, on your team's approved data      |
-| Reading PDFs or contracts                           | A document-reading AI service, reviewed by IT |
-| An assistant that answers from company information  | Copilot Studio                              |
-| To keep building with code, tickets, reviews, and pipelines | A repository in Novo's own GitHub Enterprise, through IT. Rulesets, boards, Actions, and Copilot work the same there; which agents are switched on is Novo's choice |
-| To be used in GxP work, such as regulated processes or records | Novo's validation process, with your Quality team, before any real use. This week's website is a prototype, not a validated system |
+| Your page needs...                                             | Usual route to ask IT about                                                                                                                                         |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Shared data, several people, sign-in, approvals                | Power Apps with Dataverse; a Power Apps code app can keep your page's code                                                                                          |
+| Reminders, emails, or Outlook and Teams steps                  | Power Automate                                                                                                                                                      |
+| Dashboards on real numbers                                     | Power BI, on your team's approved data                                                                                                                              |
+| Reading PDFs or contracts                                      | A document-reading AI service, reviewed by IT                                                                                                                       |
+| An assistant that answers from company information             | Copilot Studio                                                                                                                                                      |
+| To keep building with code, tickets, reviews, and pipelines    | A repository in Novo's own GitHub Enterprise, through IT. Rulesets, boards, Actions, and Copilot work the same there; which agents are switched on is Novo's choice |
+| To be used in GxP work, such as regulated processes or records | Novo's validation process, with your Quality team, before any real use. This week's website is a prototype, not a validated system                                  |
 
 **Done when:** your ruleset requires your two checks, you fixed a red check from its log and a
 screenshot, you tried Copilot's change in your feature slot before you approved its release to

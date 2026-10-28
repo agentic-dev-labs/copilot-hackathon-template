@@ -5,10 +5,7 @@
       "id": "00",
       "title": "Foundations, files, Chat, and the first saved website",
       "guide": "docs/DAY-1.md",
-      "tests": [
-        "tests/test_devcontainer.py",
-        "tests/test_app_config.py"
-      ],
+      "tests": ["tests/test_devcontainer.py", "tests/test_app_config.py"],
       "checks": {
         "fresh-install": "Fresh-cache locked core installation succeeds; on-create Copilot CLI and the Website preview helper verified separately; no Chromium or research dependency startup requirement",
         "access": "GitHub and editor Chat work with the intended attendee account",
@@ -21,9 +18,7 @@
       "id": "01",
       "title": "A second website and manual verification",
       "guide": "docs/DAY-1.md",
-      "tests": [
-        "tests/test_lab_contracts.py"
-      ],
+      "tests": ["tests/test_lab_contracts.py"],
       "checks": {
         "own-idea": "After the first page was pushed, /create-website built a second website (another starter by description, or an own idea) from one sentence in site/ideas/<name>/ straight away, without asking for checks first; the first page was unchanged and /start-website still opened it",
         "preview": "Actual Website preview panel renders beside Chat, updates by itself on changes with added entries kept, and stop/start reopens the same saved page without file changes; blockers recorded truthfully",
@@ -43,9 +38,7 @@
       "id": "02",
       "title": "Useful interaction and personal improvement",
       "guide": "docs/DAY-1.md",
-      "tests": [
-        "tests/test_site.py"
-      ],
+      "tests": ["tests/test_site.py"],
       "checks": {
         "implementation": "A chart from /add-chart (or /add-chat, or a workshop picture) added to an existing page, drawn from its own fictional entries, with safe text handling",
         "personalisation": "Chosen Project Planner, Calendar, Ideas Wall, Weather, Princeton Map, Photo Studio, or own-idea page gets the chosen chart or chat and one visual improvement through ordinary Chat, without repeating creation or switching frameworks; actual diff and page inspected",
@@ -88,10 +81,7 @@
       "id": "day-2",
       "title": "Supported own-idea build and handover",
       "guide": "docs/DAY-2.md",
-      "tests": [
-        "tests/test_lab_contracts.py",
-        "tests/test_site.py"
-      ],
+      "tests": ["tests/test_lab_contracts.py", "tests/test_site.py"],
       "checks": {
         "idea-brief": "Participant chose an own idea or the default, described one user outcome and check, and used the /create-website own-idea route in site/ideas/ without overwriting Monday's work",
         "prototype": "A bounded prototype or improved default works with fictional app-local content; no service integration or account migration was required",
@@ -102,7 +92,7 @@
     },
     {
       "id": "day-3",
-      "title": "VS Code and a User Requirements agent",
+      "title": "Copilot app, plugins, a travel skill and a User Requirements agent",
       "guide": "docs/DAY-3.md",
       "tests": [
         "tests/test_devcontainer.py",
@@ -110,21 +100,21 @@
         "tests/test_checks_helper.py"
       ],
       "checks": {
-        "tickets": "Two or three tickets written with the Requirement issue template from the Next wishes in site/README.md, and a Board project named after the learner that imports the repository and shows in its Projects tab; new tickets appeared on the board by themselves",
-        "cli-turn": "Actual Codespaces Copilot CLI sign-in with /login and the device code, and a question about the learner's own page compared with the page",
-        "github-tool": "A GitHub tool through MCP listed the open tickets in Copilot CLI after the learner allowed it by name, and the list matched the board",
-        "skill": "Learner-described .github/skills/user-stories/SKILL.md with the ticket's user story and acceptance criteria format, written by Copilot CLI and edited by the learner",
-        "requirements-agent": "Learner-described .github/agents/user-requirements.agent.md that reads a ticket with the GitHub tools, uses the user-stories skill, and updates the ticket with gh only after the learner agrees; written by Copilot CLI, edited by the learner, and listed by /agent after a CLI restart",
-        "criteria": "Every ticket holds a user story and Given/When/Then criteria from the agent, through gh issue edit or pasted by hand (recorded truthfully); each criterion validated as checkable; approved tickets moved to Todo",
-        "ticket-built": "The approved ticket moved to In Progress and implemented on the learner's page; every criterion checked by hand in the Website preview, with one debug round recorded truthfully",
+        "app-plugin": "Actual Copilot app sign-in with the workshop account, the second marketplace anthropics/skills added, example-skills read and installed, the app fully restarted, /skills listing algorithmic-art, and the learner's own art page opened (or the Awesome Copilot fallback recorded truthfully)",
+        "skill": "Learner trip planned by chatting with browser tools, a personal travel-planner skill made with skill-creator, and /skills listing it in a new session; no sign-in, booking, or payment",
+        "requirements-agent": "Learner-described personal user-requirements agent at ~/.copilot/agents/ that drafts tickets with a user story and Given/When/Then criteria and creates or improves them with the GitHub tools only after the learner agrees; listed by /agent in a new session",
+        "tickets": "A Board project named after the learner that imports the repository and shows in its Projects tab, Item added to project switched off, the Triage incoming issues automation created, and four tickets for the Monday website made by the agent (or by hand, recorded truthfully) including one deliberate copy; they appeared on the board by themselves",
+        "triage": "The automation ran for each new ticket, Agent suggestions proposed closing the copy as a duplicate, and Accept all (or the Duplicate of fallback) closed it and moved its card to Done",
+        "criteria": "Every open ticket holds a user story and Given/When/Then criteria; each criterion validated as checkable and an improved version accepted without changing the learner's own words; two tickets moved to Todo",
+        "ticket-built": "Fetch Updates run in the Codespace, the approved ticket planned first and then built on the learner's page, moved to In Progress; every criterion checked by hand in the Website preview, with one debug round recorded truthfully",
         "tests": "Learner tests in checks/test_*.py written with checks/website.py; pytest checks shown green, red after a deliberate break, and green again; the requirements list and build and run commands written in site/README.md",
-        "checkpoint": "Skill, agent, page, tests and site/README.md reviewed, committed with Closes #N, and pushed; the ticket closed itself and the board moved it to Done"
+        "checkpoint": "Page, tests and site/README.md reviewed, committed with Closes #N, and pushed; the ticket closed itself and the board moved it to Done"
       },
       "optional_checks": {
-        "vscode-agent": "The same agent file chosen in VS Code Chat's agent picker and its answer compared with Copilot CLI",
-        "github-mcp": "Optional: the read-only GitHub MCP server in .vscode/mcp.json started in VS Code Chat, no write tools, recent commits matched GitHub",
-        "teach-copilot": "Optional Day 3 extra: /add-chat added to the page and one answer checked against the page, with the FOUNDRY_* workshop identity",
-        "browser-demo": "Optional presenter browser-tools demonstration rehearsed in the presenter's Codespace"
+        "rubber-duck": "Optional: /rubber-duck gave a second opinion on the trip plan",
+        "apng-studio": "Optional: the Awesome Copilot APNG Studio plugin built a short animation",
+        "chronicle": "Optional: /chronicle standup summarised the day's app sessions",
+        "teach-copilot": "Optional Day 3 extra: /add-chat added to the page and one answer checked against the page, with the FOUNDRY_* workshop identity"
       }
     },
     {
@@ -155,10 +145,7 @@
       "id": "03",
       "title": "Delegate an approved ticket to the cloud agent",
       "guide": "docs/DAY-4.md",
-      "tests": [
-        "tests/test_lab_contracts.py",
-        "tests/test_site.py"
-      ],
+      "tests": ["tests/test_lab_contracts.py", "tests/test_site.py"],
       "checks": {
         "issue-session": "An approved ticket from the board, with its user story and acceptance criteria, assigned to the actual cloud agent and moved to In Progress, with its session inspected",
         "review": "The draft pull request linked to the ticket; its diff compared with the ticket by the learner; scope limited to the requested files",

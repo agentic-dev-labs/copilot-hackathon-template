@@ -99,9 +99,10 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     labs = {lab["id"]: lab for lab in evidence.manifest()}
     assert "cli-turn" not in labs["00"]["checks"]
     assert "05" not in labs
-    assert "cli-turn" in labs["day-3"]["checks"]
-    assert {"requirements-agent", "criteria", "ticket-built", "tests"} <= labs["day-3"]["checks"].keys()
-    assert {"github-mcp", "teach-copilot", "browser-demo"} <= labs["day-3"]["optional_checks"].keys()
+    assert "cli-turn" not in labs["day-3"]["checks"], "Wednesday uses the Copilot app, not the CLI"
+    assert {"app-plugin", "skill", "requirements-agent", "triage"} <= labs["day-3"]["checks"].keys()
+    assert {"criteria", "ticket-built", "tests"} <= labs["day-3"]["checks"].keys()
+    assert {"rubber-duck", "apng-studio", "teach-copilot"} <= labs["day-3"]["optional_checks"].keys()
     assert "04" not in labs and "06" not in labs, "Labs 04 and 06 are optional Day 3 extras"
     assert "browser-setup" not in labs["day-3"]["checks"]
     assert not {"seed", "private-journey", "cli-turn", "browser-tools"} & labs["day-2"]["checks"].keys()
@@ -121,8 +122,8 @@ def test_tooling_and_release_gates_belong_to_later_sessions() -> None:
     assert "joining-today" in labs["day-5"]["optional_checks"]
     assert {"workflow", "ci", "cd", "recovery", "demos", "handoff"} <= labs["day-5"]["checks"].keys()
     assert {"required-checks", "ui-check"} <= labs["day-5"]["checks"].keys()
-    # 21 October 2026, later: Day 3 starts from tickets on a project board.
-    assert {"tickets", "github-tool", "skill", "checkpoint"} <= labs["day-3"]["checks"].keys()
+    # 27 October 2026: Day 3 starts in the Copilot app and ends with a ticket closed by a commit.
+    assert {"tickets", "skill", "checkpoint"} <= labs["day-3"]["checks"].keys()
     advanced = {"repeatable-browser", "selected-release", "automation", "live-hook", "handoffs"}
     for lab in labs.values():
         assert not advanced & (lab["checks"].keys() | lab.get("optional_checks", {}).keys())

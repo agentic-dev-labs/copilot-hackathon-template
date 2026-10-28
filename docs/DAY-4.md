@@ -12,38 +12,38 @@ does the same job.
 the delegation lab at 00:50. On GitHub open **Issues > New issue > Requirement** and write what
 you want in plain words. Then ask Chat: "Write a user story and two Given/When/Then acceptance
 criteria for this wish: [your wish]." Paste the answer under **User story** and **Acceptance
-criteria**, and save. A board is optional today; the [Day 3 guide](DAY-3.md#1-tickets-board-and-tools)
+criteria**, and save. A board is optional today; the [Day 3 guide](DAY-3.md#3-tickets-ai-triage-and-criteria)
 shows how to make one.
 
 ## Today's Route
 
 Times count from the start of the session.
 
-| Elapsed     | What happens                                                           | You are finished when                                                 |
-| ----------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| 00:00-00:20 | [Cloud-agent overview: delegation, safeguards, and human review](#1-how-a-change-reaches-your-website) | You can say how a change reaches your live website.                   |
-| 00:20-00:50 | [Practice branches and pull requests with a small change](#2-protect-main-and-version-your-releases) | `main` is protected, and your live website shows its version number.  |
-| 00:50-01:30 | [Assign an approved requirement to Copilot](#3-delegate-an-approved-ticket) | Copilot is building your approved ticket in a pull request.           |
-| 01:30-01:45 | Break                                                                  |                                                                       |
-| 01:45-02:30 | [Build a Code Review agent: review rules and report format](#4-build-your-code-review-agent) | Your review rules and agent are merged, and Copilot CLI lists the agent. |
-| 02:30-03:15 | [Run the agent on a diff and verify its findings](#5-review-copilots-pull-request) | Every finding in the report is marked Confirmed or Not a problem.     |
-| 03:15-03:45 | [Request fixes with @copilot, retest, and peer-review](#6-ask-for-fixes-and-retest) | Copilot pushed a fix, your agent reviewed it again, and your checks pass. |
-| 03:45-04:00 | [Checkpoint: review the report and decide whether to merge](#7-checkpoint-merge-or-not) | The feature is live with the next version number, or closed with a reason. |
+| Elapsed     | What happens                                                                                           | You are finished when                                                      |
+| ----------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 00:00-00:20 | [Cloud-agent overview: delegation, safeguards, and human review](#1-how-a-change-reaches-your-website) | You can say how a change reaches your live website.                        |
+| 00:20-00:50 | [Practice branches and pull requests with a small change](#2-protect-main-and-version-your-releases)   | `main` is protected, and your live website shows its version number.       |
+| 00:50-01:30 | [Assign an approved requirement to Copilot](#3-delegate-an-approved-ticket)                            | Copilot is building your approved ticket in a pull request.                |
+| 01:30-01:45 | Break                                                                                                  |                                                                            |
+| 01:45-02:30 | [Build a Code Review agent: review rules and report format](#4-build-your-code-review-agent)           | Your review rules and agent are merged, and Copilot CLI lists the agent.   |
+| 02:30-03:15 | [Run the agent on a diff and verify its findings](#5-review-copilots-pull-request)                     | Every finding in the report is marked Confirmed or Not a problem.          |
+| 03:15-03:45 | [Request fixes with @copilot, retest, and peer-review](#6-ask-for-fixes-and-retest)                    | Copilot pushed a fix, your agent reviewed it again, and your checks pass.  |
+| 03:45-04:00 | [Checkpoint: review the report and decide whether to merge](#7-checkpoint-merge-or-not)                | The feature is live with the next version number, or closed with a reason. |
 
 **Lost?** Find the row the room is on (the presenter names it at the start of every block),
 select its link, and start there. Raise your hand: a helper catches you up on what you skipped.
 
-| Word           | Plain meaning                                                                         |
-| -------------- | ------------------------------------------------------------------------------------- |
-| Branch         | A separate line of work, so `main` stays safe while you try something.                |
+| Word           | Plain meaning                                                                        |
+| -------------- | ------------------------------------------------------------------------------------ |
+| Branch         | A separate line of work, so `main` stays safe while you try something.               |
 | Pull request   | A proposed change from a branch. Nothing changes in `main` until a person merges it. |
-| Merge          | Accept a pull request into `main`.                                                    |
-| Ruleset        | Rules GitHub applies to a branch, such as "changes arrive only by pull request".      |
-| Pipeline       | The workflow that runs by itself after a merge and publishes your website.            |
-| Version number | The label of a release. Yours ends with the pipeline's run number, the build number.  |
-| Cloud agent    | Copilot working by itself on GitHub, on its own branch, from a ticket you assign.     |
-| Diff           | The list of lines a change adds (green) and removes (red).                            |
-| Finding        | One thing a reviewer noticed, with where it is and why it matters.                    |
+| Merge          | Accept a pull request into `main`.                                                   |
+| Ruleset        | Rules GitHub applies to a branch, such as "changes arrive only by pull request".     |
+| Pipeline       | The workflow that runs by itself after a merge and publishes your website.           |
+| Version number | The label of a release. Yours ends with the pipeline's run number, the build number. |
+| Cloud agent    | Copilot working by itself on GitHub, on its own branch, from a ticket you assign.    |
+| Diff           | The list of lines a change adds (green) and removes (red).                           |
+| Finding        | One thing a reviewer noticed, with where it is and why it matters.                   |
 
 ## 1. How a Change Reaches Your Website
 
@@ -54,7 +54,7 @@ select its link, and start there. Raise your hand: a helper catches you up on wh
 - **Delegation:** you assign an approved ticket from your board to **Copilot**. Its user story
   and acceptance criteria say exactly what done means.
 - **An agent that starts by itself:** the presenter opens a new **Requirement** ticket on the
-  demo website. Nobody assigns it, yet an automation starts Copilot, which uses the user-stories
+  demo website. Nobody assigns it, yet an automation starts Copilot, which writes the
   skill to add the story and acceptance criteria to the ticket a few minutes later. You can set
   one up yourself in the optional extras.
 - **Safeguards:** Copilot works on its own `copilot/...` branch. It cannot push to `main`, its
@@ -80,6 +80,7 @@ changes only through pull requests.
    Leave the bypass list empty, so the rules apply to you too, and select **Create**. GitHub may
    ask you to **Confirm access** with your authentication app, GitHub Mobile, or password: that
    is normal for settings, so keep your phone at hand. Never share that code.
+
 2. **A feature branch.** In your Codespace, select the branch name `main` at the bottom left.
    Choose **Create new branch...**, type `feature/version-number`, and press Enter.
 3. **The pipeline change.** Open **.github > workflows > publish-website.yml** and find the line
@@ -137,13 +138,13 @@ that the cloud agent is switched on for your repository.
 **Check:** a draft pull request from Copilot appears under **Pull requests**, linked to your
 ticket, and changes only what the ticket asked for.
 
-| What you see                              | Next action                                                                   |
-| ----------------------------------------- | ----------------------------------------------------------------------------- |
-| Copilot is not in the Assignees list      | The feature is not switched on for this repository. Tell a helper.            |
+| What you see                              | Next action                                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Copilot is not in the Assignees list      | The feature is not switched on for this repository. Tell a helper.                         |
 | You chose Copilot, but nobody is assigned | The list closed without saving. Use **Assign to Agent** and its **Assign** button instead. |
-| The pull request changed too much         | Comment with `@copilot` asking for the smaller change, or close it unmerged.  |
-| GitHub asks you to approve workflows      | Ask a helper first. It is a safeguard: checks on Copilot's work wait for you. |
-| Pull reports a conflict                   | Stop and show a helper. Never force a push.                                   |
+| The pull request changed too much         | Comment with `@copilot` asking for the smaller change, or close it unmerged.               |
+| GitHub asks you to approve workflows      | Ask a helper first. It is a safeguard: checks on Copilot's work wait for you.              |
+| Pull reports a conflict                   | Stop and show a helper. Never force a push.                                                |
 
 ## 4. Build Your Code Review Agent
 
@@ -163,6 +164,7 @@ ticket, and changes only what the ticket asked for.
    the rules are for. **Your Code Review agent checks every change against this file**, and
    Copilot follows it when it builds, in your Codespace and as the cloud agent on GitHub: rules
    written once, used by every agent.
+
 2. **The agent and its report format (20 minutes).** Paste this:
 
    > Create a custom agent file at .github/agents/code-review.agent.md with `name: code-review`
@@ -259,8 +261,9 @@ checks and decides. Tomorrow GitHub checks every pull request for you, in a brow
 
 1. **An agent that starts by itself.** On GitHub open **Agents > Automations > Create new**. Name
    it `Criteria for new tickets`, choose the trigger **When an issue is created** with the filter
-   `label:enhancement`, and use this prompt: "Read this new ticket. Use the user-stories skill to
-   write its user story and acceptance criteria into the ticket's User story and Acceptance
+   `label:enhancement`, and use this prompt: "Read this new ticket. Write one user story as 'As a
+   ..., I want ..., so that ...' and 2 or 3 checkable 'Given ..., when ..., then ...' acceptance
+   criteria into the ticket's User story and Acceptance
    criteria sections, keeping the author's own words. Change nothing else." Select **Suggest
    tools** and keep only reading the ticket and updating it. Then open **Issues > New issue >
    Requirement**: nobody assigns it, yet a session starts, and the criteria arrive on the ticket
@@ -272,6 +275,13 @@ checks and decides. Tomorrow GitHub checks every pull request for you, in a brow
    and ask "In my repository, create a Requirement ticket: show which tasks are late." Read the
    draft before you select **Create**.
 4. Ask your review agent to review your own pull request from section 2.
+5. **A weekly summary.** On your repository's **Agents > Automations**, under **Suggestions**
+   select **Create weekly changelog**, then **Create automation** and **Run now**: it opens a
+   ticket that lists the pull requests you merged. Read it, then delete the automation under
+   **Agents > Automations**, because each run uses your Copilot allowance.
+6. **More tests, by themselves.** In the same place select **Add test coverage**, then **Create
+   automation** and **Run now**: it opens a draft pull request with new tests for your recent
+   changes. Read **Files changed** and do not merge it today. Delete the automation afterwards.
 
 ## Official References
 

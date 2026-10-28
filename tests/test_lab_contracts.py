@@ -292,7 +292,8 @@ def test_keep_comes_before_undo() -> None:
     bold = interaction.split("**Be brave once, then undo it.**", 1)
     assert "select **Keep**" in bold[0], "the chart and look are kept before the wild change"
     assert "takes back every change you have not kept" in bold[1]
-    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
+    # A Markdown formatter pads table cells, so compare with single spaces.
+    quick_reference = " ".join(Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8").split())
     assert "| Keep Copilot's change |" in quick_reference
     assert "choose **Local**" in quick_reference
 
@@ -629,60 +630,61 @@ def quoted_flat(text: str) -> str:
 
 
 def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
-    """Wednesday: tickets on a board, a learner-written skill and agent add criteria, one ticket is built and tested."""
+    """Wednesday: the Copilot app and plugins, a travel skill, an agent, triaged tickets, one built and tested ticket."""
     guide = Path("docs/DAY-3.md").read_text(encoding="utf-8")
     assert guide.startswith("# Day 3: VS Code and a Requirements Agent")
     assert day_route("DAY-3.md") == SLIDE_SLOTS
     flat = quoted_flat(guide)
-    assert "/login" in guide and "Never paste a password or token" in guide
-    assert ".github/agents/user-requirements.agent.md" in flat and "`name: user-requirements`" in flat
-    # 21 October refit: the building blocks, a GitHub tool through MCP, and the learner's own skill.
-    assert ".github/skills/user-stories/SKILL.md" in flat and "`name: user-stories`" in flat
-    assert "uses the user-stories skill" in flat and "Use the GitHub tools" in flat and "**MCP**" in guide
-    assert "Given ..., when ..., then ..." in flat and "**Your own idea.**" in guide
-    # Later on 21 October: requirements live in tickets on a project board, approved by moving to Todo.
-    assert "**Issues > New issue**" in flat and "**Requirement**" in flat
+    # 27 October 2026 refit: the GitHub Copilot app, two marketplaces, the learner's own skill and agent.
+    assert "Never paste a password or token" in guide and "**workshop account**" in flat
+    assert "**Customize > Plugins**" in flat and "`anthropics/skills`" in flat and "**example-skills**" in flat
+    assert "**Install**" in flat and "Quit the app completely" in flat and "`/skills`" in flat
+    assert "**algorithmic-art**" in flat and "**Awesome Copilot**" in flat
+    assert "no real compounds, logos, or medical claims" in flat and "\"Induced Fit\"" in flat
+    assert "Never sign in, book, or pay" in flat and "skill-creator" in flat and "**travel-planner**" in flat
+    assert "~/.copilot/agents/user-requirements.agent.md" in flat and "`name: user-requirements`" in flat
+    assert "Given ..., when ..., then ..." in flat and "**MCP**" in guide
+    assert "**Two ways to start.**" in guide and "**Project Planner**" in guide
+    assert "Use this template > Create a new repository" in flat
+    # Requirements live in tickets on a project board, approved by moving to Todo.
     assert "**Projects > New project**" in flat and "**Import items from repository**" in flat
-    assert "**Auto-add to project > Edit**" in flat and "`is:issue is:open`" in flat
-    assert "**Save and turn on workflow**" in flat and "**Item closed**" in flat
-    assert "**Projects > Link a project**" in flat
-    assert "Auto-add does not import older tickets" in flat
-    assert "the `gh issue edit` command" in flat and "Only when I say yes" in flat
-    # Rehearsed 22 October 2026: a short prompt let the agent rebuild the whole ticket inside a
-    # quoted shell argument and lose the learner's words; the raw read and stdin write keep them.
-    assert "`gh issue view NUMBER --json body --jq .body`" in flat
-    assert "`gh issue edit NUMBER --body-file -` through standard input" in flat
-    assert "whether my own words under What I want are unchanged" in flat
+    assert "**Start from scratch**" in flat and "**Workflows**" in flat
+    assert "Leave **Auto-add to project** and **Item closed** on" in flat
+    assert "**Link a project**" in flat and "**+ Add item**" in flat
+    assert "`<your username> website`" in flat and "repository's **Projects** tab" in flat
+    # Verified on 27 October 2026: GitHub's built-in triage suggests closing a copy as a duplicate.
+    assert "**Triage incoming issues**" in flat and "**Create automation**" in flat
+    assert "**Agent suggestions**" in flat and "**Accept all**" in flat
+    assert "`Duplicate of #1`" in flat or "Comment `Duplicate of #" in flat
+    assert "Yes, create them." in flat and "**Issues > New issue > Requirement**" in flat
     assert "your own words under What I want are unchanged" in flat
     assert "drag its card into **Todo**" in flat and "If Copilot says it may not update the ticket" in flat
+    assert "It is not GxP validation" in flat
+    # The build happens in the Codespace: plan first, then build, then check by hand.
+    assert "**Fetch Updates**" in flat and "**Plan first.**" in flat and "`gh issue view 1`" in flat
+    assert "Criterion 2 of issue #1 fails" in flat
     assert "`Mark urgent tasks. Closes #1`" in flat and "moved to **Done**" in flat
-    # Monday's 11:45 check already builds "hide finished tasks", so Day 3 needs a new example.
     assert "Hide finished" not in guide
-    # 21 October review: per-attendee boards, Tuesday's wishes, GxP wording, and a requirements list.
-    assert "`<your username> website`" in flat and "repository's **Projects** tab" in flat
-    assert "under **Next** in `site/README.md`" in flat and "It is not GxP validation" in flat
-    assert "add a section called requirements" in flat.lower() and "validated README" in flat
-    route = guide.split("## 1. Tickets, Board, and Tools", 1)[1].split("## 2.", 1)[0]
-    assert "Meet the building blocks" not in route, "the building blocks open the 00:50 block"
-    assert "**Meet the building blocks.**" in guide.split("## 2. Build Your User Requirements Agent", 1)[1]
-    day2 = " ".join(Path("docs/DAY-2.md").read_text(encoding="utf-8").split())
-    assert "under a heading called **Next**" in day2 and "become your first tickets" in day2
-    assert "Copilot's browser try" not in day2
-    assert "type `/exit`, then `copilot`" in flat, "the CLI loads new agents when it starts"
+    assert "under **Next** in `site/README.md`" in flat
     assert "pytest checks" in guide and "from website import Page" in guide
     assert "**Break it on purpose:**" in guide and "How to build and run" in guide
     assert "leaving the test unchanged" in flat
     assert "Do not change the website to make a test pass" in flat
-    assert "Show Open questions in the draft only" in flat
     assert "status expected after today's closing commit" in flat
-    quick_reference = Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8")
-    assert "**Auto-add to project**" in quick_reference and "`is:issue is:open`" in quick_reference
-    assert "**Projects > Link a project**" in quick_reference
+    # Day 2's wishes become the tickets, and the old Copilot CLI steps are gone from Day 3.
+    day2 = " ".join(Path("docs/DAY-2.md").read_text(encoding="utf-8").split())
+    assert "under a heading called **Next**" in day2 and "become your first tickets" in day2
+    assert "Copilot's browser try" not in day2
+    assert "/exit" not in guide and "user-stories" not in guide
+    quick_reference = " ".join(Path("docs/QUICK-REFERENCE.md").read_text(encoding="utf-8").split())
+    assert "**Start from scratch**" in quick_reference and "**Item closed** on" in quick_reference
+    assert "**Link a project**" in quick_reference and "**Triage incoming issues**" in quick_reference
     assert "Ask a helper to create your board or arrange access" in quick_reference
-    for target in ("DAY-4.md",):
-        assert target in guide
+    assert "Quit the app completely" in quick_reference and "`/skills`" in quick_reference
+    assert "DAY-4.md" in guide
     # The template ships the test helper, prompts and ticket template, never the finished agent, skill, or tests.
     assert not Path(".github/skills/user-stories").exists()
+    assert not Path(".github/skills/travel-planner").exists()
     assert not Path(".github/agents/user-requirements.agent.md").exists()
     assert not list(Path("checks").glob("test_*.py"))
     assert Path("checks/website.py").is_file() and Path("checks/README.md").is_file()
@@ -690,7 +692,6 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     # Attendees read only their own steps; technical helper notes stay with the presenter.
     assert "Helper Preparation" not in guide
     assert "setup.sh browser" not in guide and "uvicorn" not in guide and "seccomp" not in guide
-
 
 def test_days_three_to_five_follow_the_final_slides() -> None:
     """Owner-approved 20 October: requirements agent, cloud agents, and CI/CD, four hours each."""
