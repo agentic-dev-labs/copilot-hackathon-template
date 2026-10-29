@@ -35,14 +35,14 @@ with the **Slide** it belongs to.
 
 Times count from the start of the session.
 
-| Elapsed     | What happens                                                                                 | You are finished when                                                          |
-| ----------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| 00:00-00:15 | What's new: the GitHub Universe announcements                                                | You can say what a Copilot project and an automation do.                       |
-| 00:15-00:50 | [Save and publish your website, with checks and a version](#1-save-and-publish-your-website) | Your website is live, and its `version.json` shows version 1.0.0 and a build.  |
-| 00:50-01:30 | [A Copilot project builds your ticket](#2-a-copilot-project-builds-your-ticket)              | The pull request for your ticket shows its checks and your page's screenshots. |
-| 01:30-01:45 | Break                                                                                        |                                                                                |
-| 01:45-02:15 | [An automation reviews your pull request](#3-an-automation-reviews-your-pull-request)        | Your Reviewer commented on your pull request by itself.                        |
-| 02:15-02:45 | [Merge, release, and checkpoint](#4-merge-release-and-checkpoint)                            | Your live website says **Production** and its version, and the ticket closed.  |
+| Elapsed     | What happens                                                                                 | You use                         | You are finished when                                                          |
+| ----------- | -------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------ |
+| 00:00-00:15 | What's new: the GitHub Universe announcements                                                | The presenter's slides          | You can say what a Copilot project and an automation do.                       |
+| 00:15-00:50 | [Save and publish your website, with checks and a version](#1-save-and-publish-your-website) | Your Codespace, then GitHub     | Your website is live, and its `version.json` shows version 1.0.0 and a build.  |
+| 00:50-01:30 | [A Copilot project builds your ticket](#2-a-copilot-project-builds-your-ticket)              | GitHub and the Copilot app      | The pull request for your ticket shows its checks and your page's screenshots. |
+| 01:30-01:45 | Break                                                                                        |                                 |                                                                                |
+| 01:45-02:15 | [An automation reviews your pull request](#3-an-automation-reviews-your-pull-request)        | GitHub                          | Your Reviewer commented on your pull request by itself.                        |
+| 02:15-02:45 | [Merge, release, and checkpoint](#4-merge-release-and-checkpoint)                            | GitHub, then your Codespace     | Your live website says **Production** and its version, and the ticket closed.  |
 
 **Lost?** Find the row the room is on (the presenter names it at the start of every block),
 select its link, and start there. Raise your hand: a helper catches you up on what you skipped.
