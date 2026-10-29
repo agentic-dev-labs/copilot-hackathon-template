@@ -1,0 +1,2035 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Day 4: GitHub Universe 2026 announcements</title>
+    <style>
+      :root {
+        --bg1: #070a14;
+        --bg2: #160d3a;
+        --ink: #f5f7fc;
+        --muted: #aab3c9;
+        --card: rgba(255, 255, 255, 0.07);
+        --line: rgba(255, 255, 255, 0.17);
+        --green: #3ddc97;
+        --purple: #a78bfa;
+        --blue: #5eb0ff;
+        --amber: #ffc857;
+        --pink: #ff7eb6;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        background: #04060c;
+        overflow: hidden;
+        font-family:
+          "Segoe UI",
+          system-ui,
+          -apple-system,
+          Roboto,
+          Arial,
+          sans-serif;
+        color: var(--ink);
+      }
+      #stage {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 1920px;
+        height: 1080px;
+        transform-origin: center;
+      }
+      .slide {
+        position: absolute;
+        inset: 0;
+        padding: 56px 104px 84px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+        background: linear-gradient(145deg, var(--bg1), var(--bg2));
+      }
+      .slide::before,
+      .slide::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(110px);
+        opacity: 0.5;
+        z-index: 0;
+        animation: drift 14s ease-in-out infinite alternate;
+      }
+      .slide::before {
+        width: 780px;
+        height: 780px;
+        right: -200px;
+        top: -260px;
+        background: #6d3fe0;
+      }
+      .slide::after {
+        width: 700px;
+        height: 700px;
+        left: -220px;
+        bottom: -280px;
+        background: #12a37a;
+        animation-delay: -6s;
+      }
+      @keyframes drift {
+        to {
+          transform: translate(60px, 40px) scale(1.12);
+        }
+      }
+      .slide > * {
+        position: relative;
+        z-index: 1;
+      }
+      .slide.active {
+        display: flex;
+        animation: in 0.5s ease both;
+      }
+      @keyframes in {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      .chip {
+        align-self: flex-start;
+        font-size: 23px;
+        letter-spacing: 0.16em;
+        font-weight: 700;
+        padding: 9px 22px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--green);
+        background: rgba(61, 220, 151, 0.1);
+      }
+      h1 {
+        font-size: 78px;
+        line-height: 1.1;
+        padding-bottom: 6px;
+        font-weight: 800;
+        margin: 18px 0 6px;
+        letter-spacing: -0.025em;
+        background: linear-gradient(90deg, #fff, #d4c6ff 55%, #8fe9c5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .sub {
+        font-size: 31px;
+        color: var(--muted);
+        max-width: 1700px;
+        line-height: 1.3;
+      }
+      .sub b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .quote {
+        font-size: 30px;
+        font-style: italic;
+        color: #dfe5f6;
+        max-width: 1560px;
+        line-height: 1.32;
+      }
+      .quote small {
+        display: block;
+        font-style: normal;
+        font-size: 22px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .svgwrap {
+        margin-top: 12px;
+        flex: 0 0 auto;
+      }
+      svg {
+        width: 100%;
+        display: block;
+        overflow: visible;
+      }
+      svg text {
+        font-family: inherit;
+        fill: #f5f7fc;
+      }
+
+      .strip {
+        margin-top: auto;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding: 20px 34px;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: linear-gradient(
+          90deg,
+          rgba(167, 139, 250, 0.22),
+          rgba(61, 220, 151, 0.16)
+        );
+        font-size: 27px;
+        line-height: 1.3;
+      }
+      .strip b {
+        color: #fff;
+      }
+
+      /* tiles: the three "stages" slide */
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 22px;
+        margin-top: 30px;
+      }
+      .tile {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        padding: 26px 28px;
+      }
+      .tile .ic {
+        font-size: 50px;
+        line-height: 1;
+        margin-bottom: 10px;
+      }
+      .tile h3 {
+        font-size: 34px;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .tile p {
+        font-size: 25px;
+        line-height: 1.35;
+        color: var(--muted);
+      }
+      .tile p b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* new thing: what it is, and what you get */
+      .grid {
+        display: grid;
+        gap: 24px;
+        margin-top: 30px;
+      }
+      .g2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .nt {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 26px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .nt.hl {
+        border-color: rgba(61, 220, 151, 0.6);
+        background: rgba(61, 220, 151, 0.09);
+      }
+      .nt.ghost {
+        border-style: dashed;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .nt .top {
+        display: flex;
+        align-items: center;
+        gap: 6px 14px;
+        flex-wrap: wrap;
+      }
+      .nt .ic {
+        font-size: 40px;
+        line-height: 1;
+      }
+      .nt h3 {
+        font-size: 35px;
+        font-weight: 800;
+      }
+      .tag {
+        font-size: 17px;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+        color: var(--amber);
+        border: 1px solid rgba(255, 200, 87, 0.5);
+        border-radius: 999px;
+        padding: 3px 12px;
+        white-space: nowrap;
+      }
+      .tag.ga {
+        color: var(--green);
+        border-color: rgba(61, 220, 151, 0.5);
+      }
+      .what {
+        font-size: 26px;
+        line-height: 1.32;
+        color: var(--muted);
+      }
+      .gain {
+        margin-top: auto;
+        padding-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        font-size: 27px;
+        line-height: 1.32;
+        color: #e9fff4;
+        font-weight: 600;
+      }
+      .gain::before {
+        content: "You get: ";
+        color: var(--green);
+        font-weight: 800;
+      }
+      .gain.plain::before {
+        content: none;
+      }
+      .legend {
+        display: inline-flex;
+        gap: 26px;
+        font-size: 22px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+      .legend b {
+        color: var(--green);
+      }
+
+      /* projects */
+      .proj {
+        display: grid;
+        grid-template-columns: 1fr 700px;
+        gap: 30px;
+        margin-top: 24px;
+      }
+      .bn {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 16px 24px;
+        margin-bottom: 14px;
+      }
+      .bn:last-child {
+        margin-bottom: 0;
+      }
+      .bn .k {
+        flex: 0 0 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(167, 139, 250, 0.25);
+        border: 2px solid var(--purple);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: 800;
+      }
+      .bn h3 {
+        font-size: 29px;
+        font-weight: 800;
+        margin-bottom: 3px;
+      }
+      .bn .what {
+        font-size: 23px;
+      }
+      .bn .gain {
+        font-size: 23px;
+        margin-top: 6px;
+        padding-top: 6px;
+      }
+      .mock {
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        background: #0d1020;
+        padding: 22px 24px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+      }
+      .mock .name {
+        font-size: 26px;
+        font-weight: 800;
+      }
+      .mock .goal {
+        margin: 10px 0 14px;
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid var(--line);
+        font-size: 21px;
+        line-height: 1.35;
+        color: #e6eaf7;
+      }
+      .mock .goal b {
+        color: var(--green);
+        letter-spacing: 0.1em;
+        font-size: 17px;
+        display: block;
+      }
+      .mock .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .mock .tabs span {
+        font-size: 20px;
+        padding: 6px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+      }
+      .mock .tabs span.on {
+        background: rgba(167, 139, 250, 0.25);
+        color: #fff;
+        border-color: var(--purple);
+      }
+      .mock .grp {
+        margin-bottom: 10px;
+      }
+      .mock .grp h6 {
+        font-size: 18px;
+        letter-spacing: 0.12em;
+        margin-bottom: 5px;
+      }
+      .mock .row {
+        font-size: 21px;
+        padding: 8px 14px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      .mock .row em {
+        font-style: normal;
+        color: var(--muted);
+        font-size: 19px;
+        white-space: nowrap;
+      }
+      .mock .note {
+        margin-top: auto;
+        font-size: 17px;
+        color: var(--muted);
+      }
+      .g-need h6 {
+        color: var(--amber);
+      }
+      .g-open h6 {
+        color: var(--blue);
+      }
+      .g-work h6 {
+        color: var(--green);
+      }
+      .g-done h6 {
+        color: var(--muted);
+      }
+      .g-need .row {
+        border: 1px solid rgba(255, 200, 87, 0.6);
+        background: rgba(255, 200, 87, 0.1);
+      }
+
+      /* stat cards */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        margin-top: 26px;
+      }
+      .sc {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 22px 28px;
+      }
+      .sc .n {
+        font-size: 76px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: var(--green);
+      }
+      .sc .n small {
+        font-size: 40px;
+        font-weight: 800;
+      }
+      .sc .l {
+        font-size: 26px;
+        font-weight: 700;
+        margin-top: 8px;
+      }
+
+      /* classic sdlc svg */
+      .pill {
+        fill: rgba(255, 255, 255, 0.08);
+        stroke: rgba(255, 255, 255, 0.28);
+        stroke-width: 2;
+      }
+      .note {
+        font-size: 24px;
+        fill: #aab3c9 !important;
+      }
+
+      /* ring */
+      .node rect {
+        fill: rgba(255, 255, 255, 0.09);
+        stroke: rgba(255, 255, 255, 0.35);
+        stroke-width: 2;
+        animation: pulse 6s ease-in-out infinite;
+      }
+      .node text {
+        font-size: 30px;
+        font-weight: 700;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+      .node.deploy rect {
+        stroke: var(--amber);
+        fill: rgba(255, 200, 87, 0.14);
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          stroke: rgba(255, 255, 255, 0.35);
+        }
+        8% {
+          stroke: #3ddc97;
+          filter: drop-shadow(0 0 14px #3ddc97);
+        }
+        16% {
+          stroke: rgba(255, 255, 255, 0.35);
+        }
+      }
+      .ev rect {
+        fill: rgba(61, 220, 151, 0.14);
+        stroke: var(--green);
+        stroke-width: 2;
+      }
+      .ev text {
+        font-size: 25px;
+        font-weight: 600;
+        text-anchor: middle;
+        dominant-baseline: middle;
+        fill: #dffbef;
+      }
+      .flow {
+        stroke: var(--green);
+        stroke-width: 4;
+        stroke-dasharray: 12 10;
+        fill: none;
+        animation: dash 1.1s linear infinite;
+        marker-end: url(#ah);
+      }
+      @keyframes dash {
+        to {
+          stroke-dashoffset: -22;
+        }
+      }
+      .spoke {
+        stroke: rgba(255, 255, 255, 0.13);
+        stroke-width: 2;
+      }
+      .ring {
+        fill: none;
+        stroke: rgba(167, 139, 250, 0.35);
+        stroke-width: 2;
+        stroke-dasharray: 4 10;
+      }
+      .hub {
+        fill: rgba(167, 139, 250, 0.2);
+        stroke: var(--purple);
+        stroke-width: 3;
+        animation: hub 3s ease-in-out infinite;
+      }
+      @keyframes hub {
+        50% {
+          fill: rgba(167, 139, 250, 0.38);
+        }
+      }
+
+      /* chain */
+      .chain {
+        display: flex;
+        align-items: stretch;
+        margin-top: 44px;
+      }
+      .step {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        padding: 28px 20px;
+        text-align: center;
+      }
+      .step .no {
+        font-size: 24px;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+        color: var(--green);
+      }
+      .step .t {
+        font-size: 34px;
+        font-weight: 800;
+        margin: 10px 0 8px;
+      }
+      .step .d {
+        font-size: 24px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+      .step.you {
+        border-color: var(--amber);
+        background: rgba(255, 200, 87, 0.12);
+      }
+      .step.you .no {
+        color: var(--amber);
+      }
+      .chain .sep {
+        width: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 44px;
+        color: var(--purple);
+      }
+      .browser {
+        align-self: center;
+        width: 1100px;
+        margin-top: 30px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: #f4f6fb;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+      .browser .b3 {
+        background: #1d2233;
+        padding: 10px 18px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 18px;
+        color: var(--muted);
+      }
+      .browser .b3 i {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #ff5f57;
+      }
+      .browser .b3 i:nth-child(2) {
+        background: #febc2e;
+      }
+      .browser .b3 i:nth-child(3) {
+        background: #28c840;
+      }
+      .browser .b3 span {
+        margin-left: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 3px 14px;
+      }
+      .browser .env {
+        background: #1a7f37;
+        color: #fff;
+        text-align: center;
+        font-size: 21px;
+        font-weight: 600;
+        padding: 7px 12px;
+        border-top: 2px solid #0f4d22;
+      }
+      .browser .pg2 {
+        padding: 18px 30px 22px;
+        color: #1b2233;
+      }
+      .browser .pg2 b {
+        font-size: 28px;
+        display: block;
+      }
+      .browser .pg2 i {
+        display: block;
+        height: 13px;
+        border-radius: 7px;
+        background: #d9deea;
+        margin-top: 11px;
+        width: 72%;
+      }
+      .browser .pg2 i + i {
+        width: 48%;
+      }
+      .caption {
+        align-self: center;
+        margin-top: 10px;
+        font-size: 21px;
+        color: var(--muted);
+      }
+
+      .bigq {
+        padding: 30px 44px;
+        border-radius: 28px;
+        border: 1px solid var(--line);
+        margin-top: 22px;
+        background: linear-gradient(
+          90deg,
+          rgba(167, 139, 250, 0.24),
+          rgba(61, 220, 151, 0.18)
+        );
+        font-size: 38px;
+        line-height: 1.3;
+        font-weight: 600;
+      }
+      .bigq small {
+        display: block;
+        margin-top: 12px;
+        font-size: 22px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+
+      .foot {
+        position: absolute !important;
+        left: 104px;
+        right: 104px;
+        bottom: 22px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 21px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+      #brand {
+        position: absolute;
+        right: 104px;
+        top: 46px;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        font-size: 27px;
+        font-weight: 600;
+        color: #e8ecf8;
+        white-space: nowrap;
+      }
+      #brand .it2 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      #brand .bar {
+        width: 2px;
+        height: 34px;
+        background: rgba(255, 255, 255, 0.28);
+      }
+      #bar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--purple), var(--green));
+        transition: width 0.4s;
+        z-index: 9;
+      }
+      #notes {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 18px 28px;
+        background: rgba(0, 0, 0, 0.92);
+        font-size: 20px;
+        line-height: 1.4;
+        color: #dfe5f3;
+        display: none;
+        z-index: 9;
+      }
+      #hint {
+        position: fixed;
+        right: 14px;
+        top: 10px;
+        z-index: 9;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.35);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="hint">
+      &larr; &rarr; or click &#183; N notes &#183; F fullscreen
+    </div>
+    <div id="stage">
+      <div id="brand">
+        <span class="it2">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 16 16"
+            aria-label="GitHub"
+            style="overflow: visible"
+          >
+            <path
+              fill="#fff"
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+          GitHub Copilot
+        </span>
+        <span class="bar"></span>
+        <span class="it2">
+          <svg
+            width="34"
+            height="34"
+            viewBox="0 0 23 23"
+            aria-label="Microsoft"
+          >
+            <rect x="0" y="0" width="11" height="11" fill="#F25022" />
+            <rect x="12" y="0" width="11" height="11" fill="#7FBA00" />
+            <rect x="0" y="12" width="11" height="11" fill="#00A4EF" />
+            <rect x="12" y="12" width="11" height="11" fill="#FFB900" />
+          </svg>
+          Microsoft
+        </span>
+      </div>
+
+      <!-- 1: classic -->
+      <section
+        class="slide active"
+        data-notes="Start with how most of us learned to ship: a planning meeting, then sprints with dates, a team where each person owns a stage, and a release on a fixed date. Dates and roles are illustrative. Work moves one way and a new idea waits for the next planning meeting. Ask the room: where does your work wait today?"
+      >
+        <div class="chip">THE SOFTWARE LIFECYCLE YOU LEARNED</div>
+        <h1>Classic SDLC: Linear</h1>
+        <p class="sub">
+          Dates, sprints, a team assigned to each stage.
+          <b>Work moves one way, at the speed of the calendar.</b>
+        </p>
+        <div class="svgwrap" style="margin-top: 40px">
+          <svg
+            viewBox="0 0 1712 540"
+            aria-label="Classic plan with a team, dates and sprints"
+          >
+            <defs>
+              <marker
+                id="a1"
+                markerWidth="12"
+                markerHeight="12"
+                refX="9"
+                refY="6"
+                orient="auto"
+              >
+                <path d="M0,0 L12,6 L0,12 z" fill="#aab3c9" />
+              </marker>
+              <radialGradient id="dot">
+                <stop offset="0" stop-color="#fff" />
+                <stop offset="1" stop-color="#3ddc97" />
+              </radialGradient>
+            </defs>
+            <text class="note" x="0" y="52" font-size="22" letter-spacing="3">
+              THE TEAM
+            </text>
+            <circle class="pill" cx="300" cy="46" r="38" />
+            <text x="300" y="60" text-anchor="middle" font-size="42">
+              &#129489;&#8205;&#128188;
+            </text>
+            <text class="note" x="300" y="114" text-anchor="middle">
+              Product owner
+            </text>
+            <circle class="pill" cx="560" cy="46" r="38" />
+            <text x="560" y="60" text-anchor="middle" font-size="42">
+              &#128105;&#8205;&#128187;
+            </text>
+            <text class="note" x="560" y="114" text-anchor="middle">
+              Developer
+            </text>
+            <circle class="pill" cx="820" cy="46" r="38" />
+            <text x="820" y="60" text-anchor="middle" font-size="42">
+              &#128104;&#8205;&#128187;
+            </text>
+            <text class="note" x="820" y="114" text-anchor="middle">
+              Developer
+            </text>
+            <circle class="pill" cx="1080" cy="46" r="38" />
+            <text x="1080" y="60" text-anchor="middle" font-size="42">
+              &#129489;&#8205;&#128300;
+            </text>
+            <text class="note" x="1080" y="114" text-anchor="middle">
+              Tester
+            </text>
+            <circle class="pill" cx="1340" cy="46" r="38" />
+            <text x="1340" y="60" text-anchor="middle" font-size="42">
+              &#128373;&#65039;
+            </text>
+            <text class="note" x="1340" y="114" text-anchor="middle">
+              Reviewer
+            </text>
+            <circle class="pill" cx="1600" cy="46" r="38" />
+            <text x="1600" y="60" text-anchor="middle" font-size="42">
+              &#129489;&#8205;&#128295;
+            </text>
+            <text class="note" x="1600" y="114" text-anchor="middle">
+              Operations
+            </text>
+
+            <text class="note" x="0" y="262" font-size="22" letter-spacing="3">
+              THE PLAN
+            </text>
+            <rect
+              class="pill"
+              x="170"
+              y="215"
+              width="150"
+              height="90"
+              rx="20"
+              style="fill: rgba(167, 139, 250, 0.22); stroke: #a78bfa"
+            />
+            <text
+              x="245"
+              y="253"
+              text-anchor="middle"
+              font-size="26"
+              font-weight="700"
+            >
+              Planning
+            </text>
+            <text
+              class="note"
+              x="245"
+              y="284"
+              text-anchor="middle"
+              font-size="22"
+            >
+              meeting
+            </text>
+            <text class="note" x="245" y="340" text-anchor="middle">3 Nov</text>
+
+            <text
+              x="520"
+              y="200"
+              text-anchor="middle"
+              font-size="28"
+              font-weight="700"
+            >
+              Sprint 1
+            </text>
+            <rect class="pill" x="330" y="215" width="92" height="90" rx="14" />
+            <text x="376" y="267" text-anchor="middle" font-size="22">
+              Plan
+            </text>
+            <rect class="pill" x="426" y="215" width="92" height="90" rx="14" />
+            <text x="472" y="267" text-anchor="middle" font-size="22">
+              Code
+            </text>
+            <rect class="pill" x="522" y="215" width="92" height="90" rx="14" />
+            <text x="568" y="267" text-anchor="middle" font-size="22">
+              Test
+            </text>
+            <rect class="pill" x="618" y="215" width="92" height="90" rx="14" />
+            <text x="664" y="267" text-anchor="middle" font-size="22">
+              Review
+            </text>
+            <text class="note" x="520" y="340" text-anchor="middle">
+              4 &#8211; 14 Nov
+            </text>
+
+            <text
+              x="910"
+              y="200"
+              text-anchor="middle"
+              font-size="28"
+              font-weight="700"
+            >
+              Sprint 2
+            </text>
+            <rect class="pill" x="720" y="215" width="92" height="90" rx="14" />
+            <text x="766" y="267" text-anchor="middle" font-size="22">
+              Plan
+            </text>
+            <rect class="pill" x="816" y="215" width="92" height="90" rx="14" />
+            <text x="862" y="267" text-anchor="middle" font-size="22">
+              Code
+            </text>
+            <rect class="pill" x="912" y="215" width="92" height="90" rx="14" />
+            <text x="958" y="267" text-anchor="middle" font-size="22">
+              Test
+            </text>
+            <rect
+              class="pill"
+              x="1008"
+              y="215"
+              width="92"
+              height="90"
+              rx="14"
+            />
+            <text x="1054" y="267" text-anchor="middle" font-size="22">
+              Review
+            </text>
+            <text class="note" x="910" y="340" text-anchor="middle">
+              17 &#8211; 28 Nov
+            </text>
+
+            <text
+              x="1300"
+              y="200"
+              text-anchor="middle"
+              font-size="28"
+              font-weight="700"
+            >
+              Sprint 3
+            </text>
+            <rect
+              class="pill"
+              x="1110"
+              y="215"
+              width="92"
+              height="90"
+              rx="14"
+            />
+            <text x="1156" y="267" text-anchor="middle" font-size="22">
+              Plan
+            </text>
+            <rect
+              class="pill"
+              x="1206"
+              y="215"
+              width="92"
+              height="90"
+              rx="14"
+            />
+            <text x="1252" y="267" text-anchor="middle" font-size="22">
+              Code
+            </text>
+            <rect
+              class="pill"
+              x="1302"
+              y="215"
+              width="92"
+              height="90"
+              rx="14"
+            />
+            <text x="1348" y="267" text-anchor="middle" font-size="22">
+              Test
+            </text>
+            <rect
+              class="pill"
+              x="1398"
+              y="215"
+              width="92"
+              height="90"
+              rx="14"
+            />
+            <text x="1444" y="267" text-anchor="middle" font-size="22">
+              Review
+            </text>
+            <text class="note" x="1300" y="340" text-anchor="middle">
+              1 &#8211; 12 Dec
+            </text>
+
+            <rect
+              class="pill"
+              x="1500"
+              y="215"
+              width="200"
+              height="90"
+              rx="20"
+              style="fill: rgba(255, 200, 87, 0.16); stroke: #ffc857"
+            />
+            <text
+              x="1600"
+              y="253"
+              text-anchor="middle"
+              font-size="26"
+              font-weight="700"
+            >
+              &#128640; Release
+            </text>
+            <text
+              class="note"
+              x="1600"
+              y="284"
+              text-anchor="middle"
+              font-size="22"
+            >
+              the train leaves
+            </text>
+            <text class="note" x="1600" y="340" text-anchor="middle">
+              15 Dec
+            </text>
+
+            <path
+              d="M170,395 L1700,395"
+              stroke="#aab3c9"
+              stroke-width="4"
+              marker-end="url(#a1)"
+            />
+            <circle r="13" fill="url(#dot)">
+              <animateMotion
+                dur="9s"
+                repeatCount="indefinite"
+                path="M170,395 L1700,395"
+              />
+            </circle>
+            <text
+              class="note"
+              x="855"
+              y="455"
+              text-anchor="middle"
+              font-size="30"
+            >
+              plan the sprint &#183; assign people &#183; wait for capacity
+              &#183; hand off &#183; release on the date
+            </text>
+            <text
+              x="1700"
+              y="512"
+              text-anchor="end"
+              font-size="28"
+              style="fill: #ffc857"
+            >
+              A new idea? It waits for the next planning meeting.
+            </text>
+          </svg>
+        </div>
+        <div class="foot">
+          <span>GitHub Universe 2026 &#183; 28 Oct</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 2: agentic era -->
+      <section
+        class="slide"
+        data-notes="Chapter: Evolving for the Agentic Era. Quote from Jay Parikh in the GitHub Universe post: the SDLC is no longer a linear path. A code change, a request from a colleague, or a production metric can trigger work anywhere in the system. Point at the green arrows: each is an event starting work at a different stage. Developers set direction and stay accountable; agents implement and verify; everything feeds a continuous learning machine. The three goals are the post's own: velocity, intelligence, quality. Top right: GitHub announced 24 new triggers for Copilot Automations on 28 Oct, for issues, pull requests, discussions and security alerts."
+      >
+        <div class="chip">CHAPTER 1</div>
+        <h1>Evolving for the Agentic Era</h1>
+        <p class="quote">
+          &ldquo;The SDLC is no longer a linear path. A code change, a request
+          from a colleague, or a production metric can trigger work anywhere in
+          the system.&rdquo;
+          <small
+            >Jay Parikh, EVP CoreAI at Microsoft &#183; GitHub Universe
+            2026</small
+          >
+        </p>
+        <div class="svgwrap" style="height: 500px">
+          <svg viewBox="0 0 1720 640" style="height: 500px">
+            <defs>
+              <marker
+                id="ah"
+                markerWidth="10"
+                markerHeight="10"
+                refX="7"
+                refY="5"
+                orient="auto"
+              >
+                <path d="M0,0 L10,5 L0,10 z" fill="#3ddc97" />
+              </marker>
+            </defs>
+            <ellipse class="ring" cx="860" cy="320" rx="440" ry="205" />
+            <g class="spoke">
+              <line x1="860" y1="320" x2="860" y2="115" />
+              <line x1="860" y1="320" x2="1241" y2="217" />
+              <line x1="860" y1="320" x2="1241" y2="423" />
+              <line x1="860" y1="320" x2="860" y2="525" />
+              <line x1="860" y1="320" x2="479" y2="423" />
+              <line x1="860" y1="320" x2="479" y2="217" />
+            </g>
+            <circle class="hub" cx="860" cy="320" r="94" />
+            <text
+              x="860"
+              y="300"
+              text-anchor="middle"
+              font-size="25"
+              font-weight="700"
+            >
+              You decide
+            </text>
+            <text
+              x="860"
+              y="332"
+              text-anchor="middle"
+              font-size="25"
+              font-weight="700"
+              style="fill: #3ddc97"
+            >
+              Agents do
+            </text>
+            <text
+              x="860"
+              y="364"
+              text-anchor="middle"
+              font-size="25"
+              font-weight="700"
+              style="fill: #d4c6ff"
+            >
+              System learns
+            </text>
+            <g class="node">
+              <rect x="765" y="80" width="190" height="70" rx="18" />
+              <text x="860" y="115">Plan</text>
+            </g>
+            <g class="node">
+              <rect
+                x="1146"
+                y="182"
+                width="190"
+                height="70"
+                rx="18"
+                style="animation-delay: 1s"
+              />
+              <text x="1241" y="217">Code</text>
+            </g>
+            <g class="node">
+              <rect
+                x="1146"
+                y="387"
+                width="190"
+                height="70"
+                rx="18"
+                style="animation-delay: 2s"
+              />
+              <text x="1241" y="423">Test</text>
+            </g>
+            <g class="node">
+              <rect
+                x="765"
+                y="490"
+                width="190"
+                height="70"
+                rx="18"
+                style="animation-delay: 3s"
+              />
+              <text x="860" y="525">Review</text>
+            </g>
+            <g class="node deploy">
+              <rect
+                x="384"
+                y="387"
+                width="190"
+                height="70"
+                rx="18"
+                style="animation-delay: 4s"
+              />
+              <text x="479" y="423">Deploy</text>
+            </g>
+            <g class="node">
+              <rect
+                x="384"
+                y="182"
+                width="190"
+                height="70"
+                rx="18"
+                style="animation-delay: 5s"
+              />
+              <text x="479" y="217">Operate</text>
+            </g>
+            <g class="ev">
+              <rect x="730" y="0" width="260" height="54" rx="27" />
+              <text x="860" y="28">A new issue</text>
+            </g>
+            <path class="flow" d="M860,56 L860,76" />
+            <g class="ev">
+              <rect x="0" y="190" width="290" height="54" rx="27" />
+              <text x="145" y="218">A production metric</text>
+            </g>
+            <path class="flow" d="M294,217 L380,217" />
+            <g class="ev">
+              <rect x="0" y="395" width="290" height="54" rx="27" />
+              <text x="145" y="423">A security alert</text>
+            </g>
+            <path class="flow" d="M294,423 L380,423" />
+            <g class="ev">
+              <rect x="1420" y="190" width="300" height="54" rx="27" />
+              <text x="1570" y="218">A colleague's request</text>
+            </g>
+            <path class="flow" d="M1416,217 L1340,217" />
+            <g class="ev">
+              <rect x="1450" y="395" width="270" height="54" rx="27" />
+              <text x="1585" y="423">A code change</text>
+            </g>
+            <path class="flow" d="M1446,423 L1340,423" />
+            <g class="ev">
+              <rect x="715" y="586" width="290" height="54" rx="27" />
+              <text x="860" y="614">A merge conflict</text>
+            </g>
+            <path class="flow" d="M860,582 L860,564" />
+            <rect
+              x="1110"
+              y="0"
+              width="610"
+              height="160"
+              rx="28"
+              fill="rgba(61,220,151,.10)"
+              stroke="#3ddc97"
+              stroke-width="3"
+            />
+            <text
+              x="1130"
+              y="122"
+              font-size="128"
+              font-weight="800"
+              style="fill: #3ddc97"
+            >
+              24
+            </text>
+            <text x="1310" y="88" font-size="46" font-weight="800">
+              new triggers
+            </text>
+            <text x="1310" y="133" font-size="32" style="fill: #ffc857">
+              just announced
+            </text>
+          </svg>
+        </div>
+        <div class="strip">
+          <span><b>Velocity:</b> idea to finished software, fast</span
+          ><span><b>Intelligence:</b> shared context that learns</span
+          ><span><b>Quality:</b> secure by default</span>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub Universe 2026 &#183; Evolving every layer of the stack</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 3: stages -->
+      <section
+        class="slide"
+        data-notes="Source: Tim Bozarth, CVP CoreAI and EngThrive at Microsoft, in Command Line, 27 Oct 2026. The stages themselves stay durable: software still needs goals, an implementation, evidence, a way to reach users and a way to learn. What changes is the human job at each stage and the artifact each stage hands on. Planning does not go away: human attention goes to choosing worthwhile problems, and the output is goals and acceptance criteria. A shared knowledge layer connects the stages. In our lab: acceptance criteria are the output of Plan, the pull request is the output of Build, the tests and screenshots are the evidence of Verify, and you decide."
+      >
+        <div class="chip">WHAT STAYS, WHAT CHANGES</div>
+        <h1>The stages stay. The jobs change.</h1>
+        <p class="sub">
+          Planning does not disappear.
+          <b>It becomes goals and acceptance criteria</b>, and people spend
+          their attention on judgment.
+        </p>
+        <div class="tiles">
+          <div class="tile">
+            <div class="ic">&#127919;</div>
+            <h3>Plan</h3>
+            <p>
+              <b>Person:</b> choose the right problems, settle trade-offs.<br /><b
+                >Output:</b
+              >
+              goals and acceptance criteria.
+            </p>
+          </div>
+          <div class="tile">
+            <div class="ic">&#128295;</div>
+            <h3>Build</h3>
+            <p>
+              <b>Agents:</b> implement. <b>Person:</b> guides key design
+              decisions.<br /><b>Output:</b> a pull request, with context.
+            </p>
+          </div>
+          <div class="tile">
+            <div class="ic">&#9989;</div>
+            <h3>Verify</h3>
+            <p>
+              <b>Agents:</b> test and gather evidence. <b>Person:</b> &ldquo;is
+              it what we intended?&rdquo;<br /><b>Output:</b> auditable
+              evidence.
+            </p>
+          </div>
+          <div class="tile">
+            <div class="ic">&#128225;</div>
+            <h3>Observe</h3>
+            <p>
+              <b>Person:</b> interpret signals, decide what ships.<br /><b
+                >Output:</b
+              >
+              outcomes that shape the next goals.
+            </p>
+          </div>
+        </div>
+        <div class="strip">
+          <b>The glue:</b
+          ><span
+            >a shared knowledge layer that every stage reads from and adds to.
+            &ldquo;Autonomy does not remove that structure.&rdquo;</span
+          >
+        </div>
+        <div class="foot">
+          <span
+            >Tim Bozarth, CVP CoreAI &amp; EngThrive, Microsoft &#183; Command
+            Line, 27 Oct 2026</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 4: app and connectors -->
+      <section
+        class="slide"
+        data-notes="Chapter: GitHub Copilot App and Connectors. Copilot app: built for agentic software delivery, for specs, design discussions and telemetry as well as code. Connectors are GitHub-verified MCP servers, public preview, 26 services at launch including Slack, Figma, Notion, Sentry, Linear, Atlassian Rovo, Miro, Canva, Lucid, Cloudflare, Vercel, Microsoft Learn and Work IQ. Business and Enterprise admins must allow the Editor preview features and MCP policies. They do not yet work in sessions that run on GitHub Actions. Session continuity: one cloud session across github.com, Mobile, CLI, the app, VS Code and Slack or Teams, on paid plans. Computer use and image generation are public preview; an organization can switch both off."
+      >
+        <div class="chip">CHAPTER 2</div>
+        <h1>GitHub Copilot App &amp; Connectors</h1>
+        <p class="sub">
+          One place to direct agent work, with the context that lives outside
+          your code.
+        </p>
+        <div class="grid g2">
+          <div class="nt hl">
+            <div class="top">
+              <span class="ic">&#128421;&#65039;</span>
+              <h3>GitHub Copilot app</h3>
+            </div>
+            <p class="what">
+              One desktop app for agent work: projects, sessions and
+              automations, from issue to merge.
+            </p>
+            <p class="gain">
+              you direct the work instead of making every hand-off yourself.
+            </p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128268;</span>
+              <h3>Connectors</h3>
+              <span class="tag">PREVIEW</span>
+            </div>
+            <p class="what">
+              Sign in once to Slack, Figma, Work IQ, Atlassian, Miro and 21
+              more. GitHub hosts the servers.
+            </p>
+            <p class="gain">
+              context from your other tools, with no servers or keys to set up.
+            </p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128241;</span>
+              <h3>Session continuity</h3>
+            </div>
+            <p class="what">
+              One cloud session across your phone, VS Code, the CLI, the web,
+              Slack and Teams.
+            </p>
+            <p class="gain">
+              start a task at stand-up on your phone and finish it at your desk.
+            </p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128444;&#65039;</span>
+              <h3>Computer use &amp; images</h3>
+              <span class="tag">PREVIEW</span>
+            </div>
+            <p class="what">
+              Copilot clicks through desktop apps, and draws or edits pictures
+              in chat.
+            </p>
+            <p class="gain">
+              automate apps that have no API, and visuals without waiting for a
+              designer.
+            </p>
+          </div>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub changelog &#183; 28 Oct 2026 &#183; docs.github.com &#183;
+            Copilot connectors</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 5: fusion, canvases, dreaming, memory -->
+      <section
+        class="slide"
+        data-notes="Chapter: Copilot Fusion, Copilot App Canvases and Copilot Dreaming. Fusion is generally available: it decides how to run each task across one or more models; effort Standard, High, Max. GitHub reports that in the Artificial Analysis Coding Agent Index, Fusion Max scored within two points of Opus 5.5 Max at half the cost and 40 percent less time per task. Canvases: shown in the keynote at 9:39 (youtube.com/watch?v=AArI948SDz8&amp;t=579s); not yet in the written changelog, so show the clip instead of describing it. Dreaming is a public preview, opt-in, and uses AI credits: personal memory curation, repository customization, and code review customization; changes to checked-in skills and instructions arrive as pull requests. Memory is generally available on paid plans; GitHub reports 93 percent better adherence to preferences in preview CLI sessions that used it."
+      >
+        <div class="chip">CHAPTER 3</div>
+        <h1>Copilot Fusion, App Canvases &amp; Dreaming</h1>
+        <p class="sub">
+          Smarter model choice, and a Copilot that learns how you and your team
+          work.
+        </p>
+        <div class="grid g2">
+          <div class="nt hl">
+            <div class="top">
+              <span class="ic">&#129504;</span>
+              <h3>Copilot Fusion</h3>
+              <span class="tag ga">AVAILABLE</span>
+            </div>
+            <p class="what">
+              Picks and combines the right models for each step of a task.
+              Effort: Standard, High or Max.
+            </p>
+            <p class="gain">
+              near top-model quality at about half the cost (Fusion Max, as
+              reported by GitHub).
+            </p>
+          </div>
+          <div class="nt ghost">
+            <div class="top">
+              <span class="ic">&#127912;</span>
+              <h3>Copilot App Canvases</h3>
+              <span class="tag">SHOWN ON STAGE</span>
+            </div>
+            <p class="what">
+              Shown live in the keynote; not yet in the written changelog.
+            </p>
+            <p class="gain plain">Play the keynote clip at 9:39.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128164;</span>
+              <h3>Copilot Dreaming</h3>
+              <span class="tag">PREVIEW &#183; OPT-IN</span>
+            </div>
+            <p class="what">
+              Between sessions, Copilot reflects on past work and proposes
+              better memories, skills and instructions.
+            </p>
+            <p class="gain">
+              a Copilot that improves every week; shared changes come as pull
+              requests you approve.
+            </p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128218;</span>
+              <h3>Copilot Memory</h3>
+              <span class="tag ga">AVAILABLE</span>
+            </div>
+            <p class="what">
+              Remembers your preferences and each repository&rsquo;s conventions
+              across the app, CLI, VS Code and cloud.
+            </p>
+            <p class="gain">no more repeating yourself in every session.</p>
+          </div>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub changelog &#183; 28 Oct 2026 &#183; performance claims as
+            reported by GitHub</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 6: projects -->
+      <section
+        class="slide"
+        data-notes="Chapter: Copilot Projects, public preview, in the left navigation of the Copilot app. Think of a project as persistent mission control, or a tech lead, for a body of work rather than a one-off chat. One: parallelism without chaos: you give it the high-level goal and it starts isolated child coding sessions in parallel worktrees and coordinates them. Two: long-lived context and memory: sessions come and go per pull request, the project stays and remembers your preferences and the state of the work. Three: a central review inbox: child sessions report back; you approve plans, answer questions and review pull requests and previews in one thread. Overview groups the work as Needs input, Open, Working and Done. Four: built-in automations: scheduled jobs such as a daily triage wake up in the context of the project. The panel on the right is an illustrative mock of today's lab, not a screenshot."
+      >
+        <div class="chip">CHAPTER 4 &#183; PUBLIC PREVIEW</div>
+        <h1>Copilot Projects</h1>
+        <p class="sub">
+          <b>Mission control for a body of work</b>, not a one-off chat. Give it
+          a goal, and it works like a tech lead.
+        </p>
+        <div class="proj">
+          <div>
+            <div class="bn">
+              <div class="k">1</div>
+              <div>
+                <h3>Parallel work without chaos</h3>
+                <p class="what">
+                  One goal starts isolated child sessions in parallel and
+                  coordinates them.
+                </p>
+                <p class="gain">
+                  many tasks at once, without juggling chats and branches.
+                </p>
+              </div>
+            </div>
+            <div class="bn">
+              <div class="k">2</div>
+              <div>
+                <h3>Long-lived context and memory</h3>
+                <p class="what">
+                  Sessions come and go; the project keeps your goal, preferences
+                  and progress.
+                </p>
+                <p class="gain">pick up tomorrow exactly where you left off.</p>
+              </div>
+            </div>
+            <div class="bn">
+              <div class="k">3</div>
+              <div>
+                <h3>One inbox for review</h3>
+                <p class="what">
+                  Child sessions report back: plans, questions, pull requests
+                  and previews.
+                </p>
+                <p class="gain">approve, answer and review in one place.</p>
+              </div>
+            </div>
+            <div class="bn">
+              <div class="k">4</div>
+              <div>
+                <h3>Built-in automations</h3>
+                <p class="what">
+                  Scheduled jobs, such as a daily triage, wake up inside the
+                  project.
+                </p>
+                <p class="gain">routine work happens without you asking.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mock">
+            <div class="name">My website, version 1.1</div>
+            <div class="goal">
+              <b>GOAL</b>Build my approved tickets #2 and #3, one pull request
+              each, with desktop and phone screenshots.
+            </div>
+            <div class="tabs">
+              <span class="on">Overview</span><span>Library</span
+              ><span>Automations</span>
+            </div>
+            <div class="grp g-need">
+              <h6>NEEDS INPUT</h6>
+              <div class="row">Approve the plan for #3<em>plan</em></div>
+            </div>
+            <div class="grp g-work">
+              <h6>WORKING</h6>
+              <div class="row">#2 Add a Saturday column<em>session</em></div>
+            </div>
+            <div class="grp g-open">
+              <h6>OPEN</h6>
+              <div class="row">
+                #3 Highlight today<em>PR &#183; +42 &minus;3</em>
+              </div>
+            </div>
+            <div class="grp g-done">
+              <h6>DONE</h6>
+              <div class="row">Plan version 1.1<em>done</em></div>
+            </div>
+            <div class="note">
+              Illustrative mock of today&rsquo;s lab, not a screenshot.
+            </div>
+          </div>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub changelog &#183; 28 Oct 2026 &#183; docs.github.com &#183;
+            Working with projects in the GitHub Copilot app</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 7: automations -->
+      <section
+        class="slide"
+        data-notes="Chapter: Copilot Projects and Copilot automations, part two. Automations are cloud agent workflows in your repository, private or internal repositories only. New on 28 Oct: 24 new GitHub triggers (issues assigned, labeled, closed, reopened, status changed; pull requests ready for review, merge conflict, review submitted, and more; discussions; code scanning, secret scanning and Dependabot alerts); 20 new GitHub tools (upload image and video attachments, merge pull requests, retry workflow runs, and more); tools from MCP servers; start one from the REST API; Automation run succeeded or failed are triggers too, so automations can chain; AI credit limits per run (at least 30 credits), per day, week and month; shared automations for a team; and they learn from outcomes and propose improvements you approve. They need Copilot in the cloud switched on for the organization. In today's lab: one automation reviews each pull request when you mark it ready, another writes acceptance criteria when you label a wish."
+      >
+        <div class="chip">CHAPTER 4</div>
+        <h1>Copilot Automations</h1>
+        <p class="sub">
+          Work that starts by itself:
+          <b>on an event, on a schedule, or from an API call.</b>
+        </p>
+        <div class="grid g3">
+          <div class="nt hl">
+            <div class="top">
+              <span class="ic">&#9889;</span>
+              <h3>24 new triggers</h3>
+            </div>
+            <p class="what">
+              Issue labeled or assigned, pull request ready for review, merge
+              conflict, security alerts.
+            </p>
+            <p class="gain">agents react the moment something happens.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128295;</span>
+              <h3>20 new tools</h3>
+            </div>
+            <p class="what">
+              Attach screenshots and videos, merge pull requests, retry workflow
+              runs, plus MCP tools.
+            </p>
+            <p class="gain">agents finish the job, not just comment on it.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128279;</span>
+              <h3>Chains and API</h3>
+            </div>
+            <p class="what">
+              When one automation succeeds, the next one starts. Any system can
+              start one through the API.
+            </p>
+            <p class="gain">a pipeline of agents, step by step.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128257;</span>
+              <h3>Learns from outcomes</h3>
+            </div>
+            <p class="what">
+              Watches which labels, comments and pull requests you accept, then
+              proposes a better prompt.
+            </p>
+            <p class="gain">
+              it improves over time, and you approve every change.
+            </p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128176;</span>
+              <h3>Cost controls</h3>
+            </div>
+            <p class="what">
+              AI credit limits per run, per day, per week and per month.
+            </p>
+            <p class="gain">no surprise bills.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <span class="ic">&#128101;</span>
+              <h3>Shared automations</h3>
+            </div>
+            <p class="what">
+              One automation for the whole team: read access sees it, write
+              access edits it.
+            </p>
+            <p class="gain">the same quality bar for everyone.</p>
+          </div>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub changelog &#183; 28 Oct 2026 &#183; docs.github.com &#183;
+            About Copilot automations</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 8: quality and security -->
+      <section
+        class="slide"
+        data-notes="Chapter: Agent-Powered Quality and Security. Copilot code review Max: public preview third effort level after Lite and Balanced; several independent review agents plus an aggregator; GitHub reports the highest F1 on ReviewBench for high-severity issues. Approvals: generally available, off by default; Copilot's approval can count toward required approvals, only on paths a repository admin chooses, and is dismissed by new commits. Agent Merge, Watch and fix in the merge box: fixes failing Actions workflows and merge conflicts in the cloud. Security, public previews: AI Scan for repositories (whole-repository agentic scan), push protection beyond predefined secret patterns (AI-detected secrets), code scanning for AI applications (indirect prompt injection, sensitive information disclosure, excessive agency). Also new: Dependabot reachability analysis and a security extension for the Copilot app. Agentic Workflows is generally available."
+      >
+        <div class="chip">CHAPTER 5</div>
+        <h1>Agent-Powered Quality &amp; Security</h1>
+        <p class="sub">
+          More code means more pull requests.
+          <b>Agents now help review, fix and protect what ships.</b>
+        </p>
+        <div class="grid g3">
+          <div class="nt hl">
+            <div class="top">
+              <h3>Code review Max</h3>
+              <span class="tag">PREVIEW</span>
+            </div>
+            <p class="what">
+              Several review agents check a pull request, and one combines their
+              findings.
+            </p>
+            <p class="gain">the most serious bugs caught before merge.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <h3>Copilot approvals</h3>
+              <span class="tag ga">AVAILABLE</span>
+            </div>
+            <p class="what">
+              Copilot can approve, only on the paths you choose. Off by default.
+            </p>
+            <p class="gain">low-risk changes move faster; you keep the rest.</p>
+          </div>
+          <div class="nt">
+            <div class="top"><h3>Agent Merge</h3></div>
+            <p class="what">
+              &ldquo;Watch and fix&rdquo; repairs failing checks and merge
+              conflicts in the cloud.
+            </p>
+            <p class="gain">pull requests reach green without babysitting.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <h3>AI Scan for repositories</h3>
+              <span class="tag">PREVIEW</span>
+            </div>
+            <p class="what">
+              An agent scans the whole repository for security problems.
+            </p>
+            <p class="gain">finds issues that fixed rules miss.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <h3>Smarter push protection</h3>
+              <span class="tag">PREVIEW</span>
+            </div>
+            <p class="what">
+              AI spots passwords and keys that match no known pattern, before
+              they are pushed.
+            </p>
+            <p class="gain">fewer leaked secrets.</p>
+          </div>
+          <div class="nt">
+            <div class="top">
+              <h3>Scanning for AI apps</h3>
+              <span class="tag">PREVIEW</span>
+            </div>
+            <p class="what">
+              Finds prompt injection, data leaks and agents with too much power.
+            </p>
+            <p class="gain">safer AI features in your own apps.</p>
+          </div>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub changelog &#183; 28 Oct 2026 &#183; claims as reported by
+            GitHub</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 9: infrastructure -->
+      <section
+        class="slide"
+        data-notes="Chapter: Rebuilding GitHub's Core Infrastructure. From Jay Parikh's post: agents change the volume and shape of software development; capacity alone is not enough, so the architecture changed too. So far this year GitHub added 4 million CPU cores, 160 PB of high-speed storage and 50 Tb/s of network capacity. It is moving to a multi-region deployment in Azure, expected to complete early next year. The new Git architecture: simplify the primitives, decouple storage from compute, minimize coordination. Also on 28 Oct: GitHub Actions multi-cloud compute (standard Linux runners may also run on AWS) and workflow lockfiles, generally available."
+      >
+        <div class="chip">CHAPTER 6</div>
+        <h1>Rebuilding GitHub&rsquo;s Core Infrastructure</h1>
+        <p class="sub">
+          Agents change the <b>volume and shape</b> of software work, so the
+          platform underneath is being rebuilt.
+        </p>
+        <div class="stats">
+          <div class="sc">
+            <div class="n">4<small>M</small></div>
+            <div class="l">CPU cores added this year</div>
+          </div>
+          <div class="sc">
+            <div class="n">160<small> PB</small></div>
+            <div class="l">high-speed storage added</div>
+          </div>
+          <div class="sc">
+            <div class="n">50<small> Tb/s</small></div>
+            <div class="l">network capacity added</div>
+          </div>
+        </div>
+        <div class="grid g3" style="margin-top: 22px">
+          <div class="nt hl">
+            <div class="top"><h3>Multi-region on Azure</h3></div>
+            <p class="what">
+              GitHub moves to several Azure regions; done early next year.
+            </p>
+            <p class="gain">a more reliable GitHub.</p>
+          </div>
+          <div class="nt">
+            <div class="top"><h3>A new Git architecture</h3></div>
+            <p class="what">
+              Simpler building blocks, storage apart from compute, less
+              coordination.
+            </p>
+            <p class="gain">room for agent-scale traffic.</p>
+          </div>
+          <div class="nt">
+            <div class="top"><h3>More resilient Actions</h3></div>
+            <p class="what">
+              Runners on Azure and AWS; workflow lockfiles now available.
+            </p>
+            <p class="gain">fewer stuck runs, and pinned dependencies.</p>
+          </div>
+        </div>
+        <div class="foot">
+          <span
+            >GitHub Universe 2026: Evolving every layer of the stack &#183; Jay
+            Parikh</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 10: future -->
+      <section
+        class="slide"
+        data-notes="Chapter: The Future of Software Development, also Automations. Quote from Jay Parikh's post: all the software we've written to date will amount to less than 1 percent of the software we'll write in the next five years. The opportunity is not just more code, it is solving problems we could not solve before. Commercial: from 28 Oct, GitHub Enterprise customers can use all Copilot features (the app, code review, automations and more) without a separate subscription and pay for the AI credits they use; through GitHub Sales today, self-serve later. The Copilot SDK is becoming the Microsoft Copilot SDK. GitHub stays open: Cloudflare, Datadog, Figma and more. You stay in control of the work, the tools and the cost. Bridge: now we put it to work."
+      >
+        <div class="chip">CHAPTER 7</div>
+        <h1>The Future of Software Development</h1>
+        <div class="bigq">
+          &ldquo;All the software we&rsquo;ve written to date will amount to
+          less than 1% of the software we&rsquo;ll write in the next five
+          years.&rdquo;
+          <small
+            >Jay Parikh, EVP CoreAI at Microsoft &#183; GitHub Universe
+            2026</small
+          >
+        </div>
+        <div class="grid g3">
+          <div class="nt">
+            <div class="top"><h3>Enterprise includes Copilot</h3></div>
+            <p class="what">
+              GitHub Enterprise customers get every Copilot feature, with no
+              separate subscription.
+            </p>
+            <p class="gain">one contract; pay for the AI credits you use.</p>
+          </div>
+          <div class="nt">
+            <div class="top"><h3>Microsoft Copilot SDK</h3></div>
+            <p class="what">
+              The GitHub Copilot SDK becomes the Microsoft Copilot SDK: the same
+              engine for your own tools.
+            </p>
+            <p class="gain">agents built for your own team&rsquo;s work.</p>
+          </div>
+          <div class="nt hl">
+            <div class="top"><h3>You stay in control</h3></div>
+            <p class="what">
+              Of the work, the tools and the cost. Agents propose; people
+              decide.
+            </p>
+            <p class="gain">speed without losing accountability.</p>
+          </div>
+        </div>
+        <div class="foot">
+          <span>GitHub Universe 2026 &#183; github.blog</span
+          ><span class="pg"></span>
+        </div>
+      </section>
+
+      <!-- 11: today -->
+      <section
+        class="slide"
+        data-notes="Hand-off to the lab, guide docs/DAY-4.md, in the workshop template on GitHub. One push from your Codespace saves your website, switches on checks and a version number, and publishes it. Then one ticket for everyone, Show my version, and a Copilot project builds it in the cloud as a pull request. Every pull request runs your checks: your tests, and a browser that posts desktop and phone screenshots on the pull request. When you mark it ready, your Reviewer automation checks it against the acceptance criteria. You merge, and the footer of your live website says Production, version 1.0.0 and the build number. Every step is started by an event, and nothing ships without a person saying yes."
+      >
+        <div class="chip">NOW YOU &#183; DOCS/DAY-4.MD</div>
+        <h1>Your website, version 1.1</h1>
+        <p class="sub">
+          Every step is started by an event.
+          <b>You decide, agents do, the system learns.</b>
+        </p>
+        <div class="chain">
+          <div class="step">
+            <div class="no">1</div>
+            <div class="t">Publish</div>
+            <div class="d">One push: your website, checks and a version</div>
+          </div>
+          <div class="sep">&rarr;</div>
+          <div class="step">
+            <div class="no">2</div>
+            <div class="t">Project</div>
+            <div class="d">
+              Builds your ticket in the cloud as a pull request
+            </div>
+          </div>
+          <div class="sep">&rarr;</div>
+          <div class="step">
+            <div class="no">3</div>
+            <div class="t">Checks</div>
+            <div class="d">
+              Tests, plus desktop and phone screenshots in the pull request
+            </div>
+          </div>
+          <div class="sep">&rarr;</div>
+          <div class="step">
+            <div class="no">4</div>
+            <div class="t">Reviewer</div>
+            <div class="d">An automation reviews it when you mark it ready</div>
+          </div>
+          <div class="sep">&rarr;</div>
+          <div class="step you">
+            <div class="no">YOU</div>
+            <div class="t">Merge</div>
+            <div class="d">Live as Production &#183; Version 1.0.0.N</div>
+          </div>
+        </div>
+        <div class="browser">
+          <div class="b3">
+            <i></i><i></i><i></i
+            ><span
+              >https://your-name.thankfulrock-bf005377.eastus.azurecontainerapps.io</span
+            >
+          </div>
+          <div class="pg2"><b>My project planner</b><i></i><i></i></div>
+          <div class="env">Production &#183; Version 1.0.0.12</div>
+        </div>
+        <div class="caption">
+          Your front page after the merge: the footer your ticket asked for,
+          read from version.json.
+        </div>
+        <div class="strip">
+          <b>Every step is an event:</b
+          ><span
+            >a push, a new pull request, your click on Ready for review, your
+            merge.</span
+          >
+        </div>
+        <div class="foot">
+          <span>Day 4 &#183; Today&rsquo;s lab</span><span class="pg"></span>
+        </div>
+      </section>
+
+      <div id="bar"></div>
+      <div id="notes"></div>
+    </div>
+
+    <script>
+      (function () {
+        var stage = document.getElementById("stage");
+        var slides = Array.prototype.slice.call(
+          document.querySelectorAll(".slide"),
+        );
+        var bar = document.getElementById("bar");
+        var notes = document.getElementById("notes");
+        var cur = 0;
+
+        slides.forEach(function (s, i) {
+          var pg = s.querySelector(".pg");
+          if (pg) pg.textContent = i + 1 + " / " + slides.length;
+        });
+
+        function fit() {
+          var k = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          stage.style.transform = "translate(-50%, -50%) scale(" + k + ")";
+        }
+        function show(i) {
+          cur = Math.max(0, Math.min(slides.length - 1, i));
+          slides.forEach(function (s, n) {
+            s.classList.toggle("active", n === cur);
+          });
+          bar.style.width = ((cur + 1) / slides.length) * 100 + "%";
+          notes.textContent = slides[cur].getAttribute("data-notes") || "";
+          if (location.hash !== "#" + (cur + 1))
+            history.replaceState(null, "", "#" + (cur + 1));
+        }
+        function fromHash() {
+          var n = parseInt(location.hash.slice(1), 10);
+          show(isNaN(n) ? 0 : n - 1);
+        }
+
+        window.addEventListener("resize", fit);
+        window.addEventListener("hashchange", fromHash);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
+            e.preventDefault();
+            show(cur + 1);
+          } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+            e.preventDefault();
+            show(cur - 1);
+          } else if (e.key === "Home") show(0);
+          else if (e.key === "End") show(slides.length - 1);
+          else if (e.key === "n" || e.key === "N")
+            notes.style.display =
+              notes.style.display === "block" ? "none" : "block";
+          else if (e.key === "f" || e.key === "F") {
+            if (document.fullscreenElement) document.exitFullscreen();
+            else document.documentElement.requestFullscreen();
+          }
+        });
+        document.addEventListener("click", function (e) {
+          show(e.clientX < window.innerWidth * 0.2 ? cur - 1 : cur + 1);
+        });
+
+        fit();
+        fromHash();
+      })();
+    </script>
+  </body>
+</html>

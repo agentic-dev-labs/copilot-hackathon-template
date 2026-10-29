@@ -269,28 +269,22 @@ def test_template_ships_without_a_website_name() -> None:
 STARTERS = Path(".github/workflow-starters")
 
 
-def test_check_starter_is_inert_until_the_learner_edits_it() -> None:
-    """Day 5: the starter runs only by hand and asks for exactly two edits, triggers and permissions."""
+def test_check_starter_checks_every_change_with_least_privilege() -> None:
+    """Day 4: copied as it is, it checks every pull request and push to main, and only reads."""
     text = (STARTERS / "check-my-website.yml").read_text(encoding="utf-8")
     workflow = yaml.load(text, Loader=yaml.BaseLoader)
     assert workflow["name"] == "Check my website"
-    assert set(workflow["on"]) == {"workflow_dispatch"}
-    assert workflow["permissions"] == {"contents": "write"}, "the learner reduces this to read"
-    assert "add pull_request" in text and 'Change "write" to "read"' in text
+    assert set(workflow["on"]) == {"pull_request", "push", "workflow_dispatch"}
+    assert workflow["on"]["push"] == {"branches": ["main"]}
+    assert workflow["permissions"] == {"contents": "read"}
+    assert workflow["concurrency"]["cancel-in-progress"] == "true"
     steps = workflow["jobs"]["check"]["steps"]
     commands = "\n".join(step.get("run", "") for step in steps)
     assert "uv run python -m app.site --check" in commands and "uv run pytest checks" in commands
     assert "secrets." not in text and "id-token" not in text
     assert steps[0]["with"]["persist-credentials"] == "false"
-    # After the two documented edits the workflow is a least-privilege pull-request check.
-    edited = yaml.load(
-        text.replace("on:\n  workflow_dispatch:\n",
-                     "on:\n  workflow_dispatch:\n  pull_request:\n  push:\n    branches: [main]\n")
-            .replace("contents: write", "contents: read"),
-        Loader=yaml.BaseLoader,
-    )
-    assert {"workflow_dispatch", "pull_request", "push"} == set(edited["on"])
-    assert edited["permissions"] == {"contents": "read"}
+    # The jobs Day 5 makes required keep their names.
+    assert workflow["jobs"]["check"]["name"] == "Check the website" and workflow["jobs"]["ui"]["name"] == "UI check"
 
 
 def test_approval_starter_only_adds_a_gate_before_the_same_publisher() -> None:
@@ -309,7 +303,7 @@ def test_approval_starter_only_adds_a_gate_before_the_same_publisher() -> None:
     assert "environment" not in publish
     # The only other difference: the version learners switched on during Day 4 stays on.
     expected = dict(current["jobs"]["publish"])
-    expected["with"] = {**expected["with"], "version": "1.0.${{ github.run_number }}"}
+    expected["with"] = {**expected["with"], "version": "1.0.0.${{ github.run_number }}"}
     assert {key: value for key, value in publish.items() if key != "needs"} == expected
     assert "secrets." not in text and "Required reviewers" in text
 
@@ -332,7 +326,7 @@ def test_feature_slot_starter_deploys_checked_pull_requests_from_main() -> None:
         "website-name": "${{ vars.WEBSITE_NAME }}", "slot": "feature",
         "commit": "${{ github.event.workflow_run.head_sha }}",
         "pull-request": "${{ github.event.workflow_run.pull_requests[0].number }}",
-        "version": "1.0.${{ github.run_number }}-feature",
+        "version": "1.0.0-feature.${{ github.run_number }}",
     }
     # Only deploying runs share the slot, so a skipped run for a push to main cancels nothing.
     assert publish["concurrency"] == {"group": "feature-slot", "cancel-in-progress": "true"}
@@ -362,13 +356,13 @@ def test_publisher_keeps_the_slots_apart() -> None:
 
 
 def test_day_four_version_line_is_one_hash_away_from_the_publisher() -> None:
-    """Day 4: removing one # makes the caller pass its run number as the website version."""
+    """Day 4: removing one # makes the caller pass 1.0.0 and its run number as the website version."""
     text = Path(".github/workflows/publish-website.yml").read_text(encoding="utf-8")
-    assert "      # version: 1.0.${{ github.run_number }}\n" in text
+    assert "      # version: 1.0.0.${{ github.run_number }}\n" in text
     # The file's own comment must give the same edit as the guide: the # and the space after it.
     assert "on the next line, delete the # and the space after it" in text
     switched_on = yaml.load(text.replace("      # version:", "      version:"), Loader=yaml.BaseLoader)
-    assert switched_on["jobs"]["publish"]["with"]["version"] == "1.0.${{ github.run_number }}"
+    assert switched_on["jobs"]["publish"]["with"]["version"] == "1.0.0.${{ github.run_number }}"
     publisher = yaml.load(PUBLISHER.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
     version_input = publisher["on"]["workflow_call"]["inputs"]["version"]
     assert version_input["required"] == "false" and version_input["default"] == ""
@@ -389,6 +383,10 @@ def test_publisher_writes_the_version_as_data_before_the_build() -> None:
     script = steps[stamp]["run"]
     assert '[[ "$WEBSITE_VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z.+_-]{0,39}$ ]]' in script
     assert '--arg version "$WEBSITE_VERSION"' in script and '--argjson build "$GITHUB_RUN_NUMBER"' in script
+    # Day 4's footer shows where it runs: Production, or the Day 5 feature slot.
+    assert '--arg environment "$ENVIRONMENT"' in script and "environment: $environment" in script
+    assert 'ENVIRONMENT=Production' in script and 'ENVIRONMENT="Feature slot"' in script
+    assert script.index('[ "$WEBSITE_SLOT" = feature ]') < script.index("jq -n")
 
 
 def test_hosting_trusts_only_the_template_publisher_on_main() -> None:

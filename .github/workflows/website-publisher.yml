@@ -21,7 +21,7 @@ on:
         required: false
         default: ""
       version:
-        description: Optional version to show on the website, such as 1.0.42. Written to site/version.json.
+        description: Optional version to show on the website, such as 1.0.0.42. Written to site/version.json.
         type: string
         required: false
         default: ""
@@ -222,17 +222,22 @@ jobs:
             echo "::notice::${#LEFT_OUT[@]} file(s) in site/ were left out of the website. See the run summary."
           fi
 
-      # Day 4: the caller can pass a version, such as 1.0.<run number>. The page can show it from
-      # version.json; the content fingerprint ignores this file (see app/site.py).
+      # Day 4: the caller can pass a version, such as 1.0.0.<run number>. The page can show it, and
+      # its environment, from version.json; the content fingerprint ignores this file (see app/site.py).
       - name: Write the version into the website
         if: ${{ inputs.version != '' }}
         run: |
           if ! [[ "$WEBSITE_VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z.+_-]{0,39}$ ]]; then
-            echo "::error::A version has up to 40 letters, digits, dots, plus signs, hyphens and underscores, such as 1.0.42."
+            echo "::error::A version has up to 40 letters, digits, dots, plus signs, hyphens and underscores, such as 1.0.0.42."
             exit 1
           fi
+          ENVIRONMENT=Production
+          if [ "$WEBSITE_SLOT" = feature ]; then
+            ENVIRONMENT="Feature slot"
+          fi
           jq -n --arg version "$WEBSITE_VERSION" --argjson build "$GITHUB_RUN_NUMBER" --arg commit "$PUBLISH_COMMIT" \
-            '{version: $version, build: $build, commit: $commit}' > site/version.json
+            --arg environment "$ENVIRONMENT" \
+            '{version: $version, build: $build, commit: $commit, environment: $environment}' > site/version.json
 
       - name: Build and check the website image
         run: |

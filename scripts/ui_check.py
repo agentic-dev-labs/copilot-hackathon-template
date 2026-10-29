@@ -1,6 +1,7 @@
 """Open the website in a real browser on a desktop and a phone screen, check it, and save screenshots.
 
-Day 5's UI check runs this in GitHub Actions, after starting the website on the runner:
+The UI check in check-my-website.yml (Day 4) runs this in GitHub Actions, after starting the
+website on the runner:
 
     uv run --with playwright==1.64.0 python scripts/ui_check.py http://127.0.0.1:8000 --out ui-check
 
@@ -8,16 +9,18 @@ It opens the first page and up to five own-idea pages under site/ideas/. On each
 that the page opens with a title and a visible main heading, shows no errors in the browser
 console, loads all of its own files, gives every visible button a name, and fits a phone screen
 without sideways scrolling. It saves a full-page screenshot of each, writes a table to the
-workflow summary, and exits with 1 when any check failed. It only reads the website.
+workflow summary and the results to results.json, which pr_screenshots.py turns into a pull
+request comment, and exits with 1 when any check failed. It only reads the website.
 
 The browser cannot start inside a Codespace, so this check runs in GitHub Actions only. In the
 Codespace, check the page yourself in the Website preview.
 """
 
 import argparse
+import json
 import os
 import sys
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from urllib.parse import urljoin, urlsplit
 
@@ -83,8 +86,9 @@ def summary_markdown(results: list[ScreenResult]) -> str:
         detail = "; ".join(_short(problem) for problem in result.problems) or "Every check passed"
         rows.append(f"| {result.page} | {result.screen} | {'Pass' if result.passed else 'Fail'} | {detail} |")
     failed = sum(not result.passed for result in results)
-    rows += ["", f"{len(results) - failed} passed, {failed} failed. Screenshots: open **Artifacts** "
-             "at the bottom of this run's summary page, for example **home-phone.png**."]
+    rows += ["", f"{len(results) - failed} passed, {failed} failed. Screenshots: on a pull request, in the "
+             "comment the Screenshots job adds; always under **Artifacts** at the bottom of this run's "
+             "summary page, for example **home-phone.png**."]
     return "\n".join(rows) + "\n"
 
 
@@ -184,6 +188,8 @@ def main(arguments: list[str] | None = None) -> int:
         print("No site/index.html yet, so there is nothing to look at.")
         return 0
     results = run(options.url, Path(options.out), Path(options.site))
+    (Path(options.out) / "results.json").write_text(
+        json.dumps([asdict(result) for result in results], indent=2), encoding="utf-8")
     summary = summary_markdown(results)
     print(summary)
     target = os.environ.get("GITHUB_STEP_SUMMARY")

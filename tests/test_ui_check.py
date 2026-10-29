@@ -1,5 +1,6 @@
-"""The Day 5 UI check finds the learner's pages, reports plainly, and is wired the same way twice."""
+"""The UI check finds the learner's pages, reports plainly, and is wired the same way twice."""
 
+import json
 import sys
 import types
 from pathlib import Path
@@ -44,6 +45,23 @@ def test_no_website_yet_is_not_a_failure(tmp_path: Path, capsys) -> None:
     """Before /create-website there is nothing to open, and no browser is started."""
     assert ui_check.main(["http://127.0.0.1:8000", "--site", str(tmp_path)]) == 0
     assert "nothing to look at" in capsys.readouterr().out
+
+
+def test_results_are_saved_for_the_pull_request_comment(tmp_path: Path, monkeypatch) -> None:
+    """results.json carries every screen's result to the Screenshots job, which runs no page code."""
+    site = tmp_path / "site"
+    site.mkdir()
+    (site / "index.html").write_text("<html><body></body></html>", encoding="utf-8")
+    monkeypatch.delenv("GITHUB_STEP_SUMMARY", raising=False)
+    monkeypatch.setattr(ui_check, "run", lambda base, out, site: [
+        ui_check.ScreenResult("home", "desktop", "home-desktop.png"),
+        ui_check.ScreenResult("home", "phone", "home-phone.png", ["Wider than a phone screen by 3 pixels"])])
+    out = tmp_path / "ui-check"
+    out.mkdir()
+    assert ui_check.main(["http://127.0.0.1:8000", "--out", str(out), "--site", str(site)]) == 1
+    saved = json.loads((out / "results.json").read_text(encoding="utf-8"))
+    assert saved[1] == {"page": "home", "screen": "phone", "screenshot": "home-phone.png",
+                        "problems": ["Wider than a phone screen by 3 pixels"]}
 
 
 def test_browser_keeps_its_sandbox_and_draws_3d_in_software() -> None:
@@ -116,4 +134,6 @@ def test_starter_and_template_ci_run_the_same_pinned_check() -> None:
     assert single == {"ui-check/home-desktop.png", "ui-check/home-phone.png"}
     assert all(step["if"].startswith("${{ always()") for step in uploads)
     assert starter["jobs"]["ui"]["runs-on"] == "ubuntu-24.04"
-    assert set(starter["on"]) == {"workflow_dispatch"}, "still inert until the learner edits it"
+    # Day 4: ready to use, so every pull request and every push to main is checked.
+    assert set(starter["on"]) == {"pull_request", "push", "workflow_dispatch"}
+    assert starter["on"]["push"] == {"branches": ["main"]}

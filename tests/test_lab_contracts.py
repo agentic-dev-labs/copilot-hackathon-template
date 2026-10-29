@@ -13,6 +13,8 @@ import yaml
 # David's final slides for Days 3-5: four hours each, written in elapsed time.
 SLIDE_SLOTS = ["00:00-00:20", "00:20-00:50", "00:50-01:30", "01:30-01:45",
                "01:45-02:30", "02:30-03:15", "03:15-03:45", "03:45-04:00"]
+# Owner, 28 October 2026: Day 4 is 2 h 45 min for a smaller group, after the announcements.
+DAY_FOUR_SLOTS = ["00:00-00:15", "00:15-00:50", "00:50-01:30", "01:30-01:45", "01:45-02:15", "02:15-02:45"]
 
 
 def active_lab_guides() -> list[Path]:
@@ -39,7 +41,7 @@ def test_lab_timeboxes_match_the_day_routes() -> None:
             timed.add(number)
             assert sum(map(int, blocks)) == minutes, number
     assert timed == {"4", "6", "7"}
-    # The cloud agent is Thursday's 40-minute 00:50-01:30 delegation block.
+    # The Copilot project builds the ticket in Thursday's 00:50-01:30 block.
     assert "00:50-01:30" in day_route("DAY-4.md")
     assert "| 09:30-10:00 | [2. Your copy, your Codespace, and Chat]" in route
     # Owner, 25 October 2026: one guide per day, linked from a minimal README; no labs folder.
@@ -167,7 +169,7 @@ def test_day_one_teaches_reading_code_undo_and_history() -> None:
 
 def test_daily_schedule_has_no_gaps_or_overlaps() -> None:
     """Each day guide's route fills the published day without adding hidden time."""
-    days = {"DAY-1.md": 360, "DAY-2.md": 360, "DAY-3.md": 240, "DAY-4.md": 240, "DAY-5.md": 240}
+    days = {"DAY-1.md": 360, "DAY-2.md": 360, "DAY-3.md": 240, "DAY-4.md": 165, "DAY-5.md": 240}
     for guide, expected in days.items():
         intervals = [
             tuple(int(time[:2]) * 60 + int(time[3:]) for time in slot.split("-"))
@@ -299,7 +301,7 @@ def test_keep_comes_before_undo() -> None:
 
 
 def test_template_ships_no_presenter_material() -> None:
-    """Owner, 23 October 2026: presenter notes and tools live in the private final-workshop-david/."""
+    """Owner, 23 October 2026: presenter notes and tools live in final-workshop-david/ only."""
     for path in ("docs/FACILITATOR.md", "docs/AGENDA.md", "docs/PREREQS.md", "docs/REFERENCES.md",
                  "docs/RESEARCH.md", "docs/DAY-2-TOOLS.md", "post-workshop", "travel", ".github/prompts",
                  ".github/skills/workshop-reset", ".github/skills/workshop-rehearsal",
@@ -318,8 +320,11 @@ def test_template_ships_no_presenter_material() -> None:
     assert header["name"] == "GenericAgent" and "joke" not in placeholder.lower()
     assert header["tools"] == ["read", "search"]
     assert header["disable-model-invocation"] is True
-    for ignore in (".gitignore", ".dockerignore"):
-        assert "/final-workshop-david/" in Path(ignore).read_text(encoding="utf-8").splitlines()
+    # Owner, 28 October 2026: the presenter folder is versioned, but Docker builds never include
+    # it, and attendee invitations, usernames and roster codes stay on the owner's machine.
+    assert "/final-workshop-david/" in Path(".dockerignore").read_text(encoding="utf-8").splitlines()
+    ignored = Path(".gitignore").read_text(encoding="utf-8").splitlines()
+    assert "/final-workshop-david/archive/facilitator/invitations/" in ignored
 
 
 def test_hand_over_offers_ideas_for_every_category() -> None:
@@ -694,38 +699,62 @@ def test_day_three_guide_follows_the_slides_on_the_learners_own_page() -> None:
     assert "setup.sh browser" not in guide and "uvicorn" not in guide and "seccomp" not in guide
 
 def test_days_three_to_five_follow_the_final_slides() -> None:
-    """Owner-approved 20 October: requirements agent, cloud agents, and CI/CD, four hours each."""
+    """Owner-approved 20 October: requirements agent, cloud agents, and CI/CD; Day 4 refit 28 October."""
     titles = {3: "VS Code and a Requirements Agent", 4: "GitHub Copilot Cloud Agents",
               5: "CI/CD with GitHub Actions"}
     guides = {3: "DAY-3.md", 4: "DAY-4.md", 5: "DAY-5.md"}
     for number, guide in guides.items():
         text = Path("docs", guide).read_text(encoding="utf-8")
         assert text.startswith(f"# Day {number}: {titles[number]}")
-        assert day_route(guide) == SLIDE_SLOTS, guide
+        assert day_route(guide) == (DAY_FOUR_SLOTS if number == 4 else SLIDE_SLOTS), guide
         assert "**Done when:**" in text and "## Optional extras" in text, guide
         assert "## Official References\n" in text, guide
         assert "made up" in text, guide
     day4 = quoted_flat(Path("docs/DAY-4.md").read_text(encoding="utf-8"))
-    assert "pick a ticket in **Todo**" in day4 and "labs/" not in day4
-    assert "drag the ticket into **In Progress**" in day4 and "moved to **Done**" in day4
-    assert ".github/agents/code-review.agent.md" in day4 and "reviews/pr-NUMBER.md" in day4
-    assert "**Confirmed** or **Not a problem**" in day4 and "@copilot" in day4
-    assert "It never changes other files, comments on GitHub, or merges." in day4
-    # 21 October refit: a feature-branch ruleset and a versioned pipeline. Copilot code review stays
-    # off (owner decision, 21 October): the learner's own Code Review agent does the reviewing.
+    # The guide is followed in the public template until section 1 brings it into the attendee's copy.
+    assert "`github.com/agentic-dev-labs/copilot-hackathon-template`" in day4 and "**docs > DAY-4.md**" in day4
+    assert "**Joining today, or no website yet?**" in day4 and "](labs/" not in day4
+    # Audit, 28 October 2026: most websites were only uncommitted in Codespaces, so one push saves,
+    # checks, versions, and publishes them.
+    assert "Never create a second one" in day4 and "python3 scripts/update_from_template.py" in day4
+    # /publish-website switches on the checks and the version, so the Day 4 prompts stay short.
+    skill = " ".join(Path(".github/skills/publish-website/SKILL.md").read_text(encoding="utf-8").split())
+    assert "copy `.github/workflow-starters/check-my-website.yml` there unchanged" in skill
+    assert "the line that starts with `# version:`" in skill and "never change a workflow beyond step 5" in skill
+    assert "`version: 1.0.0.${{ github.run_number }}`" in skill
+    assert "`version: 1.0.0.${{ github.run_number }}`" in day4 and "`/publish-website`" in day4
+    # Owner, 28 October 2026: each section names the slide it puts into practice, and attendees lead
+    # from section 2.
+    assert "## What You Saw on the Slides" in day4 and "**From here you lead:**" in day4
+    for slide in ("Evolving for the Agentic Era", "Copilot Projects", "Copilot Automations", "You decide · Agents do"):
+        assert f"**Slide: {slide}.**" in day4, slide
+    assert "`Day 4: my website, checks and version`" in day4 and "**... > Push**" in day4
+    assert "`/version.json`" in day4 and "**Production**" in day4
+    # The universal ticket, a protected main, and a Copilot project in the cloud.
+    assert "**Issues > New issue** and choose **Show my version**" in day4
     assert "**Require a pull request before merging**, with required approvals left at **0**" in day4
     assert "Leave the bypass list empty" in day4
-    assert "Copilot code review" not in day4 and "re-request" not in day4
-    assert "**Joining today?**" in day4 and "**An agent that starts by itself:**" in day4
-    assert "repository's **Projects** tab" in day4
-    assert "`# version: 1.0.${{ github.run_number }}`" in day4 and "**Version 1.0.**" in day4
-    assert ".github/instructions/review.instructions.md" in day4 and "`applyTo: \"site/**\"`" in day4
+    assert "next to **Projects**, select **+**" in day4 and "**Which repositories should this Project use?**" in day4
+    assert "**Add repositories**" in day4 and "**Overview**" in day4 and "**Needs input**" in day4
+    assert "**Steer this session**" in day4 and "**Assignees > Assign to Agent**" in day4
+    assert "**Approve workflows to run**" in day4 and "**[WIP]**" in day4
+    # The automation starts on an event, acts only on that pull request, and has cost limits.
+    assert "**Create manually**" in day4 and "`Reviewer`" in day4 and "**Personal**" in day4
+    assert "**Ready for review**" in day4 and "**Only this issue**" in day4 and "**Suggest tools**" in day4
+    assert "**Per run**" in day4 and "**Daily**" in day4 and "**Resource URL**" in day4
+    assert "Review this pull request against its ticket. Only comment." in day4
+    assert "untick anything that pushes, merges, closes, or changes labels" in day4
+    assert "**Production · Version 1.0.0.**" in day4 and "`Closes #1`" in day4 and "**Disable**" in day4
+    assert "**Delete codespace**: never select it" in day4
+    assert "Copilot code review" not in day4 and "code-review" not in day4
     day5 = " ".join(Path("docs/DAY-5.md").read_text(encoding="utf-8").split())
     starters = ("check-my-website.yml", "deploy-feature-slot.yml", "publish-website-with-approval.yml")
     assert sorted(path.name for path in Path(".github/workflow-starters").iterdir()) == list(starters)
     for starter in starters:
         assert f".github/workflow-starters/{starter}" in day5
-    assert "change `contents: write` to `contents: read`" in day5
+    # Day 5 reads the Day 4 checks: triggers, least-privilege permissions, and the one writing job.
+    assert "`contents: read`" in day5 and "**Screenshots** job may write" in day5
+    assert "`workflow_dispatch`" in day5 and "**Run workflow**" in day5
     assert "**Required reviewers**" in day5 and "**Approve and deploy**" in day5
     # Owner, 22 October: Copilot's ticket is tried in a feature slot, then approved into production.
     # Rehearsed 22 October: GitHub asks twice for Copilot's pull requests, with these labels.
@@ -737,28 +766,38 @@ def test_days_three_to_five_follow_the_final_slides() -> None:
     assert "**home-phone.png**" in day5 and "900 pixels wide" in day5
     assert "No password, key, or Azure sign-in" in day5 and "HANDOFF.md" in day5
     assert "**Joining today?**" in day5 and "Copilot reviews" not in day5
+    assert "Code Review agent" not in day5 and "review report" not in day5
     # The handoff routes back into Novo's own platforms and its validation process.
     assert "Novo's own GitHub Enterprise" in day5 and "Power Apps code app" in day5
     assert "Novo's validation process" in day5
     assert not Path(".github/workflows/check-my-website.yml").exists()
 
 
-def test_cloud_agent_lab_delegates_an_approved_ticket() -> None:
-    """Day 4's 40-minute delegation block: an approved ticket from the board, with human review kept."""
+def test_day_four_ticket_fits_any_website() -> None:
+    """Day 4's ticket for everyone: a footer with the environment and version, whatever the idea."""
     day4 = Path("docs/DAY-4.md").read_text(encoding="utf-8")
-    cloud = " ".join(day4.split("\n## 3. Delegate an Approved Ticket", 1)[1].split("\n## ", 1)[0].split())
-    assert "**00:50-01:30.** This is the delegation lab" in cloud
-    assert "pick a ticket in **Todo**" in cloud and "Nothing changes until you merge" in cloud
-    assert "**Assignees > Copilot**" in cloud and "Never wait idle for it" in cloud
-    assert "**Requirement**" in day4 and "Website change for Copilot" in day4
-    assert "Copilot code review" not in day4 and "practised" not in day4
-    ticket = Path(".github/ISSUE_TEMPLATE/requirement.md").read_text(encoding="utf-8")
+    project = quoted_flat(day4.split("\n## 2. A Copilot Project Builds Your Ticket", 1)[1].split("\n## ", 1)[0])
+    assert "**00:50-01:30.**" in project and "Build ticket #1 in the cloud as a pull request." in project
+    assert "Copilot never merges" in project
+    assert "**Do not merge yet.**" in project and "says **Preview**" in project
+    ticket = Path(".github/ISSUE_TEMPLATE/show-my-version.md").read_text(encoding="utf-8")
     metadata = yaml.safe_load(ticket.split("---", 2)[1])
-    assert metadata["name"] == "Requirement" and metadata["labels"] == ["enhancement"]
+    assert metadata["name"] == "Show my version" and metadata["labels"] == ["enhancement"]
     for section in ("## What I want", "## Which page", "## User story", "## Acceptance criteria", "## Only change"):
         assert section in ticket, section
-    assert "site/index.html" in ticket and "fictional" in ticket
-    # One ticket template replaces the earlier story and idea templates.
+    flat = " ".join(ticket.split())
+    assert "site/index.html" in flat and "version.json" in flat and '"Preview"' in flat
+    assert '"Production · Version 1.0.0.12"' in flat and "textContent, never innerHTML" in flat
+    assert "checks/test_version.py" in flat and "fictional" in flat
+    assert 'description starts with "Closes #"' in flat
+    assert flat.count("- [ ] Given") == 3
+    # The Day 3 templates stay for learners' own wishes.
+    requirement = Path(".github/ISSUE_TEMPLATE/requirement.md").read_text(encoding="utf-8")
+    metadata = yaml.safe_load(requirement.split("---", 2)[1])
+    assert metadata["name"] == "Requirement" and metadata["labels"] == ["enhancement"]
+    for section in ("## What I want", "## Which page", "## User story", "## Acceptance criteria", "## Only change"):
+        assert section in requirement, section
+    assert "site/index.html" in requirement and "fictional" in requirement
     assert not Path(".github/ISSUE_TEMPLATE/user-story.md").exists()
     assert not Path(".github/ISSUE_TEMPLATE/idea.md").exists()
     template = Path(".github/ISSUE_TEMPLATE/website-change.md").read_text(encoding="utf-8")
@@ -767,14 +806,26 @@ def test_cloud_agent_lab_delegates_an_approved_ticket() -> None:
     assert "site/index.html" in template and "fictional" in template
 
 
+def test_day_four_and_five_prompts_stay_short() -> None:
+    """Owner, 28 October 2026: attendees repeat each prompt after the presenter, so ten words at most."""
+    commands = " ".join(Path("docs/QUICK-COMMANDS.md").read_text(encoding="utf-8").split())
+    for guide in ("docs/DAY-4.md", "docs/DAY-5.md", "docs/QUICK-COMMANDS.md"):
+        blocks = re.findall(r"```text\n(.*?)```", Path(guide).read_text(encoding="utf-8"), re.S)
+        assert blocks, guide
+        for prompt in (" ".join(block.split()) for block in blocks):
+            assert len(prompt.split()) <= 10, prompt
+            # The Quick Commands page lists the same prompts, word for word.
+            assert prompt in commands, prompt
+
+
 def test_quick_commands_bring_template_fixes_safely() -> None:
     """Owner, 25 October 2026: one prompts page replaces the extras, led by the template-fixes prompt."""
     commands = " ".join(re.sub(r"\n\s*> ?", "\n", Path("docs/QUICK-COMMANDS.md").read_text(encoding="utf-8")).split())
     fixes = commands.split("## Fetch Updates From the Main Workshop Repository", 1)[1].split("## ", 1)[0]
-    assert "fetch the latest updates from the main workshop repository" in fixes.lower()
+    assert "fetch those updates into your own copy" in fixes
     assert "upstream" in fixes and "agentic-dev-labs/copilot-hackathon-template" in fixes
-    assert "run python3 scripts/update_from_template.py" in fixes
-    assert "Create a new branch called workshop-updates" in fixes and "From Thursday on" in fixes
+    assert "Run python3 scripts/update_from_template.py and explain what changed." in fixes
+    assert "Create branch workshop-updates, then run" in fixes and "From Thursday on" in fixes
     assert "never force-push" in commands and "None of these ever force-push" in commands
     for command in ("/create-website", "/start-website", "/stop-website", "/add-chart", "/add-chat",
                     "/publish-website", "pytest checks"):

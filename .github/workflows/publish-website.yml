@@ -28,4 +28,4 @@ jobs:
       website-name: ${{ vars.WEBSITE_NAME }}
       # Day 4: on the next line, delete the # and the space after it, keeping the indentation, to
       # write this run's number into your website as its version.
-      # version: 1.0.${{ github.run_number }}
+      # version: 1.0.0.${{ github.run_number }}

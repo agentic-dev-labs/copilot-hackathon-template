@@ -40,4 +40,4 @@ jobs:
     uses: agentic-dev-labs/copilot-hackathon-template/.github/workflows/website-publisher.yml@main
     with:
       website-name: ${{ vars.WEBSITE_NAME }}
-      version: 1.0.${{ github.run_number }}
+      version: 1.0.0.${{ github.run_number }}

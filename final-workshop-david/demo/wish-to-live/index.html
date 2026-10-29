@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>From wish to working feature</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <style>
+      :root {
+        --ink: #0b1f3a;
+        --paper: #f4f8fc;
+        --line: #d5e2ef;
+        --accent: #1f6fb2;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: 100vh;
+      }
+      aside {
+        padding: 20px;
+        border-right: 1px solid var(--line);
+        background: #fff;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+      }
+      p.lede {
+        font-size: 13px;
+        margin: 0 0 16px;
+        color: #46607e;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin: 14px 0 4px;
+      }
+      label span {
+        float: right;
+        color: #46607e;
+      }
+      input[type="range"],
+      input[type="number"] {
+        width: 100%;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      button {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid var(--accent);
+        background: #fff;
+        color: var(--accent);
+        border-radius: 6px;
+        font: inherit;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .stats {
+        margin-top: 18px;
+        font-size: 13px;
+        line-height: 1.7;
+      }
+      .stats b {
+        font-variant-numeric: tabular-nums;
+      }
+      main {
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        overflow: hidden;
+      }
+      footer {
+        font-size: 11px;
+        color: #6b819b;
+        margin-top: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <aside>
+      <h1>From wish to working feature</h1>
+      <p class="lede">
+        Every dot is a made-up ticket. Copies merge at triage; finished work
+        sparkles when it goes live.
+      </p>
+
+      <label>Seed <span id="seedOut"></span></label>
+      <input id="seed" type="number" value="2810" />
+      <div class="row">
+        <button id="regen" class="primary">Regenerate</button
+        ><button id="pause">Pause</button>
+      </div>
+
+      <label>Speed <span id="speedOut"></span></label>
+      <input id="speed" type="range" min="0.3" max="3" step="0.1" value="1.2" />
+      <label>Wishes per second <span id="rateOut"></span></label>
+      <input id="rate" type="range" min="1" max="20" step="1" value="8" />
+      <label>Duplicate share <span id="dupOut"></span></label>
+      <input id="dup" type="range" min="0" max="0.6" step="0.05" value="0.3" />
+      <label>Calm <span id="calmOut"></span></label>
+      <input id="calm" type="range" min="0" max="3" step="0.1" value="1.4" />
+
+      <div class="row">
+        <button id="png">Save PNG</button
+        ><button id="gif">Save GIF (5 s)</button>
+      </div>
+
+      <div class="stats">
+        Wishes: <b id="sWish">0</b><br />
+        Duplicates merged: <b id="sDup">0</b><br />
+        Live features: <b id="sLive">0</b>
+      </div>
+      <footer>
+        Made-up data. In the style of the algorithmic-art skill from
+        anthropics/skills (Apache 2.0).
+      </footer>
+    </aside>
+    <main><div id="stage"></div></main>
+
+    <script>
+      let W = 960,
+        H = 540;
+      const MARGIN = 60;
+      const STAGES = ["Wish", "Triaged", "Approved", "Built", "Live"];
+      const COLORS = ["#9cc7ea", "#4f9bd6", "#2a9d8f", "#1f4e8c", "#f2a65a"];
+      const ui = (id) => document.getElementById(id);
+      let tickets,
+        sparks,
+        stats,
+        paused = false,
+        spawnDebt = 0;
+
+      const laneX = (i) =>
+        MARGIN + (i * (W - 2 * MARGIN)) / (STAGES.length - 1);
+      const stageOf = (x) =>
+        Math.min(
+          STAGES.length - 1,
+          Math.max(
+            0,
+            Math.floor(
+              (x - MARGIN) / ((W - 2 * MARGIN) / (STAGES.length - 1)) + 0.5,
+            ),
+          ),
+        );
+
+      function reset() {
+        const seed = Number(ui("seed").value) || 1;
+        randomSeed(seed);
+        noiseSeed(seed);
+        tickets = [];
+        sparks = [];
+        stats = { wish: 0, dup: 0, live: 0 };
+        spawnDebt = 0;
+        background("#f4f8fc");
+      }
+
+      function spawn() {
+        const y = random(MARGIN, H - MARGIN);
+        const original = { x: MARGIN - 20, y, twin: null, size: random(3, 6) };
+        tickets.push(original);
+        stats.wish++;
+        if (random() < Number(ui("dup").value)) {
+          tickets.push({
+            x: MARGIN - 20 - random(10, 40),
+            y: y + random(-30, 30),
+            twin: original,
+            size: original.size,
+          });
+          stats.wish++;
+        }
+      }
+
+      function burst(x, y, color, count) {
+        for (let i = 0; i < count; i++) {
+          const a = random(TWO_PI),
+            s = random(0.5, 2.5);
+          sparks.push({ x, y, vx: cos(a) * s, vy: sin(a) * s, life: 1, color });
+        }
+      }
+
+      function fitSize() {
+        W = Math.max(
+          480,
+          Math.min(1200, document.querySelector("main").clientWidth - 40),
+        );
+        H = Math.round((W * 9) / 16);
+      }
+
+      function windowResized() {
+        fitSize();
+        resizeCanvas(W, H);
+        reset();
+      }
+
+      function setup() {
+        fitSize();
+        createCanvas(W, H).parent("stage");
+        ui("regen").onclick = reset;
+        ui("pause").onclick = () => {
+          paused = !paused;
+          ui("pause").textContent = paused ? "Play" : "Pause";
+        };
+        ui("png").onclick = () => saveCanvas("wish-to-live", "png");
+        ui("gif").onclick = () => saveGif("wish-to-live", 5);
+        reset();
+      }
+
+      function drawLanes() {
+        noStroke();
+        fill(244, 248, 252, 60);
+        rect(0, 0, W, H);
+        textAlign(CENTER, TOP);
+        textSize(13);
+        textStyle(BOLD);
+        STAGES.forEach((name, i) => {
+          stroke(213, 226, 239);
+          strokeWeight(1);
+          line(laneX(i), 34, laneX(i), H - 20);
+          noStroke();
+          fill(COLORS[i]);
+          text(name, laneX(i), 12);
+        });
+      }
+
+      function draw() {
+        if (paused) return;
+        const speed = Number(ui("speed").value),
+          calm = Number(ui("calm").value);
+        drawLanes();
+
+        spawnDebt += Number(ui("rate").value) / 60;
+        while (spawnDebt >= 1) {
+          spawn();
+          spawnDebt--;
+        }
+
+        const t = frameCount * 0.004;
+        for (let i = tickets.length - 1; i >= 0; i--) {
+          const k = tickets[i];
+          const drift =
+            (noise(k.x * 0.004, k.y * 0.004, t) - 0.5) * (3.2 - calm);
+          k.x += speed * (0.8 + noise(k.y * 0.01, t) * 0.6);
+          k.y = constrain(k.y + drift, MARGIN, H - MARGIN);
+
+          // A copy past the triage line drifts into its original and merges.
+          if (k.twin && k.x > laneX(1) - 10) {
+            if (!tickets.includes(k.twin)) {
+              k.twin = null;
+              continue;
+            }
+            k.x = lerp(k.x, k.twin.x, 0.12);
+            k.y = lerp(k.y, k.twin.y, 0.12);
+            if (dist(k.x, k.y, k.twin.x, k.twin.y) < 3) {
+              noFill();
+              stroke(COLORS[1]);
+              strokeWeight(1.5);
+              circle(k.x, k.y, 26);
+              tickets.splice(i, 1);
+              stats.dup++;
+              continue;
+            }
+          }
+
+          if (k.x > W - MARGIN + 10) {
+            burst(k.x, k.y, COLORS[4], 7);
+            tickets.splice(i, 1);
+            stats.live++;
+            continue;
+          }
+
+          noStroke();
+          fill(k.twin ? "#e07a7a" : COLORS[stageOf(k.x)]);
+          circle(k.x, k.y, k.size);
+        }
+
+        for (let i = sparks.length - 1; i >= 0; i--) {
+          const s = sparks[i];
+          s.x += s.vx;
+          s.y += s.vy;
+          s.life -= 0.03;
+          if (s.life <= 0) {
+            sparks.splice(i, 1);
+            continue;
+          }
+          const c = color(s.color);
+          c.setAlpha(255 * s.life);
+          noStroke();
+          fill(c);
+          circle(s.x, s.y, 3);
+        }
+
+        ui("seedOut").textContent = ui("seed").value;
+        ui("speedOut").textContent = speed.toFixed(1);
+        ui("rateOut").textContent = ui("rate").value;
+        ui("dupOut").textContent =
+          Math.round(Number(ui("dup").value) * 100) + "%";
+        ui("calmOut").textContent = calm.toFixed(1);
+        ui("sWish").textContent = stats.wish;
+        ui("sDup").textContent = stats.dup;
+        ui("sLive").textContent = stats.live;
+      }
+    </script>
+  </body>
+</html>

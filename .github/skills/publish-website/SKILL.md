@@ -1,6 +1,6 @@
 ---
 name: publish-website
-description: 'Put the learner''s workshop website on the internet at its own address. Chooses a website name, saves it in config.json, and explains the push that publishes it. Use /publish-website once the page works in the preview.'
+description: 'Put the learner''s workshop website on the internet at its own address. Chooses a website name, saves it in config.json, switches on the checks and the version number, and explains the push that publishes it. Use /publish-website once the page works in the preview.'
 argument-hint: 'Optional website name, such as ali-planner'
 user-invocable: true
 disable-model-invocation: true
@@ -10,8 +10,8 @@ disable-model-invocation: true
 
 Publishing copies the learner's `site/` folder to the workshop's hosting, where anyone with the
 link can open it. GitHub Actions publishes after every push to `main`: nobody signs in to Azure
-and no key or secret exists. Never add credentials, edit workflows, run Azure commands, commit,
-or push for the learner.
+and no key or secret exists. Never add credentials, run Azure commands, commit, or push for the
+learner, and never change a workflow beyond step 5.
 
 1. Check that `site/index.html` exists. If not, say **"Let's create your website first with
    /create-website."** and stop.
@@ -26,8 +26,18 @@ or push for the learner.
      hyphens.
    - A nickname is fine. No customer, patient or other real business names.
 4. In `config.json`, set `"websiteName": "<name>"`. Change nothing else in the file.
-5. Hand over in three short lines:
+5. Switch on the checks and the version number. Do each part only if it is still missing, and
+   change nothing else in either file:
+   - If `.github/workflows/check-my-website.yml` does not exist, copy
+     `.github/workflow-starters/check-my-website.yml` there unchanged. No starter? Skip this part.
+   - In `.github/workflows/publish-website.yml`, replace the line that starts with `# version:`
+     (after its spaces) with `version: 1.0.0.${{ github.run_number }}`, indented exactly like
+     `website-name:`. No version line at all? Add that line directly under `website-name:`, with
+     the same indentation. A line that already starts with `version:` stays as it is.
+6. Hand over in four short lines:
    - **"Your address will be https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io"**
+   - **"Your checks and version number are on: GitHub checks every change, and every release gets
+     a version."**
    - **"Now save it as usual: Source Control, sparkle message, Commit, then ... > Push. Publishing
      starts by itself and takes about two minutes."**
    - **"On GitHub, Actions > Publish my website shows progress; the link also appears under

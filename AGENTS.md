@@ -14,8 +14,9 @@ Day 2 is supported own-idea building with fictional app-local content. Day 3 has
 the GitHub Copilot app with plugins from Awesome Copilot and Anthropic's marketplace, turn a
 made-up trip into their own skill, create a User Requirements agent that writes tickets for
 their Monday website, let AI triage catch a duplicate on their project board, and build and
-test one ticket; Day 4 is feature branches, a versioned pipeline, cloud agents and a Code
-Review agent; Day 5 is CI/CD with GitHub Actions (tests and a browser UI check with screenshots),
+test one ticket; Day 4 is one push that saves and publishes the website with checks and a version,
+a Copilot project that builds a ticket in the cloud, and a Reviewer automation; Day 5 is CI/CD
+with GitHub Actions (required tests and a browser UI check with screenshots),
 team demos and a handoff, all on the attendee's own website. Attendees follow one guide per day,
 `docs/DAY-1.md` to `docs/DAY-5.md`, linked from a minimal README, plus `docs/QUICK-REFERENCE.md`
 and `docs/QUICK-COMMANDS.md` with prompts to paste, including the one that brings template
@@ -67,8 +68,10 @@ but sign-in and teaching remain separate. Keep service
 credentials and other private notes out of commits.
 Presenter material (the delivery script, facilitator guide, agenda, prerequisites, topic map,
 rehearsal and hosting notes, post-workshop guides and agents, and facilitator skills) lives only
-in the git-ignored `final-workshop-david/` folder; it left the template on 23 October 2026, and
-earlier commits still contain it. Keep that folder out of commits and Docker build contexts. One
+in the `final-workshop-david/` folder, never in attendee paths. The owner versions that folder
+since 28 October 2026; keep it out of Docker build contexts, and keep attendee invitations,
+usernames and roster codes (`archive/facilitator/invitations/`) git-ignored. Attendees never need
+it, and the update script never copies it. One
 exception (owner, 25 October 2026): `.github/skills/workshop-showcase/` ships in the template so
 the presenter can type `/workshop-showcase` at Monday 10:45; it only plays the separately
 published showcase site and changes nothing. The template is a starting
@@ -152,24 +155,33 @@ validation), approve a ticket by moving it to **Todo**, build it in the Codespac
 `pytest checks` tests with the shipped `checks/website.py`, list the requirements and how to run
 them in `site/README.md`, and close the ticket with a `Closes #N` commit so the board shows it **Done**.
 There is no `brief.md`: owner, 25 October 2026, it confused beginners on Monday.
-Day 4 (docs/DAY-4.md): a presenter demo of an automation that adds criteria to a new ticket
-by itself, a `Protect main` ruleset that requires pull requests (Copilot code review stays off),
-the publisher's `version` input switched on so the live footer shows the build number, the next
-approved ticket from the board assigned to the cloud agent (its delegation block), review rules in
-`.github/instructions/review.instructions.md`
-and a Code Review agent whose findings the attendee verifies, `@copilot` fixes, and a merge that
-deploys. Day 5 (docs/DAY-5.md): CI/CD from the starters in `.github/workflow-starters/`,
-tests plus `scripts/ui_check.py` (a browser UI check with desktop and phone screenshots that runs
-in GitHub Actions only, never with `--no-sandbox`) made required in the ruleset, a red then green
+Day 4 (docs/DAY-4.md; owner, 28 October 2026: 2 h 45 min for a smaller group, after a 15-minute
+slot for the GitHub Universe announcements): an audit that evening found most websites only
+uncommitted in the attendees' Codespaces, so section 1 is the update script, `/publish-website`
+(which also copies the check starter into `.github/workflows/` and switches on
+`version: 1.0.0.${{ github.run_number }}`), and one commit and push that saves, publishes, and
+checks. Every Day 4 and Day 5 prompt is ten words at most, each Day 4 section names the slide it
+puts into practice, and from section 2 attendees lead while the presenter walks the room (owner,
+28 October 2026). Then
+the universal **Show my version** ticket (a footer with the environment and version from
+`version.json`, "Preview" without it) for any idea, a `Protect main` ruleset that requires pull
+requests (Copilot code review stays off), a Copilot project in the GitHub Copilot app that builds
+the ticket in the cloud as a draft pull request (fallback: **Assign to Agent**), the checks'
+Screenshots job posting desktop and phone screenshots on the pull request, a personal Reviewer
+automation triggered by **Ready for review**, and a merge that deploys the next version. Day 5
+(docs/DAY-5.md): the checks from Day 4 read and made required in the ruleset, a red then green
 pull-request check, a feature slot (`<name>-feature`, a yellow strip with pull request, version,
 and build) for every checked pull request through `workflow_run`, Copilot's ticket tried there,
 then approval-gated publishing to the production slot in the attendee's `production` environment
 (both slots still the template's OIDC publisher, no secret), `scripts/smoke_test.py`, a
 **Revert** rollback, team demos,
-and HANDOFF.md. The publisher writes `version.json`, which the content fingerprint ignores, so a
-rollback restores the known-good fingerprint. Ship helpers and starters, never the learner's
+and HANDOFF.md. The publisher writes `version.json` (version, build, commit, and the environment,
+Production or Feature slot), which the content fingerprint ignores, so a
+rollback restores the known-good fingerprint. `scripts/ui_check.py` runs in GitHub Actions only,
+never with `--no-sandbox`; its results reach the pull request through `scripts/pr_screenshots.py`,
+which main's copy runs in the only job that may write. Ship helpers and starters, never the learner's
 agents, skills, instructions, tests, reviews, or active check and feature-slot workflows; CI enforces this. A
-Copilot automation is a Day 4 presenter demo and an optional extra,
+Copilot automation is part of Day 4,
 and Agentic Workflows a presenter demo. Days 4 and 5 open with a short catch-up for attendees who
 join that day, and Day 5's handoff routes include Novo's own GitHub Enterprise, Power Apps code
 apps, and Novo's validation process for anything GxP.

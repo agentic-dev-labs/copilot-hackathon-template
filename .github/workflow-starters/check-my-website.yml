@@ -1,16 +1,24 @@
 name: Check my website
 
-# Day 5 starter: checks that run on every change (continuous integration). "Check the website"
-# runs the build check and your tests; "UI check" opens your pages in a browser on a desktop and a
-# phone, and keeps the screenshots with the run.
-# Copy it to .github/workflows/check-my-website.yml, then make two edits:
-#   1. Triggers: under "on:", add pull_request and a push to main, so every change is checked.
-#   2. Permissions: this check only reads your files. Change "write" to "read" below.
+# Day 4: copy this file to .github/workflows/check-my-website.yml. From then on GitHub checks every
+# pull request and every push to main by itself (continuous integration). "Check the website"
+# runs the build check and your tests. "UI check" opens your pages in a browser on a desktop and a
+# phone. "Screenshots" shows those pictures in a comment on the pull request. Day 5 makes the first
+# two required before a merge.
 on:
+  pull_request:
+  push:
+    branches: [main]
   workflow_dispatch:
 
+# Every job may only read your files, unless it says otherwise.
 permissions:
-  contents: write
+  contents: read
+
+# A new commit on a pull request stops the check of the commit before it.
+concurrency:
+  group: check-my-website-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check:
@@ -51,6 +59,8 @@ jobs:
     name: UI check
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    outputs:
+      results: ${{ steps.results.outputs.results }}
     steps:
       - name: Get my files
         uses: actions/checkout@v7
@@ -117,3 +127,45 @@ jobs:
           path: ui-check/
           overwrite: true
           retention-days: 7
+
+      - name: Pass the results on
+        id: results
+        if: ${{ always() && hashFiles('ui-check/*.png') != '' && hashFiles('ui-check/results.json') != '' }}
+        run: echo "results=ready" >> "$GITHUB_OUTPUT"
+
+  screenshots:
+    name: Screenshots
+    needs: ui
+    # Pull requests from this repository only, also when the UI check found a problem.
+    if: >-
+      ${{ always() && github.event_name == 'pull_request'
+      && github.event.pull_request.head.repo.full_name == github.repository
+      && needs.ui.outputs.results == 'ready' }}
+    # A comment that cannot be posted never blocks a merge or the feature slot.
+    continue-on-error: true
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    # The only job that may write: it keeps the pictures on the ui-screenshots branch and comments
+    # on the pull request. It runs main's helper, never the pull request's code.
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Get the helper from main
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Get the screenshots
+        uses: actions/download-artifact@v8
+        with:
+          name: all-screenshots
+          path: ui-check
+
+      - name: Show them on the pull request
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          HEAD_COMMIT: ${{ github.event.pull_request.head.sha }}
+        run: python3 scripts/pr_screenshots.py ui-check --pull-request "$PULL_REQUEST" --commit "$HEAD_COMMIT"
