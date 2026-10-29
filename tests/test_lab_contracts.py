@@ -716,13 +716,13 @@ def test_days_three_to_five_follow_the_final_slides() -> None:
     assert "**Joining today, or no website yet?**" in day4 and "](labs/" not in day4
     # Audit, 28 October 2026: most websites were only uncommitted in Codespaces, so one push saves,
     # checks, versions, and publishes them.
-    assert "Never create a second one" in day4 and "python3 scripts/update_from_template.py" in day4
+    assert "Never create a second one" in day4 and "Fetch the latest updates from the main workshop repository." in day4
     # /publish-website switches on the checks and the version, so the Day 4 prompts stay short.
     skill = " ".join(Path(".github/skills/publish-website/SKILL.md").read_text(encoding="utf-8").split())
     assert "copy `.github/workflow-starters/check-my-website.yml` there unchanged" in skill
     assert "the line that starts with `# version:`" in skill and "never change a workflow beyond step 5" in skill
     assert "`version: 1.0.0.${{ github.run_number }}`" in skill
-    assert "`version: 1.0.0.${{ github.run_number }}`" in day4 and "`/publish-website`" in day4
+    assert "`/publish-website`" in day4 and "**Source Control** lists `check-my-website.yml`" in day4
     # Owner, 28 October 2026: each section names the slide it puts into practice, and attendees lead
     # from section 2.
     assert "## What You Saw on the Slides" in day4 and "**From here you lead:**" in day4
@@ -761,7 +761,7 @@ def test_days_three_to_five_follow_the_final_slides() -> None:
     assert "**Assign to Agent**" in day5 and "**Approve workflows to run**" in day5
     assert "**Approve and run**" in day5 and "**View deployment**" in day5
     assert "name it `production`" in day5 and "plus `-feature`" in day5 and "`training`" not in day5
-    assert "python3 scripts/smoke_test.py" in day5 and "select **Revert**" in day5
+    assert "Smoke-test my feature slot." in day5 and "Smoke-test my website." in day5 and "select **Revert**" in day5
     assert "**Require status checks to pass**" in day5 and "**UI check**" in day5
     assert "**home-phone.png**" in day5 and "900 pixels wide" in day5
     assert "No password, key, or Azure sign-in" in day5 and "HANDOFF.md" in day5
@@ -807,15 +807,20 @@ def test_day_four_ticket_fits_any_website() -> None:
 
 
 def test_day_four_and_five_prompts_stay_short() -> None:
-    """Owner, 28 October 2026: attendees repeat each prompt after the presenter, so ten words at most."""
+    """Owner, 28 October 2026: attendees repeat each prompt after the presenter, so ten words at most,
+    and they never type commands, script paths, or addresses: Copilot runs those."""
     commands = " ".join(Path("docs/QUICK-COMMANDS.md").read_text(encoding="utf-8").split())
     for guide in ("docs/DAY-4.md", "docs/DAY-5.md", "docs/QUICK-COMMANDS.md"):
         blocks = re.findall(r"```text\n(.*?)```", Path(guide).read_text(encoding="utf-8"), re.S)
         assert blocks, guide
         for prompt in (" ".join(block.split()) for block in blocks):
             assert len(prompt.split()) <= 10, prompt
+            assert not re.search(r"python|pytest|scripts/|\.py\b|https?://", prompt), prompt
             # The Quick Commands page lists the same prompts, word for word.
             assert prompt in commands, prompt
+    for guide in ("docs/DAY-4.md", "docs/DAY-5.md"):
+        text = Path(guide).read_text(encoding="utf-8")
+        assert "```bash" not in text and "python3" not in text and "Copilot CLI" not in text, guide
 
 
 def test_quick_commands_bring_template_fixes_safely() -> None:
@@ -824,8 +829,10 @@ def test_quick_commands_bring_template_fixes_safely() -> None:
     fixes = commands.split("## Fetch Updates From the Main Workshop Repository", 1)[1].split("## ", 1)[0]
     assert "fetch those updates into your own copy" in fixes
     assert "upstream" in fixes and "agentic-dev-labs/copilot-hackathon-template" in fixes
-    assert "Run python3 scripts/update_from_template.py and explain what changed." in fixes
-    assert "Create branch workshop-updates, then run" in fixes and "From Thursday on" in fixes
+    assert "Fetch the latest updates from the main workshop repository." in fixes
+    # Copilot finds the script here; attendees never type it.
+    assert "`scripts/update_from_template.py`" in fixes and "never type it" in fixes
+    assert "On a new branch, fetch the latest workshop updates." in fixes and "From Thursday on" in fixes
     assert "never force-push" in commands and "None of these ever force-push" in commands
     for command in ("/create-website", "/start-website", "/stop-website", "/add-chart", "/add-chat",
                     "/publish-website", "pytest checks"):

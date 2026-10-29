@@ -12,10 +12,12 @@ Your repository is a copy of the main workshop repository (the template,
 says the main repository was updated, paste this to fetch those updates into your own copy:
 
 ```text
-Run python3 scripts/update_from_template.py and explain what changed.
+Fetch the latest updates from the main workshop repository.
 ```
 
-It downloads the main repository's newest version and copies in only the workshop's own files:
+Copilot runs the workshop's own update script, `scripts/update_from_template.py`, for you; you
+never type it, you only select **Allow**. It downloads the main repository's newest version and
+copies in only the workshop's own files:
 the guides, the ready-made skills, and the helper scripts. Your website, `config.json`, and your
 own agents, skills, tests, and workflows stay exactly as they are. Then save, review the files in
 **Source Control**, commit with the message `Fetch workshop updates`, and push.
@@ -27,7 +29,7 @@ Git would report conflicts in almost every file. The script is the safe way to d
 paste this instead:
 
 ```text
-Create branch workshop-updates, then run python3 scripts/update_from_template.py.
+On a new branch, fetch the latest workshop updates.
 ```
 
 Commit, select **Publish Branch**, create the pull request, and merge it on GitHub. Then switch
@@ -39,7 +41,7 @@ The same prompts as in [the Day 4 guide](DAY-4.md), in the order you use them.
 
 | Where                                                         | Type or paste                                                |
 | ------------------------------------------------------------- | ------------------------------------------------------------ |
-| Codespace, Chat with **Agent**                                | `Run python3 scripts/update_from_template.py`                |
+| Codespace, Chat with **Agent**                                | `Fetch the latest updates from the main workshop repository.` |
 | The same Chat, then commit and push                           | `/publish-website`                                           |
 | GitHub Copilot app, **Projects > +**, with your ticket number | `Build ticket #1 in the cloud as a pull request.`            |
 | GitHub, **Agents > Automations > Create automation**          | `Review this pull request against its ticket. Only comment.` |
@@ -47,18 +49,21 @@ The same prompts as in [the Day 4 guide](DAY-4.md), in the order you use them.
 
 ## Friday: Day 5 Prompts
 
-The same prompts as in [the Day 5 guide](DAY-5.md), for Copilot CLI (type `copilot` in the
-terminal) or Chat with **Agent**.
+The same prompts as in [the Day 5 guide](DAY-5.md), all in Chat with **Agent**. You never type a
+command: Copilot runs what is needed, and you select **Allow**.
 
-| Lab                         | Type or paste                                                                    |
-| --------------------------- | -------------------------------------------------------------------------------- |
-| Workflow lab                | `Explain .github/workflows/check-my-website.yml in plain words. Change nothing.` |
-| CI lab: break it on purpose | `Add a Sale banner above my header, min-width 900px.`                            |
-| CI lab: why is it red?      | `Why did my pull request's UI check fail?`                                       |
-| CI lab: fix it              | `Remove the banner you just added.`                                              |
-| CD lab: the two slots       | `Switch on the two Day 5 workflow starters.`                                     |
-| Recovery lab: a bad release | `Change the sentence under my headline to: Oops, wrong words.`                   |
-| Handoff                     | `Write HANDOFF.md as section 7 of docs/DAY-5.md describes.`                      |
+| Lab                         | Type or paste                                                  |
+| --------------------------- | -------------------------------------------------------------- |
+| Workflow lab                | `Explain my Check my website workflow. Change nothing.`        |
+| CI lab: break it on purpose | `Add a Sale banner above my header, min-width 900px.`          |
+| CI lab: why is it red?      | `Why did my pull request's UI check fail?`                     |
+| CI lab: fix it              | `Remove the banner you just added.`                            |
+| CD lab: the two slots       | `Switch on the two Day 5 workflow starters.`                   |
+| CD lab: the test copy       | `Smoke-test my feature slot.`                                  |
+| CD lab: production          | `Smoke-test my website.`                                       |
+| Recovery lab: the good page | `Smoke-test my website. It must show: <your sentence>`         |
+| Recovery lab: a bad release | `Change the sentence under my headline to: Oops, wrong words.` |
+| Handoff                     | `Write HANDOFF.md as section 7 of docs/DAY-5.md describes.`    |
 
 ## Every Day
 
@@ -89,7 +94,9 @@ terminal) or Chat with **Agent**.
 | I am on the wrong branch                   | "Take me back to main with the newest version from GitHub. Keep any unfinished work safe first, and tell me where it is."                                                                                    |
 | Git says there is a conflict               | "There is a merge conflict. For each file, show me both versions in plain words and ask me which to keep, one file at a time."                                                                               |
 
-## Copilot in the Terminal (Wednesday to Friday)
+## Copilot in the Terminal (Wednesday only)
+
+From Thursday everything happens in Chat; you do not need the terminal.
 
 | Type            | What it does                                                          |
 | --------------- | --------------------------------------------------------------------- |

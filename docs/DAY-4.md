@@ -77,21 +77,22 @@ after.
    files. Never create a second one: a new codespace does not have your unsaved work. Two listed?
    Open the one you used last, and ask a helper if you are not sure. Open Chat and choose
    **Agent**.
-2. **Bring in today's updates.** Send this in Chat, then **Allow** the command:
+2. **Bring in today's updates.** Send this in Chat:
 
    ```text
-   Run python3 scripts/update_from_template.py
+   Fetch the latest updates from the main workshop repository.
    ```
 
-   It brings this guide into your copy, today's ticket template, the starter for your checks, and
-   a newer `/publish-website`.
+   Copilot runs the workshop's update for you: select **Allow** when it asks. It brings this guide
+   into your copy, today's ticket template, the starter for your checks, and a newer
+   `/publish-website`.
 
 3. **Publish, with checks and a version.** Type `/publish-website` in Chat and answer its one
    question: keep its suggested name or type your own, such as `ali-planner`. It writes the name
    into `config.json`, shows your address, and switches on two things for GitHub: **checks** that
-   test every change, and a **version number** for every release. **Check:** open **.github >
-   workflows > publish-website.yml**. Its last line says `version: 1.0.0.${{ github.run_number }}`,
-   lined up with `website-name:` above it.
+   test every change, and a **version number** for every release. **Check:** Copilot says your
+   checks and version number are on, and **Source Control** lists `check-my-website.yml` and
+   `publish-website.yml` among your changes.
 4. **One push for everything.** Choose **File > Save All**. Open **Source Control**: it lists your
    website plus today's updates. Hover over **Changes** and select its **+** to include them all,
    type `Day 4: my website, checks and version`, select **Commit**, then **... > Push**.
@@ -115,7 +116,7 @@ starts with 1.0.0 and the environment Production.
 | **Source Control** lists only today's updates          | Your website is already on GitHub, or this is a new codespace. Check that **site > index.html** is on GitHub.   |
 | No `site/index.html` anywhere                          | Build your website first with `/create-website` and a helper, as in **Joining today**, then continue at step 2. |
 | The update stops: workshop files are not committed     | Show a helper. Usually you undo that one file in **Source Control**, then paste the prompt again.               |
-| No `scripts/update_from_template.py`                   | Your repository is not a copy of the workshop template. A helper starts you with **Joining today**.             |
+| Copilot cannot find how to fetch the updates           | Send `Follow docs/QUICK-COMMANDS.md to fetch the workshop updates.` No such page? Your repository is not a copy of the workshop template: a helper starts you with **Joining today**. |
 | The push is refused because it changes a workflow file | Show a helper: they make the two workflow changes on GitHub with the pencil icon, then you push again.          |
 | The publish run says **That name is taken**            | Run `/publish-website` again with another name, then commit and push.                                           |
 | The publish run is red for another reason              | Show its message to a helper. Never change the workflow to make it pass.                                        |

@@ -157,10 +157,13 @@ them in `site/README.md`, and close the ticket with a `Closes #N` commit so the 
 There is no `brief.md`: owner, 25 October 2026, it confused beginners on Monday.
 Day 4 (docs/DAY-4.md; owner, 28 October 2026: 2 h 45 min for a smaller group, after a 15-minute
 slot for the GitHub Universe announcements): an audit that evening found most websites only
-uncommitted in the attendees' Codespaces, so section 1 is the update script, `/publish-website`
+uncommitted in the attendees' Codespaces, so section 1 is one plain-words update prompt (Copilot
+runs the update script), `/publish-website`
 (which also copies the check starter into `.github/workflows/` and switches on
 `version: 1.0.0.${{ github.run_number }}`), and one commit and push that saves, publishes, and
-checks. Every Day 4 and Day 5 prompt is ten words at most, each Day 4 section names the slide it
+checks. Every Day 4 and Day 5 prompt is ten words at most and goes into Chat; attendees never type
+commands, script paths, or addresses, because Copilot runs the helpers (`smoke_test.py` finds the
+address in `config.json`). Each Day 4 section names the slide it
 puts into practice, and from section 2 attendees lead while the presenter walks the room (owner,
 28 October 2026). Then
 the universal **Show my version** ticket (a footer with the environment and version from

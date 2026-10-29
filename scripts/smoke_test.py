@@ -1,14 +1,18 @@
 """Smoke-test a published workshop website in a few seconds.
 
-Usage (from the repository root):
+Attendees never type this: they ask Copilot "Smoke-test my website." or "Smoke-test my feature
+slot." and Copilot runs it from the repository root:
 
+    python3 scripts/smoke_test.py
+    python3 scripts/smoke_test.py --feature
+    python3 scripts/smoke_test.py --expect-text "Plan our team week"
     python3 scripts/smoke_test.py https://<name>.<domain>
-    python3 scripts/smoke_test.py https://<name>.<domain> --expect-text "Plan our team week"
 
-It checks that /healthz says ok, prints the live commit, content fingerprint, version and slot,
-opens the page, optionally looks for words on it, and loads every picture, style and script the
-page uses. It exits with 0 when every check passed and 1 otherwise. It only reads; it never
-changes the website.
+With no address it tests the website named by websiteName in config.json; --feature tests that
+website's feature slot. It checks that /healthz says ok, prints the live commit, content
+fingerprint, version and slot, opens the page, optionally looks for words on it, and loads every
+picture, style and script the page uses. It exits with 0 when every check passed and 1 otherwise.
+It only reads; it never changes the website.
 """
 
 import argparse
@@ -19,10 +23,13 @@ import time
 import urllib.error
 import urllib.request
 from html.parser import HTMLParser
+from pathlib import Path
 from urllib.parse import urljoin, urlsplit
 
 TIMEOUT_SECONDS = 45
 RETRY_PAUSE_SECONDS = 5
+# The same domain as WEBSITE_DOMAIN in .github/workflows/website-publisher.yml.
+WEBSITE_DOMAIN = "thankfulrock-bf005377.eastus.azurecontainerapps.io"
 
 
 class _Assets(HTMLParser):
@@ -119,16 +126,30 @@ def smoke_test(base_url: str, expect_text: str = "", page: str = "/") -> list[tu
     return results
 
 
+def own_address(feature: bool = False, config: Path = Path("config.json")) -> str:
+    """The published address named in config.json, or its feature slot."""
+    try:
+        name = str(json.loads(config.read_text(encoding="utf-8")).get("websiteName", "")).strip()
+    except (OSError, ValueError, AttributeError):
+        name = ""
+    if not name:
+        raise SystemExit("config.json has no websiteName yet. Publish your website first with /publish-website.")
+    return f"https://{name}{'-feature' if feature else ''}.{WEBSITE_DOMAIN}"
+
+
 def main(arguments: list[str] | None = None) -> int:
     """Print a pass/fail table and return the process exit code."""
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("url", help="The website address, such as https://ali-planner.<domain>")
+    parser.add_argument("url", nargs="?", help="The website address; without it, the one in config.json")
+    parser.add_argument("--feature", action="store_true", help="Test the feature slot of the website in config.json")
     parser.add_argument("--expect-text", default="", help="Words the page must contain")
     parser.add_argument("--page", default="/", help="A page under the website, such as /ideas/team-lunch/")
     options = parser.parse_args(arguments)
-    if urlsplit(options.url).scheme != "https":
+    url = options.url or own_address(options.feature)
+    if urlsplit(url).scheme != "https":
         parser.error("Use the https:// address of your published website.")
-    results = smoke_test(options.url, options.expect_text, options.page)
+    print(f"Testing {url}")
+    results = smoke_test(url, options.expect_text, options.page)
     for check, passed, detail in results:
         print(f"{'PASS' if passed else 'FAIL'}  {check}" + (f"  ({detail})" if detail else ""))
     failed = sum(not passed for _, passed, _ in results)

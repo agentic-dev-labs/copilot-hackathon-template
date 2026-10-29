@@ -139,3 +139,21 @@ def test_no_answer_says_why_instead_of_http_zero(monkeypatch: pytest.MonkeyPatch
     rows = smoke_test.smoke_test(SITE)
     assert rows[0] == ("Website says it is healthy", False, "no answer: timed out")
     assert rows[1][2] == f"no answer: timed out {SITE}/"
+
+
+def test_no_address_means_the_website_in_config(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    """Owner, 28 October 2026: attendees never type an address; Copilot runs it from a prompt."""
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({"displayName": "Ali", "websiteName": "ali-planner"}), encoding="utf-8")
+    domain = smoke_test.WEBSITE_DOMAIN
+    assert smoke_test.own_address(config=config) == f"https://ali-planner.{domain}"
+    assert smoke_test.own_address(True, config) == f"https://ali-planner-feature.{domain}"
+    tested = []
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(smoke_test, "smoke_test", lambda url, text, page: tested.append(url) or [])
+    assert smoke_test.main(["--feature"]) == 0 and tested == [f"https://ali-planner-feature.{domain}"]
+    config.write_text(json.dumps({"websiteName": ""}), encoding="utf-8")
+    with pytest.raises(SystemExit, match="/publish-website"):
+        smoke_test.main([])
+    publisher = Path(__file__).resolve().parents[1] / ".github/workflows/website-publisher.yml"
+    assert f"WEBSITE_DOMAIN: {domain}" in publisher.read_text(encoding="utf-8")

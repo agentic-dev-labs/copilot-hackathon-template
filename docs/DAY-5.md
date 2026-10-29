@@ -8,7 +8,8 @@ approve. Copilot builds a ticket, you try it in the feature slot, approve it, me
 it. You break a release on purpose and bring the good one back, and then teams present their work
 and hand it over. Same Codespace, same website, everything made up. No password, key, or Azure
 sign-in. Since Day 4 every change reaches `main` through a pull request.
-Stuck in the terminal? Paste the same sentence into Chat with **Agent** chosen; it does the same job.
+Every prompt today goes into Chat with **Agent** chosen, as on Day 4: Copilot runs whatever is
+needed, and you select **Allow**. You never type a command.
 
 **Joining today?** Before the workflow lab at 00:20, your website needs an address, its checks,
 and a protected `main`. Do [Day 4, section 1](DAY-4.md#1-save-and-publish-your-website) with a
@@ -64,10 +65,10 @@ slot to try every pull request, and your approval before every release to produc
 **00:20-00:50.** Your checks have run on every pull request since Day 4. Now read how they work,
 start one by hand, and make them required.
 
-1. Ask Copilot CLI (type `copilot` in the terminal):
+1. In Chat (**Agent**), send:
 
    ```text
-   Explain .github/workflows/check-my-website.yml in plain words. Change nothing.
+   Explain my Check my website workflow. Change nothing.
    ```
 
    Then find three things in the file yourself:
@@ -95,7 +96,7 @@ as required.
 **00:50-01:30.**
 
 1. Create a branch named `try-ci`.
-2. Break your page on purpose, in a way only a browser notices. Ask Copilot CLI:
+2. Break your page on purpose, in a way only a browser notices. In Chat, send:
 
    ```text
    Add a Sale banner above my header, min-width 900px.
@@ -116,7 +117,7 @@ as required.
    summary page (**Summary**, top left) under **Artifacts**: **home-phone.png** and
    **home-desktop.png** download one picture each, and **all-screenshots** holds every page, idea
    pages too.
-5. Ask Copilot CLI:
+5. In Chat, send:
 
    ```text
    Why did my pull request's UI check fail?
@@ -148,7 +149,7 @@ website now gets two slots: the **feature slot**, a test copy for each pull requ
 into the feature slot, test it there, approve and merge it, and then approve its release to
 production. Four approvals, each a person deciding.
 
-1. **Add the two slots.** Create a branch named `slots`. Ask Copilot CLI:
+1. **Add the two slots.** Create a branch named `slots`. In Chat, send:
 
    ```text
    Switch on the two Day 5 workflow starters.
@@ -177,10 +178,10 @@ production. Four approvals, each a person deciding.
    **View deployment** button: select it. Your feature slot opens at your website's name plus
    `-feature`. The yellow strip at the top names the pull request, version, and build: a test
    copy, not your live website. Check the ticket's acceptance criteria there, one by one. Then
-   smoke-test it with its own address and write down the **content** number on the first line:
+   smoke-test it: send this in Chat, and write down the **content** number on the first line:
 
-   ```bash
-   python3 scripts/smoke_test.py https://<name>-feature.thankfulrock-bf005377.eastus.azurecontainerapps.io
+   ```text
+   Smoke-test my feature slot.
    ```
 
 6. **Approve and merge.** On the pull request open **Files changed**, select **Submit review**
@@ -191,8 +192,14 @@ production. Four approvals, each a person deciding.
 7. **Approve the release.** Open **Actions > Publish my website**: it says **Waiting**. Select
    **Review deployments**, tick **production**, and select **Approve and deploy**. When it is
    green, open your website's own address: the change is there, without the yellow strip, and the
-   footer shows **Production** and a new version. Smoke-test that address too: its **content** number is the same as the feature
-   slot's. Production got exactly what you tested. After the merge, an older **Deploy feature
+   footer shows **Production** and a new version. Smoke-test it too, in Chat:
+
+   ```text
+   Smoke-test my website.
+   ```
+
+   Its **content** number is the same as the feature slot's. Production got exactly what you
+   tested. After the merge, an older **Deploy feature
    slot** run from Copilot's first draft may say **Action required** again: leave it, it does
    nothing.
 
@@ -203,10 +210,11 @@ after you approved, you tested it there, and it reached production only after yo
 
 **02:30-03:15.**
 
-1. **Smoke-test** your website, using your own address and the sentence under your headline:
+1. **Smoke-test** your website with the sentence under your headline. In Chat, send this with
+   your own sentence in place of `<your sentence>`:
 
-   ```bash
-   python3 scripts/smoke_test.py https://<name>.thankfulrock-bf005377.eastus.azurecontainerapps.io --expect-text "<the sentence under my headline>"
+   ```text
+   Smoke-test my website. It must show: <your sentence>
    ```
 
    Every line says **PASS**. Write down the **content** and **version** on the first line: the
@@ -222,14 +230,14 @@ after you approved, you tested it there, and it reached production only after yo
    because no check knows your words (if a Day 3 test checks that sentence, it turns red: your
    tests caught it, so pick another sentence). A few minutes later its **View deployment** shows the oops in
    your feature slot: that is where a tester catches it. Merge it anyway, on purpose, and approve
-   the release. Run the smoke test on your website's own address again: **FAIL** on your
-   sentence. That is why you test before and after every release.
+   the release. Send the same smoke-test prompt again: **FAIL** on your sentence. That is why
+   you test before and after every release.
 3. **Roll back:** on GitHub open the pull request you just merged and select **Revert**. GitHub
    fills in a new pull request that undoes it: select **Create pull request**. When its checks
    are green, its **View deployment** shows your good sentence again. Merge it, then approve the
    release.
-4. Run the smoke test again: all **PASS**. The **content** number is the same as in step 1, and
-   the **version** is higher: a new build of your known-good page.
+4. Send the same smoke-test prompt again: all **PASS**. The **content** number is the same as in
+   step 1, and the **version** is higher: a new build of your known-good page.
 
 **Check:** you saw a failed smoke test, rolled back with **Revert**, and the known-good version is
 live again.
@@ -248,7 +256,7 @@ An honest "this part does not work yet" is better than a polished claim nobody c
 
 ## 7. Handoff
 
-**03:45-04:00.** Ask Copilot CLI:
+**03:45-04:00.** In Chat, send:
 
 ```text
 Write HANDOFF.md as section 7 of docs/DAY-5.md describes.
@@ -286,8 +294,8 @@ HANDOFF.md is merged. Stop your Codespace at the end: closing the browser tab do
 
 ## Optional extras
 
-1. Add a **Smoke test** step to the publishing workflow that runs `scripts/smoke_test.py` after
-   each release.
+1. **A smoke test after every release:** ask Copilot in Chat to add one to your publishing
+   workflow, and read its change before you merge it.
 2. Open two pull requests at once and watch your feature slot: it shows whichever was checked
    last, and its strip tells you which.
 3. Break a test word from Day 3 on a branch and watch **Check the website** turn red too: tests
